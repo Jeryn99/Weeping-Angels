@@ -20,3 +20,7 @@ build
 # other
 eclipse
 run
+formatter/
+classes/
+build/
+

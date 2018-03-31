@@ -1,0 +1,10 @@
+{
+  "angel_seen": {
+    "category": "hostile",
+    "subtitle": "Angel Seen",
+    "sounds": [{
+      "name": "weeping-angels:angel_seen",
+      "stream": false
+    }]
+  }
+}
