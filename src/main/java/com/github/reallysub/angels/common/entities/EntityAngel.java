@@ -5,7 +5,6 @@ import com.github.reallysub.angels.common.InitEvents;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -15,11 +14,16 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
@@ -44,6 +48,7 @@ public class EntityAngel extends EntityMob {
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
     private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
+    private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
 
 
     public EntityAngel(World world) {
@@ -77,6 +82,7 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(isAngry, false);
         getDataManager().register(timeViewed, 0);
         getDataManager().register(type, rand.nextInt(1));
+        getDataManager().register(blockBreakPos, null);
 	}
 	
 	@Override
@@ -103,7 +109,16 @@ public class EntityAngel extends EntityMob {
 			super.jump();
 		}
 	}
-	
+
+    public BlockPos getBreakPos() {
+        return getDataManager().get(blockBreakPos);
+    }
+
+    public void setBreakBlockPos(BlockPos pos)
+    {
+        getDataManager().set(blockBreakPos, pos);
+    }
+
 	/**
 	 * @return Returns whether the angel is being isSeen or not
 	 */
@@ -191,15 +206,12 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (rand.nextInt(100) == 50) {
-			
+		if (rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			WorldBorder border = entity.getEntityWorld().getWorldBorder();
 			int x = rand.nextInt(border.getSize());
 			int z = rand.nextInt(border.getSize());
 			int y = world.getSpawnPoint().getY();
-			
 			teleportEntity(entity, x, y, z);
-			
 		}
 	}
 	
@@ -307,11 +319,13 @@ public class EntityAngel extends EntityMob {
 					
 					if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH) {
 						if (shouldBreak()) {
+                            setBreakBlockPos(pos);
 							getEntityWorld().setBlockToAir(pos);
 						}
 					}
 					
 					if (block == Blocks.LIT_PUMPKIN) {
+                        setBreakBlockPos(pos);
 						if (shouldBreak()) {
 							getEntityWorld().setBlockToAir(pos);
 						}
@@ -319,6 +333,7 @@ public class EntityAngel extends EntityMob {
 					}
 					
 					if (block == Blocks.LIT_REDSTONE_LAMP) {
+                        setBreakBlockPos(pos);
 						if (shouldBreak()) {
 							getEntityWorld().setBlockToAir(pos);
 						}

@@ -21,7 +21,6 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 
     ModelBase modelOne = new ModelAngel();
 	ModelBase modelTwo = new ModelAngelEd();
-	ModelBase model = modelOne;
 
 	public RenderAngel(RenderManager manager, ModelBase model, float shadowSize) {
 		super(manager, model, shadowSize);
