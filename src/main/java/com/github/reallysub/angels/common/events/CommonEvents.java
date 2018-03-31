@@ -16,13 +16,7 @@ public class CommonEvents {
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
-			List list = Utils.getAllAngels(event.getEntityLiving(), 60, 60);
-			for (Object entity : list) {
-				if (entity instanceof EntityAngel) {
-					EntityAngel angel = (EntityAngel) entity;
-					angel.setSeen(true);
-				}
-			}
+			Utils.getAllAngels(event.getEntityLiving(), 40, 40);
 		}
 	}
 	

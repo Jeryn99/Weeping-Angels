@@ -11,11 +11,10 @@ import java.util.List;
 
 public class Utils {
 	
-	public static List<EntityAngel> getAllAngels(EntityLivingBase seeker, int distance, double radius) {
+	public static void getAllAngels(EntityLivingBase seeker, int distance, double radius) {
 		if (distance < 0 || distance > 256) {
 			distance = 256;
 		}
-		List<EntityAngel> targets = new ArrayList<>();
 		Vec3d vec3 = seeker.getLookVec();
 		double targetX = seeker.posX;
 		double targetY = seeker.posY + seeker.getEyeHeight() - 0.10000000149011612D;
@@ -31,13 +30,10 @@ public class Utils {
 			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			for (EntityAngel target : list) {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
-					if (!targets.contains(target)) {
-						targets.add(target);
+					target.setSeen(true);
 					}
 				}
 			}
-		}
-		return targets;
 	}
 	
 	private static boolean isTargetInSight(EntityLivingBase seeker, Entity target) {

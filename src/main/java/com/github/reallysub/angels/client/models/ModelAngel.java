@@ -8,7 +8,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 public class ModelAngel extends ModelBiped {
-	
+
+	ModelRenderer AngryLeftArm2;
+	ModelRenderer AngryRightArm2;
+	ModelRenderer AngryLeftArm1;
+	ModelRenderer AngryRightArm1;
 	ModelRenderer LeftEyebrow;
 	ModelRenderer RightEyebrow;
 	ModelRenderer Headband;
@@ -434,6 +438,33 @@ public class ModelAngel extends ModelBiped {
 		RightWing9.setTextureSize(128, 128);
 		RightWing9.mirror = true;
 		setRotation(RightWing9, 0F, 0.122173F, 0F);
+
+
+		AngryRightArm1 = new ModelRenderer(this, 58, 16);
+		AngryRightArm1.addBox(-3F, -3F, 0F, 3, 3, 6);
+		AngryRightArm1.setRotationPoint(-4F, 5F, -4F);
+		AngryRightArm1.setTextureSize(128, 128);
+		AngryRightArm1.mirror = true;
+		setRotation(AngryRightArm1, 0.2792527F, 0F, 0F);
+		AngryRightArm2 = new ModelRenderer(this, 58, 25);
+		AngryRightArm2.addBox(-3F, -3F, -6F, 3, 3, 6);
+		AngryRightArm2.setRotationPoint(-4F, 5F, -4F);
+		AngryRightArm2.setTextureSize(128, 128);
+		AngryRightArm2.mirror = true;
+		setRotation(AngryRightArm2, -0.5235988F, 0F, 0F);
+		AngryLeftArm1 = new ModelRenderer(this, 40, 16);
+		AngryLeftArm1.addBox(0F, -3F, 0F, 3, 3, 6);
+		AngryLeftArm1.setRotationPoint(4F, 5F, -4F);
+		AngryLeftArm1.setTextureSize(128, 128);
+		AngryLeftArm1.mirror = true;
+		setRotation(AngryLeftArm1, 0.2792527F, 0F, 0F);
+		AngryLeftArm2 = new ModelRenderer(this, 40, 25);
+		AngryLeftArm2.addBox(0F, -3F, -6F, 3, 3, 6);
+		AngryLeftArm2.setRotationPoint(4F, 5F, -4F);
+		AngryLeftArm2.setTextureSize(128, 128);
+		AngryLeftArm2.mirror = true;
+		setRotation(AngryLeftArm2, -0.5235988F, 0F, 0F);
+
 	}
 	
 	@Override
@@ -443,64 +474,27 @@ public class ModelAngel extends ModelBiped {
 		if (entity instanceof EntityAngel) {
 			angel = (EntityAngel) entity;
 		}
-		
-		if (!angel.isAngry()) {
-			RightArm1 = new ModelRenderer(this, 58, 16);
-			RightArm1.addBox(-3F, -3F, 0F, 3, 3, 6);
-			RightArm1.setRotationPoint(-5F, 3F, -5F);
-			RightArm1.setTextureSize(128, 128);
-			RightArm1.mirror = true;
-			setRotation(RightArm1, -0.2268928F, 0F, 0.5235988F);
-			RightArm2 = new ModelRenderer(this, 58, 25);
-			RightArm2.addBox(-3F, -3F, -6F, 3, 3, 6);
-			RightArm2.setRotationPoint(-5F, 3F, -5F);
-			RightArm2.setTextureSize(128, 128);
-			RightArm2.mirror = true;
-			setRotation(RightArm2, -0.9250245F, 0F, 0.5235988F);
-			LeftArm1 = new ModelRenderer(this, 40, 16);
-			LeftArm1.addBox(0F, -3F, 0F, 3, 3, 6);
-			LeftArm1.setRotationPoint(5F, 3F, -5F);
-			LeftArm1.setTextureSize(128, 128);
-			LeftArm1.mirror = true;
-			setRotation(LeftArm1, -0.2268928F, 0F, -0.5235988F);
-			LeftArm2 = new ModelRenderer(this, 40, 25);
-			LeftArm2.addBox(0F, -3F, -6F, 3, 3, 6);
-			LeftArm2.setRotationPoint(5F, 3F, -5F);
-			LeftArm2.setTextureSize(128, 128);
-			LeftArm2.mirror = true;
-			setRotation(LeftArm2, -0.9250245F, 0F, -0.5235988F);
-		} else {
-			RightArm1 = new ModelRenderer(this, 58, 16);
-			RightArm1.addBox(-3F, -3F, 0F, 3, 3, 6);
-			RightArm1.setRotationPoint(-4F, 5F, -4F);
-			RightArm1.setTextureSize(128, 128);
-			RightArm1.mirror = true;
-			setRotation(RightArm1, 0.2792527F, 0F, 0F);
-			RightArm2 = new ModelRenderer(this, 58, 25);
-			RightArm2.addBox(-3F, -3F, -6F, 3, 3, 6);
-			RightArm2.setRotationPoint(-4F, 5F, -4F);
-			RightArm2.setTextureSize(128, 128);
-			RightArm2.mirror = true;
-			setRotation(RightArm2, -0.5235988F, 0F, 0F);
-			LeftArm1 = new ModelRenderer(this, 40, 16);
-			LeftArm1.addBox(0F, -3F, 0F, 3, 3, 6);
-			LeftArm1.setRotationPoint(4F, 5F, -4F);
-			LeftArm1.setTextureSize(128, 128);
-			LeftArm1.mirror = true;
-			setRotation(LeftArm1, 0.2792527F, 0F, 0F);
-			LeftArm2 = new ModelRenderer(this, 40, 25);
-			LeftArm2.addBox(0F, -3F, -6F, 3, 3, 6);
-			LeftArm2.setRotationPoint(4F, 5F, -4F);
-			LeftArm2.setTextureSize(128, 128);
-			LeftArm2.mirror = true;
-			setRotation(LeftArm2, -0.5235988F, 0F, 0F);
-		}
-		
+
 		// Head
 		GlStateManager.pushMatrix();
 		if (!angel.isAngry()) {
 			GlStateManager.rotate(20, 1, 0, 0);
 		}
+
+		if (!angel.isAngry())
+		{
+			RightArm1.render(scale);
+			RightArm2.render(scale);
+			LeftArm1.render(scale);
+			LeftArm2.render(scale);
+		} else
+			{
+				AngryRightArm1.render(scale);
+				AngryRightArm2.render(scale);
+				AngryLeftArm1.render(scale);
+				AngryLeftArm2.render(scale);
+			}
+
 		LeftEyebrow.render(scale);
 		RightEyebrow.render(scale);
 		Headband.render(scale);

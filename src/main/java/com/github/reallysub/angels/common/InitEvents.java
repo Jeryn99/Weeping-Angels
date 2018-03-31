@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.client.RenderAngel;
 import com.github.reallysub.angels.client.models.ModelAngel;
+import com.github.reallysub.angels.client.models.ModelAngelEd;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.google.common.collect.Lists;
 
@@ -85,6 +86,6 @@ public class InitEvents {
 	
 	@SideOnly(Side.CLIENT)
 	private static void setUpRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngel(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd(), 1.0F));
 	}
 }

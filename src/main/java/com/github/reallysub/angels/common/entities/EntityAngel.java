@@ -43,8 +43,10 @@ public class EntityAngel extends EntityMob {
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-	
-	public EntityAngel(World world) {
+    private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
+
+
+    public EntityAngel(World world) {
 		super(world);
 		
 		tasks.addTask(2, new EntityAIAttackMelee(this, 4.0F, false));
@@ -73,7 +75,8 @@ public class EntityAngel extends EntityMob {
 		super.entityInit();
 		getDataManager().register(isSeen, false);
 		getDataManager().register(isAngry, false);
-		getDataManager().register(timeViewed, 0);
+        getDataManager().register(timeViewed, 0);
+        getDataManager().register(type, rand.nextInt(1));
 	}
 	
 	@Override
@@ -135,6 +138,20 @@ public class EntityAngel extends EntityMob {
 	public int getSeenTime() {
 		return getDataManager().get(timeViewed);
 	}
+
+    /**
+     * @return Returns the angel type
+     */
+    public int getType() {
+        return getDataManager().get(type);
+    }
+
+    /**
+     * Set's the angel type
+     */
+    public void setType(int angelType) {
+        getDataManager().set(type, angelType);
+    }
 	
 	/**
 	 * Set's the time the angel is being isSeen for
@@ -152,6 +169,7 @@ public class EntityAngel extends EntityMob {
 		compound.setBoolean("isSeen", isSeen());
 		compound.setInteger("timeSeen", getSeenTime());
 		compound.setBoolean("isAngry", isAngry());
+        compound.setInteger("type", getType());
 	}
 	
 	/**
@@ -166,6 +184,8 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("timeSeen")) setSeenTime(compound.getInteger("timeSeen"));
 		
 		if (compound.hasKey("isAngry")) setAngry(compound.getBoolean("isAngry"));
+
+        if (compound.hasKey("type")) setType(compound.getInteger("type"));
 	}
 	
 	@Override
@@ -204,7 +224,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
+
 		if (rand.nextInt(500) == 250) {
 			setAngry(rand.nextBoolean());
 		}
