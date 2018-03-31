@@ -1,10 +1,20 @@
 {
   "angel_seen": {
     "category": "hostile",
-    "subtitle": "Angel Seen",
+    "subtitle": "Angel seen",
     "sounds": [{
       "name": "weeping-angels:angel_seen",
       "stream": false
     }]
+  },
+  
+   "stone_scrap": {
+    "category": "hostile",
+    "subtitle": "Stone scrap",
+    "sounds": [{
+      "name": "weeping-angels:stone_scrap",
+      "stream": false
+    }]
   }
+  
 }

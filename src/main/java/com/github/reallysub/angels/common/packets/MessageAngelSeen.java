@@ -1,6 +1,5 @@
 package com.github.reallysub.angels.common.packets;
 
-import com.github.reallysub.angels.common.InitEvents;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import io.netty.buffer.ByteBuf;

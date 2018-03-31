@@ -1,12 +1,9 @@
 package com.github.reallysub.angels.common.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.InitEvents;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,6 +18,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
@@ -30,7 +28,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -78,12 +75,21 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(timeViewed, 0);
 	}
 	
+	@Override
 	public void travel(float strafe, float vertical, float forward) {
 		if (!isSeen() || !onGround) {
 			super.travel(strafe, vertical, forward);
 		} else {
 			// Do nothing
 		}
+	}
+	
+	/**
+	 * Drop 0-2 items of this living's type
+	 */
+	@Override
+	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(5));
 	}
 	
 	/**
@@ -169,11 +175,14 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		if (rand.nextInt(100) == 50) {
+			
 			WorldBorder border = entity.getEntityWorld().getWorldBorder();
 			int x = rand.nextInt(border.getSize());
 			int z = rand.nextInt(border.getSize());
 			int y = world.getSpawnPoint().getY();
+			
 			teleportEntity(entity, x, y, z);
+			
 		}
 	}
 	
@@ -185,21 +194,19 @@ public class EntityAngel extends EntityMob {
 		return getHealth() <= 0.0F || isSeen();
 	}
 	
-	   /**
-     * Sets the rotation of the entity.
-     */
+	/**
+	 * Sets the rotation of the entity.
+	 */
 	@Override
-    protected void setRotation(float yaw, float pitch)
-    {
-       if(!isSeen()) 
-       {
-    	   super.setRotation(yaw, pitch);
-       }
-    }
+	protected void setRotation(float yaw, float pitch) {
+		if (!isSeen()) {
+			super.setRotation(yaw, pitch);
+		}
+	}
 	
 	@Override
 	public void onUpdate() {
-
+		
 		super.onUpdate();
 		
 		if (rand.nextInt(500) == 250) {
@@ -226,8 +233,16 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	private boolean teleportEntity(Entity e, double X, double Y, double Z) {
+	private void teleportEntity(Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
+		
+		if (e instanceof EntityPlayerMP) {
+			if (rand.nextBoolean()) {
+				if (!WeepingAngels.isServer()) {
+					world.setWorldTime(rand.nextLong());
+				}
+			}
+		}
 		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
@@ -246,12 +261,11 @@ public class EntityAngel extends EntityMob {
 				}
 			}
 		}
-		return true;
 	}
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingHurtEvent e) {
-		if (e.getSource().getTrueSource() instanceof Entity) {
+		if (e.getSource().getTrueSource() != null) {
 			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getTrueSource();
 			EntityLivingBase victim = e.getEntityLiving();
 			
@@ -265,8 +279,16 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
+
+
+    @Override
+    protected void playStepSound(BlockPos pos, Block block) {
+        if (prevPosX != posX && prevPosZ != posZ) {
+            playSound(InitEvents.stone_scrap, 1.0F, 1.0F);
+        }
+    }
 	
-	public void replaceBlocks(AxisAlignedBB box) {
+	private void replaceBlocks(AxisAlignedBB box) {
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
 			for (int y = (int) box.minY; y <= box.maxY; y++) {
 				for (int z = (int) box.minZ; z <= box.maxZ; z++) {
@@ -298,7 +320,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	private boolean shouldBreak() {
-		return rand.nextInt(1000) == 500;
+		return rand.nextInt(10) < 5;
 	}
 	
 }

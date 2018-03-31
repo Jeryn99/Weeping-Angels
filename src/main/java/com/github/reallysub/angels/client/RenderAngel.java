@@ -1,7 +1,6 @@
 package com.github.reallysub.angels.client;
 
 import com.github.reallysub.angels.WeepingAngels;
-import com.github.reallysub.angels.client.models.ModelAngel;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;

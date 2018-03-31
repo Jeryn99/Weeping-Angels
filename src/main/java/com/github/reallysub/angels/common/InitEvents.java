@@ -12,10 +12,12 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -33,6 +35,7 @@ public class InitEvents {
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
 	
 	public static final SoundEvent angelSeen = addSound("angel_seen");
+	public static final SoundEvent stone_scrap = addSound("stone_scrap");
 	
 	private static SoundEvent addSound(String soundName) {
 		ResourceLocation sound = new ResourceLocation(WeepingAngels.MODID + ":" + soundName);

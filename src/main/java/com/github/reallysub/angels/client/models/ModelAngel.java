@@ -1,14 +1,11 @@
 package com.github.reallysub.angels.client.models;
 
-import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
 
 public class ModelAngel extends ModelBiped {
 	
@@ -498,7 +495,6 @@ public class ModelAngel extends ModelBiped {
 			LeftArm2.mirror = true;
 			setRotation(LeftArm2, -0.5235988F, 0F, 0F);
 		}
-	
 		
 		// Head
 		GlStateManager.pushMatrix();
@@ -531,7 +527,7 @@ public class ModelAngel extends ModelBiped {
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
 		
-		//Body
+		// Body
 		TorsoMain.render(scale);
 		Dress1.render(scale);
 		Dress2.render(scale);

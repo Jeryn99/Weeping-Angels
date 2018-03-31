@@ -41,4 +41,9 @@ public class WeepingAngels {
 		
 		InitEvents.setUpSpawns();
 	}
+	
+	public static boolean isServer() {
+		return FMLCommonHandler.instance().getSide().isServer();
+	}
+	
 }
