@@ -4,6 +4,8 @@ import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.InitEvents;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -17,6 +19,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
+import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.passive.EntityVillager;
@@ -47,11 +50,10 @@ public class EntityAngel extends EntityMob {
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-    private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-    private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
-
-
-    public EntityAngel(World world) {
+	private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
+	private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
+	
+	public EntityAngel(World world) {
 		super(world);
 		
 		tasks.addTask(2, new EntityAIAttackMelee(this, 4.0F, false));
@@ -62,8 +64,6 @@ public class EntityAngel extends EntityMob {
 		tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityPigZombie.class }));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, false));
-		
 		experienceValue = 25;
 	}
 	
@@ -80,9 +80,9 @@ public class EntityAngel extends EntityMob {
 		super.entityInit();
 		getDataManager().register(isSeen, false);
 		getDataManager().register(isAngry, false);
-        getDataManager().register(timeViewed, 0);
-        getDataManager().register(type, rand.nextInt(1));
-        getDataManager().register(blockBreakPos, null);
+		getDataManager().register(timeViewed, 0);
+		getDataManager().register(type, randomType());
+		getDataManager().register(blockBreakPos, new BlockPos(0, 0, 0));
 	}
 	
 	@Override
@@ -109,16 +109,15 @@ public class EntityAngel extends EntityMob {
 			super.jump();
 		}
 	}
-
-    public BlockPos getBreakPos() {
-        return getDataManager().get(blockBreakPos);
-    }
-
-    public void setBreakBlockPos(BlockPos pos)
-    {
-        getDataManager().set(blockBreakPos, pos);
-    }
-
+	
+	public BlockPos getBreakPos() {
+		return getDataManager().get(blockBreakPos);
+	}
+	
+	public void setBreakBlockPos(BlockPos pos) {
+		getDataManager().set(blockBreakPos, pos);
+	}
+	
 	/**
 	 * @return Returns whether the angel is being isSeen or not
 	 */
@@ -153,20 +152,20 @@ public class EntityAngel extends EntityMob {
 	public int getSeenTime() {
 		return getDataManager().get(timeViewed);
 	}
-
-    /**
-     * @return Returns the angel type
-     */
-    public int getType() {
-        return getDataManager().get(type);
-    }
-
-    /**
-     * Set's the angel type
-     */
-    public void setType(int angelType) {
-        getDataManager().set(type, angelType);
-    }
+	
+	/**
+	 * @return Returns the angel type
+	 */
+	public int getType() {
+		return getDataManager().get(type);
+	}
+	
+	/**
+	 * Set's the angel type
+	 */
+	public void setType(int angelType) {
+		getDataManager().set(type, angelType);
+	}
 	
 	/**
 	 * Set's the time the angel is being isSeen for
@@ -184,7 +183,7 @@ public class EntityAngel extends EntityMob {
 		compound.setBoolean("isSeen", isSeen());
 		compound.setInteger("timeSeen", getSeenTime());
 		compound.setBoolean("isAngry", isAngry());
-        compound.setInteger("type", getType());
+		compound.setInteger("type", getType());
 	}
 	
 	/**
@@ -199,8 +198,8 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("timeSeen")) setSeenTime(compound.getInteger("timeSeen"));
 		
 		if (compound.hasKey("isAngry")) setAngry(compound.getBoolean("isAngry"));
-
-        if (compound.hasKey("type")) setType(compound.getInteger("type"));
+		
+		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 	}
 	
 	@Override
@@ -208,8 +207,8 @@ public class EntityAngel extends EntityMob {
 		entity.applyEntityCollision(this);
 		if (rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			WorldBorder border = entity.getEntityWorld().getWorldBorder();
-			int x = rand.nextInt(border.getSize());
-			int z = rand.nextInt(border.getSize());
+			int x = entity.getPosition().getX() + rand.nextInt(450);
+			int z = entity.getPosition().getZ() + rand.nextInt(450);
 			int y = world.getSpawnPoint().getY();
 			teleportEntity(entity, x, y, z);
 		}
@@ -236,7 +235,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
+		
 		if (rand.nextInt(500) == 250) {
 			setAngry(rand.nextBoolean());
 		}
@@ -310,6 +309,8 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
+	public int timer = 0;
+	
 	private void replaceBlocks(AxisAlignedBB box) {
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
 			for (int y = (int) box.minY; y <= box.maxY; y++) {
@@ -319,24 +320,45 @@ public class EntityAngel extends EntityMob {
 					
 					if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH) {
 						if (shouldBreak()) {
-                            setBreakBlockPos(pos);
-							getEntityWorld().setBlockToAir(pos);
+							for (int i = 0; i < 21; ++i) {
+								timer++;
+								setBreakBlockPos(pos);
+							}
+							if (timer > 20) {
+								getEntityWorld().setBlockToAir(pos);
+								timer = 0;
+							}
 						}
 					}
 					
 					if (block == Blocks.LIT_PUMPKIN) {
-                        setBreakBlockPos(pos);
+						setBreakBlockPos(pos);
 						if (shouldBreak()) {
-							getEntityWorld().setBlockToAir(pos);
+							for (int i = 0; i < 21; ++i) {
+								timer++;
+								setBreakBlockPos(pos);
+							}
+							if (timer > 20) {
+								getEntityWorld().setBlockToAir(pos);
+								timer = 0;
+							}
 						}
 						getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
 					}
 					
 					if (block == Blocks.LIT_REDSTONE_LAMP) {
-                        setBreakBlockPos(pos);
+						
 						if (shouldBreak()) {
-							getEntityWorld().setBlockToAir(pos);
+							for (int i = 0; i < 21; ++i) {
+								timer++;
+								setBreakBlockPos(pos);
+							}
 						}
+						if (timer > 20) {
+							getEntityWorld().setBlockToAir(pos);
+							timer = 0;
+						}
+						
 						getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
 					}
 				}
@@ -348,4 +370,11 @@ public class EntityAngel extends EntityMob {
 		return rand.nextInt(10) < 5;
 	}
 	
+	private int randomType() {
+		if (rand.nextBoolean()) {
+			return 1;
+		}
+		
+		return 0;
+	}
 }

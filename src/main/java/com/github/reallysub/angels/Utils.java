@@ -31,9 +31,9 @@ public class Utils {
 			for (EntityAngel target : list) {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
 					target.setSeen(true);
-					}
 				}
 			}
+		}
 	}
 	
 	private static boolean isTargetInSight(EntityLivingBase seeker, Entity target) {
