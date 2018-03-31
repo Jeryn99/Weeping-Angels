@@ -5,6 +5,7 @@ import com.github.reallysub.angels.common.InitEvents;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -79,8 +80,6 @@ public class EntityAngel extends EntityMob {
 	public void travel(float strafe, float vertical, float forward) {
 		if (!isSeen() || !onGround) {
 			super.travel(strafe, vertical, forward);
-		} else {
-			// Do nothing
 		}
 	}
 	
@@ -99,8 +98,6 @@ public class EntityAngel extends EntityMob {
 	protected void jump() {
 		if (!isSeen()) {
 			super.jump();
-		} else {
-			// Do nothing
 		}
 	}
 	
@@ -206,15 +203,10 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		
 		super.onUpdate();
 		
 		if (rand.nextInt(500) == 250) {
 			setAngry(rand.nextBoolean());
-		}
-		
-		if (getSeenTime() == 1 && rand.nextInt(5) == 2) {
-			playSound(InitEvents.angelSeen, 1, 1);
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
@@ -227,7 +219,7 @@ public class EntityAngel extends EntityMob {
 		if (isSeen()) {
 			if (!world.isRemote) {
 				if (world.getGameRules().getBoolean("mobGriefing")) {
-					replaceBlocks(getEntityBoundingBox().expand(9, 9, 9));
+					replaceBlocks(getEntityBoundingBox().expand(20, 20, 20));
 				}
 			}
 		}
@@ -243,7 +235,6 @@ public class EntityAngel extends EntityMob {
 				}
 			}
 		}
-		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
 				e.setPositionAndUpdate(p.getX(), p.getY(), p.getZ());
@@ -279,14 +270,13 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-
-
-    @Override
-    protected void playStepSound(BlockPos pos, Block block) {
-        if (prevPosX != posX && prevPosZ != posZ) {
-            playSound(InitEvents.stone_scrap, 1.0F, 1.0F);
-        }
-    }
+	
+	@Override
+	protected void playStepSound(BlockPos pos, Block block) {
+		if (prevPosX != posX && prevPosZ != posZ) {
+			playSound(InitEvents.stone_scrap, 1.0F, 1.0F);
+		}
+	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
