@@ -12,8 +12,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelAngel extends ModelBiped {
 	
-	ResourceLocation rs = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
-	
 	ModelRenderer LeftEyebrow;
 	ModelRenderer RightEyebrow;
 	ModelRenderer Headband;
@@ -443,8 +441,6 @@ public class ModelAngel extends ModelBiped {
 	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
-		
 		EntityAngel angel = null;
 		
 		if (entity instanceof EntityAngel) {
@@ -502,9 +498,7 @@ public class ModelAngel extends ModelBiped {
 			LeftArm2.mirror = true;
 			setRotation(LeftArm2, -0.5235988F, 0F, 0F);
 		}
-		
-		GlStateManager.pushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(rs);
+	
 		
 		// Head
 		GlStateManager.pushMatrix();
@@ -537,6 +531,7 @@ public class ModelAngel extends ModelBiped {
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
 		
+		//Body
 		TorsoMain.render(scale);
 		Dress1.render(scale);
 		Dress2.render(scale);
@@ -553,16 +548,12 @@ public class ModelAngel extends ModelBiped {
 		Dress13.render(scale);
 		
 		// Right Arm
-		GlStateManager.pushMatrix();
 		RightArm1.render(scale);
 		RightArm2.render(scale);
-		GlStateManager.popMatrix();
 		
 		// Left arm
-		GlStateManager.pushMatrix();
 		LeftArm1.render(scale);
 		LeftArm2.render(scale);
-		GlStateManager.popMatrix();
 		
 		LeftWing1.render(scale);
 		LeftWing2.render(scale);
@@ -582,7 +573,6 @@ public class ModelAngel extends ModelBiped {
 		RightWing7.render(scale);
 		RightWing8.render(scale);
 		RightWing9.render(scale);
-		GlStateManager.popMatrix();
 	}
 	
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

@@ -3,6 +3,7 @@ package com.github.reallysub.angels;
 import org.apache.logging.log4j.Logger;
 
 import com.github.reallysub.angels.client.ClientEvents;
+import com.github.reallysub.angels.common.InitEvents;
 import com.github.reallysub.angels.common.packets.MessageAngelSeen;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -37,5 +38,7 @@ public class WeepingAngels {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			MinecraftForge.EVENT_BUS.register(new ClientEvents());
 		}
+		
+		InitEvents.setUpSpawns();
 	}
 }

@@ -1,16 +1,20 @@
 package com.github.reallysub.angels.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.client.RenderAngel;
 import com.github.reallysub.angels.client.models.ModelAngel;
 import com.github.reallysub.angels.common.entities.EntityAngel;
+import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -18,6 +22,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -35,10 +41,24 @@ public class InitEvents {
 		return s;
 	}
 	
+	public static void setUpSpawns() {
+		List<Biome> allBiomes = ForgeRegistries.BIOMES.getValues();
+		List<Biome> spawn = Lists.newArrayList();
+		spawn.addAll(allBiomes);
+		Iterator<Biome> iterator = spawn.iterator();
+		while (iterator.hasNext()) {
+			Biome biome = iterator.next();
+			if (biome != null) {
+				EntityRegistry.addSpawn(EntityAngel.class, 100, 2, 6, EnumCreatureType.MONSTER, biome);
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> e) {
 		SoundEvent[] sounds = SOUNDS.toArray(new SoundEvent[SOUNDS.size()]);
 		e.getRegistry().registerAll(sounds);
+		SOUNDS.clear();
 	}
 	
 	// Entities
@@ -52,7 +72,7 @@ public class InitEvents {
 	
 	@SubscribeEvent
 	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).tracker(80, 3, false).build() };
+		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(124, 156).tracker(80, 3, false).build() };
 		event.getRegistry().registerAll(entries);
 		
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
