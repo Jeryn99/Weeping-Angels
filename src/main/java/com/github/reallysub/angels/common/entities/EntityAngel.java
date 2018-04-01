@@ -1,8 +1,9 @@
 package com.github.reallysub.angels.common.entities;
 
+import javax.annotation.Nullable;
+
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.Utils;
-import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
 import net.minecraft.block.Block;
@@ -22,7 +23,6 @@ import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -38,12 +38,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {

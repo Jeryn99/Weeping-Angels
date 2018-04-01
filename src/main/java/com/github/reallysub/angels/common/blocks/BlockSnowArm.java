@@ -1,9 +1,11 @@
 package com.github.reallysub.angels.common.blocks;
 
+import javax.annotation.Nullable;
+
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.WeepingAngels;
+
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockFire;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -18,8 +20,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
 
 public class BlockSnowArm extends BlockContainer implements ITileEntityProvider {
 	

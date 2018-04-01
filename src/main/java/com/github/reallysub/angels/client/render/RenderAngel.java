@@ -8,12 +8,9 @@ import com.github.reallysub.angels.main.WeepingAngels;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderZombie;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 

@@ -1,8 +1,5 @@
 package com.github.reallysub.angels.main;
 
-import com.github.reallysub.angels.common.WorldGenArms;
-import net.minecraft.block.Block;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import com.github.reallysub.angels.common.WAObjects;
@@ -14,7 +11,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

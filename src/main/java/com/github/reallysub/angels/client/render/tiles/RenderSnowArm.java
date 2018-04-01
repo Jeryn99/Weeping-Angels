@@ -1,6 +1,7 @@
 package com.github.reallysub.angels.client.render.tiles;
 
 import com.github.reallysub.angels.client.models.ModelSnowArm;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
