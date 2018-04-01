@@ -1,16 +1,14 @@
 package com.github.reallysub.angels.common.entities;
 
-import com.github.reallysub.angels.WeepingAngels;
+import java.util.ArrayList;
+
 import com.github.reallysub.angels.common.InitEvents;
 import com.google.common.collect.Lists;
-
-import java.util.ArrayList;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

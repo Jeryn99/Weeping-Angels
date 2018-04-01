@@ -1,4 +1,4 @@
-package com.github.reallysub.angels;
+package com.github.reallysub.angels.main.config;
 
 import net.minecraftforge.common.config.Configuration;
 

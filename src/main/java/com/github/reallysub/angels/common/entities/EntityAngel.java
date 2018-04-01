@@ -1,12 +1,10 @@
 package com.github.reallysub.angels.common.entities;
 
-import com.github.reallysub.angels.Config;
-import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.InitEvents;
+import com.github.reallysub.angels.main.WeepingAngels;
+import com.github.reallysub.angels.main.config.Config;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,10 +18,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -40,7 +36,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -74,19 +69,20 @@ public class EntityAngel extends EntityMob {
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(35.0D);
 	}
-
+	
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
 		super.damageEntity(InitEvents.ANGEL, damageAmount);
 	}
-
+	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		entity.attackEntityFrom(InitEvents.ANGEL, 4.0F);
 		return super.attackEntityAsMob(entity);
 	}
-
+	
 	@Override
 	protected void entityInit() {
 		super.entityInit();
@@ -214,6 +210,9 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 	}
 	
+	/**
+	 * When a entity collides with this entity
+	 */
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
@@ -222,6 +221,7 @@ public class EntityAngel extends EntityMob {
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getSpawnPoint().getY();
 			teleportEntity(entity, x, y, z);
+			heal(4.0F);
 		}
 	}
 	
@@ -247,8 +247,8 @@ public class EntityAngel extends EntityMob {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if (rand.nextInt(500) == 250) {
-			setAngry(rand.nextBoolean());
+		if (!isSeen() && rand.nextBoolean()) {
+			setAngry(!isAngry());
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
@@ -261,7 +261,7 @@ public class EntityAngel extends EntityMob {
 		if (isSeen()) {
 			if (!world.isRemote) {
 				if (world.getGameRules().getBoolean("mobGriefing")) {
-					replaceBlocks(getEntityBoundingBox().expand(20, 20, 20));
+					replaceBlocks(getEntityBoundingBox().expand(25, 25, 25));
 				}
 			}
 		}
@@ -305,12 +305,11 @@ public class EntityAngel extends EntityMob {
 			if (victim instanceof EntityAngel) {
 				Item item = attacker.getHeldItem(EnumHand.MAIN_HAND).getItem();
 				if (item instanceof ItemPickaxe) {
-
-				} else
-					{
-						e.setAmount(0);
-						attacker.attackEntityFrom(InitEvents.STONE, 1.0F);
-					}
+					e.setCanceled(true);
+				} else {
+					e.setAmount(0);
+					attacker.attackEntityFrom(InitEvents.STONE, 1.0F);
+				}
 			}
 		}
 	}
@@ -331,7 +330,7 @@ public class EntityAngel extends EntityMob {
 					BlockPos pos = new BlockPos(x, y, z);
 					Block block = getEntityWorld().getBlockState(pos).getBlock();
 					
-					if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH) {
+					if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH || block == Blocks.GLOWSTONE) {
 						if (shouldBreak()) {
 							for (int i = 0; i < 21; ++i) {
 								timer++;
@@ -380,7 +379,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	private boolean shouldBreak() {
-		return rand.nextInt(10) < 5;
+		return getHealth() > 5 && rand.nextInt(10) < 5;
 	}
 	
 	private int randomType() {

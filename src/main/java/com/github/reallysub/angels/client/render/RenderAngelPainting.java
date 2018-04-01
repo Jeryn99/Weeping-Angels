@@ -1,7 +1,8 @@
-package com.github.reallysub.angels.client;
+package com.github.reallysub.angels.client.render;
 
-import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.entities.EntityPainting2;
+import com.github.reallysub.angels.main.WeepingAngels;
+
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

@@ -1,14 +1,11 @@
 package com.github.reallysub.angels.client.models;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
+
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.math.MathHelper;
 
 public class ModelAngelEd extends ModelBase {
 	

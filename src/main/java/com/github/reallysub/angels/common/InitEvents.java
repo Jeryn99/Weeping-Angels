@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.reallysub.angels.WeepingAngels;
-import com.github.reallysub.angels.client.RenderAngel;
-import com.github.reallysub.angels.client.RenderAngelPainting;
+import com.github.reallysub.angels.client.render.RenderAngel;
+import com.github.reallysub.angels.client.render.RenderAngelPainting;
 import com.github.reallysub.angels.client.models.ModelAngelEd;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.common.entities.EntityPainting2;
+import com.github.reallysub.angels.common.items.ItemHanging;
+import com.github.reallysub.angels.main.WeepingAngels;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
@@ -41,7 +42,7 @@ public class InitEvents {
 	
 	public static SoundEvent angelSeen = addSound("angel_seen");
 	public static SoundEvent stone_scrap = addSound("stone_scrap");
-
+	
 	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
 	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
 	
@@ -109,18 +110,16 @@ public class InitEvents {
 		item.setUnlocalizedName(name);
 		return item;
 	}
-
-
-
+	
 	public static class WADamageSource extends DamageSource {
-
+		
 		private String message = "";
-
+		
 		public WADamageSource(String damageTypeIn) {
 			super(damageTypeIn);
 			this.message = damageTypeIn;
 		}
-
+		
 		@Override
 		public ITextComponent getDeathMessage(EntityLivingBase entity) {
 			return new TextComponentString(entity.getName() + " " + this.message);

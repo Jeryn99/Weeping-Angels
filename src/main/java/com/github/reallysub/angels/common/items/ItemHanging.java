@@ -1,6 +1,7 @@
-package com.github.reallysub.angels.common;
+package com.github.reallysub.angels.common.items;
 
 import com.github.reallysub.angels.common.entities.EntityPainting2;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;

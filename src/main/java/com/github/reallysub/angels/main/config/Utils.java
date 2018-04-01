@@ -1,14 +1,14 @@
-package com.github.reallysub.angels;
+package com.github.reallysub.angels.main.config;
+
+import java.util.List;
 
 import com.github.reallysub.angels.common.InitEvents;
 import com.github.reallysub.angels.common.entities.EntityAngel;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Utils {
 	
@@ -32,9 +32,8 @@ public class Utils {
 			for (EntityAngel target : list) {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
 					target.setSeen(true);
-					if(target.getAttackTarget() == seeker && target.getSeenTime() == 1)
-					{
-							target.playSound(InitEvents.angelSeen, 1.0F, 1.0F);
+					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1) {
+						target.playSound(InitEvents.angelSeen, 1.0F, 1.0F);
 					}
 				}
 			}
