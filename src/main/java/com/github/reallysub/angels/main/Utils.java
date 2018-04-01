@@ -7,10 +7,35 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public class Utils {
+	
+	public static void teleportEntity(World world, Entity e, double X, double Y, double Z) {
+		BlockPos p = new BlockPos(X, Y, Z);
+		
+		if (world.isAirBlock(p)) {
+			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
+				e.setPositionAndUpdate(p.getX(), p.getY(), p.getZ());
+			} else {
+				for (int i = 1; i < 255; i++) {
+					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
+						e.setPositionAndUpdate(p.getX(), i, p.getZ());
+					}
+				}
+			}
+		} else {
+			for (int i = 1; i < 255; i++) {
+				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
+					e.setPositionAndUpdate(p.getX(), i, p.getZ());
+				}
+			}
+		}
+	}
 	
 	public static void getAllAngels(EntityLivingBase seeker, int distance, double radius) {
 		if (distance < 0 || distance > 256) {
@@ -30,7 +55,7 @@ public class Utils {
 			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
 			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			for (EntityAngel target : list) {
-				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
+				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS)) {
 					target.setSeen(true);
 					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1) {
 						target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);

@@ -226,6 +226,7 @@ public class ModelAngelEd extends ModelBase {
 		
 		GlStateManager.pushMatrix();
 		if (angel.isAngry()) {
+			angry_mouth.render(f5);
 			GlStateManager.translate(0, 0.1, 0);
 			GlStateManager.rotate(-65, 1, 0, 0);
 		}
@@ -254,9 +255,7 @@ public class ModelAngelEd extends ModelBase {
 		if (angel.isAngry()) {
 			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-			angry_mouth.isHidden = false;
 		} else {
-			angry_mouth.isHidden = true;
 			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 		}

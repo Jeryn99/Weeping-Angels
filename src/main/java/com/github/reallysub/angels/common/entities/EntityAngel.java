@@ -1,6 +1,7 @@
 package com.github.reallysub.angels.common.entities;
 
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.main.Utils;
 import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -33,27 +34,31 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nullable;
+
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
-
-	BlockPos nullPos = new BlockPos(0,0,0);
-
+	
+	BlockPos nullPos = BlockPos.ORIGIN;
+	
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
+	private static DataParameter<Boolean> isChild = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	
 	public EntityAngel(World world) {
 		super(world);
-		
 		tasks.addTask(2, new EntityAIAttackMelee(this, 3.0F, false));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
@@ -63,6 +68,16 @@ public class EntityAngel extends EntityMob {
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityPigZombie.class }));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		experienceValue = 25;
+	}
+	
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		if (isChild() && rand.nextInt(25) == 5) {
+			return WAObjects.laughing_child;
+		}
+		
+		return null;
 	}
 	
 	@Override
@@ -90,6 +105,7 @@ public class EntityAngel extends EntityMob {
 		super.entityInit();
 		getDataManager().register(isSeen, false);
 		getDataManager().register(isAngry, false);
+		getDataManager().register(isChild, randomChild());
 		getDataManager().register(timeViewed, 0);
 		getDataManager().register(type, randomType());
 		getDataManager().register(blockBreakPos, new BlockPos(0, 0, 0));
@@ -142,6 +158,10 @@ public class EntityAngel extends EntityMob {
 		return getDataManager().get(isAngry);
 	}
 	
+	public boolean isChild() {
+		return getDataManager().get(isChild);
+	}
+	
 	/**
 	 * Set's whether the angel is being isSeen or not
 	 */
@@ -154,6 +174,10 @@ public class EntityAngel extends EntityMob {
 	 */
 	public void setSeen(boolean beingViewed) {
 		getDataManager().set(isSeen, beingViewed);
+	}
+	
+	public void setChild(boolean child) {
+		getDataManager().set(isChild, child);
 	}
 	
 	/**
@@ -194,6 +218,7 @@ public class EntityAngel extends EntityMob {
 		compound.setInteger("timeSeen", getSeenTime());
 		compound.setBoolean("isAngry", isAngry());
 		compound.setInteger("type", getType());
+		compound.setBoolean("angelChild", isChild());
 	}
 	
 	/**
@@ -210,6 +235,8 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("isAngry")) setAngry(compound.getBoolean("isAngry"));
 		
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
+		
+		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
 	}
 	
 	/**
@@ -218,11 +245,11 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (Config.teleportEntities && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (Config.teleportEntities && !isChild() && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getSpawnPoint().getY();
-			teleportEntity(entity, x, y, z);
+			Utils.teleportEntity(world, entity, x, y, z);
 			heal(4.0F);
 		}
 	}
@@ -269,35 +296,6 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	public void teleportEntity(Entity e, double X, double Y, double Z) {
-		BlockPos p = new BlockPos(X, Y, Z);
-		
-		if (e instanceof EntityPlayerMP) {
-			if (rand.nextBoolean()) {
-				if (!WeepingAngels.isServer()) {
-					world.setWorldTime(rand.nextLong());
-				}
-			}
-		}
-		if (world.isAirBlock(p)) {
-			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
-				e.setPositionAndUpdate(p.getX(), p.getY(), p.getZ());
-			} else {
-				for (int i = 1; i < 255; i++) {
-					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-						e.setPositionAndUpdate(p.getX(), i, p.getZ());
-					}
-				}
-			}
-		} else {
-			for (int i = 1; i < 255; i++) {
-				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-					e.setPositionAndUpdate(p.getX(), i, p.getZ());
-				}
-			}
-		}
-	}
-	
 	@SubscribeEvent
 	public static void cancelDamage(LivingHurtEvent e) {
 		if (e.getSource().getTrueSource() != null) {
@@ -319,7 +317,11 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
-			playSound(WAObjects.stone_scrap, 1.0F, 1.0F);
+			if (!isChild()) {
+				playSound(WAObjects.stone_scrap, 1.0F, 1.0F);
+			} else {
+				playSound(WAObjects.child_run, 1.0F, 1.0F);
+			}
 		}
 	}
 	
@@ -391,7 +393,13 @@ public class EntityAngel extends EntityMob {
 		if (rand.nextBoolean()) {
 			return 1;
 		}
-		
 		return 0;
+	}
+	
+	private boolean randomChild() {
+		if (rand.nextInt(10) == 4) {
+			return true;
+		}
+		return false;
 	}
 }

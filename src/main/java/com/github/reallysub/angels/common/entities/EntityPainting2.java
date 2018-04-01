@@ -3,6 +3,7 @@ package com.github.reallysub.angels.common.entities;
 import java.util.ArrayList;
 
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.main.Utils;
 import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
@@ -212,30 +213,8 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 	
 	private void spawnAngel(World world) {
 		EntityAngel angel = new EntityAngel(world);
-		teleportEntity(angel, this.posX + 1, this.posY + 1, this.posZ + 1);
+		Utils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
 		world.spawnEntity(angel);
-	}
-	
-	private void teleportEntity(Entity e, double X, double Y, double Z) {
-		BlockPos p = new BlockPos(X, Y, Z);
-		
-		if (world.isAirBlock(p)) {
-			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
-				e.setPositionAndUpdate(p.getX(), p.getY(), p.getZ());
-			} else {
-				for (int i = 1; i < 255; i++) {
-					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-						e.setPositionAndUpdate(p.getX(), i, p.getZ());
-					}
-				}
-			}
-		} else {
-			for (int i = 1; i < 255; i++) {
-				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-					e.setPositionAndUpdate(p.getX(), i, p.getZ());
-				}
-			}
-		}
 	}
 	
 }

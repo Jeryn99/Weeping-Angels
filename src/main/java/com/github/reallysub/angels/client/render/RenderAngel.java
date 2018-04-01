@@ -8,10 +8,12 @@ import com.github.reallysub.angels.main.WeepingAngels;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerCreeperCharge;
+import net.minecraft.client.renderer.entity.RenderZombie;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
@@ -25,7 +27,7 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 	ModelBase modelTwo = new ModelAngelEd();
 	
 	public RenderAngel(RenderManager manager, ModelBase model, float shadowSize) {
-		super(manager, model, shadowSize);
+		super(manager, model, 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
 	}
@@ -42,6 +44,12 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 		}
 		
 		GlStateManager.pushMatrix();
+		
+		if (angel.isChild()) {
+			GlStateManager.scale(0.40F, 0.40F, 0.40F);
+			GlStateManager.translate(0.0F, 2.3F, 0.0F);
+		}
+		
 		if (angel.getType() == 0) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ONE);
 			modelOne.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);

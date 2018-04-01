@@ -8,6 +8,24 @@
     }]
   },
   
+    "child_run": {
+    "category": "hostile",
+    "subtitle": "Child running",
+    "sounds": [{
+      "name": "weeping-angels:child_run",
+      "stream": false
+    }]
+  },
+  
+     "laughing_child": {
+    "category": "hostile",
+    "subtitle": "Child laughing",
+    "sounds": [{
+      "name": "weeping-angels:laughing_child",
+      "stream": false
+    }]
+  },
+  
    "stone_scrap": {
     "category": "hostile",
     "subtitle": "Stone scrap",
