@@ -1,6 +1,6 @@
 package com.github.reallysub.angels.common.events;
 
-import com.github.reallysub.angels.main.config.Utils;
+import com.github.reallysub.angels.main.Utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;

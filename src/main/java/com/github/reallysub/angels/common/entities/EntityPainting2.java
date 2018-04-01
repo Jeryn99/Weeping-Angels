@@ -2,7 +2,7 @@ package com.github.reallysub.angels.common.entities;
 
 import java.util.ArrayList;
 
-import com.github.reallysub.angels.common.InitEvents;
+import com.github.reallysub.angels.common.WAObjects;
 import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
@@ -156,7 +156,7 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 				}
 			}
 			
-			this.entityDropItem(new ItemStack(InitEvents.angelPainting), 0.0F);
+			this.entityDropItem(new ItemStack(WAObjects.angelPainting), 0.0F);
 		}
 	}
 	
@@ -174,17 +174,15 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 		this.setPosition((double) blockpos1.getX(), (double) blockpos1.getY(), (double) blockpos1.getZ());
 	}
 	
-	public static enum EnumArt {
+	public enum EnumArt {
 		AngelOne("Angel_One", 16, 32, 0, 0), AngelTwo("Angel_Two", 16, 32, 0, 64), BlankPaintingOne("Paint_BlankOne", 16, 32, 16, 64), AngelThree("Angel_Three", 16, 32, 32, 64), BlankPaintingTwo("Paint_BlankTwo", 16, 32, 48, 64), AngelFour("Angel_Four", 16, 32, 64, 64), BlankPaintingThree("Paint_BlankThree", 16, 32, 80, 64), AngelFive("Angel_Five", 16, 32, 96, 64), BlankPaintingFour("Paint_BlankFour", 16, 32, 112, 64), AngelSix("Angel_Six", 16, 32, 128, 64), BlankPaintingFive("Angel_Five", 16, 32, 144, 64), AngelSeven("Angel_Seven", 16, 32, 160, 64), BlankPaintingSix("Paint_BlankSix", 16, 32, 176, 64);
-		public static final int field_180001_A = "SkullAndRoses".length();
-		/** Painting Title. */
 		public final String title;
 		public final int sizeX;
 		public final int sizeY;
 		public final int offsetX;
 		public final int offsetY;
 		
-		private EnumArt(String name, int par1, int par2, int par3, int par4) {
+		EnumArt(String name, int par1, int par2, int par3, int par4) {
 			this.title = name;
 			this.sizeX = par1;
 			this.sizeY = par2;
@@ -218,7 +216,7 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 		world.spawnEntity(angel);
 	}
 	
-	public void teleportEntity(Entity e, double X, double Y, double Z) {
+	private void teleportEntity(Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
 		
 		if (world.isAirBlock(p)) {

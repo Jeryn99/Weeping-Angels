@@ -1,8 +1,8 @@
-package com.github.reallysub.angels.main.config;
+package com.github.reallysub.angels.main;
 
 import java.util.List;
 
-import com.github.reallysub.angels.common.InitEvents;
+import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.entity.Entity;
@@ -33,7 +33,7 @@ public class Utils {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
 					target.setSeen(true);
 					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1) {
-						target.playSound(InitEvents.angelSeen, 1.0F, 1.0F);
+						target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
 					}
 				}
 			}

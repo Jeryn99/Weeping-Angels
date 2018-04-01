@@ -1,6 +1,6 @@
 package com.github.reallysub.angels.common.entities;
 
-import com.github.reallysub.angels.common.InitEvents;
+import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -42,7 +42,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
-	
+
+	BlockPos nullPos = new BlockPos(0,0,0);
+
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -74,12 +76,12 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
-		super.damageEntity(InitEvents.ANGEL, damageAmount);
+		super.damageEntity(WAObjects.ANGEL, damageAmount);
 	}
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		entity.attackEntityFrom(InitEvents.ANGEL, 4.0F);
+		entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 		return super.attackEntityAsMob(entity);
 	}
 	
@@ -247,7 +249,7 @@ public class EntityAngel extends EntityMob {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if (!isSeen() && rand.nextBoolean()) {
+		if (!isSeen() && rand.nextInt(15) == 5) {
 			setAngry(!isAngry());
 		}
 		
@@ -308,7 +310,7 @@ public class EntityAngel extends EntityMob {
 					e.setCanceled(true);
 				} else {
 					e.setAmount(0);
-					attacker.attackEntityFrom(InitEvents.STONE, 1.0F);
+					attacker.attackEntityFrom(WAObjects.STONE, 1.0F);
 				}
 			}
 		}
@@ -317,7 +319,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
-			playSound(InitEvents.stone_scrap, 1.0F, 1.0F);
+			playSound(WAObjects.stone_scrap, 1.0F, 1.0F);
 		}
 	}
 	
@@ -339,6 +341,7 @@ public class EntityAngel extends EntityMob {
 							if (timer > 20) {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
+								setBreakBlockPos(nullPos);
 							}
 						}
 					}
@@ -353,6 +356,7 @@ public class EntityAngel extends EntityMob {
 							if (timer > 20) {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
+								setBreakBlockPos(nullPos);
 							}
 						}
 						getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
@@ -369,6 +373,7 @@ public class EntityAngel extends EntityMob {
 						if (timer > 20) {
 							getEntityWorld().setBlockToAir(pos);
 							timer = 0;
+							setBreakBlockPos(nullPos);
 						}
 						
 						getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());

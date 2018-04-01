@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemHanging extends Item {
+
 	public ItemHanging() {
 		super();
 		this.setCreativeTab(CreativeTabs.DECORATIONS);

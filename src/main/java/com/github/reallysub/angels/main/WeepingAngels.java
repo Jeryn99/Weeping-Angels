@@ -1,8 +1,8 @@
 package com.github.reallysub.angels.main;
 
+import com.github.reallysub.angels.common.WAObjects;
 import org.apache.logging.log4j.Logger;
 
-import com.github.reallysub.angels.common.InitEvents;
 import com.github.reallysub.angels.common.events.CommonEvents;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "3.0";
+	public static final String VERSION = "4.0";
 	
 	private static Logger logger;
 	
@@ -37,7 +37,7 @@ public class WeepingAngels {
 	public void init(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new CommonEvents());
 		
-		InitEvents.setUpSpawns();
+		WAObjects.setUpSpawns();
 	}
 	
 	public static boolean isServer() {
@@ -46,8 +46,8 @@ public class WeepingAngels {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		ModelResourceLocation loc = new ModelResourceLocation(InitEvents.angelPainting.getRegistryName(), "inventory");
-		ModelLoader.setCustomModelResourceLocation(InitEvents.angelPainting, 0, loc);
+		ModelResourceLocation loc = new ModelResourceLocation(WAObjects.angelPainting.getRegistryName(), "inventory");
+		ModelLoader.setCustomModelResourceLocation(WAObjects.angelPainting, 0, loc);
 	}
 	
 }

@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
-public class InitEvents {
+public class WAObjects {
 	
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
 	

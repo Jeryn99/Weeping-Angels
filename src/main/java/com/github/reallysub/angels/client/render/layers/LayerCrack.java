@@ -5,7 +5,6 @@ import com.github.reallysub.angels.client.models.ModelAngelEd;
 import com.github.reallysub.angels.client.render.RenderAngel;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.WeepingAngels;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
