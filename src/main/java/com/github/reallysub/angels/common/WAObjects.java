@@ -18,6 +18,7 @@ import com.github.reallysub.angels.main.config.Config;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
@@ -125,6 +126,7 @@ public class WAObjects {
 	private static Item createItem(Item item, String name) {
 		item.setRegistryName(WeepingAngels.MODID, name);
 		item.setUnlocalizedName(name);
+		item.setCreativeTab(CreativeTabs.DECORATIONS);
 		return item;
 	}
 	

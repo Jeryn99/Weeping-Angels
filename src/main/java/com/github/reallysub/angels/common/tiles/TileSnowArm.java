@@ -21,7 +21,7 @@ public class TileSnowArm extends TileEntity implements ITickable {
 	public void update() {
 		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
-			Utils.teleportEntity(world, angel, getPos().getX() + 1, getPos().getY() + 1, getPos().getZ() + 1);
+			Utils.teleportEntity(world, angel, getPos().getX(), getPos().getY(), getPos().getZ());
 			angel.setType(0);
 			world.spawnEntity(angel);
 			world.setBlockToAir(getPos());
