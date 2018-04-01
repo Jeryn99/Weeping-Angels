@@ -11,6 +11,7 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.common.entities.EntityPainting2;
 import com.github.reallysub.angels.common.items.ItemHanging;
 import com.github.reallysub.angels.main.WeepingAngels;
+import com.github.reallysub.angels.main.config.Config;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
@@ -61,7 +62,7 @@ public class WAObjects {
 		while (iterator.hasNext()) {
 			Biome biome = iterator.next();
 			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, 100, 2, 6, EnumCreatureType.MONSTER, biome);
+				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.CREATURE, biome);
 			}
 		}
 	}
