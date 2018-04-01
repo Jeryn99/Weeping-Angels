@@ -1,5 +1,6 @@
 package com.github.reallysub.angels;
 
+import com.github.reallysub.angels.common.InitEvents;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,6 +32,10 @@ public class Utils {
 			for (EntityAngel target : list) {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target)) {
 					target.setSeen(true);
+					if(target.getAttackTarget() == seeker && target.getSeenTime() == 1)
+					{
+							target.playSound(InitEvents.angelSeen, 1.0F, 1.0F);
+					}
 				}
 			}
 		}

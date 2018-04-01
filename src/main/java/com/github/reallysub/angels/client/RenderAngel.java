@@ -46,7 +46,6 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 			i = (int) entity.getHealth();
 		}
 		
-		System.out.println(angel.getType());
 		GlStateManager.pushMatrix();
 		if (angel.getType() == 0) {
 			if (i >= 0) {

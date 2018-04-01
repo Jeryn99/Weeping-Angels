@@ -1,5 +1,6 @@
 package com.github.reallysub.angels.common.entities;
 
+import com.github.reallysub.angels.Config;
 import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.common.InitEvents;
 
@@ -56,7 +57,7 @@ public class EntityAngel extends EntityMob {
 	public EntityAngel(World world) {
 		super(world);
 		
-		tasks.addTask(2, new EntityAIAttackMelee(this, 4.0F, false));
+		tasks.addTask(2, new EntityAIAttackMelee(this, 3.0F, false));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -74,7 +75,18 @@ public class EntityAngel extends EntityMob {
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
 	}
-	
+
+	@Override
+	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
+		super.damageEntity(InitEvents.ANGEL, damageAmount);
+	}
+
+	@Override
+	public boolean attackEntityAsMob(Entity entity) {
+		entity.attackEntityFrom(InitEvents.ANGEL, 4.0F);
+		return super.attackEntityAsMob(entity);
+	}
+
 	@Override
 	protected void entityInit() {
 		super.entityInit();
@@ -205,10 +217,9 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
-			WorldBorder border = entity.getEntityWorld().getWorldBorder();
-			int x = entity.getPosition().getX() + rand.nextInt(450);
-			int z = entity.getPosition().getZ() + rand.nextInt(450);
+		if (Config.teleportEntities && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
+			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getSpawnPoint().getY();
 			teleportEntity(entity, x, y, z);
 		}
@@ -256,7 +267,7 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	private void teleportEntity(Entity e, double X, double Y, double Z) {
+	public void teleportEntity(Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
 		
 		if (e instanceof EntityPlayerMP) {
@@ -294,10 +305,12 @@ public class EntityAngel extends EntityMob {
 			if (victim instanceof EntityAngel) {
 				Item item = attacker.getHeldItem(EnumHand.MAIN_HAND).getItem();
 				if (item instanceof ItemPickaxe) {
-					e.setCanceled(true);
-					e.setAmount(0);
-					victim.attackEntityFrom(DamageSource.MAGIC, 2.0F);
-				}
+
+				} else
+					{
+						e.setAmount(0);
+						attacker.attackEntityFrom(InitEvents.STONE, 1.0F);
+					}
 			}
 		}
 	}

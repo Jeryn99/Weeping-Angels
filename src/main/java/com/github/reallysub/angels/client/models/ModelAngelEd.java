@@ -205,14 +205,14 @@ public class ModelAngelEd extends ModelBase {
 	
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		setRotationAngles(f,f1,f2,f3,f4,f5,entity);
-
-        EntityAngel angel = null;
-
-        if (entity instanceof EntityAngel) {
-            angel = (EntityAngel) entity;
-        }
-
+		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		
+		EntityAngel angel = null;
+		
+		if (entity instanceof EntityAngel) {
+			angel = (EntityAngel) entity;
+		}
+		
 		this.cloth_1.render(f5);
 		this.head.render(f5);
 		this.cloth_0.render(f5);
@@ -226,23 +226,23 @@ public class ModelAngelEd extends ModelBase {
 		this.body.render(f5);
 		this.right_wing_0.render(f5);
 		this.left_wing_0.render(f5);
-
-        GlStateManager.pushMatrix();
-        if(angel.isAngry()) {
-            GlStateManager.translate(0,0.1,0);
-            GlStateManager.rotate(-65, 1, 0, 0);
-        }
+		
+		GlStateManager.pushMatrix();
+		if (angel.isAngry()) {
+			GlStateManager.translate(0, 0.1, 0);
+			GlStateManager.rotate(-65, 1, 0, 0);
+		}
 		this.left_arm.render(f5);
 		GlStateManager.popMatrix();
-
-        GlStateManager.pushMatrix();
-        if(angel.isAngry()) {
-            GlStateManager.translate(0,0.1,0);
-            GlStateManager.rotate(-65, 1, 0, 0);
-        }
-        this.right_arm.render(f5);
-        GlStateManager.popMatrix();
-
+		
+		GlStateManager.pushMatrix();
+		if (angel.isAngry()) {
+			GlStateManager.translate(0, 0.1, 0);
+			GlStateManager.rotate(-65, 1, 0, 0);
+		}
+		this.right_arm.render(f5);
+		GlStateManager.popMatrix();
+		
 	}
 	
 	@SuppressWarnings("incomplete-switch")

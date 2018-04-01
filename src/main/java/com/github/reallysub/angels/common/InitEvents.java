@@ -6,19 +6,23 @@ import java.util.List;
 
 import com.github.reallysub.angels.WeepingAngels;
 import com.github.reallysub.angels.client.RenderAngel;
-import com.github.reallysub.angels.client.models.ModelAngel;
+import com.github.reallysub.angels.client.RenderAngelPainting;
 import com.github.reallysub.angels.client.models.ModelAngelEd;
 import com.github.reallysub.angels.common.entities.EntityAngel;
+import com.github.reallysub.angels.common.entities.EntityPainting2;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.Item;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -35,8 +39,11 @@ public class InitEvents {
 	
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
 	
-	public static final SoundEvent angelSeen = addSound("angel_seen");
-	public static final SoundEvent stone_scrap = addSound("stone_scrap");
+	public static SoundEvent angelSeen = addSound("angel_seen");
+	public static SoundEvent stone_scrap = addSound("stone_scrap");
+
+	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
+	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
 	
 	private static SoundEvent addSound(String soundName) {
 		ResourceLocation sound = new ResourceLocation(WeepingAngels.MODID + ":" + soundName);
@@ -76,7 +83,7 @@ public class InitEvents {
 	
 	@SubscribeEvent
 	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(124, 156).tracker(80, 3, false).build() };
+		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(184, 286).tracker(80, 3, false).build(), createBuilder("weepingAngelpainting").entity(EntityPainting2.class).tracker(160, Integer.MAX_VALUE, false).build() };
 		event.getRegistry().registerAll(entries);
 		
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
@@ -84,8 +91,39 @@ public class InitEvents {
 		}
 	}
 	
+	public static Item angelPainting = createItem(new ItemHanging(), "angel_painting");
+	
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		event.getRegistry().register(angelPainting);
+	}
+	
 	@SideOnly(Side.CLIENT)
 	private static void setUpRenders() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPainting2.class, manager -> new RenderAngelPainting(manager));
+	}
+	
+	private static Item createItem(Item item, String name) {
+		item.setRegistryName(WeepingAngels.MODID, name);
+		item.setUnlocalizedName(name);
+		return item;
+	}
+
+
+
+	public static class WADamageSource extends DamageSource {
+
+		private String message = "";
+
+		public WADamageSource(String damageTypeIn) {
+			super(damageTypeIn);
+			this.message = damageTypeIn;
+		}
+
+		@Override
+		public ITextComponent getDeathMessage(EntityLivingBase entity) {
+			return new TextComponentString(entity.getName() + " " + this.message);
+		}
 	}
 }
