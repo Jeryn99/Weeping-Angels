@@ -3,6 +3,7 @@ package com.github.reallysub.angels.common.tiles;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.Utils;
 
+import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +19,6 @@ public class TileSnowArm extends TileEntity implements ITickable {
 	
 	@Override
 	public void update() {
-		
 		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
 			Utils.teleportEntity(world, angel, getPos().getX() + 1, getPos().getY() + 1, getPos().getZ() + 1);
