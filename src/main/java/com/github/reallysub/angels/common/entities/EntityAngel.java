@@ -101,13 +101,13 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	@Override
-	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
-		super.damageEntity(WAObjects.ANGEL, damageAmount);
-	}
-	
-	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+		if (rand.nextInt(4) < 2) {
+			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+		} else {
+			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+		}
+		
 		return super.attackEntityAsMob(entity);
 	}
 	

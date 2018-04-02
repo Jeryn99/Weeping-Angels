@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client.render;
+package com.github.reallysub.angels.client.render.entity;
 
 import com.github.reallysub.angels.common.entities.EntityPainting2;
 import com.github.reallysub.angels.main.WeepingAngels;

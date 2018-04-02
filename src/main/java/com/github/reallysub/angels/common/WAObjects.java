@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.github.reallysub.angels.client.models.ModelAngelEd;
-import com.github.reallysub.angels.client.render.RenderAngel;
-import com.github.reallysub.angels.client.render.RenderAngelPainting;
+import com.github.reallysub.angels.client.render.entity.RenderAngel;
+import com.github.reallysub.angels.client.render.entity.RenderAngelPainting;
 import com.github.reallysub.angels.client.render.tiles.RenderSnowArm;
 import com.github.reallysub.angels.common.blocks.BlockSnowArm;
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -57,6 +57,7 @@ public class WAObjects {
 	
 	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
 	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
+	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("has their neck snapped by a Angel!");
 	
 	private static SoundEvent addSound(String soundName) {
 		ResourceLocation sound = new ResourceLocation(WeepingAngels.MODID + ":" + soundName);

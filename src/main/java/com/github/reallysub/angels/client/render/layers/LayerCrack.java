@@ -2,7 +2,7 @@ package com.github.reallysub.angels.client.render.layers;
 
 import com.github.reallysub.angels.client.models.ModelAngel;
 import com.github.reallysub.angels.client.models.ModelAngelEd;
-import com.github.reallysub.angels.client.render.RenderAngel;
+import com.github.reallysub.angels.client.render.entity.RenderAngel;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.WeepingAngels;
 
@@ -20,7 +20,7 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 	
 	ModelBase modelOne = new ModelAngel();
 	ModelBase modelTwo = new ModelAngelEd();
-	ModelBase modelMain = modelOne;
+	ModelBase modelMain = modelTwo;
 	
 	public LayerCrack(RenderAngel angelRendererIn) {
 		this.angelRenderer = angelRendererIn;

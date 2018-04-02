@@ -82,32 +82,32 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 		if (this.rand.nextInt(500) == 250) {
 			
 			if (art == EnumArt.AngelOne) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingOne;
 			}
 			
 			if (art == EnumArt.AngelTwo) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingTwo;
 			}
 			
 			if (art == EnumArt.AngelThree) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingThree;
 			}
 			
 			if (art == EnumArt.AngelFour) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingFour;
 			}
 			
 			if (art == EnumArt.AngelFive) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingFive;
 			}
 			
 			if (art == EnumArt.AngelSix) {
-				spawnAngel(world);
+				spawnAngel(getEntityWorld());
 				art = EnumArt.BlankPaintingSix;
 			}
 		}
@@ -212,9 +212,12 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 	}
 	
 	private void spawnAngel(World world) {
-		EntityAngel angel = new EntityAngel(world);
-		Utils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
-		world.spawnEntity(angel);
+		if (!world.isRemote) {
+			EntityAngel angel = new EntityAngel(world);
+			angel.copyLocationAndAnglesFrom(this);
+			Utils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
+			world.spawnEntity(angel);
+		}
 	}
 	
 }

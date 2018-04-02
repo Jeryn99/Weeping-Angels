@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "4.5";
+	public static final String VERSION = "5.0";
 	
 	private static Logger logger;
 	

@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client.render;
+package com.github.reallysub.angels.client.render.entity;
 
 import com.github.reallysub.angels.client.models.ModelAngel;
 import com.github.reallysub.angels.client.models.ModelAngelEd;
