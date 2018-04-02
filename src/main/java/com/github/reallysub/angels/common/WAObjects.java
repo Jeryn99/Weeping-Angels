@@ -52,8 +52,8 @@ public class WAObjects {
 	public static SoundEvent angelSeen = addSound("angel_seen");
 	public static SoundEvent stone_scrap = addSound("stone_scrap");
 	public static SoundEvent child_run = addSound("child_run");
-    public static SoundEvent laughing_child = addSound("laughing_child");
-    public static SoundEvent light_break = addSound("light_break");
+	public static SoundEvent laughing_child = addSound("laughing_child");
+	public static SoundEvent light_break = addSound("light_break");
 	
 	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
 	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
