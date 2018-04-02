@@ -1,13 +1,24 @@
 package com.github.reallysub.angels.client.models;
 
-import com.github.reallysub.angels.common.entities.EntityAngel;
+import java.util.Random;
 
+import net.minecraft.client.model.ModelElytra;
+import org.lwjgl.opengl.GL11;
+
+import com.github.reallysub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.math.MathHelper;
 
-public class ModelAngelEd extends ModelBase {
+/**
+ * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
+ */
+public class ModelAngelEd extends ModelBiped {
 	
 	ModelRenderer right_wing_0;
 	ModelRenderer left_wing_0;
@@ -117,9 +128,9 @@ public class ModelAngelEd extends ModelBase {
 		this.zeth.setRotationPoint(0.0F, 0.0F, -2.0F);
 		this.zeth.addBox(-4.5F, -1.0F, -0.6F, 9, 1, 1, 0.0F);
 		this.back_cloth_2 = new ModelRenderer(this, 0, 49);
-		this.back_cloth_2.setRotationPoint(0.0F, 12.0F, 2.0F);
+		this.back_cloth_2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.back_cloth_2.addBox(-3.0F, 0.0F, -3.0F, 6, 12, 3, 0.25F);
-		this.setRotateAngle(back_cloth_2, 0.2792526803190927F, 0.0F, 0.0F);
+		this.setRotateAngle(back_cloth_2, 0.0F, 0.0F, 0.0F);
 		this.teeth_4 = new ModelRenderer(this, 63, 39);
 		this.teeth_4.setRotationPoint(-0.15F, -3.0F, 0.0F);
 		this.teeth_4.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
@@ -192,82 +203,165 @@ public class ModelAngelEd extends ModelBase {
 		this.angry_mouth.addChild(this.teeth_4);
 		this.right_wing_3.addChild(this.right_wing_4);
 		this.head.addChild(this.left_eyebrow);
+		this.head.addChild(this.angry_mouth);
 		this.right_wing_2.addChild(this.right_wing_3);
 		this.head.addChild(this.right_eyebrow);
 		this.left_wing_1.addChild(this.left_wing_2);
 		this.angry_mouth.addChild(this.teeth);
 		this.left_wing_2.addChild(this.left_wing_3);
 		this.right_arm.addChild(this.right_arm_1);
+		this.head.addChild(this.head_2);
+		this.back_cloth.addChild(this.back_cloth_2);
 	}
 	
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		
-		EntityAngel angel = null;
-		
-		if (entity instanceof EntityAngel) {
-			angel = (EntityAngel) entity;
-		}
-		
+		GlStateManager.pushMatrix();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		this.cloth_1.render(f5);
+		this.right_arm.render(f5);
 		this.head.render(f5);
 		this.cloth_0.render(f5);
 		this.back_cloth.render(f5);
 		this.cloth_2.render(f5);
 		this.left_wing_1.render(f5);
-		this.head_2.render(f5);
-		this.back_cloth_2.render(f5);
 		this.body_2.render(f5);
 		this.right_wing_1.render(f5);
 		this.body.render(f5);
 		this.right_wing_0.render(f5);
 		this.left_wing_0.render(f5);
-		
-		GlStateManager.pushMatrix();
-		if (angel.isAngry()) {
-			angry_mouth.render(f5);
-			GlStateManager.translate(0, 0.1, 0);
-			GlStateManager.rotate(-65, 1, 0, 0);
-		}
 		this.left_arm.render(f5);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
-		
-		GlStateManager.pushMatrix();
-		if (angel.isAngry()) {
-			GlStateManager.translate(0, 0.1, 0);
-			GlStateManager.rotate(-65, 1, 0, 0);
-		}
-		this.right_arm.render(f5);
-		GlStateManager.popMatrix();
-		
-	}
-	
-	@SuppressWarnings("incomplete-switch")
-	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-		EntityAngel angel = null;
-		
-		if (entityIn instanceof EntityAngel) {
-			angel = (EntityAngel) entityIn;
-		}
-		
-		if (angel.isAngry()) {
-			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-		} else {
-			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-		}
 	}
 	
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
 	
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
+		
+		EntityAngel angel = null;
+		if (entity instanceof EntityAngel) {
+			angel = (EntityAngel) entity;
+		}
+		
+		boolean hidfac;
+		if (angel.isAngry()) {
+			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+			angry_mouth.isHidden = false;
+			
+		} else {
+			angry_mouth.isHidden = true;
+			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+		}
+		
+		boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
+		
+		this.head.rotateAngleY = netheadYaw * 0.017453292F;
+		this.head.rotateAngleZ = netheadYaw * 0.005F;
+		
+		if (flag) {
+			this.head.rotateAngleX = -((float) Math.PI / 4F);
+			
+		} else {
+			this.head.rotateAngleX = headPitch * 0.017453292F + this.head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
+		}
+		
+		if (angel.getSeenTime() == 1) {
+			
+			if (angel.isAngry()) {
+				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				angry_mouth.isHidden = false;
+				hidfac = false;
+				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+			} else {
+				angry_mouth.isHidden = true;
+				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				hidfac = Math.random() >= 0.5F;
+				this.right_arm.rotateAngleX = 0;
+				this.left_arm.rotateAngleX = 0;
+			}
+			
+			this.right_arm.rotateAngleZ = 0;
+			this.left_arm.rotateAngleZ = 0;
+			
+			this.right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			this.left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			this.right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+			this.left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+			// 1.53588974175501F, 0.9424777960769379F, 0.0F
+			
+			this.right_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			this.right_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 0.9424777960769379F;
+			this.right_wing_0.rotateAngleZ = 0;
+			
+			this.left_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			this.left_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
+			this.left_wing_0.rotateAngleZ = 0;
+			this.left_wing_1.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			this.left_wing_1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
+			this.left_wing_1.rotateAngleZ = 0;
+			if (hidfac) {
+				this.head.rotateAngleX = 0.8F;
+				this.head.rotateAngleY = 0.0F;
+				this.head.rotateAngleZ = 0.0F;
+				this.left_arm_1.rotateAngleX = -0.52F;
+				this.left_arm.rotateAngleX = -1.85F;
+				this.left_arm.rotateAngleY = 0.61F;
+				this.left_arm.rotateAngleZ = -0.087F;
+				this.right_arm_1.rotateAngleX = -0.52F;
+				this.right_arm.rotateAngleX = -1.85F;
+				this.right_arm.rotateAngleY = -0.61F;
+				this.right_arm.rotateAngleZ = 0.087F;
+				
+			} else {
+				this.left_arm_1.rotateAngleX = 0;
+				this.left_arm.rotateAngleY = 0;
+				this.left_arm.rotateAngleZ = 0;
+				this.right_arm_1.rotateAngleX = 0;
+				this.right_arm.rotateAngleY = 0;
+				this.right_arm.rotateAngleZ = 0;
+				
+			}
+			
+			if (angel.getBreakPos().getY() > 0) {
+				this.right_arm.rotateAngleX = -1.5707963268F;
+				this.right_arm.rotateAngleY = -(float) (angel.rotationYaw * Math.PI / 180) - (float) Math.atan((angel.getBreakPos().getX() - angel.getPosition().getX()) / (Math.sqrt(Math.pow((angel.getBreakPos().getX() - angel.getPosition().getX()), 2) + Math.pow((angel.getBreakPos().getZ() - angel.getPosition().getZ()), 2))));
+				this.right_arm.rotateAngleZ = 0;
+			}
+		}
+		
+		this.right_wing_1.rotateAngleX = this.right_wing_0.rotateAngleX;
+		this.right_wing_1.rotateAngleY = this.right_wing_0.rotateAngleY;
+		this.right_wing_1.rotateAngleZ = this.right_wing_0.rotateAngleZ;
+		this.right_wing_1.rotationPointX = this.right_wing_0.rotationPointX;
+		this.right_wing_1.rotationPointY = this.right_wing_0.rotationPointY;
+		this.right_wing_1.rotationPointZ = this.right_wing_0.rotationPointZ;
+		
+		this.left_wing_0.rotateAngleX = this.right_wing_0.rotateAngleX;
+		this.left_wing_0.rotateAngleY = -this.right_wing_0.rotateAngleY;
+		this.left_wing_0.rotateAngleZ = this.right_wing_0.rotateAngleZ;
+		this.left_wing_0.rotationPointX = -this.right_wing_0.rotationPointX;
+		this.left_wing_0.rotationPointY = this.right_wing_0.rotationPointY;
+		this.left_wing_0.rotationPointZ = this.right_wing_0.rotationPointZ;
+		
+		this.left_wing_1.rotateAngleX = this.left_wing_0.rotateAngleX;
+		this.left_wing_1.rotateAngleY = this.left_wing_0.rotateAngleY;
+		this.left_wing_1.rotateAngleZ = this.left_wing_0.rotateAngleZ;
+		this.left_wing_1.rotationPointX = this.left_wing_0.rotationPointX;
+		this.left_wing_1.rotationPointY = this.left_wing_0.rotationPointY;
+		this.left_wing_1.rotationPointZ = this.left_wing_0.rotationPointZ;
+	}
 }

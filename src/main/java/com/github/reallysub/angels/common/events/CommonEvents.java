@@ -4,6 +4,7 @@ import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.main.Utils;
 
+import net.minecraft.block.BlockBarrier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -24,7 +25,10 @@ public class CommonEvents {
 	public static void decorBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
 			WorldGenArms arms = new WorldGenArms(WAObjects.angelArm);
-			arms.generate(e.getWorld(), e.getRand(), e.getPos());
+			
+			if (e.getRand().nextInt(50) == 20) {
+				arms.generate(e.getWorld(), e.getRand(), e.getPos());
+			}
 		}
 	}
 	

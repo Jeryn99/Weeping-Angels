@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:painting",
+      "data": 0
+    },
+    {
+      "item": "minecraft:dye",
+      "data": 8
+    }
+  ],
+  "result": {
+    "item": "weeping-angels:angel_painting",
+    "data": 0
+  }
+}

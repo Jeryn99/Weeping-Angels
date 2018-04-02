@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.Utils;
+import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
 import net.minecraft.block.Block;
@@ -26,18 +27,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -65,6 +74,11 @@ public class EntityAngel extends EntityMob {
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityPigZombie.class }));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		experienceValue = 25;
+	}
+	
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return SoundEvents.BLOCK_STONE_HIT;
 	}
 	
 	@Nullable
@@ -242,11 +256,22 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (Config.teleportEntities && !isChild() && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
-			int y = world.getSpawnPoint().getY();
+			int y = world.getHeight(x, z);
 			Utils.teleportEntity(world, entity, x, y, z);
+			
+			if (entity instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) entity;
+				if (rand.nextInt(10) == 2) {
+					player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 600, 3));
+					player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 1));
+					player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
+					player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
+				}
+			}
+			
 			heal(4.0F);
 		}
 	}
@@ -285,27 +310,28 @@ public class EntityAngel extends EntityMob {
 		}
 		
 		if (isSeen()) {
-			if (!world.isRemote) {
-				if (world.getGameRules().getBoolean("mobGriefing")) {
-					replaceBlocks(getEntityBoundingBox().expand(25, 25, 25));
-				}
+			if (world.getGameRules().getBoolean("mobGriefing")) {
+				replaceBlocks(getEntityBoundingBox().expand(25, 25, 25));
 			}
 		}
 	}
 	
 	@SubscribeEvent
-	public static void cancelDamage(LivingHurtEvent e) {
+	public static void cancelDamage(LivingAttackEvent e) {
 		if (e.getSource().getTrueSource() != null) {
 			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getTrueSource();
 			EntityLivingBase victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityAngel) {
-				Item item = attacker.getHeldItem(EnumHand.MAIN_HAND).getItem();
-				if (item instanceof ItemPickaxe) {
-					e.setCanceled(true);
+				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+				boolean isPic = item.getItem() instanceof ItemPickaxe;
+				e.setCanceled(!isPic);
+				
+				if (!isPic) {
+					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
 				} else {
-					e.setAmount(0);
-					attacker.attackEntityFrom(WAObjects.STONE, 1.0F);
+					ItemPickaxe pick = (ItemPickaxe) item.getItem();
+					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
 			}
 		}
@@ -315,7 +341,7 @@ public class EntityAngel extends EntityMob {
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
 			if (!isChild()) {
-				playSound(WAObjects.stone_scrap, 1.0F, 1.0F);
+				playSound(WAObjects.stone_scrap, 0.5F, 1.0F);
 			} else {
 				playSound(WAObjects.child_run, 1.0F, 1.0F);
 			}
@@ -336,10 +362,16 @@ public class EntityAngel extends EntityMob {
 							for (int i = 0; i < 21; ++i) {
 								timer++;
 								setBreakBlockPos(pos);
+								
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								}
+								
 							}
 							if (timer > 20) {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
+								playSound(WAObjects.light_break, 1.0F, 1.0F);
 								setBreakBlockPos(nullPos);
 							}
 						}
@@ -351,10 +383,16 @@ public class EntityAngel extends EntityMob {
 							for (int i = 0; i < 21; ++i) {
 								timer++;
 								setBreakBlockPos(pos);
+								
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								}
+								
 							}
 							if (timer > 20) {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
+								playSound(WAObjects.light_break, 1.0F, 1.0F);
 								setBreakBlockPos(nullPos);
 							}
 						}
@@ -367,11 +405,17 @@ public class EntityAngel extends EntityMob {
 							for (int i = 0; i < 21; ++i) {
 								timer++;
 								setBreakBlockPos(pos);
+								
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								}
+								
 							}
 						}
 						if (timer > 20) {
 							getEntityWorld().setBlockToAir(pos);
 							timer = 0;
+							playSound(WAObjects.light_break, 1.0F, 1.0F);
 							setBreakBlockPos(nullPos);
 						}
 						
@@ -394,9 +438,6 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	private boolean randomChild() {
-		if (rand.nextInt(10) == 4) {
-			return true;
-		}
-		return false;
+		return rand.nextInt(10) == 4;
 	}
 }

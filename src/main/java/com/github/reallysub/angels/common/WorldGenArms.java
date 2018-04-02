@@ -22,9 +22,12 @@ public class WorldGenArms extends WorldGenerator {
 	}
 	
 	public boolean generate(World worldIn, Random rand, BlockPos position) {
-		BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-		if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.isNether() || blockpos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
-			worldIn.setBlockState(blockpos, this.state, 1);
+		
+		int yCoord = worldIn.getHeight(position).getY();
+		BlockPos pos = new BlockPos(position.add(rand.nextInt(8), yCoord, rand.nextInt(8) - rand.nextInt(8)));
+		
+		if (worldIn.isAirBlock(pos) && (!worldIn.provider.isNether() || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
+			worldIn.setBlockState(pos, this.state, 1);
 		}
 		return true;
 	}

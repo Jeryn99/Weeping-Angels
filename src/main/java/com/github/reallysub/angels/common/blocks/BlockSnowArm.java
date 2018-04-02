@@ -6,11 +6,13 @@ import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.WeepingAngels;
 
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -28,11 +30,14 @@ public class BlockSnowArm extends BlockContainer implements ITileEntityProvider 
 		setUnlocalizedName("arm");
 		setRegistryName(WeepingAngels.MODID, "arm");
 		translucent = true;
+		this.setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 	
+	private static final AxisAlignedBB AABB = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
+	
 	@Override
-	public boolean isCollidable() {
-		return false;
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return AABB;
 	}
 	
 	@Nullable
@@ -41,8 +46,8 @@ public class BlockSnowArm extends BlockContainer implements ITileEntityProvider 
 	}
 	
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		return BlockFaceShape.UNDEFINED;
+	public boolean isCollidable() {
+		return false;
 	}
 	
 	/**

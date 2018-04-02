@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, version = WeepingAngels.VERSION)
+@Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, version = WeepingAngels.VERSION, updateJSON = "https://www.github.com/ReallySub/Weeping-Angels-Mod/raw/master/update.json")
 @Mod.EventBusSubscriber
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";

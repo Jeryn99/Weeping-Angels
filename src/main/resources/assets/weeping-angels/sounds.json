@@ -26,6 +26,15 @@
     }]
   },
   
+       "light_break": {
+    "category": "hostile",
+    "subtitle": "Light breaking",
+    "sounds": [{
+      "name": "weeping-angels:light_break",
+      "stream": false
+    }]
+  },
+  
    "stone_scrap": {
     "category": "hostile",
     "subtitle": "Stone scrap",

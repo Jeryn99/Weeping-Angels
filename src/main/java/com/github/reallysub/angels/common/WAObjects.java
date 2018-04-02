@@ -52,7 +52,8 @@ public class WAObjects {
 	public static SoundEvent angelSeen = addSound("angel_seen");
 	public static SoundEvent stone_scrap = addSound("stone_scrap");
 	public static SoundEvent child_run = addSound("child_run");
-	public static SoundEvent laughing_child = addSound("laughing_child");
+    public static SoundEvent laughing_child = addSound("laughing_child");
+    public static SoundEvent light_break = addSound("light_break");
 	
 	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
 	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
@@ -93,12 +94,12 @@ public class WAObjects {
 		return builder.id(registryName, entityID++).name(registryName.toString().replaceAll(WeepingAngels.MODID + ":", ""));
 	}
 	
-	public static final Block angelArm = new BlockSnowArm();
+	public static Block angelArm = new BlockSnowArm();
 	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		GameRegistry.registerTileEntity(TileSnowArm.class, ":snowarm");
-		event.getRegistry().register(new BlockSnowArm());
+		event.getRegistry().register(angelArm);
 	}
 	
 	@SubscribeEvent
@@ -112,7 +113,7 @@ public class WAObjects {
 	}
 	
 	public static Item angelPainting = createItem(new ItemHanging(), "angel_painting");
-	public static Item angelArmItem = createItem(new ItemBlock(angelArm), "arm");
+	public static Item angelArmItem = createItem(new ItemBlock(angelArm), "arm").setCreativeTab(CreativeTabs.DECORATIONS);;
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {

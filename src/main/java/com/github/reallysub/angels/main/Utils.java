@@ -57,7 +57,7 @@ public class Utils {
 			for (EntityAngel target : list) {
 				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS)) {
 					target.setSeen(true);
-					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1) {
+					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
 						target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
 					}
 				}
