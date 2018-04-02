@@ -19,8 +19,8 @@ public class CommonEvents {
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
 		if (!player.world.isRemote) {
-
-        }
+			
+		}
 	}
 	
 	@SubscribeEvent
