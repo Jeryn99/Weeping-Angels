@@ -4,9 +4,9 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -42,9 +42,8 @@ public class ParticleAngelAppearance extends Particle {
 		super.onUpdate();
 		
 		if (this.entity == null) {
-			EntityAngel entityAngel = new EntityAngel(this.world);
+			EntityAngel entityAngel = new EntityAngel(this.worldObj);
 			entityAngel.setAngry(true);
-			entityAngel.updateBlocked = true;
 			this.entity = entityAngel;
 		}
 	}
@@ -53,7 +52,7 @@ public class ParticleAngelAppearance extends Particle {
 	 * Renders the particle
 	 */
 	@Override
-	public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+	public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 		if (this.entity != null) {
 			RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
 			rendermanager.setRenderPosition(Particle.interpPosX, Particle.interpPosY, Particle.interpPosZ);
@@ -76,7 +75,7 @@ public class ParticleAngelAppearance extends Particle {
 			this.entity.rotationYawHead = 0.0F;
 			this.entity.prevRotationYaw = 0.0F;
 			this.entity.prevRotationYawHead = 0.0F;
-			rendermanager.renderEntity(this.entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
+			rendermanager.doRenderEntity(this.entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
 			GlStateManager.popMatrix();
 			GlStateManager.enableDepth();
 		}

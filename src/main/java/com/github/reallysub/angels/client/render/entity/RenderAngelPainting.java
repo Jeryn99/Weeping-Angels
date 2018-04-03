@@ -3,10 +3,10 @@ package com.github.reallysub.angels.client.render.entity;
 import com.github.reallysub.angels.common.entities.EntityPainting2;
 import com.github.reallysub.angels.main.WeepingAngels;
 
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -80,7 +80,7 @@ public class RenderAngelPainting extends Render<EntityPainting2> {
 				float f21 = (float) (textureV + height - j * 16) / 256.0F;
 				float f22 = (float) (textureV + height - (j + 1) * 16) / 256.0F;
 				Tessellator tessellator = Tessellator.getInstance();
-				BufferBuilder bufferbuilder = tessellator.getBuffer();
+				VertexBuffer bufferbuilder = tessellator.getBuffer();
 				bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
 				bufferbuilder.pos((double) f15, (double) f18, -0.5D).tex((double) f20, (double) f21).normal(0.0F, 0.0F, -1.0F).endVertex();
 				bufferbuilder.pos((double) f16, (double) f18, -0.5D).tex((double) f19, (double) f21).normal(0.0F, 0.0F, -1.0F).endVertex();
@@ -112,28 +112,28 @@ public class RenderAngelPainting extends Render<EntityPainting2> {
 	}
 	
 	private void setLightmap(EntityPainting2 painting, float p_77008_2_, float p_77008_3_) {
-		int i = MathHelper.floor(painting.posX);
-		int j = MathHelper.floor(painting.posY + (double) (p_77008_3_ / 16.0F));
-		int k = MathHelper.floor(painting.posZ);
+		int i = MathHelper.absFloor(painting.posX);
+		int j = MathHelper.absFloor(painting.posY + (double) (p_77008_3_ / 16.0F));
+		int k = MathHelper.absFloor(painting.posZ);
 		EnumFacing enumfacing = painting.facingDirection;
 		
 		if (enumfacing == EnumFacing.NORTH) {
-			i = MathHelper.floor(painting.posX + (double) (p_77008_2_ / 16.0F));
+			i = MathHelper.absFloor(painting.posX + (double) (p_77008_2_ / 16.0F));
 		}
 		
 		if (enumfacing == EnumFacing.WEST) {
-			k = MathHelper.floor(painting.posZ - (double) (p_77008_2_ / 16.0F));
+			k = MathHelper.absFloor(painting.posZ - (double) (p_77008_2_ / 16.0F));
 		}
 		
 		if (enumfacing == EnumFacing.SOUTH) {
-			i = MathHelper.floor(painting.posX - (double) (p_77008_2_ / 16.0F));
+			i = MathHelper.absFloor(painting.posX - (double) (p_77008_2_ / 16.0F));
 		}
 		
 		if (enumfacing == EnumFacing.EAST) {
-			k = MathHelper.floor(painting.posZ + (double) (p_77008_2_ / 16.0F));
+			k = MathHelper.absFloor(painting.posZ + (double) (p_77008_2_ / 16.0F));
 		}
 		
-		int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
+		int l = this.renderManager.worldObj.getCombinedLight(new BlockPos(i, j, k), 0);
 		int i1 = l % 65536;
 		int j1 = l / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);

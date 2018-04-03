@@ -18,6 +18,8 @@ import com.github.reallysub.angels.main.config.Config;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,15 +38,13 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
+@Mod.EventBusSubscriber
 public class WAObjects {
 	
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
@@ -85,15 +85,7 @@ public class WAObjects {
 		e.getRegistry().registerAll(sounds);
 	}
 	
-	// Entities
-	private static int entityID = 0;
-	
-	private static <E extends Entity> EntityEntryBuilder<E> createBuilder(String name) {
-		EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
-		ResourceLocation registryName = new ResourceLocation(WeepingAngels.MODID + ":" + name);
-		return builder.id(registryName, entityID++).name(registryName.toString().replaceAll(WeepingAngels.MODID + ":", ""));
-	}
-	
+
 	public static Block angelArm = new BlockSnowArm();
 	
 	@SubscribeEvent
@@ -102,11 +94,10 @@ public class WAObjects {
 		event.getRegistry().register(angelArm);
 	}
 	
-	@SubscribeEvent
-	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(184, 286).tracker(80, 3, false).build(), createBuilder("weepingAngelpainting").entity(EntityPainting2.class).tracker(160, Integer.MAX_VALUE, false).build() };
-		event.getRegistry().registerAll(entries);
-		
+	public static void initEntities() {
+	
+		EntityRegistry.registerModEntity(EntityAngel.class, "angel", 0, WeepingAngels.instance, 80, 3, false);
+	
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			setUpRenders();
 		}
@@ -123,8 +114,9 @@ public class WAObjects {
 	
 	@SideOnly(Side.CLIENT)
 	private static void setUpRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPainting2.class, manager -> new RenderAngelPainting(manager));
+		RenderManager manager = Minecraft.getMinecraft().getRenderManager();
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class,new RenderAngel(manager, new ModelAngelEd()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPainting2.class, new RenderAngelPainting(manager));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 	}
 	

@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenArms extends WorldGenerator {
@@ -26,7 +27,7 @@ public class WorldGenArms extends WorldGenerator {
 		int yCoord = worldIn.getHeight(position).getY();
 		BlockPos pos = new BlockPos(position.add(rand.nextInt(8), yCoord, rand.nextInt(8) - rand.nextInt(8)));
 		
-		if ((!worldIn.provider.isNether() || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
+		if ((!(worldIn.provider instanceof WorldProviderHell) || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
 			worldIn.setBlockState(pos, this.state, 1);
 		}
 		return true;

@@ -21,9 +21,8 @@ public class ItemHanging extends Item {
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getHeldItemMainhand();
-		
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+    {	
 		if (side == EnumFacing.DOWN) {
 			return EnumActionResult.FAIL;
 		} else if (side == EnumFacing.UP) {
@@ -31,17 +30,17 @@ public class ItemHanging extends Item {
 		} else {
 			BlockPos blockpos1 = pos.offset(side);
 			
-			if (!player.canPlayerEdit(blockpos1, side, stack)) {
+			if (!playerIn.canPlayerEdit(blockpos1, side, stack)) {
 				return EnumActionResult.FAIL;
 			} else {
 				EntityHanging entityhanging = this.createHangingEntity(worldIn, blockpos1, side);
 				
 				if (entityhanging != null && entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {
-						worldIn.spawnEntity(entityhanging);
+						worldIn.spawnEntityInWorld(entityhanging);
 					}
 					
-					stack.shrink(1);
+					stack.stackSize--;
 				}
 				
 				return EnumActionResult.PASS;

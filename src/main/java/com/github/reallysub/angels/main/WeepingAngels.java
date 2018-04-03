@@ -17,6 +17,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,16 +30,16 @@ import net.minecraftforge.fml.relauncher.Side;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "6.0";
-	
-	private static Logger logger;
+	public static final String VERSION = "6.5";
 	
 	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+
+	@Instance(MODID)
+	public static WeepingAngels instance;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.init(new Configuration(event.getSuggestedConfigurationFile()));
-		logger = event.getModLog();
 	}
 	
 	@EventHandler
@@ -50,6 +51,8 @@ public class WeepingAngels {
 		CapabilityManager.INSTANCE.register(IAngelSickness.class, new CapabilityAngelSickness.Storage(), IAngelSickness.class);
 		
 		NETWORK.registerMessage(MessageSicknessUpdate.Handler.class, MessageSicknessUpdate.class, 0, Side.CLIENT);
+	
+		WAObjects.initEntities();
 	}
 	
 	@SubscribeEvent

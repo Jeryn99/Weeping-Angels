@@ -39,7 +39,7 @@ public class MessageSicknessUpdate implements IMessage {
 	public static class Handler implements IMessageHandler<MessageSicknessUpdate, IMessage> {
 		@Override
 		public IMessage onMessage(MessageSicknessUpdate message, MessageContext ctx) {
-			Minecraft.getMinecraft().addScheduledTask(() -> CapabilityAngelSickness.CAP.getStorage().readNBT(CapabilityAngelSickness.CAP, Minecraft.getMinecraft().world.getPlayerEntityByUUID(message.playerUUID).getCapability(CapabilityAngelSickness.CAP, null), null, message.nbt));
+			Minecraft.getMinecraft().addScheduledTask(() -> CapabilityAngelSickness.CAP.getStorage().readNBT(CapabilityAngelSickness.CAP, Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(message.playerUUID).getCapability(CapabilityAngelSickness.CAP, null), null, message.nbt));
 			return null;
 		}
 	}

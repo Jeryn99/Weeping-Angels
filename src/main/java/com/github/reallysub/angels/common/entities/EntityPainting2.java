@@ -148,7 +148,7 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 	 * Called when this entity is broken. Entity parameter may be null.
 	 */
 	public void onBroken(Entity entity) {
-		if (this.world.getGameRules().getBoolean("doTileDrops")) {
+		if (this.worldObj.getGameRules().getBoolean("doTileDrops")) {
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) entity;
 				
@@ -216,7 +216,7 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 			EntityAngel angel = new EntityAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
 			Utils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
-			world.spawnEntity(angel);
+			world.spawnEntityInWorld(angel);
 		}
 	}
 	
