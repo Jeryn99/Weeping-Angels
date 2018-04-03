@@ -5,11 +5,15 @@ import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.common.capability.CapabilityAngelSickness;
 import com.github.reallysub.angels.main.Utils;
 import com.github.reallysub.angels.main.WeepingAngels;
+import com.github.reallysub.angels.main.config.Config;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -30,24 +34,24 @@ public class CommonEvents {
 	
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-
-	    if (event.getEntity() instanceof EntityPlayer) {
-
-	        EntityPlayer player = (EntityPlayer) event.getEntity();
-
+		
+		if (event.getEntity() instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) event.getEntity();
+			
 			Utils.getAllAngels(player, 40, 40);
 
+			if(player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
 
-            if(Utils.getViewedTicks(player) >= 200)
-            {
-                //TODO Warn the player that the must look away/spam a button to keep eyes open
-            }
+				if (Utils.getViewedTicks(player) >= 2050 * 4) {
+					player.sendStatusMessage(new TextComponentString("You must look away from this angel!"), true);
+				}
 
-            if(Utils.getViewedTicks(player) >= 400)
-            {
-                //TODO Infect the player
-            }
-
+				if (Utils.getViewedTicks(player) >= 3050 * 4) {
+					player.sendStatusMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."), true);
+					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
+					}
+				}
 		}
 	}
 	

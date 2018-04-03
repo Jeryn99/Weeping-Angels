@@ -23,7 +23,7 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 	ModelBase modelOne = new ModelAngel();
 	ModelBase modelTwo = new ModelAngelEd();
 	
-	public RenderAngel(RenderManager manager, ModelBase model, float shadowSize) {
+	public RenderAngel(RenderManager manager, ModelBase model) {
 		super(manager, model, 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));

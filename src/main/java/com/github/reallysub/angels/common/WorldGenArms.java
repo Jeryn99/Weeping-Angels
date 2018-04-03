@@ -26,7 +26,7 @@ public class WorldGenArms extends WorldGenerator {
 		int yCoord = worldIn.getHeight(position).getY();
 		BlockPos pos = new BlockPos(position.add(rand.nextInt(8), yCoord, rand.nextInt(8) - rand.nextInt(8)));
 		
-		if (worldIn.isAirBlock(pos) && (!worldIn.provider.isNether() || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
+		if ((!worldIn.provider.isNether() || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
 			worldIn.setBlockState(pos, this.state, 1);
 		}
 		return true;

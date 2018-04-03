@@ -17,13 +17,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class Utils {
-
-    public static int getViewedTicks(EntityPlayer p)
-    {
-        return p.getCapability(CapabilityAngelSickness.CAP, null).getViewingTicks();
-    }
-
-
+	
+	public static int getViewedTicks(EntityPlayer p) {
+		return p.getCapability(CapabilityAngelSickness.CAP, null).getViewingTicks();
+	}
+	
 	public static void teleportEntity(World world, Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
 		
@@ -46,7 +44,7 @@ public class Utils {
 		}
 	}
 	
-	public static void getAllAngels(EntityLivingBase seeker, int distance, double radius) {
+	public static void getAllAngels(EntityPlayer seeker, int distance, double radius) {
 		if (distance < 0 || distance > 256) {
 			distance = 256;
 		}
@@ -65,12 +63,15 @@ public class Utils {
 			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			
 			IAngelSickness capa = seeker.getCapability(CapabilityAngelSickness.CAP, null);
-			
+
+
 			if (!list.isEmpty()) {
 				for (EntityAngel target : list) {
-					if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS)) {
+					if (target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS) && !seeker.isSpectator()) {
 						target.setSeen(true);
-						capa.setViewingTicks(capa.getViewingTicks() + 1);
+						if(target.world.rand.nextInt(5) < 3) {
+							capa.setViewingTicks(capa.getViewingTicks() + 1);
+						}
 						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
 							target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
 						}

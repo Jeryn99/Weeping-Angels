@@ -2,6 +2,7 @@ package com.github.reallysub.angels.common.entities;
 
 import javax.annotation.Nullable;
 
+import com.github.reallysub.angels.client.EventTeleport;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.Utils;
 import com.github.reallysub.angels.main.config.Config;
@@ -10,18 +11,11 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -43,6 +37,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -61,13 +56,14 @@ public class EntityAngel extends EntityMob {
 	
 	public EntityAngel(World world) {
 		super(world);
-		tasks.addTask(2, new EntityAIAttackMelee(this, 3.0F, false));
-		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		
-		tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0D, false));
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityPigZombie.class }));
+		tasks.addTask(1, new EntityAIMoveTowardsTarget(this, 3.0F, 80));
+		tasks.addTask(2, new EntityAISwimming(this));
+		tasks.addTask(3, new EntityAIAttackMelee(this, 3.0F, false));
+		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
+		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		tasks.addTask(7, new EntityAIBreakDoor(this));
+		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		experienceValue = 25;
 	}
@@ -80,7 +76,7 @@ public class EntityAngel extends EntityMob {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		if (isChild() && rand.nextInt(25) == 5) {
+		if (isChild() && rand.nextInt(10) == 5) {
 			return WAObjects.laughing_child;
 		}
 		
@@ -251,13 +247,17 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void collideWithEntity(Entity entity) {
+
 		entity.applyEntityCollision(this);
+
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
 			Utils.teleportEntity(world, entity, x, y, z);
-			
+
+			heal(4.0F);
+
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entity;
 				if (rand.nextInt(10) == 2) {
@@ -266,9 +266,9 @@ public class EntityAngel extends EntityMob {
 					player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
 					player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 				}
+
+                MinecraftForge.EVENT_BUS.post(new EventTeleport(player));
 			}
-			
-			heal(4.0F);
 		}
 	}
 	
@@ -344,7 +344,7 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	public int timer = 0;
+	private int timer = 0;
 	
 	private void replaceBlocks(AxisAlignedBB box) {
 		for (int x = (int) box.minX; x <= box.maxX; x++) {

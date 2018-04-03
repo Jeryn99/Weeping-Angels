@@ -83,7 +83,6 @@ public class WAObjects {
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> e) {
 		SoundEvent[] sounds = SOUNDS.toArray(new SoundEvent[SOUNDS.size()]);
 		e.getRegistry().registerAll(sounds);
-		SOUNDS.clear();
 	}
 	
 	// Entities
@@ -124,7 +123,7 @@ public class WAObjects {
 	
 	@SideOnly(Side.CLIENT)
 	private static void setUpRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPainting2.class, manager -> new RenderAngelPainting(manager));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 	}
