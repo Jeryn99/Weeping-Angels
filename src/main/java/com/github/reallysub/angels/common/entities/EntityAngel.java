@@ -314,7 +314,7 @@ public class EntityAngel extends EntityMob {
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
-		if (e.getSource().getTrueSource() != null) {
+		if (e.getSource().getTrueSource() != null && e.getSource().getTrueSource() instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getTrueSource();
 			EntityLivingBase victim = e.getEntityLiving();
 			
