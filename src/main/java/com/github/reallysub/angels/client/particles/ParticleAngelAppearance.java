@@ -53,21 +53,19 @@ public class ParticleAngelAppearance extends Particle {
 	 * Renders the particle
 	 */
 	@Override
-	public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
-	{
-		if (this.entity != null)
-		{
+	public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+		if (this.entity != null) {
 			RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
 			rendermanager.setRenderPosition(Particle.interpPosX, Particle.interpPosY, Particle.interpPosZ);
 			float f = 0.42553192F;
-			float f1 = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
+			float f1 = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
 			GlStateManager.depthMask(true);
 			GlStateManager.enableBlend();
 			GlStateManager.enableDepth();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
 			GlStateManager.pushMatrix();
-			float f3 = 0.05F + 0.5F * MathHelper.sin(f1 * (float)Math.PI);
+			float f3 = 0.05F + 0.5F * MathHelper.sin(f1 * (float) Math.PI);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, f3);
 			GlStateManager.translate(0.0F, 1.8F, 0.0F);
 			GlStateManager.rotate(180.0F - entityIn.rotationYaw, 0.0F, 1.0F, 0.0F);

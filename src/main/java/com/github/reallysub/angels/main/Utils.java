@@ -63,13 +63,12 @@ public class Utils {
 			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			
 			IAngelSickness capa = seeker.getCapability(CapabilityAngelSickness.CAP, null);
-
-
+			
 			if (!list.isEmpty()) {
 				for (EntityAngel target : list) {
 					if (target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS) && !seeker.isSpectator()) {
 						target.setSeen(true);
-						if(target.world.rand.nextInt(5) < 3) {
+						if (target.world.rand.nextInt(5) < 3) {
 							capa.setViewingTicks(capa.getViewingTicks() + 1);
 						}
 						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {

@@ -45,7 +45,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
 	
-	BlockPos nullPos = BlockPos.ORIGIN;
+	private BlockPos nullPos = BlockPos.ORIGIN;
 	
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
@@ -247,17 +247,17 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void collideWithEntity(Entity entity) {
-
+		
 		entity.applyEntityCollision(this);
-
+		
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
 			Utils.teleportEntity(world, entity, x, y, z);
-
+			
 			heal(4.0F);
-
+			
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entity;
 				if (rand.nextInt(10) == 2) {
@@ -266,8 +266,8 @@ public class EntityAngel extends EntityMob {
 					player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
 					player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 				}
-
-                MinecraftForge.EVENT_BUS.post(new EventTeleport(player));
+				
+				MinecraftForge.EVENT_BUS.post(new EventTeleport(player));
 			}
 		}
 	}

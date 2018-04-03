@@ -14,9 +14,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -28,7 +33,14 @@ public class CommonEvents {
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
 		if (!player.world.isRemote) {
-			
+			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
+			if (version.status == ForgeVersion.Status.OUTDATED) {
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "You are running an outdated build of Weeping Angels! :("));
+				TextComponentString url = new TextComponentString(TextFormatting.GOLD + "Click me to download the updated version at curse.com");
+				url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraft.curseforge.com/projects/weeping-angels-mod"));
+				url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
+				player.sendMessage(url);
+			}
 		}
 	}
 	
@@ -40,18 +52,18 @@ public class CommonEvents {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			
 			Utils.getAllAngels(player, 40, 40);
-
-			if(player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
-
+			
+			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
+				
 				if (Utils.getViewedTicks(player) >= 2050 * 4) {
 					player.sendStatusMessage(new TextComponentString("You must look away from this angel!"), true);
 				}
-
+				
 				if (Utils.getViewedTicks(player) >= 3050 * 4) {
 					player.sendStatusMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."), true);
 					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
-					}
 				}
+			}
 		}
 	}
 	
