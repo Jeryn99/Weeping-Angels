@@ -60,6 +60,7 @@ public class EntityAngel extends EntityMob {
 		tasks.addTask(2, new EntityAISwimming(this));
 		tasks.addTask(3, new EntityAIAttackMelee(this, 3.0F, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(7, new EntityAIBreakDoor(this));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
@@ -67,18 +68,8 @@ public class EntityAngel extends EntityMob {
 		experienceValue = 25;
 	}
 	
-	/**
-	 * Makes the entity despawn if requirements are reached
-	 */
 	@Override
-	protected void despawnEntity() {
-		if (!Config.angelPersistence) {
-			super.despawnEntity();
-		}
-	}
-	
-	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
 	}
 	
@@ -124,9 +115,9 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	@Override
-	public void moveEntityWithHeading(float strafe, float forward) {
+	public void travel(float strafe, float vertical, float forward) {
 		if (!isSeen() || !onGround) {
-			super.moveEntityWithHeading(strafe, forward);
+			super.travel(strafe, vertical, forward);
 		}
 	}
 	
@@ -262,8 +253,8 @@ public class EntityAngel extends EntityMob {
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
-			int y = worldObj.getActualHeight();
-			Utils.teleportEntity(worldObj, entity, x, y, z);
+			int y = world.getHeight(x, z);
+			Utils.teleportEntity(world, entity, x, y, z);
 			
 			heal(4.0F);
 			
@@ -307,7 +298,7 @@ public class EntityAngel extends EntityMob {
 			setAngry(!isAngry());
 		}
 		
-		if (!worldObj.isRemote) if (isSeen()) {
+		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
 			if (getSeenTime() > 15) setSeen(false);
 		} else {
@@ -315,16 +306,16 @@ public class EntityAngel extends EntityMob {
 		}
 		
 		if (isSeen()) {
-			if (worldObj.getGameRules().getBoolean("mobGriefing")) {
-				replaceBlocks(getEntityBoundingBox().expand(25, 25, 25));
+			if (world.getGameRules().getBoolean("mobGriefing")) {
+				replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 			}
 		}
 	}
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
-		if (e.getSource().getEntity() != null) {
-			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getEntity();
+		if (e.getSource().getTrueSource() != null) {
+			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getTrueSource();
 			EntityLivingBase victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityAngel) {
@@ -368,8 +359,8 @@ public class EntityAngel extends EntityMob {
 								timer++;
 								setBreakBlockPos(pos);
 								
-								if (worldObj.isRemote) {
-									worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 								}
 								
 							}
@@ -389,8 +380,8 @@ public class EntityAngel extends EntityMob {
 								timer++;
 								setBreakBlockPos(pos);
 								
-								if (worldObj.isRemote) {
-									worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 								}
 								
 							}
@@ -411,8 +402,8 @@ public class EntityAngel extends EntityMob {
 								timer++;
 								setBreakBlockPos(pos);
 								
-								if (worldObj.isRemote) {
-									worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+								if (world.isRemote) {
+									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 								}
 								
 							}

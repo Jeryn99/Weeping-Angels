@@ -32,14 +32,14 @@ public class CommonEvents {
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
-		if (!player.worldObj.isRemote) {
+		if (!player.world.isRemote) {
 			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
 			if (version.status == ForgeVersion.Status.OUTDATED) {
-				player.addChatMessage(new TextComponentString(TextFormatting.GOLD + "You are running an outdated build of Weeping Angels! :("));
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "You are running an outdated build of Weeping Angels! :("));
 				TextComponentString url = new TextComponentString(TextFormatting.GOLD + "Click me to download the updated version at curse.com");
 				url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraft.curseforge.com/projects/weeping-angels-mod"));
 				url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
-				player.addChatMessage(url);
+				player.sendMessage(url);
 			}
 		}
 	}
@@ -53,16 +53,14 @@ public class CommonEvents {
 			
 			Utils.getAllAngels(player, 40, 40);
 			
-			if (player.worldObj.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
+			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
 				
-				if (Utils.getViewedTicks(player) == 2050 * 4) {
-					player.addChatMessage(new TextComponentString("You must look away from this angel!"));
+				if (Utils.getViewedTicks(player) >= 2050 * 4) {
+					player.sendStatusMessage(new TextComponentString("You must look away from this angel!"), true);
 				}
 				
 				if (Utils.getViewedTicks(player) >= 3050 * 4) {
-					if(Utils.getViewedTicks(player) == 3050 * 4 + 1) {
-					player.addChatMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."));
-					}
+					player.sendStatusMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."), true);
 					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
 				}
 			}

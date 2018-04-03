@@ -78,7 +78,7 @@ public class CapabilityAngelSickness implements IAngelSickness {
 		@Nullable
 		@Override
 		public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-			return (T) (capability == CAP ? CAP.cast(this.capability) : null);
+			return capability == CAP ? CAP.cast(this.capability) : null;
 		}
 		
 		@Override

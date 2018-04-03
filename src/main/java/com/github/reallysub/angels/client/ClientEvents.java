@@ -12,6 +12,6 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public static void teleportEvent(EventTeleport e) {
-		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAngelAppearance(e.player.worldObj, e.player.posX, e.player.posY, e.player.posZ));
+		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAngelAppearance(e.player.world, e.player.posX, e.player.posY, e.player.posZ));
 	}
 }

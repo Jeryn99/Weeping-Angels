@@ -55,12 +55,12 @@ public class Utils {
 		double distanceTraveled = 0;
 		
 		while ((int) distanceTraveled < distance) {
-			targetX += vec3.xCoord;
-			targetY += vec3.yCoord;
-			targetZ += vec3.zCoord;
+			targetX += vec3.x;
+			targetY += vec3.y;
+			targetZ += vec3.z;
 			distanceTraveled += vec3.lengthVector();
 			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
-			List<EntityAngel> list = seeker.worldObj.getEntitiesWithinAABB(EntityAngel.class, bb);
+			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			
 			IAngelSickness capa = seeker.getCapability(CapabilityAngelSickness.CAP, null);
 			
@@ -68,10 +68,10 @@ public class Utils {
 				for (EntityAngel target : list) {
 					if (target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS) && !seeker.isSpectator()) {
 						target.setSeen(true);
-						if (target.worldObj.rand.nextInt(5) < 3) {
+						if (target.world.rand.nextInt(5) < 3) {
 							capa.setViewingTicks(capa.getViewingTicks() + 1);
 						}
-						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.worldObj.rand.nextInt(3) == 1) {
+						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
 							target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
 						}
 					}
