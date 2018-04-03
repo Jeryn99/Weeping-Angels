@@ -1,6 +1,6 @@
 package com.github.reallysub.angels.common.items;
 
-import com.github.reallysub.angels.common.entities.EntityPainting2;
+import com.github.reallysub.angels.common.entities.EntityAngelPainting;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
@@ -50,6 +50,6 @@ public class ItemHanging extends Item {
 	}
 	
 	private EntityHanging createHangingEntity(World worldIn, BlockPos pos, EnumFacing clickedSide) {
-		return new EntityPainting2(worldIn, pos, clickedSide);
+		return new EntityAngelPainting(worldIn, pos, clickedSide);
 	}
 }

@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client;
+package com.github.reallysub.angels.events;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.Event;

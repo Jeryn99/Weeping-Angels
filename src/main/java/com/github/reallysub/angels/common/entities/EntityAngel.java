@@ -2,7 +2,7 @@ package com.github.reallysub.angels.common.entities;
 
 import javax.annotation.Nullable;
 
-import com.github.reallysub.angels.client.EventTeleport;
+import com.github.reallysub.angels.events.EventTeleport;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.Utils;
 import com.github.reallysub.angels.main.config.Config;

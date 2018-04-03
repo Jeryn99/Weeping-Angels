@@ -2,6 +2,7 @@ package com.github.reallysub.angels.client;
 
 import com.github.reallysub.angels.client.particles.ParticleAngelAppearance;
 
+import com.github.reallysub.angels.events.EventTeleport;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

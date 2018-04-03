@@ -10,7 +10,7 @@ import com.github.reallysub.angels.client.render.entity.RenderAngelPainting;
 import com.github.reallysub.angels.client.render.tiles.RenderSnowArm;
 import com.github.reallysub.angels.common.blocks.BlockSnowArm;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.common.entities.EntityPainting2;
+import com.github.reallysub.angels.common.entities.EntityAngelPainting;
 import com.github.reallysub.angels.common.items.ItemHanging;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.WeepingAngels;
@@ -47,6 +47,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
 	
+	// Sounds
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
 	
 	public static SoundEvent angelSeen = addSound("angel_seen");
@@ -55,28 +56,11 @@ public class WAObjects {
 	public static SoundEvent laughing_child = addSound("laughing_child");
 	public static SoundEvent light_break = addSound("light_break");
 	
-	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
-	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
-	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("has their neck snapped by a Angel!");
-	
 	private static SoundEvent addSound(String soundName) {
 		ResourceLocation sound = new ResourceLocation(WeepingAngels.MODID + ":" + soundName);
 		SoundEvent s = new SoundEvent(sound).setRegistryName(soundName);
 		SOUNDS.add(s);
 		return s;
-	}
-	
-	public static void setUpSpawns() {
-		List<Biome> allBiomes = ForgeRegistries.BIOMES.getValues();
-		List<Biome> spawn = Lists.newArrayList();
-		spawn.addAll(allBiomes);
-		Iterator<Biome> iterator = spawn.iterator();
-		while (iterator.hasNext()) {
-			Biome biome = iterator.next();
-			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.CREATURE, biome);
-			}
-		}
 	}
 	
 	@SubscribeEvent
@@ -94,6 +78,37 @@ public class WAObjects {
 		return builder.id(registryName, entityID++).name(registryName.toString().replaceAll(WeepingAngels.MODID + ":", ""));
 	}
 	
+	@SubscribeEvent
+	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(184, 286).tracker(80, 3, false).build(), createBuilder("weepingAngelpainting").entity(EntityAngelPainting.class).tracker(160, Integer.MAX_VALUE, false).build() };
+		event.getRegistry().registerAll(entries);
+		
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			setUpRenders();
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static void setUpRenders() {
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
+	}
+	
+	public static void setUpSpawns() {
+		List<Biome> allBiomes = ForgeRegistries.BIOMES.getValues();
+		List<Biome> spawn = Lists.newArrayList();
+		spawn.addAll(allBiomes);
+		Iterator<Biome> iterator = spawn.iterator();
+		while (iterator.hasNext()) {
+			Biome biome = iterator.next();
+			if (biome != null) {
+				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.CREATURE, biome);
+			}
+		}
+	}
+	
+	// Blocks
 	public static Block angelArm = new BlockSnowArm();
 	
 	@SubscribeEvent
@@ -102,16 +117,7 @@ public class WAObjects {
 		event.getRegistry().register(angelArm);
 	}
 	
-	@SubscribeEvent
-	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		EntityEntry[] entries = { createBuilder("weepingAngel").entity(EntityAngel.class).egg(184, 286).tracker(80, 3, false).build(), createBuilder("weepingAngelpainting").entity(EntityPainting2.class).tracker(160, Integer.MAX_VALUE, false).build() };
-		event.getRegistry().registerAll(entries);
-		
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			setUpRenders();
-		}
-	}
-	
+	// Items
 	public static Item angelPainting = createItem(new ItemHanging(), "angel_painting");
 	public static Item angelArmItem = createItem(new ItemBlock(angelArm), "arm").setCreativeTab(CreativeTabs.DECORATIONS);;
 	
@@ -121,19 +127,17 @@ public class WAObjects {
 		event.getRegistry().registerAll(items);
 	}
 	
-	@SideOnly(Side.CLIENT)
-	private static void setUpRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPainting2.class, manager -> new RenderAngelPainting(manager));
-		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
-	}
-	
 	private static Item createItem(Item item, String name) {
 		item.setRegistryName(WeepingAngels.MODID, name);
 		item.setUnlocalizedName(name);
 		item.setCreativeTab(CreativeTabs.DECORATIONS);
 		return item;
 	}
+	
+	// Damage Sources
+	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
+	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
+	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("has their neck snapped by a Angel!");
 	
 	public static class WADamageSource extends DamageSource {
 		

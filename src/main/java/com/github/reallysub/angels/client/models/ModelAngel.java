@@ -9,6 +9,9 @@ import net.minecraft.entity.Entity;
 
 public class ModelAngel extends ModelBase {
 	
+	/**
+	 * Weeping Angel - Ford Created using Techne
+	 */
 	ModelRenderer AngryLeftArm2;
 	ModelRenderer AngryRightArm2;
 	ModelRenderer AngryLeftArm1;

@@ -19,21 +19,21 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityPainting2 extends EntityHanging implements IEntityAdditionalSpawnData {
-	public EntityPainting2.EnumArt art;
+public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
+	public EntityAngelPainting.EnumArt art;
 	
-	public EntityPainting2(World worldIn) {
+	public EntityAngelPainting(World worldIn) {
 		super(worldIn);
 	}
 	
-	public EntityPainting2(World worldIn, BlockPos pos, EnumFacing side) {
+	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side) {
 		super(worldIn, pos);
 		ArrayList arraylist = Lists.newArrayList();
-		EntityPainting2.EnumArt[] aenumart = EntityPainting2.EnumArt.values();
+		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 		
 		for (int j = 0; j < i; ++j) {
-			EntityPainting2.EnumArt enumart = aenumart[j];
+			EntityAngelPainting.EnumArt enumart = aenumart[j];
 			this.art = enumart;
 			this.updateFacingWithBoundingBox(side);
 			
@@ -43,20 +43,20 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 		}
 		
 		if (!arraylist.isEmpty()) {
-			this.art = (EntityPainting2.EnumArt) arraylist.get(this.rand.nextInt(arraylist.size()));
+			this.art = (EntityAngelPainting.EnumArt) arraylist.get(this.rand.nextInt(arraylist.size()));
 		}
 		
 		this.updateFacingWithBoundingBox(side);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public EntityPainting2(World worldIn, BlockPos pos, EnumFacing side, String name) {
+	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side, String name) {
 		this(worldIn, pos, side);
-		EntityPainting2.EnumArt[] aenumart = EntityPainting2.EnumArt.values();
+		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 		
 		for (int j = 0; j < i; ++j) {
-			EntityPainting2.EnumArt enumart = aenumart[j];
+			EntityAngelPainting.EnumArt enumart = aenumart[j];
 			
 			if (enumart.title.equals(name)) {
 				this.art = enumart;
@@ -118,11 +118,11 @@ public class EntityPainting2 extends EntityHanging implements IEntityAdditionalS
 	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString("Motive");
-		EntityPainting2.EnumArt[] aenumart = EntityPainting2.EnumArt.values();
+		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 		
 		for (int j = 0; j < i; ++j) {
-			EntityPainting2.EnumArt enumart = aenumart[j];
+			EntityAngelPainting.EnumArt enumart = aenumart[j];
 			
 			if (enumart.title.equals(s)) {
 				this.art = enumart;

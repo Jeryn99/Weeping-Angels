@@ -19,7 +19,6 @@ public class CapabilityAngelSickness implements IAngelSickness {
 	@CapabilityInject(IAngelSickness.class)
 	public static final Capability<IAngelSickness> CAP = null;
 	
-	private boolean isSick;
 	private int viewingTicks;
 	
 	public EntityPlayer player;
@@ -31,7 +30,6 @@ public class CapabilityAngelSickness implements IAngelSickness {
 	@Override
 	public NBTTagCompound writeNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
-		compound.setBoolean("isSick", isSick);
 		compound.setInteger("viewingTicks", viewingTicks);
 		return compound;
 	}
@@ -39,17 +37,11 @@ public class CapabilityAngelSickness implements IAngelSickness {
 	@Override
 	public void readNBT(NBTTagCompound nbt) {
 		viewingTicks = nbt.getInteger("viewingTicks");
-		isSick = nbt.getBoolean("isSick");
 	}
 	
 	@Override
 	public void sync() {
 		WeepingAngels.NETWORK.sendToAll(new MessageSicknessUpdate(this.player));
-	}
-	
-	@Override
-	public boolean isSick() {
-		return isSick;
 	}
 	
 	@Override

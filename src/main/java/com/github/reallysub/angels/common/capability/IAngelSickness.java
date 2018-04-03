@@ -10,8 +10,6 @@ public interface IAngelSickness {
 	
 	void sync();
 	
-	boolean isSick();
-	
 	int getViewingTicks();
 	
 	void setViewingTicks(int ticks);

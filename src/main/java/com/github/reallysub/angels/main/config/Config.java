@@ -16,8 +16,8 @@ public class Config {
 		infection = cfg.getBoolean("infection", "Angels", true, "If this is enabled there is a chance of you being infected by a weeping angel");
 		
 		// Spawn
-		maximumSpawn = cfg.getInt("maximumSpawn", "Spawning", 6, 0, Integer.MAX_VALUE, "The maximum amount of angels per biome");
-		spawnProbability = cfg.getInt("spawnProbability", "Spawning", 100, 0, Integer.MAX_VALUE, "The angel spawn probabilty rate");
+		maximumSpawn = cfg.getInt("maximumSpawn", "Spawning", 4, 0, Integer.MAX_VALUE, "The maximum amount of angels per biome");
+		spawnProbability = cfg.getInt("spawnProbability", "Spawning", 50, 0, Integer.MAX_VALUE, "The angel spawn probabilty rate");
 		minimumSpawn = cfg.getInt("minimumSpawn", "Spawning", 2, 0, Integer.MAX_VALUE, "The minimum amount of angels per biome");
 		
 		cfg.save();

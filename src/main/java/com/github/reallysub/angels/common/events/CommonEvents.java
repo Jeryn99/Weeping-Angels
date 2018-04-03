@@ -29,6 +29,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 @Mod.EventBusSubscriber
 public class CommonEvents {
 	
+	/*
+	 * Update checker thing, tells the player that the mods out of date if they're on a old build
+	 */
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
@@ -44,21 +47,18 @@ public class CommonEvents {
 		}
 	}
 	
+	/*
+	 * Checking for the angels & applying sickness to players
+	 */
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-		
 		if (event.getEntity() instanceof EntityPlayer) {
-			
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			
 			Utils.getAllAngels(player, 40, 40);
-			
 			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
-				
 				if (Utils.getViewedTicks(player) >= 2050 * 4) {
 					player.sendStatusMessage(new TextComponentString("You must look away from this angel!"), true);
 				}
-				
 				if (Utils.getViewedTicks(player) >= 3050 * 4) {
 					player.sendStatusMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."), true);
 					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
@@ -67,6 +67,9 @@ public class CommonEvents {
 		}
 	}
 	
+	/*
+	 * Spawning arms in snow biomes
+	 */
 	@SubscribeEvent
 	public static void decorBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
@@ -78,7 +81,9 @@ public class CommonEvents {
 		}
 	}
 	
-	// Capa
+	/*
+	 * Capability stuff below here
+	 */
 	@SubscribeEvent
 	public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (!(event.getObject() instanceof EntityPlayer) || event.getObject().hasCapability(CapabilityAngelSickness.CAP, null)) return;

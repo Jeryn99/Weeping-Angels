@@ -1,6 +1,6 @@
 package com.github.reallysub.angels.client.render.entity;
 
-import com.github.reallysub.angels.common.entities.EntityPainting2;
+import com.github.reallysub.angels.common.entities.EntityAngelPainting;
 import com.github.reallysub.angels.main.WeepingAngels;
 
 import net.minecraft.client.renderer.BufferBuilder;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderAngelPainting extends Render<EntityPainting2> {
+public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	private static final ResourceLocation PAINTING_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/paintings_angels.png");
 	
 	public RenderAngelPainting(RenderManager renderManagerIn) {
@@ -29,13 +29,13 @@ public class RenderAngelPainting extends Render<EntityPainting2> {
 	 * Renders the desired {@code T} type Entity.
 	 */
 	@Override
-	public void doRender(EntityPainting2 entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityAngelPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
 		this.bindEntityTexture(entity);
-		EntityPainting2.EnumArt enumArt = entity.art;
+		EntityAngelPainting.EnumArt enumArt = entity.art;
 		float f = 0.0625F;
 		GlStateManager.scale(0.0625F, 0.0625F, 0.0625F);
 		
@@ -60,11 +60,11 @@ public class RenderAngelPainting extends Render<EntityPainting2> {
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(EntityPainting2 entity) {
+	protected ResourceLocation getEntityTexture(EntityAngelPainting entity) {
 		return PAINTING_TEXTURE;
 	}
 	
-	private void renderPainting(EntityPainting2 painting, int width, int height, int textureU, int textureV) {
+	private void renderPainting(EntityAngelPainting painting, int width, int height, int textureU, int textureV) {
 		float f = (float) (-width) / 2.0F;
 		float f1 = (float) (-height) / 2.0F;
 		
@@ -111,7 +111,7 @@ public class RenderAngelPainting extends Render<EntityPainting2> {
 		}
 	}
 	
-	private void setLightmap(EntityPainting2 painting, float p_77008_2_, float p_77008_3_) {
+	private void setLightmap(EntityAngelPainting painting, float p_77008_2_, float p_77008_3_) {
 		int i = MathHelper.floor(painting.posX);
 		int j = MathHelper.floor(painting.posY + (double) (p_77008_3_ / 16.0F));
 		int k = MathHelper.floor(painting.posZ);
