@@ -1,18 +1,14 @@
 package com.github.reallysub.angels.client.models;
 
-import java.util.Random;
-
-import net.minecraft.client.model.ModelElytra;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import net.minecraft.client.model.ModelBase;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -218,6 +214,7 @@ public class ModelAngelEd extends ModelBiped {
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableLighting();
 		this.cloth_1.render(f5);
 		this.right_arm.render(f5);
 		this.head.render(f5);
@@ -231,6 +228,7 @@ public class ModelAngelEd extends ModelBiped {
 		this.right_wing_0.render(f5);
 		this.left_wing_0.render(f5);
 		this.left_arm.render(f5);
+		GlStateManager.disableLighting();
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
@@ -238,7 +236,7 @@ public class ModelAngelEd extends ModelBiped {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
-	void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

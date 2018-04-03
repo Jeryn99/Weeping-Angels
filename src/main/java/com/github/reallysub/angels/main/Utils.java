@@ -3,10 +3,13 @@ package com.github.reallysub.angels.main;
 import java.util.List;
 
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.common.capability.CapabilityAngelSickness;
+import com.github.reallysub.angels.common.capability.IAngelSickness;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +17,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class Utils {
-	
+
+    public static int getViewedTicks(EntityPlayer p)
+    {
+        return p.getCapability(CapabilityAngelSickness.CAP, null).getViewingTicks();
+    }
+
+
 	public static void teleportEntity(World world, Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
 		
@@ -54,13 +63,21 @@ public class Utils {
 			distanceTraveled += vec3.lengthVector();
 			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
 			List<EntityAngel> list = seeker.world.getEntitiesWithinAABB(EntityAngel.class, bb);
-			for (EntityAngel target : list) {
-				if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS)) {
-					target.setSeen(true);
-					if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
-						target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
+			
+			IAngelSickness capa = seeker.getCapability(CapabilityAngelSickness.CAP, null);
+			
+			if (!list.isEmpty()) {
+				for (EntityAngel target : list) {
+					if (target != seeker && target.canBeCollidedWith() && isTargetInSight(seeker, target) && !seeker.isPotionActive(MobEffects.BLINDNESS)) {
+						target.setSeen(true);
+						capa.setViewingTicks(capa.getViewingTicks() + 1);
+						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
+							target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
+						}
 					}
 				}
+			} else {
+				capa.setViewingTicks(0);
 			}
 		}
 	}

@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.main.Utils;
-import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
 import net.minecraft.block.Block;
@@ -37,17 +36,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -311,7 +307,7 @@ public class EntityAngel extends EntityMob {
 		
 		if (isSeen()) {
 			if (world.getGameRules().getBoolean("mobGriefing")) {
-				replaceBlocks(getEntityBoundingBox().expand(25, 25, 25));
+				replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 			}
 		}
 	}
