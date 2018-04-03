@@ -68,16 +68,6 @@ public class EntityAngel extends EntityMob {
 		experienceValue = 25;
 	}
 	
-	/**
-	 * Makes the entity despawn if requirements are reached
-	 */
-	@Override
-	protected void despawnEntity() {
-		if (!Config.angelPersistence) {
-			super.despawnEntity();
-		}
-	}
-	
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
