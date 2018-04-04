@@ -103,7 +103,7 @@ public class WAObjects {
 		while (iterator.hasNext()) {
 			Biome biome = iterator.next();
 			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.CREATURE, biome);
+				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.MONSTER, biome);
 			}
 		}
 	}

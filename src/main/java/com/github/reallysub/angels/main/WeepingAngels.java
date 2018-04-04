@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "6.0";
+	public static final String VERSION = "6.5";
 	
 	private static Logger logger;
 	
