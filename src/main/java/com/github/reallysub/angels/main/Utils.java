@@ -24,7 +24,6 @@ public class Utils {
 	
 	public static void teleportEntity(World world, Entity e, double X, double Y, double Z) {
 		BlockPos p = new BlockPos(X, Y, Z);
-		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
 				e.setPositionAndUpdate(p.getX(), p.getY(), p.getZ());

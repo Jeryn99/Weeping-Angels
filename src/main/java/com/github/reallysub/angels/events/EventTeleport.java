@@ -10,4 +10,8 @@ public class EventTeleport extends Event {
 	public EventTeleport(EntityPlayer player) {
 		this.player = player;
 	}
+	
+	public EntityPlayer getPlayer() {
+		return player;
+	}
 }

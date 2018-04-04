@@ -55,12 +55,12 @@ public class WAObjects {
 	public static SoundEvent child_run = addSound("child_run");
 	public static SoundEvent laughing_child = addSound("laughing_child");
 	public static SoundEvent light_break = addSound("light_break");
+	public static SoundEvent angel_teleport = addSound("angel_teleport");
 	
 	private static SoundEvent addSound(String soundName) {
-		ResourceLocation sound = new ResourceLocation(WeepingAngels.MODID + ":" + soundName);
-		SoundEvent s = new SoundEvent(sound).setRegistryName(soundName);
-		SOUNDS.add(s);
-		return s;
+		SoundEvent sound = new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
+		SOUNDS.add(sound);
+		return sound;
 	}
 	
 	@SubscribeEvent
@@ -143,9 +143,9 @@ public class WAObjects {
 		
 		private String message = "";
 		
-		public WADamageSource(String damageTypeIn) {
-			super(damageTypeIn);
-			this.message = damageTypeIn;
+		public WADamageSource(String damageMessage) {
+			super(damageMessage);
+			this.message = damageMessage;
 		}
 		
 		@Override

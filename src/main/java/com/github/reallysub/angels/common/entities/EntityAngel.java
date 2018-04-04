@@ -2,8 +2,8 @@ package com.github.reallysub.angels.common.entities;
 
 import javax.annotation.Nullable;
 
-import com.github.reallysub.angels.events.EventTeleport;
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.events.EventTeleport;
 import com.github.reallysub.angels.main.Utils;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -11,7 +11,15 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIBreakDoor;
+import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -247,20 +255,19 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void collideWithEntity(Entity entity) {
-		
 		entity.applyEntityCollision(this);
-		
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
 			Utils.teleportEntity(world, entity, x, y, z);
-			
 			heal(4.0F);
+			
+			entity.playSound(WAObjects.angel_teleport, 1.0F, 1.0F);
 			
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entity;
-				if (rand.nextInt(10) == 2) {
+				if (rand.nextInt(2) == 2) {
 					player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 600, 3));
 					player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 1));
 					player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
@@ -314,8 +321,9 @@ public class EntityAngel extends EntityMob {
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
-		if (e.getSource().getTrueSource() != null && e.getSource().getTrueSource() instanceof EntityLivingBase) {
-			EntityLivingBase attacker = (EntityLivingBase) e.getSource().getTrueSource();
+		Entity source = e.getSource().getTrueSource();
+		if (source != null && source instanceof EntityLivingBase) {
+			EntityLivingBase attacker = (EntityLivingBase) source;
 			EntityLivingBase victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityAngel) {
@@ -327,6 +335,7 @@ public class EntityAngel extends EntityMob {
 					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
 				} else {
 					ItemPickaxe pick = (ItemPickaxe) item.getItem();
+					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
 			}

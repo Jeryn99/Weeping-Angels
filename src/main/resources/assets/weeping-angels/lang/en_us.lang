@@ -1,3 +1,19 @@
 entity.weepingangel.name=Weeping Angel
 item.angel_painting.name=Angel Painting
 tile.arm.name=Arm in snow
+
+entity.weepingangel.name=Weeping Angel
+
+sound.angel_seen=Angel seen
+sound.child_run=Child running
+sound.laughing_child=Laughing Child
+sound.light_break=Light break
+sound.angel_teleport=Angel teleport
+sound.stone_scrap=Stone scraping
+
+message.look_away=You must look away from this angel!
+message.infected=You have been infected by a Weeping Angel, you will now die.
+
+source.angel=was sent back in time by a Angel!
+source.angel_neck_snap=had their neck snapped by a Angel!
+source.punch_stone=broke their bones by punching stone...

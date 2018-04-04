@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
@@ -57,10 +58,10 @@ public class CommonEvents {
 			Utils.getAllAngels(player, 40, 40);
 			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
 				if (Utils.getViewedTicks(player) >= 2050 * 4) {
-					player.sendStatusMessage(new TextComponentString("You must look away from this angel!"), true);
+					player.sendStatusMessage(new TextComponentTranslation("message.look_away"), true);
 				}
 				if (Utils.getViewedTicks(player) >= 3050 * 4) {
-					player.sendStatusMessage(new TextComponentString("You have been infected by a Weeping Angel, you will now die."), true);
+					player.sendStatusMessage(new TextComponentTranslation("message.infected"), true);
 					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
 				}
 			}
