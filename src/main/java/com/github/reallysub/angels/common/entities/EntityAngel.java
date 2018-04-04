@@ -4,9 +4,10 @@ import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.events.EventTeleport;
-import com.github.reallysub.angels.main.Utils;
+import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.config.Config;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,9 +26,11 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -49,11 +52,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 @Mod.EventBusSubscriber
-public class EntityAngel extends EntityMob {
-	
-	private BlockPos nullPos = BlockPos.ORIGIN;
+public class EntityAngel extends EntityMob //implements IEntityAdditionalSpawnData
+{
 	
 	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
@@ -61,15 +65,16 @@ public class EntityAngel extends EntityMob {
 	private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
 	private static DataParameter<Boolean> isChild = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static DataParameter<ItemStack> pickAxe = EntityDataManager.<ItemStack>createKey(EntityAngel.class, DataSerializers.ITEM_STACK);
+	//private ItemStack stack;
 	
 	public EntityAngel(World world) {
 		super(world);
-		tasks.addTask(1, new EntityAIMoveTowardsTarget(this, 3.0F, 80));
+		tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 3.0F, 80));
 		tasks.addTask(2, new EntityAISwimming(this));
-		tasks.addTask(3, new EntityAIAttackMelee(this, 3.0F, false));
+		tasks.addTask(1, new EntityAIAttackMelee(this, 3.0F, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(7, new EntityAIBreakDoor(this));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
@@ -84,11 +89,16 @@ public class EntityAngel extends EntityMob {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		if (isChild() && rand.nextInt(10) == 5) {
+		if (isChild() && rand.nextInt(5) == 5) {
 			return WAObjects.laughing_child;
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public float getEyeHeight() {
+		return this.isChild() ? this.height : 1.3F;
 	}
 	
 	@Override
@@ -102,12 +112,26 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
+
+	//	if(entity instanceof EntityPlayerMP)
+//		{
+//			EntityPlayerMP player = (EntityPlayerMP) entity;
+////			ItemStack mainStack = player.getHeldItemMainhand();
+//			ItemStack angelStack = getPickAxe();
+//			if(mainStack.getItem() instanceof ItemPickaxe && angelStack.isEmpty())
+//			{
+//				angelStack = mainStack;
+//				mainStack.setCount(0);
+//				setPickAxe(angelStack);
+//			}
+//			System.out.println(getPickAxe());
+//		}
+
 		if (rand.nextInt(4) < 2) {
 			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 		} else {
 			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
 		}
-		
 		return super.attackEntityAsMob(entity);
 	}
 	
@@ -119,7 +143,8 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(isChild, randomChild());
 		getDataManager().register(timeViewed, 0);
 		getDataManager().register(type, randomType());
-		getDataManager().register(blockBreakPos, new BlockPos(0, 0, 0));
+		getDataManager().register(blockBreakPos, BlockPos.ORIGIN);
+		getDataManager().register(pickAxe, new ItemStack(Items.AIR));
 	}
 	
 	@Override
@@ -134,7 +159,12 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(5));
+		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
+
+		if(!getPickAxe().isEmpty())
+		{
+			entityDropItem(getPickAxe(), 0);
+		}
 	}
 	
 	/**
@@ -146,7 +176,16 @@ public class EntityAngel extends EntityMob {
 			super.jump();
 		}
 	}
-	
+
+
+	public ItemStack getPickAxe() {
+		return getDataManager().get(pickAxe);
+	}
+
+	public void setPickAxe(ItemStack item) {
+		getDataManager().set(pickAxe, item);
+	}
+
 	public BlockPos getBreakPos() {
 		return getDataManager().get(blockBreakPos);
 	}
@@ -230,6 +269,13 @@ public class EntityAngel extends EntityMob {
 		compound.setBoolean("isAngry", isAngry());
 		compound.setInteger("type", getType());
 		compound.setBoolean("angelChild", isChild());
+
+		if(!getPickAxe().isEmpty())
+		{
+			NBTTagCompound item = new NBTTagCompound();
+			getPickAxe().writeToNBT(compound);
+			compound.setTag("itemStack", item);
+		}
 	}
 	
 	/**
@@ -248,6 +294,11 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 		
 		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
+
+		//if(compound.hasKey("itemStack")) {
+			//stack = new ItemStack(compound.getCompoundTag("itemStack"));
+		//	setPickAxe(stack);
+		//}
 	}
 	
 	/**
@@ -260,7 +311,7 @@ public class EntityAngel extends EntityMob {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
-			Utils.teleportEntity(world, entity, x, y, z);
+			AngelUtils.teleportEntity(world, entity, x, y, z);
 			heal(4.0F);
 			
 			entity.playSound(WAObjects.angel_teleport, 1.0F, 1.0F);
@@ -348,7 +399,9 @@ public class EntityAngel extends EntityMob {
 			if (!isChild()) {
 				playSound(WAObjects.stone_scrap, 0.5F, 1.0F);
 			} else {
-				playSound(WAObjects.child_run, 1.0F, 1.0F);
+				if(world.rand.nextInt(50) == 5) {
+					playSound(WAObjects.child_run, 1.0F, 1.0F);
+				}
 			}
 		}
 	}
@@ -377,7 +430,7 @@ public class EntityAngel extends EntityMob {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
 								playSound(WAObjects.light_break, 1.0F, 1.0F);
-								setBreakBlockPos(nullPos);
+								setBreakBlockPos(BlockPos.ORIGIN);
 							}
 						}
 					}
@@ -398,7 +451,7 @@ public class EntityAngel extends EntityMob {
 								getEntityWorld().setBlockToAir(pos);
 								timer = 0;
 								playSound(WAObjects.light_break, 1.0F, 1.0F);
-								setBreakBlockPos(nullPos);
+								setBreakBlockPos(BlockPos.ORIGIN);
 							}
 						}
 						getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
@@ -421,7 +474,7 @@ public class EntityAngel extends EntityMob {
 							getEntityWorld().setBlockToAir(pos);
 							timer = 0;
 							playSound(WAObjects.light_break, 1.0F, 1.0F);
-							setBreakBlockPos(nullPos);
+							setBreakBlockPos(BlockPos.ORIGIN);
 						}
 						
 						getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
@@ -445,4 +498,32 @@ public class EntityAngel extends EntityMob {
 	private boolean randomChild() {
 		return rand.nextInt(10) == 4;
 	}
+
+	/**
+	 * Called by the server when constructing the spawn packet.
+	 * Data should be added to the provided stream.
+	 *
+	 * @param buffer The packet data stream
+	 */
+//	@Override
+//	public void writeSpawnData(ByteBuf buffer) {
+	//	if (!getPickAxe().isEmpty()) {
+//			ByteBufUtils.writeItemStack(buffer, getPickAxe());
+//		}
+//	}
+
+	/**
+	 * Called by the client when it receives a Entity spawn packet.
+	 * Data should be read out of the stream in the same way as it was written.
+	 *
+	 * @param buf The packet data stream
+	 */
+//	@Override
+//	public void readSpawnData(ByteBuf buf) {
+//		try {
+//			stack = ByteBufUtils.readItemStack(buf);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

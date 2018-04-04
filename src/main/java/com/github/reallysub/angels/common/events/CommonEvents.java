@@ -3,7 +3,7 @@ package com.github.reallysub.angels.common.events;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.common.capability.CapabilityAngelSickness;
-import com.github.reallysub.angels.main.Utils;
+import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.WeepingAngels;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -55,12 +55,12 @@ public class CommonEvents {
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			Utils.getAllAngels(player, 40, 40);
+			AngelUtils.getAllAngels(player, 40, 40);
 			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
-				if (Utils.getViewedTicks(player) >= 2050 * 4) {
+				if (AngelUtils.getViewedTicks(player) >= 2050 * 4) {
 					player.sendStatusMessage(new TextComponentTranslation("message.look_away"), true);
 				}
-				if (Utils.getViewedTicks(player) >= 3050 * 4) {
+				if (AngelUtils.getViewedTicks(player) >= 3050 * 4) {
 					player.sendStatusMessage(new TextComponentTranslation("message.infected"), true);
 					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
 				}

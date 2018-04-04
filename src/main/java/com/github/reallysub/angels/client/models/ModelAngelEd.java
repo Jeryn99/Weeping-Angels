@@ -1,5 +1,6 @@
 package com.github.reallysub.angels.client.models;
 
+import net.minecraft.util.EnumHandSide;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -241,7 +242,13 @@ public class ModelAngelEd extends ModelBiped {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
+
+	@Override
+	protected ModelRenderer getArmForSide(EnumHandSide side) {
+		return side == EnumHandSide.LEFT ? this.left_arm : this.right_arm;
+	}
+
+
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		

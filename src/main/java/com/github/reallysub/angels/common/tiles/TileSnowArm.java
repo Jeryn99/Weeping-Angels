@@ -1,7 +1,7 @@
 package com.github.reallysub.angels.common.tiles;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.main.Utils;
+import com.github.reallysub.angels.main.AngelUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +19,7 @@ public class TileSnowArm extends TileEntity implements ITickable {
 		 */
 		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
-			Utils.teleportEntity(world, angel, getPos().getX(), getPos().getY(), getPos().getZ());
+			AngelUtils.teleportEntity(world, angel, getPos().getX(), getPos().getY(), getPos().getZ());
 			world.spawnEntity(angel);
 			world.setBlockToAir(getPos());
 		}

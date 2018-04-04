@@ -38,6 +38,12 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 		
 		if (angel.getHealth() <= 5) {
 			GlStateManager.pushMatrix();
+			
+			if (angel.isChild()) {
+				GlStateManager.scale(0.40F, 0.40F, 0.40F);
+				GlStateManager.translate(0.0F, 2.3F, 0.0F);
+			}
+			
 			boolean flag = angel.isInvisible();
 			GlStateManager.depthMask(!flag);
 			this.angelRenderer.bindTexture(DESTROY_STAGES);

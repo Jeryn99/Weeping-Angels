@@ -3,7 +3,7 @@ package com.github.reallysub.angels.common.entities;
 import java.util.ArrayList;
 
 import com.github.reallysub.angels.common.WAObjects;
-import com.github.reallysub.angels.main.Utils;
+import com.github.reallysub.angels.main.AngelUtils;
 import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
@@ -215,7 +215,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		if (!world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			Utils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
+			AngelUtils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
 			world.spawnEntity(angel);
 		}
 	}

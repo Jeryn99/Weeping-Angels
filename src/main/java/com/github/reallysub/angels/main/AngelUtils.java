@@ -10,14 +10,18 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Utils {
-	
+public class AngelUtils {
+
 	public static int getViewedTicks(EntityPlayer p) {
 		return p.getCapability(CapabilityAngelSickness.CAP, null).getViewingTicks();
 	}
@@ -70,8 +74,8 @@ public class Utils {
 						if (target.world.rand.nextInt(5) < 3) {
 							capa.setViewingTicks(capa.getViewingTicks() + 1);
 						}
-						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && target.world.rand.nextInt(3) == 1) {
-							target.playSound(WAObjects.angelSeen, 1.0F, 1.0F);
+						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && seeker.world.rand.nextBoolean() && target.getDistance(seeker) < 5) {
+							target.playSound(WAObjects.angelSeen, 0.5F, 1.0F);
 						}
 					}
 				}
