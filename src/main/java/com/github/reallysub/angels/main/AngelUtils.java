@@ -10,11 +10,7 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -47,7 +43,7 @@ public class AngelUtils {
 		}
 	}
 	
-	public static void getAllAngels(EntityPlayer seeker, int distance, double radius) {
+	public static void getAllAngelsPlayer(EntityPlayer seeker, int distance, double radius) {
 		if (distance < 0 || distance > 256) {
 			distance = 256;
 		}
@@ -111,5 +107,6 @@ public class AngelUtils {
 		}
 		return yaw < fov && yaw > -fov;
 	}
+	
 	
 }

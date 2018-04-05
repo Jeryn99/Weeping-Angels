@@ -1,8 +1,8 @@
 package com.github.reallysub.angels.common.structures;
 
-import com.github.reallysub.angels.main.WeepingAngels;
+import java.util.Random;
+
 import net.minecraft.block.Block;
-import net.minecraft.init.Biomes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -18,17 +18,18 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-import java.util.Random;
-
 public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator {
 	
+	boolean initial = false;
+	
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimensionType() == DimensionType.OVERWORLD) {
-			if (random.nextInt(4000) == 0) {
-				int x = chunkX * 16 + random.nextInt(16);
+			if (rand.nextInt(4000) == 0) {
+				
+				int x = chunkX * 16 + rand.nextInt(16);
 				int y = 25;
-				int z = chunkZ * 16 + random.nextInt(16);
+				int z = chunkZ * 16 + rand.nextInt(16);
 				
 				while (!world.getBlockState(new BlockPos(x, y, z)).isFullBlock() && y > 0) {
 					y--;
@@ -36,32 +37,58 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				
 				System.out.println(new BlockPos(x + 2, y + 2, z));
 				
-				for (int times = 0; times <= 12; times++) {
-					generate(world, random, new BlockPos(x, y, z), Rotation.NONE);
-					generate(world, random, new BlockPos(x + 6 * times, y, z), Rotation.NONE);
+				WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6, y, z), Rotation.NONE, CatacombParts.partTSection);
+				
+				// 8 Corridors
+				for (int times = 0; times <= 8; times++) {
+					
+					ResourceLocation part = CatacombParts.partStraight;
+					
+					if (times == 3) {
+						part = CatacombParts.partCrossSection;
+					} else {
+						part = CatacombParts.partStraight;
+					}
+					
+					System.out.println(part + " : " + times);
+					
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 * times, y, z), Rotation.NONE, part);
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6 * times, y, z), Rotation.NONE, CatacombParts.partStraight);
+				}
+				
+				// Corridor
+				WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 + 72, y, z), Rotation.NONE, CatacombParts.partCrossSection);
+				
+				for (int times = 0; times <= 8; times++) {
+					
+					ResourceLocation part = CatacombParts.partStraight;
+					
+					if (times == 4) {
+						part = CatacombParts.partCrossSection;
+					} else {
+						part = CatacombParts.partStraight;
+					}
+					
+					// System.out.println(part + " : " + times);
+					
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z + 6 * times), Rotation.CLOCKWISE_90, part);
+					
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z - 6 * times), Rotation.CLOCKWISE_90, CatacombParts.partStraight);
+					
 				}
 			}
 		}
 	}
 	
-	public boolean generate(World world, Random rand, BlockPos pos, Rotation rot) {
+	public static boolean generate(World world, Random rand, BlockPos pos, Rotation rot, ResourceLocation loc) {
 		MinecraftServer server = world.getMinecraftServer();
 		TemplateManager manager = world.getSaveHandler().getStructureTemplateManager();
 		
-		ResourceLocation resource = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_" + rand.nextInt(3));
-		Template template = manager.getTemplate(server, resource);
+		Template template = manager.getTemplate(server, loc);
 		PlacementSettings placeSettings = (new PlacementSettings()).setRotation(rot).setChunk((ChunkPos) null).setReplacedBlock((Block) null);
 		
 		if (template == null) {
 			return false;
-		}
-		
-		if (resource.getResourcePath().equals("catacomb/catacomb_hallway_3")) {
-			System.out.println("cross detected");
-			for (int times = 0; times <= 8; times++) {
-				generate(world, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 7 * times), Rotation.CLOCKWISE_90);
-				generate(world, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 7 * times), Rotation.CLOCKWISE_90);
-			}
 		}
 		
 		template.addBlocksToWorld(world, pos, placeSettings);
@@ -72,5 +99,10 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 	@Override
 	public boolean generate(World world, Random rand, BlockPos position) {
 		return true;
+	}
+	
+	public ResourceLocation getRandomPart() {
+		Random rand = new Random();
+		return CatacombParts.allParts[rand.nextInt(CatacombParts.allParts.length)];
 	}
 }

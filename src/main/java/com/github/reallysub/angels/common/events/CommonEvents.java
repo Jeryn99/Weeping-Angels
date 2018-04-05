@@ -53,18 +53,24 @@ public class CommonEvents {
 	 */
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+		
+		//Player
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			AngelUtils.getAllAngels(player, 40, 40);
-			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
-				if (AngelUtils.getViewedTicks(player) >= 2050 * 4) {
-					player.sendStatusMessage(new TextComponentTranslation("message.look_away"), true);
-				}
-				if (AngelUtils.getViewedTicks(player) >= 3050 * 4) {
-					player.sendStatusMessage(new TextComponentTranslation("message.infected"), true);
-					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
-				}
-			}
+			AngelUtils.getAllAngelsPlayer(player, 40, 40);
+			
+			
+//			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
+//				if (AngelUtils.getViewedTicks(player) >= 2050 * 4) {
+//					player.sendStatusMessage(new TextComponentTranslation("message.look_away"), true);
+//				}
+//				if (AngelUtils.getViewedTicks(player) >= 3050 * 4) {
+//					player.sendStatusMessage(new TextComponentTranslation("message.infected"), true);
+//					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
+//				}
+//			}
+			
+			
 		}
 	}
 	

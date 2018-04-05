@@ -1,6 +1,5 @@
 package com.github.reallysub.angels.client.models;
 
-import net.minecraft.util.EnumHandSide;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -10,6 +9,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 /**
