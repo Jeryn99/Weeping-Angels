@@ -21,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AngelUtils {
-
+	
 	public static int getViewedTicks(EntityPlayer p) {
 		return p.getCapability(CapabilityAngelSickness.CAP, null).getViewingTicks();
 	}

@@ -15,7 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class LayerCrack implements LayerRenderer<EntityAngel> {
-	protected static final ResourceLocation DESTROY_STAGES = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
+	
+	private static final ResourceLocation DESTROY_STAGES = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
 	private final RenderAngel angelRenderer;
 	
 	ModelBase modelOne = new ModelAngel();

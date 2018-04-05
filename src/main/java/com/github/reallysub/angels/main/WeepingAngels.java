@@ -1,5 +1,13 @@
 package com.github.reallysub.angels.main;
 
+import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import com.github.reallysub.angels.common.WAObjects;
@@ -24,6 +32,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 @Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, version = WeepingAngels.VERSION, updateJSON = "https://raw.githubusercontent.com/ReallySub/Weeping-Angels-Mod/master/update.json")
 @Mod.EventBusSubscriber
 public class WeepingAngels {
@@ -31,14 +43,12 @@ public class WeepingAngels {
 	public static final String NAME = "Weeping Angels";
 	public static final String VERSION = "7.0";
 	
-	private static Logger logger;
-	
 	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.init(new Configuration(event.getSuggestedConfigurationFile()));
-		logger = event.getModLog();
 	}
 	
 	@EventHandler
@@ -50,6 +60,8 @@ public class WeepingAngels {
 		CapabilityManager.INSTANCE.register(IAngelSickness.class, new CapabilityAngelSickness.Storage(), IAngelSickness.class);
 		
 		NETWORK.registerMessage(MessageSicknessUpdate.Handler.class, MessageSicknessUpdate.class, 0, Side.CLIENT);
+		
+		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 	}
 	
 	@SubscribeEvent

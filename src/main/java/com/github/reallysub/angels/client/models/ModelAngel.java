@@ -468,9 +468,7 @@ public class ModelAngel extends ModelBase {
 		setRotation(AngryLeftArm2, -0.5235988F, 0F, 0F);
 		
 	}
-
-
-
+	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		EntityAngel angel = null;

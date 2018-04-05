@@ -30,6 +30,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.structure.StructureMineshaftStart;
+import net.minecraft.world.gen.structure.StructureVillagePieces;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -46,9 +49,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
-	
 	// Sounds
 	private static List<SoundEvent> SOUNDS = new ArrayList<>();
+	public static List<ResourceLocation> IGNORED_BLOCKS = new ArrayList<>();
 	
 	public static SoundEvent angelSeen = addSound("angel_seen");
 	public static SoundEvent stone_scrap = addSound("stone_scrap");
@@ -132,6 +135,13 @@ public class WAObjects {
 		item.setUnlocalizedName(name);
 		item.setCreativeTab(CreativeTabs.DECORATIONS);
 		return item;
+	}
+	
+	// Loot tables
+	// public static final ResourceLocation ENTITY_ANGEL = register("entities/entity_angel");
+	
+	private static ResourceLocation register(String name) {
+		return LootTableList.register(new ResourceLocation(WeepingAngels.MODID, name));
 	}
 	
 	// Damage Sources
