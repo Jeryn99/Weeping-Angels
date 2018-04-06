@@ -256,44 +256,37 @@ public class ModelAngelEd extends ModelBiped {
 			angel = (EntityAngel) entity;
 		}
 		
-		boolean hidfac;
-		if (angel.isAngry()) {
-			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-			angry_mouth.isHidden = false;
-			
-		} else {
-			angry_mouth.isHidden = true;
-			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-		}
+		boolean hideFace;
 		
-		boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
-		
-		this.head.rotateAngleY = netheadYaw * 0.017453292F;
-		this.head.rotateAngleZ = netheadYaw * 0.005F;
-		
-		if (flag) {
-			this.head.rotateAngleX = -((float) Math.PI / 4F);
-			
-		} else {
-			this.head.rotateAngleX = headPitch * 0.017453292F + this.head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
-		}
-		
-		if (angel.getSeenTime() == 1) {
+		// Seen
+		if (angel.isSeen() && angel.getSeenTime() == 1) {
 			
 			if (angel.isAngry()) {
 				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				angry_mouth.isHidden = false;
-				hidfac = false;
+				
+			} else {
+				angry_mouth.isHidden = true;
+				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+			}
+			
+			this.head.rotateAngleY = netheadYaw * 0.017453292F;
+			this.head.rotateAngleZ = netheadYaw * 0.005F;
+			
+			if (angel.isAngry()) {
+				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				angry_mouth.isHidden = false;
+				hideFace = false;
 				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
 				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
 			} else {
 				angry_mouth.isHidden = true;
 				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				hidfac = Math.random() >= 0.5F;
+				hideFace = Math.random() >= 0.5F;
 				this.right_arm.rotateAngleX = 0;
 				this.left_arm.rotateAngleX = 0;
 			}
@@ -317,7 +310,7 @@ public class ModelAngelEd extends ModelBiped {
 			this.left_wing_1.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
 			this.left_wing_1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
 			this.left_wing_1.rotateAngleZ = 0;
-			if (hidfac) {
+			if (hideFace) {
 				this.head.rotateAngleX = 0.8F;
 				this.head.rotateAngleY = 0.0F;
 				this.head.rotateAngleZ = 0.0F;

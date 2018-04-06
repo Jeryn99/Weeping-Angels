@@ -2,24 +2,14 @@ package com.github.reallysub.angels.common.events;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
-import com.github.reallysub.angels.common.capability.CapabilityAngelSickness;
 import com.github.reallysub.angels.main.AngelUtils;
-import com.github.reallysub.angels.main.WeepingAngels;
-import com.github.reallysub.angels.main.config.Config;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -54,23 +44,10 @@ public class CommonEvents {
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		
-		//Player
+		// Player
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			AngelUtils.getAllAngelsPlayer(player, 40, 40);
-			
-			
-//			if (player.world.rand.nextInt(20) == 5 && !player.isCreative() && Config.infection) {
-//				if (AngelUtils.getViewedTicks(player) >= 2050 * 4) {
-//					player.sendStatusMessage(new TextComponentTranslation("message.look_away"), true);
-//				}
-//				if (AngelUtils.getViewedTicks(player) >= 3050 * 4) {
-//					player.sendStatusMessage(new TextComponentTranslation("message.infected"), true);
-//					player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 600, 1));
-//				}
-//			}
-			
-			
+			AngelUtils.getAllAngels(player, 40, 40);
 		}
 	}
 	
@@ -80,34 +57,12 @@ public class CommonEvents {
 	@SubscribeEvent
 	public static void decorBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
-			WorldGenArms arms = new WorldGenArms(WAObjects.angelArm);
+			WorldGenArms arms = new WorldGenArms(WAObjects.WABlocks.angelArm);
 			
 			if (e.getRand().nextInt(30) <= 10) {
 				arms.generate(e.getWorld(), e.getRand(), e.getPos());
 			}
 		}
-	}
-	
-	/*
-	 * Capability stuff below here
-	 */
-	@SubscribeEvent
-	public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
-		if (!(event.getObject() instanceof EntityPlayer) || event.getObject().hasCapability(CapabilityAngelSickness.CAP, null)) return;
-		event.addCapability(new ResourceLocation(WeepingAngels.MODID, "angelsickness"), new CapabilityAngelSickness.CapabilityAngelSicknessProvider(new CapabilityAngelSickness((EntityPlayer) event.getObject())));
-	}
-	
-	@SubscribeEvent
-	public void onPlayerStartTracking(net.minecraftforge.event.entity.player.PlayerEvent.StartTracking event) {
-		if (event.getTarget().hasCapability(CapabilityAngelSickness.CAP, null)) {
-			event.getTarget().getCapability(CapabilityAngelSickness.CAP, null).sync();
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
-		NBTTagCompound nbt = (NBTTagCompound) CapabilityAngelSickness.CAP.getStorage().writeNBT(CapabilityAngelSickness.CAP, event.getOriginal().getCapability(CapabilityAngelSickness.CAP, null), null);
-		CapabilityAngelSickness.CAP.getStorage().readNBT(CapabilityAngelSickness.CAP, event.getEntityPlayer().getCapability(CapabilityAngelSickness.CAP, null), null, nbt);
 	}
 	
 }

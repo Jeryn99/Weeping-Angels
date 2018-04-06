@@ -27,6 +27,7 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 		this.angelRenderer = angelRendererIn;
 	}
 	
+	@Override
 	public void doRenderLayer(EntityAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		if (angel.getType() == 0) {

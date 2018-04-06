@@ -1,8 +1,9 @@
 entity.weepingangel.name=Weeping Angel
 item.angel_painting.name=Angel Painting
 tile.arm.name=Arm in snow
+item.unlit_torch.name=Unlit Torch
 
-entity.weepingangel.name=Weeping Angel
+entity.angel.name=Weeping Angel
 
 sound.angel_seen=Angel seen
 sound.child_run=Child running
