@@ -26,8 +26,6 @@ public class WeepingAngels {
 	public static final String NAME = "Weeping Angels";
 	public static final String VERSION = "7.0";
 	
-	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.init(new Configuration(event.getSuggestedConfigurationFile()));

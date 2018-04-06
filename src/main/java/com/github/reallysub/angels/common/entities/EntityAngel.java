@@ -59,6 +59,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
 	private static DataParameter<Boolean> isChild = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<ItemStack> pickAxe = EntityDataManager.<ItemStack>createKey(EntityAngel.class, DataSerializers.ITEM_STACK);
+	private static DataParameter<Boolean> metaMorpthSupport = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -131,11 +132,12 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		getDataManager().register(type, randomType());
 		getDataManager().register(blockBreakPos, BlockPos.ORIGIN);
 		getDataManager().register(pickAxe, ItemStack.EMPTY);
+		getDataManager().register(metaMorpthSupport, false);
 	}
 	
 	@Override
 	public void travel(float strafe, float vertical, float forward) {
-		if (!isSeen() || !onGround) {
+		if (!isSeen() || !onGround || isCompatiblity()) {
 			super.travel(strafe, vertical, forward);
 		}
 	}
@@ -156,7 +158,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	 */
 	@Override
 	protected void jump() {
-		if (!isSeen()) {
+		if (!isSeen() || isCompatiblity()) {
 			super.jump();
 		}
 	}
@@ -252,6 +254,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		compound.setBoolean("isAngry", isAngry());
 		compound.setInteger("type", getType());
 		compound.setBoolean("angelChild", isChild());
+		compound.setBoolean("support", isCompatiblity());
 	}
 	
 	/**
@@ -270,6 +273,8 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 		
 		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
+		
+		if (compound.hasKey("support")) setCompatiblity(compound.getBoolean("support"));
 	}
 	
 	/**
@@ -278,7 +283,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
@@ -302,7 +307,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	 */
 	@Override
 	protected void setRotation(float yaw, float pitch) {
-		if (!isSeen()) {
+		if (!isCompatiblity() && !isSeen()) {
 			super.setRotation(yaw, pitch);
 		}
 	}
@@ -322,7 +327,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 			setSeenTime(0);
 		}
 		
-		if (isSeen() && world.getGameRules().getBoolean("mobGriefing")) {
+		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing")) {
 			replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 		}
 	}
@@ -413,7 +418,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 					
 					if (block.getLightValue(block.getDefaultState()) >= 7) {
 						playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-						world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
+						// world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
 					}
 				}
 			}
@@ -445,5 +450,13 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	public void readSpawnData(ByteBuf additionalData) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean isCompatiblity() {
+		return getDataManager().get(metaMorpthSupport);
+	}
+	
+	public void setCompatiblity(boolean support) {
+		getDataManager().set(metaMorpthSupport, support);
 	}
 }

@@ -21,6 +21,7 @@ public class WorldGenArms extends WorldGenerator {
 		this.state = arm.getDefaultState();
 	}
 	
+	@Override
 	public boolean generate(World worldIn, Random rand, BlockPos position) {
 		
 		int yCoord = worldIn.getHeight(position).getY();

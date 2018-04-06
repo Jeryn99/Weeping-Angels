@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WAObjects.WAItems;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.events.EventTeleport;
+import com.github.reallysub.angels.events.EventAngelTeleport;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -69,7 +69,7 @@ public class AngelUtils {
 				player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 			}
 			
-			MinecraftForge.EVENT_BUS.post(new EventTeleport(player));
+			MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player));
 		}
 	}
 	

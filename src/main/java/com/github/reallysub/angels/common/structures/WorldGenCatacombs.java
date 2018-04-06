@@ -22,9 +22,9 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 	
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		
 		if (world.provider.getDimensionType() == DimensionType.OVERWORLD) {
 			if (rand.nextInt(4000) == 0) {
-				
 				int x = chunkX * 16 + rand.nextInt(16);
 				int y = 25;
 				int z = chunkZ * 16 + rand.nextInt(16);
@@ -33,7 +33,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 					y--;
 				}
 				
-				// System.out.println(new BlockPos(x + 2, y + 2, z));
+				System.out.println(new BlockPos(x + 2, y + 2, z));
 				
 				WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6, y, z), Rotation.NONE, CatacombParts.partTSection);
 				
@@ -59,19 +59,23 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				
 				for (int times = 0; times <= 8; times++) {
 					
-					ResourceLocation part = CatacombParts.partStraight;
+					ResourceLocation part;
 					
 					if (times == 4) {
-						part = CatacombParts.partCrossSection;
+						if (rand.nextBoolean()) {
+							part = CatacombParts.partCrossSection;
+						} else {
+							part = CatacombParts.partTSection;
+						}
 					} else {
-						part = CatacombParts.partStraight;
+						part = getStraightPart();
 					}
 					
 					// System.out.println(part + " : " + times);
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z + 6 * times), Rotation.CLOCKWISE_90, part);
 					
-					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z - 6 * times), Rotation.CLOCKWISE_90, CatacombParts.partStraight);
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z - 6 * times), Rotation.CLOCKWISE_90, getStraightPart());
 					
 				}
 			}
@@ -99,8 +103,8 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 		return true;
 	}
 	
-	public ResourceLocation getRandomPart() {
+	public ResourceLocation getStraightPart() {
 		Random rand = new Random();
-		return CatacombParts.allParts[rand.nextInt(CatacombParts.allParts.length)];
+		return CatacombParts.allStraightParts[rand.nextInt(CatacombParts.allStraightParts.length)];
 	}
 }
