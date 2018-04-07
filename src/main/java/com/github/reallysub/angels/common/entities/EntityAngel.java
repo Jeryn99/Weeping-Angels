@@ -3,6 +3,8 @@ package com.github.reallysub.angels.common.entities;
 import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.common.structures.CatacombParts;
+import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -40,6 +42,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -283,7 +286,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+			if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
@@ -327,7 +330,8 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 			setSeenTime(0);
 		}
 		
-		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing")) {
+		//DO NOT REMOVE THAT RANDOM CHANCE, OTHERWISE EARS = GONE.
+		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing")&& rand.nextInt(2500) == 50) {
 			replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 		}
 	}
@@ -369,13 +373,14 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
+		boolean stop = false;
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
 			for (int y = (int) box.minY; y <= box.maxY; y++) {
 				for (int z = (int) box.minZ; z <= box.maxZ; z++) {
 					BlockPos pos = new BlockPos(x, y, z);
 					Block block = getEntityWorld().getBlockState(pos).getBlock();
 					
-					if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH || block == Blocks.GLOWSTONE) {
+					if (block == Blocks.TORCH && !stop || block == Blocks.REDSTONE_TORCH && !stop || block == Blocks.GLOWSTONE && !stop) {
 						if (shouldBreak()) {
 							setBreakBlockPos(pos);
 							if (world.isRemote) {
@@ -385,10 +390,11 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
 							setBreakBlockPos(BlockPos.ORIGIN);
 							world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
+							stop = true;
 						}
 					}
 					
-					if (block == Blocks.LIT_PUMPKIN) {
+					if (block == Blocks.LIT_PUMPKIN && !stop) {
 						setBreakBlockPos(pos);
 						if (shouldBreak()) {
 							setBreakBlockPos(pos);
@@ -399,10 +405,11 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
 							setBreakBlockPos(BlockPos.ORIGIN);
 							getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
+							stop = true;
 						}
 					}
 					
-					if (block == Blocks.LIT_REDSTONE_LAMP) {
+					if (block == Blocks.LIT_REDSTONE_LAMP && !stop) {
 						
 						if (shouldBreak()) {
 							setBreakBlockPos(pos);
@@ -413,12 +420,14 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
 							setBreakBlockPos(BlockPos.ORIGIN);
 							getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
+							stop = true;
 						}
 					}
 					
-					if (block.getLightValue(block.getDefaultState()) >= 7) {
+					if (block.getLightValue(block.getDefaultState()) >= 7 && !stop) {
 						playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-						// world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
+						world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
+						stop = true;
 					}
 				}
 			}

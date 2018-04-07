@@ -19,4 +19,7 @@ public class CatacombParts {
 	
 	public static ResourceLocation[] allStraightParts = new ResourceLocation[] { catacomb_hallway_flat_1, partStraight, catacomb_hallway_clean_1, catacomb_hallway_broken_1 };
 	
+	
+	public static ResourceLocation test = new ResourceLocation(WeepingAngels.MODID, "house/angel_house_room1");
+	
 }

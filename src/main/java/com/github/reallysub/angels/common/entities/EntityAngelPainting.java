@@ -147,6 +147,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	/**
 	 * Called when this entity is broken. Entity parameter may be null.
 	 */
+	@Override
 	public void onBroken(Entity entity) {
 		if (this.world.getGameRules().getBoolean("doTileDrops")) {
 			if (entity instanceof EntityPlayer) {
@@ -169,6 +170,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	/**
 	 * Sets the location and Yaw/Pitch of an entity in the world
 	 */
+	@Override
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
 		BlockPos blockpos = new BlockPos(x - this.posX, y - this.posY, z - this.posZ);
 		BlockPos blockpos1 = this.hangingPosition.add(blockpos);
