@@ -97,7 +97,7 @@ public class AngelUtils {
 						target.setSeen(true);
 						if (target.getAttackTarget() == seeker && target.getSeenTime() == 1 && seeker.world.rand.nextInt(50) < 5 && target.getDistance(seeker) < 5) {
 							target.playSound(WAObjects.Sounds.angelSeen, 0.5F, 1.0F);
-							//target.faceEntity(seeker, 1.0F, 1.0F);
+							// target.faceEntity(seeker, 1.0F, 1.0F);
 						}
 					}
 				}

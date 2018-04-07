@@ -58,6 +58,7 @@ public class WAObjects {
 		public static SoundEvent laughing_child = setUpSound("laughing_child");
 		public static SoundEvent light_break = setUpSound("light_break");
 		public static SoundEvent angel_teleport = setUpSound("angel_teleport");
+		public static SoundEvent angel_ambience = setUpSound("angel_ambient");
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {

@@ -479,6 +479,7 @@ public class ModelAngel extends ModelBase {
 		
 		// Head
 		GlStateManager.pushMatrix();
+		
 		GlStateManager.pushMatrix();
 		GlStateManager.enableLighting();
 		if (!angel.isAngry()) {

@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
@@ -22,6 +23,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -46,6 +48,7 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -77,6 +80,12 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		experienceValue = 25;
+	}
+	
+	@Nullable
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		this.playSound(WAObjects.Sounds.angel_ambience, 1.0F, 1.0F);
+		return super.onInitialSpawn(difficulty, livingdata);
 	}
 	
 	@Override
@@ -286,7 +295,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-			if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
 			int y = world.getHeight(x, z);
@@ -330,8 +339,8 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 			setSeenTime(0);
 		}
 		
-		//DO NOT REMOVE THAT RANDOM CHANCE, OTHERWISE EARS = GONE.
-		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing")&& rand.nextInt(2500) == 50) {
+		// DO NOT REMOVE THAT RANDOM CHANCE, OTHERWISE EARS = GONE.
+		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing") && rand.nextInt(2500) == 50) {
 			replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 		}
 	}

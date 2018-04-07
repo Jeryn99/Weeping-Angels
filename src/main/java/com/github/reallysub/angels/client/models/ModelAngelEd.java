@@ -55,160 +55,160 @@ public class ModelAngelEd extends ModelBiped {
 	ModelRenderer right_wing_4;
 	
 	public ModelAngelEd() {
-		this.textureWidth = 88;
-		this.textureHeight = 88;
-		this.teeth_1 = new ModelRenderer(this, 63, 39);
-		this.teeth_1.setRotationPoint(0.8F, -3.0F, 0.0F);
-		this.teeth_1.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth_1, 0.0F, 0.0F, -0.7853981633974483F);
-		this.left_arm_1 = new ModelRenderer(this, 34, 52);
-		this.left_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
-		this.left_arm_1.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
-		this.cloth_1 = new ModelRenderer(this, 34, 44);
-		this.cloth_1.setRotationPoint(0.0F, 24.0F, 3.3F);
-		this.cloth_1.addBox(-4.0F, -1.0F, -2.5F, 8, 1, 5, 0.0F);
-		this.left_wing_4 = new ModelRenderer(this, 22, 36);
-		this.left_wing_4.setRotationPoint(0.0F, 5.0F, 0.0F);
-		this.left_wing_4.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
-		this.setRotateAngle(left_wing_4, -1.1383037381507017F, 0.0F, 0.0F);
-		this.teeth_3 = new ModelRenderer(this, 63, 39);
-		this.teeth_3.setRotationPoint(-0.5F, -3.0F, 0.0F);
-		this.teeth_3.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth_3, 0.0F, 0.0F, -0.7853981633974483F);
-		this.right_arm = new ModelRenderer(this, 0, 32);
-		this.right_arm.setRotationPoint(-5.0F, 2.5F, 0.0F);
-		this.right_arm.addBox(-2.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
-		this.setRotateAngle(right_arm, 0.0F, 0.0F, 0.10000736613927509F);
-		this.head = new ModelRenderer(this, 0, 16);
-		this.head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
-		this.cloth_0 = new ModelRenderer(this, 9, 43);
-		this.cloth_0.setRotationPoint(0.0F, 24.0F, 0.0F);
-		this.cloth_0.addBox(-5.0F, -1.0F, -2.0F, 10, 1, 5, 0.0F);
-		this.teeth_2 = new ModelRenderer(this, 63, 39);
-		this.teeth_2.setRotationPoint(0.5F, -3.0F, 0.0F);
-		this.teeth_2.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth_2, 0.0F, 0.0F, -0.7853981633974483F);
-		this.nose = new ModelRenderer(this, 32, 0);
-		this.nose.setRotationPoint(0.0F, -4.5F, -4.0F);
-		this.nose.addBox(-0.5F, 0.0F, 0.0F, 1, 2, 1, 0.0F);
-		this.setRotateAngle(nose, -0.2246238747316702F, 0.0F, 0.0F);
-		this.coverup = new ModelRenderer(this, 54, 34);
-		this.coverup.setRotationPoint(0.0F, -6.0F, -4.0F);
-		this.coverup.addBox(-4.0F, 0.0F, -0.03F, 8, 1, 1, 0.0F);
-		this.face = new ModelRenderer(this, 54, 28);
-		this.face.setRotationPoint(0.0F, -4.5F, -4.0F);
-		this.face.addBox(-3.0F, 0.0F, -0.01F, 6, 3, 1, 0.0F);
-		this.back_cloth = new ModelRenderer(this, 60, 44);
-		this.back_cloth.setRotationPoint(0.0F, 12.0F, 2.0F);
-		this.back_cloth.addBox(-3.0F, 0.0F, -3.0F, 6, 12, 3, 0.0F);
-		this.setRotateAngle(back_cloth, 0.2792526803190927F, 0.0F, 0.0F);
-		this.teeth_5 = new ModelRenderer(this, 63, 39);
-		this.teeth_5.setRotationPoint(0.15F, -3.0F, 0.0F);
-		this.teeth_5.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth_5, 0.0F, 0.0F, -0.7853981633974483F);
-		this.cloth_2 = new ModelRenderer(this, 10, 32);
-		this.cloth_2.setRotationPoint(0.0F, 24.0F, 6.6F);
-		this.cloth_2.addBox(-3.0F, -1.0F, -2.5F, 6, 1, 3, 0.0F);
-		this.left_wing_1 = new ModelRenderer(this, 24, 0);
-		this.left_wing_1.setRotationPoint(2.4F, 2.0F, 1.5F);
-		this.left_wing_1.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotateAngle(left_wing_1, 1.53588974175501F, 0.9424777960769379F, 0.0F);
-		this.head_2 = new ModelRenderer(this, 0, 0);
-		this.head_2.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.head_2.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.5F);
-		this.right_wing_2 = new ModelRenderer(this, 46, 27);
-		this.right_wing_2.setRotationPoint(0.0F, 4.0F, -1.0F);
-		this.right_wing_2.addBox(-1.0F, 0.0F, 0.0F, 2, 7, 2, 0.0F);
-		this.setRotateAngle(right_wing_2, 1.2292353921796064F, 0.0F, 0.0F);
-		this.zeth = new ModelRenderer(this, 20, 50);
-		this.zeth.setRotationPoint(0.0F, 0.0F, -2.0F);
-		this.zeth.addBox(-4.5F, -1.0F, -0.6F, 9, 1, 1, 0.0F);
-		this.back_cloth_2 = new ModelRenderer(this, 0, 49);
-		this.back_cloth_2.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.back_cloth_2.addBox(-3.0F, 0.0F, -3.0F, 6, 12, 3, 0.25F);
-		this.setRotateAngle(back_cloth_2, 0.0F, 0.0F, 0.0F);
-		this.teeth_4 = new ModelRenderer(this, 63, 39);
-		this.teeth_4.setRotationPoint(-0.15F, -3.0F, 0.0F);
-		this.teeth_4.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth_4, 0.0F, 0.0F, -0.7853981633974483F);
-		this.right_wing_4 = new ModelRenderer(this, 24, 16);
-		this.right_wing_4.setRotationPoint(0.0F, 5.0F, 0.0F);
-		this.right_wing_4.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
-		this.setRotateAngle(right_wing_4, -1.1383037381507017F, 0.0F, 0.0F);
-		this.body_2 = new ModelRenderer(this, 32, 0);
-		this.body_2.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.body_2.addBox(-4.0F, 0.0F, -2.0F, 8, 23, 4, 0.25F);
-		this.right_wing_1 = new ModelRenderer(this, 0, 0);
-		this.right_wing_1.setRotationPoint(-2.4F, 2.0F, 1.5F);
-		this.right_wing_1.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotateAngle(right_wing_1, 1.53588974175501F, -0.9424777960769379F, 0.0F);
-		this.left_eyebrow = new ModelRenderer(this, 62, 32);
-		this.left_eyebrow.setRotationPoint(3.0F, -4.5F, -4.0F);
-		this.left_eyebrow.addBox(-2.5F, -1.0F, -0.02F, 3, 1, 1, 0.0F);
-		this.angry_mouth = new ModelRenderer(this, 63, 36);
-		this.angry_mouth.setRotationPoint(0.0F, 0.0F, -4.0F);
-		this.angry_mouth.addBox(-2.0F, -1.8F, -0.02F, 4, 2, 1, 0.0F);
-		this.right_wing_3 = new ModelRenderer(this, 0, 16);
-		this.right_wing_3.setRotationPoint(0.0F, 7.0F, 2.0F);
-		this.right_wing_3.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
-		this.setRotateAngle(right_wing_3, -1.2292353921796064F, 0.0F, 0.0F);
-		this.right_eyebrow = new ModelRenderer(this, 54, 32);
-		this.right_eyebrow.setRotationPoint(-3.0F, -4.5F, -4.0F);
-		this.right_eyebrow.addBox(-0.5F, -1.0F, -0.02F, 3, 1, 1, 0.0F);
-		this.left_wing_2 = new ModelRenderer(this, 78, 42);
-		this.left_wing_2.setRotationPoint(0.0F, 4.0F, -1.0F);
-		this.left_wing_2.addBox(-1.0F, 0.0F, 0.0F, 2, 7, 2, 0.0F);
-		this.setRotateAngle(left_wing_2, 1.2292353921796064F, 0.0F, 0.0F);
-		this.body = new ModelRenderer(this, 56, 0);
-		this.body.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.body.addBox(-4.0F, 0.0F, -2.0F, 8, 24, 4, 0.0F);
-		this.right_wing_0 = new ModelRenderer(this, 0, 49);
-		this.right_wing_0.setRotationPoint(-2.4F, 2.0F, 1.5F);
-		this.right_wing_0.addBox(0.0F, 0.0F, -13.0F, 1, 11, 18, 0.0F);
-		this.setRotateAngle(right_wing_0, 1.53588974175501F, -0.9424777960769379F, 0.0F);
-		this.teeth = new ModelRenderer(this, 63, 39);
-		this.teeth.setRotationPoint(-0.8F, -3.0F, 0.0F);
-		this.teeth.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
-		this.setRotateAngle(teeth, 0.0F, 0.0F, -0.7853981633974483F);
-		this.left_wing_0 = new ModelRenderer(this, 38, 50);
-		this.left_wing_0.setRotationPoint(2.4F, 2.0F, 1.5F);
-		this.left_wing_0.addBox(-1.0F, 0.0F, -13.0F, 1, 11, 18, 0.0F);
-		this.setRotateAngle(left_wing_0, 1.53588974175501F, 0.9424777960769379F, 0.0F);
-		this.left_wing_3 = new ModelRenderer(this, 14, 36);
-		this.left_wing_3.setRotationPoint(0.0F, 7.0F, 2.0F);
-		this.left_wing_3.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
-		this.setRotateAngle(left_wing_3, -1.2292353921796064F, 0.0F, 0.0F);
-		this.left_arm = new ModelRenderer(this, 32, 27);
-		this.left_arm.setRotationPoint(5.0F, 2.5F, -0.0F);
-		this.left_arm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
-		this.setRotateAngle(left_arm, 0.0F, 0.0F, -0.10000736613927509F);
-		this.right_arm_1 = new ModelRenderer(this, 20, 52);
-		this.right_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
-		this.right_arm_1.addBox(-2.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
-		this.angry_mouth.addChild(this.teeth_1);
-		this.left_arm.addChild(this.left_arm_1);
-		this.left_wing_3.addChild(this.left_wing_4);
-		this.angry_mouth.addChild(this.teeth_3);
-		this.angry_mouth.addChild(this.teeth_2);
-		this.head.addChild(this.nose);
-		this.head.addChild(this.coverup);
-		this.head.addChild(this.face);
-		this.angry_mouth.addChild(this.teeth_5);
-		this.right_wing_1.addChild(this.right_wing_2);
-		this.cloth_0.addChild(this.zeth);
-		this.angry_mouth.addChild(this.teeth_4);
-		this.right_wing_3.addChild(this.right_wing_4);
-		this.head.addChild(this.left_eyebrow);
-		this.head.addChild(this.angry_mouth);
-		this.right_wing_2.addChild(this.right_wing_3);
-		this.head.addChild(this.right_eyebrow);
-		this.left_wing_1.addChild(this.left_wing_2);
-		this.angry_mouth.addChild(this.teeth);
-		this.left_wing_2.addChild(this.left_wing_3);
-		this.right_arm.addChild(this.right_arm_1);
-		this.head.addChild(this.head_2);
-		this.back_cloth.addChild(this.back_cloth_2);
+		textureWidth = 88;
+		textureHeight = 88;
+		teeth_1 = new ModelRenderer(this, 63, 39);
+		teeth_1.setRotationPoint(0.8F, -3.0F, 0.0F);
+		teeth_1.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth_1, 0.0F, 0.0F, -0.7853981633974483F);
+		left_arm_1 = new ModelRenderer(this, 34, 52);
+		left_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
+		left_arm_1.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
+		cloth_1 = new ModelRenderer(this, 34, 44);
+		cloth_1.setRotationPoint(0.0F, 24.0F, 3.3F);
+		cloth_1.addBox(-4.0F, -1.0F, -2.5F, 8, 1, 5, 0.0F);
+		left_wing_4 = new ModelRenderer(this, 22, 36);
+		left_wing_4.setRotationPoint(0.0F, 5.0F, 0.0F);
+		left_wing_4.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
+		setRotateAngle(left_wing_4, -1.1383037381507017F, 0.0F, 0.0F);
+		teeth_3 = new ModelRenderer(this, 63, 39);
+		teeth_3.setRotationPoint(-0.5F, -3.0F, 0.0F);
+		teeth_3.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth_3, 0.0F, 0.0F, -0.7853981633974483F);
+		right_arm = new ModelRenderer(this, 0, 32);
+		right_arm.setRotationPoint(-5.0F, 2.5F, 0.0F);
+		right_arm.addBox(-2.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
+		setRotateAngle(right_arm, 0.0F, 0.0F, 0.10000736613927509F);
+		head = new ModelRenderer(this, 0, 16);
+		head.setRotationPoint(0.0F, 0.0F, 0.0F);
+		head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
+		cloth_0 = new ModelRenderer(this, 9, 43);
+		cloth_0.setRotationPoint(0.0F, 24.0F, 0.0F);
+		cloth_0.addBox(-5.0F, -1.0F, -2.0F, 10, 1, 5, 0.0F);
+		teeth_2 = new ModelRenderer(this, 63, 39);
+		teeth_2.setRotationPoint(0.5F, -3.0F, 0.0F);
+		teeth_2.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth_2, 0.0F, 0.0F, -0.7853981633974483F);
+		nose = new ModelRenderer(this, 32, 0);
+		nose.setRotationPoint(0.0F, -4.5F, -4.0F);
+		nose.addBox(-0.5F, 0.0F, 0.0F, 1, 2, 1, 0.0F);
+		setRotateAngle(nose, -0.2246238747316702F, 0.0F, 0.0F);
+		coverup = new ModelRenderer(this, 54, 34);
+		coverup.setRotationPoint(0.0F, -6.0F, -4.0F);
+		coverup.addBox(-4.0F, 0.0F, -0.03F, 8, 1, 1, 0.0F);
+		face = new ModelRenderer(this, 54, 28);
+		face.setRotationPoint(0.0F, -4.5F, -4.0F);
+		face.addBox(-3.0F, 0.0F, -0.01F, 6, 3, 1, 0.0F);
+		back_cloth = new ModelRenderer(this, 60, 44);
+		back_cloth.setRotationPoint(0.0F, 12.0F, 2.0F);
+		back_cloth.addBox(-3.0F, 0.0F, -3.0F, 6, 12, 3, 0.0F);
+		setRotateAngle(back_cloth, 0.2792526803190927F, 0.0F, 0.0F);
+		teeth_5 = new ModelRenderer(this, 63, 39);
+		teeth_5.setRotationPoint(0.15F, -3.0F, 0.0F);
+		teeth_5.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth_5, 0.0F, 0.0F, -0.7853981633974483F);
+		cloth_2 = new ModelRenderer(this, 10, 32);
+		cloth_2.setRotationPoint(0.0F, 24.0F, 6.6F);
+		cloth_2.addBox(-3.0F, -1.0F, -2.5F, 6, 1, 3, 0.0F);
+		left_wing_1 = new ModelRenderer(this, 24, 0);
+		left_wing_1.setRotationPoint(2.4F, 2.0F, 1.5F);
+		left_wing_1.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
+		setRotateAngle(left_wing_1, 1.53588974175501F, 0.9424777960769379F, 0.0F);
+		head_2 = new ModelRenderer(this, 0, 0);
+		head_2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		head_2.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.5F);
+		right_wing_2 = new ModelRenderer(this, 46, 27);
+		right_wing_2.setRotationPoint(0.0F, 4.0F, -1.0F);
+		right_wing_2.addBox(-1.0F, 0.0F, 0.0F, 2, 7, 2, 0.0F);
+		setRotateAngle(right_wing_2, 1.2292353921796064F, 0.0F, 0.0F);
+		zeth = new ModelRenderer(this, 20, 50);
+		zeth.setRotationPoint(0.0F, 0.0F, -2.0F);
+		zeth.addBox(-4.5F, -1.0F, -0.6F, 9, 1, 1, 0.0F);
+		back_cloth_2 = new ModelRenderer(this, 0, 49);
+		back_cloth_2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		back_cloth_2.addBox(-3.0F, 0.0F, -3.0F, 6, 12, 3, 0.25F);
+		setRotateAngle(back_cloth_2, 0.0F, 0.0F, 0.0F);
+		teeth_4 = new ModelRenderer(this, 63, 39);
+		teeth_4.setRotationPoint(-0.15F, -3.0F, 0.0F);
+		teeth_4.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth_4, 0.0F, 0.0F, -0.7853981633974483F);
+		right_wing_4 = new ModelRenderer(this, 24, 16);
+		right_wing_4.setRotationPoint(0.0F, 5.0F, 0.0F);
+		right_wing_4.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
+		setRotateAngle(right_wing_4, -1.1383037381507017F, 0.0F, 0.0F);
+		body_2 = new ModelRenderer(this, 32, 0);
+		body_2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		body_2.addBox(-4.0F, 0.0F, -2.0F, 8, 23, 4, 0.25F);
+		right_wing_1 = new ModelRenderer(this, 0, 0);
+		right_wing_1.setRotationPoint(-2.4F, 2.0F, 1.5F);
+		right_wing_1.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
+		setRotateAngle(right_wing_1, 1.53588974175501F, -0.9424777960769379F, 0.0F);
+		left_eyebrow = new ModelRenderer(this, 62, 32);
+		left_eyebrow.setRotationPoint(3.0F, -4.5F, -4.0F);
+		left_eyebrow.addBox(-2.5F, -1.0F, -0.02F, 3, 1, 1, 0.0F);
+		angry_mouth = new ModelRenderer(this, 63, 36);
+		angry_mouth.setRotationPoint(0.0F, 0.0F, -4.0F);
+		angry_mouth.addBox(-2.0F, -1.8F, -0.02F, 4, 2, 1, 0.0F);
+		right_wing_3 = new ModelRenderer(this, 0, 16);
+		right_wing_3.setRotationPoint(0.0F, 7.0F, 2.0F);
+		right_wing_3.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
+		setRotateAngle(right_wing_3, -1.2292353921796064F, 0.0F, 0.0F);
+		right_eyebrow = new ModelRenderer(this, 54, 32);
+		right_eyebrow.setRotationPoint(-3.0F, -4.5F, -4.0F);
+		right_eyebrow.addBox(-0.5F, -1.0F, -0.02F, 3, 1, 1, 0.0F);
+		left_wing_2 = new ModelRenderer(this, 78, 42);
+		left_wing_2.setRotationPoint(0.0F, 4.0F, -1.0F);
+		left_wing_2.addBox(-1.0F, 0.0F, 0.0F, 2, 7, 2, 0.0F);
+		setRotateAngle(left_wing_2, 1.2292353921796064F, 0.0F, 0.0F);
+		body = new ModelRenderer(this, 56, 0);
+		body.setRotationPoint(0.0F, 0.0F, 0.0F);
+		body.addBox(-4.0F, 0.0F, -2.0F, 8, 24, 4, 0.0F);
+		right_wing_0 = new ModelRenderer(this, 0, 49);
+		right_wing_0.setRotationPoint(-2.4F, 2.0F, 1.5F);
+		right_wing_0.addBox(0.0F, 0.0F, -13.0F, 1, 11, 18, 0.0F);
+		setRotateAngle(right_wing_0, 1.53588974175501F, -0.9424777960769379F, 0.0F);
+		teeth = new ModelRenderer(this, 63, 39);
+		teeth.setRotationPoint(-0.8F, -3.0F, 0.0F);
+		teeth.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
+		setRotateAngle(teeth, 0.0F, 0.0F, -0.7853981633974483F);
+		left_wing_0 = new ModelRenderer(this, 38, 50);
+		left_wing_0.setRotationPoint(2.4F, 2.0F, 1.5F);
+		left_wing_0.addBox(-1.0F, 0.0F, -13.0F, 1, 11, 18, 0.0F);
+		setRotateAngle(left_wing_0, 1.53588974175501F, 0.9424777960769379F, 0.0F);
+		left_wing_3 = new ModelRenderer(this, 14, 36);
+		left_wing_3.setRotationPoint(0.0F, 7.0F, 2.0F);
+		left_wing_3.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
+		setRotateAngle(left_wing_3, -1.2292353921796064F, 0.0F, 0.0F);
+		left_arm = new ModelRenderer(this, 32, 27);
+		left_arm.setRotationPoint(5.0F, 2.5F, -0.0F);
+		left_arm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
+		setRotateAngle(left_arm, 0.0F, 0.0F, -0.10000736613927509F);
+		right_arm_1 = new ModelRenderer(this, 20, 52);
+		right_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
+		right_arm_1.addBox(-2.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
+		angry_mouth.addChild(teeth_1);
+		left_arm.addChild(left_arm_1);
+		left_wing_3.addChild(left_wing_4);
+		angry_mouth.addChild(teeth_3);
+		angry_mouth.addChild(teeth_2);
+		head.addChild(nose);
+		head.addChild(coverup);
+		head.addChild(face);
+		angry_mouth.addChild(teeth_5);
+		right_wing_1.addChild(right_wing_2);
+		cloth_0.addChild(zeth);
+		angry_mouth.addChild(teeth_4);
+		right_wing_3.addChild(right_wing_4);
+		head.addChild(left_eyebrow);
+		head.addChild(angry_mouth);
+		right_wing_2.addChild(right_wing_3);
+		head.addChild(right_eyebrow);
+		left_wing_1.addChild(left_wing_2);
+		angry_mouth.addChild(teeth);
+		left_wing_2.addChild(left_wing_3);
+		right_arm.addChild(right_arm_1);
+		head.addChild(head_2);
+		back_cloth.addChild(back_cloth_2);
 	}
 	
 	@Override
@@ -216,19 +216,19 @@ public class ModelAngelEd extends ModelBiped {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GlStateManager.enableLighting();
-		this.cloth_1.render(f5);
-		this.right_arm.render(f5);
-		this.head.render(f5);
-		this.cloth_0.render(f5);
-		this.back_cloth.render(f5);
-		this.cloth_2.render(f5);
-		this.left_wing_1.render(f5);
-		this.body_2.render(f5);
-		this.right_wing_1.render(f5);
-		this.body.render(f5);
-		this.right_wing_0.render(f5);
-		this.left_wing_0.render(f5);
-		this.left_arm.render(f5);
+		cloth_1.render(f5);
+		right_arm.render(f5);
+		head.render(f5);
+		cloth_0.render(f5);
+		back_cloth.render(f5);
+		cloth_2.render(f5);
+		left_wing_1.render(f5);
+		body_2.render(f5);
+		right_wing_1.render(f5);
+		body.render(f5);
+		right_wing_0.render(f5);
+		left_wing_0.render(f5);
+		left_arm.render(f5);
 		GlStateManager.disableLighting();
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
@@ -245,7 +245,7 @@ public class ModelAngelEd extends ModelBiped {
 	
 	@Override
 	protected ModelRenderer getArmForSide(EnumHandSide side) {
-		return side == EnumHandSide.LEFT ? this.left_arm : this.right_arm;
+		return side == EnumHandSide.LEFT ? left_arm : right_arm;
 	}
 	
 	@Override
@@ -256,109 +256,116 @@ public class ModelAngelEd extends ModelBiped {
 			angel = (EntityAngel) entity;
 		}
 		
-		boolean hideFace;
+		boolean hidfac;
+		if (angel.isAngry()) {
+			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+			angry_mouth.isHidden = false;
+			
+		} else {
+			angry_mouth.isHidden = true;
+			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+		}
 		
-		// Seen
-		if (angel.isSeen() && angel.getSeenTime() == 1) {
+		boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
+		
+		head.rotateAngleY = netheadYaw * 0.017453292F;
+		head.rotateAngleZ = netheadYaw * 0.005F;
+		
+		if (flag) {
+			head.rotateAngleX = -((float) Math.PI / 4F);
+			
+		} else {
+			head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
+		}
+		
+		if (angel.getSeenTime() == 1) {
 			
 			if (angel.isAngry()) {
 				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				angry_mouth.isHidden = false;
-				
+				hidfac = false;
+				right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
 			} else {
 				angry_mouth.isHidden = true;
 				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				hidfac = Math.random() >= 0.5F;
+				right_arm.rotateAngleX = 0;
+				left_arm.rotateAngleX = 0;
 			}
 			
-			this.head.rotateAngleY = netheadYaw * 0.017453292F;
-			this.head.rotateAngleZ = netheadYaw * 0.005F;
+			right_arm.rotateAngleZ = 0;
+			left_arm.rotateAngleZ = 0;
 			
-			if (angel.isAngry()) {
-				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-				angry_mouth.isHidden = false;
-				hideFace = false;
-				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-			} else {
-				angry_mouth.isHidden = true;
-				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				hideFace = Math.random() >= 0.5F;
-				this.right_arm.rotateAngleX = 0;
-				this.left_arm.rotateAngleX = 0;
-			}
-			
-			this.right_arm.rotateAngleZ = 0;
-			this.left_arm.rotateAngleZ = 0;
-			
-			this.right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-			this.left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-			this.right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-			this.left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+			right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+			left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
 			// 1.53588974175501F, 0.9424777960769379F, 0.0F
 			
-			this.right_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			this.right_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 0.9424777960769379F;
-			this.right_wing_0.rotateAngleZ = 0;
+			right_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			right_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 0.9424777960769379F;
+			right_wing_0.rotateAngleZ = 0;
 			
-			this.left_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			this.left_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
-			this.left_wing_0.rotateAngleZ = 0;
-			this.left_wing_1.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			this.left_wing_1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
-			this.left_wing_1.rotateAngleZ = 0;
-			if (hideFace) {
-				this.head.rotateAngleX = 0.8F;
-				this.head.rotateAngleY = 0.0F;
-				this.head.rotateAngleZ = 0.0F;
-				this.left_arm_1.rotateAngleX = -0.52F;
-				this.left_arm.rotateAngleX = -1.85F;
-				this.left_arm.rotateAngleY = 0.61F;
-				this.left_arm.rotateAngleZ = -0.087F;
-				this.right_arm_1.rotateAngleX = -0.52F;
-				this.right_arm.rotateAngleX = -1.85F;
-				this.right_arm.rotateAngleY = -0.61F;
-				this.right_arm.rotateAngleZ = 0.087F;
+			left_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			left_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
+			left_wing_0.rotateAngleZ = 0;
+			left_wing_1.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
+			left_wing_1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
+			left_wing_1.rotateAngleZ = 0;
+			if (hidfac) {
+				head.rotateAngleX = 0.8F;
+				head.rotateAngleY = 0.0F;
+				head.rotateAngleZ = 0.0F;
+				left_arm_1.rotateAngleX = -0.52F;
+				left_arm.rotateAngleX = -1.85F;
+				left_arm.rotateAngleY = 0.61F;
+				left_arm.rotateAngleZ = -0.087F;
+				right_arm_1.rotateAngleX = -0.52F;
+				right_arm.rotateAngleX = -1.85F;
+				right_arm.rotateAngleY = -0.61F;
+				right_arm.rotateAngleZ = 0.087F;
 				
 			} else {
-				this.left_arm_1.rotateAngleX = 0;
-				this.left_arm.rotateAngleY = 0;
-				this.left_arm.rotateAngleZ = 0;
-				this.right_arm_1.rotateAngleX = 0;
-				this.right_arm.rotateAngleY = 0;
-				this.right_arm.rotateAngleZ = 0;
+				left_arm_1.rotateAngleX = 0;
+				left_arm.rotateAngleY = 0;
+				left_arm.rotateAngleZ = 0;
+				right_arm_1.rotateAngleX = 0;
+				right_arm.rotateAngleY = 0;
+				right_arm.rotateAngleZ = 0;
 				
 			}
 			
 			if (angel.getBreakPos().getY() > 0) {
-				this.right_arm.rotateAngleX = -1.5707963268F;
-				this.right_arm.rotateAngleY = -(float) (angel.rotationYaw * Math.PI / 180) - (float) Math.atan((angel.getBreakPos().getX() - angel.getPosition().getX()) / (Math.sqrt(Math.pow((angel.getBreakPos().getX() - angel.getPosition().getX()), 2) + Math.pow((angel.getBreakPos().getZ() - angel.getPosition().getZ()), 2))));
-				this.right_arm.rotateAngleZ = 0;
+				right_arm.rotateAngleX = -1.5707963268F;
+				right_arm.rotateAngleY = -(float) (angel.rotationYaw * Math.PI / 180) - (float) Math.atan((angel.getBreakPos().getX() - angel.getPosition().getX()) / (Math.sqrt(Math.pow((angel.getBreakPos().getX() - angel.getPosition().getX()), 2) + Math.pow((angel.getBreakPos().getZ() - angel.getPosition().getZ()), 2))));
+				right_arm.rotateAngleZ = 0;
 			}
 		}
 		
-		this.right_wing_1.rotateAngleX = this.right_wing_0.rotateAngleX;
-		this.right_wing_1.rotateAngleY = this.right_wing_0.rotateAngleY;
-		this.right_wing_1.rotateAngleZ = this.right_wing_0.rotateAngleZ;
-		this.right_wing_1.rotationPointX = this.right_wing_0.rotationPointX;
-		this.right_wing_1.rotationPointY = this.right_wing_0.rotationPointY;
-		this.right_wing_1.rotationPointZ = this.right_wing_0.rotationPointZ;
+		right_wing_1.rotateAngleX = right_wing_0.rotateAngleX;
+		right_wing_1.rotateAngleY = right_wing_0.rotateAngleY;
+		right_wing_1.rotateAngleZ = right_wing_0.rotateAngleZ;
+		right_wing_1.rotationPointX = right_wing_0.rotationPointX;
+		right_wing_1.rotationPointY = right_wing_0.rotationPointY;
+		right_wing_1.rotationPointZ = right_wing_0.rotationPointZ;
 		
-		this.left_wing_0.rotateAngleX = this.right_wing_0.rotateAngleX;
-		this.left_wing_0.rotateAngleY = -this.right_wing_0.rotateAngleY;
-		this.left_wing_0.rotateAngleZ = this.right_wing_0.rotateAngleZ;
-		this.left_wing_0.rotationPointX = -this.right_wing_0.rotationPointX;
-		this.left_wing_0.rotationPointY = this.right_wing_0.rotationPointY;
-		this.left_wing_0.rotationPointZ = this.right_wing_0.rotationPointZ;
+		left_wing_0.rotateAngleX = right_wing_0.rotateAngleX;
+		left_wing_0.rotateAngleY = -right_wing_0.rotateAngleY;
+		left_wing_0.rotateAngleZ = right_wing_0.rotateAngleZ;
+		left_wing_0.rotationPointX = -right_wing_0.rotationPointX;
+		left_wing_0.rotationPointY = right_wing_0.rotationPointY;
+		left_wing_0.rotationPointZ = right_wing_0.rotationPointZ;
 		
-		this.left_wing_1.rotateAngleX = this.left_wing_0.rotateAngleX;
-		this.left_wing_1.rotateAngleY = this.left_wing_0.rotateAngleY;
-		this.left_wing_1.rotateAngleZ = this.left_wing_0.rotateAngleZ;
-		this.left_wing_1.rotationPointX = this.left_wing_0.rotationPointX;
-		this.left_wing_1.rotationPointY = this.left_wing_0.rotationPointY;
-		this.left_wing_1.rotationPointZ = this.left_wing_0.rotationPointZ;
+		left_wing_1.rotateAngleX = left_wing_0.rotateAngleX;
+		left_wing_1.rotateAngleY = left_wing_0.rotateAngleY;
+		left_wing_1.rotateAngleZ = left_wing_0.rotateAngleZ;
+		left_wing_1.rotationPointX = left_wing_0.rotationPointX;
+		left_wing_1.rotationPointY = left_wing_0.rotationPointY;
+		left_wing_1.rotationPointZ = left_wing_0.rotationPointZ;
 	}
 }

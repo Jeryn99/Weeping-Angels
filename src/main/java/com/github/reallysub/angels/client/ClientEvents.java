@@ -3,7 +3,9 @@ package com.github.reallysub.angels.client;
 import com.github.reallysub.angels.events.EventAngelTeleport;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,6 +16,7 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void teleportEvent(EventAngelTeleport e) {
 		EntityPlayer player = e.getPlayer();
-		//Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAngelAppearance(player.world, player.posX, player.posY, player.posZ));
+		// Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAngelAppearance(player.world, player.posX, player.posY, player.posZ));
 	}
+	
 }

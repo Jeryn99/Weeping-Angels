@@ -1,9 +1,13 @@
 package com.github.reallysub.angels.common.structures;
 
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +20,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator {
@@ -68,14 +73,14 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 							part = CatacombParts.partTSection;
 						}
 					} else {
-						part = getStraightPart();
+						part = CatacombParts.getStraightPart();
 					}
 					
 					// System.out.println(part + " : " + times);
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z + 6 * times), Rotation.CLOCKWISE_90, part);
 					
-					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z - 6 * times), Rotation.CLOCKWISE_90, getStraightPart());
+					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z - 6 * times), Rotation.CLOCKWISE_90, CatacombParts.getStraightPart());
 					
 				}
 			}
@@ -95,6 +100,21 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 		
 		template.addBlocksToWorld(world, pos, placeSettings);
 		
+		Map<BlockPos, String> map = template.getDataBlocks(pos, placeSettings);
+		
+		for (Map.Entry<BlockPos, String> entry : map.entrySet()) {
+			if ("chest".equals(entry.getValue())) {
+				BlockPos blockpos2 = entry.getKey();
+				world.setBlockState(blockpos2.up(), Blocks.AIR.getDefaultState(), 3);
+				TileEntity tileentity = world.getTileEntity(blockpos2);
+				
+				if (tileentity instanceof TileEntityChest) {
+					TileEntityChest chest = (TileEntityChest) tileentity;
+					chest.setLootTable(LootTableList.ENTITIES_WITCH, rand.nextLong());
+				}
+			}
+		}
+		
 		return true;
 	}
 	
@@ -103,8 +123,4 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 		return true;
 	}
 	
-	public ResourceLocation getStraightPart() {
-		Random rand = new Random();
-		return CatacombParts.allStraightParts[rand.nextInt(CatacombParts.allStraightParts.length)];
-	}
 }
