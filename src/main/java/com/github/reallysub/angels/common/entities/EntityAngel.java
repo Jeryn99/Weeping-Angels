@@ -3,8 +3,6 @@ package com.github.reallysub.angels.common.entities;
 import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
-import com.github.reallysub.angels.common.structures.CatacombParts;
-import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -23,7 +21,6 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -44,7 +41,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;

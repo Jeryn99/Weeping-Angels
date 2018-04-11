@@ -43,11 +43,11 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6, y, z), Rotation.NONE, CatacombParts.partTSection);
 				
 				// 8 Corridors
-				for (int times = 0; times <= 8; times++) {
+				for (int times = 0; times <= 12; times++) {
 					
 					ResourceLocation part = CatacombParts.partStraight;
 					
-					if (times == 3) {
+					if (times == 6) {
 						part = CatacombParts.partCrossSection;
 					} else {
 						part = CatacombParts.partStraight;
@@ -62,7 +62,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				// Corridor
 				WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 + 72, y, z), Rotation.NONE, CatacombParts.partCrossSection);
 				
-				for (int times = 0; times <= 8; times++) {
+				for (int times = 0; times <= 12; times++) {
 					
 					ResourceLocation part;
 					

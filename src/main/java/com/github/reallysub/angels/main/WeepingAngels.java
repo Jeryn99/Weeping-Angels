@@ -5,8 +5,6 @@ import com.github.reallysub.angels.common.events.CommonEvents;
 import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.config.Config;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -14,8 +12,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 

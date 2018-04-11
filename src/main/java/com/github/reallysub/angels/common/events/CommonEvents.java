@@ -5,14 +5,10 @@ import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.main.AngelUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
