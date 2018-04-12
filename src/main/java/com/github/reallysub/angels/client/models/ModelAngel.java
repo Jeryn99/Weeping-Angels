@@ -2,6 +2,7 @@ package com.github.reallysub.angels.client.models;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
+import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -482,7 +483,7 @@ public class ModelAngel extends ModelBase {
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.enableLighting();
-		if (!angel.isAngry()) {
+		if (!angel.getPose().equals(AngelPoses.ANGERY)) {
 			GlStateManager.rotate(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
@@ -511,7 +512,7 @@ public class ModelAngel extends ModelBase {
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
 		
-		if (angel.isAngry()) {
+		if (angel.getPose().equals(AngelPoses.ANGERY)) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);

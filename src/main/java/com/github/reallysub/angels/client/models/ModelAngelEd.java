@@ -1,5 +1,6 @@
 package com.github.reallysub.angels.client.models;
 
+import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -16,7 +17,9 @@ import net.minecraft.util.math.MathHelper;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd extends ModelBiped {
-	
+
+    private boolean hidfac;
+
 	ModelRenderer right_wing_0;
 	ModelRenderer left_wing_0;
 	ModelRenderer back_cloth_2;
@@ -255,9 +258,8 @@ public class ModelAngelEd extends ModelBiped {
 		if (entity instanceof EntityAngel) {
 			angel = (EntityAngel) entity;
 		}
-		
-		boolean hidfac;
-		if (angel.isAngry()) {
+
+		if (angel.getPose().equals(AngelPoses.ANGERY)) {
 			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 			angry_mouth.isHidden = false;
@@ -282,7 +284,7 @@ public class ModelAngelEd extends ModelBiped {
 		
 		if (angel.getSeenTime() == 1) {
 			
-			if (angel.isAngry()) {
+			if (angel.getPose().equals(AngelPoses.ANGERY)) {
 				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				angry_mouth.isHidden = false;

@@ -3,6 +3,7 @@ package com.github.reallysub.angels.common.entities;
 import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
+import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -51,10 +52,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Mod.EventBusSubscriber
-public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData {
+public class EntityAngel extends EntityMob {
 	
-	private static DataParameter<Boolean> isAngry = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static DataParameter<String> pose = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static DataParameter<Integer> timeViewed = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -134,7 +139,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	protected void entityInit() {
 		super.entityInit();
 		getDataManager().register(isSeen, false);
-		getDataManager().register(isAngry, false);
+		getDataManager().register(pose, AngelPoses.HIDING_FACE.toString());
 		getDataManager().register(isChild, randomChild());
 		getDataManager().register(timeViewed, 0);
 		getDataManager().register(type, randomType());
@@ -195,10 +200,10 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	}
 	
 	/**
-	 * @return Returns whether the angel is angry or not
+	 * @return Returns the angels pose
 	 */
-	public boolean isAngry() {
-		return getDataManager().get(isAngry);
+	public String getPose() {
+		return getDataManager().get(pose);
 	}
 	
 	public boolean isChild() {
@@ -208,8 +213,9 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	/**
 	 * Set's whether the angel is being isSeen or not
 	 */
-	public void setAngry(boolean angry) {
-		getDataManager().set(isAngry, angry);
+	public void setPose(String newPose) {
+        String p2Str = newPose.toString();
+		getDataManager().set(pose, p2Str);
 	}
 	
 	/**
@@ -259,7 +265,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		super.writeEntityToNBT(compound);
 		compound.setBoolean("isSeen", isSeen());
 		compound.setInteger("timeSeen", getSeenTime());
-		compound.setBoolean("isAngry", isAngry());
+		compound.setString("pose", getPose());
 		compound.setInteger("type", getType());
 		compound.setBoolean("angelChild", isChild());
 		compound.setBoolean("support", isCompatiblity());
@@ -276,7 +282,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 		
 		if (compound.hasKey("timeSeen")) setSeenTime(compound.getInteger("timeSeen"));
 		
-		if (compound.hasKey("isAngry")) setAngry(compound.getBoolean("isAngry"));
+		if (compound.hasKey("pose")) setPose(compound.getString("pose"));
 		
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 		
@@ -323,9 +329,11 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
+
+		System.out.println("Pose: " + getPose());
+
 		if (!isSeen() && rand.nextInt(15) == 5) {
-			setAngry(rand.nextBoolean());
+			setPose(randomPose().toString());
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
@@ -438,7 +446,14 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 			}
 		}
 	}
-	
+
+
+    private static final List<AngelPoses> VALUES =  Collections.unmodifiableList(Arrays.asList(AngelPoses.values()));
+
+    public AngelPoses randomPose()  {
+        return VALUES.get(world.rand.nextInt(VALUES.size()));
+    }
+
 	private boolean shouldBreak() {
 		return getHealth() > 5 && rand.nextInt(10) < 5;
 	}
@@ -453,18 +468,7 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	private boolean randomChild() {
 		return rand.nextInt(10) == 4;
 	}
-	
-	@Override
-	public void writeSpawnData(ByteBuf buffer) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void readSpawnData(ByteBuf additionalData) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	public boolean isCompatiblity() {
 		return getDataManager().get(metaMorpthSupport);
@@ -473,4 +477,5 @@ public class EntityAngel extends EntityMob implements IEntityAdditionalSpawnData
 	public void setCompatiblity(boolean support) {
 		getDataManager().set(metaMorpthSupport, support);
 	}
+
 }
