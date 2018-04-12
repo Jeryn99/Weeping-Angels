@@ -26,10 +26,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -46,6 +48,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -360,11 +363,17 @@ public class EntityAngel extends EntityMob {
 				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 				boolean isPic = item.getItem() instanceof ItemPickaxe;
 				e.setCanceled(!isPic);
-				
+
 				if (!isPic) {
 					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
 				} else {
 					ItemPickaxe pick = (ItemPickaxe) item.getItem();
+
+					if(pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD)
+					{
+					    e.setCanceled(true);
+                    }
+
 					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
