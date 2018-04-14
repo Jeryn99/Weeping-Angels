@@ -50,17 +50,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
+	
+	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
+	
+	long actionTime = 0L;
 	
 	private static DataParameter<String> pose = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
 	private static DataParameter<Boolean> isSeen = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
@@ -68,8 +75,6 @@ public class EntityAngel extends EntityMob {
 	private static DataParameter<Integer> type = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static DataParameter<BlockPos> blockBreakPos = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
 	private static DataParameter<Boolean> isChild = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
-	private static DataParameter<ItemStack> pickAxe = EntityDataManager.<ItemStack>createKey(EntityAngel.class, DataSerializers.ITEM_STACK);
-	private static DataParameter<Boolean> metaMorpthSupport = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -103,7 +108,6 @@ public class EntityAngel extends EntityMob {
 		if (isChild() && rand.nextInt(3) == 2) {
 			return WAObjects.Sounds.laughing_child;
 		}
-		
 		return null;
 	}
 	
@@ -147,13 +151,11 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(timeViewed, 0);
 		getDataManager().register(type, randomType());
 		getDataManager().register(blockBreakPos, BlockPos.ORIGIN);
-		getDataManager().register(pickAxe, ItemStack.EMPTY);
-		getDataManager().register(metaMorpthSupport, false);
 	}
 	
 	@Override
 	public void travel(float strafe, float vertical, float forward) {
-		if (!isSeen() || !onGround || isCompatiblity()) {
+		if (!isSeen() || !onGround) {
 			super.travel(strafe, vertical, forward);
 		}
 	}
@@ -164,9 +166,6 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
-		if (!getItemStack().isEmpty()) {
-			entityDropItem(getItemStack(), 0);
-		}
 	}
 	
 	/**
@@ -174,17 +173,9 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void jump() {
-		if (!isSeen() || isCompatiblity()) {
+		if (!isSeen()) {
 			super.jump();
 		}
-	}
-	
-	public ItemStack getItemStack() {
-		return getDataManager().get(pickAxe);
-	}
-	
-	public void setItemStack(ItemStack item) {
-		getDataManager().set(pickAxe, item);
 	}
 	
 	public BlockPos getBreakPos() {
@@ -217,7 +208,7 @@ public class EntityAngel extends EntityMob {
 	 * Set's whether the angel is being isSeen or not
 	 */
 	public void setPose(String newPose) {
-        String p2Str = newPose.toString();
+		String p2Str = newPose.toString();
 		getDataManager().set(pose, p2Str);
 	}
 	
@@ -271,7 +262,6 @@ public class EntityAngel extends EntityMob {
 		compound.setString("pose", getPose());
 		compound.setInteger("type", getType());
 		compound.setBoolean("angelChild", isChild());
-		compound.setBoolean("support", isCompatiblity());
 	}
 	
 	/**
@@ -290,8 +280,6 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("type")) setType(compound.getInteger("type"));
 		
 		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
-		
-		if (compound.hasKey("support")) setCompatiblity(compound.getBoolean("support"));
 	}
 	
 	/**
@@ -300,14 +288,17 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		if (!isCompatiblity() && Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
-			int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
-			int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
-			int y = world.getHeight(x, z);
-			AngelUtils.teleportEntity(world, entity, x, y, z);
-			heal(4.0F);
+		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+			int dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
 			
-			entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
+			if (DimensionManager.isDimensionRegistered(dimID)) {
+				int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
+				int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
+				int y = world.getHeight(x, z);
+				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dimID);
+				heal(4.0F);
+				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
+			}
 		}
 	}
 	
@@ -324,7 +315,7 @@ public class EntityAngel extends EntityMob {
 	 */
 	@Override
 	protected void setRotation(float yaw, float pitch) {
-		if (!isCompatiblity() && !isSeen()) {
+		if (!isSeen()) {
 			super.setRotation(yaw, pitch);
 		}
 	}
@@ -332,22 +323,20 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
-		System.out.println("Pose: " + getPose());
-
+		
 		if (!isSeen() && rand.nextInt(15) == 5) {
 			setPose(randomPose().toString());
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
-			if (getSeenTime() > 15) setSeen(false);
+			if (getSeenTime() > 21) setSeen(false);
 		} else {
 			setSeenTime(0);
 		}
 		
 		// DO NOT REMOVE THAT RANDOM CHANCE, OTHERWISE EARS = GONE.
-		if (!isCompatiblity() && !isSeen() && world.getGameRules().getBoolean("mobGriefing") && rand.nextInt(2500) == 50) {
+		if (!isSeen() && world.getGameRules().getBoolean("mobGriefing") && rand.nextInt(2500) == 50) {
 			replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 		}
 	}
@@ -363,17 +352,16 @@ public class EntityAngel extends EntityMob {
 				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 				boolean isPic = item.getItem() instanceof ItemPickaxe;
 				e.setCanceled(!isPic);
-
+				
 				if (!isPic) {
 					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
 				} else {
 					ItemPickaxe pick = (ItemPickaxe) item.getItem();
-
-					if(pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD)
-					{
-					    e.setCanceled(true);
-                    }
-
+					
+					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
+						e.setCanceled(true);
+					}
+					
 					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
@@ -455,14 +443,13 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-
-
-    private static final List<AngelPoses> VALUES =  Collections.unmodifiableList(Arrays.asList(AngelPoses.values()));
-
-    public AngelPoses randomPose()  {
-        return VALUES.get(world.rand.nextInt(VALUES.size()));
-    }
-
+	
+	private static final List<AngelPoses> VALUES = Collections.unmodifiableList(Arrays.asList(AngelPoses.values()));
+	
+	private AngelPoses randomPose() {
+		return VALUES.get(world.rand.nextInt(VALUES.size()));
+	}
+	
 	private boolean shouldBreak() {
 		return getHealth() > 5 && rand.nextInt(10) < 5;
 	}
@@ -477,14 +464,15 @@ public class EntityAngel extends EntityMob {
 	private boolean randomChild() {
 		return rand.nextInt(10) == 4;
 	}
-
 	
-	public boolean isCompatiblity() {
-		return getDataManager().get(metaMorpthSupport);
+	public SoundEvent getSeenSound() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - actionTime >= 1000) {
+			actionTime = currentTime;
+			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
+			System.out.println(sound.getSoundName() + " " + getSeenTime());
+			return sound;
+		}
+		return null;
 	}
-	
-	public void setCompatiblity(boolean support) {
-		getDataManager().set(metaMorpthSupport, support);
-	}
-
 }

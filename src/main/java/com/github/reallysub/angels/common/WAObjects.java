@@ -52,7 +52,11 @@ public class WAObjects {
 	
 	// Sounds
 	public static class Sounds {
-		public static SoundEvent angelSeen = setUpSound("angel_seen");
+		public static SoundEvent angelSeen = setUpSound("angel_seen_1");
+		public static SoundEvent angelSeen_2 = setUpSound("angel_seen_2");
+		public static SoundEvent angelSeen_3 = setUpSound("angel_seen_3");
+		public static SoundEvent angelSeen_4 = setUpSound("angel_seen_4");
+		public static SoundEvent angelSeen_5 = setUpSound("angel_seen_5");
 		public static SoundEvent stone_scrap = setUpSound("stone_scrap");
 		public static SoundEvent child_run = setUpSound("child_run");
 		public static SoundEvent laughing_child = setUpSound("laughing_child");

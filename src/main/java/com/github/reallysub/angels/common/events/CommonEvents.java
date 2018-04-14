@@ -2,10 +2,12 @@ package com.github.reallysub.angels.common.events;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
+import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.common.structures.CatacombParts;
 import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.main.AngelUtils;
 
+import com.github.reallysub.angels.main.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -29,7 +31,7 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
-
+	
 	/*
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
 	 */
@@ -58,6 +60,12 @@ public class CommonEvents {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			AngelUtils.getAllAngels(player, 40, 40);
+		}
+		
+		// Angel
+		if (event.getEntity() instanceof EntityAngel && Config.angelLocking) {
+			EntityAngel angel = (EntityAngel) event.getEntity();
+			AngelUtils.getAllAngels(angel);
 		}
 	}
 	

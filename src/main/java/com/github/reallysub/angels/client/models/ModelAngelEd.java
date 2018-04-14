@@ -17,9 +17,9 @@ import net.minecraft.util.math.MathHelper;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd extends ModelBiped {
-
-    private boolean hidfac;
-
+	
+	private boolean hidfac;
+	
 	ModelRenderer right_wing_0;
 	ModelRenderer left_wing_0;
 	ModelRenderer back_cloth_2;
@@ -258,8 +258,8 @@ public class ModelAngelEd extends ModelBiped {
 		if (entity instanceof EntityAngel) {
 			angel = (EntityAngel) entity;
 		}
-
-		if (angel.getPose().equals(AngelPoses.ANGERY)) {
+		
+		if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
 			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 			angry_mouth.isHidden = false;
@@ -284,7 +284,7 @@ public class ModelAngelEd extends ModelBiped {
 		
 		if (angel.getSeenTime() == 1) {
 			
-			if (angel.getPose().equals(AngelPoses.ANGERY)) {
+			if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
 				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				angry_mouth.isHidden = false;

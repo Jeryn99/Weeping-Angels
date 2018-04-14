@@ -1,17 +1,49 @@
 {
-	"angel_seen": {
+	"angel_seen_1": {
 		"category": "hostile",
 		"subtitle": "sound.angel_seen",
 		"sounds": [{
-			"name": "weeping-angels:move/angel_seen",
-			"stream": false
-		},
-		{
-			"name": "weeping-angels:move/angel_seen_2",
+			"name": "weeping-angels:seen/angel_seen_1",
 			"stream": false
 		}]
 	},
-
+	
+		"angel_seen_2": {
+		"category": "hostile",
+		"subtitle": "sound.angel_seen",
+		"sounds": [{
+			"name": "weeping-angels:seen/angel_seen_2",
+			"stream": false
+		}]
+	},
+	
+		"angel_seen_3": {
+		"category": "hostile",
+		"subtitle": "sound.angel_seen",
+		"sounds": [{
+			"name": "weeping-angels:seen/angel_seen_3",
+			"stream": false
+		}]
+	},
+	
+		"angel_seen_4": {
+		"category": "hostile",
+		"subtitle": "sound.angel_seen",
+		"sounds": [{
+			"name": "weeping-angels:seen/angel_seen_4",
+			"stream": false
+		}]
+	},
+	
+		"angel_seen_5": {
+		"category": "hostile",
+		"subtitle": "sound.angel_seen",
+		"sounds": [{
+			"name": "weeping-angels:seen/angel_seen_5",
+			"stream": false
+		}]
+	},
+	
 	"child_run": {
 		"category": "hostile",
 		"subtitle": "sound.child_run",
