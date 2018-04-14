@@ -4,7 +4,7 @@ import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 	
-	public static boolean teleportEntities, angelLocking;
+	public static boolean teleportEntities, angelLocking, angelDimTeleport;
 	public static int teleportRange, spawnProbability, maximumSpawn, minimumSpawn;
 	
 	public static void init(Configuration cfg) {
@@ -15,6 +15,7 @@ public class Config {
 		teleportEntities = cfg.getBoolean("teleportEntities", "Angels", true, "If this is enabled there is a chance of you being teleported by a weeping angel");
 		
 		angelLocking = cfg.getBoolean("angelLocking", "Angels", false, "If this is enabled, angels will freeze when they see one another {WIP, not the best}");
+		angelDimTeleport = cfg.getBoolean("angelDimTeleport", "Angels", true, "If this is enabled, angel teleporting can also tp the player to other dimensions");
 		
 		// Spawn
 		maximumSpawn = cfg.getInt("maximumSpawn", "Spawning", 4, 0, Integer.MAX_VALUE, "The maximum amount of angels per biome");

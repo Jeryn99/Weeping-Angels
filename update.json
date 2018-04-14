@@ -1,10 +1,10 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "7.5",
-    "1.12.2-recommended": "7.5"
+    "1.12.2-latest": "8.5",
+    "1.12.2-recommended": "8.5"
   },
   "1.12.2": {
-    "7.5": "Fixes to sound spam!"
+    "8.5": "Lots!"
   }
 }

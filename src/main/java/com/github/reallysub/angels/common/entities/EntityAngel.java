@@ -289,7 +289,13 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
-			int dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
+			int dimID = 0;
+			
+			if (Config.angelDimTeleport) {
+				dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
+			} else {
+				dimID = dimension;
+			}
 			
 			if (DimensionManager.isDimensionRegistered(dimID)) {
 				int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
@@ -470,7 +476,6 @@ public class EntityAngel extends EntityMob {
 		if (currentTime - actionTime >= 1000) {
 			actionTime = currentTime;
 			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
-			System.out.println(sound.getSoundName() + " " + getSeenTime());
 			return sound;
 		}
 		return null;

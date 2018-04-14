@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "7.5";
+	public static final String VERSION = "8.5";
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

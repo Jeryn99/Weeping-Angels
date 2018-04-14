@@ -218,7 +218,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		if (!world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			AngelUtils.teleportEntity(world, angel, this.posX + 1, this.posY + 1, this.posZ + 1);
+			AngelUtils.teleportDimEntity(angel, new BlockPos(this.posX + 1, this.posY + 1, this.posZ + 1), dimension);
 			world.spawnEntity(angel);
 		}
 	}

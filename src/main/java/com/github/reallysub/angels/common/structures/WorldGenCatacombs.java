@@ -37,9 +37,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				while (!world.getBlockState(new BlockPos(x, y, z)).isFullBlock() && y > 0) {
 					y--;
 				}
-				
-				System.out.println(new BlockPos(x + 2, y + 2, z));
-				
+
 				WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6, y, z), Rotation.NONE, CatacombParts.partTSection);
 				
 				// 8 Corridors
@@ -53,7 +51,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 						part = CatacombParts.partStraight;
 					}
 					
-					// System.out.println(part + " : " + times);
+					// .out.println(part + " : " + times);
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 * times, y, z), Rotation.NONE, part);
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6 * times, y, z), Rotation.NONE, CatacombParts.partStraight);
@@ -76,7 +74,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 						part = CatacombParts.getStraightPart();
 					}
 					
-					// System.out.println(part + " : " + times);
+					// .out.println(part + " : " + times);
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z + 6 * times), Rotation.CLOCKWISE_90, part);
 					
