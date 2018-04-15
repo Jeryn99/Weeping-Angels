@@ -37,7 +37,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				while (!world.getBlockState(new BlockPos(x, y, z)).isFullBlock() && y > 0) {
 					y--;
 				}
-
+				
 				WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6, y, z), Rotation.NONE, CatacombParts.partTSection);
 				
 				// 8 Corridors

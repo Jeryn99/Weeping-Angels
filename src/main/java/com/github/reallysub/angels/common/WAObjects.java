@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -86,6 +87,11 @@ public class WAObjects {
 		List<Biome> allBiomes = ForgeRegistries.BIOMES.getValues();
 		List<Biome> spawn = Lists.newArrayList();
 		spawn.addAll(allBiomes);
+		spawn.remove(Biomes.SKY);
+		spawn.remove(Biomes.VOID);
+		spawn.remove(Biomes.HELL);
+		spawn.remove(Biomes.DEEP_OCEAN);
+		spawn.remove(Biomes.OCEAN);
 		Iterator<Biome> iterator = spawn.iterator();
 		while (iterator.hasNext()) {
 			Biome biome = iterator.next();

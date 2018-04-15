@@ -1,6 +1,7 @@
 package com.github.reallysub.angels.client.models;
 
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
+import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -291,6 +292,8 @@ public class ModelAngelEd extends ModelBiped {
 				hidfac = false;
 				right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
 				left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+			} else if (angel.getPose().equals(AngelPoses.HIDING_FACE.toString())) {
+				// Huh, this works apprantly?
 			} else {
 				angry_mouth.isHidden = true;
 				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
