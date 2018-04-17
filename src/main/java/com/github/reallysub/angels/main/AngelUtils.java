@@ -192,9 +192,7 @@ public class AngelUtils {
 		}
 		
 		@Override
-		public void placeInPortal(Entity entity, float rotationYaw) {
-			
-		}
+		public void placeInPortal(Entity entity, float rotationYaw) {}
 		
 		@Override
 		public boolean placeInExistingPortal(Entity entity, float float_for_something) {

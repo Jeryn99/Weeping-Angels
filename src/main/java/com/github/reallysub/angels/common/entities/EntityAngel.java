@@ -61,7 +61,7 @@ public class EntityAngel extends EntityMob {
 	
 	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
 	
-	private long actionTime = 0L;
+	private long soundTime = 0L;
 	
 	private static DataParameter<String> POSE = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
 	private static DataParameter<Boolean> IS_SEEN = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
@@ -339,8 +339,6 @@ public class EntityAngel extends EntityMob {
 			setSeenTime(0);
 		}
 		
-		System.out.println(getHealth());
-		
 		replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
 	}
 	
@@ -386,72 +384,65 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
+		
 		boolean stop = false;
-		for (int x = (int) box.minX; x <= box.maxX; x++) {
-			for (int y = (int) box.minY; y <= box.maxY; y++) {
-				for (int z = (int) box.minZ; z <= box.maxZ; z++) {
+		
+		if (getEntityWorld().isRemote || ticksExisted % 100 != 0) return;
+		
+		for (int x = (int) box.minX; x <= box.maxX && !stop; x++) {
+			for (int y = (int) box.minY; y <= box.maxY && !stop; y++) {
+				for (int z = (int) box.minZ; z <= box.maxZ && !stop; z++) {
+					
 					BlockPos pos = new BlockPos(x, y, z);
+					
 					Block block = getEntityWorld().getBlockState(pos).getBlock();
 					
-					// Healing
-					if (block instanceof BlockPortal || block instanceof BlockEndPortal) {
-						if (world.rand.nextInt(700) < 100 && getHealth() < getMaxHealth()) {
-							heal(1.5F);
-						}
-					}
-					
 					// Breaking Start
-					if (isSeen() && world.getGameRules().getBoolean("mobGriefing") && rand.nextInt(2500) == 50) {
-						if (block == Blocks.TORCH && !stop || block == Blocks.REDSTONE_TORCH && !stop || block == Blocks.GLOWSTONE && !stop) {
-							if (shouldBreak()) {
-								setBreakBlockPos(pos);
-								if (world.isRemote) {
-									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
-								}
-								getEntityWorld().setBlockToAir(pos);
-								playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-								setBreakBlockPos(BlockPos.ORIGIN);
-								world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
-								stop = true;
-							}
-						}
-						
-						if (block == Blocks.LIT_PUMPKIN && !stop) {
+					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
+						if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH || block == Blocks.GLOWSTONE || block.getLightValue(block.getDefaultState()) >= 7) {
 							setBreakBlockPos(pos);
-							if (shouldBreak()) {
-								setBreakBlockPos(pos);
-								if (world.isRemote) {
-									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
-								}
-								getEntityWorld().setBlockToAir(pos);
-								playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-								setBreakBlockPos(BlockPos.ORIGIN);
-								getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
-								stop = true;
+							if (world.isRemote) {
+								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
-						}
-						
-						if (block == Blocks.LIT_REDSTONE_LAMP && !stop) {
-							
-							if (shouldBreak()) {
-								setBreakBlockPos(pos);
-								if (world.isRemote) {
-									world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
-								}
-								getEntityWorld().setBlockToAir(pos);
-								playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-								setBreakBlockPos(BlockPos.ORIGIN);
-								getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
-								stop = true;
-							}
-						}
-						
-						if (block.getLightValue(block.getDefaultState()) >= 7 && !stop) {
+							getEntityWorld().setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(block, 1, 0)));
+							setBreakBlockPos(BlockPos.ORIGIN);
+							spawnItem(world, new ItemStack(Item.getItemFromBlock(block)), pos);
 							stop = true;
 						}
-					} // breaking end
+						
+						if (block == Blocks.LIT_PUMPKIN) {
+							setBreakBlockPos(pos);
+							if (world.isRemote) {
+								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+							}
+							getEntityWorld().setBlockToAir(pos);
+							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
+							setBreakBlockPos(BlockPos.ORIGIN);
+							getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
+							stop = true;
+						}
+						
+						if (block == Blocks.LIT_REDSTONE_LAMP) {
+							setBreakBlockPos(pos);
+							if (world.isRemote) {
+								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+							}
+							getEntityWorld().setBlockToAir(pos);
+							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
+							setBreakBlockPos(BlockPos.ORIGIN);
+							getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
+							stop = true;
+						}
+						
+						if (block instanceof BlockPortal || block instanceof BlockEndPortal) {
+							if (world.rand.nextInt(700) < 100 && getHealth() < getMaxHealth()) {
+								heal(1.5F);
+								world.setBlockToAir(pos);
+								stop = true;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -461,10 +452,6 @@ public class EntityAngel extends EntityMob {
 	
 	private AngelPoses randomPose() {
 		return VALUES.get(world.rand.nextInt(VALUES.size()));
-	}
-	
-	private boolean shouldBreak() {
-		return getHealth() > 5 && rand.nextInt(10) < 5;
 	}
 	
 	private int randomType() {
@@ -478,10 +465,17 @@ public class EntityAngel extends EntityMob {
 		return rand.nextInt(10) == 4;
 	}
 	
+	private void spawnItem(World world, ItemStack itemStack, BlockPos pos) {
+		if (!world.isRemote) {
+			EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+			world.spawnEntity(item);
+		}
+	}
+	
 	public SoundEvent getSeenSound() {
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - actionTime >= 1000) {
-			actionTime = currentTime;
+		if (currentTime - soundTime >= 1000) {
+			soundTime = currentTime;
 			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
 			return sound;
 		}

@@ -260,30 +260,29 @@ public class ModelAngelEd extends ModelBiped {
 			angel = (EntityAngel) entity;
 		}
 		
-		if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
-			right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-			angry_mouth.isHidden = false;
-			
-		} else {
-			angry_mouth.isHidden = true;
-			right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-			left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-		}
-		
-		boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
-		
-		head.rotateAngleY = netheadYaw * 0.017453292F;
-		head.rotateAngleZ = netheadYaw * 0.005F;
-		
-		if (flag) {
-			head.rotateAngleX = -((float) Math.PI / 4F);
-			
-		} else {
-			head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
-		}
-		
 		if (angel.getSeenTime() == 1) {
+			
+			if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
+				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				angry_mouth.isHidden = false;
+			} else {
+				angry_mouth.isHidden = true;
+				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+			}
+			
+			boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
+			
+			head.rotateAngleY = netheadYaw * 0.017453292F;
+			head.rotateAngleZ = netheadYaw * 0.005F;
+			
+			if (flag) {
+				head.rotateAngleX = -((float) Math.PI / 4F);
+				
+			} else {
+				head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
+			}
 			
 			if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
 				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
