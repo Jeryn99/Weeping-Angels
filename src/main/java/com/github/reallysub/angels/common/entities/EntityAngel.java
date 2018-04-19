@@ -1,9 +1,5 @@
 package com.github.reallysub.angels.common.entities;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
@@ -68,7 +64,7 @@ public class EntityAngel extends EntityMob {
 	
 	private long soundTime = 0L;
 	
-	private static final DataParameter<String> POSE = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
+	private String POSE = randomPose().toString();
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -155,7 +151,6 @@ public class EntityAngel extends EntityMob {
 	protected void entityInit() {
 		super.entityInit();
 		getDataManager().register(IS_SEEN, false);
-		getDataManager().register(POSE, AngelPoses.IDLE.toString());
 		getDataManager().register(IS_CHILD, randomChild());
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, randomType());
@@ -175,17 +170,11 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	/**
-	 * Drop 0-2 items of this living's type
-	 */
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 	}
 	
-	/**
-	 * Causes this entity to do an upwards motion (jumping).
-	 */
 	@Override
 	protected void jump() {
 		if (!isSeen()) {
@@ -193,34 +182,22 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	/**
-	 * @return Returns whether the angel is being isSeen or not
-	 */
 	public boolean isSeen() {
 		return getDataManager().get(IS_SEEN);
 	}
 	
-	/**
-	 * @return Returns the angels pose
-	 */
 	public String getPose() {
-		return getDataManager().get(POSE);
+		return POSE;
 	}
 	
 	public boolean isChild() {
 		return getDataManager().get(IS_CHILD);
 	}
 	
-	/**
-	 * Set's whether the angel is being isSeen or not
-	 */
 	public void setPose(String newPose) {
-		getDataManager().set(POSE, newPose);
+		POSE = newPose;
 	}
 	
-	/**
-	 * Set's whether the angel is being isSeen or not
-	 */
 	public void setSeen(boolean beingViewed) {
 		getDataManager().set(IS_SEEN, beingViewed);
 	}
@@ -229,37 +206,22 @@ public class EntityAngel extends EntityMob {
 		getDataManager().set(IS_CHILD, child);
 	}
 	
-	/**
-	 * @return Returns the time the angel has been isSeen for
-	 */
 	public int getSeenTime() {
 		return getDataManager().get(TIME_VIEWED);
 	}
 	
-	/**
-	 * @return Returns the angel type
-	 */
 	public int getType() {
 		return getDataManager().get(TYPE);
 	}
 	
-	/**
-	 * Set's the angel type
-	 */
 	public void setType(int angelType) {
 		getDataManager().set(TYPE, angelType);
 	}
 	
-	/**
-	 * Set's the time the angel is being isSeen for
-	 */
 	public void setSeenTime(int time) {
 		getDataManager().set(TIME_VIEWED, time);
 	}
 	
-	/**
-	 * Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
@@ -270,9 +232,6 @@ public class EntityAngel extends EntityMob {
 		compound.setBoolean("angelChild", isChild());
 	}
 	
-	/**
-	 * Protected helper method to read subclass entity data from NBT.
-	 */
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
@@ -288,9 +247,6 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
 	}
 	
-	/**
-	 * When a entity collides with this entity
-	 */
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
@@ -340,10 +296,6 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
-		if (!isSeen() && ticksExisted % 100 != 0 && rand.nextBoolean()) {
-			setPose(randomPose().toString());
-		}
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
@@ -455,10 +407,9 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	private static final List<AngelPoses> VALUES = Collections.unmodifiableList(Arrays.asList(AngelPoses.values()));
-	
-	private AngelPoses randomPose() {
-		return VALUES.get(world.rand.nextInt(VALUES.size()));
+	public AngelPoses randomPose() {
+		AngelPoses[] poses = AngelPoses.values();
+		return poses[rand.nextInt(poses.length)];
 	}
 	
 	private int randomType() {

@@ -130,9 +130,11 @@ public class AngelUtils {
 			for (EntityAngel angel : player.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
 				if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
 					angel.setSeen(true);
-					if (angel.getSeenTime() != 1) {
-						// angel.setSeenTime(15);
+					
+					if (angel.getSeenTime() == 1) {
+						angel.setPose(angel.randomPose().toString());
 					}
+					
 					if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
 						SoundEvent sound = angel.getSeenSound();
 						if (sound != null) {
