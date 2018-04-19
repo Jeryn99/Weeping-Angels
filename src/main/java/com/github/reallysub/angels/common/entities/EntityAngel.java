@@ -115,7 +115,7 @@ public class EntityAngel extends EntityMob {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(135.0D);
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 	}
 	
@@ -140,7 +140,7 @@ public class EntityAngel extends EntityMob {
 	protected void entityInit() {
 		super.entityInit();
 		getDataManager().register(IS_SEEN, false);
-		getDataManager().register(POSE, AngelPoses.HIDING_FACE.toString());
+		getDataManager().register(POSE, AngelPoses.IDLE.toString());
 		getDataManager().register(IS_CHILD, randomChild());
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, randomType());
@@ -328,7 +328,7 @@ public class EntityAngel extends EntityMob {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if (!isSeen() && rand.nextInt(15) == 5) {
+		if (!isSeen() && ticksExisted % 100 != 0) {
 			setPose(randomPose().toString());
 		}
 		

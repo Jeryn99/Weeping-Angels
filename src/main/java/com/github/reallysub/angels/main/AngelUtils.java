@@ -131,17 +131,17 @@ public class AngelUtils {
 			targetZ += vec3.z;
 			distanceTraveled += vec3.lengthVector();
 			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
-			List<EntityAngel> list = player.world.getEntitiesWithinAABB(EntityAngel.class, bb);
 			
-			if (!list.isEmpty()) {
-				for (EntityAngel angel : list) {
-					if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
-						angel.setSeen(true);
-						if (angel.getAttackTarget() == player && angel.getSeenTime() == 1 && angel.getDistance(player) <= 8) {
-							SoundEvent sound = angel.getSeenSound();
-							if (sound != null) {
-								angel.playSound(sound, 1.0F, 1.0F);
-							}
+			for (EntityAngel angel : player.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
+				if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
+					angel.setSeen(true);
+					if (angel.getSeenTime() != 1) {
+						// angel.setSeenTime(15);
+					}
+					if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
+						SoundEvent sound = angel.getSeenSound();
+						if (sound != null) {
+							angel.playSound(sound, 1.0F, 1.0F);
 						}
 					}
 				}

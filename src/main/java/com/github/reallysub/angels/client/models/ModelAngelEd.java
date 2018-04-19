@@ -1,7 +1,7 @@
 package com.github.reallysub.angels.client.models;
 
-import com.github.reallysub.angels.common.entities.enums.AngelPoses;
-import net.minecraft.entity.player.EntityPlayer;
+import com.github.reallysub.angels.common.PoseRegistry;
+import com.github.reallysub.angels.client.models.poses.PoseBase;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
@@ -10,9 +10,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
@@ -256,120 +254,17 @@ public class ModelAngelEd extends ModelBiped {
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		
 		EntityAngel angel = null;
+		PoseBase pose = null;
 		if (entity instanceof EntityAngel) {
 			angel = (EntityAngel) entity;
+			pose = PoseRegistry.getPose(angel.getPose());
 		}
 		
 		if (angel.getSeenTime() == 1) {
-			
-			if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
-				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-				angry_mouth.isHidden = false;
-			} else {
-				angry_mouth.isHidden = true;
-				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-			}
-			
-			boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getTicksElytraFlying() > 4;
-			
-			head.rotateAngleY = netheadYaw * 0.017453292F;
-			head.rotateAngleZ = netheadYaw * 0.005F;
-			
-			if (flag) {
-				head.rotateAngleX = -((float) Math.PI / 4F);
-				
-			} else {
-				head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
-			}
-			
-			if (angel.getPose().equals(AngelPoses.ANGERY.toString())) {
-				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-				angry_mouth.isHidden = false;
-				hidfac = false;
-				right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-				left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-			} else if (angel.getPose().equals(AngelPoses.HIDING_FACE.toString())) {
-				// Huh, this works apprantly?
-			} else {
-				angry_mouth.isHidden = true;
-				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				hidfac = Math.random() >= 0.5F;
-				right_arm.rotateAngleX = 0;
-				left_arm.rotateAngleX = 0;
-			}
-			
-			right_arm.rotateAngleZ = 0;
-			left_arm.rotateAngleZ = 0;
-			
-			right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-			left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-			right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-			left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-			// 1.53588974175501F, 0.9424777960769379F, 0.0F
-			
-			right_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			right_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 0.9424777960769379F;
-			right_wing_0.rotateAngleZ = 0;
-			
-			left_wing_0.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			left_wing_0.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
-			left_wing_0.rotateAngleZ = 0;
-			left_wing_1.rotateAngleX = MathHelper.sin(ageInTicks * 0.067F) * 0.05F + 1.53588974175501F;
-			left_wing_1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F + 0.9424777960769379F;
-			left_wing_1.rotateAngleZ = 0;
-			if (hidfac) {
-				head.rotateAngleX = 0.8F;
-				head.rotateAngleY = 0.0F;
-				head.rotateAngleZ = 0.0F;
-				left_arm_1.rotateAngleX = -0.52F;
-				left_arm.rotateAngleX = -1.85F;
-				left_arm.rotateAngleY = 0.61F;
-				left_arm.rotateAngleZ = -0.087F;
-				right_arm_1.rotateAngleX = -0.52F;
-				right_arm.rotateAngleX = -1.85F;
-				right_arm.rotateAngleY = -0.61F;
-				right_arm.rotateAngleZ = 0.087F;
-				
-			} else {
-				left_arm_1.rotateAngleX = 0;
-				left_arm.rotateAngleY = 0;
-				left_arm.rotateAngleZ = 0;
-				right_arm_1.rotateAngleX = 0;
-				right_arm.rotateAngleY = 0;
-				right_arm.rotateAngleZ = 0;
-				
-			}
-			
-			if (angel.getBreakPos().getY() > 0) {
-				right_arm.rotateAngleX = -1.5707963268F;
-				right_arm.rotateAngleY = -(float) (angel.rotationYaw * Math.PI / 180) - (float) Math.atan((angel.getBreakPos().getX() - angel.getPosition().getX()) / (Math.sqrt(Math.pow((angel.getBreakPos().getX() - angel.getPosition().getX()), 2) + Math.pow((angel.getBreakPos().getZ() - angel.getPosition().getZ()), 2))));
-				right_arm.rotateAngleZ = 0;
-			}
+			angry_mouth.isHidden = !pose.angryFace(angel);
+			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+			pose.setWingAngles(left_wing_0, right_wing_0);
+			pose.setHeadAngles(head);
 		}
-		
-		right_wing_1.rotateAngleX = right_wing_0.rotateAngleX;
-		right_wing_1.rotateAngleY = right_wing_0.rotateAngleY;
-		right_wing_1.rotateAngleZ = right_wing_0.rotateAngleZ;
-		right_wing_1.rotationPointX = right_wing_0.rotationPointX;
-		right_wing_1.rotationPointY = right_wing_0.rotationPointY;
-		right_wing_1.rotationPointZ = right_wing_0.rotationPointZ;
-		
-		left_wing_0.rotateAngleX = right_wing_0.rotateAngleX;
-		left_wing_0.rotateAngleY = -right_wing_0.rotateAngleY;
-		left_wing_0.rotateAngleZ = right_wing_0.rotateAngleZ;
-		left_wing_0.rotationPointX = -right_wing_0.rotationPointX;
-		left_wing_0.rotationPointY = right_wing_0.rotationPointY;
-		left_wing_0.rotationPointZ = right_wing_0.rotationPointZ;
-		
-		left_wing_1.rotateAngleX = left_wing_0.rotateAngleX;
-		left_wing_1.rotateAngleY = left_wing_0.rotateAngleY;
-		left_wing_1.rotateAngleZ = left_wing_0.rotateAngleZ;
-		left_wing_1.rotationPointX = left_wing_0.rotationPointX;
-		left_wing_1.rotationPointY = left_wing_0.rotationPointY;
-		left_wing_1.rotationPointZ = left_wing_0.rotationPointZ;
 	}
 }
