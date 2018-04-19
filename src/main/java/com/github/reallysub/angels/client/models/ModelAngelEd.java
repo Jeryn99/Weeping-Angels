@@ -1,9 +1,9 @@
 package com.github.reallysub.angels.client.models;
 
-import com.github.reallysub.angels.common.PoseRegistry;
-import com.github.reallysub.angels.client.models.poses.PoseBase;
 import org.lwjgl.opengl.GL11;
 
+import com.github.reallysub.angels.client.models.poses.PoseBase;
+import com.github.reallysub.angels.common.PoseRegistry;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.client.model.ModelBiped;
@@ -11,13 +11,12 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd extends ModelBiped {
-	
-	private boolean hidfac;
 	
 	ModelRenderer right_wing_0;
 	ModelRenderer left_wing_0;
@@ -265,6 +264,18 @@ public class ModelAngelEd extends ModelBiped {
 			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
 			pose.setWingAngles(left_wing_0, right_wing_0);
 			pose.setHeadAngles(head);
+			
+			if (pose.angryFace(angel)) {
+				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				angry_mouth.isHidden = false;
+				right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+			} else {
+				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+			}
+			
 		}
 	}
 }

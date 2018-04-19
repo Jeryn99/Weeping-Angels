@@ -1,8 +1,5 @@
 package com.github.reallysub.angels.main;
 
-import java.util.List;
-
-import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WAObjects.WAItems;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.events.EventAngelTeleport;
@@ -25,9 +22,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Teleporter;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 

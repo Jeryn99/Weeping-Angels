@@ -7,7 +7,6 @@ import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.config.Config;
 
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "8.5";
+	public static final String VERSION = "9.0";
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

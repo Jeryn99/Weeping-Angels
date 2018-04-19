@@ -1,5 +1,9 @@
 package com.github.reallysub.angels.common.entities;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
@@ -13,6 +17,7 @@ import net.minecraft.block.BlockPortal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
@@ -41,7 +46,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -52,10 +61,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
 	
@@ -63,12 +68,11 @@ public class EntityAngel extends EntityMob {
 	
 	private long soundTime = 0L;
 	
-	private static DataParameter<String> POSE = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
-	private static DataParameter<Boolean> IS_SEEN = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
-	private static DataParameter<Integer> TIME_VIEWED = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-	private static DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-	private static DataParameter<BlockPos> BLOCK_BREAK_POS = EntityDataManager.<BlockPos>createKey(EntityAngel.class, DataSerializers.BLOCK_POS);
-	private static DataParameter<Boolean> IS_CHILD = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<String> POSE = EntityDataManager.<String>createKey(EntityAngel.class, DataSerializers.STRING);
+	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -94,6 +98,17 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
+	}
+	
+	/**
+	 * Transforms the entity's current yaw with the given Rotation and returns it. This does not have a side-effect.
+	 */
+	@Override
+	public float getRotatedYaw(Rotation transformRotation) {
+		if (!isSeen()) {
+			super.getRotatedYaw(transformRotation);
+		}
+		return rotationYaw;
 	}
 	
 	@Nullable
@@ -144,13 +159,19 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(IS_CHILD, randomChild());
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, randomType());
-		getDataManager().register(BLOCK_BREAK_POS, BlockPos.ORIGIN);
 	}
 	
 	@Override
 	public void travel(float strafe, float vertical, float forward) {
 		if (!isSeen() || !onGround) {
 			super.travel(strafe, vertical, forward);
+		}
+	}
+	
+	@Override
+	public void move(MoverType type, double x, double y, double z) {
+		if (!isSeen() || !onGround) {
+			super.move(type, x, y, z);
 		}
 	}
 	
@@ -170,14 +191,6 @@ public class EntityAngel extends EntityMob {
 		if (!isSeen()) {
 			super.jump();
 		}
-	}
-	
-	public BlockPos getBreakPos() {
-		return getDataManager().get(BLOCK_BREAK_POS);
-	}
-	
-	public void setBreakBlockPos(BlockPos pos) {
-		getDataManager().set(BLOCK_BREAK_POS, pos);
 	}
 	
 	/**
@@ -293,7 +306,7 @@ public class EntityAngel extends EntityMob {
 			if (DimensionManager.isDimensionRegistered(dimID) && dimID != 1) {
 				int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
-				int y = world.getHeight(x, z);
+				int y = world.getHeight(x, z) + 4;
 				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dimID);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
@@ -328,18 +341,18 @@ public class EntityAngel extends EntityMob {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if (!isSeen() && ticksExisted % 100 != 0) {
+		if (!isSeen() && ticksExisted % 100 != 0 && rand.nextBoolean()) {
 			setPose(randomPose().toString());
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
-			if (getSeenTime() > 21) setSeen(false);
+			if (getSeenTime() > 15) setSeen(false);
 		} else {
 			setSeenTime(0);
 		}
 		
-		replaceBlocks(getEntityBoundingBox().grow(25, 25, 25));
+		replaceBlocks(getEntityBoundingBox().grow(Config.blockBreakRange, Config.blockBreakRange, Config.blockBreakRange));
 	}
 	
 	@SubscribeEvent
@@ -400,37 +413,31 @@ public class EntityAngel extends EntityMob {
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 						if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH || block == Blocks.GLOWSTONE || block.getLightValue(block.getDefaultState()) >= 7) {
-							setBreakBlockPos(pos);
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							getEntityWorld().setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							setBreakBlockPos(BlockPos.ORIGIN);
 							spawnItem(world, new ItemStack(Item.getItemFromBlock(block)), pos);
 							stop = true;
 						}
 						
 						if (block == Blocks.LIT_PUMPKIN) {
-							setBreakBlockPos(pos);
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							getEntityWorld().setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							setBreakBlockPos(BlockPos.ORIGIN);
 							getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
 							stop = true;
 						}
 						
 						if (block == Blocks.LIT_REDSTONE_LAMP) {
-							setBreakBlockPos(pos);
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							getEntityWorld().setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							setBreakBlockPos(BlockPos.ORIGIN);
 							getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
 							stop = true;
 						}

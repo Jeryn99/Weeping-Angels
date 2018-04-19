@@ -73,7 +73,7 @@ public class WAObjects {
 	
 	public static class EntityEntries {
 		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).egg(184, 286).name("angel").tracker(80, 3, false).build();
-		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 0).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
+		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
 	}
 	
 	@SideOnly(Side.CLIENT)

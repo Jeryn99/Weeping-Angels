@@ -3,31 +3,21 @@ package com.github.reallysub.angels.common.events;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.common.structures.CatacombParts;
-import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.main.AngelUtils;
-
 import com.github.reallysub.angels.main.config.Config;
+
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-
-import java.util.Random;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {

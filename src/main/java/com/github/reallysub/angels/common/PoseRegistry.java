@@ -1,12 +1,13 @@
 package com.github.reallysub.angels.common;
 
+import java.util.HashMap;
+
 import com.github.reallysub.angels.client.models.poses.PoseAngry;
+import com.github.reallysub.angels.client.models.poses.PoseAngry2;
+import com.github.reallysub.angels.client.models.poses.PoseBase;
 import com.github.reallysub.angels.client.models.poses.PoseHidingFace;
 import com.github.reallysub.angels.client.models.poses.PoseIdle;
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
-import com.github.reallysub.angels.client.models.poses.PoseBase;
-
-import java.util.HashMap;
 
 public class PoseRegistry {
 	
@@ -19,7 +20,8 @@ public class PoseRegistry {
 	public static void init() {
 		registerPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
 		registerPose(AngelPoses.IDLE.toString(), new PoseIdle());
-		registerPose(AngelPoses.ANGERY.toString(), new PoseAngry());
+		registerPose(AngelPoses.ANGRY.toString(), new PoseAngry());
+		registerPose(AngelPoses.ANGRY2.toString(), new PoseAngry2());
 	}
 	
 	public static PoseBase getPose(String name) {

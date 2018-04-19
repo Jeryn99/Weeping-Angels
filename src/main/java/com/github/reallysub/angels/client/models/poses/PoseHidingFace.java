@@ -1,6 +1,7 @@
 package com.github.reallysub.angels.client.models.poses;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
+
 import net.minecraft.client.model.ModelRenderer;
 
 public class PoseHidingFace extends PoseBase {
