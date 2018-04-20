@@ -28,17 +28,22 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class AngelUtils {
 	
-	public static void getForTorch(EntityPlayer p, EnumHand hand) {
-		ItemStack torch = p.getHeldItem(hand);
-		if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-			String itemName = torch.getDisplayName();
-			ItemStack newStack = new ItemStack(WAItems.unLitTorch);
-			newStack.setStackDisplayName(itemName);
-			torch.setCount(0);
-			if (hand == EnumHand.MAIN_HAND) {
-				p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
-			} else {
-				p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
+	public static void getForTorch(EntityPlayer p) {
+		
+		for (Object hand : EnumHand.values()) {
+			ItemStack torch = p.getHeldItem((EnumHand) hand);
+			if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
+				String itemName = torch.getDisplayName();
+				ItemStack newStack = new ItemStack(WAItems.unLitTorch);
+				newStack.setStackDisplayName(itemName);
+				int count = torch.getCount();
+				torch.setCount(0);
+				newStack.setCount(count);
+				if (hand == EnumHand.MAIN_HAND) {
+					p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
+				} else {
+					p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
+				}
 			}
 		}
 	}

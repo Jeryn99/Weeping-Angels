@@ -43,7 +43,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
@@ -135,11 +134,10 @@ public class EntityAngel extends EntityMob {
 		
 		if (entity instanceof EntityPlayer && world.rand.nextInt(100) < 20) {
 			EntityPlayer player = (EntityPlayer) entity;
-			AngelUtils.getForTorch(player, EnumHand.MAIN_HAND);
-			AngelUtils.getForTorch(player, EnumHand.OFF_HAND);
+			AngelUtils.getForTorch(player);
 		}
 		
-		if (rand.nextBoolean()) {
+		if (this.getHealth() > 5) {
 			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 		} else {
 			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
@@ -151,9 +149,9 @@ public class EntityAngel extends EntityMob {
 	protected void entityInit() {
 		super.entityInit();
 		getDataManager().register(IS_SEEN, false);
-		getDataManager().register(IS_CHILD, randomChild());
+		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TIME_VIEWED, 0);
-		getDataManager().register(TYPE, randomType());
+		getDataManager().register(TYPE, rand.nextInt(1));
 	}
 	
 	@Override
@@ -173,6 +171,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
+		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
 	}
 	
 	@Override
@@ -250,6 +249,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
+		
 		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int dimID = 0;
 			
@@ -352,7 +352,7 @@ public class EntityAngel extends EntityMob {
 		
 		boolean stop = false;
 		
-		if (getEntityWorld().isRemote || ticksExisted % 100 != 0) return;
+		if (world.isRemote || ticksExisted % 100 != 0) return;
 		
 		for (int x = (int) box.minX; x <= box.maxX && !stop; x++) {
 			for (int y = (int) box.minY; y <= box.maxY && !stop; y++) {
@@ -360,7 +360,7 @@ public class EntityAngel extends EntityMob {
 					
 					BlockPos pos = new BlockPos(x, y, z);
 					
-					Block block = getEntityWorld().getBlockState(pos).getBlock();
+					Block block = world.getBlockState(pos).getBlock();
 					
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
@@ -368,9 +368,9 @@ public class EntityAngel extends EntityMob {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
-							getEntityWorld().setBlockToAir(pos);
+							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							spawnItem(world, new ItemStack(Item.getItemFromBlock(block)), pos);
+							entityDropItem(new ItemStack(Item.getItemFromBlock(block)), 0);
 							stop = true;
 						}
 						
@@ -378,9 +378,9 @@ public class EntityAngel extends EntityMob {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
-							getEntityWorld().setBlockToAir(pos);
+							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							getEntityWorld().setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
+							world.setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
 							stop = true;
 						}
 						
@@ -388,9 +388,9 @@ public class EntityAngel extends EntityMob {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
-							getEntityWorld().setBlockToAir(pos);
+							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							getEntityWorld().setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
+							world.setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
 							stop = true;
 						}
 						
@@ -410,24 +410,6 @@ public class EntityAngel extends EntityMob {
 	public AngelPoses randomPose() {
 		AngelPoses[] poses = AngelPoses.values();
 		return poses[rand.nextInt(poses.length)];
-	}
-	
-	private int randomType() {
-		if (rand.nextBoolean()) {
-			return 1;
-		}
-		return 0;
-	}
-	
-	private boolean randomChild() {
-		return rand.nextInt(10) == 4;
-	}
-	
-	private void spawnItem(World world, ItemStack itemStack, BlockPos pos) {
-		if (!world.isRemote) {
-			EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
-			world.spawnEntity(item);
-		}
 	}
 	
 	public SoundEvent getSeenSound() {

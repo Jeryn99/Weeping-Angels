@@ -13,6 +13,7 @@ import com.github.reallysub.angels.client.render.tiles.RenderSnowArm;
 import com.github.reallysub.angels.common.blocks.BlockSnowArm;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.common.entities.EntityAngelPainting;
+import com.github.reallysub.angels.common.items.ItemDetector;
 import com.github.reallysub.angels.common.items.ItemHanging;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.WeepingAngels;
@@ -112,6 +113,7 @@ public class WAObjects {
 		public static Item angelPainting = createItem(new ItemHanging(), "angel_painting").setCreativeTab(CreativeTabs.DECORATIONS);;
 		public static Item angelArmItem = createItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(CreativeTabs.DECORATIONS);
 		public static Item unLitTorch = createItem(new Item(), "unlit_torch");
+		public static Item timeyWimeyDetector = createItem(new ItemDetector(), "timey_wimey_detector");
 	}
 	
 	private static Item createItem(Item item, String name) {

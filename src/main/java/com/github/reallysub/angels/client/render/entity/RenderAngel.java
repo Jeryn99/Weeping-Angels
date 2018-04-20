@@ -11,6 +11,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,6 +28,7 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 		super(manager, model, 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
+		addLayer(new LayerHeldItem(this));
 	}
 	
 	/**
