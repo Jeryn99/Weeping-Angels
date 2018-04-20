@@ -3,7 +3,6 @@ package com.github.reallysub.angels.main;
 import com.github.reallysub.angels.common.PoseRegistry;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.events.CommonEvents;
-import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.config.Config;
 
@@ -33,7 +32,7 @@ public class WeepingAngels {
 		MinecraftForge.EVENT_BUS.register(new CommonEvents());
 		WAObjects.setUpSpawns();
 		
-		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
+		//GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 		
 		GameRegistry.registerTileEntity(TileSnowArm.class, ":snowarm");
 		
