@@ -137,11 +137,17 @@ public class EntityAngel extends EntityMob {
 			AngelUtils.getForTorch(player);
 		}
 		
-		if (this.getHealth() > 5) {
-			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+		if (world.getDifficulty() == EnumDifficulty.HARD) {
+			entity.attackEntityFrom(WAObjects.ANGEL, Integer.MAX_VALUE);
 		} else {
-			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+			
+			if (this.getHealth() > 5) {
+				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+			} else {
+				entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+			}
 		}
+		
 		return super.attackEntityAsMob(entity);
 	}
 	
@@ -151,7 +157,14 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(IS_SEEN, false);
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TIME_VIEWED, 0);
-		getDataManager().register(TYPE, rand.nextInt(1));
+		getDataManager().register(TYPE, getRandomType());
+	}
+	
+	private int getRandomType() {
+		if (rand.nextBoolean()) {
+			return 1;
+		}
+		return 0;
 	}
 	
 	@Override

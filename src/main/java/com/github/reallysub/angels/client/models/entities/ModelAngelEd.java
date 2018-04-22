@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client.models;
+package com.github.reallysub.angels.client.models.entities;
 
 import org.lwjgl.opengl.GL11;
 

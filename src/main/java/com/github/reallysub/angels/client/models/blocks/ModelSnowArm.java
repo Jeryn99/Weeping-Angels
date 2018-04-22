@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client.models;
+package com.github.reallysub.angels.client.models.blocks;
 
 import com.github.reallysub.angels.main.WeepingAngels;
 

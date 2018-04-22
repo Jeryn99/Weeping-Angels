@@ -1,7 +1,7 @@
 package com.github.reallysub.angels.client.render.layers;
 
-import com.github.reallysub.angels.client.models.ModelAngel;
-import com.github.reallysub.angels.client.models.ModelAngelEd;
+import com.github.reallysub.angels.client.models.entities.ModelAngel;
+import com.github.reallysub.angels.client.models.entities.ModelAngelEd;
 import com.github.reallysub.angels.client.render.entity.RenderAngel;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.WeepingAngels;

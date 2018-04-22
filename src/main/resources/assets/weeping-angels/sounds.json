@@ -8,6 +8,15 @@
 		}]
 	},
 	
+		"ding": {
+		"category": "hostile",
+		"subtitle": "sound.ding",
+		"sounds": [{
+			"name": "weeping-angels:ding",
+			"stream": false
+		}]
+	},
+	
 		"angel_seen_2": {
 		"category": "hostile",
 		"subtitle": "sound.angel_seen",

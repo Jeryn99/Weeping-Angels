@@ -6,7 +6,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.reallysub.angels.client.models.ModelAngelEd;
+import com.github.reallysub.angels.client.TabAngels;
+import com.github.reallysub.angels.client.models.entities.ModelAngelEd;
 import com.github.reallysub.angels.client.render.entity.RenderAngel;
 import com.github.reallysub.angels.client.render.entity.RenderAngelPainting;
 import com.github.reallysub.angels.client.render.tiles.RenderSnowArm;
@@ -52,6 +53,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
 	
+	public static CreativeTabs angelTab = new TabAngels();
+	
 	// Sounds
 	public static class Sounds {
 		public static SoundEvent angelSeen = setUpSound("angel_seen_1");
@@ -65,6 +68,7 @@ public class WAObjects {
 		public static SoundEvent light_break = setUpSound("light_break");
 		public static SoundEvent angel_teleport = setUpSound("angel_teleport");
 		public static SoundEvent angel_ambience = setUpSound("angel_ambient");
+		public static SoundEvent ding = setUpSound("ding");
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {
@@ -104,16 +108,16 @@ public class WAObjects {
 	
 	// Blocks
 	public static class WABlocks {
-		public static Block angelArm = new BlockSnowArm();
+		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
 		
 	}
 	
 	// Items
 	public static class WAItems {
-		public static Item angelPainting = createItem(new ItemHanging(), "angel_painting").setCreativeTab(CreativeTabs.DECORATIONS);;
-		public static Item angelArmItem = createItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(CreativeTabs.DECORATIONS);
+		public static Item angelPainting = createItem(new ItemHanging(), "angel_painting").setCreativeTab(angelTab);
+		public static Item angelArmItem = createItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
 		public static Item unLitTorch = createItem(new Item(), "unlit_torch");
-		public static Item timeyWimeyDetector = createItem(new ItemDetector(), "timey_wimey_detector");
+		public static Item timeyWimeyDetector = createItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
 	}
 	
 	private static Item createItem(Item item, String name) {

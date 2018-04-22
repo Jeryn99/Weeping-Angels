@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.client.models;
+package com.github.reallysub.angels.client.models.entities;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
