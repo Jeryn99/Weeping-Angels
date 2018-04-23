@@ -38,7 +38,7 @@ public class ItemDetector extends Item {
 				}
 				
 				if (entityIn.ticksExisted % 100 != 0) {
-					worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ding, SoundCategory.PLAYERS, 1.0F, 1.0F);
+					worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ding, SoundCategory.PLAYERS, 0.5F, 1.0F);
 				}
 				
 				if (worldIn.rand.nextInt(5) == 3 && Config.chickenGoboom) {

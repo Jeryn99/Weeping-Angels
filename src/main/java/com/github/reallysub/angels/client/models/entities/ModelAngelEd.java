@@ -251,15 +251,14 @@ public class ModelAngelEd extends ModelBiped {
 	}
 	
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		
-		EntityAngel angel = null;
-		PoseBase pose = null;
 		if (entity instanceof EntityAngel) {
+			
+			EntityAngel angel = null;
+			PoseBase pose = null;
+			
 			angel = (EntityAngel) entity;
 			pose = PoseRegistry.getPose(angel.getPose());
-		}
 		
-		if (angel.getSeenTime() == 1) {
 			this.angry_mouth.isHidden = !pose.angryFace(angel);
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
