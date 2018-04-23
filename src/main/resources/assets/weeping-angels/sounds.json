@@ -17,6 +17,15 @@
 		}]
 	},
 	
+		"blow": {
+		"category": "hostile",
+		"subtitle": "sound.blow",
+		"sounds": [{
+			"name": "weeping-angels:blow",
+			"stream": false
+		}]
+	},
+	
 		"angel_seen_2": {
 		"category": "hostile",
 		"subtitle": "sound.angel_seen",

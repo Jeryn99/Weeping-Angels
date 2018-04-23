@@ -1,0 +1,19 @@
+entity.weepingangel.name=Weinender Engel
+item.angel_painting.name=Engel Gemälde
+tile.arm.name=Arm im Schnee
+item.unlit_torch.name=Unbeleuchtete Fackel
+item.timey_wimey_detector.name=Timey Wimey Detektor
+
+entity.angel.name=Weinender Engel
+
+sound.angel_seen=Engel gesichtet
+sound.child_run=rennendes Kind
+sound.laughing_child=lachendes Kind
+sound.light_break=Lichtbrechung
+sound.angel_teleport=Engel teleportiert Spieler
+sound.stone_scrap=Stein Schrott
+sound.ding=Ding!
+
+source.angel=wurde in der zeit zurückgeschickt von einem Engel!
+source.angel_neck_snap=wurde von einem Engel am hals geschnappt!
+source.punch_stone=durch schlagen auf stein sind die Knocken gebrochen 

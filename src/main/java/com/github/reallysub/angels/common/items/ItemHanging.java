@@ -1,6 +1,5 @@
 package com.github.reallysub.angels.common.items;
 
-import com.github.reallysub.angels.client.models.items.RenderTimeyWimeyDetector;
 import com.github.reallysub.angels.common.entities.EntityAngelPainting;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,7 +17,7 @@ public class ItemHanging extends Item {
 	
 	public ItemHanging() {
 		super();
-		this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
+		// this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 	

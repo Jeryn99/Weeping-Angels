@@ -132,11 +132,6 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		
-		if (entity instanceof EntityPlayer && world.rand.nextInt(100) < 20) {
-			EntityPlayer player = (EntityPlayer) entity;
-			AngelUtils.getForTorch(player);
-		}
-		
 		if (world.getDifficulty() == EnumDifficulty.HARD) {
 			entity.attackEntityFrom(WAObjects.ANGEL, Integer.MAX_VALUE);
 		} else {
@@ -309,6 +304,13 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		
+		if (isChild() && getAttackTarget() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) getAttackTarget();
+			if (getDistance(getAttackTarget()) <= 2) {
+				AngelUtils.blowOutTorch(player);
+			}
+		}
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);

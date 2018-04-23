@@ -1,5 +1,6 @@
 package com.github.reallysub.angels.main;
 
+import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WAObjects.WAItems;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.events.EventAngelTeleport;
@@ -18,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -28,21 +30,24 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class AngelUtils {
 	
-	public static void getForTorch(EntityPlayer p) {
-		
-		for (Object hand : EnumHand.values()) {
-			ItemStack torch = p.getHeldItem((EnumHand) hand);
-			if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-				String itemName = torch.getDisplayName();
-				ItemStack newStack = new ItemStack(WAItems.unLitTorch);
-				newStack.setStackDisplayName(itemName);
-				int count = torch.getCount();
-				torch.setCount(0);
-				newStack.setCount(count);
-				if (hand == EnumHand.MAIN_HAND) {
-					p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
-				} else {
-					p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
+	public static void blowOutTorch(EntityPlayer p) {
+		if (!p.world.isRemote) {
+			for (Object hand : EnumHand.values()) {
+				ItemStack torch = p.getHeldItem((EnumHand) hand);
+				if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
+					String itemName = torch.getDisplayName();
+					ItemStack newStack = new ItemStack(WAItems.unLitTorch);
+					newStack.setStackDisplayName(itemName);
+					int count = torch.getCount();
+					torch.setCount(0);
+					newStack.setCount(count);
+					if (hand == EnumHand.MAIN_HAND) {
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.blow, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
+					} else {
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.blow, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
+					}
 				}
 			}
 		}
@@ -136,7 +141,7 @@ public class AngelUtils {
 				if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
 					angel.setSeen(true);
 					
-					if (angel.getSeenTime() == 1) {
+					if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
 						angel.setPose(angel.randomPose().toString());
 					}
 					

@@ -16,12 +16,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, version = WeepingAngels.VERSION, updateJSON = "https://raw.githubusercontent.com/ReallySub/Weeping-Angels-Mod/master/update.json")
+@Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, dependencies = WeepingAngels.DEPENDENCIES, version = WeepingAngels.VERSION, updateJSON = "https://raw.githubusercontent.com/ReallySub/Weeping-Angels-Mod/master/update.json")
 @Mod.EventBusSubscriber
 public class WeepingAngels {
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "9.0";
+	public static final String VERSION = "9.1";
+	public static final String DEPENDENCIES = "required:forge@[14.23.2.2638,)";
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -35,7 +36,7 @@ public class WeepingAngels {
 		
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 		
-		GameRegistry.registerTileEntity(TileSnowArm.class, ":snowarm");
+		GameRegistry.registerTileEntity(TileSnowArm.class, WeepingAngels.MODID + ":snowarm");
 		
 		PoseRegistry.init();
 		
