@@ -14,10 +14,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
+public class RenderAngel extends RenderLiving<EntityAngel> {
 	
 	ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	
@@ -40,7 +41,7 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 	 * Renders the model in RenderLiving
 	 */
 	@Override
-	protected void renderModel(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+	protected void renderModel(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		EntityAngel angel = null;
 		
 		if (entity instanceof EntityAngel) {
@@ -73,8 +74,8 @@ public class RenderAngel<T extends EntityLiving> extends RenderLiving<T> {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(T entity) {
-		return TEXTURE_ONE;
+	protected ResourceLocation getEntityTexture(EntityAngel entity) {
+		return null;
 	}
 	
 }

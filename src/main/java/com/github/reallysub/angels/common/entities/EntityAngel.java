@@ -131,18 +131,11 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		
-		if (world.getDifficulty() == EnumDifficulty.HARD) {
-			entity.attackEntityFrom(WAObjects.ANGEL, Integer.MAX_VALUE);
+		if (this.getHealth() > 5) {
+			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 		} else {
-			
-			if (this.getHealth() > 5) {
-				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-			} else {
-				entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-			}
+			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
 		}
-		
 		return super.attackEntityAsMob(entity);
 	}
 	
@@ -347,6 +340,10 @@ public class EntityAngel extends EntityMob {
 					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
 			}
+		}
+		
+		if(!(source instanceof Entity)) {
+			e.setCanceled(true);
 		}
 	}
 	

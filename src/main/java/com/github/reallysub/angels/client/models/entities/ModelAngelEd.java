@@ -217,6 +217,7 @@ public class ModelAngelEd extends ModelBiped {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GlStateManager.enableLighting();
+		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		cloth_1.render(f5);
 		right_arm.render(f5);
 		head.render(f5);
@@ -249,7 +250,6 @@ public class ModelAngelEd extends ModelBiped {
 		return side == EnumHandSide.LEFT ? left_arm : right_arm;
 	}
 	
-	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		
 		EntityAngel angel = null;
@@ -260,20 +260,20 @@ public class ModelAngelEd extends ModelBiped {
 		}
 		
 		if (angel.getSeenTime() == 1) {
-			angry_mouth.isHidden = !pose.angryFace(angel);
-			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
-			pose.setWingAngles(left_wing_0, right_wing_0);
-			pose.setHeadAngles(head);
+			this.angry_mouth.isHidden = !pose.angryFace(angel);
+			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
+			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
+			pose.setHeadAngles(this.head);
 			
 			if (pose.angryFace(angel)) {
-				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-				angry_mouth.isHidden = false;
-				right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-				left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				this.angry_mouth.isHidden = false;
+				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
 			} else {
-				right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 			}
 			
 		}
