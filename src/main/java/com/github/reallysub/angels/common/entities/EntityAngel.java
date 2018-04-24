@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
-import com.github.reallysub.angels.main.AngelUtils;
 import com.github.reallysub.angels.main.config.Config;
+import com.github.reallysub.angels.utils.AngelUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
@@ -342,7 +342,7 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 		
-		if(!(source instanceof Entity)) {
+		if (!(source instanceof Entity)) {
 			e.setCanceled(true);
 		}
 	}

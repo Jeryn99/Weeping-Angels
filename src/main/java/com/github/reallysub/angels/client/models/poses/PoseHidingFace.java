@@ -37,7 +37,6 @@ public class PoseHidingFace extends PoseBase {
 	}
 	
 	@Override
-	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {
-		
-	}
+	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}
+	
 }

@@ -2,6 +2,7 @@ package com.github.reallysub.angels.common.items;
 
 import java.util.List;
 
+import com.github.reallysub.angels.client.models.items.RenderTimeyWimeyDetector;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.config.Config;
@@ -22,7 +23,7 @@ public class ItemDetector extends Item {
 	
 	public ItemDetector() {
 		this.setCreativeTab(CreativeTabs.TOOLS);
-		// this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
+		this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 	}
 	
 	@Override

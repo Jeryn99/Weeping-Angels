@@ -1,4 +1,4 @@
-package com.github.reallysub.angels.main;
+package com.github.reallysub.angels.utils;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WAObjects.WAItems;

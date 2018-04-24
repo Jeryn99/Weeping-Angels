@@ -213,32 +213,29 @@ public class ModelAngelEd extends ModelBiped {
 	}
 	
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GlStateManager.enableLighting();
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		cloth_1.render(f5);
-		right_arm.render(f5);
-		head.render(f5);
-		cloth_0.render(f5);
-		back_cloth.render(f5);
-		cloth_2.render(f5);
-		left_wing_1.render(f5);
-		body_2.render(f5);
-		right_wing_1.render(f5);
-		body.render(f5);
-		right_wing_0.render(f5);
-		left_wing_0.render(f5);
-		left_arm.render(f5);
+		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
+		cloth_1.render(scale);
+		right_arm.render(scale);
+		head.render(scale);
+		cloth_0.render(scale);
+		back_cloth.render(scale);
+		cloth_2.render(scale);
+		left_wing_1.render(scale);
+		body_2.render(scale);
+		right_wing_1.render(scale);
+		body.render(scale);
+		right_wing_0.render(scale);
+		left_wing_0.render(scale);
+		left_arm.render(scale);
 		GlStateManager.disableLighting();
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
 	
-	/**
-	 * This is a helper function from Tabula to set the rotation of model parts
-	 */
 	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
@@ -250,6 +247,7 @@ public class ModelAngelEd extends ModelBiped {
 		return side == EnumHandSide.LEFT ? left_arm : right_arm;
 	}
 	
+	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		if (entity instanceof EntityAngel) {
 			
@@ -258,7 +256,7 @@ public class ModelAngelEd extends ModelBiped {
 			
 			angel = (EntityAngel) entity;
 			pose = PoseRegistry.getPose(angel.getPose());
-		
+			
 			this.angry_mouth.isHidden = !pose.angryFace(angel);
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);

@@ -38,9 +38,6 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}
 	
 }

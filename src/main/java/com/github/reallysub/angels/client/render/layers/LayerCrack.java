@@ -46,8 +46,8 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 			if (!angel.isChild()) {
 				this.angelRenderer.bindTexture(CRACK_TEX);
 				this.modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-				GlStateManager.popMatrix();
 			}
+			GlStateManager.popMatrix();
 		}
 	}
 	

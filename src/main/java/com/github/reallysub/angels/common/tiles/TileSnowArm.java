@@ -1,7 +1,7 @@
 package com.github.reallysub.angels.common.tiles;
 
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.main.AngelUtils;
+import com.github.reallysub.angels.utils.AngelUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

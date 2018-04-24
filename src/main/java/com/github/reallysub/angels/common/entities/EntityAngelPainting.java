@@ -3,7 +3,7 @@ package com.github.reallysub.angels.common.entities;
 import java.util.ArrayList;
 
 import com.github.reallysub.angels.common.WAObjects;
-import com.github.reallysub.angels.main.AngelUtils;
+import com.github.reallysub.angels.utils.AngelUtils;
 import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
