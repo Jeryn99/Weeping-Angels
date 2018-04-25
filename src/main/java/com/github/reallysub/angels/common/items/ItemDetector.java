@@ -24,6 +24,7 @@ public class ItemDetector extends Item {
 	public ItemDetector() {
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
+		this.setMaxStackSize(1);
 	}
 	
 	@Override

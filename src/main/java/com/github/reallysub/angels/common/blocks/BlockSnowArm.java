@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockSnowArm extends BlockContainer implements ITileEntityProvider {
 	
 	public BlockSnowArm() {
-		super(Material.BARRIER, MapColor.ADOBE);
+		super(Material.GRASS, MapColor.ADOBE);
 		setUnlocalizedName("arm");
 		setRegistryName(WeepingAngels.MODID, "arm");
 		translucent = true;
