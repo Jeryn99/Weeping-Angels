@@ -263,12 +263,36 @@ public class EntityAngel extends EntityMob {
 			if (DimensionManager.isDimensionRegistered(dimID) && dimID != 1) {
 				int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
-				int y = world.getHeight(x, z) + 4;
-				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dimID);
+				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
+				teleport(entity,x, y, z, dimID);
 			}
 		}
+	}
+	
+	
+	private boolean teleport(Entity entity, double x, double y, double z, int dim) {
+		BlockPos p = new BlockPos(x, y, z);
+		
+		if (world.isAirBlock(p)) {
+			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
+				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim);
+			} else {
+				for (int i = 1; i < 255; i++) {
+					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {				
+						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+					}
+				}
+			}
+		} else {
+			for (int i = 1; i < 255; i++) {
+				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
+					AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+				}
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -342,14 +366,9 @@ public class EntityAngel extends EntityMob {
 				
 				if (!(source instanceof Entity)) {
 					e.setCanceled(true);
-				}
-				
-			}
-			
-			
-		}
-		
-		
+				}			
+			}		
+		}	
 	}
 	
 	@Override
