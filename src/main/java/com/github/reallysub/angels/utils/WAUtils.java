@@ -2,8 +2,6 @@ package com.github.reallysub.angels.utils;
 
 import java.util.ArrayList;
 
-import com.github.reallysub.angels.common.entities.EntityAngel;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

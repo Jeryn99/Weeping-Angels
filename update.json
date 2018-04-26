@@ -1,10 +1,10 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "9.1",
-    "1.12.2-recommended": "9.1"
+    "1.12.2-latest": "9.5",
+    "1.12.2-recommended": "9.5"
   },
   "1.12.2": {
-    "9.1": "Lots!"
+    "9.5": "Lots!"
   }
 }
