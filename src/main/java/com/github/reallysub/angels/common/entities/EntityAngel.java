@@ -6,6 +6,7 @@ import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 import com.github.reallysub.angels.main.config.Config;
 import com.github.reallysub.angels.utils.AngelUtils;
+import com.github.reallysub.angels.utils.WAUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;

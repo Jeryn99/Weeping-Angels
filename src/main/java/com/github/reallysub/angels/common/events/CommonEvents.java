@@ -56,10 +56,6 @@ public class CommonEvents {
 		if (event.getEntity() instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) event.getEntity();
 			
-			if (angel.world.getLight(angel.getPosition(), true) == 0) {
-				angel.setSeen(false);
-			}
-			
 			if (Config.angelLocking) {
 				AngelUtils.getAllAngels(angel);
 			}

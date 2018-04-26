@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
  */
 public class ModelDetector extends ModelBase {
 	
-	
 	ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
 	
 	ModelRenderer spin_1;
@@ -741,9 +740,12 @@ public class ModelDetector extends ModelBase {
 		GlStateManager.pushMatrix();
 		
 		spin_1.rotateAngleZ = time;
-		spin_2.rotateAngleZ = time;
+		spin_2.rotateAngleZ = time * 1.01F;
 		spin_3.rotateAngleZ = time;
-		spin_4.rotateAngleZ = time;
+		spin_4.rotateAngleZ = time * 1.01F;
+		c_seg.rotateAngleZ += 0.1F;
+		c_min.rotateAngleZ = c_seg.rotateAngleZ / 60;
+		c_hour.rotateAngleZ = c_min.rotateAngleZ / 60;
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		
@@ -823,10 +825,10 @@ public class ModelDetector extends ModelBase {
 		light.render(scale);
 		
 		if (timer % 2 == 0) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0x0, 0xf0);
-		GlStateManager.disableAlpha();
-		GlStateManager.disableBlend();
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0x0, 0xf0);
+			GlStateManager.disableAlpha();
+			GlStateManager.disableBlend();
 		}
 		
 		GlStateManager.popMatrix();
