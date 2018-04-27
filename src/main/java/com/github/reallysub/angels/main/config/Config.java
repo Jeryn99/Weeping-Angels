@@ -4,7 +4,7 @@ import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 	
-	public static boolean teleportEntities, angelLocking, angelDimTeleport, chickenGoboom;
+	public static boolean teleportEntities, angelLocking, angelDimTeleport, chickenGoboom, analytics;
 	public static int teleportRange, spawnProbability, maximumSpawn, minimumSpawn, blockBreakRange;
 	
 	public static void init(Configuration cfg) {
@@ -24,6 +24,9 @@ public class Config {
 		maximumSpawn = cfg.getInt("maximumSpawn", "Spawning", 4, 0, Integer.MAX_VALUE, "The maximum amount of angels per biome");
 		spawnProbability = cfg.getInt("spawnProbability", "Spawning", 50, 0, Integer.MAX_VALUE, "The angel spawn probabilty rate");
 		minimumSpawn = cfg.getInt("minimumSpawn", "Spawning", 2, 0, Integer.MAX_VALUE, "The minimum amount of angels per biome");
+		
+		// Analytics
+		analytics = cfg.getBoolean("analytics", "Analytics", true, "If this is enabled, I will recieve what mods you have installed with weeping angels for compatibility reasons");
 		
 		cfg.save();
 	}
