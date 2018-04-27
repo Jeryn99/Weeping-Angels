@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -71,14 +72,15 @@ public class EntityAngel extends EntityMob {
 	
 	public EntityAngel(World world) {
 		super(world);
-		tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 3.0F, 80));
+		tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 1.5F, 80));
 		tasks.addTask(2, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIAttackMelee(this, 3.0F, false));
+		tasks.addTask(1, new EntityAIAttackMelee(this, 2.0F, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(7, new EntityAIBreakDoor(this));
-		tasks.addTask(2, new EntityAITempt(this, 9.5D, Item.getItemFromBlock(Blocks.TORCH), false));
-		tasks.addTask(2, new EntityAITempt(this, 9.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.TORCH), false));
+		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		experienceValue = 25;
@@ -266,11 +268,10 @@ public class EntityAngel extends EntityMob {
 				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
-				teleport(entity,x, y, z, dimID);
+				teleport(entity, x, y, z, dimID);
 			}
 		}
 	}
-	
 	
 	private boolean teleport(Entity entity, double x, double y, double z, int dim) {
 		BlockPos p = new BlockPos(x, y, z);
@@ -280,7 +281,7 @@ public class EntityAngel extends EntityMob {
 				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim);
 			} else {
 				for (int i = 1; i < 255; i++) {
-					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {				
+					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
 						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
 					}
 				}
@@ -366,9 +367,9 @@ public class EntityAngel extends EntityMob {
 				
 				if (!(source instanceof Entity)) {
 					e.setCanceled(true);
-				}			
-			}		
-		}	
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -406,7 +407,7 @@ public class EntityAngel extends EntityMob {
 							}
 							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							entityDropItem(new ItemStack(Item.getItemFromBlock(block)), 0);
+							createItem(pos, new ItemStack(Item.getItemFromBlock(block)));
 							stop = true;
 						}
 						
@@ -456,5 +457,14 @@ public class EntityAngel extends EntityMob {
 			return sound;
 		}
 		return null;
+	}
+	
+	public void createItem(BlockPos pos, ItemStack stack) {
+		if (!world.isRemote) {
+			EntityItem item = new EntityItem(world);
+			item.setItem(stack);
+			world.spawnEntity(item);
+			item.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		}
 	}
 }

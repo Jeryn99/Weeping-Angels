@@ -165,7 +165,7 @@ public class AngelUtils {
 						angel.setSeen(true);
 						
 						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
-							//angel.setPose(angel.randomPose().toString());
+							angel.setPose(angel.randomPose().toString());
 						}
 						
 						if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
