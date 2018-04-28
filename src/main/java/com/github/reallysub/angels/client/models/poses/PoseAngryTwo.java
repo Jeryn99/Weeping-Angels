@@ -7,7 +7,7 @@ import com.github.reallysub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-public class PoseAngry2 extends PoseBase {
+public class PoseAngryTwo extends PoseBase {
 	
 	Random rand = new Random();
 	

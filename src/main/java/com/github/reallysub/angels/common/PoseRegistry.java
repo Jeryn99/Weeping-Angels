@@ -3,7 +3,7 @@ package com.github.reallysub.angels.common;
 import java.util.HashMap;
 
 import com.github.reallysub.angels.client.models.poses.PoseAngry;
-import com.github.reallysub.angels.client.models.poses.PoseAngry2;
+import com.github.reallysub.angels.client.models.poses.PoseAngryTwo;
 import com.github.reallysub.angels.client.models.poses.PoseBase;
 import com.github.reallysub.angels.client.models.poses.PoseHidingFace;
 import com.github.reallysub.angels.client.models.poses.PoseIdle;
@@ -22,7 +22,7 @@ public class PoseRegistry {
 		registerPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
 		registerPose(AngelPoses.IDLE.toString(), new PoseIdle());
 		registerPose(AngelPoses.ANGRY.toString(), new PoseAngry());
-		registerPose(AngelPoses.ANGRY2.toString(), new PoseAngry2());
+		registerPose(AngelPoses.ANGRY_TWO.toString(), new PoseAngryTwo());
 		registerPose(AngelPoses.SHY.toString(), new PoseShy());
 	}
 	

@@ -19,7 +19,7 @@ public class AnalyticsTracking {
 					
 					UUID uuid = player.getUniqueID();
 					
-					String analyticsPostData = "v=1" + "&tid=censored" + "&cid=" + uuid.toString() + "&t=event" + "&ec=Weeping_Angels" + "&ea=" + event + "&el=" + data + "&ev=300";
+					String analyticsPostData = "v=1" + "&tid=cen" + "&cid=" + uuid.toString() + "&t=event" + "&ec=Weeping_Angels" + "&ea=" + event + "&el=" + data + "&ev=300";
 					
 					URL url = new URL("http://www.google-analytics.com/collect");
 					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
