@@ -1,15 +1,18 @@
 package com.github.reallysub.angels.client.models.poses;
 
-import java.util.Random;
-
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
 public class PoseAngry extends PoseBase {
 	
-	Random rand = new Random();
+	public PoseAngry(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
+	}
+	
+	public PoseAngry() {}
 	
 	@Override
 	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right) {

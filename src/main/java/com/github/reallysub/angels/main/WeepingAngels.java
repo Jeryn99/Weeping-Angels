@@ -1,6 +1,5 @@
 package com.github.reallysub.angels.main;
 
-import com.github.reallysub.angels.client.AnalyticsTracking;
 import com.github.reallysub.angels.common.PoseRegistry;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.events.CommonEvents;
@@ -9,13 +8,9 @@ import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.config.Config;
 import com.github.reallysub.angels.utils.WAUtils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

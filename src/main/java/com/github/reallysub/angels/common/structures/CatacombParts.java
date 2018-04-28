@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CatacombParts {
 	
+	private static Random rand = new Random();
+	
 	public static ResourceLocation partStraight = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_0");
 	public static ResourceLocation partCorner1 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_1");
 	public static ResourceLocation partTSection = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_2");
@@ -31,7 +33,6 @@ public class CatacombParts {
 	public static ResourceLocation[] allStraightParts = new ResourceLocation[] { catacomb_hallway_flat_1, catacomb_hallway_flat_2, catacomb_hallway_flat_3, partStraight, catacomb_hallway_clean_1, catacomb_hallway_clean_2, catacomb_hallway_clean_3, catacomb_hallway_clean_4, catacomb_hallway_broken_1, catacomb_hallway_broken_2, catacomb_hallway_broken_3 };
 	
 	public static ResourceLocation getStraightPart() {
-		Random rand = new Random();
 		return CatacombParts.allStraightParts[rand.nextInt(CatacombParts.allStraightParts.length)];
 	}
 	

@@ -3,20 +3,23 @@ package com.github.reallysub.angels.client.models.poses;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 
 public abstract class PoseBase {
 	
 	float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
+	Entity entity;
 	
 	public PoseBase() {}
 	
-	public PoseBase(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseBase(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
 		this.ageInTicks = ageInTicks;
 		this.netheadYaw = netheadYaw;
 		this.headPitch = headPitch;
 		this.swingProgress = swingProgress;
+		this.entity = entity;
 	}
 	
 	public abstract void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right);
@@ -49,5 +52,9 @@ public abstract class PoseBase {
 	
 	public float getSwingProgress() {
 		return swingProgress;
+	}
+	
+	public Entity getAngel() {
+		return entity;
 	}
 }

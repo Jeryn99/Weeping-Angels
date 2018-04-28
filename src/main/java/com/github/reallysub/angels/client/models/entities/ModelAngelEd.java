@@ -12,7 +12,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
@@ -252,25 +251,26 @@ public class ModelAngelEd extends ModelBiped {
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		if (entity instanceof EntityAngel) {
 			
+			this.head.rotateAngleY = netheadYaw * 0.017453292F;
+			this.head.rotateAngleX = headPitch * 0.017453292F;
 			
-				this.head.rotateAngleY = netheadYaw * 0.017453292F;
-				this.head.rotateAngleX = headPitch * 0.017453292F;
-			
-			
-			this.right_arm.rotationPointY=2.5F;
-			this.left_arm.rotationPointY=2.5F;
-			this.left_arm.rotateAngleX=0;
-			this.left_arm.rotateAngleY=0;
-			this.left_arm.rotateAngleZ=0;
-			this.right_arm.rotateAngleX=0;
-			this.right_arm.rotateAngleY=0;
-			this.right_arm.rotateAngleZ=0;
+			this.right_arm.rotationPointY = 2.5F;
+			this.left_arm.rotationPointY = 2.5F;
+			this.left_arm.rotateAngleX = 0;
+			this.left_arm.rotateAngleY = 0;
+			this.left_arm.rotateAngleZ = 0;
+			this.right_arm.rotateAngleX = 0;
+			this.right_arm.rotateAngleY = 0;
+			this.right_arm.rotateAngleZ = 0;
 			EntityAngel angel = null;
 			PoseBase pose = null;
 			
 			angel = (EntityAngel) entity;
+			
 			pose = PoseRegistry.getPose(angel.getPose());
 			
+			
+			if(pose != null) {
 			this.angry_mouth.isHidden = !pose.angryFace(angel);
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
@@ -280,15 +280,17 @@ public class ModelAngelEd extends ModelBiped {
 				this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				this.angry_mouth.isHidden = false;
-				
 			} else {
 				this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 			}
-			if(pose instanceof PoseThinking){
-				this.right_eyebrow.rotateAngleZ=0.15F;
-				this.right_eyebrow.rotationPointY=-4.5F;
-				this.left_eyebrow.rotationPointY=-4.2F;
+			
+			
+			if (pose instanceof PoseThinking) {
+				this.right_eyebrow.rotateAngleZ = 0.15F;
+				this.right_eyebrow.rotationPointY = -4.5F;
+				this.left_eyebrow.rotationPointY = -4.2F;
+				}
 			}
 		}
 	}

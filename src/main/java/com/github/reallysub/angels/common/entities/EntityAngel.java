@@ -338,7 +338,6 @@ public class EntityAngel extends EntityMob {
 		}
 		
 		replaceBlocks(getEntityBoundingBox().grow(Config.blockBreakRange, Config.blockBreakRange, Config.blockBreakRange));
-		this.setPose(AngelPoses.ANGRY_TWO.toString());
 	}
 	
 	@SubscribeEvent

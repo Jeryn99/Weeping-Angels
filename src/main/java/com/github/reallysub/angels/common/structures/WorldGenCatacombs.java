@@ -50,8 +50,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 					} else {
 						part = CatacombParts.partStraight;
 					}
-					
-					// .out.println(part + " : " + times);
+				
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 * times, y, z), Rotation.NONE, part);
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x - 6 * times, y, z), Rotation.NONE, CatacombParts.partStraight);
@@ -73,8 +72,6 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 					} else {
 						part = CatacombParts.getStraightPart();
 					}
-					
-					// .out.println(part + " : " + times);
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x, y, z + 6 * times), Rotation.CLOCKWISE_90, part);
 					
