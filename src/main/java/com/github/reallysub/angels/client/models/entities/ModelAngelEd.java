@@ -3,6 +3,7 @@ package com.github.reallysub.angels.client.models.entities;
 import org.lwjgl.opengl.GL11;
 
 import com.github.reallysub.angels.client.models.poses.PoseBase;
+import com.github.reallysub.angels.client.models.poses.PoseThinking;
 import com.github.reallysub.angels.common.PoseRegistry;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 
@@ -251,6 +252,19 @@ public class ModelAngelEd extends ModelBiped {
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		if (entity instanceof EntityAngel) {
 			
+			
+				this.head.rotateAngleY = netheadYaw * 0.017453292F;
+				this.head.rotateAngleX = headPitch * 0.017453292F;
+			
+			
+			this.right_arm.rotationPointY=2.5F;
+			this.left_arm.rotationPointY=2.5F;
+			this.left_arm.rotateAngleX=0;
+			this.left_arm.rotateAngleY=0;
+			this.left_arm.rotateAngleZ=0;
+			this.right_arm.rotateAngleX=0;
+			this.right_arm.rotateAngleY=0;
+			this.right_arm.rotateAngleZ=0;
 			EntityAngel angel = null;
 			PoseBase pose = null;
 			
@@ -266,13 +280,16 @@ public class ModelAngelEd extends ModelBiped {
 				this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 				this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 				this.angry_mouth.isHidden = false;
-				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
-				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.5F * limbSwingAmount * 0.5F - 1.5707963268F;
+				
 			} else {
 				this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 			}
-			
+			if(pose instanceof PoseThinking){
+				this.right_eyebrow.rotateAngleZ=0.15F;
+				this.right_eyebrow.rotationPointY=-4.5F;
+				this.left_eyebrow.rotationPointY=-4.2F;
+			}
 		}
 	}
 }
