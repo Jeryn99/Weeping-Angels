@@ -49,6 +49,8 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		
+		if(angel.getHealth() <= 0.0F) {
+		
 		if (angel.isChild()) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_CHILD);
 			modelChild.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
@@ -63,8 +65,8 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 			if (angel.getType() == 1) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_TWO);
 				modelTwo.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				}
 			}
-			
 		}
 		
 		RenderHelper.disableStandardItemLighting();
@@ -75,5 +77,11 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	protected ResourceLocation getEntityTexture(EntityAngel entity) {
 		return null;
 	}
+	
+	 @Override
+	 protected boolean setBrightness(EntityAngel angel, float partialTicks, boolean combineTextures) {
+		return true;
+	}
+	 
 	
 }

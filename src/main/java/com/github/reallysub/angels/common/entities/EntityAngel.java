@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.enums.AngelPoses;
-import com.github.reallysub.angels.main.config.Config;
+import com.github.reallysub.angels.main.config.WAConfig;
 import com.github.reallysub.angels.utils.AngelUtils;
 
 import net.minecraft.block.Block;
@@ -97,9 +97,12 @@ public class EntityAngel extends EntityMob {
 		return SoundEvents.BLOCK_STONE_HIT;
 	}
 	
-	/**
-	 * Transforms the entity's current yaw with the given Rotation and returns it. This does not have a side-effect.
-	 */
+	@Override
+	protected SoundEvent getDeathSound()
+    {
+        return WAObjects.Sounds.angelDeath;
+    }
+	 
 	@Override
 	public float getRotatedYaw(Rotation transformRotation) {
 		if (!isSeen()) {
@@ -175,6 +178,7 @@ public class EntityAngel extends EntityMob {
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
+		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
 	}
 	
 	@Override
@@ -253,18 +257,18 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		
-		if (Config.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
 			int dimID = 0;
 			
-			if (Config.angelDimTeleport) {
+			if (WAConfig.angels.angelDimTeleport) {
 				dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
 			} else {
 				dimID = dimension;
 			}
 			
 			if (DimensionManager.isDimensionRegistered(dimID) && dimID != 1) {
-				int x = entity.getPosition().getX() + rand.nextInt(Config.teleportRange);
-				int z = entity.getPosition().getZ() + rand.nextInt(Config.teleportRange);
+				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
+				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
 				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
@@ -337,7 +341,7 @@ public class EntityAngel extends EntityMob {
 			setSeenTime(0);
 		}
 		
-		replaceBlocks(getEntityBoundingBox().grow(Config.blockBreakRange, Config.blockBreakRange, Config.blockBreakRange));
+		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 	}
 	
 	@SubscribeEvent

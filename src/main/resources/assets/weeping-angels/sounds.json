@@ -111,12 +111,21 @@
 			"stream": false
 		}]
 	},
+	
+		"angel_death": {
+		"category": "hostile",
+		"subtitle": "sound.angel_death",
+		"sounds": [{
+			"name": "weeping-angels:stone/angel_death",
+			"stream": false
+		}]
+	},
 
 	"stone_scrap": {
 		"subtitle": "sound.stone_scrap",
 		"category": "master",
 		"sounds": [{
-			"name": "weeping-angels:stone_scrap_2",
+			"name": "weeping-angels:stone_scrap",
 			"stream": false
 		},
 			{

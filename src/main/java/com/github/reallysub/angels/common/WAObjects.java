@@ -18,7 +18,7 @@ import com.github.reallysub.angels.common.items.ItemDetector;
 import com.github.reallysub.angels.common.items.ItemHanging;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
 import com.github.reallysub.angels.main.WeepingAngels;
-import com.github.reallysub.angels.main.config.Config;
+import com.github.reallysub.angels.main.config.WAConfig;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
@@ -70,6 +70,7 @@ public class WAObjects {
 		public static SoundEvent angel_ambience = setUpSound("angel_ambient");
 		public static SoundEvent ding = setUpSound("ding");
 		public static SoundEvent blow = setUpSound("blow");
+		public static SoundEvent angelDeath = setUpSound("angel_death");
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {
@@ -90,9 +91,9 @@ public class WAObjects {
 	}
 	
 	public static void setUpSpawns() {
-		List<Biome> allBiomes = ForgeRegistries.BIOMES.getValues();
+		List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
 		List<Biome> spawn = Lists.newArrayList();
-		spawn.addAll(allBiomes);
+		spawn.addAll(biomes);
 		spawn.remove(Biomes.SKY);
 		spawn.remove(Biomes.VOID);
 		spawn.remove(Biomes.HELL);
@@ -102,15 +103,14 @@ public class WAObjects {
 		while (iterator.hasNext()) {
 			Biome biome = iterator.next();
 			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, Config.spawnProbability, Config.minimumSpawn, Config.maximumSpawn, EnumCreatureType.MONSTER, biome);
+				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, EnumCreatureType.MONSTER, biome);
 			}
 		}
 	}
 	
 	// Blocks
 	public static class WABlocks {
-		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
-		
+		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);		
 	}
 	
 	// Items

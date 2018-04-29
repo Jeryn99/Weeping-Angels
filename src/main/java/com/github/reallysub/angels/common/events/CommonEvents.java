@@ -3,7 +3,7 @@ package com.github.reallysub.angels.common.events;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.WorldGenArms;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.main.config.Config;
+import com.github.reallysub.angels.main.config.WAConfig;
 import com.github.reallysub.angels.utils.AngelUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +56,7 @@ public class CommonEvents {
 		if (event.getEntity() instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) event.getEntity();
 			
-			if (Config.angelLocking) {
+			if (WAConfig.angels.angelLocking) {
 				AngelUtils.getAllAngels(angel);
 			}
 		}

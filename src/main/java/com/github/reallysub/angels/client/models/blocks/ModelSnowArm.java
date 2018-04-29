@@ -10,34 +10,29 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelSnowArm extends ModelBase {
 	
-	ResourceLocation TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
+	ResourceLocation TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
-	ModelRenderer RightArm1;
-	ModelRenderer RightArm2;
+	 ModelRenderer left_arm;
+	 ModelRenderer left_arm_1;
 	
 	public ModelSnowArm() {
-		textureWidth = 128;
-		textureHeight = 128;
-		
-		RightArm1 = new ModelRenderer(this, 58, 16);
-		RightArm1.addBox(-3F, -3F, 0F, 3, 3, 6);
-		RightArm1.setRotationPoint(-4F, 21F, -4F);
-		RightArm1.setTextureSize(128, 128);
-		RightArm1.mirror = true;
-		setRotation(RightArm1, -1.059177F, 0.42869F, 0F);
-		RightArm2 = new ModelRenderer(this, 58, 25);
-		RightArm2.addBox(-3F, -3F, -6F, 3, 3, 6);
-		RightArm2.setRotationPoint(-4F, 21F, -4F);
-		RightArm2.setTextureSize(128, 128);
-		RightArm2.mirror = true;
-		setRotation(RightArm2, -1.601779F, 0.42869F, 0F);
+		  this.textureWidth = 88;
+	        this.textureHeight = 88;
+	        this.left_arm = new ModelRenderer(this, 32, 27);
+	        this.left_arm.setRotationPoint(-1.2F, 22.1F, -0.1F);
+	        this.left_arm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
+	        this.setRotation(left_arm, 0.0F, 0.4553564018453205F, 2.9595548126067843F);
+	        this.left_arm_1 = new ModelRenderer(this, 34, 52);
+	        this.left_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
+	        this.left_arm_1.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
+	        this.setRotation(left_arm_1, -0.5235987755982988F, 0.0F, 0.0F);
+	        this.left_arm.addChild(this.left_arm_1);
 	}
 	
 	public void render(float scale) {
 		GlStateManager.pushMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEX);
-		RightArm1.render(scale);
-		RightArm2.render(scale);
+		this.left_arm.render(scale);;
 		GlStateManager.popMatrix();
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.reallysub.angels.client.models.items.RenderTimeyWimeyDetector;
 import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.main.config.Config;
+import com.github.reallysub.angels.main.config.WAConfig;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -39,11 +39,11 @@ public class ItemDetector extends Item {
 					player.sendStatusMessage(new TextComponentString("There are " + TextFormatting.YELLOW + angels.size() + TextFormatting.WHITE + " angels around you.. "), true);
 				}
 				
-				 if ((Math.cos(entityIn.ticksExisted)+3)>3.84F) {
-	                    worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ding, SoundCategory.PLAYERS, 0.5F, 1.0F);
-	                }
+				if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
+					worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ding, SoundCategory.PLAYERS, 0.5F, 1.0F);
+				}
 				
-				if (worldIn.rand.nextInt(5) == 3 && Config.chickenGoboom) {
+				if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {
 					for (Object chicken : entityIn.world.getEntitiesWithinAABB(EntityChicken.class, entityIn.getEntityBoundingBox().grow(30, 30, 30))) {
 						if (chicken instanceof EntityChicken && entityIn.world.rand.nextBoolean()) {
 							EntityChicken chick = (EntityChicken) chicken;
@@ -54,7 +54,7 @@ public class ItemDetector extends Item {
 					}
 				}
 				
-			}		
+			}
 		}
 		
 	}

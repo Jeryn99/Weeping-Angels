@@ -14,9 +14,24 @@ sound.angel_teleport=Angel teleported player
 sound.stone_scrap=Stone scrapings
 sound.ding=Ding!
 sound.blow=Blow
+sound.angel_death=Angel dies
 
 source.angel=was sent back in time by a Angel!
 source.angel_neck_snap=had their neck snapped by a Angel!
 source.punch_stone=broke their bones by punching stone...
 
 itemGroup.angels=Weeping Angels
+
+
+config.teleportRange=Teleport range
+config.teleport_entities=Teleport Entities?
+config.angel_locking=Angel on Angel, Quantum locking
+config.angeldimteleport=Angel inter-dimensional teleporting
+config.block_break_range=Block break Range
+config.chicken_go_boom=Chicken Explosions?
+config.max_spawn=Angel - Maximum spawn
+config.spawn_probability=Spawn Probability
+config.min_spawn=Angel - Minimum Spawn
+
+category.angels=Angels
+category.spawn=Spawn Rates

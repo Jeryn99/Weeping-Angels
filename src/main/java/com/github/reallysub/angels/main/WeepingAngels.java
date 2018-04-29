@@ -5,11 +5,9 @@ import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.events.CommonEvents;
 import com.github.reallysub.angels.common.structures.WorldGenCatacombs;
 import com.github.reallysub.angels.common.tiles.TileSnowArm;
-import com.github.reallysub.angels.main.config.Config;
 import com.github.reallysub.angels.utils.WAUtils;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,9 +25,7 @@ public class WeepingAngels {
 	public static final String DEPENDENCIES = "required:forge@[14.23.2.2638,)";
 	
 	@EventHandler
-	public void pre(FMLPreInitializationEvent event) {
-		Config.init(new Configuration(event.getSuggestedConfigurationFile()));
-	}
+	public void pre(FMLPreInitializationEvent event) {}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {

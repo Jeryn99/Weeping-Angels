@@ -269,27 +269,25 @@ public class ModelAngelEd extends ModelBiped {
 			
 			pose = PoseRegistry.getPose(angel.getPose());
 			
-			
-			if(pose != null) {
-			this.angry_mouth.isHidden = !pose.angryFace(angel);
-			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
-			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
-			pose.setHeadAngles(this.head);
-			
-			if (pose.angryFace(angel)) {
-				this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-				this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-				this.angry_mouth.isHidden = false;
-			} else {
-				this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-			}
-			
-			
-			if (pose instanceof PoseThinking) {
-				this.right_eyebrow.rotateAngleZ = 0.15F;
-				this.right_eyebrow.rotationPointY = -4.5F;
-				this.left_eyebrow.rotationPointY = -4.2F;
+			if (pose != null) {
+				this.angry_mouth.isHidden = !pose.angryFace(angel);
+				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
+				pose.setWingAngles(this.left_wing_0, this.right_wing_0);
+				pose.setHeadAngles(this.head);
+				
+				if (pose.angryFace(angel)) {
+					this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+					this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+					this.angry_mouth.isHidden = false;
+				} else {
+					this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+					this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				}
+				
+				if (pose instanceof PoseThinking) {
+					this.right_eyebrow.rotateAngleZ = 0.15F;
+					this.right_eyebrow.rotationPointY = -4.5F;
+					this.left_eyebrow.rotationPointY = -4.2F;
 				}
 			}
 		}

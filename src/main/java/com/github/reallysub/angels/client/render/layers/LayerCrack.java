@@ -38,7 +38,7 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 			modelMain = modelTwo;
 		}
 		
-		if (angel.getHealth() <= 5) {
+		if (angel.getHealth() <= 5 || angel.hurtTime > 0) {
 			GlStateManager.pushMatrix();
 			
 			boolean flag = angel.isInvisible();

@@ -5,5 +5,5 @@ import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientEvents {
-
+	
 }
