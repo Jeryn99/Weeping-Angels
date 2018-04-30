@@ -23,7 +23,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
 	ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
-	
+
 	ModelBase modelOne = new ModelAngel();
 	ModelBase modelTwo = new ModelAngelEd();
 	ModelAngelChild modelChild = new ModelAngelChild();
@@ -40,16 +40,12 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	 */
 	@Override
 	protected void renderModel(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		EntityAngel angel = null;
-		
-		if (entity instanceof EntityAngel) {
-			angel = (EntityAngel) entity;
-		}
-		
+		EntityAngel angel = entity;
+
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
-		
-		if(angel.getHealth() <= 0.0F) {
+
+		if(angel.getHealth() > 0.0F) {
 		
 		if (angel.isChild()) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_CHILD);

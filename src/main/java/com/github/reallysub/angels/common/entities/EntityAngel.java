@@ -2,8 +2,8 @@ package com.github.reallysub.angels.common.entities;
 
 import javax.annotation.Nullable;
 
+import com.github.reallysub.angels.common.PoseRegistry.AngelPoses;
 import com.github.reallysub.angels.common.WAObjects;
-import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 import com.github.reallysub.angels.main.config.WAConfig;
 import com.github.reallysub.angels.utils.AngelUtils;
 

@@ -125,7 +125,7 @@
 		"subtitle": "sound.stone_scrap",
 		"category": "master",
 		"sounds": [{
-			"name": "weeping-angels:stone_scrap",
+			"name": "weeping-angels:stone/stone_scrap",
 			"stream": false
 		},
 			{

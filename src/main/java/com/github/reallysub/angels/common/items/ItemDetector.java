@@ -7,6 +7,7 @@ import com.github.reallysub.angels.common.WAObjects;
 import com.github.reallysub.angels.common.entities.EntityAngel;
 import com.github.reallysub.angels.main.config.WAConfig;
 
+import net.minecraft.command.CommandTitle;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;

@@ -1,7 +1,7 @@
 package com.github.reallysub.angels.client.models.entities;
 
+import com.github.reallysub.angels.common.PoseRegistry.AngelPoses;
 import com.github.reallysub.angels.common.entities.EntityAngel;
-import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

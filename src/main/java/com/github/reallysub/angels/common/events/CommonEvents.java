@@ -40,9 +40,7 @@ public class CommonEvents {
 		}
 	}
 	
-	/*
-	 * Checking for the angels
-	 */
+	
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		

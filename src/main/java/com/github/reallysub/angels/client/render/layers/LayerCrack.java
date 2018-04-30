@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LayerCrack implements LayerRenderer<EntityAngel> {
 	
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
+	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");;
 	private final RenderAngel angelRenderer;
 	
 	ModelBase modelOne = new ModelAngel();
@@ -44,7 +45,7 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 			boolean flag = angel.isInvisible();
 			GlStateManager.depthMask(!flag);
 			if (!angel.isChild()) {
-				this.angelRenderer.bindTexture(CRACK_TEX);
+				this.angelRenderer.bindTexture(CRACK_TEX_2);
 				this.modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 			}
 			GlStateManager.popMatrix();

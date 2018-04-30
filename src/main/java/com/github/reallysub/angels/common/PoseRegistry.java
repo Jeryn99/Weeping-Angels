@@ -10,7 +10,6 @@ import com.github.reallysub.angels.client.models.poses.PoseHidingFace;
 import com.github.reallysub.angels.client.models.poses.PoseIdle;
 import com.github.reallysub.angels.client.models.poses.PoseShy;
 import com.github.reallysub.angels.client.models.poses.PoseThinking;
-import com.github.reallysub.angels.common.entities.enums.AngelPoses;
 
 public class PoseRegistry {
 	
@@ -33,4 +32,10 @@ public class PoseRegistry {
 	public static PoseBase getPose(String name) {
 		return POSES.get(name);
 	}
+	
+	
+	public enum AngelPoses {
+		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
+	}
+
 }
