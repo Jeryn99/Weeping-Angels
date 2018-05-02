@@ -21,6 +21,7 @@ public class ItemChronodyneGenerator extends Item
     /**
      * Called when the equipped item is right clicked.
      */
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
@@ -33,8 +34,8 @@ public class ItemChronodyneGenerator extends Item
         if (!worldIn.isRemote)
         {
             EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
-            gen.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntity(gen);
+            gen.shoot(playerIn,playerIn.rotationPitch, playerIn.rotationYawHead, 2F, 0, 0);
         }
 
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);

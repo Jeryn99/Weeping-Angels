@@ -93,7 +93,7 @@ public class WAObjects {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, manager -> new RenderCG(manager, WAItems.chronodyneGenerator));
+		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG(WAItems.chronodyneGenerator));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 	}
