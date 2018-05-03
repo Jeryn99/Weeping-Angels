@@ -15,24 +15,24 @@ public class ItemChronodyneGenerator extends Item {
 		this.maxStackSize = 16;
 		this.setCreativeTab(WAObjects.angelTab);
 	}
-	
+
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		
+
 		if (!playerIn.capabilities.isCreativeMode) {
 			itemstack.shrink(1);
 		}
-		
+
 		if (!worldIn.isRemote) {
 			EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
 			worldIn.spawnEntity(gen);
 			gen.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYawHead, 0, 2F, 1.0F);
 		}
-		
+
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 }
