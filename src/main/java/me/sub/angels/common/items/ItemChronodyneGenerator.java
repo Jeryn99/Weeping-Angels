@@ -35,7 +35,7 @@ public class ItemChronodyneGenerator extends Item
         {
             EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
             worldIn.spawnEntity(gen);
-            gen.shoot(playerIn,playerIn.rotationPitch, playerIn.rotationYawHead, 2F, 0, 0);
+            gen.shoot(playerIn,playerIn.rotationPitch, playerIn.rotationYawHead, 2F, 2F, 0);
         }
 
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
