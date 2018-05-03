@@ -2,6 +2,8 @@ package me.sub.angels.common.blocks;
 
 import javax.annotation.Nullable;
 
+import me.sub.angels.common.WAObjects;
+import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
 import net.minecraft.block.BlockContainer;
@@ -19,14 +21,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockSnowArm extends BlockContainer implements ITileEntityProvider {
+public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	
-	public BlockSnowArm() {
+	public BlockCG() {
 		super(Material.GRASS, MapColor.ADOBE);
-		setUnlocalizedName("arm");
-		setRegistryName(WeepingAngels.MODID, "arm");
+		setUnlocalizedName("cg");
+		setRegistryName(WeepingAngels.MODID, "cg");
 		translucent = true;
+		this.setCreativeTab(WAObjects.angelTab);
 	}
+	
+	private static final AxisAlignedBB AABB = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
 
 	//TODO Figure out how to make block walk throughable
 	@Override
@@ -75,6 +80,6 @@ public class BlockSnowArm extends BlockContainer implements ITileEntityProvider 
 	@Nullable
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileSnowArm();
+		return new TileCG();
 	}
 }

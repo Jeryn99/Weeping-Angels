@@ -39,7 +39,6 @@ public class CommonEvents {
 		}
 	}
 	
-	
 	@SubscribeEvent
 	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		

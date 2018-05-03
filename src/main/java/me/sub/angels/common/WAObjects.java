@@ -14,6 +14,8 @@ import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderCG;
 import me.sub.angels.client.render.tiles.RenderSnowArm;
+import me.sub.angels.client.render.tiles.RenderTileCG;
+import me.sub.angels.common.blocks.BlockCG;
 import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.common.entities.EntityAngelPainting;
@@ -21,12 +23,12 @@ import me.sub.angels.common.entities.EntityChronodyneGenerator;
 import me.sub.angels.common.items.ItemChronodyneGenerator;
 import me.sub.angels.common.items.ItemDetector;
 import me.sub.angels.common.items.ItemHanging;
+import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
 import me.sub.angels.main.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -85,17 +87,18 @@ public class WAObjects {
 	public static class EntityEntries {
 		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).egg(184, 286).name("angel").tracker(80, 3, false).build();
 		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
-		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void setUpRenders() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG(WAItems.chronodyneGenerator));
-
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
 	}
 	
 	public static void setUpSpawns() {
@@ -118,7 +121,8 @@ public class WAObjects {
 	
 	// Blocks
 	public static class WABlocks {
-		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);		
+		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
+		public static Block cg = new BlockCG().setCreativeTab(angelTab);
 	}
 	
 	// Items
@@ -127,7 +131,7 @@ public class WAObjects {
 		public static Item angelArmItem = createItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
 		public static Item unLitTorch = createItem(new Item(), "unlit_torch");
 		public static Item timeyWimeyDetector = createItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
-
+		
 		public static Item chronodyneGenerator = createItem(new ItemChronodyneGenerator(), "chronodyne_generator");
 	}
 	

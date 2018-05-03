@@ -6,7 +6,6 @@ import me.sub.angels.client.models.item.RenderTimeyWimeyDetector;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
-import net.minecraft.command.CommandTitle;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;

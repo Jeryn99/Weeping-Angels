@@ -2,8 +2,8 @@ package me.sub.angels.common.entities;
 
 import javax.annotation.Nullable;
 
-import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.PoseRegistry.AngelPoses;
+import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -97,11 +97,10 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	@Override
-	protected SoundEvent getDeathSound()
-    {
-        return WAObjects.Sounds.angelDeath;
-    }
-	 
+	protected SoundEvent getDeathSound() {
+		return WAObjects.Sounds.angelDeath;
+	}
+	
 	@Override
 	public float getRotatedYaw(Rotation transformRotation) {
 		if (!isSeen()) {

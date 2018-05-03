@@ -33,9 +33,8 @@ public class PoseRegistry {
 		return POSES.get(name);
 	}
 	
-	
 	public enum AngelPoses {
 		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
 	}
-
+	
 }

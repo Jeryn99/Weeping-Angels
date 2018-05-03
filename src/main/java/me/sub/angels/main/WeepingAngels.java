@@ -4,6 +4,7 @@ import me.sub.angels.common.PoseRegistry;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.events.CommonEvents;
 import me.sub.angels.common.structures.WorldGenCatacombs;
+import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.utils.WAUtils;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +35,7 @@ public class WeepingAngels {
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 		
 		GameRegistry.registerTileEntity(TileSnowArm.class, WeepingAngels.MODID + ":snowarm");
+		GameRegistry.registerTileEntity(TileCG.class, WeepingAngels.MODID + ":cg");
 		
 		PoseRegistry.init();
 		

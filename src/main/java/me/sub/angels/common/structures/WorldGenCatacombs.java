@@ -29,7 +29,7 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		
 		if (world.provider.getDimensionType() == DimensionType.OVERWORLD) {
-		
+			
 			if (rand.nextInt(4000) == 0) {
 				int x = chunkX * 16 + rand.nextInt(16);
 				int y = 25;
