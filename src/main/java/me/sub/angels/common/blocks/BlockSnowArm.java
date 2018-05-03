@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
+import net.minecraft.block.BlockChorusPlant;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -27,21 +28,11 @@ public class BlockSnowArm extends BlockContainer implements ITileEntityProvider 
 		setRegistryName(WeepingAngels.MODID, "arm");
 		translucent = true;
 	}
-
-	//TODO Figure out how to make block walk throughable
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return null;
-	}
 	
+	@Override
 	@Nullable
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
-	}
-	
-	@Override
-	public boolean isCollidable() {
-		return false;
 	}
 	
 	/**
@@ -53,9 +44,13 @@ public class BlockSnowArm extends BlockContainer implements ITileEntityProvider 
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public float getAmbientOcclusionLightValue(IBlockState state) {
-		return 1.0F;
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
 	}
 	
 	/**

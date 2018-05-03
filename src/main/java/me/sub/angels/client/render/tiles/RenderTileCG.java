@@ -9,9 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 public class RenderTileCG extends TileEntitySpecialRenderer {
 	
 	private ModelCG model = new ModelCG();
-
-	//TODO - Figure out why it looks so weird
-
+	
+	// TODO - Figure out why it looks so weird
+	
 	@Override
 	public void render(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();

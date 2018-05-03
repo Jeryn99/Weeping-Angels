@@ -6,6 +6,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -31,22 +32,10 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 		this.setCreativeTab(WAObjects.angelTab);
 	}
 	
-	private static final AxisAlignedBB AABB = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
-
-	//TODO Figure out how to make block walk throughable
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return null;
-	}
-	
 	@Nullable
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
-	}
-	
-	@Override
-	public boolean isCollidable() {
-		return false;
 	}
 	
 	/**
@@ -58,9 +47,13 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public float getAmbientOcclusionLightValue(IBlockState state) {
-		return 1.0F;
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
 	}
 	
 	/**

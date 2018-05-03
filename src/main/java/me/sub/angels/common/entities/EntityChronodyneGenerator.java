@@ -2,8 +2,10 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.common.WAObjects;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -52,6 +54,9 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 		}
 		
 		if (result.entityHit instanceof EntityAngel) {
+			if (world.isRemote) {
+				this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 1.0D, 0.0D, 0.0D);
+			}
 			result.entityHit.setDead();
 		}
 		
