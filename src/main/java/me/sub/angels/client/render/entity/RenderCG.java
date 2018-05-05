@@ -18,7 +18,7 @@ public class RenderCG extends RenderSnowball<EntityChronodyneGenerator> {
 	@Override
 	public void doRender(EntityChronodyneGenerator entity, double x, double y, double z, float par8, float par9) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y + 0.1, z);
+		GlStateManager.translate(x, y - 1.0, z);
 		GlStateManager.rotate(entity.rotationYaw, 0, 1, 0);
 		GlStateManager.rotate(-entity.rotationPitch, 1, 0, 0);
 		GlStateManager.disableFog();

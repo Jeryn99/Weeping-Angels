@@ -48,6 +48,11 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			BlockPos pos = new BlockPos(result.getBlockPos().getX(), result.getBlockPos().getY() + 1, result.getBlockPos().getZ());
 			if (world.isAirBlock(pos)) {
 				world.setBlockState(pos, WAObjects.WABlocks.cg.getDefaultState());
+				if (world.getTileEntity(pos) != null) {
+					world.getTileEntity(pos).getTileData().setDouble("abs_x", posX);
+					world.getTileEntity(pos).getTileData().setDouble("abs_y", posY);
+					world.getTileEntity(pos).getTileData().setDouble("abs_z", posZ);
+				}
 			}
 		}
 		

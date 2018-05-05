@@ -15,7 +15,7 @@ public class WAUtils {
 	public static ArrayList<Item> lightItems = new ArrayList();
 	
 	public static void setupLightItems() {
-		for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {
 			
 			if (block.getLightValue(block.getDefaultState()) > 7) {
 				lightItems.add(Item.getItemFromBlock(block));

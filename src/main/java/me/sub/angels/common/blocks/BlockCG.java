@@ -27,12 +27,6 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 		this.setCreativeTab(WAObjects.angelTab);
 	}
 	
-	@Override
-	@Nullable
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return NULL_AABB;
-	}
-	
 	/**
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */

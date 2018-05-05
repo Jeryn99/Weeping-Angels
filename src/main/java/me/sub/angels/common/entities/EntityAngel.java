@@ -9,6 +9,7 @@ import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -398,22 +399,22 @@ public class EntityAngel extends EntityMob {
 				for (int z = (int) box.minZ; z <= box.maxZ && !stop; z++) {
 					
 					BlockPos pos = new BlockPos(x, y, z);
-					
-					Block block = world.getBlockState(pos).getBlock();
-					
+
+					IBlockState blockState = world.getBlockState(pos);
+
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
-						if (block == Blocks.TORCH || block == Blocks.REDSTONE_TORCH || block == Blocks.GLOWSTONE || block.getLightValue(block.getDefaultState()) >= 7) {
+						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							createItem(pos, new ItemStack(Item.getItemFromBlock(block)));
+							createItem(pos, new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
 							stop = true;
 						}
 						
-						if (block == Blocks.LIT_PUMPKIN) {
+						if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
@@ -423,7 +424,7 @@ public class EntityAngel extends EntityMob {
 							stop = true;
 						}
 						
-						if (block == Blocks.LIT_REDSTONE_LAMP) {
+						if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
@@ -433,7 +434,7 @@ public class EntityAngel extends EntityMob {
 							stop = true;
 						}
 						
-						if (block instanceof BlockPortal || block instanceof BlockEndPortal) {
+						if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
 							if (world.rand.nextInt(700) < 100 && getHealth() < getMaxHealth()) {
 								heal(1.5F);
 								world.setBlockToAir(pos);
