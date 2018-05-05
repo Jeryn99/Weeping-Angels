@@ -2,9 +2,7 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.common.WAObjects;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;

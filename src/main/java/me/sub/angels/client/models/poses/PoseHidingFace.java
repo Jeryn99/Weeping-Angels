@@ -2,13 +2,12 @@ package me.sub.angels.client.models.poses;
 
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class PoseHidingFace extends PoseBase {
 	
 	public PoseHidingFace() {}
 	
-	public PoseHidingFace(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseHidingFace(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	

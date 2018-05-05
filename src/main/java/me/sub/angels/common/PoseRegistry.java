@@ -13,20 +13,20 @@ import me.sub.angels.client.models.poses.PoseThinking;
 
 public class PoseRegistry {
 	
-	public static HashMap<String, PoseBase> POSES = new HashMap();
+	private static HashMap<String, PoseBase> POSES = new HashMap<>();
 	
-	public static void registerPose(String name, PoseBase pose) {
+	public static void addPose(String name, PoseBase pose) {
 		POSES.put(name, pose);
 	}
 	
 	public static void init() {
-		registerPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
-		registerPose(AngelPoses.IDLE.toString(), new PoseIdle());
-		registerPose(AngelPoses.ANGRY.toString(), new PoseAngry());
-		registerPose(AngelPoses.ANGRY_TWO.toString(), new PoseAngryTwo());
-		registerPose(AngelPoses.SHY.toString(), new PoseShy());
-		registerPose(AngelPoses.THINKING.toString(), new PoseThinking());
-		registerPose(AngelPoses.DAB.toString(), new PoseDab());
+		addPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
+		addPose(AngelPoses.IDLE.toString(), new PoseIdle());
+		addPose(AngelPoses.ANGRY.toString(), new PoseAngry());
+		addPose(AngelPoses.ANGRY_TWO.toString(), new PoseAngryTwo());
+		addPose(AngelPoses.SHY.toString(), new PoseShy());
+		addPose(AngelPoses.THINKING.toString(), new PoseThinking());
+		addPose(AngelPoses.DAB.toString(), new PoseDab());
 	}
 	
 	public static PoseBase getPose(String name) {

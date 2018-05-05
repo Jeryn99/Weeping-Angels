@@ -14,22 +14,18 @@ public class WorldGenArms extends WorldGenerator {
 	private IBlockState state;
 	
 	public WorldGenArms(Block arm) {
-		this.setGeneratedBlock(arm);
-	}
-	
-	public void setGeneratedBlock(Block arm) {
 		this.arm = arm;
 		this.state = arm.getDefaultState();
 	}
+
 	
 	@Override
-	public boolean generate(World worldIn, Random rand, BlockPos position) {
-		
-		int yCoord = worldIn.getHeight(position).getY();
+	public boolean generate(World world, Random rand, BlockPos position) {
+		int yCoord = world.getHeight(position).getY();
 		BlockPos pos = new BlockPos(position.add(rand.nextInt(8), yCoord, rand.nextInt(8) - rand.nextInt(8)));
 		
-		if ((!worldIn.provider.isNether() || pos.getY() < 255) && worldIn.getBiome(position).isSnowyBiome()) {
-			if (worldIn.getBlockState(pos).getBlock() == Blocks.SNOW || worldIn.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) worldIn.setBlockState(pos, this.state, 1);
+		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
+			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) world.setBlockState(pos, this.state, 1);
 		}
 		return true;
 	}

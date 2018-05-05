@@ -2,11 +2,10 @@ package me.sub.angels.client.models.poses;
 
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class PoseAngryTwo extends PoseBase {
 	
-	public PoseAngryTwo(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseAngryTwo(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	

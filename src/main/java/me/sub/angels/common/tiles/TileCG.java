@@ -1,8 +1,6 @@
 package me.sub.angels.common.tiles;
 
 import me.sub.angels.common.entities.EntityAngel;
-import me.sub.angels.utils.AngelUtils;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;

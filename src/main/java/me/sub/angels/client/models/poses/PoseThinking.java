@@ -2,11 +2,10 @@ package me.sub.angels.client.models.poses;
 
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class PoseThinking extends PoseBase {
 	
-	public PoseThinking(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseThinking(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -18,11 +17,9 @@ public class PoseThinking extends PoseBase {
 		left_arm.rotateAngleY = 0.2F;
 		left_arm.rotateAngleZ = -0.3F;
 		wrist_left.rotateAngleX = -0.4F;
-		
 		right_arm.rotateAngleX = -1.3F;
 		right_arm.rotateAngleY = -0.9F;
 		wrist_right.rotateAngleX = -0.9F;
-		
 	}
 	
 	@Override

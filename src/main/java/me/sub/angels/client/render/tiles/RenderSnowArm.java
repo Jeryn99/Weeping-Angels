@@ -14,7 +14,6 @@ public class RenderSnowArm extends TileEntitySpecialRenderer {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
-		super.render(tile, x, y, z, partialTicks, destroyStage, alpha);
 		arm.render(0.0625f);
 		GlStateManager.popMatrix();
 	}

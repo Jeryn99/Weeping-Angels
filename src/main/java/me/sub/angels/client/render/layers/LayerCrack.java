@@ -44,13 +44,14 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 			boolean flag = angel.isInvisible();
 			GlStateManager.depthMask(!flag);
 			if (!angel.isChild()) {
-				this.angelRenderer.bindTexture(CRACK_TEX_2);
+				this.angelRenderer.bindTexture(CRACK_TEX);
 				this.modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 			}
 			GlStateManager.popMatrix();
 		}
 	}
 	
+	@Override
 	public boolean shouldCombineTextures() {
 		return false;
 	}
