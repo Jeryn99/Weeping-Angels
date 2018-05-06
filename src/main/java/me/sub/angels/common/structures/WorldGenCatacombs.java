@@ -44,12 +44,12 @@ public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator
 				// 8 Corridors
 				for (int times = 0; times <= 12; times++) {
 					
-					ResourceLocation part = CatacombParts.partStraight;
+					ResourceLocation part;
 					
 					if (times == 6) {
 						part = CatacombParts.partCrossSection;
 					} else {
-						part = CatacombParts.partStraight;
+						part = CatacombParts.getStraightPart();
 					}
 					
 					WorldGenCatacombs.generate(world, rand, new BlockPos(x + 6 * times, y, z), Rotation.NONE, part);

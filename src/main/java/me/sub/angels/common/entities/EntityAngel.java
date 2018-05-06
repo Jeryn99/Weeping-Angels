@@ -399,9 +399,9 @@ public class EntityAngel extends EntityMob {
 				for (int z = (int) box.minZ; z <= box.maxZ && !stop; z++) {
 					
 					BlockPos pos = new BlockPos(x, y, z);
-
+					
 					IBlockState blockState = world.getBlockState(pos);
-
+					
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {

@@ -52,6 +52,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 					world.getTileEntity(pos).getTileData().setDouble("abs_x", posX);
 					world.getTileEntity(pos).getTileData().setDouble("abs_y", posY);
 					world.getTileEntity(pos).getTileData().setDouble("abs_z", posZ);
+					this.setDead();
 				}
 			}
 		}
@@ -61,6 +62,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 				this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 1.0D, 0.0D, 0.0D);
 			}
 			result.entityHit.setDead();
+			this.setDead();
 		}
 		
 		if (!this.world.isRemote) {

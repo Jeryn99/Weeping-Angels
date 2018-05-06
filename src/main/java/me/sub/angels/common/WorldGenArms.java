@@ -17,7 +17,6 @@ public class WorldGenArms extends WorldGenerator {
 		this.arm = arm;
 		this.state = arm.getDefaultState();
 	}
-
 	
 	@Override
 	public boolean generate(World world, Random rand, BlockPos position) {

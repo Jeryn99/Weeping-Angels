@@ -203,8 +203,8 @@ public class WAObjects {
 	}
 	
 	// Damage Sources
-	public static DamageSource ANGEL = new WADamageSource("was sent back in time by a Angel!");
-	public static DamageSource STONE = new WADamageSource("broke their bones by punching stone...");
-	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("has their neck snapped by a Angel!");
+	public static DamageSource ANGEL = new WADamageSource("backintime");
+	public static DamageSource STONE = new WADamageSource("punch_stone");
+	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
 	
 }
