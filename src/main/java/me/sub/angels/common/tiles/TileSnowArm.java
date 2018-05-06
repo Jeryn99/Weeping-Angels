@@ -14,7 +14,8 @@ public class TileSnowArm extends TileEntity implements ITickable {
 	@Override
 	public void update() {
 		/*
-		 * When player collides/jumps over tile, Angel summoned into world and block removed
+		 * When player collides/jumps over tile, Angel summoned into world, its position corrected,
+		 * and block removed
 		 */
 		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
