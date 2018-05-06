@@ -1,11 +1,9 @@
 package me.sub.angels.common.entities;
 
-import java.util.ArrayList;
-
 import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import me.sub.angels.common.WAObjects;
+import me.sub.angels.main.NBTKeys;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
@@ -18,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
 	public EntityAngelPainting.EnumArt art;
@@ -71,7 +71,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setString("Motive", this.art.title);
+		tagCompound.setString(NBTKeys.MOTIVE, this.art.title);
 		super.writeEntityToNBT(tagCompound);
 	}
 	
@@ -117,7 +117,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		String s = tagCompund.getString("Motive");
+		String s = tagCompund.getString(NBTKeys.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 		

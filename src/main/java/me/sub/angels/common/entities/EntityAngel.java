@@ -1,30 +1,16 @@
 package me.sub.angels.common.entities;
 
-import javax.annotation.Nullable;
-
 import me.sub.angels.common.PoseRegistry.AngelPoses;
 import me.sub.angels.common.WAObjects;
+import me.sub.angels.main.NBTKeys;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -57,6 +43,8 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nullable;
+
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
 	
@@ -65,10 +53,10 @@ public class EntityAngel extends EntityMob {
 	private long soundTime = 0L;
 	
 	private String POSE = randomPose().toString();
-	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityAngel.class, DataSerializers.VARINT);
-	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.<Boolean>createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -230,26 +218,26 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setBoolean("isSeen", isSeen());
-		compound.setInteger("timeSeen", getSeenTime());
-		compound.setString("pose", getPose());
-		compound.setInteger("type", getType());
-		compound.setBoolean("angelChild", isChild());
+		compound.setBoolean(NBTKeys.IS_SEEN, isSeen());
+		compound.setInteger(NBTKeys.TIME_SEEN, getSeenTime());
+		compound.setString(NBTKeys.POSE, getPose());
+		compound.setInteger(NBTKeys.TYPE, getType());
+		compound.setBoolean(NBTKeys.ANGEL_CHILD, isChild());
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		
-		if (compound.hasKey("isSeen")) setSeen(compound.getBoolean("isSeen"));
+		if (compound.hasKey(NBTKeys.IS_SEEN)) setSeen(compound.getBoolean(NBTKeys.IS_SEEN));
 		
-		if (compound.hasKey("timeSeen")) setSeenTime(compound.getInteger("timeSeen"));
+		if (compound.hasKey(NBTKeys.TIME_SEEN)) setSeenTime(compound.getInteger(NBTKeys.TIME_SEEN));
 		
-		if (compound.hasKey("pose")) setPose(compound.getString("pose"));
+		if (compound.hasKey(NBTKeys.POSE)) setPose(compound.getString(NBTKeys.POSE));
 		
-		if (compound.hasKey("type")) setType(compound.getInteger("type"));
+		if (compound.hasKey(NBTKeys.TYPE)) setType(compound.getInteger(NBTKeys.TYPE));
 		
-		if (compound.hasKey("angelChild")) setChild(compound.getBoolean("angelChild"));
+		if (compound.hasKey(NBTKeys.ANGEL_CHILD)) setChild(compound.getBoolean(NBTKeys.ANGEL_CHILD));
 	}
 	
 	@Override

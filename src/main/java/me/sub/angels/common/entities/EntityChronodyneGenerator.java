@@ -1,6 +1,7 @@
 package me.sub.angels.common.entities;
 
 import me.sub.angels.common.WAObjects;
+import me.sub.angels.main.NBTKeys;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.EnumParticleTypes;
@@ -49,9 +50,9 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			if (world.isAirBlock(pos)) {
 				world.setBlockState(pos, WAObjects.WABlocks.cg.getDefaultState());
 				if (world.getTileEntity(pos) != null) {
-					world.getTileEntity(pos).getTileData().setDouble("abs_x", posX);
-					world.getTileEntity(pos).getTileData().setDouble("abs_y", posY);
-					world.getTileEntity(pos).getTileData().setDouble("abs_z", posZ);
+					world.getTileEntity(pos).getTileData().setDouble(NBTKeys.ABS_X, posX);
+					world.getTileEntity(pos).getTileData().setDouble(NBTKeys.ABS_Y, posY);
+					world.getTileEntity(pos).getTileData().setDouble(NBTKeys.ABS_Z, posZ);
 					this.setDead();
 				}
 			}
