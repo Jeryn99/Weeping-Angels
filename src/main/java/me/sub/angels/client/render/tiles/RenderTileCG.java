@@ -4,7 +4,6 @@ import me.sub.angels.client.models.entity.ModelCG;
 import me.sub.angels.common.tiles.TileCG;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 
 public class RenderTileCG extends TileEntitySpecialRenderer<TileCG> {
 	
