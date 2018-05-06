@@ -12,9 +12,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCG extends BlockContainer implements ITileEntityProvider {
+
+	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 	
 	public BlockCG() {
 		super(Material.GRASS, MapColor.ADOBE);
@@ -23,7 +28,12 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 		translucent = true;
 		this.setCreativeTab(WAObjects.angelTab);
 	}
-	
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return CG_AABB;
+	}
+
 	/**
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
@@ -34,7 +44,7 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	
 	@Override
 	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -49,8 +59,9 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
-	
-	/**
+
+
+    /**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 *
 	 * @param worldIn
