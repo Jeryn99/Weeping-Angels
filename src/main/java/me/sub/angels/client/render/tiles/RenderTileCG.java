@@ -26,7 +26,6 @@ public class RenderTileCG extends TileEntitySpecialRenderer {
 		GlStateManager.popMatrix();
 	}
 
-	
 	@Override
 	public void render(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		renderTile((TileCG)tile, x,y,z,partialTicks,destroyStage,alpha);
