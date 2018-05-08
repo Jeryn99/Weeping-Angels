@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = WeepingAngels.MODID)
-
 public class WAConfig {
 	
 	@Config.LangKey("category.angels")
@@ -49,6 +48,10 @@ public class WAConfig {
 		@Config.LangKey("config.angeldimteleport")
 		@Config.Comment("If this is enabled, angel teleporting can also tp the player to other dimensions")
 		public boolean angelDimTeleport = true;
+		
+		@Config.LangKey("config.angel.block_break")
+		@Config.Comment("If this is enabled, angels will break blocks (If gamerules allow)")
+		public boolean blockBreaking = true;
 		
 		@Config.LangKey("config.block_break_range")
 		@Config.Comment("The maximum range a angel can break blocks within")
