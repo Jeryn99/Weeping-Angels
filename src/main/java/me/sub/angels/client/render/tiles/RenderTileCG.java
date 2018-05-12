@@ -22,6 +22,5 @@ public class RenderTileCG extends TileEntitySpecialRenderer<TileCG> {
 		GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
 		model.render(null, 0, 0, 0, 0, 0, 0.0625F);
 		GlStateManager.popMatrix();
-	}	
+	}
 }
-

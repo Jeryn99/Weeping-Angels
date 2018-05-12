@@ -60,17 +60,19 @@ public class EntityAngel extends EntityMob {
 	
 	public EntityAngel(World world) {
 		super(world);
+		
 		tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 1.5F, 80));
 		tasks.addTask(2, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIAttackMelee(this, 2.0F, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(7, new EntityAIBreakDoor(this));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.TORCH), false));
 		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+
 		experienceValue = 25;
 	}
 	
@@ -316,7 +318,7 @@ public class EntityAngel extends EntityMob {
 
 		if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) getAttackTarget();
-			if (getDistance(getAttackTarget()) <= 2) {
+			if (getDistance(getAttackTarget()) <= 1.5F) {
 				AngelUtils.blowOutTorch(player);
 			}
 		}
@@ -380,7 +382,7 @@ public class EntityAngel extends EntityMob {
 		
 		boolean stop = false;
 		
-		if (world.isRemote || ticksExisted % 100 != 0) return;
+		if (world.isRemote || ticksExisted % 100 != 0 || !WAConfig.angels.blockBreaking) return;
 		
 		for (int x = (int) box.minX; x <= box.maxX && !stop; x++) {
 			for (int y = (int) box.minY; y <= box.maxY && !stop; y++) {

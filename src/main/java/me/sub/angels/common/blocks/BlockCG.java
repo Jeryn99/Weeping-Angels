@@ -18,7 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCG extends BlockContainer implements ITileEntityProvider {
-
+	
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 	
 	public BlockCG() {
@@ -28,12 +28,12 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 		translucent = true;
 		this.setCreativeTab(WAObjects.angelTab);
 	}
-
+	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return CG_AABB;
 	}
-
+	
 	/**
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
@@ -59,9 +59,8 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
-
-
-    /**
+	
+	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 *
 	 * @param worldIn
