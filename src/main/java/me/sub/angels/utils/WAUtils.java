@@ -1,7 +1,5 @@
 package me.sub.angels.utils;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -10,9 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import java.util.ArrayList;
+
 public class WAUtils {
-	
-	public static ArrayList<Item> lightItems = new ArrayList();
+
+    public static ArrayList<Item> lightItems = new ArrayList<Item>();
 	
 	public static void setupLightItems() {
 		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {

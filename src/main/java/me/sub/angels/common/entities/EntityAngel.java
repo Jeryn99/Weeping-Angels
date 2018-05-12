@@ -1,6 +1,6 @@
 package me.sub.angels.common.entities;
 
-import me.sub.angels.common.PoseRegistry.AngelPoses;
+import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.NBTKeys;
 import me.sub.angels.main.config.WAConfig;
@@ -51,8 +51,8 @@ public class EntityAngel extends EntityMob {
 	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
 	
 	private long soundTime = 0L;
-	
-	private String POSE = randomPose().toString();
+
+	private String POSE = PoseManager.AngelPoses.ANGRY.toString();
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -437,11 +437,6 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 	
-	public AngelPoses randomPose() {
-		AngelPoses[] poses = AngelPoses.values();
-		return poses[rand.nextInt(poses.length)];
-	}
-	
 	public SoundEvent getSeenSound() {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - soundTime >= 1000) {
@@ -451,8 +446,8 @@ public class EntityAngel extends EntityMob {
 		}
 		return null;
 	}
-	
-	public void createItem(BlockPos pos, ItemStack stack) {
+
+	private void createItem(BlockPos pos, ItemStack stack) {
 		if (!world.isRemote) {
 			EntityItem item = new EntityItem(world);
 			item.setItem(stack);

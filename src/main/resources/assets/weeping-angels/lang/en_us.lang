@@ -3,6 +3,7 @@ item.angel_painting.name=Angel Painting
 tile.arm.name=Arm in snow
 item.unlit_torch.name=Unlit Torch
 item.timey_wimey_detector.name=Timey Wimey Detector
+item.chronodyne_generator.name=Chronodyne Generator
 
 entity.angel.name=Weeping Angel
 
@@ -23,7 +24,6 @@ source.punch_stone=broke their bones by punching stone...
 damagesrc.angels.backintime=was sent back in time by a Angel!
 damagesrc.angels.punch_stone=broke their bones by punching stone...
 damagesrc.angels.neck_snap=had their neck snapped by a Angel!
-
 
 itemGroup.angels=Weeping Angels
 

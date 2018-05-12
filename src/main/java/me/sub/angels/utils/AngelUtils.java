@@ -1,5 +1,6 @@
 package me.sub.angels.utils;
 
+import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
@@ -137,16 +138,14 @@ public class AngelUtils {
 			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
 			
 			for (EntityAngel angel : player.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
-				if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
-
+				if (angel.canBeCollidedWith() && isInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
+					
 					boolean flag = WAUtils.handLightCheck(player);
 					boolean seen = angel.world.getLight(angel.getPosition()) != 0 || flag;
 
 					if (seen) {
-					    //System.out.println("seen");
 						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
-						    System.out.println("Setting pose as seen");
-							angel.setPose(angel.randomPose().toString());
+							angel.setPose(PoseManager.getBestPoseForSituation(angel, player).toString());
 						}
 						if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
 							SoundEvent sound = angel.getSeenSound();
@@ -161,8 +160,8 @@ public class AngelUtils {
 			}
 		}
 	}
-	
-	public static boolean isTargetInSight(EntityLivingBase player, Entity angel) {
+
+	public static boolean isInSight(EntityLivingBase player, Entity angel) {
 		return player.canEntityBeSeen(angel) && isInEyeLine(player, angel, 60);
 	}
 	
@@ -191,7 +190,7 @@ public class AngelUtils {
 	
 	public static void getAllAngels(EntityAngel angel) {
 		for (EntityAngel angel2 : angel.world.getEntitiesWithinAABB(EntityAngel.class, angel.getEntityBoundingBox().grow(20, 20, 20))) {
-			if (angel.canEntityBeSeen(angel2) && angel != angel2 && isTargetInSight(angel, angel2)) {
+			if (angel.canEntityBeSeen(angel2) && angel != angel2 && isInSight(angel, angel2)) {
 				angel2.setSeen(true);
 			}
 		}

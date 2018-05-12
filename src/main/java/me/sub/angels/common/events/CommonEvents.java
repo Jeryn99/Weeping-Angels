@@ -30,11 +30,11 @@ public class CommonEvents {
 		if (!player.world.isRemote) {
 			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
 			if (version.status == ForgeVersion.Status.OUTDATED) {
-				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "You are running an outdated build of Weeping Angels! :("));
-				TextComponentString url = new TextComponentString(TextFormatting.GOLD + "Click me to download the updated version at curse.com");
+				TextComponentString url = new TextComponentString(TextFormatting.AQUA + TextFormatting.BOLD.toString() + "UPDATE");
 				url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraft.curseforge.com/projects/weeping-angels-mod"));
 				url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
-				player.sendMessage(url);
+
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Weeping Angels - Update Available! : ").appendSibling(url));
 			}
 		}
 	}
@@ -51,7 +51,6 @@ public class CommonEvents {
 		// Angel
 		if (event.getEntity() instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) event.getEntity();
-			
 			if (WAConfig.angels.angelLocking) {
 				AngelUtils.getAllAngels(angel);
 			}

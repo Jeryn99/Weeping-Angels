@@ -1,16 +1,15 @@
 package me.sub.angels.client.models.entity;
 
-import org.lwjgl.opengl.GL11;
-
 import me.sub.angels.client.models.poses.PoseBase;
+import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.client.models.poses.PoseThinking;
-import me.sub.angels.common.PoseRegistry;
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
@@ -265,8 +264,8 @@ public class ModelAngelEd extends ModelBiped {
 			PoseBase pose = null;
 			
 			angel = (EntityAngel) entity;
-			
-			pose = PoseRegistry.getPose(angel.getPose());
+
+            pose = PoseManager.getPose(angel.getPose());
 			
 			if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace(angel);

@@ -1,45 +1,55 @@
 package me.sub.angels.client.models.poses;
 
-import me.sub.angels.common.PoseRegistry;
 import me.sub.angels.common.entities.EntityAngel;
-import me.sub.angels.utils.AngelUtils;
-import me.sub.angels.utils.WAUtils;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+
+import java.util.HashMap;
 
 public class PoseManager {
 
-    public static PoseRegistry.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase target) {
+	private static HashMap<String, PoseBase> POSES = new HashMap<>();
 
-        if (target == null || !(target instanceof EntityPlayerMP)) {
-            return PoseRegistry.AngelPoses.IDLE;
-        }
-        if (angel.world.getEntitiesWithinAABB(EntityAngel.class, angel.getEntityBoundingBox().expand(25.0D, 25.0D, 25.0D)).size() > 1) {
-            return PoseRegistry.AngelPoses.HIDING_FACE;
-        }
-        EntityPlayer player = (EntityPlayer) target;
-        boolean flag = WAUtils.handLightCheck(player);
-        boolean seenDueToLight = angel.world.getLight(angel.getPosition()) != 0 || flag;
-        boolean seenByTarget = AngelUtils.isTargetInSight(target, angel);
+	public static void addPose(String name, PoseBase pose) {
+		POSES.put(name, pose);
+	}
 
-            if (angel.getDistance(target) < 1.0F && seenByTarget) {
-                return PoseRegistry.AngelPoses.ANGRY;
-            }
-            if (angel.getDistance(target) < 5.0F && seenDueToLight) {
-                return PoseRegistry.AngelPoses.ANGRY_TWO;
-            }
-            if (angel.getDistance(target) < 10.0F) {
-                return PoseRegistry.AngelPoses.OPEN_ARMS;
-            }
-            if (angel.getDistance(target) < 15.0F) {
-                return PoseRegistry.AngelPoses.THINKING;
-            }
-            if (angel.getDistance(target) < 25.0F) {
-                return PoseRegistry.AngelPoses.SHY;
-            }
+	public static void init() {
+		addPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
+		addPose(AngelPoses.IDLE.toString(), new PoseIdle());
+		addPose(AngelPoses.ANGRY.toString(), new PoseAngry());
+		addPose(AngelPoses.ANGRY_TWO.toString(), new PoseAngryTwo());
+		addPose(AngelPoses.SHY.toString(), new PoseShy());
+		addPose(AngelPoses.THINKING.toString(), new PoseThinking());
+		addPose(AngelPoses.DAB.toString(), new PoseDab());
+	}
 
-        return PoseRegistry.AngelPoses.DAB;
-    }
+	public static PoseBase getPose(String name) {
+		return POSES.get(name);
+	}
 
+	public enum AngelPoses {
+		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
+	}
+
+	public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityPlayer player) {
+
+		if (angel.getDistance(player) < 1.0F) {
+			return AngelPoses.ANGRY;
+		}
+		if (angel.getDistance(player) < 5.0F) {
+			return AngelPoses.ANGRY_TWO;
+		}
+		if (angel.getDistance(player) < 10.0F) {
+			return AngelPoses.OPEN_ARMS;
+		}
+		if (angel.getDistance(player) < 15.0F) {
+			return AngelPoses.THINKING;
+		}
+		if (angel.getDistance(player) < 25.0F) {
+			return AngelPoses.SHY;
+		}
+
+		return AngelPoses.DAB;
+	}
+	
 }

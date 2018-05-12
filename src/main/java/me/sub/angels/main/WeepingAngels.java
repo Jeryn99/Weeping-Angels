@@ -1,6 +1,6 @@
 package me.sub.angels.main;
 
-import me.sub.angels.common.PoseRegistry;
+import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.events.CommonEvents;
 import me.sub.angels.common.structures.WorldGenCatacombs;
@@ -36,8 +36,8 @@ public class WeepingAngels {
 		
 		GameRegistry.registerTileEntity(TileSnowArm.class, WeepingAngels.MODID + ":snowarm");
 		GameRegistry.registerTileEntity(TileCG.class, WeepingAngels.MODID + ":cg");
-		
-		PoseRegistry.init();
+
+        PoseManager.init();
 		
 		if (event.getSide() == Side.CLIENT) {
 			WAObjects.setUpRenders();
