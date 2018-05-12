@@ -313,7 +313,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
+
 		if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) getAttackTarget();
 			if (getDistance(getAttackTarget()) <= 2) {

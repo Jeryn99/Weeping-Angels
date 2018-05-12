@@ -138,42 +138,25 @@ public class AngelUtils {
 			
 			for (EntityAngel angel : player.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
 				if (angel.canBeCollidedWith() && isTargetInSight(player, angel) && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isSpectator()) {
-					
-					if (angel.world.getLight(angel.getPosition()) == 0) {
-						
-						// I promise I will tidy this up eventually
-						boolean flag = WAUtils.handLightCheck(player);
-						
-						angel.setSeen(flag);
-						
-						if (flag) {
-							if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
-								angel.setPose(angel.randomPose().toString());
-							}
-							
-							if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
-								SoundEvent sound = angel.getSeenSound();
-								if (sound != null) {
-									angel.playSound(sound, 1.0F, 1.0F);
-								}
-							}
-						}
-						
-					} else {
-						
-						angel.setSeen(true);
-						
+
+					boolean flag = WAUtils.handLightCheck(player);
+					boolean seen = angel.world.getLight(angel.getPosition()) != 0 || flag;
+
+					if (seen) {
+					    //System.out.println("seen");
 						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
+						    System.out.println("Setting pose as seen");
 							angel.setPose(angel.randomPose().toString());
 						}
-						
 						if (angel.getAttackTarget() == player && angel.getSeenTime() == 1) {
 							SoundEvent sound = angel.getSeenSound();
 							if (sound != null) {
 								angel.playSound(sound, 1.0F, 1.0F);
 							}
 						}
+						angel.setSeen(true);
 					}
+
 				}
 			}
 		}
@@ -183,7 +166,7 @@ public class AngelUtils {
 		return player.canEntityBeSeen(angel) && isInEyeLine(player, angel, 60);
 	}
 	
-	private static boolean isInEyeLine(Entity player, Entity angel, float fov) {
+	public static boolean isInEyeLine(Entity player, Entity angel, float fov) {
 		double dx = angel.posX - player.posX;
 		double dz;
 		for (dz = angel.posZ - player.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
