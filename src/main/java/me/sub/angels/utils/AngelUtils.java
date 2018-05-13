@@ -5,6 +5,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.events.EventAngelTeleport;
+import me.sub.angels.main.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +32,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class AngelUtils {
 	
 	public static void blowOutTorch(EntityPlayer p) {
-		if (!p.world.isRemote) {
+		if (!p.world.isRemote && WAConfig.angels.torchBlowOut) {
 			for (Object hand : EnumHand.values()) {
 				ItemStack torch = p.getHeldItem((EnumHand) hand);
 				if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {

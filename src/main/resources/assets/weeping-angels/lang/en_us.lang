@@ -36,7 +36,8 @@ config.chicken_go_boom=Chicken Explosions?
 config.max_spawn=Angel - Maximum spawn
 config.spawn_probability=Spawn Probability
 config.min_spawn=Angel - Minimum Spawn
-config.angel.block_break=Block breaking 
+config.angel.block_break=Block breaking
+config.blowout_torch=Blow out torch
 
 category.angels=Angels
 category.spawn=Spawn Rates

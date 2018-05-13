@@ -70,6 +70,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		tagCompound.setString(NBTKeys.MOTIVE, this.art.title);
 		super.writeEntityToNBT(tagCompound);
@@ -116,6 +117,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
+	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString(NBTKeys.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();

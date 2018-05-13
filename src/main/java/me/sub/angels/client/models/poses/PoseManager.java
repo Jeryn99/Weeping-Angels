@@ -7,13 +7,13 @@ import java.util.HashMap;
 
 public class PoseManager {
 
-	private static HashMap<String, PoseBase> POSES = new HashMap<>();
+    private static HashMap<String, PoseBase> POSES = new HashMap<>();
 
-	public static void addPose(String name, PoseBase pose) {
+    public static void addPose(String name, PoseBase pose) {
 		POSES.put(name, pose);
 	}
 
-	public static void init() {
+    public static void init() {
 		addPose(AngelPoses.HIDING_FACE.toString(), new PoseHidingFace());
 		addPose(AngelPoses.IDLE.toString(), new PoseIdle());
 		addPose(AngelPoses.ANGRY.toString(), new PoseAngry());
@@ -23,17 +23,17 @@ public class PoseManager {
 		addPose(AngelPoses.DAB.toString(), new PoseDab());
 	}
 
-	public static PoseBase getPose(String name) {
+    public static PoseBase getPose(String name) {
 		return POSES.get(name);
 	}
 
-	public enum AngelPoses {
+    public enum AngelPoses {
 		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
 	}
 
-	public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityPlayer player) {
+    public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityPlayer player) {
 
-		if (angel.getDistance(player) < 1.0F) {
+        if (angel.getDistance(player) < 1.0F) {
 			return AngelPoses.ANGRY;
 		}
 		if (angel.getDistance(player) < 5.0F) {
@@ -49,7 +49,7 @@ public class PoseManager {
 			return AngelPoses.SHY;
 		}
 
-		return AngelPoses.DAB;
+        return AngelPoses.DAB;
 	}
 	
 }

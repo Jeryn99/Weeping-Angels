@@ -260,12 +260,12 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleX = 0;
 			this.right_arm.rotateAngleY = 0;
 			this.right_arm.rotateAngleZ = 0;
-			EntityAngel angel = null;
-			PoseBase pose = null;
+			EntityAngel angel;
+			PoseBase pose;
 			
 			angel = (EntityAngel) entity;
 
-            pose = PoseManager.getPose(angel.getPose());
+			pose = PoseManager.getPose(angel.getPose());
 			
 			if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace(angel);
