@@ -3,6 +3,7 @@ package me.sub.angels.common;
 import com.google.common.collect.Lists;
 import me.sub.angels.client.TabAngels;
 import me.sub.angels.client.models.entity.ModelAngelEd;
+import me.sub.angels.client.models.item.RenderTimeyWimeyDetector;
 import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderCG;
@@ -93,6 +94,8 @@ public class WAObjects {
 	public static void setUpRenders() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
+
+		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 		

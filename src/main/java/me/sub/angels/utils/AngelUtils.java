@@ -1,6 +1,7 @@
 package me.sub.angels.utils;
 
 import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.common.EventAngelSeen;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
@@ -154,6 +155,7 @@ public class AngelUtils {
 								angel.playSound(sound, 1.0F, 1.0F);
 							}
 						}
+						MinecraftForge.EVENT_BUS.post(new EventAngelSeen(player, angel));
 						angel.setSeen(true);
 					}
 
@@ -162,11 +164,11 @@ public class AngelUtils {
 		}
 	}
 
-	public static boolean isInSight(EntityLivingBase player, Entity angel) {
-		return player.canEntityBeSeen(angel) && isInEyeLine(player, angel, 60);
+	private static boolean isInSight(EntityLivingBase player, Entity angel) {
+		return player.canEntityBeSeen(angel) && isInEyeLine(player, angel);
 	}
-	
-	public static boolean isInEyeLine(Entity player, Entity angel, float fov) {
+
+	private static boolean isInEyeLine(Entity player, Entity angel) {
 		double dx = angel.posX - player.posX;
 		double dz;
 		for (dz = angel.posZ - player.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
@@ -186,7 +188,7 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-		return yaw < fov && yaw > -fov;
+		return yaw < 60 && yaw > -60;
 	}
 	
 	public static void getAllAngels(EntityAngel angel) {

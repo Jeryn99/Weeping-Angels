@@ -61,7 +61,7 @@ public class WAConfig {
 		@Config.Comment("If this is enabled, the timey wimey detector can blow up chickens when in use randomly")
 		public boolean chickenGoboom = true;
 
-		@Config.LangKey("config.blowout_torch")
+        @Config.LangKey("config.blowout_torch")
 		@Config.Comment("If this is enabled, baby angels will blow out torches")
 		public boolean torchBlowOut = true;
 		

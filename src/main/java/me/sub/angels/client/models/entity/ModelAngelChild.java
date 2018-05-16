@@ -136,7 +136,7 @@ public class ModelAngelChild extends ModelBase {
 		GlStateManager.popMatrix();
 	}
 
-	/**
+    /**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -152,7 +152,7 @@ public class ModelAngelChild extends ModelBase {
 			this.head.rotateAngleY = netheadYaw * 0.017453292F;
 			this.head.rotateAngleX = headPitch * 0.017453292F;
 
-			this.right_arm.rotationPointY = 2.5F;
+            this.right_arm.rotationPointY = 2.5F;
 			this.left_arm.rotationPointY = 2.5F;
 			this.left_arm.rotateAngleX = 0;
 			this.left_arm.rotateAngleY = 0;
@@ -163,11 +163,11 @@ public class ModelAngelChild extends ModelBase {
 			EntityAngel angel;
 			PoseBase pose;
 
-			angel = (EntityAngel) entity;
+            angel = (EntityAngel) entity;
 
-			pose = PoseManager.getPose(angel.getPose());
+            pose = PoseManager.getPose(angel.getPose());
 
-			if (pose != null) {
+            if (pose != null) {
 				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 				pose.setWingAngles(this.right_wing_1, this.right_wing_0);
 				pose.setHeadAngles(this.head);
