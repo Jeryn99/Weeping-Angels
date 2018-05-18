@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 public class BlockSnowArm extends BlockSnow implements ITileEntityProvider {
 	
 	public BlockSnowArm() {
-        super();
+		super();
 		setUnlocalizedName("arm");
 		setRegistryName(WeepingAngels.MODID, "arm");
 		translucent = true;
@@ -23,5 +23,5 @@ public class BlockSnowArm extends BlockSnow implements ITileEntityProvider {
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileSnowArm();
 	}
-
+	
 }

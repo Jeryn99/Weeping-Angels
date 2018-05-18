@@ -144,7 +144,7 @@ public class AngelUtils {
 					
 					boolean flag = WAUtils.handLightCheck(player);
 					boolean seen = angel.world.getLight(angel.getPosition()) != 0 || flag;
-
+					
 					if (seen) {
 						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
 							angel.setPose(PoseManager.getBestPoseForSituation(angel, player).toString());
@@ -158,16 +158,16 @@ public class AngelUtils {
 						MinecraftForge.EVENT_BUS.post(new EventAngelSeen(player, angel));
 						angel.setSeen(true);
 					}
-
+					
 				}
 			}
 		}
 	}
-
+	
 	private static boolean isInSight(EntityLivingBase player, Entity angel) {
 		return player.canEntityBeSeen(angel) && isInEyeLine(player, angel);
 	}
-
+	
 	private static boolean isInEyeLine(Entity player, Entity angel) {
 		double dx = angel.posX - player.posX;
 		double dz;

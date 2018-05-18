@@ -264,8 +264,8 @@ public class ModelAngelEd extends ModelBiped {
 			PoseBase pose;
 			
 			angel = (EntityAngel) entity;
-
-            pose = PoseManager.getPose(angel.getPose());
+			
+			pose = PoseManager.getPose(angel.getPose());
 			
 			if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace(angel);

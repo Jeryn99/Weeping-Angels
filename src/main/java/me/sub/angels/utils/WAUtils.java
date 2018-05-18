@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import java.util.ArrayList;
 
 public class WAUtils {
-
-    public static ArrayList<Item> lightItems = new ArrayList<Item>();
+	
+	public static ArrayList<Item> lightItems = new ArrayList<Item>();
 	
 	public static void setupLightItems() {
 		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {

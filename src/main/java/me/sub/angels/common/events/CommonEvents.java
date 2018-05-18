@@ -34,8 +34,10 @@ public class CommonEvents {
 				TextComponentString url = new TextComponentString(TextFormatting.AQUA + TextFormatting.BOLD.toString() + "UPDATE");
 				url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraft.curseforge.com/projects/weeping-angels-mod"));
 				url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
-
-				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Weeping Angels - Update Available! : ").appendSibling(url));
+				
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "[Weeping Angels] : ").appendSibling(url));
+				String changes = String.valueOf(version.changes).replace("{" + version.target + "=", "").replace("}", "");
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Changes: " + TextFormatting.BLUE + changes));
 			}
 		}
 	}
@@ -62,7 +64,7 @@ public class CommonEvents {
 	 * Spawning arms in snow biomes
 	 */
 	@SubscribeEvent
-	public static void decorBiomeEvent(DecorateBiomeEvent e) {
+	public static void decorateBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
 			WorldGenArms arms = new WorldGenArms(WAObjects.WABlocks.angelArm);
 			
@@ -71,7 +73,7 @@ public class CommonEvents {
 			}
 		}
 	}
-
+	
 	@SubscribeEvent
 	public static void eventSeen(EventAngelSeen e) {
 		// if(!e.getPlayer().world.isRemote)

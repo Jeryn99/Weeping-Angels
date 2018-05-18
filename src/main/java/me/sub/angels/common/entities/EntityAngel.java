@@ -51,7 +51,7 @@ public class EntityAngel extends EntityMob {
 	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
 	
 	private long soundTime = 0L;
-
+	
 	private String POSE = PoseManager.AngelPoses.ANGRY.toString();
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -72,13 +72,13 @@ public class EntityAngel extends EntityMob {
 		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-
+		
 		experienceValue = 25;
 	}
 	
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-		playSound(WAObjects.Sounds.angel_ambience, 1.0F, 1.0F);
+		playSound(WAObjects.Sounds.angel_ambience, 0.5F, 1.0F);
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
 	
@@ -314,13 +314,21 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
+		
 		super.onUpdate();
-
-		if (isChild() && getAttackTarget() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) getAttackTarget();
-			if (getDistance(getAttackTarget()) <= 1.5F) {
-				AngelUtils.blowOutTorch(player);
+		
+		if (!this.isSeen()) {
+			
+			// Blowing out Torches
+			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) getAttackTarget();
+				if (getDistance(getAttackTarget()) <= 1.5F) {
+					AngelUtils.blowOutTorch(player);
+				}
 			}
+			
+			// Light block breaking
+			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 		}
 		
 		if (!world.isRemote) if (isSeen()) {
@@ -329,8 +337,6 @@ public class EntityAngel extends EntityMob {
 		} else {
 			setSeenTime(0);
 		}
-		
-		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 	}
 	
 	@SubscribeEvent
@@ -369,7 +375,7 @@ public class EntityAngel extends EntityMob {
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
 			if (!isChild()) {
-				playSound(WAObjects.Sounds.stone_scrap, 0.5F, 1.0F);
+				playSound(WAObjects.Sounds.stone_scrap, 0.2F, 1.0F);
 			} else {
 				if (world.rand.nextInt(5) == 5) {
 					playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
@@ -389,9 +395,7 @@ public class EntityAngel extends EntityMob {
 				for (int z = (int) box.minZ; z <= box.maxZ && !stop; z++) {
 					
 					BlockPos pos = new BlockPos(x, y, z);
-					
 					IBlockState blockState = world.getBlockState(pos);
-					
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
@@ -446,7 +450,7 @@ public class EntityAngel extends EntityMob {
 		}
 		return null;
 	}
-
+	
 	private void createItem(BlockPos pos, ItemStack stack) {
 		if (!world.isRemote) {
 			EntityItem item = new EntityItem(world);

@@ -4,12 +4,14 @@ import me.sub.angels.client.models.poses.PoseBase;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-public class ModelAngelChild extends ModelBase {
+public class ModelAngelChild extends ModelBiped {
 	ModelRenderer head_2;
 	ModelRenderer head;
 	ModelRenderer body;
@@ -19,8 +21,8 @@ public class ModelAngelChild extends ModelBase {
 	ModelRenderer right_wing_0_1;
 	ModelRenderer left_arm;
 	ModelRenderer right_arm;
-	ModelRenderer left_arm_1;
-	ModelRenderer right_arm_1;
+	ModelRenderer left_leg;
+	ModelRenderer right_leg;
 	ModelRenderer right_wing_1;
 	ModelRenderer right_wing_2;
 	ModelRenderer right_wing_3;
@@ -66,9 +68,9 @@ public class ModelAngelChild extends ModelBase {
 		this.right_wing_0.setRotationPoint(2.4F, 2.0F, 1.5F);
 		this.right_wing_0.addBox(0.0F, 0.0F, -13.0F, 0, 11, 18, 0.0F);
 		this.setRotateAngle(right_wing_0, 1.53588974175501F, 0.9424777960769379F, 0.0F);
-		this.left_arm_1 = new ModelRenderer(this, 0, 32);
-		this.left_arm_1.setRotationPoint(2.0F, 12.0F, 0.1F);
-		this.left_arm_1.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
+		this.left_leg = new ModelRenderer(this, 0, 32);
+		this.left_leg.setRotationPoint(2.0F, 12.0F, 0.1F);
+		this.left_leg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
 		this.right_wing_4 = new ModelRenderer(this, 16, 32);
 		this.right_wing_4.setRotationPoint(0.0F, 5.0F, 0.0F);
 		this.right_wing_4.addBox(-1.0F, 0.0F, -2.0F, 2, 5, 2, 0.0F);
@@ -86,9 +88,9 @@ public class ModelAngelChild extends ModelBase {
 		this.nose.setRotationPoint(0.0F, -3.7F, -4.0F);
 		this.nose.addBox(-0.5F, -0.3F, 0.0F, 1, 2, 1, 0.0F);
 		this.setRotateAngle(nose, -0.40980330836826856F, 0.0F, 0.0F);
-		this.right_arm_1 = new ModelRenderer(this, 0, 16);
-		this.right_arm_1.setRotationPoint(-2.0F, 12.0F, 0.1F);
-		this.right_arm_1.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
+		this.right_leg = new ModelRenderer(this, 0, 16);
+		this.right_leg.setRotationPoint(-2.0F, 12.0F, 0.1F);
+		this.right_leg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
 		this.right_wing_2 = new ModelRenderer(this, 16, 32);
 		this.right_wing_2.setRotationPoint(0.0F, 4.0F, -1.0F);
 		this.right_wing_2.addBox(-1.0F, 0.0F, 0.0F, 2, 7, 2, 0.0F);
@@ -110,10 +112,10 @@ public class ModelAngelChild extends ModelBase {
 		this.right_wing_0_1.addChild(this.right_wing_1_1);
 		this.body.addChild(this.right_arm);
 		this.body.addChild(this.right_wing_0);
-		this.body.addChild(this.left_arm_1);
+		this.body.addChild(this.left_leg);
 		this.right_wing_3.addChild(this.right_wing_4);
 		this.head.addChild(this.nose);
-		this.body.addChild(this.right_arm_1);
+		this.body.addChild(this.right_leg);
 		this.right_wing_1.addChild(this.right_wing_2);
 		this.right_wing_2.addChild(this.right_wing_3);
 		this.right_wing_1_1.addChild(this.right_wing_2_1);
@@ -135,8 +137,8 @@ public class ModelAngelChild extends ModelBase {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
-
-    /**
+	
+	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -148,29 +150,22 @@ public class ModelAngelChild extends ModelBase {
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		if (entity instanceof EntityAngel) {
-			System.out.println("sdfsdsdfssd");
-			this.head.rotateAngleY = netheadYaw * 0.017453292F;
-			this.head.rotateAngleX = headPitch * 0.017453292F;
-
-            this.right_arm.rotationPointY = 2.5F;
+			EntityAngel angel = (EntityAngel) entity;
+			this.right_arm.rotationPointY = 2.5F;
 			this.left_arm.rotationPointY = 2.5F;
-			this.left_arm.rotateAngleX = 0;
-			this.left_arm.rotateAngleY = 0;
-			this.left_arm.rotateAngleZ = 0;
-			this.right_arm.rotateAngleX = 0;
-			this.right_arm.rotateAngleY = 0;
-			this.right_arm.rotateAngleZ = 0;
-			EntityAngel angel;
-			PoseBase pose;
-
-            angel = (EntityAngel) entity;
-
-            pose = PoseManager.getPose(angel.getPose());
-
-            if (pose != null) {
-				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
-				pose.setWingAngles(this.right_wing_1, this.right_wing_0);
-				pose.setHeadAngles(this.head);
+			
+			if (!angel.isSeen()) {
+				
+				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
+				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
+				
+				this.head.rotateAngleY = netheadYaw * 0.017453292F;
+				this.head.rotateAngleX = headPitch * 0.017453292F;
+				this.head_2.rotateAngleY = netheadYaw * 0.017453292F;
+				this.head_2.rotateAngleX = headPitch * 0.017453292F;
+				
+				this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
+				this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
 			}
 		}
 	}
