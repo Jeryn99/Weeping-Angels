@@ -2,12 +2,10 @@ package me.sub.angels.main;
 
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.common.events.CommonEvents;
 import me.sub.angels.common.structures.WorldGenCatacombs;
 import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.utils.WAUtils;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,7 +27,6 @@ public class WeepingAngels {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new CommonEvents());
 		WAObjects.setUpSpawns();
 		
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);

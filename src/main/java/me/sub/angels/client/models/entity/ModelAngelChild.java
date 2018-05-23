@@ -1,9 +1,6 @@
 package me.sub.angels.client.models.entity;
 
-import me.sub.angels.client.models.poses.PoseBase;
-import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.entities.EntityAngel;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -123,7 +120,14 @@ public class ModelAngelChild extends ModelBiped {
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
+
+		if (entityIn instanceof EntityAngel) {
+			EntityAngel angel = (EntityAngel) entityIn;
+			if (angel.getSeenTime() == 1) {
+				angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
+			}
+		}
+		
 		this.head_2.render(scale);
 		this.head.render(scale);
 		GlStateManager.pushMatrix();
@@ -146,27 +150,20 @@ public class ModelAngelChild extends ModelBiped {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
-	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		if (entity instanceof EntityAngel) {
-			EntityAngel angel = (EntityAngel) entity;
-			this.right_arm.rotationPointY = 2.5F;
-			this.left_arm.rotationPointY = 2.5F;
-			
-			if (!angel.isSeen()) {
-				
-				this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
-				this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
-				
-				this.head.rotateAngleY = netheadYaw * 0.017453292F;
-				this.head.rotateAngleX = headPitch * 0.017453292F;
-				this.head_2.rotateAngleY = netheadYaw * 0.017453292F;
-				this.head_2.rotateAngleX = headPitch * 0.017453292F;
-				
-				this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
-				this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
-			}
-		}
+
+	public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
+		this.right_arm.rotationPointY = 2.5F;
+		this.left_arm.rotationPointY = 2.5F;
+
+		this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
+		this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
+
+		this.head.rotateAngleY = netheadYaw * 0.017453292F;
+		this.head.rotateAngleX = headPitch * 0.017453292F;
+		this.head_2.rotateAngleY = netheadYaw * 0.017453292F;
+		this.head_2.rotateAngleX = headPitch * 0.017453292F;
+
+		this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
+		this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
 	}
 }

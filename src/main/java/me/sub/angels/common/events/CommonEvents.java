@@ -1,7 +1,6 @@
 package me.sub.angels.common.events;
 
 import me.sub.angels.common.EventAngelSeen;
-import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WorldGenArms;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
@@ -26,7 +25,7 @@ public class CommonEvents {
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
 	 */
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
+	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
 		if (!player.world.isRemote) {
 			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
@@ -43,7 +42,7 @@ public class CommonEvents {
 	}
 	
 	@SubscribeEvent
-	public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+	public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		
 		// Player
 		if (event.getEntity() instanceof EntityPlayer) {
@@ -66,8 +65,7 @@ public class CommonEvents {
 	@SubscribeEvent
 	public static void decorateBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
-			WorldGenArms arms = new WorldGenArms(WAObjects.WABlocks.angelArm);
-			
+			WorldGenArms arms = new WorldGenArms();
 			if (e.getRand().nextInt(30) <= 10) {
 				arms.generate(e.getWorld(), e.getRand(), e.getPos());
 			}

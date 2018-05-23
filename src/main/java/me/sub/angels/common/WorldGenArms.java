@@ -1,6 +1,5 @@
 package me.sub.angels.common;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -10,12 +9,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import java.util.Random;
 
 public class WorldGenArms extends WorldGenerator {
-	private Block arm;
 	private IBlockState state;
-	
-	public WorldGenArms(Block arm) {
-		this.arm = arm;
-		this.state = arm.getDefaultState();
+
+	public WorldGenArms() {
+		this.state = WAObjects.WABlocks.angelArm.getDefaultState();
 	}
 	
 	@Override

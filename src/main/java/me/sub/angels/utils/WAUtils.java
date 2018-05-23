@@ -1,7 +1,7 @@
 package me.sub.angels.utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,28 +24,28 @@ public class WAUtils {
 			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 		}
 	}
-	
-	public static boolean isInHand(EnumHand hand, EntityPlayer holder, Item item) {
+
+    public static boolean isInHand(EnumHand hand, EntityLivingBase holder, Item item) {
 		if (!holder.getHeldItem(hand).isEmpty()) {
 			ItemStack heldItem = holder.getHeldItem(hand);
 			return heldItem.getItem() == item;
 		}
 		return false;
 	}
-	
-	public static boolean isInMainHand(EntityPlayer holder, Item item) {
+
+    public static boolean isInMainHand(EntityLivingBase holder, Item item) {
 		return isInHand(EnumHand.MAIN_HAND, holder, item);
 	}
-	
-	public static boolean isInOffHand(EntityPlayer holder, Item item) {
+
+    public static boolean isInOffHand(EntityLivingBase holder, Item item) {
 		return isInHand(EnumHand.OFF_HAND, holder, item);
 	}
-	
-	public static boolean isInEitherHand(EntityPlayer holder, Item item) {
+
+    public static boolean isInEitherHand(EntityLivingBase holder, Item item) {
 		return isInMainHand(holder, item) || isInOffHand(holder, item);
 	}
-	
-	public static boolean handLightCheck(EntityPlayer player) {
+
+    public static boolean handLightCheck(EntityLivingBase player) {
 		
 		for (Item item : lightItems) {
 			if (isInEitherHand(player, item)) {
