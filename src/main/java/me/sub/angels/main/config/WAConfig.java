@@ -20,6 +20,7 @@ public class WAConfig {
 		
 		@Config.LangKey("config.max_spawn")
 		@Config.Comment("The maximum amount of angels per biome")
+		@Config.RangeInt(max = 25)
 		public int maximumSpawn = 4;
 		
 		@Config.LangKey("config.spawn_probability")
@@ -28,6 +29,7 @@ public class WAConfig {
 		
 		@Config.LangKey("config.min_spawn")
 		@Config.Comment("The minimum amount of angels per biome")
+		@Config.RangeInt(max = 24)
 		public int minimumSpawn = 2;
 	}
 	
@@ -70,7 +72,7 @@ public class WAConfig {
 	@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 	private static class EventHandler {
 		@SubscribeEvent
-		public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
+		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if (event.getModID().equals(WeepingAngels.MODID)) {
 				ConfigManager.sync(WeepingAngels.MODID, Config.Type.INSTANCE);
 			}
