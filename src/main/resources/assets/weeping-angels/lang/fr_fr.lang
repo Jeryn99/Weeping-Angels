@@ -1,0 +1,43 @@
+entity.weepingangel.name=Ange pleureur
+item.angel_painting.name=Peinture d'Ange
+tile.arm.name=Bras dans la neige
+item.unlit_torch.name=Torche éteinte
+item.timey_wimey_detector.name=Détecteur Timey Wimey
+item.chronodyne_generator.name=Générateur de Chronodyne
+
+entity.angel.name=Ange pleureur
+
+sound.angel_seen=Ange vu
+sound.child_run=Enfant qui court
+sound.laughing_child=Enfant qui rit
+sound.light_break=Pause légère
+sound.angel_teleport=Joueur téléporté par un Ange
+sound.stone_scrap=Raclures de pierre
+sound.ding=Ding!
+sound.blow=Souffle
+sound.angel_death=L'Ange meurt
+
+source.angel=est renvoyé dans le temps par un Ange!
+source.angel_neck_snap=ont eu le cou brisé par un ange !
+source.punch_stone=ont cassé leurs os en frappant la pierre...
+
+damagesrc.angels.backintime=a été renvoyé dans le temps par un ange !
+damagesrc.angels.punch_stone=ont cassé leurs os en frappant la pierre...
+damagesrc.angels.neck_snap=ont eu le cou brisé par un ange !
+
+itemGroup.angels=Anges pleureurs
+
+config.teleportRange=Distance de téléportation
+config.teleport_entities=Téléportation d'entité ?
+config.angel_locking=Ange sur Ange, Verrouillage quantique
+config.angeldimteleport=Téléportation inter-dimensionnelle des anges
+config.block_break_range=Distance de cassage des blocs
+config.chicken_go_boom=Explosions des poulets?
+config.max_spawn=Ange - Apparition maximum
+config.spawn_probability=Probabilité d'apparition
+config.min_spawn=Ange - Apparition minimale
+config.angel.block_break=Cassage de blocs
+config.blowout_torch=Eteindre les torches
+
+category.angels=Angel
+category.spawn=Taux d'apparition
