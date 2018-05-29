@@ -1,7 +1,6 @@
 package me.sub.angels.utils;
 
 import me.sub.angels.client.models.poses.PoseManager;
-import me.sub.angels.common.EventAngelSeen;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
@@ -164,7 +163,6 @@ public class AngelUtils {
 								angel.playSound(sound, 1.0F, 1.0F);
 							}
 						}
-						MinecraftForge.EVENT_BUS.post(new EventAngelSeen(livingBase, angel));
 						angel.setSeen(true);
 					}
 				}

@@ -1,6 +1,5 @@
 package me.sub.angels.common.events;
 
-import me.sub.angels.common.EventAngelSeen;
 import me.sub.angels.common.WorldGenArms;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
@@ -72,11 +71,4 @@ public class CommonEvents {
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public static void eventSeen(EventAngelSeen e) {
-		// if(!e.getPlayer().world.isRemote)
-		// System.out.println(e.getPlayer().getName());
-	}
-	
 }
