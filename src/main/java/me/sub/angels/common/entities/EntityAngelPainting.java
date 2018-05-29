@@ -1,6 +1,9 @@
 package me.sub.angels.common.entities;
 
+import java.util.ArrayList;
+
 import com.google.common.collect.Lists;
+
 import io.netty.buffer.ByteBuf;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.NBTKeys;
@@ -16,8 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
 
 public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
 	public EntityAngelPainting.EnumArt art;

@@ -1,9 +1,9 @@
 package me.sub.angels.client.models.poses;
 
+import java.util.HashMap;
+
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.EntityLivingBase;
-
-import java.util.HashMap;
 
 public class PoseManager {
 	

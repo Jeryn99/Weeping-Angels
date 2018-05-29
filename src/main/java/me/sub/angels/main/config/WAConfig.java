@@ -66,6 +66,9 @@ public class WAConfig {
 		@Config.LangKey("config.blowout_torch")
 		@Config.Comment("If this is enabled, baby angels will blow out torches")
 		public boolean torchBlowOut = true;
+
+		@Config.LangKey("config.genCatacombs")
+		public boolean genCatacombs = false;
 		
 	}
 	

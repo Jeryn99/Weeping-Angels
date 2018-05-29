@@ -38,6 +38,7 @@ config.spawn_probability=Spawn Probability
 config.min_spawn=Angel - Minimum Spawn
 config.angel.block_break=Block breaking
 config.blowout_torch=Blow out torch
+config.genCatacombs=Gen catacombs?
 
 category.angels=Angels
 category.spawn=Spawn Rates

@@ -1,6 +1,13 @@
 package me.sub.angels.common;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import com.google.common.collect.Lists;
+
 import me.sub.angels.client.TabAngels;
 import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.client.models.item.RenderTimeyWimeyDetector;
@@ -49,12 +56,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
