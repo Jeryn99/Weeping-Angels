@@ -53,8 +53,8 @@ public class AngelUtils {
 			}
 		}
 	}
-	
-	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim) {
+
+	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityAngel angel) {
 		if (entity.getEntityWorld().isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isEntityAlive()) {
 			return false;
 		}
@@ -70,8 +70,10 @@ public class AngelUtils {
 				player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
 				player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 			}
-			
-			MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player));
+
+			if (angel != null) {
+				MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, angel));
+			}
 		}
 		
 		int from = entity.dimension;

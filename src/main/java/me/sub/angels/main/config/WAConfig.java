@@ -34,7 +34,11 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-		
+
+        @Config.LangKey("config.teleport_instant")
+        @Config.Comment("just teleport. no damage.")
+        public boolean justTeleport = false;
+
 		@Config.LangKey("config.teleportRange")
 		@Config.Comment("The maximum range a user can be teleported by the Angels")
 		public int teleportRange = 450;

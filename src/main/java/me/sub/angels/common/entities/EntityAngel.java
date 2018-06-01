@@ -1,7 +1,5 @@
 package me.sub.angels.common.entities;
 
-import javax.annotation.Nullable;
-
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.NBTKeys;
@@ -11,21 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -57,6 +42,8 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
@@ -138,12 +125,15 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		if (this.getHealth() > 5) {
-			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-		} else {
-			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-		}
-		return super.attackEntityAsMob(entity);
+
+        if (!WAConfig.angels.justTeleport) {
+            if (this.getHealth() > 5) {
+                entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+            } else {
+                entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+            }
+        }
+        return false;
 	}
 	
 	@Override
@@ -258,8 +248,10 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		
-		if (WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+
+        boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable);
+
+        if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
 			int dimID = 0;
 			
 			if (WAConfig.angels.angelDimTeleport) {
@@ -274,28 +266,28 @@ public class EntityAngel extends EntityMob {
 				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
-				teleport(entity, x, y, z, dimID);
+                teleport(entity, x, y, z, dimID, this);
 			}
 		}
 	}
-	
-	private boolean teleport(Entity entity, double x, double y, double z, int dim) {
+
+    private boolean teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
-				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim);
+                AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim, angel);
 			} else {
 				for (int i = 1; i < 255; i++) {
 					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+                        AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 					}
 				}
 			}
 		} else {
 			for (int i = 1; i < 255; i++) {
 				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-					AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+                    AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 				}
 			}
 		}
