@@ -20,6 +20,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -40,6 +41,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -249,7 +251,7 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 
-        boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable);
+        boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
 
         if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
 			int dimID = 0;
@@ -319,9 +321,12 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		
+
+	    this.setSeen(getIsInView());
+
 		super.onUpdate();
-		
+
+
 		if (!this.isSeen()) {
 			
 			// Blowing out Torches
@@ -463,5 +468,19 @@ public class EntityAngel extends EntityMob {
 			world.spawnEntity(item);
 			item.setPosition(pos.getX(), pos.getY(), pos.getZ());
 		}
+	}
+
+	private boolean getIsInView(){
+		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+			if(AngelUtils.isInSight(player, this) && !player.isSpectator()) {
+                if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+                    this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
+                    SoundEvent sound = getSeenSound();
+                    playSound(sound, 1.0F, 1.0F);
+                }
+                return true;
+            }
+		}
+		return false;
 	}
 }

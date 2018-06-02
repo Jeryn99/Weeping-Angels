@@ -48,7 +48,7 @@ public class CommonEvents {
 		// Player
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			AngelUtils.getAllAngels(player, 40, 40);
+			//AngelUtils.getAllAngels(player, 40, 40);
 		}
 		
 		// Angel

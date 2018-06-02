@@ -46,10 +46,10 @@ public class PoseManager {
 			return AngelPoses.THINKING;
 		}
 		if (angel.getDistance(player) < 25.0F) {
-			return AngelPoses.SHY;
+			return AngelPoses.HIDING_FACE;
 		}
 		
-		return AngelPoses.DAB;
+		return AngelPoses.HIDING_FACE;
 	}
 	
 }

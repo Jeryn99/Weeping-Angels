@@ -123,60 +123,11 @@ public class AngelUtils {
 		return true;
 	}
 
-	public static void getAllAngels(EntityLivingBase livingBase, int distance, double radius) {
-		if (distance < 0 || distance > 256) {
-			distance = 256;
-		}
-		Vec3d vec3 = livingBase.getLookVec();
-		double targetX = livingBase.posX;
-		double targetY = livingBase.posY + livingBase.getEyeHeight() - 0.10000000149011612D;
-		double targetZ = livingBase.posZ;
-		double distanceTraveled = 0;
-		
-		while ((int) distanceTraveled < distance) {
-			targetX += vec3.x;
-			targetY += vec3.y;
-			targetZ += vec3.z;
-			distanceTraveled += vec3.lengthVector();
-			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
-
-			for (EntityAngel angel : livingBase.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
-
-				if (livingBase instanceof EntityPlayer) {
-					EntityPlayer p = (EntityPlayer) livingBase;
-					if (p.isSpectator()) {
-						System.out.println(p.getName() + " is a spectator");
-						return;
-					}
-				}
-
-				if (angel.canBeCollidedWith() && isInSight(livingBase, angel) && !livingBase.isPotionActive(MobEffects.BLINDNESS)) {
-					boolean isDark = angel.world.getLight(angel.getPosition()) == 0;
-					boolean lightItems = WAUtils.handLightCheck(livingBase);
-					boolean seen = !isDark || lightItems || livingBase.isPotionActive(MobEffects.NIGHT_VISION);
-					
-					if (seen) {
-						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
-							angel.setPose(PoseManager.getBestPoseForSituation(angel, livingBase).toString());
-						}
-						if (angel.getAttackTarget() == livingBase && angel.getSeenTime() == 1) {
-							SoundEvent sound = angel.getSeenSound();
-							if (sound != null) {
-								angel.playSound(sound, 1.0F, 1.0F);
-							}
-						}
-						angel.setSeen(true);
-					}
-				}
-			}
-		}
+	public static boolean isInSight(EntityLivingBase livingBase, Entity angel) {
+		return isInEyeLine(livingBase, angel);
 	}
 
-	private static boolean isInSight(EntityLivingBase livingBase, Entity angel) {
-		return livingBase.canEntityBeSeen(angel) && isInEyeLine(livingBase, angel);
-	}
-
-	private static boolean isInEyeLine(Entity livingBase, Entity angel) {
+	private static boolean isInEyeLine(EntityLivingBase livingBase, Entity angel) {
 		double dx = angel.posX - livingBase.posX;
 		double dz;
 		for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
@@ -196,6 +147,7 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
+
 		return yaw < 60 && yaw > -60;
 	}
 
@@ -206,6 +158,11 @@ public class AngelUtils {
 			}
 		}
 	}
+
+	public static boolean isDarkForPlayer(EntityAngel angel, EntityLivingBase living){
+		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !WAUtils.handLightCheck(living);
+	}
+
 	
 	// Teleporter
 	public static class WAMTeleporter extends Teleporter {
@@ -232,5 +189,7 @@ public class AngelUtils {
 			
 		}
 	}
+
+
 	
 }
