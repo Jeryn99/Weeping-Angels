@@ -22,7 +22,7 @@ public class CommonEvents {
 	
 	private static WorldGenArms arms = new WorldGenArms();
 	
-	/*
+	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
 	 */
 	@SubscribeEvent
@@ -44,13 +44,6 @@ public class CommonEvents {
 	
 	@SubscribeEvent
 	public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-		
-		// Player
-		if (event.getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.getEntity();
-			//AngelUtils.getAllAngels(player, 40, 40);
-		}
-		
 		// Angel
 		if (event.getEntity() instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) event.getEntity();

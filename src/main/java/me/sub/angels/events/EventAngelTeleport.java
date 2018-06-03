@@ -7,18 +7,18 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 public class EventAngelTeleport extends Event {
 	
 	EntityPlayer player;
-    EntityAngel angel;
-
-    public EventAngelTeleport(EntityPlayer player, EntityAngel angel) {
+	EntityAngel angel;
+	
+	public EventAngelTeleport(EntityPlayer player, EntityAngel angel) {
 		this.player = player;
-        this.angel = angel;
+		this.angel = angel;
 	}
 	
 	public EntityPlayer getPlayer() {
 		return player;
 	}
-
-    public EntityAngel getAngel() {
-        return angel;
-    }
+	
+	public EntityAngel getAngel() {
+		return angel;
+	}
 }

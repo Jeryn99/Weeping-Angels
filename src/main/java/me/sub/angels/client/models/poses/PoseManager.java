@@ -30,8 +30,8 @@ public class PoseManager {
 	public enum AngelPoses {
 		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
 	}
-
-    public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
+	
+	public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
 		
 		if (angel.getDistance(player) < 1.0F) {
 			return AngelPoses.ANGRY;

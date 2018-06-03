@@ -121,7 +121,7 @@ public class ModelAngelChild extends ModelBiped {
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
+		
 		if (entityIn instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) entityIn;
 			if (angel.getSeenTime() == 1) {
@@ -151,19 +151,19 @@ public class ModelAngelChild extends ModelBiped {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-
+	
 	public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
-
+		
 		this.left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
 		this.right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
-
+		
 		this.head.rotateAngleY = netheadYaw * 0.017453292F;
 		this.head.rotateAngleX = headPitch * 0.017453292F;
 		this.head_2.rotateAngleY = netheadYaw * 0.017453292F;
 		this.head_2.rotateAngleX = headPitch * 0.017453292F;
-
+		
 		this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
 		this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
 	}

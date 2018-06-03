@@ -19,6 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
+/**
+ * Don't even ask me about anything in this class. Coded way too late at night while on medication
+ */
+
+
 public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
 	public EntityAngelPainting.EnumArt art;
 	

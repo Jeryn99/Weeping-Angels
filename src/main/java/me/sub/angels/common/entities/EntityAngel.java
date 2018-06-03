@@ -93,15 +93,8 @@ public class EntityAngel extends EntityMob {
 	protected SoundEvent getDeathSound() {
 		return WAObjects.Sounds.angelDeath;
 	}
-	
-	@Override
-	public float getRotatedYaw(Rotation transformRotation) {
-		if (!isSeen()) {
-			super.getRotatedYaw(transformRotation);
-		}
-		return rotationYaw;
-	}
-	
+
+
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
@@ -127,15 +120,15 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-
-        if (!WAConfig.angels.justTeleport) {
-            if (this.getHealth() > 5) {
-                entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-            } else {
-                entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-            }
-        }
-        return false;
+		
+		if (!WAConfig.angels.justTeleport) {
+			if (this.getHealth() > 5) {
+				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+			} else {
+				entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+			}
+		}
+		return false;
 	}
 	
 	@Override
@@ -250,10 +243,10 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-
-        boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
-
-        if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
+		
+		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
+		
+		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
 			int dimID = 0;
 			
 			if (WAConfig.angels.angelDimTeleport) {
@@ -268,32 +261,31 @@ public class EntityAngel extends EntityMob {
 				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
-                teleport(entity, x, y, z, dimID, this);
+				teleport(entity, x, y, z, dimID, this);
 			}
 		}
 	}
-
-    private boolean teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
+	
+	private void teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
-                AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim, angel);
+				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim, angel);
 			} else {
 				for (int i = 1; i < 255; i++) {
 					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-                        AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
+						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 					}
 				}
 			}
 		} else {
 			for (int i = 1; i < 255; i++) {
 				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-                    AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
+					AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 				}
 			}
 		}
-		return true;
 	}
 	
 	/**
@@ -321,12 +313,11 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-
-	    this.setSeen(getIsInView());
-
+		
+		this.setSeen(getIsInView());
+		
 		super.onUpdate();
-
-
+		
 		if (!this.isSeen()) {
 			
 			// Blowing out Torches
@@ -343,16 +334,13 @@ public class EntityAngel extends EntityMob {
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
-			if (getSeenTime() > 15) setSeen(false);
-		} else {
-			setSeenTime(0);
 		}
 	}
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
 		Entity source = e.getSource().getTrueSource();
-		if (source != null && source instanceof EntityLivingBase) {
+		if (source instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) source;
 			EntityLivingBase victim = e.getEntityLiving();
 			
@@ -469,18 +457,19 @@ public class EntityAngel extends EntityMob {
 			item.setPosition(pos.getX(), pos.getY(), pos.getZ());
 		}
 	}
-
-	private boolean getIsInView(){
-		for(EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-			if(AngelUtils.isInSight(player, this) && !player.isSpectator()) {
-                if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-                    this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
-                    SoundEvent sound = getSeenSound();
-                    playSound(sound, 1.0F, 1.0F);
-                }
-                return true;
-            }
+	
+	private boolean getIsInView() {
+		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
+				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
+					SoundEvent sound = getSeenSound();
+					playSound(sound, 1.0F, 1.0F);
+				}
+				return true;
+			}
 		}
+		setSeenTime(0);
 		return false;
 	}
 }

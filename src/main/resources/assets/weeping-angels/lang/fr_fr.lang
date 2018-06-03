@@ -18,10 +18,10 @@ sound.blow=Souffle
 sound.angel_death=L'Ange meurt
 
 source.angel=est renvoyé dans le temps par un Ange!
-source.angel_neck_snap=ont eu le cou brisé par un ange !
+source.angel_neck_snap=ont eu le cou brisé par un ange!
 source.punch_stone=ont cassé leurs os en frappant la pierre...
 
-damagesrc.angels.backintime=a été renvoyé dans le temps par un ange !
+damagesrc.angels.backintime=a été renvoyé dans le temps par un ange!
 damagesrc.angels.punch_stone=ont cassé leurs os en frappant la pierre...
 damagesrc.angels.neck_snap=ont eu le cou brisé par un ange !
 
@@ -38,6 +38,11 @@ config.spawn_probability=Probabilité d'apparition
 config.min_spawn=Ange - Apparition minimale
 config.angel.block_break=Cassage de blocs
 config.blowout_torch=Eteindre les torches
+config.genCatacombs=Gen catacombs?
 
 category.angels=Angel
 category.spawn=Taux d'apparition
+config.spawntype=Spawn type
+config.teleport_instant=Just teleport & No Damage?
+message.infected=You have been infected by a Weeping Angel, you will now die.
+message.look_away=You must look away from this angel!
