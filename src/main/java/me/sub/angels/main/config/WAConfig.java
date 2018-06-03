@@ -39,7 +39,15 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-		
+
+        @Config.LangKey("config.angel_damage")
+        @Config.Comment("The damage dealt by an angel")
+        public double damage = 8.0D;
+
+        @Config.LangKey("config.teleportRange")
+        @Config.Comment("The maximum range a user can be teleported by the Angels")
+        public double speed = 0.23000000417232513D;
+
 		@Config.LangKey("config.teleport_instant")
 		@Config.Comment("just teleport. no damage.")
 		public boolean justTeleport = false;
@@ -77,6 +85,7 @@ public class WAConfig {
 		public boolean torchBlowOut = true;
 		
 		@Config.LangKey("config.genCatacombs")
+		@Config.Comment("Generate catacombs?")
 		public boolean genCatacombs = false;
 		
 	}

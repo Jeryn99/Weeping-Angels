@@ -6,9 +6,11 @@ import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.client.render.layers.LayerCrack;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.WeepingAngels;
+import me.sub.angels.main.config.WAConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -43,7 +45,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 		
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
-		
+
 		if (angel.getHealth() > 0.0F) {
 			
 			if (angel.isChild()) {

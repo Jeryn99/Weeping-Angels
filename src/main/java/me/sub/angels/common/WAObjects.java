@@ -99,7 +99,8 @@ public class WAObjects {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
 		
 		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
-		
+
+		//Projectiles
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());

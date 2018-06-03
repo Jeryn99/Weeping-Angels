@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
@@ -36,6 +37,8 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -44,6 +47,8 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
@@ -113,8 +118,8 @@ public class EntityAngel extends EntityMob {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(135.0D);
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(WAConfig.angels.speed);
+		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 	}
 	
@@ -313,13 +318,14 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		
+
+
 		this.setSeen(getIsInView());
-		
+
+
 		super.onUpdate();
 		
-		if (!this.isSeen()) {
-			
+		if (isSeen()) {
 			// Blowing out Torches
 			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) getAttackTarget();
@@ -368,7 +374,18 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-	
+
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void turn(float yaw, float pitch)
+	{
+		if(!isSeen()) {
+			super.turn(yaw, pitch);
+		}
+	}
+
+
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
@@ -385,7 +402,7 @@ public class EntityAngel extends EntityMob {
 	private void replaceBlocks(AxisAlignedBB box) {
 		
 		boolean stop = false;
-		
+
 		if (world.isRemote || ticksExisted % 100 != 0 || !WAConfig.angels.blockBreaking) return;
 		
 		for (int x = (int) box.minX; x <= box.maxX && !stop; x++) {
@@ -446,6 +463,7 @@ public class EntityAngel extends EntityMob {
 			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
 			return sound;
 		}
+
 		return null;
 	}
 	
@@ -461,6 +479,7 @@ public class EntityAngel extends EntityMob {
 	private boolean getIsInView() {
 		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
 			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
+			//	player.sendStatusMessage(new TextComponentString("Debug seen time [Milliseconds]: " + getSeenTime()), true);
 				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
 					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
 					SoundEvent sound = getSeenSound();
