@@ -82,14 +82,14 @@ public class WAObjects {
 	private static SoundEvent setUpSound(String soundName) {
 		return new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
 	}
-
-	//Entities
+	
+	// Entities
 	public static class EntityEntries {
 		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).egg(184, 286).name("angel").tracker(80, 3, false).build();
 		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
 		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
 	}
-
+	
 	/**
 	 * Set up the rendering for entities and tiles
 	 */
@@ -99,15 +99,15 @@ public class WAObjects {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
 		
 		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
-
-		//Projectiles
+		
+		// Projectiles
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
 	}
-
-	//Set up
+	
+	// Set up
 	public static void setUpSpawns() {
 		List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
 		List<Biome> spawn = Lists.newArrayList();
@@ -177,10 +177,7 @@ public class WAObjects {
 			}
 		}
 	}
-
-
-
-
+	
 	@SubscribeEvent
 	public static void registerObjects(RegistryEvent ev) {
 		if (!(ev instanceof RegistryEvent.Register)) return;

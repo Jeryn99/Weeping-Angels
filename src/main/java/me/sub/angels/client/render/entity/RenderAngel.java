@@ -45,7 +45,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 		
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
-
+		
 		if (angel.getHealth() > 0.0F) {
 			
 			if (angel.isChild()) {

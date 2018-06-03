@@ -30,7 +30,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 
 public class AngelUtils {
-
+	
 	/**
 	 * Takes in a player, checks if they have a torch in either hand, changes it to a blown out one
 	 */
@@ -125,7 +125,7 @@ public class AngelUtils {
 		
 		return true;
 	}
-
+	
 	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
 		double dx = angel.posX - livingBase.posX;
 		double dz;
@@ -149,7 +149,7 @@ public class AngelUtils {
 		
 		return yaw < 60 && yaw > -60;
 	}
-
+	
 	@Deprecated
 	public static void getAllAngels(EntityAngel angel_viewer) {
 		for (EntityAngel angel2 : angel_viewer.world.getEntitiesWithinAABB(EntityAngel.class, angel_viewer.getEntityBoundingBox().grow(20, 20, 20))) {

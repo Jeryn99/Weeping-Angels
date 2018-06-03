@@ -31,7 +31,7 @@ public class WAConfig {
 		@Config.Comment("The minimum amount of angels per biome")
 		@Config.RangeInt(max = 24)
 		public int minimumSpawn = 2;
-
+		
 		@Config.LangKey("config.spawntype")
 		@Config.Comment("This will only accept: WATER_CREATURE, AMBIENT, CREATURE, MONSTER || Anything else WILL crash your game.")
 		@Config.RequiresMcRestart
@@ -39,15 +39,15 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-
-        @Config.LangKey("config.angel_damage")
-        @Config.Comment("The damage dealt by an angel")
-        public double damage = 8.0D;
-
-        @Config.LangKey("config.teleportRange")
-        @Config.Comment("The maximum range a user can be teleported by the Angels")
-        public double speed = 0.23000000417232513D;
-
+		
+		@Config.LangKey("config.angel_damage")
+		@Config.Comment("The damage dealt by an angel")
+		public double damage = 8.0D;
+		
+		@Config.LangKey("config.teleportRange")
+		@Config.Comment("The maximum range a user can be teleported by the Angels")
+		public double speed = 0.23000000417232513D;
+		
 		@Config.LangKey("config.teleport_instant")
 		@Config.Comment("just teleport. no damage.")
 		public boolean justTeleport = false;

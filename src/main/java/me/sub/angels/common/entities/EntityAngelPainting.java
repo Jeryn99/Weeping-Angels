@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.NBTKeys;
 import me.sub.angels.utils.AngelUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 /**
  * Don't even ask me about anything in this class. Coded way too late at night while on medication
  */
-
 
 public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
 	public EntityAngelPainting.EnumArt art;

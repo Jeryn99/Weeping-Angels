@@ -17,6 +17,7 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -24,6 +25,8 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
@@ -31,10 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -98,8 +98,7 @@ public class EntityAngel extends EntityMob {
 	protected SoundEvent getDeathSound() {
 		return WAObjects.Sounds.angelDeath;
 	}
-
-
+	
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
@@ -249,6 +248,32 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		
+		if (entity instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) entity;
+			for (ItemStack stack : player.inventory.mainInventory) {
+				
+				System.out.println(stack.getItem().getRegistryName());
+				
+				if (stack.getItem().getRegistryName().toString().equals(NBTKeys.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(NBTKeys.DALEK_MOD_KEY)) {
+					
+					ItemStack keyStack = stack.copy();
+					
+					if (getHeldItemMainhand().isEmpty()) {
+						setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
+						stack.setCount(0);
+						return;
+					} else {
+						if (getHeldItemOffhand().isEmpty()) {
+							setHeldItem(EnumHand.OFF_HAND, keyStack);
+							stack.setCount(0);
+                            return;
+						}
+					}
+				}
+			}
+		}
+		
+		// Teleporting
 		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
 		
 		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
@@ -318,11 +343,9 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-
-
+		
 		this.setSeen(getIsInView());
-
-
+		
 		super.onUpdate();
 		
 		if (isSeen()) {
@@ -374,18 +397,15 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void turn(float yaw, float pitch)
-	{
-		if(!isSeen()) {
+	public void turn(float yaw, float pitch) {
+		if (!isSeen()) {
 			super.turn(yaw, pitch);
 		}
 	}
-
-
+	
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
@@ -402,7 +422,7 @@ public class EntityAngel extends EntityMob {
 	private void replaceBlocks(AxisAlignedBB box) {
 		
 		boolean stop = false;
-
+		
 		if (world.isRemote || ticksExisted % 100 != 0 || !WAConfig.angels.blockBreaking) return;
 		
 		for (int x = (int) box.minX; x <= box.maxX && !stop; x++) {
@@ -419,7 +439,7 @@ public class EntityAngel extends EntityMob {
 							}
 							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							createItem(pos, new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
+							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getX(), new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
 							stop = true;
 						}
 						
@@ -463,23 +483,14 @@ public class EntityAngel extends EntityMob {
 			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
 			return sound;
 		}
-
+		
 		return null;
-	}
-	
-	private void createItem(BlockPos pos, ItemStack stack) {
-		if (!world.isRemote) {
-			EntityItem item = new EntityItem(world);
-			item.setItem(stack);
-			world.spawnEntity(item);
-			item.setPosition(pos.getX(), pos.getY(), pos.getZ());
-		}
 	}
 	
 	private boolean getIsInView() {
 		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
 			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
-			//	player.sendStatusMessage(new TextComponentString("Debug seen time [Milliseconds]: " + getSeenTime()), true);
+				// player.sendStatusMessage(new TextComponentString("Debug seen time [Milliseconds]: " + getSeenTime()), true);
 				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
 					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
 					SoundEvent sound = getSeenSound();
