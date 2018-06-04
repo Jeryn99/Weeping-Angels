@@ -1,5 +1,9 @@
 package me.sub.angels.common.structures;
 
+import java.util.Map;
+import java.util.Random;
+
+import me.sub.angels.main.config.WAConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -18,20 +22,17 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-import java.util.Map;
-import java.util.Random;
-
 public class WorldGenCatacombs extends WorldGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		
-		if (world.provider.getDimensionType() == DimensionType.OVERWORLD) {
+		if (world.provider.getDimensionType() == DimensionType.OVERWORLD && WAConfig.angels.genCatacombs) {
 			
 			if (rand.nextInt(4000) == 0) {
-				int x = chunkX * 16 + rand.nextInt(16);
+				int x = chunkX * 8 + rand.nextInt(8);
 				int y = 25;
-				int z = chunkZ * 16 + rand.nextInt(16);
+				int z = chunkZ * 8 + rand.nextInt(8);
 				
 				while (!world.getBlockState(new BlockPos(x, y, z)).isFullBlock() && y > 0) {
 					y--;

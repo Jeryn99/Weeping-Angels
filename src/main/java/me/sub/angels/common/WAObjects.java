@@ -80,16 +80,19 @@ public class WAObjects {
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {
-		SoundEvent sound = new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
-		return sound;
+		return new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
 	}
 	
+	// Entities
 	public static class EntityEntries {
 		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).egg(184, 286).name("angel").tracker(80, 3, false).build();
 		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
 		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
 	}
 	
+	/**
+	 * Set up the rendering for entities and tiles
+	 */
 	@SideOnly(Side.CLIENT)
 	public static void setUpRenders() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
@@ -97,12 +100,14 @@ public class WAObjects {
 		
 		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 		
+		// Projectiles
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
 	}
 	
+	// Set up
 	public static void setUpSpawns() {
 		List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
 		List<Biome> spawn = Lists.newArrayList();
@@ -116,7 +121,7 @@ public class WAObjects {
 		while (iterator.hasNext()) {
 			Biome biome = iterator.next();
 			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, EnumCreatureType.MONSTER, biome);
+				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, EnumCreatureType.valueOf(WAConfig.spawn.spawnType), biome);
 			}
 		}
 	}
@@ -129,15 +134,15 @@ public class WAObjects {
 	
 	// Items
 	public static class WAItems {
-		public static Item angelPainting = createItem(new ItemHanging(), "angel_painting").setCreativeTab(angelTab);
-		public static Item angelArmItem = createItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
-		public static Item unLitTorch = createItem(new Item(), "unlit_torch");
-		public static Item timeyWimeyDetector = createItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
+		public static Item angelPainting = registerItem(new ItemHanging(), "angel_painting").setCreativeTab(angelTab);
+		public static Item angelArmItem = registerItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
+		public static Item unLitTorch = registerItem(new Item(), "unlit_torch");
+		public static Item timeyWimeyDetector = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
 		
-		public static Item chronodyneGenerator = createItem(new ItemChronodyneGenerator(), "chronodyne_generator");
+		public static Item chronodyneGenerator = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
 	}
 	
-	private static Item createItem(Item item, String name) {
+	private static Item registerItem(Item item, String name) {
 		item.setRegistryName(WeepingAngels.MODID, name);
 		item.setUnlocalizedName(name);
 		return item;

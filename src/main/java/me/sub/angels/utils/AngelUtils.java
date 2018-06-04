@@ -1,7 +1,6 @@
 package me.sub.angels.utils;
 
 import me.sub.angels.client.models.poses.PoseManager;
-import me.sub.angels.common.EventAngelSeen;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
@@ -32,6 +31,9 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class AngelUtils {
 	
+	/**
+	 * Takes in a player, checks if they have a torch in either hand, changes it to a blown out one
+	 */
 	public static void blowOutTorch(EntityPlayer p) {
 		if (!p.world.isRemote && WAConfig.angels.torchBlowOut) {
 			for (Object hand : EnumHand.values()) {
@@ -55,7 +57,7 @@ public class AngelUtils {
 		}
 	}
 	
-	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim) {
+	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityAngel angel) {
 		if (entity.getEntityWorld().isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isEntityAlive()) {
 			return false;
 		}
@@ -72,7 +74,9 @@ public class AngelUtils {
 				player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 			}
 			
-			MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player));
+			if (angel != null) {
+				MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, angel));
+			}
 		}
 		
 		int from = entity.dimension;
@@ -121,62 +125,8 @@ public class AngelUtils {
 		
 		return true;
 	}
-
-	public static void getAllAngels(EntityLivingBase livingBase, int distance, double radius) {
-		if (distance < 0 || distance > 256) {
-			distance = 256;
-		}
-		Vec3d vec3 = livingBase.getLookVec();
-		double targetX = livingBase.posX;
-		double targetY = livingBase.posY + livingBase.getEyeHeight() - 0.10000000149011612D;
-		double targetZ = livingBase.posZ;
-		double distanceTraveled = 0;
-		
-		while ((int) distanceTraveled < distance) {
-			targetX += vec3.x;
-			targetY += vec3.y;
-			targetZ += vec3.z;
-			distanceTraveled += vec3.lengthVector();
-			AxisAlignedBB bb = new AxisAlignedBB(targetX - radius, targetY - radius, targetZ - radius, targetX + radius, targetY + radius, targetZ + radius);
-
-			for (EntityAngel angel : livingBase.world.getEntitiesWithinAABB(EntityAngel.class, bb)) {
-
-				if (livingBase instanceof EntityPlayer) {
-					EntityPlayer p = (EntityPlayer) livingBase;
-					if (p.isSpectator()) {
-						System.out.println(p.getName() + " is a spectator");
-						return;
-					}
-				}
-
-				if (angel.canBeCollidedWith() && isInSight(livingBase, angel) && !livingBase.isPotionActive(MobEffects.BLINDNESS)) {
-					boolean isDark = angel.world.getLight(angel.getPosition()) == 0;
-					boolean lightItems = WAUtils.handLightCheck(livingBase);
-					boolean seen = !isDark || lightItems || livingBase.isPotionActive(MobEffects.NIGHT_VISION);
-					
-					if (seen) {
-						if (angel.getSeenTime() == 1 && angel.ticksExisted % 100 != 0) {
-							angel.setPose(PoseManager.getBestPoseForSituation(angel, livingBase).toString());
-						}
-						if (angel.getAttackTarget() == livingBase && angel.getSeenTime() == 1) {
-							SoundEvent sound = angel.getSeenSound();
-							if (sound != null) {
-								angel.playSound(sound, 1.0F, 1.0F);
-							}
-						}
-						MinecraftForge.EVENT_BUS.post(new EventAngelSeen(livingBase, angel));
-						angel.setSeen(true);
-					}
-				}
-			}
-		}
-	}
-
-	private static boolean isInSight(EntityLivingBase livingBase, Entity angel) {
-		return livingBase.canEntityBeSeen(angel) && isInEyeLine(livingBase, angel);
-	}
-
-	private static boolean isInEyeLine(Entity livingBase, Entity angel) {
+	
+	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
 		double dx = angel.posX - livingBase.posX;
 		double dz;
 		for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
@@ -196,15 +146,21 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
+		
 		return yaw < 60 && yaw > -60;
 	}
-
+	
+	@Deprecated
 	public static void getAllAngels(EntityAngel angel_viewer) {
 		for (EntityAngel angel2 : angel_viewer.world.getEntitiesWithinAABB(EntityAngel.class, angel_viewer.getEntityBoundingBox().grow(20, 20, 20))) {
 			if (angel_viewer.canEntityBeSeen(angel2) && angel_viewer != angel2 && isInSight(angel_viewer, angel2)) {
 				angel2.setSeen(true);
 			}
 		}
+	}
+	
+	public static boolean isDarkForPlayer(EntityAngel angel, EntityLivingBase living) {
+		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !WAUtils.handLightCheck(living);
 	}
 	
 	// Teleporter

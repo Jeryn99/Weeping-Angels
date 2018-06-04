@@ -1,6 +1,5 @@
 package me.sub.angels.common.events;
 
-import me.sub.angels.common.EventAngelSeen;
 import me.sub.angels.common.WorldGenArms;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
@@ -21,7 +20,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 @Mod.EventBusSubscriber
 public class CommonEvents {
 	
-	/*
+	private static WorldGenArms arms = new WorldGenArms();
+	
+	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
 	 */
 	@SubscribeEvent
@@ -43,13 +44,6 @@ public class CommonEvents {
 	
 	@SubscribeEvent
 	public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-		
-		// Player
-		if (event.getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.getEntity();
-			AngelUtils.getAllAngels(player, 40, 40);
-		}
-		
 		// Angel
 		if (event.getEntity() instanceof EntityAngel) {
 			EntityAngel angel = (EntityAngel) event.getEntity();
@@ -65,17 +59,9 @@ public class CommonEvents {
 	@SubscribeEvent
 	public static void decorateBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
-			WorldGenArms arms = new WorldGenArms();
 			if (e.getRand().nextInt(30) <= 10) {
 				arms.generate(e.getWorld(), e.getRand(), e.getPos());
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public static void eventSeen(EventAngelSeen e) {
-		// if(!e.getPlayer().world.isRemote)
-		// System.out.println(e.getPlayer().getName());
-	}
-	
 }

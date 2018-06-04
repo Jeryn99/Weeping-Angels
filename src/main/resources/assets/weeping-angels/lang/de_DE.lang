@@ -3,6 +3,7 @@ item.angel_painting.name=Engel Gemälde
 tile.arm.name=Arm im Schnee
 item.unlit_torch.name=Unbeleuchtete Fackel
 item.timey_wimey_detector.name=Timey Wimey Detektor
+item.chronodyne_generator.name=Chronodyne Generator
 
 entity.angel.name=Weinender Engel
 
@@ -13,7 +14,36 @@ sound.light_break=Lichtbrechung
 sound.angel_teleport=Engel teleportiert Spieler
 sound.stone_scrap=Stein Schrott
 sound.ding=Ding!
+sound.blow=Blow
+sound.angel_death=Angel dies
 
 source.angel=wurde in der zeit zurückgeschickt von einem Engel!
 source.angel_neck_snap=wurde von einem Engel am hals geschnappt!
-source.punch_stone=durch schlagen auf stein sind die Knocken gebrochen 
+source.punch_stone=durch schlagen auf stein sind die Knocken gebrochen
+
+damagesrc.angels.backintime=was sent back in time by a Angel!
+damagesrc.angels.punch_stone=broke their bones by punching stone...
+damagesrc.angels.neck_snap=had their neck snapped by a Angel!
+
+itemGroup.angels=Weeping Angels
+
+config.teleportRange=Teleport range
+config.teleport_entities=Teleport Entities?
+config.angel_locking=Angel on Angel, Quantum locking
+config.angeldimteleport=Angel inter-dimensional teleporting
+config.block_break_range=Block break Range
+config.chicken_go_boom=Chicken Explosions?
+config.max_spawn=Angel - Maximum spawn
+config.spawn_probability=Spawn Probability
+config.min_spawn=Angel - Minimum Spawn
+config.angel.block_break=Block breaking
+config.blowout_torch=Blow out torch
+config.genCatacombs=Gen catacombs?
+config.angel_speed=Angel Speed
+
+category.angels=Angels
+category.spawn=Spawn Rates
+config.spawntype=Spawn type
+config.teleport_instant=Just teleport & No Damage?
+message.infected=You have been infected by a Weeping Angel, you will now die.
+message.look_away=You must look away from this angel!

@@ -1,9 +1,9 @@
 package me.sub.angels.client.models.poses;
 
+import java.util.HashMap;
+
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.EntityLivingBase;
-
-import java.util.HashMap;
 
 public class PoseManager {
 	
@@ -30,8 +30,8 @@ public class PoseManager {
 	public enum AngelPoses {
 		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
 	}
-
-    public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
+	
+	public static AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
 		
 		if (angel.getDistance(player) < 1.0F) {
 			return AngelPoses.ANGRY;
@@ -46,10 +46,10 @@ public class PoseManager {
 			return AngelPoses.THINKING;
 		}
 		if (angel.getDistance(player) < 25.0F) {
-			return AngelPoses.SHY;
+			return AngelPoses.HIDING_FACE;
 		}
 		
-		return AngelPoses.DAB;
+		return AngelPoses.HIDING_FACE;
 	}
 	
 }

@@ -2,7 +2,7 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.main.NBTKeys;
+import me.sub.angels.main.WAConstants;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -16,12 +16,14 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
@@ -30,8 +32,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,8 +42,11 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
@@ -92,14 +97,6 @@ public class EntityAngel extends EntityMob {
 		return WAObjects.Sounds.angelDeath;
 	}
 	
-	@Override
-	public float getRotatedYaw(Rotation transformRotation) {
-		if (!isSeen()) {
-			super.getRotatedYaw(transformRotation);
-		}
-		return rotationYaw;
-	}
-	
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
@@ -118,19 +115,22 @@ public class EntityAngel extends EntityMob {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(135.0D);
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(WAConfig.angels.speed);
+		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 	}
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		if (this.getHealth() > 5) {
-			entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-		} else {
-			entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+		
+		if (!WAConfig.angels.justTeleport) {
+			if (this.getHealth() > 5) {
+				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+			} else {
+				entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+			}
 		}
-		return super.attackEntityAsMob(entity);
+		return false;
 	}
 	
 	@Override
@@ -220,33 +220,61 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setBoolean(NBTKeys.IS_SEEN, isSeen());
-		compound.setInteger(NBTKeys.TIME_SEEN, getSeenTime());
-		compound.setString(NBTKeys.POSE, getPose());
-		compound.setInteger(NBTKeys.TYPE, getType());
-		compound.setBoolean(NBTKeys.ANGEL_CHILD, isChild());
+		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
+		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
+		compound.setString(WAConstants.POSE, getPose());
+		compound.setInteger(WAConstants.TYPE, getType());
+		compound.setBoolean(WAConstants.ANGEL_CHILD, isChild());
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		
-		if (compound.hasKey(NBTKeys.IS_SEEN)) setSeen(compound.getBoolean(NBTKeys.IS_SEEN));
-		
-		if (compound.hasKey(NBTKeys.TIME_SEEN)) setSeenTime(compound.getInteger(NBTKeys.TIME_SEEN));
-		
-		if (compound.hasKey(NBTKeys.POSE)) setPose(compound.getString(NBTKeys.POSE));
-		
-		if (compound.hasKey(NBTKeys.TYPE)) setType(compound.getInteger(NBTKeys.TYPE));
-		
-		if (compound.hasKey(NBTKeys.ANGEL_CHILD)) setChild(compound.getBoolean(NBTKeys.ANGEL_CHILD));
+
+		if (compound.hasKey(WAConstants.IS_SEEN)) setSeen(compound.getBoolean(WAConstants.IS_SEEN));
+
+		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
+
+		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
+
+		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInteger(WAConstants.TYPE));
+
+		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
 	
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		
-		if (WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && rand.nextInt(100) == 50 && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityArrow) && !(entity instanceof EntityThrowable)) {
+		if (entity instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) entity;
+			for (ItemStack stack : player.inventory.mainInventory) {
+				
+				System.out.println(stack.getItem().getRegistryName());
+
+				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
+					
+					ItemStack keyStack = stack.copy();
+					
+					if (getHeldItemMainhand().isEmpty()) {
+						setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
+						stack.setCount(0);
+						return;
+					} else {
+						if (getHeldItemOffhand().isEmpty()) {
+							setHeldItem(EnumHand.OFF_HAND, keyStack);
+							stack.setCount(0);
+                            return;
+						}
+					}
+				}
+			}
+		}
+		
+		// Teleporting
+		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
+		
+		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
 			int dimID = 0;
 			
 			if (WAConfig.angels.angelDimTeleport) {
@@ -261,32 +289,31 @@ public class EntityAngel extends EntityMob {
 				int y = world.getHeight(x, z);
 				heal(4.0F);
 				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
-				teleport(entity, x, y, z, dimID);
+				teleport(entity, x, y, z, dimID, this);
 			}
 		}
 	}
 	
-	private boolean teleport(Entity entity, double x, double y, double z, int dim) {
+	private void teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
 		if (world.isAirBlock(p)) {
 			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
-				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim);
+				AngelUtils.teleportDimEntity(entity, new BlockPos(x, y, z), dim, angel);
 			} else {
 				for (int i = 1; i < 255; i++) {
 					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+						AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 					}
 				}
 			}
 		} else {
 			for (int i = 1; i < 255; i++) {
 				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
-					AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim);
+					AngelUtils.teleportDimEntity(entity, new BlockPos(x, i, z), dim, angel);
 				}
 			}
 		}
-		return true;
 	}
 	
 	/**
@@ -315,10 +342,11 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void onUpdate() {
 		
+		this.setSeen(getIsInView());
+		
 		super.onUpdate();
 		
-		if (!this.isSeen()) {
-			
+		if (isSeen()) {
 			// Blowing out Torches
 			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) getAttackTarget();
@@ -333,16 +361,13 @@ public class EntityAngel extends EntityMob {
 		
 		if (!world.isRemote) if (isSeen()) {
 			setSeenTime(getSeenTime() + 1);
-			if (getSeenTime() > 15) setSeen(false);
-		} else {
-			setSeenTime(0);
 		}
 	}
 	
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
 		Entity source = e.getSource().getTrueSource();
-		if (source != null && source instanceof EntityLivingBase) {
+		if (source instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) source;
 			EntityLivingBase victim = e.getEntityLiving();
 			
@@ -368,6 +393,14 @@ public class EntityAngel extends EntityMob {
 					e.setCanceled(true);
 				}
 			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void turn(float yaw, float pitch) {
+		if (!isSeen()) {
+			super.turn(yaw, pitch);
 		}
 	}
 	
@@ -404,7 +437,7 @@ public class EntityAngel extends EntityMob {
 							}
 							world.setBlockToAir(pos);
 							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
-							createItem(pos, new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
+							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getX(), new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
 							stop = true;
 						}
 						
@@ -448,15 +481,23 @@ public class EntityAngel extends EntityMob {
 			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
 			return sound;
 		}
+		
 		return null;
 	}
 	
-	private void createItem(BlockPos pos, ItemStack stack) {
-		if (!world.isRemote) {
-			EntityItem item = new EntityItem(world);
-			item.setItem(stack);
-			world.spawnEntity(item);
-			item.setPosition(pos.getX(), pos.getY(), pos.getZ());
+	private boolean getIsInView() {
+		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
+				// player.sendStatusMessage(new TextComponentString("Debug seen time [Milliseconds]: " + getSeenTime()), true);
+				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
+					SoundEvent sound = getSeenSound();
+					playSound(sound, 1.0F, 1.0F);
+				}
+				return true;
+			}
 		}
+		setSeenTime(0);
+		return false;
 	}
 }

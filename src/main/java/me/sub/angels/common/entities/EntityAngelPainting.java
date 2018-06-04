@@ -3,7 +3,7 @@ package me.sub.angels.common.entities;
 import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.main.NBTKeys;
+import me.sub.angels.main.WAConstants;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
@@ -18,6 +18,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+
+/**
+ * Don't even ask me about anything in this class. Coded way too late at night while on medication
+ */
 
 public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
 	public EntityAngelPainting.EnumArt art;
@@ -72,7 +76,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setString(NBTKeys.MOTIVE, this.art.title);
+		tagCompound.setString(WAConstants.MOTIVE, this.art.title);
 		super.writeEntityToNBT(tagCompound);
 	}
 	
@@ -119,7 +123,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		String s = tagCompund.getString(NBTKeys.MOTIVE);
+		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 		
@@ -220,7 +224,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		if (!world.isRemote) {
 			EntityAngel angel = new EntityAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			AngelUtils.teleportDimEntity(angel, new BlockPos(this.posX + 1, this.posY + 1, this.posZ + 1), dimension);
+			AngelUtils.teleportDimEntity(angel, new BlockPos(this.posX + 1, this.posY + 1, this.posZ + 1), dimension, null);
 			world.spawnEntity(angel);
 		}
 	}

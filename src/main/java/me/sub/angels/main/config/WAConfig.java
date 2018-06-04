@@ -31,9 +31,26 @@ public class WAConfig {
 		@Config.Comment("The minimum amount of angels per biome")
 		@Config.RangeInt(max = 24)
 		public int minimumSpawn = 2;
+		
+		@Config.LangKey("config.spawntype")
+		@Config.Comment("This will only accept: WATER_CREATURE, AMBIENT, CREATURE, MONSTER || Anything else WILL crash your game.")
+		@Config.RequiresMcRestart
+		public String spawnType = "MONSTER";
 	}
 	
 	public static class Angels {
+		
+		@Config.LangKey("config.angel_damage")
+		@Config.Comment("The damage dealt by an angel")
+		public double damage = 8.0D;
+
+		@Config.LangKey("config.angel_speed")
+		@Config.Comment("The speed angels move at")
+		public double speed = 0.23000000417232513D;
+		
+		@Config.LangKey("config.teleport_instant")
+		@Config.Comment("just teleport. no damage.")
+		public boolean justTeleport = false;
 		
 		@Config.LangKey("config.teleportRange")
 		@Config.Comment("The maximum range a user can be teleported by the Angels")
@@ -66,6 +83,10 @@ public class WAConfig {
 		@Config.LangKey("config.blowout_torch")
 		@Config.Comment("If this is enabled, baby angels will blow out torches")
 		public boolean torchBlowOut = true;
+		
+		@Config.LangKey("config.genCatacombs")
+		@Config.Comment("Generate catacombs?")
+		public boolean genCatacombs = false;
 		
 	}
 	

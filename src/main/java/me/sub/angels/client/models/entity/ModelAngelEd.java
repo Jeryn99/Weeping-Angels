@@ -1,5 +1,7 @@
 package me.sub.angels.client.models.entity;
 
+import org.lwjgl.opengl.GL11;
+
 import me.sub.angels.client.models.poses.PoseBase;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.client.models.poses.PoseThinking;
@@ -9,7 +11,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
