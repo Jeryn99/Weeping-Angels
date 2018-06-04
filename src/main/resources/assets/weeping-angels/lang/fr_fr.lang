@@ -41,3 +41,6 @@ config.blowout_torch=Eteindre les torches
 
 category.angels=Angel
 category.spawn=Taux d'apparition
+config.teleport_instant=Juste se téléporter sans damage ?
+message.infected=Vous avez étyé infecté par un Ange Pleureur, vous allez mourir.
+message.look_away=Tu dois détourner le regard de cet ange !
