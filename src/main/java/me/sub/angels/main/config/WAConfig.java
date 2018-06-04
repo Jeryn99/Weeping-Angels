@@ -1,7 +1,7 @@
 package me.sub.angels.main.config;
 
 import me.sub.angels.main.WeepingAngels;
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -88,10 +88,12 @@ public class WAConfig {
 		@Config.LangKey("config.genCatacombs")
 		@Config.Comment("Generate catacombs?")
 		public boolean genCatacombs = false;
-		
-		@Config.LangKey("config.blocks")
-		public Block[] blocks = {};
-		
+
+		@Config.LangKey("config.disallowed_blocks")
+		public String[] disAllowedBlocks = {Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop"};
+
+		@Config.LangKey("config.disallowed_dimensions")
+		public int[] notAllowedDimensions = {1};
 	}
 	
 	@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)

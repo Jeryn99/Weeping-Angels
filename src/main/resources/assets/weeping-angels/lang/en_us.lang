@@ -42,6 +42,8 @@ config.genCatacombs=Gen catacombs?
 config.teleport_instant=Just teleport & No Damage?
 config.spawntype=Spawn type
 config.angel_speed=Angel Speed
+config.disallowed_blocks=A list of blocks angels should NOT break.
+config.disallowed_dimensions=A list of dimensions angels should NOT go to.
 
 category.angels=Angels
 category.spawn=Spawn Rates

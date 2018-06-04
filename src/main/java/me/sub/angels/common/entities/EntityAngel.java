@@ -282,8 +282,8 @@ public class EntityAngel extends EntityMob {
 			} else {
 				dimID = dimension;
 			}
-			
-			if (DimensionManager.isDimensionRegistered(dimID) && dimID != 1) {
+
+            if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
 				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
 				int y = world.getHeight(x, z);
@@ -293,7 +293,16 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-	
+
+    private int isDimensionAllowed(int dimID) {
+        for (int dim : WAConfig.angels.notAllowedDimensions) {
+            if (dim == dimID) {
+                return dimension;
+            }
+        }
+        return dimID;
+    }
+
 	private void teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
@@ -431,6 +440,11 @@ public class EntityAngel extends EntityMob {
 					IBlockState blockState = world.getBlockState(pos);
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
+
+                        if (!canBreak(blockState)) {
+                            return;
+                        }
+
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
@@ -473,7 +487,16 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-	
+
+    private boolean canBreak(IBlockState blockState) {
+        for (String regName : WAConfig.angels.disAllowedBlocks) {
+            if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 	public SoundEvent getSeenSound() {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - soundTime >= 1000) {
