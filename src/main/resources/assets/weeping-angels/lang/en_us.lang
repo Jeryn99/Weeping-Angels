@@ -41,6 +41,7 @@ config.blowout_torch=Blow out torch
 config.genCatacombs=Gen catacombs?
 config.teleport_instant=Just teleport & No Damage?
 config.spawntype=Spawn type
+config.angel_speed=Angel Speed
 
 category.angels=Angels
 category.spawn=Spawn Rates

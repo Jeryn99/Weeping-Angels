@@ -2,14 +2,13 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.main.NBTKeys;
+import me.sub.angels.main.WAConstants;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
@@ -18,7 +17,6 @@ import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,7 +24,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
@@ -34,11 +31,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -222,26 +220,26 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setBoolean(NBTKeys.IS_SEEN, isSeen());
-		compound.setInteger(NBTKeys.TIME_SEEN, getSeenTime());
-		compound.setString(NBTKeys.POSE, getPose());
-		compound.setInteger(NBTKeys.TYPE, getType());
-		compound.setBoolean(NBTKeys.ANGEL_CHILD, isChild());
+		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
+		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
+		compound.setString(WAConstants.POSE, getPose());
+		compound.setInteger(WAConstants.TYPE, getType());
+		compound.setBoolean(WAConstants.ANGEL_CHILD, isChild());
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		
-		if (compound.hasKey(NBTKeys.IS_SEEN)) setSeen(compound.getBoolean(NBTKeys.IS_SEEN));
-		
-		if (compound.hasKey(NBTKeys.TIME_SEEN)) setSeenTime(compound.getInteger(NBTKeys.TIME_SEEN));
-		
-		if (compound.hasKey(NBTKeys.POSE)) setPose(compound.getString(NBTKeys.POSE));
-		
-		if (compound.hasKey(NBTKeys.TYPE)) setType(compound.getInteger(NBTKeys.TYPE));
-		
-		if (compound.hasKey(NBTKeys.ANGEL_CHILD)) setChild(compound.getBoolean(NBTKeys.ANGEL_CHILD));
+
+		if (compound.hasKey(WAConstants.IS_SEEN)) setSeen(compound.getBoolean(WAConstants.IS_SEEN));
+
+		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
+
+		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
+
+		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInteger(WAConstants.TYPE));
+
+		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
 	
 	@Override
@@ -253,8 +251,8 @@ public class EntityAngel extends EntityMob {
 			for (ItemStack stack : player.inventory.mainInventory) {
 				
 				System.out.println(stack.getItem().getRegistryName());
-				
-				if (stack.getItem().getRegistryName().toString().equals(NBTKeys.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(NBTKeys.DALEK_MOD_KEY)) {
+
+				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
 					
 					ItemStack keyStack = stack.copy();
 					

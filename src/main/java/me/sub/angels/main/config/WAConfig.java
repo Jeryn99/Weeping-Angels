@@ -43,9 +43,9 @@ public class WAConfig {
 		@Config.LangKey("config.angel_damage")
 		@Config.Comment("The damage dealt by an angel")
 		public double damage = 8.0D;
-		
-		@Config.LangKey("config.teleportRange")
-		@Config.Comment("The maximum range a user can be teleported by the Angels")
+
+		@Config.LangKey("config.angel_speed")
+		@Config.Comment("The speed angels move at")
 		public double speed = 0.23000000417232513D;
 		
 		@Config.LangKey("config.teleport_instant")

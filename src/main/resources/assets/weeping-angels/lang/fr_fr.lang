@@ -42,6 +42,7 @@ config.genCatacombs=Gen catacombs?
 
 category.angels=Angel
 category.spawn=Taux d'apparition
+config.angel_speed=Angel Speed
 config.spawntype=Spawn type
 config.teleport_instant=Just teleport & No Damage?
 message.infected=You have been infected by a Weeping Angel, you will now die.
