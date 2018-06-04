@@ -1,12 +1,13 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "11",
-    "1.12.2-recommended": "11"
+    "1.12.2-latest": "12",
+    "1.12.2-recommended": "12"
   },
   "1.12.2": {
     "10": "Fixed Server crash",
     "10.5": "Fixed Child angels leg animation bug, tidied up some code, credited some people",
-	"11": "Fixed some world gen lag & added french translation. Angel children no longer mess up either."
+    "11": "Fixed some world gen lag & added french translation. Angel children no longer mess up either.",
+    "12": "Discord [https://discord.me/sub] - Loads more config options that were heavily requested! (Attack strength, speed, blocked dimensions, blocked blocks, and more!)"
   }
 }
