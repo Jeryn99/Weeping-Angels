@@ -42,8 +42,6 @@ config.genCatacombs=Gen catacombs?
 
 category.angels=Angel
 category.spawn=Taux d'apparition
-config.angel_speed=Angel Speed
-config.spawntype=Spawn type
-config.teleport_instant=Just teleport & No Damage?
-message.infected=You have been infected by a Weeping Angel, you will now die.
-message.look_away=You must look away from this angel!
+config.teleport_instant=Juste se téléporter sans damage ?
+message.infected=Vous avez étyé infecté par un Ange Pleureur, vous allez mourir.
+message.look_away=Tu dois détourner le regard de cet ange !
