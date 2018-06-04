@@ -20,6 +20,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 	
 	public EntityChronodyneGenerator(World worldIn, EntityLivingBase throwerIn) {
 		super(worldIn, throwerIn);
+		this.shoot(throwerIn, throwerIn.rotationPitch, throwerIn.rotationYawHead, 0, 1.5F, 1.0F);
 	}
 	
 	public EntityChronodyneGenerator(World worldIn, double x, double y, double z) {

@@ -30,7 +30,6 @@ public class ItemChronodyneGenerator extends Item {
 		if (!worldIn.isRemote) {
 			EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
 			worldIn.spawnEntity(gen);
-			gen.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYawHead, 0, 1.5F, 1.0F);
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
