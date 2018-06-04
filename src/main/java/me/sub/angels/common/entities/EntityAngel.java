@@ -258,11 +258,13 @@ public class EntityAngel extends EntityMob {
 					
 					if (getHeldItemMainhand().isEmpty()) {
 						setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
+						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.AIR));
 						stack.setCount(0);
 						return;
 					} else {
 						if (getHeldItemOffhand().isEmpty()) {
 							setHeldItem(EnumHand.OFF_HAND, keyStack);
+							player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.AIR));
 							stack.setCount(0);
                             return;
 						}
