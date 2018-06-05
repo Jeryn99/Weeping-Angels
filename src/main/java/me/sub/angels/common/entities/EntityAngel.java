@@ -56,12 +56,12 @@ public class EntityAngel extends EntityMob {
 	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
 	
 	private long soundTime = 0L;
-	
-	private String POSE = PoseManager.AngelPoses.ANGRY.toString();
+
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<String> POSE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.STRING);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -140,6 +140,7 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, getRandomType());
+        getDataManager().register(POSE, PoseManager.AngelPoses.ANGRY.toString());
 	}
 	
 	private int getRandomType() {
@@ -182,7 +183,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	public String getPose() {
-		return POSE;
+        return getDataManager().get(POSE);
 	}
 	
 	public boolean isChild() {
@@ -190,7 +191,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	public void setPose(String newPose) {
-		POSE = newPose;
+        getDataManager().set(POSE, newPose);
 	}
 	
 	public void setSeen(boolean beingViewed) {
@@ -246,7 +247,7 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		
-		if (entity instanceof EntityPlayerMP) {
+		if (entity instanceof EntityPlayerMP && !world.isRemote) {
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			for (ItemStack stack : player.inventory.mainInventory) {
 
@@ -417,9 +418,7 @@ public class EntityAngel extends EntityMob {
 			if (!isChild()) {
 				playSound(WAObjects.Sounds.stone_scrap, 0.2F, 1.0F);
 			} else {
-				if (world.rand.nextInt(5) == 5) {
 					playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
-				}
 			}
 		}
 	}
@@ -509,11 +508,12 @@ public class EntityAngel extends EntityMob {
 	private boolean getIsInView() {
 		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
 			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
-				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
-					SoundEvent sound = getSeenSound();
-					playSound(sound, 1.0F, 1.0F);
-					setSeenTime(getSeenTime() + 1);
+                setSeenTime(getSeenTime() + 1);
+                if (getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+                    {
+                        setPose(getBestPoseForSituation(this, player).toString());
+                        playSound(getSeenSound(), 1.0F, 1.0F);
+                    }
 				}
 				return true;
 			}
@@ -521,4 +521,25 @@ public class EntityAngel extends EntityMob {
 		setSeenTime(0);
 		return false;
 	}
+
+    public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
+
+        if (angel.getDistance(player) < 1.0F) {
+            return PoseManager.AngelPoses.ANGRY;
+        }
+        if (angel.getDistance(player) < 5.0F) {
+            return PoseManager.AngelPoses.ANGRY_TWO;
+        }
+        if (angel.getDistance(player) < 10.0F) {
+            return PoseManager.AngelPoses.OPEN_ARMS;
+        }
+        if (angel.getDistance(player) < 15.0F) {
+            return PoseManager.AngelPoses.IDLE;
+        }
+        if (angel.getDistance(player) < 25.0F) {
+            return PoseManager.AngelPoses.HIDING_FACE;
+        }
+
+        return PoseManager.AngelPoses.HIDING_FACE;
+    }
 }

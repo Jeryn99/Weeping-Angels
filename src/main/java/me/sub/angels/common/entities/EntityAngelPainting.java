@@ -35,16 +35,15 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		ArrayList arraylist = Lists.newArrayList();
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
-		
-		for (int j = 0; j < i; ++j) {
-			EntityAngelPainting.EnumArt enumart = aenumart[j];
-			this.art = enumart;
-			this.updateFacingWithBoundingBox(side);
-			
-			if (this.onValidSurface()) {
-				arraylist.add(enumart);
-			}
-		}
+
+        for (EnumArt enumart : aenumart) {
+            this.art = enumart;
+            this.updateFacingWithBoundingBox(side);
+
+            if (this.onValidSurface()) {
+                arraylist.add(enumart);
+            }
+        }
 		
 		if (!arraylist.isEmpty()) {
 			this.art = (EntityAngelPainting.EnumArt) arraylist.get(this.rand.nextInt(arraylist.size()));
@@ -58,15 +57,13 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		this(worldIn, pos, side);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
-		
-		for (int j = 0; j < i; ++j) {
-			EntityAngelPainting.EnumArt enumart = aenumart[j];
-			
-			if (enumart.title.equals(name)) {
-				this.art = enumart;
-				break;
-			}
-		}
+
+        for (EnumArt enumart : aenumart) {
+            if (enumart.title.equals(name)) {
+                this.art = enumart;
+                break;
+            }
+        }
 		
 		this.updateFacingWithBoundingBox(side);
 	}
@@ -126,14 +123,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
-		
-		for (int j = 0; j < i; ++j) {
-			EntityAngelPainting.EnumArt enumart = aenumart[j];
-			
-			if (enumart.title.equals(s)) {
-				this.art = enumart;
-			}
-		}
+
+        for (EnumArt enumart : aenumart) {
+            if (enumart.title.equals(s)) {
+                this.art = enumart;
+            }
+        }
 		
 		if (this.art == null) {
 			this.art = EnumArt.AngelFive;

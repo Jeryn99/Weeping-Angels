@@ -9,6 +9,8 @@ import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderCG;
 import me.sub.angels.client.render.tiles.RenderSnowArm;
 import me.sub.angels.client.render.tiles.RenderTileCG;
+import me.sub.angels.client.render.tiles.RenderTilePlinth;
+import me.sub.angels.common.blocks.BlockAngelStatue;
 import me.sub.angels.common.blocks.BlockCG;
 import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.EntityAngel;
@@ -18,6 +20,7 @@ import me.sub.angels.common.items.ItemChronodyneGenerator;
 import me.sub.angels.common.items.ItemDetector;
 import me.sub.angels.common.items.ItemHanging;
 import me.sub.angels.common.tiles.TileCG;
+import me.sub.angels.common.tiles.TileEntityPlinth;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
 import me.sub.angels.main.config.WAConfig;
@@ -105,6 +108,7 @@ public class WAObjects {
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTilePlinth());
 	}
 	
 	// Set up
@@ -130,6 +134,7 @@ public class WAObjects {
 	public static class WABlocks {
 		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
 		public static Block cg = new BlockCG().setCreativeTab(angelTab);
+        public static Block plinth = new BlockAngelStatue().setCreativeTab(angelTab);
 	}
 	
 	// Items
