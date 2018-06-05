@@ -249,8 +249,6 @@ public class EntityAngel extends EntityMob {
 		if (entity instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			for (ItemStack stack : player.inventory.mainInventory) {
-				
-				System.out.println(stack.getItem().getRegistryName());
 
 				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
 					
@@ -352,27 +350,25 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		
-		this.setSeen(getIsInView());
-		
+
 		super.onUpdate();
-		
+
+
 		if (isSeen()) {
-			// Blowing out Torches
 			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) getAttackTarget();
 				if (getDistance(getAttackTarget()) <= 1.5F) {
 					AngelUtils.blowOutTorch(player);
 				}
 			}
-			
 			// Light block breaking
 			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 		}
-		
-		if (!world.isRemote) if (isSeen()) {
-			setSeenTime(getSeenTime() + 1);
+
+		if(!world.isRemote) {
+			setSeen(getIsInView());
 		}
+
 	}
 	
 	@SubscribeEvent
@@ -513,11 +509,11 @@ public class EntityAngel extends EntityMob {
 	private boolean getIsInView() {
 		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
 			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
-				// player.sendStatusMessage(new TextComponentString("Debug seen time [Milliseconds]: " + getSeenTime()), true);
 				if (getAttackTarget() == player && getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
 					this.setPose(PoseManager.getBestPoseForSituation(this, player).toString());
 					SoundEvent sound = getSeenSound();
 					playSound(sound, 1.0F, 1.0F);
+					setSeenTime(getSeenTime() + 1);
 				}
 				return true;
 			}

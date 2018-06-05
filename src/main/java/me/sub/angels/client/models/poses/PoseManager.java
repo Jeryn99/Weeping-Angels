@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 public class PoseManager {
 	
-	private static HashMap<String, PoseBase> POSES = new HashMap<>();
+	public static HashMap<String, PoseBase> POSES = new HashMap<>();
 	
 	public static void addPose(String name, PoseBase pose) {
 		POSES.put(name, pose);
@@ -43,7 +43,7 @@ public class PoseManager {
 			return AngelPoses.OPEN_ARMS;
 		}
 		if (angel.getDistance(player) < 15.0F) {
-			return AngelPoses.THINKING;
+			return AngelPoses.IDLE;
 		}
 		if (angel.getDistance(player) < 25.0F) {
 			return AngelPoses.HIDING_FACE;
