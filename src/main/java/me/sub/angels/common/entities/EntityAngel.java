@@ -246,7 +246,7 @@ public class EntityAngel extends EntityMob {
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
 		
-		if (entity instanceof EntityPlayerMP) {
+		if (entity instanceof EntityPlayerMP && !world.isRemote) {
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			for (ItemStack stack : player.inventory.mainInventory) {
 
