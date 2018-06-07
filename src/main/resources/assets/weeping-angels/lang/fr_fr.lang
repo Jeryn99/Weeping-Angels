@@ -47,5 +47,7 @@ config.disallowed_blocks=A list of blocks angels should NOT break.
 config.disallowed_dimensions=A list of dimensions angels should NOT go to.
 config.spawntype=Spawn type
 config.teleport_instant=Juste se téléporter sans damage ?
+item.plinth.name=Angel Statue
 message.infected=Vous avez été infecté
 message.look_away=Tu dois détourner le regard de cet ange !
+tile.plinth.name=Angel Statue

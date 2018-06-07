@@ -47,5 +47,7 @@ config.disallowed_blocks=A list of blocks angels should NOT break.
 config.disallowed_dimensions=A list of dimensions angels should NOT go to.
 config.spawntype=Spawn type
 config.teleport_instant=Just teleport & No Damage?
+item.plinth.name=Angel Statue
 message.infected=You have been infected by a Weeping Angel, you will now die.
 message.look_away=You must look away from this angel!
+tile.plinth.name=Angel Statue

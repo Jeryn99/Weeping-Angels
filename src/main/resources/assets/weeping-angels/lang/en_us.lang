@@ -4,6 +4,8 @@ tile.arm.name=Arm in snow
 item.unlit_torch.name=Unlit Torch
 item.timey_wimey_detector.name=Timey Wimey Detector
 item.chronodyne_generator.name=Chronodyne Generator
+item.plinth.name=Angel Statue
+tile.plinth.name=Angel Statue
 
 entity.angel.name=Weeping Angel
 

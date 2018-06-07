@@ -143,8 +143,8 @@ public class WAObjects {
 		public static Item angelArmItem = registerItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
 		public static Item unLitTorch = registerItem(new Item(), "unlit_torch");
 		public static Item timeyWimeyDetector = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
-		
 		public static Item chronodyneGenerator = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
+		public static Item plinth = registerItem(new ItemBlock(WABlocks.plinth), "plinth").setCreativeTab(angelTab);
 	}
 	
 	private static Item registerItem(Item item, String name) {
