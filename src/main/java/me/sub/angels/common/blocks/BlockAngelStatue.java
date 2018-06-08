@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class BlockAngelStatue extends Block implements ITileEntityProvider {
-
+	
 	public BlockAngelStatue() {
 		super(Material.CORAL);
 		setUnlocalizedName("plinth");
@@ -25,35 +25,35 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 		translucent = true;
 		this.setHardness(1.0F);
 	}
-
+	
 	@Nullable
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityPlinth();
 	}
-
+	
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
-
+	
 	@Override
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
-
+	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-
+	
 	/**
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
 	 */
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
-
+		
 		if (world.getTileEntity(pos) instanceof TileEntityPlinth) {
 			int rotation = MathHelper.floor(placer.rotationYaw + 180);
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
@@ -62,7 +62,7 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 			plinth.sendUpdates();
 		}
 	}
-
+	
 	public PoseManager.AngelPoses getRandomPose(World world) {
 		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
 	}

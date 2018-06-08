@@ -57,7 +57,7 @@ public class EntityAngel extends EntityMob {
 	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
 	
 	private long soundTime = 0L;
-
+	
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
@@ -232,15 +232,15 @@ public class EntityAngel extends EntityMob {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-
+		
 		if (compound.hasKey(WAConstants.IS_SEEN)) setSeen(compound.getBoolean(WAConstants.IS_SEEN));
-
+		
 		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
-
+		
 		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
-
+		
 		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInteger(WAConstants.TYPE));
-
+		
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
 	
@@ -251,7 +251,7 @@ public class EntityAngel extends EntityMob {
 		if (entity instanceof EntityPlayerMP && !world.isRemote) {
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			for (ItemStack stack : player.inventory.mainInventory) {
-
+				
 				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
 					
 					ItemStack keyStack = stack.copy();
@@ -284,7 +284,7 @@ public class EntityAngel extends EntityMob {
 			} else {
 				dimID = dimension;
 			}
-
+			
 			if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
 				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
@@ -295,7 +295,7 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-
+	
 	private int isDimensionAllowed(int dimID) {
 		for (int dim : WAConfig.angels.notAllowedDimensions) {
 			if (dim == dimID) {
@@ -352,9 +352,9 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-
+		
 		super.onUpdate();
-
+		
 		if (isSeen()) {
 			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) getAttackTarget();
@@ -365,11 +365,11 @@ public class EntityAngel extends EntityMob {
 			// Light block breaking
 			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 		}
-
+		
 		if (!world.isRemote) {
 			setSeen(getIsInView());
 		}
-
+		
 	}
 	
 	@SubscribeEvent
@@ -437,7 +437,7 @@ public class EntityAngel extends EntityMob {
 					IBlockState blockState = world.getBlockState(pos);
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
-
+						
 						if (!canBreak(blockState)) {
 							return;
 						}
@@ -484,7 +484,7 @@ public class EntityAngel extends EntityMob {
 			}
 		}
 	}
-
+	
 	private boolean canBreak(IBlockState blockState) {
 		for (String regName : WAConfig.angels.disAllowedBlocks) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
@@ -520,14 +520,14 @@ public class EntityAngel extends EntityMob {
 		setSeenTime(0);
 		return false;
 	}
-
+	
 	public boolean isntOnGround() {
 		BlockPos pos = new BlockPos(posX, posY - 1, posZ);
 		return world.getBlockState(pos).getBlock() instanceof BlockAir;
 	}
-
+	
 	public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
-
+		
 		if (angel.getDistance(player) < 1.0F) {
 			return PoseManager.AngelPoses.ANGRY;
 		}
@@ -543,7 +543,7 @@ public class EntityAngel extends EntityMob {
 		if (angel.getDistance(player) < 25.0F) {
 			return PoseManager.AngelPoses.HIDING_FACE;
 		}
-
+		
 		return PoseManager.AngelPoses.HIDING_FACE;
 	}
 }

@@ -34,11 +34,11 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		super(worldIn, pos);
 		ArrayList arraylist = Lists.newArrayList();
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
-
+		
 		for (EnumArt enumart : aenumart) {
 			this.art = enumart;
 			this.updateFacingWithBoundingBox(side);
-
+			
 			if (this.onValidSurface()) {
 				arraylist.add(enumart);
 			}
@@ -56,7 +56,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		this(worldIn, pos, side);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
-
+		
 		for (EnumArt enumart : aenumart) {
 			if (enumart.title.equals(name)) {
 				this.art = enumart;
@@ -121,7 +121,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
-
+		
 		for (EnumArt enumart : aenumart) {
 			if (enumart.title.equals(s)) {
 				this.art = enumart;

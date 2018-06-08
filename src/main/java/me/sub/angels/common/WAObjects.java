@@ -108,7 +108,7 @@ public class WAObjects {
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTilePlinth());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTilePlinth());
 	}
 	
 	// Set up
@@ -134,7 +134,7 @@ public class WAObjects {
 	public static class WABlocks {
 		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
 		public static Block cg = new BlockCG().setCreativeTab(angelTab);
-        public static Block plinth = new BlockAngelStatue().setCreativeTab(angelTab);
+		public static Block plinth = new BlockAngelStatue().setCreativeTab(angelTab);
 	}
 	
 	// Items

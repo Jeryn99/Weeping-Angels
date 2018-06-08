@@ -29,7 +29,7 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	 */
 	@Override
 	public void doRender(EntityAngelPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
-
+		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);

@@ -14,19 +14,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class TileEntityPlinth extends TileEntity implements ITickable {
-
+	
 	private boolean hasSpawned = false;
 	private int rotation;
 	private String pose = PoseManager.AngelPoses.HIDING_FACE.toString();
-
+	
 	public boolean getHasSpawned() {
 		return hasSpawned;
 	}
-
+	
 	public void setHasSpawned(boolean hasSpawned) {
 		this.hasSpawned = hasSpawned;
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
@@ -34,7 +34,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		setPose(compound.getString("pose"));
 		this.rotation = compound.getInteger("rotation");
 	}
-
+	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
@@ -43,49 +43,49 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		compound.setString("pose", pose);
 		return compound;
 	}
-
+	
 	public int getRotation() {
 		return this.rotation;
 	}
-
+	
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 		sendUpdates();
 	}
-
+	
 	@Override
 	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		return new SPacketUpdateTileEntity(this.pos, 3, this.getUpdateTag());
 	}
-
+	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		return this.writeToNBT(new NBTTagCompound());
 	}
-
+	
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
 		handleUpdateTag(pkt.getNbtCompound());
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return super.getRenderBoundingBox().grow(8, 8, 8);
 	}
-
+	
 	public void sendUpdates() {
 		world.markBlockRangeForRenderUpdate(pos, pos);
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
 		world.scheduleBlockUpdate(pos, this.getBlockType(), 0, 0);
 		markDirty();
 	}
-
+	
 	@Override
 	public void update() {
 		if (world.isRemote) return;
-
+		
 		if (world.isBlockIndirectlyGettingPowered(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
@@ -97,14 +97,14 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 				plinth.setHasSpawned(true);
 				sendUpdates();
 			}
-
+			
 		}
 	}
-
+	
 	public String getPose() {
 		return pose;
 	}
-
+	
 	public void setPose(String pose) {
 		this.pose = pose;
 	}

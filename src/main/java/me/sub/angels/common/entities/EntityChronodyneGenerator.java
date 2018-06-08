@@ -63,11 +63,11 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			if (world.isRemote) {
 				this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 1.0D, 0.0D, 0.0D);
 			}
-
-            if (!world.isRemote) {
-                result.entityHit.setDead();
-                this.setDead();
-            }
+			
+			if (!world.isRemote) {
+				result.entityHit.setDead();
+				this.setDead();
+			}
 		}
 		
 		if (!this.world.isRemote) {
