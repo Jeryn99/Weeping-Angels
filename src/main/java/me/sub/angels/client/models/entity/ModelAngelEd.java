@@ -4,6 +4,7 @@ import me.sub.angels.client.models.poses.PoseBase;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.client.models.poses.PoseThinking;
 import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.common.tiles.TileEntityPlinth;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,43 +16,43 @@ import org.lwjgl.opengl.GL11;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd extends ModelBiped {
-	
-	ModelRenderer right_wing_0;
-	ModelRenderer left_wing_0;
-	ModelRenderer back_cloth_2;
-	ModelRenderer head_2;
-	ModelRenderer body_2;
-	ModelRenderer head;
-	ModelRenderer body;
-	ModelRenderer left_arm;
-	ModelRenderer right_arm;
-	ModelRenderer cloth_0;
-	ModelRenderer cloth_1;
-	ModelRenderer cloth_2;
-	ModelRenderer back_cloth;
-	ModelRenderer left_wing_1;
-	ModelRenderer right_wing_1;
-	ModelRenderer nose;
-	ModelRenderer face;
-	ModelRenderer right_eyebrow;
-	ModelRenderer left_eyebrow;
-	ModelRenderer coverup;
-	ModelRenderer angry_mouth;
-	ModelRenderer teeth;
-	ModelRenderer teeth_1;
-	ModelRenderer teeth_2;
-	ModelRenderer teeth_3;
-	ModelRenderer teeth_4;
-	ModelRenderer teeth_5;
-	ModelRenderer left_arm_1;
-	ModelRenderer right_arm_1;
-	ModelRenderer zeth;
-	ModelRenderer left_wing_2;
-	ModelRenderer left_wing_3;
-	ModelRenderer left_wing_4;
-	ModelRenderer right_wing_2;
-	ModelRenderer right_wing_3;
-	ModelRenderer right_wing_4;
+
+    private ModelRenderer right_wing_0;
+    private ModelRenderer left_wing_0;
+    private ModelRenderer back_cloth_2;
+    private ModelRenderer head_2;
+    private ModelRenderer body_2;
+    private ModelRenderer head;
+    private ModelRenderer body;
+    private ModelRenderer left_arm;
+    private ModelRenderer right_arm;
+    private ModelRenderer cloth_0;
+    private ModelRenderer cloth_1;
+    private ModelRenderer cloth_2;
+    private ModelRenderer back_cloth;
+    private ModelRenderer left_wing_1;
+    private ModelRenderer right_wing_1;
+    private ModelRenderer nose;
+    private ModelRenderer face;
+    private ModelRenderer right_eyebrow;
+    private ModelRenderer left_eyebrow;
+    private ModelRenderer coverup;
+    private ModelRenderer angry_mouth;
+    private ModelRenderer teeth;
+    private ModelRenderer teeth_1;
+    private ModelRenderer teeth_2;
+    private ModelRenderer teeth_3;
+    private ModelRenderer teeth_4;
+    private ModelRenderer teeth_5;
+    private ModelRenderer left_arm_1;
+    private ModelRenderer right_arm_1;
+    private ModelRenderer zeth;
+    private ModelRenderer left_wing_2;
+    private ModelRenderer left_wing_3;
+    private ModelRenderer left_wing_4;
+    private ModelRenderer right_wing_2;
+    private ModelRenderer right_wing_3;
+    private ModelRenderer right_wing_4;
 	
 	public ModelAngelEd() {
 		textureWidth = 88;
@@ -210,11 +211,11 @@ public class ModelAngelEd extends ModelBiped {
 		back_cloth.addChild(back_cloth_2);
 	}
 
-    public void quickRender(float scale) {
+    public void quickRender(float scale, TileEntityPlinth p) {
         GlStateManager.pushMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
         GlStateManager.enableLighting();
-        angelAngles(0, 0, 0, 0, 0, 0, null);
+        tilePosing(p);
         cloth_1.render(scale);
         right_arm.render(scale);
         head.render(scale);
@@ -256,21 +257,32 @@ public class ModelAngelEd extends ModelBiped {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
+
+    public void tilePosing(TileEntityPlinth p) {
+        PoseBase pose = PoseManager.getPose(p.getPose());
+        pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
+        pose.setWingAngles(this.left_wing_0, this.right_wing_0);
+        pose.setHeadAngles(this.head);
+        angry_mouth.isHidden = true;
+    }
 	
 	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
+
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        // lallalaallaalal
+    }
 	
 	@Override
 	protected ModelRenderer getArmForSide(EnumHandSide side) {
 		return side == EnumHandSide.LEFT ? left_arm : right_arm;
 	}
 
-
     private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-
 
         if (entity instanceof EntityAngel) {
 
@@ -311,10 +323,11 @@ public class ModelAngelEd extends ModelBiped {
                 }
             }
         } else {
-            PoseBase pose = PoseManager.getPose(PoseManager.AngelPoses.HIDING_FACE.toString());
+            PoseBase pose = PoseManager.getPose(PoseManager.AngelPoses.SHY.toString());
             pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
             pose.setWingAngles(this.left_wing_0, this.right_wing_0);
             pose.setHeadAngles(this.head);
+            angry_mouth.isHidden = true;
         }
 	}
 }

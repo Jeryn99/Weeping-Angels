@@ -1,11 +1,11 @@
 package me.sub.angels.client.models.poses;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public class PoseManager {
-	
-	public static HashMap<String, PoseBase> POSES = new HashMap<>();
-	
+
+	public static TreeMap<String, PoseBase> POSES = new TreeMap<>();
+
 	public static void addPose(String name, PoseBase pose) {
 		POSES.put(name, pose);
 	}
@@ -25,7 +25,7 @@ public class PoseManager {
 	}
 	
 	public enum AngelPoses {
-		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, OPEN_ARMS, THINKING, DAB
+		IDLE, HIDING_FACE, ANGRY, SHY, ANGRY_TWO, THINKING, DAB
 	}
-
+	
 }

@@ -45,7 +45,7 @@ public class WAConfig {
 		@Config.Comment("The damage dealt by an angel")
 		public double damage = 8.0D;
 
-		@Config.LangKey("config.angel_speed")
+        @Config.LangKey("config.angel_speed")
 		@Config.Comment("The speed angels move at")
 		public double speed = 0.23000000417232513D;
 		
@@ -89,11 +89,11 @@ public class WAConfig {
 		@Config.Comment("Generate catacombs?")
 		public boolean genCatacombs = false;
 
-		@Config.LangKey("config.disallowed_blocks")
-		public String[] disAllowedBlocks = {Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop"};
-
+        @Config.LangKey("config.disallowed_blocks")
+        public String[] disAllowedBlocks = {Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop"};
+		
 		@Config.LangKey("config.disallowed_dimensions")
-		public int[] notAllowedDimensions = {1};
+        public int[] notAllowedDimensions = {1};
 	}
 	
 	@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)

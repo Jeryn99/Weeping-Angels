@@ -62,7 +62,7 @@ public class EntityAngel extends EntityMob {
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityAngel.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<String> POSE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.STRING);
+	private static final DataParameter<String> POSE = EntityDataManager.createKey(EntityAngel.class, DataSerializers.STRING);
 	
 	public EntityAngel(World world) {
 		super(world);
@@ -141,7 +141,7 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, getRandomType());
-        getDataManager().register(POSE, PoseManager.AngelPoses.ANGRY.toString());
+		getDataManager().register(POSE, PoseManager.AngelPoses.ANGRY.toString());
 	}
 	
 	private int getRandomType() {
@@ -184,7 +184,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	public String getPose() {
-        return getDataManager().get(POSE);
+		return getDataManager().get(POSE);
 	}
 	
 	public boolean isChild() {
@@ -192,7 +192,7 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	public void setPose(String newPose) {
-        getDataManager().set(POSE, newPose);
+		getDataManager().set(POSE, newPose);
 	}
 	
 	public void setSeen(boolean beingViewed) {
@@ -266,7 +266,7 @@ public class EntityAngel extends EntityMob {
 							setHeldItem(EnumHand.OFF_HAND, keyStack);
 							player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.AIR));
 							stack.setCount(0);
-                            return;
+							return;
 						}
 					}
 				}
@@ -285,7 +285,7 @@ public class EntityAngel extends EntityMob {
 				dimID = dimension;
 			}
 
-            if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
+			if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
 				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
 				int y = world.getHeight(x, z);
@@ -296,15 +296,15 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 
-    private int isDimensionAllowed(int dimID) {
-        for (int dim : WAConfig.angels.notAllowedDimensions) {
-            if (dim == dimID) {
-                return dimension;
-            }
-        }
-        return dimID;
-    }
-
+	private int isDimensionAllowed(int dimID) {
+		for (int dim : WAConfig.angels.notAllowedDimensions) {
+			if (dim == dimID) {
+				return dimension;
+			}
+		}
+		return dimID;
+	}
+	
 	private void teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
@@ -355,7 +355,6 @@ public class EntityAngel extends EntityMob {
 
 		super.onUpdate();
 
-
 		if (isSeen()) {
 			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) getAttackTarget();
@@ -367,7 +366,7 @@ public class EntityAngel extends EntityMob {
 			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 		}
 
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			setSeen(getIsInView());
 		}
 
@@ -419,7 +418,7 @@ public class EntityAngel extends EntityMob {
 			if (!isChild()) {
 				playSound(WAObjects.Sounds.stone_scrap, 0.2F, 1.0F);
 			} else {
-					playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
+				playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
 			}
 		}
 	}
@@ -439,10 +438,10 @@ public class EntityAngel extends EntityMob {
 					// Breaking Start
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 
-                        if (!canBreak(blockState)) {
-                            return;
-                        }
-
+						if (!canBreak(blockState)) {
+							return;
+						}
+						
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
 							if (world.isRemote) {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
@@ -486,21 +485,20 @@ public class EntityAngel extends EntityMob {
 		}
 	}
 
-    private boolean canBreak(IBlockState blockState) {
-        for (String regName : WAConfig.angels.disAllowedBlocks) {
-            if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+	private boolean canBreak(IBlockState blockState) {
+		for (String regName : WAConfig.angels.disAllowedBlocks) {
+			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public SoundEvent getSeenSound() {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - soundTime >= 1000) {
 			soundTime = currentTime;
-			SoundEvent sound = seenSounds[rand.nextInt(seenSounds.length)];
-			return sound;
+			return seenSounds[rand.nextInt(seenSounds.length)];
 		}
 		
 		return null;
@@ -509,12 +507,12 @@ public class EntityAngel extends EntityMob {
 	private boolean getIsInView() {
 		for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
 			if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
-                setSeenTime(getSeenTime() + 1);
-                if (getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-                    {
-                        setPose(getBestPoseForSituation(this, player).toString());
-                        playSound(getSeenSound(), 1.0F, 1.0F);
-                    }
+				setSeenTime(getSeenTime() + 1);
+				if (getSeenTime() == 1 && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+					{
+						setPose(getBestPoseForSituation(this, player).toString());
+						playSound(getSeenSound(), 1.0F, 1.0F);
+					}
 				}
 				return true;
 			}
@@ -528,24 +526,24 @@ public class EntityAngel extends EntityMob {
 		return world.getBlockState(pos).getBlock() instanceof BlockAir;
 	}
 
-    public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
+	public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
 
-        if (angel.getDistance(player) < 1.0F) {
-            return PoseManager.AngelPoses.ANGRY;
-        }
-        if (angel.getDistance(player) < 5.0F) {
-            return PoseManager.AngelPoses.ANGRY_TWO;
-        }
-        if (angel.getDistance(player) < 10.0F) {
-            return PoseManager.AngelPoses.OPEN_ARMS;
-        }
-        if (angel.getDistance(player) < 15.0F) {
-            return PoseManager.AngelPoses.IDLE;
-        }
-        if (angel.getDistance(player) < 25.0F) {
-            return PoseManager.AngelPoses.HIDING_FACE;
-        }
+		if (angel.getDistance(player) < 1.0F) {
+			return PoseManager.AngelPoses.ANGRY;
+		}
+		if (angel.getDistance(player) < 5.0F) {
+			return PoseManager.AngelPoses.ANGRY_TWO;
+		}
+		if (angel.getDistance(player) < 10.0F) {
+			return PoseManager.AngelPoses.SHY;
+		}
+		if (angel.getDistance(player) < 15.0F) {
+			return PoseManager.AngelPoses.IDLE;
+		}
+		if (angel.getDistance(player) < 25.0F) {
+			return PoseManager.AngelPoses.HIDING_FACE;
+		}
 
-        return PoseManager.AngelPoses.HIDING_FACE;
-    }
+		return PoseManager.AngelPoses.HIDING_FACE;
+	}
 }

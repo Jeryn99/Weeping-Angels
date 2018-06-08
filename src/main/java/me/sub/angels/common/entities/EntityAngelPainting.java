@@ -34,16 +34,15 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		super(worldIn, pos);
 		ArrayList arraylist = Lists.newArrayList();
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
-		int i = aenumart.length;
 
-        for (EnumArt enumart : aenumart) {
-            this.art = enumart;
-            this.updateFacingWithBoundingBox(side);
+		for (EnumArt enumart : aenumart) {
+			this.art = enumart;
+			this.updateFacingWithBoundingBox(side);
 
-            if (this.onValidSurface()) {
-                arraylist.add(enumart);
-            }
-        }
+			if (this.onValidSurface()) {
+				arraylist.add(enumart);
+			}
+		}
 		
 		if (!arraylist.isEmpty()) {
 			this.art = (EntityAngelPainting.EnumArt) arraylist.get(this.rand.nextInt(arraylist.size()));
@@ -58,12 +57,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
 		int i = aenumart.length;
 
-        for (EnumArt enumart : aenumart) {
-            if (enumart.title.equals(name)) {
-                this.art = enumart;
-                break;
-            }
-        }
+		for (EnumArt enumart : aenumart) {
+			if (enumart.title.equals(name)) {
+				this.art = enumart;
+				break;
+			}
+		}
 		
 		this.updateFacingWithBoundingBox(side);
 	}
@@ -122,13 +121,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumArt[] aenumart = EntityAngelPainting.EnumArt.values();
-		int i = aenumart.length;
 
-        for (EnumArt enumart : aenumart) {
-            if (enumart.title.equals(s)) {
-                this.art = enumart;
-            }
-        }
+		for (EnumArt enumart : aenumart) {
+			if (enumart.title.equals(s)) {
+				this.art = enumart;
+			}
+		}
 		
 		if (this.art == null) {
 			this.art = EnumArt.AngelFive;
@@ -175,7 +173,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
 		BlockPos blockpos = new BlockPos(x - this.posX, y - this.posY, z - this.posZ);
 		BlockPos blockpos1 = this.hangingPosition.add(blockpos);
-		this.setPosition((double) blockpos1.getX(), (double) blockpos1.getY(), (double) blockpos1.getZ());
+		this.setPosition((double) blockpos1.getX(), (double) blockpos1.getY() - 1, (double) blockpos1.getZ());
 	}
 	
 	public enum EnumArt {

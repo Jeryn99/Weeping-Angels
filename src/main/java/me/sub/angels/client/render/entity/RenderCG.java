@@ -20,8 +20,8 @@ public class RenderCG extends RenderSnowball<EntityChronodyneGenerator> {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y - 1.3, z);
 		GlStateManager.enableRescaleNormal();
-		//GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		//GlStateManager.rotate((float) (this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		// GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		// GlStateManager.rotate((float) (this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 		GlStateManager.disableFog();
 		GlStateManager.disableLighting();
 		model.render(entity, 0, 0, 0, 0, 0, 0.0625F);
