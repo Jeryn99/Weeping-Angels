@@ -38,7 +38,7 @@ config.spawn_probability=Probabilité d'apparition
 config.min_spawn=Ange - Apparition minimale
 config.angel.block_break=Cassage de blocs
 config.blowout_torch=Eteindre les torches
-config.genCatacombs=Gen catacombs?
+config.genCatacombs=Générer des catacombes?
 
 category.angels=Ange
 category.spawn=Taux d'apparition
