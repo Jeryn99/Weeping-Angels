@@ -2,9 +2,7 @@ package me.sub.angels.common;
 
 import com.google.common.collect.Lists;
 import me.sub.angels.client.TabAngels;
-import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.client.models.item.RenderTimeyWimeyDetector;
-import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderCG;
 import me.sub.angels.client.render.tiles.RenderSnowArm;
@@ -16,6 +14,7 @@ import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.common.entities.EntityAngelPainting;
 import me.sub.angels.common.entities.EntityChronodyneGenerator;
+import me.sub.angels.common.items.ItemAngelSpawner;
 import me.sub.angels.common.items.ItemChronodyneGenerator;
 import me.sub.angels.common.items.ItemDetector;
 import me.sub.angels.common.items.ItemHanging;
@@ -26,6 +25,7 @@ import me.sub.angels.main.WeepingAngels;
 import me.sub.angels.main.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -56,8 +56,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Collection;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
@@ -88,7 +87,7 @@ public class WAObjects {
 	
 	// Entities
 	public static class EntityEntries {
-		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).egg(184, 286).name("angel").tracker(80, 3, false).build();
+		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
 		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
 		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
 	}
@@ -97,9 +96,10 @@ public class WAObjects {
 	 * Set up the rendering for entities and tiles
 	 */
 	@SideOnly(Side.CLIENT)
-	public static void setUpRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(manager, new ModelAngelEd()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting(manager));
+	@SubscribeEvent
+	public static void setUpRenders(ModelRegistryEvent e) {
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, RenderEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, RenderAngelPainting::new);
 		
 		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 		
@@ -113,17 +113,15 @@ public class WAObjects {
 	
 	// Set up
 	public static void setUpSpawns() {
-		List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
-		List<Biome> spawn = Lists.newArrayList();
+		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
+		ArrayList<Biome> spawn = Lists.newArrayList();
 		spawn.addAll(biomes);
 		spawn.remove(Biomes.SKY);
 		spawn.remove(Biomes.VOID);
 		spawn.remove(Biomes.HELL);
 		spawn.remove(Biomes.DEEP_OCEAN);
 		spawn.remove(Biomes.OCEAN);
-		Iterator<Biome> iterator = spawn.iterator();
-		while (iterator.hasNext()) {
-			Biome biome = iterator.next();
+		for (Biome biome : spawn) {
 			if (biome != null) {
 				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, EnumCreatureType.valueOf(WAConfig.spawn.spawnType), biome);
 			}
@@ -145,6 +143,9 @@ public class WAObjects {
 		public static Item timeyWimeyDetector = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
 		public static Item chronodyneGenerator = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
 		public static Item plinth = registerItem(new ItemBlock(WABlocks.plinth), "plinth").setCreativeTab(angelTab);
+		public static Item angel_0 = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0");
+		public static Item angel_1 = registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1");
+		public static Item angel_child = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child");
 	}
 	
 	private static Item registerItem(Item item, String name) {
@@ -166,9 +167,6 @@ public class WAObjects {
 				throw new RuntimeException("Incorrect field in item sub-class", e);
 			}
 		}
-		
-		// Tiles + entities
-		setUpRenders();
 		
 		// Blocks
 		for (Field f : WABlocks.class.getDeclaredFields()) {

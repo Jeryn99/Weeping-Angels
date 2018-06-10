@@ -6,11 +6,9 @@ import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.client.render.layers.LayerCrack;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.WeepingAngels;
-import me.sub.angels.main.config.WAConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -19,15 +17,15 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderAngel extends RenderLiving<EntityAngel> {
 	
-	ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
+	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	
-	ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
+	private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
-	ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
+	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 	
-	ModelBase modelOne = new ModelAngel();
-	ModelBase modelTwo = new ModelAngelEd();
-	ModelAngelChild modelChild = new ModelAngelChild();
+	private ModelBase modelOne = new ModelAngel();
+	private ModelBase modelTwo = new ModelAngelEd();
+	private ModelAngelChild modelChild = new ModelAngelChild();
 	
 	public RenderAngel(RenderManager manager, ModelBase model) {
 		super(manager, model, 0.0F);
@@ -40,8 +38,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	 * Renders the model in RenderLiving
 	 */
 	@Override
-	protected void renderModel(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		EntityAngel angel = entity;
+	protected void renderModel(EntityAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
@@ -50,18 +47,18 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 			
 			if (angel.isChild()) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_CHILD);
-				modelChild.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 			} else {
 				
 				if (angel.getType() == 0) {
 					Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ONE);
-					modelOne.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					
 				}
 				
 				if (angel.getType() == 1) {
 					Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_TWO);
-					modelTwo.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
 			}
 		}

@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, dependencies = WeepingAngels.DEPENDENCIES, version = WeepingAngels.VERSION, updateJSON = "https://raw.githubusercontent.com/ReallySub/Weeping-Angels-Mod/master/update.json")
 @Mod.EventBusSubscriber
@@ -37,10 +36,6 @@ public class WeepingAngels {
 		GameRegistry.registerTileEntity(TileEntityPlinth.class, WeepingAngels.MODID + "plinth");
 		
 		PoseManager.init();
-		
-		if (event.getSide() == Side.CLIENT) {
-			WAObjects.setUpRenders();
-		}
 	}
 	
 	@EventHandler

@@ -1,7 +1,5 @@
 package me.sub.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.main.WeepingAngels;
@@ -16,6 +14,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	

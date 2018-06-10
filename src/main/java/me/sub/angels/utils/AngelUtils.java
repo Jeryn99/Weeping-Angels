@@ -1,6 +1,5 @@
 package me.sub.angels.utils;
 
-import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
@@ -21,10 +20,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;

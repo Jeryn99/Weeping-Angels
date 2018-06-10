@@ -1,0 +1,56 @@
+entity.weepingangel.name=Spooky Statooz
+item.angel_painting.name=Statooz Painthing
+tile.arm.name=Cold arme
+item.unlit_torch.name=No Brite Torc
+item.timey_wimey_detector.name=It Goes Dingeh!
+item.chronodyne_generator.name=Crayonide Generat
+
+entity.angel.name=Spooky Statooz
+
+sound.angel_seen=Statooz saw
+sound.child_run=Childer Runz
+sound.laughing_child=Hue Childer
+sound.light_break=Lapm oof
+sound.angel_teleport=Statooz moved u
+sound.stone_scrap=Rock scrappinz
+sound.ding=Dingeh!
+sound.blow=*trying to wistle*
+sound.angel_death=Statooz breakz
+
+source.angel=back to da furtua!
+source.angel_neck_snap=RKO out of noweher!
+source.punch_stone=Falcon Punched rock
+
+damagesrc.angels.backintime=back to da furtua!
+damagesrc.angels.punch_stone=Falcon Punched rock
+damagesrc.angels.neck_snap=RKO out of noweher!
+
+itemGroup.angels=Spooky Statooz
+
+config.teleportRange=Telepart rang
+config.teleport_entities=Telepart Maubs
+config.angel_locking=Statooz watchin Statooz, stopping emulation
+config.angeldimteleport=Statooz going acroz tim
+config.block_break_range=Blochk breaf rang
+config.chicken_go_boom=Chiknz go boom
+config.max_spawn=Statooz - maxima spahn
+config.spawn_probability=Spahn Praubabiliteh
+config.min_spawn=Statooz - minimoo spahn
+config.angel.block_break=Blocchk breakz
+config.blowout_torch=Bloo ot torc
+config.genCatacombs=Gena cata
+
+category.angels=Statooz
+category.spawn=Spahn Rats
+config.angel_speed=Statooz Sped
+config.disallowed_blocks=Troll blockz for Statooz
+config.disallowed_dimensions=No go here
+config.spawntype=Spahn tipe
+config.teleport_instant=Jsst woosh no damag
+item.angel_0.name=Angel (0)
+item.angel_1.name=Angel (1)
+item.angel_child.name=Angel (Child)
+item.plinth.name=Spooky Statooz
+message.infected=You have been infected by a Weeping Angel, you will now die.
+message.look_away=You must look away from this angel!
+tile.plinth.name=Spooky Statooz

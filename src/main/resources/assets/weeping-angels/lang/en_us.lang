@@ -6,6 +6,9 @@ item.timey_wimey_detector.name=Timey Wimey Detector
 item.chronodyne_generator.name=Chronodyne Generator
 item.plinth.name=Angel Statue
 tile.plinth.name=Angel Statue
+item.angel_0.name=Angel (0)
+item.angel_1.name=Angel (1)
+item.angel_child.name=Angel (Child)
 
 entity.angel.name=Weeping Angel
 

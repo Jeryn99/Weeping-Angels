@@ -1,14 +1,17 @@
 package me.sub.angels.common.events;
 
-import me.sub.angels.common.WorldGenArms;
+import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -19,8 +22,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
-	
-	private static WorldGenArms arms = new WorldGenArms();
+
 	
 	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
@@ -60,8 +62,18 @@ public class CommonEvents {
 	public static void decorateBiomeEvent(DecorateBiomeEvent e) {
 		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
 			if (e.getRand().nextInt(30) <= 10) {
-				arms.generate(e.getWorld(), e.getRand(), e.getPos());
+				generate(e.getWorld(), e.getPos());
 			}
 		}
+	}
+
+
+	public static boolean generate(World world, BlockPos position) {
+		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
+
+		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
+			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) world.setBlockState(pos, WAObjects.WABlocks.angelArm.getDefaultState(), 1);
+		}
+		return true;
 	}
 }

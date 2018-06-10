@@ -16,7 +16,6 @@ public class ItemHanging extends Item {
 	
 	public ItemHanging() {
 		super();
-		// this.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 	
