@@ -6,7 +6,6 @@ import me.sub.angels.main.WAConstants;
 import me.sub.angels.main.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
@@ -153,14 +152,14 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void travel(float strafe, float vertical, float forward) {
-		if (!isSeen() || isntOnGround()) {
+        if (!isSeen() || isAirBorne) {
 			super.travel(strafe, vertical, forward);
 		}
 	}
 	
 	@Override
 	public void move(MoverType type, double x, double y, double z) {
-		if (!isSeen() || isntOnGround()) {
+        if (!isSeen() || isAirBorne) {
 			super.move(type, x, y, z);
 		}
 	}
@@ -519,11 +518,6 @@ public class EntityAngel extends EntityMob {
 		}
 		setSeenTime(0);
 		return false;
-	}
-	
-	public boolean isntOnGround() {
-		BlockPos pos = new BlockPos(posX, posY - 1, posZ);
-		return world.getBlockState(pos).getBlock() instanceof BlockAir;
 	}
 	
 	public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {

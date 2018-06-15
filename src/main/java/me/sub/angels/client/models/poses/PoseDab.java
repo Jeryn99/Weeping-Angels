@@ -30,7 +30,6 @@ public class PoseDab extends PoseBase {
 	public void setHeadAngles(ModelRenderer head) {
 		head.rotateAngleX = 0.6F;
 		head.rotateAngleY = 0.7F;
-		
 	}
 	
 	@Override

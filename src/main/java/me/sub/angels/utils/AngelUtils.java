@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -121,32 +122,58 @@ public class AngelUtils {
 		
 		return true;
 	}
-	
-	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
-		double dx = angel.posX - livingBase.posX;
-		double dz;
-		for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-			dx = (Math.random() - Math.random()) * 0.01D;
-		}
-		while (livingBase.rotationYaw > 360) {
-			livingBase.rotationYaw -= 360;
-		}
-		while (livingBase.rotationYaw < -360) {
-			livingBase.rotationYaw += 360;
-		}
-		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
-		yaw = yaw - 90;
-		while (yaw < -180) {
-			yaw += 360;
-		}
-		while (yaw >= 180) {
-			yaw -= 360;
-		}
-		
-		return yaw < 60 && yaw > -60;
-	}
-	
-	@Deprecated
+
+    public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
+        double dx = angel.posX - livingBase.posX;
+        double dz;
+        for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+            dx = (Math.random() - Math.random()) * 0.01D;
+        }
+        while (livingBase.rotationYaw > 360) {
+            livingBase.rotationYaw -= 360;
+        }
+        while (livingBase.rotationYaw < -360) {
+            livingBase.rotationYaw += 360;
+        }
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
+        yaw = yaw - 90;
+        while (yaw < -180) {
+            yaw += 360;
+        }
+        while (yaw >= 180) {
+            yaw -= 360;
+        }
+
+        return yaw < 60 && yaw > -60 && livingBase.canEntityBeSeen(angel);
+    }
+
+
+    public static boolean isInSightTile(EntityLivingBase livingBase, TileEntity tile) {
+        double dx = tile.getPos().getX() - livingBase.posX;
+        double dz;
+        for (dz = tile.getPos().getX() - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+            dx = (Math.random() - Math.random()) * 0.01D;
+        }
+        while (livingBase.rotationYaw > 360) {
+            livingBase.rotationYaw -= 360;
+        }
+        while (livingBase.rotationYaw < -360) {
+            livingBase.rotationYaw += 360;
+        }
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
+        yaw = yaw - 90;
+        while (yaw < -180) {
+            yaw += 360;
+        }
+        while (yaw >= 180) {
+            yaw -= 360;
+        }
+
+        return yaw < 60 && yaw > -60;
+    }
+
+
+    @Deprecated
 	public static void getAllAngels(EntityAngel angel_viewer) {
 		for (EntityAngel angel2 : angel_viewer.world.getEntitiesWithinAABB(EntityAngel.class, angel_viewer.getEntityBoundingBox().grow(20, 20, 20))) {
 			if (angel_viewer.canEntityBeSeen(angel2) && angel_viewer != angel2 && isInSight(angel_viewer, angel2)) {

@@ -2,11 +2,13 @@ package me.sub.angels.client.models.poses;
 
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class PoseBase {
-	
-	float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
-	EntityAngel angel;
+
+	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
+	private EntityAngel angel;
 	
 	public PoseBase() {}
 	
@@ -41,49 +43,49 @@ public abstract class PoseBase {
 	public abstract void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing);
 	
 	/**
-	 * Returns the Entities Limb Swing
+	 * Returns the entities Limb Swing
 	 */
 	public float getLimbSwing() {
 		return limbSwing;
 	}
 	
 	/**
-	 * Returns the Entities Limb Swing amount
+	 * Returns the entities Limb Swing amount
 	 */
 	public float getLimbSwingAmount() {
 		return limbSwingAmount;
 	}
 	
 	/**
-	 * Returns the Entities age in ticks
+	 * Returns the entities age in ticks
 	 */
 	public float getAgeInTicks() {
 		return ageInTicks;
 	}
 	
 	/**
-	 * Returns the Entities head pitch
+	 * Returns the entities head pitch
 	 */
 	public float getHeadPitch() {
 		return headPitch;
 	}
 	
 	/**
-	 * Returns the Entities head yaw
+	 * Returns the entities head yaw
 	 */
 	public float getNetheadYaw() {
 		return netheadYaw;
 	}
 	
 	/**
-	 * Returns the Entities Swing progress
+	 * Returns the entities Swing progress
 	 */
 	public float getSwingProgress() {
 		return swingProgress;
 	}
 	
 	/**
-	 * Returns the Entities in use
+	 * Returns the entities in use
 	 */
 	public EntityAngel getAngel() {
 		return angel;
@@ -95,4 +97,12 @@ public abstract class PoseBase {
 	public float degreeToRadian(float degree) {
 		return (float) (degree * Math.PI / 180);
 	}
+
+	@SideOnly(Side.CLIENT)
+	public void resetAngles(ModelRenderer model) {
+		model.rotateAngleX = 0;
+		model.rotateAngleY = 0;
+		model.rotateAngleY = 0;
+	}
+
 }

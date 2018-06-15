@@ -32,7 +32,6 @@ public class ModelSnowArm extends ModelBase {
 		GlStateManager.pushMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEX);
 		this.left_arm.render(scale);
-		;
 		GlStateManager.popMatrix();
 	}
 	

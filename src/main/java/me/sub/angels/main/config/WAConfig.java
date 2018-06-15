@@ -25,7 +25,7 @@ public class WAConfig {
 		public int maximumSpawn = 4;
 		
 		@Config.LangKey("config.spawn_probability")
-		@Config.Comment("The angel spawn probabilty rate")
+        @Config.Comment("The angel spawn probability rate")
 		public int spawnProbability = 50;
 		
 		@Config.LangKey("config.min_spawn")

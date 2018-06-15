@@ -8,6 +8,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -81,11 +82,23 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		world.scheduleBlockUpdate(pos, this.getBlockType(), 0, 0);
 		markDirty();
 	}
-	
+
+    AxisAlignedBB BB = new AxisAlignedBB(45, 45, 45, 45, 45, 45);
+
 	@Override
 	public void update() {
 		if (world.isRemote) return;
-		
+
+        //	EntityPlayer closestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 45, false);
+        //pose = getRandomPose(world).toString();
+        //	if(closestPlayer != null && closestPlayer.getDistanceSq(this.getPos()) < 25){
+        //		if(!AngelUtils.isInSightTile(closestPlayer, this)) {
+        //			System.out.println("!seen");
+        //			pose = getRandomPose(world).toString();
+        //			sendUpdates();
+        //		} else {System.out.println("seen");}
+        //}
+
 		if (world.isBlockIndirectlyGettingPowered(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
@@ -97,8 +110,11 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 				plinth.setHasSpawned(true);
 				sendUpdates();
 			}
-			
-		}
+        }
+    }
+
+    public PoseManager.AngelPoses getRandomPose(World world) {
+        return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
 	}
 	
 	public String getPose() {

@@ -1,5 +1,6 @@
 package me.sub.angels.common.items;
 
+import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,18 +15,20 @@ import java.util.function.Function;
 public class ItemAngelSpawner<E extends EntityAngel> extends Item {
 	
 	private Function<World, E> entityCreator;
-	int type;
-	boolean isChild = false;
+    private int type;
+    private boolean isChild = false;
 	
 	public ItemAngelSpawner(int type, Function<World, E> angel) {
 		entityCreator = angel;
 		this.type = type;
+        this.setCreativeTab(WAObjects.angelTab);
 	}
 	
 	public ItemAngelSpawner(int type, Function<World, E> angel, boolean isChild) {
 		entityCreator = angel;
 		this.type = type;
 		this.isChild = isChild;
+        this.setCreativeTab(WAObjects.angelTab);
 	}
 	
 	@Override

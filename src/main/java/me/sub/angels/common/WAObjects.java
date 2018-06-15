@@ -2,7 +2,10 @@ package me.sub.angels.common;
 
 import com.google.common.collect.Lists;
 import me.sub.angels.client.TabAngels;
-import me.sub.angels.client.models.item.RenderTimeyWimeyDetector;
+import me.sub.angels.client.models.entity.ModelAngelEd;
+import me.sub.angels.client.models.item.ModelDetector;
+import me.sub.angels.client.models.item.RenderItemStackBase;
+import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderCG;
 import me.sub.angels.client.render.tiles.RenderSnowArm;
@@ -25,7 +28,6 @@ import me.sub.angels.main.WeepingAngels;
 import me.sub.angels.main.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -96,16 +98,18 @@ public class WAObjects {
 	 * Set up the rendering for entities and tiles
 	 */
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public static void setUpRenders(ModelRegistryEvent e) {
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, RenderEntity::new);
+    public static void setUpRenders() {
+
+        //Entities
+        RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, RenderAngelPainting::new);
-		
-		WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderTimeyWimeyDetector());
+
+        WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 		
 		// Projectiles
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
-		
+
+        //TESRS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTilePlinth());
