@@ -2,12 +2,12 @@ package me.sub.angels.client.render.entity;
 
 import me.sub.angels.common.entities.EntityAngelPainting;
 import me.sub.angels.main.WeepingAngels;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	private static final ResourceLocation PAINTING_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/paintings_angels.png");
-	
-	public RenderAngelPainting(RenderManager renderManagerIn) {
-		super(renderManagerIn);
+
+    public RenderAngelPainting() {
+        super(Minecraft.getMinecraft().getRenderManager());
 	}
 	
 	/**

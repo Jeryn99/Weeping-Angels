@@ -1,6 +1,6 @@
 package me.sub.angels.common.tiles;
 
-import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.client.models.poses.AngelPoses;
 import me.sub.angels.common.entities.EntityAngel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -18,7 +18,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	
 	private boolean hasSpawned = false;
 	private int rotation;
-	private String pose = PoseManager.AngelPoses.HIDING_FACE.toString();
+	private String pose = AngelPoses.HIDING_FACE.toString();
 	
 	public boolean getHasSpawned() {
 		return hasSpawned;
@@ -40,7 +40,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setBoolean("hasSpawned", hasSpawned);
-		compound.setInteger("rotation", this.rotation);
+		compound.setInteger("rotation", rotation);
 		compound.setString("pose", pose);
 		return compound;
 	}
@@ -106,6 +106,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 				angel.setType(1);
 				angel.setChild(false);
 				angel.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);
+				angel.setPose(getPose());
 				world.spawnEntity(angel);
 				plinth.setHasSpawned(true);
 				sendUpdates();
@@ -113,8 +114,8 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
         }
     }
 
-    public PoseManager.AngelPoses getRandomPose(World world) {
-        return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
+	public AngelPoses getRandomPose(World world) {
+		return AngelPoses.values()[world.rand.nextInt(AngelPoses.values().length)];
 	}
 	
 	public String getPose() {

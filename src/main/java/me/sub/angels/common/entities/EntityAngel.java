@@ -1,6 +1,6 @@
 package me.sub.angels.common.entities;
 
-import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.client.models.poses.AngelPoses;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.WAConstants;
 import me.sub.angels.main.config.WAConfig;
@@ -77,8 +77,8 @@ public class EntityAngel extends EntityMob {
 		tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
 		tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-		
-		experienceValue = 25;
+
+		experienceValue = WAConfig.angels.xpGained;
 	}
 	
 	@Nullable
@@ -140,7 +140,7 @@ public class EntityAngel extends EntityMob {
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(TYPE, getRandomType());
-		getDataManager().register(POSE, PoseManager.AngelPoses.ANGRY.toString());
+		getDataManager().register(POSE, AngelPoses.ANGRY.toString());
 	}
 	
 	private int getRandomType() {
@@ -181,8 +181,8 @@ public class EntityAngel extends EntityMob {
 	public boolean isSeen() {
 		return getDataManager().get(IS_SEEN);
 	}
-	
-	public String getPose() {
+
+	public String getPoseName() {
 		return getDataManager().get(POSE);
 	}
 	
@@ -223,7 +223,7 @@ public class EntityAngel extends EntityMob {
 		super.writeEntityToNBT(compound);
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
 		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
-		compound.setString(WAConstants.POSE, getPose());
+		compound.setString(WAConstants.POSE, getPoseName());
 		compound.setInteger(WAConstants.TYPE, getType());
 		compound.setBoolean(WAConstants.ANGEL_CHILD, isChild());
 	}
@@ -351,7 +351,7 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		
+
 		super.onUpdate();
 		
 		if (isSeen()) {
@@ -414,7 +414,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
-			if (!isChild()) {
+			if (!isChild() && WAConfig.angels.playScrapSounds) {
 				playSound(WAObjects.Sounds.stone_scrap, 0.2F, 1.0F);
 			} else {
 				playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
@@ -519,25 +519,25 @@ public class EntityAngel extends EntityMob {
 		setSeenTime(0);
 		return false;
 	}
-	
-	public PoseManager.AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
+
+	public AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
 		
 		if (angel.getDistance(player) < 1.0F) {
-			return PoseManager.AngelPoses.ANGRY;
+			return AngelPoses.ANGRY;
 		}
 		if (angel.getDistance(player) < 5.0F) {
-			return PoseManager.AngelPoses.ANGRY_TWO;
+			return AngelPoses.ANGRY_TWO;
 		}
 		if (angel.getDistance(player) < 10.0F) {
-			return PoseManager.AngelPoses.SHY;
+			return AngelPoses.SHY;
 		}
 		if (angel.getDistance(player) < 15.0F) {
-			return PoseManager.AngelPoses.IDLE;
+			return AngelPoses.IDLE;
 		}
 		if (angel.getDistance(player) < 25.0F) {
-			return PoseManager.AngelPoses.HIDING_FACE;
+			return AngelPoses.HIDING_FACE;
 		}
-		
-		return PoseManager.AngelPoses.HIDING_FACE;
+
+		return AngelPoses.HIDING_FACE;
 	}
 }

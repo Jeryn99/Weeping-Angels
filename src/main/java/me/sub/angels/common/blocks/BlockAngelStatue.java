@@ -1,6 +1,6 @@
 package me.sub.angels.common.blocks;
 
-import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.client.models.poses.AngelPoses;
 import me.sub.angels.common.tiles.TileEntityPlinth;
 import me.sub.angels.main.WeepingAngels;
 import net.minecraft.block.Block;
@@ -62,9 +62,9 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 			plinth.sendUpdates();
 		}
 	}
-	
-	public PoseManager.AngelPoses getRandomPose(World world) {
-		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
+
+	public AngelPoses getRandomPose(World world) {
+		return AngelPoses.values()[world.rand.nextInt(AngelPoses.values().length)];
 	}
 	
 }

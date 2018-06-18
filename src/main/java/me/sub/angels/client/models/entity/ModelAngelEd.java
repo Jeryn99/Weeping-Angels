@@ -1,7 +1,7 @@
 package me.sub.angels.client.models.entity;
 
+import me.sub.angels.client.models.poses.AngelPoses;
 import me.sub.angels.client.models.poses.PoseBase;
-import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.client.models.poses.PoseThinking;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.common.tiles.TileEntityPlinth;
@@ -191,6 +191,7 @@ public class ModelAngelEd extends ModelBiped {
 		left_wing_3.addChild(left_wing_4);
 		angry_mouth.addChild(teeth_3);
 		angry_mouth.addChild(teeth_2);
+
 		head.addChild(nose);
 		head.addChild(coverup);
 		head.addChild(face);
@@ -259,7 +260,7 @@ public class ModelAngelEd extends ModelBiped {
 	}
 	
 	public void tilePosing(TileEntityPlinth p) {
-		PoseBase pose = PoseManager.getPose(p.getPose());
+		PoseBase pose = AngelPoses.valueOf(p.getPose()).getPose();
 		
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
@@ -307,14 +308,16 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleY = 0;
 			this.right_arm.rotateAngleZ = 0;
 			EntityAngel angel = (EntityAngel) entity;
-			
-			PoseBase pose = PoseManager.getPose(angel.getPose());
-			
+
+			PoseBase pose = AngelPoses.valueOf(angel.getPoseName()).getPose();
+
+
 			if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace(angel);
 				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 				pose.setWingAngles(this.left_wing_0, this.right_wing_0);
 				pose.setHeadAngles(this.head);
+				pose.setBodyAngles(body);
 				
 				if (pose.angryFace(angel)) {
 					this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
@@ -332,10 +335,11 @@ public class ModelAngelEd extends ModelBiped {
 				}
 			}
 		} else {
-			PoseBase pose = PoseManager.getPose(PoseManager.AngelPoses.SHY.toString());
+			PoseBase pose = AngelPoses.valueOf(AngelPoses.SHY.toString()).getPose();
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
 			pose.setHeadAngles(this.head);
+			pose.setBodyAngles(body);
 			angry_mouth.isHidden = true;
 		}
 	}

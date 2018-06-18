@@ -6,6 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -730,7 +731,15 @@ public class ModelDetector extends ModelBase {
 		shape14_38.addChild(shape14_39);
 		shape14_34.addChild(shape14_35);
 	}
-	
+
+    /**
+     * Sets the models various rotation angles then renders the model.
+     */
+    @Override
+    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        render(scale);
+    }
+
 	public void render(float scale) {
 		
 		long time = 60 * Minecraft.getMinecraft().world.getWorldTime();

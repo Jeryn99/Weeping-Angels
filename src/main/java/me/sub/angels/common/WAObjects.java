@@ -102,7 +102,7 @@ public class WAObjects {
 
         //Entities
         RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, RenderAngelPainting::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
 
         WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 		

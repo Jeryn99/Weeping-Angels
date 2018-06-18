@@ -28,6 +28,10 @@ public class PoseShy extends PoseBase {
         head.rotateAngleY = degreeToRadian(19);
 		head.rotateAngleZ = 0;
 	}
+
+    @Override
+    public void setBodyAngles(ModelRenderer body) {
+    }
 	
 	@Override
 	public boolean angryFace(EntityAngel angel) {

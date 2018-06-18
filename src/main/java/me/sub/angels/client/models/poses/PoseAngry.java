@@ -39,8 +39,13 @@ public class PoseAngry extends PoseBase {
 	public boolean angryFace(EntityAngel angel) {
 		return true;
 	}
+
+    @Override
+    public void setBodyAngles(ModelRenderer body) {
+    }
 	
 	@Override
 	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}
-	
+
+
 }

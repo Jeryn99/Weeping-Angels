@@ -31,6 +31,10 @@ public class PoseDab extends PoseBase {
 		head.rotateAngleX = 0.6F;
 		head.rotateAngleY = 0.7F;
 	}
+
+    @Override
+    public void setBodyAngles(ModelRenderer body) {
+    }
 	
 	@Override
 	public boolean angryFace(EntityAngel angel) {

@@ -36,6 +36,12 @@ public abstract class PoseBase {
 	 * Determines angry face
 	 */
 	public abstract boolean angryFace(EntityAngel angel);
+
+
+    /**
+     * Determines angry face
+     */
+    public abstract void setBodyAngles(ModelRenderer body);
 	
 	/**
 	 * Basically I never use this, it's there for the sake of it, used to set wing angles

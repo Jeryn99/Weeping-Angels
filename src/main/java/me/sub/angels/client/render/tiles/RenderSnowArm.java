@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
 public class RenderSnowArm extends TileEntitySpecialRenderer<TileSnowArm> {
-	
-	ModelSnowArm arm = new ModelSnowArm();
+
+    private ModelSnowArm arm = new ModelSnowArm();
 	
 	@Override
 	public void render(TileSnowArm tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {

@@ -5,7 +5,6 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = WeepingAngels.MODID)
@@ -40,10 +39,18 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-		
+
+		@Config.LangKey("config.angel_move_sound")
+		@Config.Comment("Non-child angels play scraping sounds when moving, this toggles that")
+		public boolean playScrapSounds;
+
 		@Config.LangKey("config.angel_damage")
 		@Config.Comment("The damage dealt by an angel")
 		public double damage = 8.0D;
+
+		@Config.LangKey("config.angel_xp_value")
+		@Config.Comment("XP gained from angels")
+		public int xpGained = 25;
 		
 		@Config.LangKey("config.angel_speed")
 		@Config.Comment("The speed angels move at")
@@ -95,15 +102,13 @@ public class WAConfig {
 		@Config.LangKey("config.disallowed_dimensions")
 		public int[] notAllowedDimensions = { 1 };
 	}
-	
-	@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
-	private static class EventHandler {
-		@SubscribeEvent
+
+
+	@SubscribeEvent
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if (event.getModID().equals(WeepingAngels.MODID)) {
 				ConfigManager.sync(WeepingAngels.MODID, Config.Type.INSTANCE);
 			}
-		}
 	}
 	
 }
