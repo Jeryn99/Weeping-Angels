@@ -1,7 +1,3 @@
----
-
-
----
 
 <h1 id="credits">Credits</h1>
 <h2 id="models">Models</h2>
