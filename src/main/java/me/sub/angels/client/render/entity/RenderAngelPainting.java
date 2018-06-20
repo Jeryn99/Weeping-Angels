@@ -28,22 +28,22 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	 * Renders the desired {@code T} type Entity.
 	 */
 	@Override
-	public void doRender(EntityAngelPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityAngelPainting painting, double x, double y, double z, float entityYaw, float partialTicks) {
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
-		this.bindEntityTexture(entity);
-		EntityAngelPainting.EnumArt enumArt = entity.art;
+		this.bindEntityTexture(painting);
+		EntityAngelPainting.EnumArt enumArt = painting.art;
 		GlStateManager.scale(0.0625F, 0.0625F, 0.0625F);
 		
 		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
-			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+			GlStateManager.enableOutlineMode(this.getTeamColor(painting));
 		}
-		
-		this.renderPainting(entity, enumArt.sizeX, enumArt.sizeY, enumArt.offsetX, enumArt.offsetY);
+
+		this.renderPainting(painting, enumArt.sizeX, enumArt.sizeY, enumArt.offsetX, enumArt.offsetY);
 		
 		if (this.renderOutlines) {
 			GlStateManager.disableOutlineMode();
@@ -52,14 +52,14 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 		
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+		super.doRender(painting, x, y, z, entityYaw, partialTicks);
 	}
 	
 	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 * Returns the location of an painting's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(EntityAngelPainting entity) {
+	protected ResourceLocation getEntityTexture(EntityAngelPainting painting) {
 		return PAINTING_TEXTURE;
 	}
 	

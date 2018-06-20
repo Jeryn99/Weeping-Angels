@@ -156,8 +156,8 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 					return;
 				}
 			}
-			
-			this.entityDropItem(new ItemStack(WAObjects.WAItems.angelPainting), 0.0F);
+
+			this.entityDropItem(new ItemStack(WAObjects.WAItems.ANGEL_PAINTING), 0.0F);
 		}
 	}
 	

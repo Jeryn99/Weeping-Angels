@@ -8,7 +8,7 @@ public enum AngelPoses {
     ANGRY_TWO(new PoseAngryTwo()),
     THINKING(new PoseThinking()),
     DAB(new PoseDab()),
-    PEAKING(new PoseOpenArms());
+    OPEN_ARMS(new PoseOpenArms());
 
     public final PoseBase pose;
 

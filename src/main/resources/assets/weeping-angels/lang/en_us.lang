@@ -11,6 +11,8 @@ item.angel_1.name=Weeping Angel (1)
 item.angel_child.name=Weeping Angel (Child)
 
 entity.angel.name=Weeping Angel
+entity.anomaly.name=Anomaly
+entity.weepingAngelpainting.name=Angel painting
 
 sound.angel_seen=Angel seen
 sound.child_run=Child running

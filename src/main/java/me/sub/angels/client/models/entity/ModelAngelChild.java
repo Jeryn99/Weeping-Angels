@@ -9,25 +9,25 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class ModelAngelChild extends ModelBiped {
-	ModelRenderer head_2;
-	ModelRenderer head;
-	ModelRenderer body;
-	ModelRenderer nose;
-	ModelRenderer mouthtop;
-	ModelRenderer right_wing_0;
-	ModelRenderer right_wing_0_1;
-	ModelRenderer left_arm;
-	ModelRenderer right_arm;
-	ModelRenderer left_leg;
-	ModelRenderer right_leg;
-	ModelRenderer right_wing_1;
-	ModelRenderer right_wing_2;
-	ModelRenderer right_wing_3;
-	ModelRenderer right_wing_4;
-	ModelRenderer right_wing_1_1;
-	ModelRenderer right_wing_2_1;
-	ModelRenderer right_wing_3_1;
-	ModelRenderer right_wing_4_1;
+    private ModelRenderer head_2;
+    private ModelRenderer head;
+    private ModelRenderer body;
+    private ModelRenderer nose;
+    private ModelRenderer mouthtop;
+    private ModelRenderer right_wing_0;
+    private ModelRenderer right_wing_0_1;
+    private ModelRenderer left_arm;
+    private ModelRenderer right_arm;
+    private ModelRenderer left_leg;
+    private ModelRenderer right_leg;
+    private ModelRenderer right_wing_1;
+    private ModelRenderer right_wing_2;
+    private ModelRenderer right_wing_3;
+    private ModelRenderer right_wing_4;
+    private ModelRenderer right_wing_1_1;
+    private ModelRenderer right_wing_2_1;
+    private ModelRenderer right_wing_3_1;
+    private ModelRenderer right_wing_4_1;
 	
 	public ModelAngelChild() {
 		this.textureWidth = 64;

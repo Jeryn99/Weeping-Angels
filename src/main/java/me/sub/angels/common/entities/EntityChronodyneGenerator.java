@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityChronodyneGenerator extends EntityThrowable {
+
 	public EntityChronodyneGenerator(World worldIn) {
 		super(worldIn);
 	}
@@ -49,7 +50,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 		if (result.typeOfHit == Type.BLOCK) {
 			BlockPos pos = new BlockPos(result.getBlockPos().getX(), result.getBlockPos().getY() + 1, result.getBlockPos().getZ());
 			if (world.isAirBlock(pos)) {
-				world.setBlockState(pos, WAObjects.WABlocks.cg.getDefaultState());
+				world.setBlockState(pos, WAObjects.WABlocks.CG.getDefaultState());
 				if (world.getTileEntity(pos) != null) {
 					world.getTileEntity(pos).getTileData().setDouble(WAConstants.ABS_X, posX);
 					world.getTileEntity(pos).getTileData().setDouble(WAConstants.ABS_Y, posY);
@@ -65,8 +66,14 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			}
 			
 			if (!world.isRemote) {
+
+				EntityAnomaly a = new EntityAnomaly(world);
+				a.setEntityEyeHeight(result.entityHit.getEyeHeight());
+				a.copyLocationAndAnglesFrom(result.entityHit);
+				world.spawnEntity(a);
+
 				result.entityHit.setDead();
-				this.setDead();
+				setDead();
 			}
 		}
 		

@@ -1,6 +1,5 @@
 package me.sub.angels.common.items;
 
-import me.sub.angels.common.entities.EntityAngelPainting;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +11,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.function.Function;
+
 public class ItemHanging extends Item {
-	
-	public ItemHanging() {
+
+	private Function<World, EntityHanging> entityHanging;
+
+	public ItemHanging(Function<World, EntityHanging> entity) {
 		super();
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
+		entityHanging = entity;
 	}
 	
 	@Override
@@ -28,12 +32,12 @@ public class ItemHanging extends Item {
 		} else if (side == EnumFacing.UP) {
 			return EnumActionResult.FAIL;
 		} else {
-			BlockPos blockpos1 = pos.offset(side);
-			
-			if (!player.canPlayerEdit(blockpos1, side, stack)) {
+			BlockPos wallPos = pos.offset(side);
+
+			if (!player.canPlayerEdit(wallPos, side, stack)) {
 				return EnumActionResult.FAIL;
 			} else {
-				EntityHanging entityhanging = this.createHangingEntity(worldIn, blockpos1, side);
+				EntityHanging entityhanging = this.createHangingEntity(worldIn, wallPos, side);
 				
 				if (entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {
@@ -49,6 +53,6 @@ public class ItemHanging extends Item {
 	}
 	
 	private EntityHanging createHangingEntity(World worldIn, BlockPos pos, EnumFacing clickedSide) {
-		return new EntityAngelPainting(worldIn, pos, clickedSide);
+		return entityHanging.apply(worldIn);
 	}
 }

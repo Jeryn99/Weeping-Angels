@@ -1,7 +1,5 @@
 package me.sub.angels.common.items;
 
-import java.util.List;
-
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.main.config.WAConfig;
@@ -16,6 +14,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemDetector extends Item {
 	
@@ -37,7 +37,7 @@ public class ItemDetector extends Item {
 				}
 				
 				if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
-					worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ding, SoundCategory.PLAYERS, 0.5F, 1.0F);
+                    worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ITEM_DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
 				}
 				
 				if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {

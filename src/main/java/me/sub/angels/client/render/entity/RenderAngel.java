@@ -38,7 +38,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	 */
 	@Override
 	protected void renderModel(EntityAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		
+
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		

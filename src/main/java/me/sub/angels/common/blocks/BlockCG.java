@@ -3,8 +3,7 @@ package me.sub.angels.common.blocks;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.main.WeepingAngels;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,7 +16,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockCG extends BlockContainer implements ITileEntityProvider {
+public class BlockCG extends Block {
 	
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 	
@@ -59,16 +58,20 @@ public class BlockCG extends BlockContainer implements ITileEntityProvider {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
-	
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
-	 */
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public boolean hasTileEntity() {
+        return true;
+    }
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileCG();
 	}
 }

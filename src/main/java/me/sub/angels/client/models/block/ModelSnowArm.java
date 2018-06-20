@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelSnowArm extends ModelBase {
-	
-	ResourceLocation TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
-	
-	ModelRenderer left_arm;
-	ModelRenderer left_arm_1;
+
+    private ResourceLocation TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
+
+    private ModelRenderer left_arm;
+    private ModelRenderer left_arm_1;
 	
 	public ModelSnowArm() {
 		this.textureWidth = 88;

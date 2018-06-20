@@ -6,6 +6,7 @@ import me.sub.angels.common.tiles.TileCG;
 import me.sub.angels.common.tiles.TileEntityPlinth;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.utils.WAUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, dependencies = WeepingAngels.DEPENDENCIES, version = WeepingAngels.VERSION, updateJSON = "https://raw.githubusercontent.com/ReallySub/Weeping-Angels-Mod/master/update.json")
 @Mod.EventBusSubscriber
 public class WeepingAngels {
+
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
 	public static final String VERSION = "13";
@@ -30,10 +32,10 @@ public class WeepingAngels {
 		WAObjects.setUpSpawns();
 		
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
-		
-		GameRegistry.registerTileEntity(TileSnowArm.class, WeepingAngels.MODID + ":snowarm");
-		GameRegistry.registerTileEntity(TileCG.class, WeepingAngels.MODID + ":cg");
-        GameRegistry.registerTileEntity(TileEntityPlinth.class, WeepingAngels.MODID + ":plinth");
+
+        GameRegistry.registerTileEntity(TileSnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
+        GameRegistry.registerTileEntity(TileCG.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
+        GameRegistry.registerTileEntity(TileEntityPlinth.class, new ResourceLocation(WeepingAngels.MODID + ":plinth"));
 
         if (event.getSide() == Side.CLIENT) {
             WAObjects.setUpRenders();

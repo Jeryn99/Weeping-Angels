@@ -7,15 +7,17 @@ import me.sub.angels.client.models.item.ModelDetector;
 import me.sub.angels.client.models.item.RenderItemStackBase;
 import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
+import me.sub.angels.client.render.entity.RenderAnomaly;
 import me.sub.angels.client.render.entity.RenderCG;
-import me.sub.angels.client.render.tiles.RenderSnowArm;
-import me.sub.angels.client.render.tiles.RenderTileCG;
-import me.sub.angels.client.render.tiles.RenderTilePlinth;
+import me.sub.angels.client.render.tileentity.RenderTileEntityCG;
+import me.sub.angels.client.render.tileentity.RenderTileEntityPlinth;
+import me.sub.angels.client.render.tileentity.RenderTileEntitySnowArm;
 import me.sub.angels.common.blocks.BlockAngelStatue;
 import me.sub.angels.common.blocks.BlockCG;
 import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.common.entities.EntityAngelPainting;
+import me.sub.angels.common.entities.EntityAnomaly;
 import me.sub.angels.common.entities.EntityChronodyneGenerator;
 import me.sub.angels.common.items.ItemAngelSpawner;
 import me.sub.angels.common.items.ItemChronodyneGenerator;
@@ -30,6 +32,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -65,37 +68,8 @@ public class WAObjects {
 	
 	public static CreativeTabs angelTab = new TabAngels();
 	
-	// Sounds
-	public static class Sounds {
-		public static SoundEvent angelSeen = setUpSound("angel_seen_1");
-		public static SoundEvent angelSeen_2 = setUpSound("angel_seen_2");
-		public static SoundEvent angelSeen_3 = setUpSound("angel_seen_3");
-		public static SoundEvent angelSeen_4 = setUpSound("angel_seen_4");
-		public static SoundEvent angelSeen_5 = setUpSound("angel_seen_5");
-		public static SoundEvent stone_scrap = setUpSound("stone_scrap");
-		public static SoundEvent child_run = setUpSound("child_run");
-		public static SoundEvent laughing_child = setUpSound("laughing_child");
-		public static SoundEvent light_break = setUpSound("light_break");
-		public static SoundEvent angel_teleport = setUpSound("angel_teleport");
-		public static SoundEvent angel_ambience = setUpSound("angel_ambient");
-		public static SoundEvent ding = setUpSound("ding");
-		public static SoundEvent blow = setUpSound("blow");
-		public static SoundEvent angelDeath = setUpSound("angel_death");
-	}
-	
-	private static SoundEvent setUpSound(String soundName) {
-		return new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
-	}
-	
-	// Entities
-	public static class EntityEntries {
-		public static final EntityEntry weepingAngel = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
-		public static final EntityEntry weepingAngelPainting = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
-		public static final EntityEntry chronodyne_generator = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
-	}
-	
 	/**
-	 * Set up the rendering for entities and tiles
+     * Set up the rendering for entities and tileentity
 	 */
 	@SideOnly(Side.CLIENT)
     public static void setUpRenders() {
@@ -103,19 +77,25 @@ public class WAObjects {
         //Entities
         RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
         RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
 
-        WAItems.timeyWimeyDetector.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
-		
+        //Items
+        WAItems.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
+
 		// Projectiles
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 
         //TESRS
-		ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderSnowArm());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileCG());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTilePlinth());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderTileEntitySnowArm());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileEntityCG());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
 	}
-	
-	// Set up
+
+    private static SoundEvent setUpSound(String soundName) {
+        return new SoundEvent(new ResourceLocation(WeepingAngels.MODID + ":" + soundName)).setRegistryName(soundName);
+    }
+
+    // Spawn Set up
 	public static void setUpSpawns() {
 		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
 		ArrayList<Biome> spawn = Lists.newArrayList();
@@ -131,25 +111,52 @@ public class WAObjects {
 			}
 		}
 	}
+
+    // Sounds
+    public static class Sounds {
+        public static SoundEvent ANGEL_SEEN = setUpSound("angel_seen_1");
+        public static SoundEvent ANGEL_SEEN_2 = setUpSound("angel_seen_2");
+        public static SoundEvent ANGEL_SEEN_3 = setUpSound("angel_seen_3");
+        public static SoundEvent ANGEL_SEEN_4 = setUpSound("angel_seen_4");
+        public static SoundEvent ANGEL_SEEN_5 = setUpSound("angel_seen_5");
+        public static SoundEvent STONE_SCRAP = setUpSound("stone_scrap");
+        public static SoundEvent CHILD_RUNNING = setUpSound("child_run");
+        public static SoundEvent CHILD_LAUGHING = setUpSound("laughing_child");
+        public static SoundEvent ANGEL_LIGHT_BREAK = setUpSound("light_break");
+        public static SoundEvent ANGEL_TELEPORT = setUpSound("angel_teleport");
+        public static SoundEvent ANGEL_SPAWN = setUpSound("angel_ambient");
+        public static SoundEvent ITEM_DING = setUpSound("ding");
+        public static SoundEvent CHILD_BLOW = setUpSound("blow");
+        public static SoundEvent ANGEL_DEATH = setUpSound("angel_death");
+    }
+
+    // Entities
+    public static class EntityEntries {
+        public static final EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
+        public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
+        public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+        public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
+
+    }
 	
 	// Blocks
 	public static class WABlocks {
-		public static Block angelArm = new BlockSnowArm().setCreativeTab(angelTab);
-		public static Block cg = new BlockCG().setCreativeTab(angelTab);
-		public static Block plinth = new BlockAngelStatue().setCreativeTab(angelTab);
-	}
-	
+        public static Block ANGEL_ARM = new BlockSnowArm().setCreativeTab(angelTab);
+        public static Block CG = new BlockCG().setCreativeTab(angelTab);
+        public static Block PLINTH = new BlockAngelStatue().setCreativeTab(angelTab);
+    }
+
 	// Items
 	public static class WAItems {
-		public static Item angelPainting = registerItem(new ItemHanging(), "angel_painting").setCreativeTab(angelTab);
-		public static Item angelArmItem = registerItem(new ItemBlock(WABlocks.angelArm), "arm").setCreativeTab(angelTab);
-		public static Item unLitTorch = registerItem(new Item(), "unlit_torch");
-		public static Item timeyWimeyDetector = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
-		public static Item chronodyneGenerator = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
-		public static Item plinth = registerItem(new ItemBlock(WABlocks.plinth), "plinth").setCreativeTab(angelTab);
-		public static Item angel_0 = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0");
-		public static Item angel_1 = registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1");
-		public static Item angel_child = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child");
+        public static Item ANGEL_PAINTING = registerItem(new ItemHanging(EntityPainting::new), "angel_painting").setCreativeTab(angelTab);
+        public static Item ANGEL_ARM = registerItem(new ItemBlock(WABlocks.ANGEL_ARM), "arm").setCreativeTab(angelTab);
+        public static Item UNLIT_TORCH = registerItem(new Item(), "unlit_torch");
+        public static Item TIMEY_WIMEY_DETECTOR = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
+        public static Item CHRONODYNE_GENERATOR = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
+        public static Item PLINTH = registerItem(new ItemBlock(WABlocks.PLINTH), "plinth").setCreativeTab(angelTab);
+        public static Item SPAWNER_ANGEL_0 = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0");
+        public static Item SPAWNER_ANGEL_1 = registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1");
+        public static Item SPAWNER_ANGEL_CHILD = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child");
 	}
 	
 	private static Item registerItem(Item item, String name) {

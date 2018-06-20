@@ -4,6 +4,11 @@ tile.arm.name=Arm im Schnee
 item.unlit_torch.name=Unbeleuchtete Fackel
 item.timey_wimey_detector.name=Timey Wimey Detektor
 item.chronodyne_generator.name=Chronodyne Generator
+item.plinth.name=Engel Statue
+tile.plinth.name=Engel Statue
+item.angel_0.name=Angel (0)
+item.angel_1.name=Angel (1)
+item.angel_child.name=Angel (Child)
 
 entity.angel.name=Weinender Engel
 
@@ -39,18 +44,17 @@ config.min_spawn=Angel - Minimum Spawn
 config.angel.block_break=Block breaking
 config.blowout_torch=Blow out torch
 config.genCatacombs=Gen catacombs?
-
-category.angels=Engel
-category.spawn=Spawn Rate
+config.teleport_instant=Einfach Teleportieren & Kein Schaden erleiden?
+config.spawntype=Spawn Art
 config.angel_speed=Engel Geschwindigkeit
 config.disallowed_blocks=Eine liste von Blöcken die Engel NICHT zerstören können.
 config.disallowed_dimensions=Eine liste von Dimensionen wo Engel NICHT hin können.
-config.spawntype=Spawn Art
-config.teleport_instant=Einfach Teleportieren & Kein Schaden erleiden?
-item.angel_0.name=Angel (0)
-item.angel_1.name=Angel (1)
-item.angel_child.name=Angel (Child)
-item.plinth.name=Engel Statue
+config.angel_move_sound=Toggle movement sounds for the angels
+
+category.angels=Engel
+category.spawn=Spawn Rate
+entity.angel_painting.name=Angel painting
+entity.anomaly.name=Anomaly
+entity.weepingAngelpainting.name=Angel painting
 message.infected=Du wurdest von einem Engel infisziert, du wirst sterben.
 message.look_away=Du musst von diesem Engel wegsehen!
-tile.plinth.name=Engel Statue

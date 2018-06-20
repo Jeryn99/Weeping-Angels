@@ -18,10 +18,10 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
 	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
 	private final RenderAngel angelRenderer;
-	
-	ModelBase modelOne = new ModelAngel();
-	ModelBase modelTwo = new ModelAngelEd();
-	ModelBase modelMain = modelTwo;
+
+    private final ModelBase modelOne = new ModelAngel();
+    private final ModelBase modelTwo = new ModelAngelEd();
+    private ModelBase modelMain = modelTwo;
 	
 	public LayerCrack(RenderAngel angelRendererIn) {
 		this.angelRenderer = angelRendererIn;
@@ -45,12 +45,12 @@ public class LayerCrack implements LayerRenderer<EntityAngel> {
 			GlStateManager.depthMask(!flag);
 			if (!angel.isChild()) {
 				if (angel.getType() == 1) {
-					this.angelRenderer.bindTexture(CRACK_TEX_2);
+                    angelRenderer.bindTexture(CRACK_TEX_2);
 				} else {
-					this.angelRenderer.bindTexture(CRACK_TEX);
+                    angelRenderer.bindTexture(CRACK_TEX);
 				}
-				
-				this.modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+
+                modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 			}
 			GlStateManager.popMatrix();
 		}

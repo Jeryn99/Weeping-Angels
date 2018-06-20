@@ -1,4 +1,4 @@
-package me.sub.angels.client.render.tiles;
+package me.sub.angels.client.render.tileentity;
 
 import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.common.tiles.TileEntityPlinth;
@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTilePlinth extends TileEntitySpecialRenderer<TileEntityPlinth> {
+public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntityPlinth> {
 	
 	ModelAngelEd ed = new ModelAngelEd();
 	ResourceLocation TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");

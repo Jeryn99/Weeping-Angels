@@ -37,16 +37,16 @@ public class AngelUtils {
 				ItemStack torch = p.getHeldItem((EnumHand) hand);
 				if (torch.getItem() == Item.getItemFromBlock(Blocks.TORCH) || torch.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
 					String itemName = torch.getDisplayName();
-					ItemStack newStack = new ItemStack(WAItems.unLitTorch);
+					ItemStack newStack = new ItemStack(WAItems.UNLIT_TORCH);
 					newStack.setStackDisplayName(itemName);
 					int count = torch.getCount();
 					torch.setCount(0);
 					newStack.setCount(count);
 					if (hand == EnumHand.MAIN_HAND) {
-						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.blow, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.CHILD_BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 						p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
 					} else {
-						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.blow, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.CHILD_BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 						p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
 					}
 				}
@@ -123,7 +123,7 @@ public class AngelUtils {
 		return true;
 	}
 
-    public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
+	public static boolean isInSight(EntityLivingBase livingBase, Entity angel) {
         double dx = angel.posX - livingBase.posX;
         double dz;
         for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {

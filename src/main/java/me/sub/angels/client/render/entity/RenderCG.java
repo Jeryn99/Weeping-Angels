@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 public class RenderCG extends RenderSnowball<EntityChronodyneGenerator> {
 	
 	public RenderCG() {
-		super(Minecraft.getMinecraft().getRenderManager(), WAItems.chronodyneGenerator, null);
+		super(Minecraft.getMinecraft().getRenderManager(), WAItems.CHRONODYNE_GENERATOR, null);
 	}
 	
 	private ModelCG model = new ModelCG();

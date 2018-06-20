@@ -52,8 +52,8 @@ import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
-	
-	private SoundEvent[] seenSounds = new SoundEvent[] { WAObjects.Sounds.angelSeen, WAObjects.Sounds.angelSeen_2, WAObjects.Sounds.angelSeen_3, WAObjects.Sounds.angelSeen_4, WAObjects.Sounds.angelSeen_5 };
+
+	private SoundEvent[] seenSounds = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
 	
 	private long soundTime = 0L;
 	
@@ -83,7 +83,7 @@ public class EntityAngel extends EntityMob {
 	
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-		playSound(WAObjects.Sounds.angel_ambience, 0.5F, 1.0F);
+		playSound(WAObjects.Sounds.ANGEL_SPAWN, 0.5F, 1.0F);
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
 	
@@ -94,14 +94,14 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	protected SoundEvent getDeathSound() {
-		return WAObjects.Sounds.angelDeath;
+		return WAObjects.Sounds.ANGEL_DEATH;
 	}
 	
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
 		if (isChild() && rand.nextInt(3) == 2) {
-			return WAObjects.Sounds.laughing_child;
+			return WAObjects.Sounds.CHILD_LAUGHING;
 		}
 		return null;
 	}
@@ -152,14 +152,14 @@ public class EntityAngel extends EntityMob {
 	
 	@Override
 	public void travel(float strafe, float vertical, float forward) {
-        if (!isSeen() || isAirBorne) {
+		if (!isSeen()) {
 			super.travel(strafe, vertical, forward);
 		}
 	}
 	
 	@Override
 	public void move(MoverType type, double x, double y, double z) {
-        if (!isSeen() || isAirBorne) {
+		if (!isSeen()) {
 			super.move(type, x, y, z);
 		}
 	}
@@ -274,9 +274,13 @@ public class EntityAngel extends EntityMob {
 		
 		// Teleporting
 		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
-		
+
+		if (world.isRemote) return;
+
+
+
 		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
-			int dimID = 0;
+			int dimID;
 			
 			if (WAConfig.angels.angelDimTeleport) {
 				dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
@@ -285,11 +289,15 @@ public class EntityAngel extends EntityMob {
 			}
 			
 			if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
+				EntityAnomaly a = new EntityAnomaly(world);
+				a.copyLocationAndAnglesFrom(entity);
+				a.setEntityEyeHeight(entity.getEyeHeight());
+				world.spawnEntity(a);
 				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
 				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
 				int y = world.getHeight(x, z);
+				playSound(WAObjects.Sounds.ANGEL_TELEPORT, 1.0F, 1.0F);
 				heal(4.0F);
-				entity.playSound(WAObjects.Sounds.angel_teleport, 1.0F, 1.0F);
 				teleport(entity, x, y, z, dimID, this);
 			}
 		}
@@ -414,10 +422,12 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void playStepSound(BlockPos pos, Block block) {
 		if (prevPosX != posX && prevPosZ != posZ) {
-			if (!isChild() && WAConfig.angels.playScrapSounds) {
-				playSound(WAObjects.Sounds.stone_scrap, 0.2F, 1.0F);
+			if (!isChild()) {
+				if (WAConfig.angels.playScrapSounds) {
+					playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
+				}
 			} else {
-				playSound(WAObjects.Sounds.child_run, 1.0F, 1.0F);
+				playSound(WAObjects.Sounds.CHILD_RUNNING, 1.0F, 1.0F);
 			}
 		}
 	}
@@ -446,7 +456,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
 							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getX(), new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
 							stop = true;
 						}
@@ -456,7 +466,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
 							world.setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
 							stop = true;
 						}
@@ -466,7 +476,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.light_break, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
 							world.setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
 							stop = true;
 						}

@@ -12,7 +12,7 @@ public class TabAngels extends CreativeTabs {
 	
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(WAObjects.WAItems.timeyWimeyDetector);
+		return new ItemStack(WAObjects.WAItems.TIMEY_WIMEY_DETECTOR);
 	}
 	
 }

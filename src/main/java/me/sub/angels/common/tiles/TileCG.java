@@ -1,6 +1,7 @@
 package me.sub.angels.common.tiles;
 
 import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.common.entities.EntityAnomaly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -16,10 +17,16 @@ public class TileCG extends TileEntity implements ITickable {
 		if (!world.getEntitiesWithinAABB(EntityAngel.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			
 			for (EntityAngel angel : world.getEntitiesWithinAABB(EntityAngel.class, AABB.offset(getPos()))) {
-				if (world.isRemote) {
-					this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 1.0D, 0.0D, 0.0D);
-				}
-				angel.setDead();
+                if (world.isRemote) {
+                    this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 1.0D, 0.0D, 0.0D);
+                } else {
+                    EntityAnomaly a = new EntityAnomaly(world);
+                    a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+                    world.spawnEntity(a);
+                }
+
+
+                angel.setDead();
 			}
 			
 			world.setBlockToAir(getPos());
