@@ -75,5 +75,5 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	protected boolean setBrightness(EntityAngel angel, float partialTicks, boolean combineTextures) {
 		return true;
 	}
-	
+
 }

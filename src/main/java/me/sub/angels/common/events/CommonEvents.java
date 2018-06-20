@@ -22,7 +22,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
-
 	
 	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build

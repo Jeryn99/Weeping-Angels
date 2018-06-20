@@ -69,21 +69,21 @@ public class WAObjects {
 	public static CreativeTabs angelTab = new TabAngels();
 	
 	/**
-     * Set up the rendering for entities and tileentity
+     * Set up the rendering for entities and tileentities
 	 */
 	@SideOnly(Side.CLIENT)
     public static void setUpRenders() {
 
         //Entities
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
+        RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(new ModelAngelEd()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting());
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, manager -> new RenderAnomaly());
 
         //Items
         WAItems.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 
 		// Projectiles
-		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
+		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, manager -> new RenderCG());
 
         //TESRS
         ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderTileEntitySnowArm());
