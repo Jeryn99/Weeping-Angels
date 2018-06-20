@@ -34,8 +34,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.DamageSource;
@@ -53,16 +51,12 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -83,15 +77,15 @@ public class WAObjects {
     public static void setUpRenders() {
 
         //Entities
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, manager -> new RenderAngel(new ModelAngelEd()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, manager -> new RenderAngelPainting());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, manager -> new RenderAnomaly());
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
+		RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
 
         //Items
         WAItems.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 
 		// Projectiles
-		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, manager -> new RenderCG());
+		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
 
         //TESRS
         ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderTileEntitySnowArm());
@@ -120,107 +114,104 @@ public class WAObjects {
 		}
 	}
 
-    // Sounds
-    @ObjectHolder(" WeepingAngels.MODID")
-    public static class Sounds {
-        public static final SoundEvent ANGEL_SEEN_1 	= null;
-        public static final SoundEvent ANGEL_SEEN_2 	= null;
-        public static final SoundEvent ANGEL_SEEN_3 	= null;
-        public static final SoundEvent ANGEL_SEEN_4 	= null;
-        public static final SoundEvent ANGEL_SEEN_5 	= null;
-        public static final SoundEvent STONE_SCRAP 	= null;
-        public static final SoundEvent CHILD_RUN    	= null;
-        public static final SoundEvent LAUGHING_CHILD = null;
-        public static final SoundEvent LIGHT_BREAK 	= null;
-        public static final SoundEvent ANGEL_TELEPORT = null;
-        public static final SoundEvent ANGEL_AMBIENT 	= null;
-        public static final SoundEvent DING 			= null;
-        public static final SoundEvent BLOW 			= null;
-        public static final SoundEvent ANGEL_DEATH 	= null;
-    }
-
-    // Entities
-    @ObjectHolder(" WeepingAngels.MODID")
-    public static class EntityEntries {
-        public static final EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
-        public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
-        public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
-        public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
-
-    }
-	
-	// Blocks
-    @ObjectHolder(" WeepingAngels.MODID")
-	public static class WABlocks {
-        public static final Block ARM = null;
-        public static final Block CG = null;
-        public static final Block PLINTH = null;
-    }
-
-	// Items
-    @ObjectHolder(" WeepingAngels.MODID")
-	public static class WAItems {
-        public static final Item ANGEL_PAINTING = null;
-        public static final Item ARM = null;
-        public static final Item UNLIT_TORCH = null;
-        public static final Item TIMEY_WIMEY_DETECTOR = null;
-        public static final Item CHRONODYNE_GENERATOR = null;
-        public static final Item PLINTH = null;
-        public static final Item ANGEL_0 = null;
-        public static final Item ANGEL_1 = null;
-        public static final Item ANGEL_CHILD = null;
-	}
-	
-	private static Item registerItem(Item item, String name) {
-		item.setRegistryName(WeepingAngels.MODID, name);
-		item.setUnlocalizedName(name);
-		return item;
-	}
-	
-	//Helper, gets reset after init
-	static List<Item> itemBlocks = new ArrayList<Item>();	
-	static List<Item> items = new ArrayList<Item>();
-	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
 		for(Item item : items) {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
-		items = new ArrayList<Item>();
+		items = new ArrayList<>();
 	}
-	
+
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		registerBlocks(
 			event.getRegistry(),
 			ANGEL_TAB,
 			new BlockSnowArm("arm"),
-			new BlockCG("cg"),
 			new BlockAngelStatue("plinth")
 		);
+
+		registerBlockNoItems(event.getRegistry(), new BlockCG("cg"));
 	}
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		registerItems(event.getRegistry(), ANGEL_TAB, itemBlocks.toArray(new Item[itemBlocks.size()]));
-		
-		itemBlocks = new ArrayList<Item>();
-		
+
+		itemBlocks = new ArrayList<>();
+
 		registerItems(
 			event.getRegistry(),
 			ANGEL_TAB,
 			registerItem(new ItemHanging(EntityPainting::new), "angel_painting"),
-			registerItem(new ItemBlock(WABlocks.ARM), "arm"),
 			registerItem(new Item(), "unlit_torch"),
 			registerItem(new ItemDetector(), "timey_wimey_detector"),
 			registerItem(new ItemChronodyneGenerator(), "chronodyne_generator"),
-			registerItem(new ItemBlock(WABlocks.PLINTH), "plinth"),
 			registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0"),
 			registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1"),
 			registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child")
 		);
 	}
-	
+
+	private static void registerBlockNoItems(IForgeRegistry<Block> reg, Block... blocks) {
+		reg.registerAll(blocks);
+	}
+
+	private static Item registerItem(Item item, String name) {
+		item.setRegistryName(WeepingAngels.MODID, name);
+		item.setUnlocalizedName(name);
+		return item;
+	}
+
+	//Helper, gets reset after init
+	static List<Item> itemBlocks = new ArrayList<Item>();
+	static List<Item> items = new ArrayList<Item>();
+
+	@SubscribeEvent
+	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+		event.getRegistry().registerAll(
+				EntityEntries.ANOMALY, EntityEntries.CHRONODYNE_GENERATOR, EntityEntries.WEEPING_ANGEL, EntityEntries.WEEPING_ANGEL_PAINTING
+		);
+	}
+
+	//Helper Methods
+	private static void registerBlocks(IForgeRegistry<Block> reg, CreativeTabs tab, Block... blocks) {
+		reg.registerAll(blocks);
+		for (Block block : blocks) {
+			block.setCreativeTab(tab);
+			itemBlocks.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
+		}
+	}
+
+	// Sounds
+	@ObjectHolder(WeepingAngels.MODID)
+	public static class Sounds {
+		public static final SoundEvent ANGEL_SEEN_1 = null;
+		public static final SoundEvent ANGEL_SEEN_2 = null;
+		public static final SoundEvent ANGEL_SEEN_3 = null;
+		public static final SoundEvent ANGEL_SEEN_4 = null;
+		public static final SoundEvent ANGEL_SEEN_5 = null;
+		public static final SoundEvent STONE_SCRAP = null;
+		public static final SoundEvent CHILD_RUN = null;
+		public static final SoundEvent LAUGHING_CHILD = null;
+		public static final SoundEvent LIGHT_BREAK = null;
+		public static final SoundEvent ANGEL_TELEPORT = null;
+		public static final SoundEvent ANGEL_AMBIENT = null;
+		public static final SoundEvent DING = null;
+		public static final SoundEvent BLOW = null;
+		public static final SoundEvent ANGEL_DEATH = null;
+	}
+
+	// Entities
+	@ObjectHolder(WeepingAngels.MODID)
+	public static class EntityEntries {
+		public static final EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
+		public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
+		public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+		public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
+
+	}
+
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		event.getRegistry().registerAll(
@@ -240,21 +231,25 @@ public class WAObjects {
 			setUpSound("angel_death")   
 		);
 	}
-	
-	@SubscribeEvent
-	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		event.getRegistry().registerAll(
-				
-		);
+
+	// Blocks
+	@ObjectHolder(WeepingAngels.MODID)
+	public static class WABlocks {
+		public static final Block ARM = null;
+		public static final Block CG = null;
+		public static final Block PLINTH = null;
 	}
 
-	//Helper Methods
-	private static void registerBlocks(IForgeRegistry<Block> reg, CreativeTabs tab, Block... blocks) {
-		reg.registerAll(blocks);
-		for(Block block : blocks) {
-			block.setCreativeTab(tab);
-			itemBlocks.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
-		}
+	// Items
+	@ObjectHolder(WeepingAngels.MODID)
+	public static class WAItems {
+		public static final Item ANGEL_PAINTING = null;
+		public static final Item UNLIT_TORCH = null;
+		public static final Item TIMEY_WIMEY_DETECTOR = null;
+		public static final Item CHRONODYNE_GENERATOR = null;
+		public static final Item ANGEL_0 = null;
+		public static final Item ANGEL_1 = null;
+		public static final Item ANGEL_CHILD = null;
 	}
 	
 	private static void registerItems(IForgeRegistry<Item> reg, CreativeTabs tab, Item... items) {
