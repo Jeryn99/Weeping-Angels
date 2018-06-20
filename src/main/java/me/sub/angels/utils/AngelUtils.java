@@ -43,10 +43,10 @@ public class AngelUtils {
 					torch.setCount(0);
 					newStack.setCount(count);
 					if (hand == EnumHand.MAIN_HAND) {
-						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.CHILD_BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 						p.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
 					} else {
-						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.CHILD_BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+						p.world.playSound(null, p.posX, p.posY, p.posZ, WAObjects.Sounds.BLOW, SoundCategory.PLAYERS, 1.0F, 1.0F / (p.world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 						p.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, newStack);
 					}
 				}

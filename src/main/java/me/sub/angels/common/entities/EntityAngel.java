@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
 @Mod.EventBusSubscriber
 public class EntityAngel extends EntityMob {
 
-	private SoundEvent[] seenSounds = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
+	private SoundEvent[] seenSounds = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
 	
 	private long soundTime = 0L;
 	
@@ -83,7 +83,7 @@ public class EntityAngel extends EntityMob {
 	
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-		playSound(WAObjects.Sounds.ANGEL_SPAWN, 0.5F, 1.0F);
+		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
 	
@@ -101,7 +101,7 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected SoundEvent getAmbientSound() {
 		if (isChild() && rand.nextInt(3) == 2) {
-			return WAObjects.Sounds.CHILD_LAUGHING;
+			return WAObjects.Sounds.LAUGHING_CHILD;
 		}
 		return null;
 	}
@@ -427,7 +427,7 @@ public class EntityAngel extends EntityMob {
 					playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
 				}
 			} else {
-				playSound(WAObjects.Sounds.CHILD_RUNNING, 1.0F, 1.0F);
+				playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
 			}
 		}
 	}
@@ -456,7 +456,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getX(), new ItemStack(Item.getItemFromBlock(blockState.getBlock())));
 							stop = true;
 						}
@@ -466,7 +466,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 							world.setBlockState(pos, Blocks.PUMPKIN.getDefaultState());
 							stop = true;
 						}
@@ -476,7 +476,7 @@ public class EntityAngel extends EntityMob {
 								world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
 							}
 							world.setBlockToAir(pos);
-							playSound(WAObjects.Sounds.ANGEL_LIGHT_BREAK, 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 							world.setBlockState(pos, Blocks.REDSTONE_LAMP.getDefaultState());
 							stop = true;
 						}

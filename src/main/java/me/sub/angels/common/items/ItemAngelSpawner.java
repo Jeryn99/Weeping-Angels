@@ -21,14 +21,13 @@ public class ItemAngelSpawner<E extends EntityAngel> extends Item {
 	public ItemAngelSpawner(int type, Function<World, E> angel) {
 		entityCreator = angel;
 		this.type = type;
-        this.setCreativeTab(WAObjects.angelTab);
 	}
 	
 	public ItemAngelSpawner(int type, Function<World, E> angel, boolean isChild) {
 		entityCreator = angel;
 		this.type = type;
 		this.isChild = isChild;
-        this.setCreativeTab(WAObjects.angelTab);
+        this.setCreativeTab(WAObjects.ANGEL_TAB);
 	}
 	
 	@Override

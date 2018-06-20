@@ -72,7 +72,7 @@ public class CommonEvents {
 
 		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
 			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER)
-				world.setBlockState(pos, WAObjects.WABlocks.ANGEL_ARM.getDefaultState(), 1);
+				world.setBlockState(pos, WAObjects.WABlocks.ARM.getDefaultState(), 1);
 		}
 		return true;
 	}

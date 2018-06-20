@@ -53,6 +53,8 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -62,11 +64,17 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WAObjects {
 	
-	public static CreativeTabs angelTab = new TabAngels();
+	public static final CreativeTabs ANGEL_TAB = new TabAngels();
+	
+	// Damage Sources
+	public static final DamageSource ANGEL = new WADamageSource("backintime");
+	public static final DamageSource STONE = new WADamageSource("punch_stone");
+	public static final DamageSource ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
 	
 	/**
      * Set up the rendering for entities and tileentities
@@ -113,24 +121,26 @@ public class WAObjects {
 	}
 
     // Sounds
+    @ObjectHolder(" WeepingAngels.MODID")
     public static class Sounds {
-        public static SoundEvent ANGEL_SEEN = setUpSound("angel_seen_1");
-        public static SoundEvent ANGEL_SEEN_2 = setUpSound("angel_seen_2");
-        public static SoundEvent ANGEL_SEEN_3 = setUpSound("angel_seen_3");
-        public static SoundEvent ANGEL_SEEN_4 = setUpSound("angel_seen_4");
-        public static SoundEvent ANGEL_SEEN_5 = setUpSound("angel_seen_5");
-        public static SoundEvent STONE_SCRAP = setUpSound("stone_scrap");
-        public static SoundEvent CHILD_RUNNING = setUpSound("child_run");
-        public static SoundEvent CHILD_LAUGHING = setUpSound("laughing_child");
-        public static SoundEvent ANGEL_LIGHT_BREAK = setUpSound("light_break");
-        public static SoundEvent ANGEL_TELEPORT = setUpSound("angel_teleport");
-        public static SoundEvent ANGEL_SPAWN = setUpSound("angel_ambient");
-        public static SoundEvent ITEM_DING = setUpSound("ding");
-        public static SoundEvent CHILD_BLOW = setUpSound("blow");
-        public static SoundEvent ANGEL_DEATH = setUpSound("angel_death");
+        public static final SoundEvent ANGEL_SEEN_1 	= null;
+        public static final SoundEvent ANGEL_SEEN_2 	= null;
+        public static final SoundEvent ANGEL_SEEN_3 	= null;
+        public static final SoundEvent ANGEL_SEEN_4 	= null;
+        public static final SoundEvent ANGEL_SEEN_5 	= null;
+        public static final SoundEvent STONE_SCRAP 	= null;
+        public static final SoundEvent CHILD_RUN    	= null;
+        public static final SoundEvent LAUGHING_CHILD = null;
+        public static final SoundEvent LIGHT_BREAK 	= null;
+        public static final SoundEvent ANGEL_TELEPORT = null;
+        public static final SoundEvent ANGEL_AMBIENT 	= null;
+        public static final SoundEvent DING 			= null;
+        public static final SoundEvent BLOW 			= null;
+        public static final SoundEvent ANGEL_DEATH 	= null;
     }
 
     // Entities
+    @ObjectHolder(" WeepingAngels.MODID")
     public static class EntityEntries {
         public static final EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
         public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
@@ -140,23 +150,25 @@ public class WAObjects {
     }
 	
 	// Blocks
+    @ObjectHolder(" WeepingAngels.MODID")
 	public static class WABlocks {
-        public static Block ANGEL_ARM = new BlockSnowArm().setCreativeTab(angelTab);
-        public static Block CG = new BlockCG().setCreativeTab(angelTab);
-        public static Block PLINTH = new BlockAngelStatue().setCreativeTab(angelTab);
+        public static final Block ARM = null;
+        public static final Block CG = null;
+        public static final Block PLINTH = null;
     }
 
 	// Items
+    @ObjectHolder(" WeepingAngels.MODID")
 	public static class WAItems {
-        public static Item ANGEL_PAINTING = registerItem(new ItemHanging(EntityPainting::new), "angel_painting").setCreativeTab(angelTab);
-        public static Item ANGEL_ARM = registerItem(new ItemBlock(WABlocks.ANGEL_ARM), "arm").setCreativeTab(angelTab);
-        public static Item UNLIT_TORCH = registerItem(new Item(), "unlit_torch");
-        public static Item TIMEY_WIMEY_DETECTOR = registerItem(new ItemDetector(), "timey_wimey_detector").setCreativeTab(angelTab);
-        public static Item CHRONODYNE_GENERATOR = registerItem(new ItemChronodyneGenerator(), "chronodyne_generator");
-        public static Item PLINTH = registerItem(new ItemBlock(WABlocks.PLINTH), "plinth").setCreativeTab(angelTab);
-        public static Item SPAWNER_ANGEL_0 = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0");
-        public static Item SPAWNER_ANGEL_1 = registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1");
-        public static Item SPAWNER_ANGEL_CHILD = registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child");
+        public static final Item ANGEL_PAINTING = null;
+        public static final Item ARM = null;
+        public static final Item UNLIT_TORCH = null;
+        public static final Item TIMEY_WIMEY_DETECTOR = null;
+        public static final Item CHRONODYNE_GENERATOR = null;
+        public static final Item PLINTH = null;
+        public static final Item ANGEL_0 = null;
+        public static final Item ANGEL_1 = null;
+        public static final Item ANGEL_CHILD = null;
 	}
 	
 	private static Item registerItem(Item item, String name) {
@@ -165,67 +177,91 @@ public class WAObjects {
 		return item;
 	}
 	
+	//Helper, gets reset after init
+	static List<Item> itemBlocks = new ArrayList<Item>();	
+	static List<Item> items = new ArrayList<Item>();
+	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
-		
-		// Items
-		for (Field f : WAItems.class.getDeclaredFields()) {
-			try {
-				Item item = (Item) f.get(null);
-				ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
-				ModelLoader.setCustomModelResourceLocation(item, 0, loc);
-			} catch (IllegalAccessException | ClassCastException e) {
-				throw new RuntimeException("Incorrect field in item sub-class", e);
-			}
+		for(Item item : items) {
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
-		
-		// Blocks
-		for (Field f : WABlocks.class.getDeclaredFields()) {
-			try {
-				Block block = (Block) f.get(null);
-				Item item = Item.getItemFromBlock(block);
-				ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
-				ModelLoader.setCustomModelResourceLocation(item, 0, loc);
-			} catch (IllegalAccessException | ClassCastException e) {
-				throw new RuntimeException("Incorrect field in item sub-class", e);
-			}
-		}
+		items = new ArrayList<Item>();
 	}
 	
 	@SubscribeEvent
-	public static void registerObjects(RegistryEvent ev) {
-		if (!(ev instanceof RegistryEvent.Register)) return;
-		IForgeRegistry registry = ((RegistryEvent.Register) ev).getRegistry();
+	public static void registerBlocks(RegistryEvent.Register<Block> event) {
+		registerBlocks(
+			event.getRegistry(),
+			ANGEL_TAB,
+			new BlockSnowArm("arm"),
+			new BlockCG("cg"),
+			new BlockAngelStatue("plinth")
+		);
+	}
+	
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		registerItems(event.getRegistry(), ANGEL_TAB, itemBlocks.toArray(new Item[itemBlocks.size()]));
 		
-		for (Class<?> aClass : WAObjects.class.getDeclaredClasses()) {
-			if (Arrays.stream(aClass.getDeclaredFields()).noneMatch(field -> registry.getRegistrySuperType().isAssignableFrom(field.getType()))) continue;
-			ArrayList<IForgeRegistryEntry> entries = new ArrayList<>();
-			
-			for (Field field : aClass.getDeclaredFields())
-				try {
-					entries.add((IForgeRegistryEntry) field.get(null));
-				} catch (IllegalAccessException | ClassCastException e) {
-					throw new RuntimeException("Incorrect field in object sub-class", e);
-				}
-			
-			if (Arrays.stream(aClass.getDeclaredFields()).anyMatch(field -> Items.class.isAssignableFrom(field.getType()))) {
-				for (Field f : Blocks.class.getDeclaredFields()) {
-					try {
-						Block block = (Block) f.get(null);
-						entries.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
-					} catch (IllegalAccessException | ClassCastException e) {
-						throw new RuntimeException("Incorrect field in object sub-class", e);
-					}
-				}
-			}
-			
-			entries.forEach(registry::register);
+		itemBlocks = new ArrayList<Item>();
+		
+		registerItems(
+			event.getRegistry(),
+			ANGEL_TAB,
+			registerItem(new ItemHanging(EntityPainting::new), "angel_painting"),
+			registerItem(new ItemBlock(WABlocks.ARM), "arm"),
+			registerItem(new Item(), "unlit_torch"),
+			registerItem(new ItemDetector(), "timey_wimey_detector"),
+			registerItem(new ItemChronodyneGenerator(), "chronodyne_generator"),
+			registerItem(new ItemBlock(WABlocks.PLINTH), "plinth"),
+			registerItem(new ItemAngelSpawner<>(0, EntityAngel::new), "angel_0"),
+			registerItem(new ItemAngelSpawner<>(1, EntityAngel::new), "angel_1"),
+			registerItem(new ItemAngelSpawner<>(0, EntityAngel::new, true), "angel_child")
+		);
+	}
+	
+	@SubscribeEvent
+	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+		event.getRegistry().registerAll(
+			setUpSound("angel_seen_1"),
+			setUpSound("angel_seen_2"),
+			setUpSound("angel_seen_3"), 
+			setUpSound("angel_seen_4"),  
+			setUpSound("angel_seen_5"),  
+			setUpSound("stone_scrap"),  
+			setUpSound("child_run"),   
+			setUpSound("laughing_child"),
+			setUpSound("light_break"),
+			setUpSound("angel_teleport"),
+			setUpSound("angel_ambient"),
+			setUpSound("ding"), 
+			setUpSound("blow"),          
+			setUpSound("angel_death")   
+		);
+	}
+	
+	@SubscribeEvent
+	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+		event.getRegistry().registerAll(
+				
+		);
+	}
+
+	//Helper Methods
+	private static void registerBlocks(IForgeRegistry<Block> reg, CreativeTabs tab, Block... blocks) {
+		reg.registerAll(blocks);
+		for(Block block : blocks) {
+			block.setCreativeTab(tab);
+			itemBlocks.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
 		}
 	}
 	
-	// Damage Sources
-	public static DamageSource ANGEL = new WADamageSource("backintime");
-	public static DamageSource STONE = new WADamageSource("punch_stone");
-	public static DamageSource ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
-	
+	private static void registerItems(IForgeRegistry<Item> reg, CreativeTabs tab, Item... items) {
+		reg.registerAll(items);
+		for(Item item : items) {
+			item.setCreativeTab(tab);
+			WAObjects.items.add(item);
+		}
+	}
 }

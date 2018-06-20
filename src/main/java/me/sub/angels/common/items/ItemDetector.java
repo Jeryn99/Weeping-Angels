@@ -37,7 +37,7 @@ public class ItemDetector extends Item {
 				}
 				
 				if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
-                    worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.ITEM_DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
+                    worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
 				}
 				
 				if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {

@@ -11,10 +11,10 @@ import net.minecraft.world.World;
 
 public class BlockSnowArm extends BlockSnow implements ITileEntityProvider {
 	
-	public BlockSnowArm() {
+	public BlockSnowArm(String name) {
 		super();
-		setUnlocalizedName("arm");
-		setRegistryName(WeepingAngels.MODID, "arm");
+		setUnlocalizedName(name);
+		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
 	}
 	

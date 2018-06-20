@@ -20,12 +20,12 @@ public class BlockCG extends Block {
 	
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 	
-	public BlockCG() {
+	public BlockCG(String name) {
 		super(Material.GRASS, MapColor.ADOBE);
-		setUnlocalizedName("cg");
-		setRegistryName(WeepingAngels.MODID, "cg");
+		setUnlocalizedName(name);
+		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
-		this.setCreativeTab(WAObjects.angelTab);
+		this.setCreativeTab(WAObjects.ANGEL_TAB);
 	}
 	
 	@Override

@@ -18,10 +18,10 @@ import javax.annotation.Nullable;
 
 public class BlockAngelStatue extends Block implements ITileEntityProvider {
 	
-	public BlockAngelStatue() {
+	public BlockAngelStatue(String name) {
 		super(Material.CORAL);
-		setUnlocalizedName("plinth");
-		setRegistryName(WeepingAngels.MODID, "plinth");
+		setUnlocalizedName(name);
+		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
 		this.setHardness(1.0F);
 	}
