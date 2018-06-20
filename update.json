@@ -1,8 +1,8 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "14",
-    "1.12.2-recommended": "14"
+    "1.12.2-latest": "14.5",
+    "1.12.2-recommended": "14.5"
   },
   "1.12.2": {
     "10": "Fixed Server crash",
@@ -11,6 +11,6 @@
     "12": "Discord [https://discord.me/sub] - Loads more config options that were heavily requested! (Attack strength, speed, blocked dimensions, blocked blocks, and more!)",
     "12.5": "Fixes to prevent dedicated servers kicking players. Apologies.",
     "13": "Added block statues, fixed sounds/pose data, removed a broken pose that looked weird",
-    "14": "Anomalies! Faster loading times!, Overall overhaul internally!"
+    "14.5": "Anomalies! Faster loading times!, Overall overhaul internally!"
   }
 }
