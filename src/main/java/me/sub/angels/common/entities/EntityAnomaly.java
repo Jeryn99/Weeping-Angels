@@ -2,6 +2,7 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.common.WAObjects;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.MoverType;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -16,6 +17,26 @@ public class EntityAnomaly extends EntityLiving {
         super(worldIn);
     }
 
+
+    @Override
+    public void move(MoverType type, double x, double y, double z) {
+
+    }
+
+    @Override
+    public void travel(float strafe, float vertical, float forward) {
+
+    }
+
+    @Override
+    public boolean getIsInvulnerable() {
+        return true;
+    }
+
+    @Override
+    protected boolean isMovementBlocked() {
+        return true;
+    }
 
     @Override
     public void onUpdate() {

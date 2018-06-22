@@ -1,8 +1,8 @@
 package me.sub.angels.main;
 
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.common.structures.WorldGenCatacombs;
-import me.sub.angels.common.tiles.TileCG;
+import me.sub.angels.common.tiles.TileEntityChronodyneGenerator;
+import me.sub.angels.common.world.WorldGenCatacombs;
 import me.sub.angels.common.tiles.TileEntityPlinth;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.utils.WAUtils;
@@ -34,12 +34,13 @@ public class WeepingAngels {
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 
         GameRegistry.registerTileEntity(TileSnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
-        GameRegistry.registerTileEntity(TileCG.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
+        GameRegistry.registerTileEntity(TileEntityChronodyneGenerator.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
         GameRegistry.registerTileEntity(TileEntityPlinth.class, new ResourceLocation(WeepingAngels.MODID + ":plinth"));
 
         if (event.getSide() == Side.CLIENT) {
             WAObjects.setUpRenders();
         }
+
 	}
 	
 	@EventHandler

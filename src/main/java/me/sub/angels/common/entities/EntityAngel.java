@@ -11,12 +11,9 @@ import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityPainting;
+import net.minecraft.entity.item.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -32,7 +29,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -246,38 +242,13 @@ public class EntityAngel extends EntityMob {
 	@Override
 	protected void collideWithEntity(Entity entity) {
 		entity.applyEntityCollision(this);
-		
-		if (entity instanceof EntityPlayerMP && !world.isRemote) {
-			EntityPlayerMP player = (EntityPlayerMP) entity;
-			for (ItemStack stack : player.inventory.mainInventory) {
-				
-				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
-					
-					ItemStack keyStack = stack.copy();
-					
-					if (getHeldItemMainhand().isEmpty()) {
-						setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
-						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.AIR));
-						stack.setCount(0);
-						return;
-					} else {
-						if (getHeldItemOffhand().isEmpty()) {
-							setHeldItem(EnumHand.OFF_HAND, keyStack);
-							player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.AIR));
-							stack.setCount(0);
-							return;
-						}
-					}
-				}
-			}
-		}
+
+		AngelUtils.handleKeyThief(entity, this);
 		
 		// Teleporting
-		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable);
+		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable) && !(entity instanceof EntityAnomaly) && !entity.isRidingOrBeingRiddenBy(this) && !(entity instanceof EntityBoat) && !(entity instanceof EntityMinecart);
 
 		if (world.isRemote) return;
-
-
 
 		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
 			int dimID;
@@ -298,7 +269,7 @@ public class EntityAngel extends EntityMob {
 				int y = world.getHeight(x, z);
 				playSound(WAObjects.Sounds.ANGEL_TELEPORT, 1.0F, 1.0F);
 				heal(4.0F);
-				teleport(entity, x, y, z, dimID, this);
+				correctTeleportPos(entity, x, y, z, dimID, this);
 			}
 		}
 	}
@@ -312,7 +283,7 @@ public class EntityAngel extends EntityMob {
 		return dimID;
 	}
 	
-	private void teleport(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
+	private void correctTeleportPos(Entity entity, double x, double y, double z, int dim, EntityAngel angel) {
 		BlockPos p = new BlockPos(x, y, z);
 		
 		if (world.isAirBlock(p)) {
@@ -350,11 +321,6 @@ public class EntityAngel extends EntityMob {
 		if (!isSeen()) {
 			super.setRotation(yaw, pitch);
 		}
-	}
-	
-	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
 	}
 	
 	@Override

@@ -2,18 +2,17 @@ package me.sub.angels.common;
 
 import com.google.common.collect.Lists;
 import me.sub.angels.client.TabAngels;
-import me.sub.angels.client.models.entity.ModelAngelEd;
-import me.sub.angels.client.models.item.ModelDetector;
+import me.sub.angels.client.models.item.models.ModelDetector;
 import me.sub.angels.client.models.item.RenderItemStackBase;
 import me.sub.angels.client.render.entity.RenderAngel;
 import me.sub.angels.client.render.entity.RenderAngelPainting;
 import me.sub.angels.client.render.entity.RenderAnomaly;
-import me.sub.angels.client.render.entity.RenderCG;
+import me.sub.angels.client.render.entity.RenderChronodyneGenerator;
 import me.sub.angels.client.render.tileentity.RenderTileEntityCG;
 import me.sub.angels.client.render.tileentity.RenderTileEntityPlinth;
 import me.sub.angels.client.render.tileentity.RenderTileEntitySnowArm;
 import me.sub.angels.common.blocks.BlockAngelStatue;
-import me.sub.angels.common.blocks.BlockCG;
+import me.sub.angels.common.blocks.BlockChronodyneGenerator;
 import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.common.entities.EntityAngelPainting;
@@ -23,7 +22,7 @@ import me.sub.angels.common.items.ItemAngelSpawner;
 import me.sub.angels.common.items.ItemChronodyneGenerator;
 import me.sub.angels.common.items.ItemDetector;
 import me.sub.angels.common.items.ItemHanging;
-import me.sub.angels.common.tiles.TileCG;
+import me.sub.angels.common.tiles.TileEntityChronodyneGenerator;
 import me.sub.angels.common.tiles.TileEntityPlinth;
 import me.sub.angels.common.tiles.TileSnowArm;
 import me.sub.angels.main.WeepingAngels;
@@ -31,7 +30,6 @@ import me.sub.angels.main.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.init.Biomes;
 import net.minecraft.item.Item;
@@ -77,7 +75,7 @@ public class WAObjects {
     public static void setUpRenders() {
 
         //Entities
-		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel(new ModelAngelEd()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAngel.class, new RenderAngel());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
 
@@ -85,11 +83,11 @@ public class WAObjects {
         WAItems.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 
 		// Projectiles
-		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderCG());
+		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderChronodyneGenerator());
 
         //TESRS
         ClientRegistry.bindTileEntitySpecialRenderer(TileSnowArm.class, new RenderTileEntitySnowArm());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileCG.class, new RenderTileEntityCG());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
 	}
 
@@ -109,7 +107,7 @@ public class WAObjects {
 		spawn.remove(Biomes.OCEAN);
 		for (Biome biome : spawn) {
 			if (biome != null) {
-				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, EnumCreatureType.valueOf(WAConfig.spawn.spawnType), biome);
+				EntityRegistry.addSpawn(EntityAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
 			}
 		}
 	}
@@ -131,7 +129,7 @@ public class WAObjects {
 			new BlockAngelStatue("plinth")
 		);
 
-		registerBlockNoItems(event.getRegistry(), new BlockCG("cg"));
+		registerBlockNoItems(event.getRegistry(), new BlockChronodyneGenerator("cg"));
 	}
 	
 	@SubscribeEvent

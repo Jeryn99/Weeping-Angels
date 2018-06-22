@@ -1,17 +1,17 @@
 package me.sub.angels.client.render.tileentity;
 
 import me.sub.angels.client.models.entity.ModelCG;
-import me.sub.angels.common.tiles.TileCG;
+import me.sub.angels.common.tiles.TileEntityChronodyneGenerator;
 import me.sub.angels.main.WAConstants;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
-public class RenderTileEntityCG extends TileEntitySpecialRenderer<TileCG> {
+public class RenderTileEntityCG extends TileEntitySpecialRenderer<TileEntityChronodyneGenerator> {
 	
 	private ModelCG model = new ModelCG();
 	
 	@Override
-	public void render(TileCG tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(TileEntityChronodyneGenerator tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		if (tile.getTileData().hasKey(WAConstants.ABS_X) && tile.getTileData().hasKey(WAConstants.ABS_Z)) {

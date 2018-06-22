@@ -4,6 +4,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.WAObjects.WAItems;
 import me.sub.angels.common.entities.EntityAngel;
 import me.sub.angels.events.EventAngelTeleport;
+import me.sub.angels.main.WAConstants;
 import me.sub.angels.main.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -11,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -54,7 +56,7 @@ public class AngelUtils {
 		}
 	}
 	
-	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityAngel angel) {
+	public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityAngel entityBeingWatched) {
 		if (entity.getEntityWorld().isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isEntityAlive()) {
 			return false;
 		}
@@ -71,8 +73,8 @@ public class AngelUtils {
 				player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
 			}
 			
-			if (angel != null) {
-				MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, angel));
+			if (entityBeingWatched != null) {
+				MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityBeingWatched));
 			}
 		}
 		
@@ -123,19 +125,25 @@ public class AngelUtils {
 		return true;
 	}
 
-	public static boolean isInSight(EntityLivingBase livingBase, Entity angel) {
-        double dx = angel.posX - livingBase.posX;
+    /**
+     * Method that detects whether entityBeingWatched is the the view sight of viewer
+     *
+     * @param viewer The viewer entity
+     * @param entityBeingWatched The entity being watched by viewer
+     */
+	public static boolean isInSight(EntityLivingBase viewer, Entity entityBeingWatched) {
+        double dx = entityBeingWatched.posX - viewer.posX;
         double dz;
-        for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+        for (dz = entityBeingWatched.posZ - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (livingBase.rotationYaw > 360) {
-            livingBase.rotationYaw -= 360;
+        while (viewer.rotationYaw > 360) {
+            viewer.rotationYaw -= 360;
         }
-        while (livingBase.rotationYaw < -360) {
-            livingBase.rotationYaw += 360;
+        while (viewer.rotationYaw < -360) {
+            viewer.rotationYaw += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -144,23 +152,28 @@ public class AngelUtils {
             yaw -= 360;
         }
 
-        return yaw < 60 && yaw > -60 && livingBase.canEntityBeSeen(angel);
+        return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(entityBeingWatched);
     }
 
-
-    public static boolean isInSightTile(EntityLivingBase livingBase, TileEntity tile) {
-        double dx = tile.getPos().getX() - livingBase.posX;
+    /**
+     * Method that detects whether a tile is the the view sight of viewer
+     *
+     * @param viewer The viewer entity
+     * @param tile The tile being watched by viewer
+     */
+	public static boolean isInSightTile(EntityLivingBase viewer, TileEntity tile) {
+        double dx = tile.getPos().getX() - viewer.posX;
         double dz;
-        for (dz = tile.getPos().getX() - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+        for (dz = tile.getPos().getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (livingBase.rotationYaw > 360) {
-            livingBase.rotationYaw -= 360;
+        while (viewer.rotationYaw > 360) {
+            viewer.rotationYaw -= 360;
         }
-        while (livingBase.rotationYaw < -360) {
-            livingBase.rotationYaw += 360;
+        while (viewer.rotationYaw < -360) {
+            viewer.rotationYaw += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -185,7 +198,35 @@ public class AngelUtils {
 	public static boolean isDarkForPlayer(EntityAngel angel, EntityLivingBase living) {
 		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !WAUtils.handLightCheck(living);
 	}
-	
+
+	public static void handleKeyThief(Entity entity, EntityAngel angel){
+		if (entity instanceof EntityPlayerMP && !entity.world.isRemote) {
+			EntityPlayerMP player = (EntityPlayerMP) entity;
+			for (ItemStack stack : player.inventory.mainInventory) {
+
+				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
+
+					ItemStack keyStack = stack.copy();
+
+					if (angel.getHeldItemMainhand().isEmpty()) {
+						angel.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
+						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.AIR));
+						stack.setCount(0);
+						return;
+					} else {
+						if (angel.getHeldItemOffhand().isEmpty()) {
+							angel.setHeldItem(EnumHand.OFF_HAND, keyStack);
+							player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.AIR));
+							stack.setCount(0);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
 	// Teleporter
 	public static class WAMTeleporter extends Teleporter {
 		

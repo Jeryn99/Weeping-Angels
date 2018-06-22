@@ -37,7 +37,7 @@ public class ItemHanging extends Item {
 			if (!player.canPlayerEdit(wallPos, side, stack)) {
 				return EnumActionResult.FAIL;
 			} else {
-				EntityHanging entityhanging = this.createHangingEntity(worldIn, wallPos, side);
+				EntityHanging entityhanging = createHangingEntity(worldIn, wallPos, side);
 				
 				if (entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {

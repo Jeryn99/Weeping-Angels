@@ -26,8 +26,8 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	private ModelBase modelTwo = new ModelAngelEd();
 	private ModelAngelChild modelChild = new ModelAngelChild();
 
-	public RenderAngel(ModelBase model) {
-		super(Minecraft.getMinecraft().getRenderManager(), model, 0.0F);
+	public RenderAngel() {
+		super(Minecraft.getMinecraft().getRenderManager(), new ModelAngelEd(), 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
 		addLayer(new LayerHeldItem(this));

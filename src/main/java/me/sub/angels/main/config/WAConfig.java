@@ -1,6 +1,7 @@
 package me.sub.angels.main.config;
 
 import me.sub.angels.main.WeepingAngels;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -32,11 +33,11 @@ public class WAConfig {
 		@Config.Comment("The minimum amount of angels per biome")
 		@Config.RangeInt(max = 24)
 		public int minimumSpawn = 2;
-		
+
 		@Config.LangKey("config.spawntype")
 		@Config.Comment("This will only accept: WATER_CREATURE, AMBIENT, CREATURE, MONSTER || Anything else WILL crash your game.")
 		@Config.RequiresMcRestart
-		public String spawnType = "MONSTER";
+		public EnumCreatureType spawnType = EnumCreatureType.MONSTER;
 	}
 	
 	public static class Angels {
