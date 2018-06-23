@@ -25,7 +25,6 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
                     world.spawnEntity(a);
                 }
 
-
                 angel.setDead();
 			}
 			

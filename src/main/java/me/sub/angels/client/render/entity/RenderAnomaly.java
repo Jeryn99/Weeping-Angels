@@ -27,8 +27,7 @@ public class RenderAnomaly extends RenderEntity {
     @Override
     public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
 
-        if (!(entity instanceof EntityAnomaly))
-            return;
+        if (!(entity instanceof EntityAnomaly)) return;
 
         EntityAnomaly anom = (EntityAnomaly) entity;
 
@@ -103,19 +102,17 @@ public class RenderAnomaly extends RenderEntity {
         GlStateManager.popMatrix();
     }
 
-
     public Color getRandomColor() {
         int r = (int) (Math.random() * 256);
         int g = (int) (Math.random() * 256);
         int b = (int) (Math.random() * 256);
         Color color = new Color(r, g, b);
         final float hue = random.nextFloat();
-        final float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-        final float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+        final float saturation = 0.9f;// 1.0 for brilliant, 0.0 for dull
+        final float luminance = 1.0f; // 1.0 for brighter, 0.0 for black
         color = Color.getHSBColor(hue, saturation, luminance);
         return color;
     }
-
 
     @Nullable
     @Override

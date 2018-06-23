@@ -136,6 +136,9 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	public int getWidthPixels() {
+		if (art == null) {
+			art = EnumArt.AngelFive;
+		}
 		return this.art.sizeX;
 	}
 	

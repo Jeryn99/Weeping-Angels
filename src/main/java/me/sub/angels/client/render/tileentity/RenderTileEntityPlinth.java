@@ -24,19 +24,19 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
 		
 		GlStateManager.rotate(-tile.getRotation(), 0, 1, 0);
 
-		if (!tile.getHasSpawned()) {
+        if (!tile.getHasSpawned()) {
 
-			//GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-			//GlStateManager.color(0.2f, 0.2f, 1, 0.5f);
+            // GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+            // GlStateManager.color(0.2f, 0.2f, 1, 0.5f);
 
-			//if (getWorld().rand.nextInt(5) == 1) {
-			//GlStateManager.translate(0, this.getWorld().rand.nextInt(3) / 100.0f, 0);
-			//GlStateManager.translate(this.getWorld().rand.nextInt(3) / 100.0f, 0, 0);
-			//}
-			//if (getWorld().rand.nextInt(10) == 1) {
-			//	GlStateManager.scale(1, 1 + this.getWorld().rand.nextInt(5) / 100.0f, 1);
-			//}
-
+            // if (getWorld().rand.nextInt(5) == 1) {
+            // GlStateManager.translate(0, this.getWorld().rand.nextInt(3) / 100.0f, 0);
+            // GlStateManager.translate(this.getWorld().rand.nextInt(3) / 100.0f, 0, 0);
+            // }
+            // if (getWorld().rand.nextInt(10) == 1) {
+            // GlStateManager.scale(1, 1 + this.getWorld().rand.nextInt(5) / 100.0f, 1);
+            // }
+			
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEX);
 			ed.quickRender(0.0625f, tile);
 			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);

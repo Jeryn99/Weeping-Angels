@@ -13,8 +13,8 @@ import net.minecraft.util.ResourceLocation;
  * TimeyWimeyDetector - Ed Created using Tabula 5.1.0
  */
 public class ModelDetector extends ModelBase {
-	
-	ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
+
+	private ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
 	
 	ModelRenderer spin_1;
 	ModelRenderer spin_2;
@@ -732,14 +732,14 @@ public class ModelDetector extends ModelBase {
 		shape14_34.addChild(shape14_35);
 	}
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
-    @Override
-    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        render(scale);
-    }
-
+	/**
+	 * Sets the models various rotation angles then renders the model.
+	 */
+	@Override
+	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		render(scale);
+	}
+	
 	public void render(float scale) {
 		
 		long time = 60 * Minecraft.getMinecraft().world.getWorldTime();

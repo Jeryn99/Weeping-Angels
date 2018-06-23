@@ -63,7 +63,7 @@ public class BlockChronodyneGenerator extends Block {
     public boolean hasTileEntity(IBlockState state) {
         return true;
     }
-
+	
 	@Nullable
 	@Override
     public TileEntity createTileEntity(World world, IBlockState state) {

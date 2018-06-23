@@ -43,7 +43,7 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 			GlStateManager.enableOutlineMode(this.getTeamColor(painting));
 		}
 
-		this.renderPainting(painting, enumArt.sizeX, enumArt.sizeY, enumArt.offsetX, enumArt.offsetY);
+        this.renderPainting(painting, enumArt.sizeX, enumArt.sizeY, enumArt.offsetX, enumArt.offsetY);
 		
 		if (this.renderOutlines) {
 			GlStateManager.disableOutlineMode();

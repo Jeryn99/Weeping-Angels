@@ -33,7 +33,7 @@ public class ItemAngelSpawner<E extends EntityAngel> extends Item {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-		if (!worldIn.isRemote) {
+        if (!worldIn.isRemote) {
 			EntityAngel entity = entityCreator.apply(worldIn);
 			entity.setType(type);
 			entity.setChild(isChild);

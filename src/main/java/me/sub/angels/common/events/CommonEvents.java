@@ -66,13 +66,12 @@ public class CommonEvents {
 		}
 	}
 
-
-	public static boolean generate(World world, BlockPos position) {
+    public static boolean generate(World world, BlockPos position) {
 		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
 
-		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
-			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER)
-				world.setBlockState(pos, WAObjects.WABlocks.ARM.getDefaultState(), 1);
+        if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
+            if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER)
+                world.setBlockState(pos, WAObjects.WABlocks.ARM.getDefaultState(), 1);
 		}
 		return true;
 	}

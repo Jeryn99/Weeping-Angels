@@ -5,9 +5,9 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class PoseOpenArms extends PoseBase {
 
-	public PoseOpenArms() {
-	}
-
+    public PoseOpenArms() {
+    }
+	
 	public PoseOpenArms(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}

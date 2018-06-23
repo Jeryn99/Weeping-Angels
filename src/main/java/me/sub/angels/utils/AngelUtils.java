@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -125,68 +124,67 @@ public class AngelUtils {
 		return true;
 	}
 
-    /**
-     * Method that detects whether entityBeingWatched is the the view sight of viewer
-     *
-     * @param viewer The viewer entity
-     * @param entityBeingWatched The entity being watched by viewer
-     */
+	/**
+	 * Method that detects whether entityBeingWatched is the the view sight of viewer
+	 *
+	 * @param viewer             The viewer entity
+	 * @param entityBeingWatched The entity being watched by viewer
+	 */
 	public static boolean isInSight(EntityLivingBase viewer, Entity entityBeingWatched) {
-        double dx = entityBeingWatched.posX - viewer.posX;
-        double dz;
-        for (dz = entityBeingWatched.posZ - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-            dx = (Math.random() - Math.random()) * 0.01D;
-        }
-        while (viewer.rotationYaw > 360) {
-            viewer.rotationYaw -= 360;
-        }
-        while (viewer.rotationYaw < -360) {
-            viewer.rotationYaw += 360;
-        }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
-        yaw = yaw - 90;
-        while (yaw < -180) {
-            yaw += 360;
-        }
-        while (yaw >= 180) {
-            yaw -= 360;
-        }
+		double dx = entityBeingWatched.posX - viewer.posX;
+		double dz;
+		for (dz = entityBeingWatched.posZ - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+			dx = (Math.random() - Math.random()) * 0.01D;
+		}
+		while (viewer.rotationYaw > 360) {
+			viewer.rotationYaw -= 360;
+		}
+		while (viewer.rotationYaw < -360) {
+			viewer.rotationYaw += 360;
+		}
+		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
+		yaw = yaw - 90;
+		while (yaw < -180) {
+			yaw += 360;
+		}
+		while (yaw >= 180) {
+			yaw -= 360;
+		}
 
-        return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(entityBeingWatched);
-    }
+		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(entityBeingWatched);
+	}
 
-    /**
-     * Method that detects whether a tile is the the view sight of viewer
-     *
-     * @param viewer The viewer entity
-     * @param tile The tile being watched by viewer
-     */
+	/**
+	 * Method that detects whether a tile is the the view sight of viewer
+	 *
+	 * @param viewer The viewer entity
+	 * @param tile The tile being watched by viewer
+	 */
 	public static boolean isInSightTile(EntityLivingBase viewer, TileEntity tile) {
-        double dx = tile.getPos().getX() - viewer.posX;
-        double dz;
-        for (dz = tile.getPos().getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-            dx = (Math.random() - Math.random()) * 0.01D;
-        }
-        while (viewer.rotationYaw > 360) {
-            viewer.rotationYaw -= 360;
-        }
-        while (viewer.rotationYaw < -360) {
-            viewer.rotationYaw += 360;
-        }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
-        yaw = yaw - 90;
-        while (yaw < -180) {
-            yaw += 360;
-        }
-        while (yaw >= 180) {
-            yaw -= 360;
-        }
+		double dx = tile.getPos().getX() - viewer.posX;
+		double dz;
+		for (dz = tile.getPos().getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+			dx = (Math.random() - Math.random()) * 0.01D;
+		}
+		while (viewer.rotationYaw > 360) {
+			viewer.rotationYaw -= 360;
+		}
+		while (viewer.rotationYaw < -360) {
+			viewer.rotationYaw += 360;
+		}
+		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
+		yaw = yaw - 90;
+		while (yaw < -180) {
+			yaw += 360;
+		}
+		while (yaw >= 180) {
+			yaw -= 360;
+		}
 
-        return yaw < 60 && yaw > -60;
-    }
-
-
-    @Deprecated
+		return yaw < 60 && yaw > -60;
+	}
+	
+	@Deprecated
 	public static void getAllAngels(EntityAngel angel_viewer) {
 		for (EntityAngel angel2 : angel_viewer.world.getEntitiesWithinAABB(EntityAngel.class, angel_viewer.getEntityBoundingBox().grow(20, 20, 20))) {
 			if (angel_viewer.canEntityBeSeen(angel2) && angel_viewer != angel2 && isInSight(angel_viewer, angel2)) {
@@ -199,24 +197,22 @@ public class AngelUtils {
 		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !WAUtils.handLightCheck(living);
 	}
 
-	public static void handleKeyThief(Entity entity, EntityAngel angel){
+	public static void handleKeyThief(Entity entity, EntityAngel angel) {
 		if (entity instanceof EntityPlayerMP && !entity.world.isRemote) {
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			for (ItemStack stack : player.inventory.mainInventory) {
-
+				
 				if (stack.getItem().getRegistryName().toString().equals(WAConstants.TARDIS_MOD_KEY) || stack.getItem().getRegistryName().toString().equals(WAConstants.DALEK_MOD_KEY)) {
-
+					
 					ItemStack keyStack = stack.copy();
-
+					
 					if (angel.getHeldItemMainhand().isEmpty()) {
 						angel.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, keyStack);
-						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.AIR));
 						stack.setCount(0);
 						return;
 					} else {
 						if (angel.getHeldItemOffhand().isEmpty()) {
 							angel.setHeldItem(EnumHand.OFF_HAND, keyStack);
-							player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.AIR));
 							stack.setCount(0);
 							return;
 						}
@@ -225,8 +221,7 @@ public class AngelUtils {
 			}
 		}
 	}
-
-
+	
 	// Teleporter
 	public static class WAMTeleporter extends Teleporter {
 		

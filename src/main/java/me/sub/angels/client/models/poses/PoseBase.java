@@ -7,7 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class PoseBase {
 
-	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
+    private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
 	private EntityAngel angel;
 	
 	public PoseBase() {}
@@ -36,7 +36,6 @@ public abstract class PoseBase {
 	 * Determines angry face
 	 */
 	public abstract boolean angryFace(EntityAngel angel);
-
 
     /**
      * Determines angry face
@@ -103,12 +102,12 @@ public abstract class PoseBase {
 	public float degreeToRadian(float degree) {
 		return (float) (degree * Math.PI / 180);
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public void resetAngles(ModelRenderer model) {
 		model.rotateAngleX = 0;
 		model.rotateAngleY = 0;
 		model.rotateAngleY = 0;
 	}
-
+	
 }

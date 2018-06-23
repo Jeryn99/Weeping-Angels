@@ -192,7 +192,7 @@ public class ModelAngelEd extends ModelBiped {
 		angry_mouth.addChild(teeth_3);
 		angry_mouth.addChild(teeth_2);
 
-		head.addChild(nose);
+        head.addChild(nose);
 		head.addChild(coverup);
 		head.addChild(face);
 		angry_mouth.addChild(teeth_5);
@@ -309,10 +309,9 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleZ = 0;
 			EntityAngel angel = (EntityAngel) entity;
 
-			PoseBase pose = AngelPoses.valueOf(angel.getPoseName()).getPose();
+            PoseBase pose = AngelPoses.valueOf(angel.getPoseName()).getPose();
 
-
-			if (pose != null) {
+            if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace(angel);
 				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 				pose.setWingAngles(this.left_wing_0, this.right_wing_0);

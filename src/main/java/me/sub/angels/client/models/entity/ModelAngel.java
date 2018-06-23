@@ -511,7 +511,7 @@ public class ModelAngel extends ModelBase {
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
 
-		if (angel.getPoseName().equals(AngelPoses.ANGRY.toString())) {
+        if (angel.getPoseName().equals(AngelPoses.ANGRY.toString())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);

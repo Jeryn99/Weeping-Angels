@@ -84,21 +84,21 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 
     AxisAlignedBB BB = new AxisAlignedBB(45, 45, 45, 45, 45, 45);
-
+	
 	@Override
 	public void update() {
 		if (world.isRemote) return;
 
-        //	EntityPlayer closestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 45, false);
-        //pose = getRandomPose(world).toString();
-        //	if(closestPlayer != null && closestPlayer.getDistanceSq(this.getPos()) < 25){
-        //		if(!AngelUtils.isInSightTile(closestPlayer, this)) {
-        //			System.out.println("!seen");
-        //			pose = getRandomPose(world).toString();
-        //			sendUpdates();
-        //		} else {System.out.println("seen");}
-        //}
-
+        // EntityPlayer closestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 45, false);
+        // pose = getRandomPose(world).toString();
+        // if(closestPlayer != null && closestPlayer.getDistanceSq(this.getPos()) < 25){
+        // if(!AngelUtils.isInSightTile(closestPlayer, this)) {
+        // System.out.println("!seen");
+        // pose = getRandomPose(world).toString();
+        // sendUpdates();
+        // } else {System.out.println("seen");}
+        // }
+		
 		if (world.isBlockIndirectlyGettingPowered(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
@@ -113,7 +113,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 			}
         }
     }
-
+	
 	public AngelPoses getRandomPose(World world) {
 		return AngelPoses.values()[world.rand.nextInt(AngelPoses.values().length)];
 	}

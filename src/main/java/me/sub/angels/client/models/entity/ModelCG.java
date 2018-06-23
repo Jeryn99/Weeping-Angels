@@ -12,7 +12,7 @@ public class ModelCG extends ModelBase {
 	
 	ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/cg_tex.png");
 
-	ModelRenderer MAIN;
+    ModelRenderer MAIN;
 	ModelRenderer shape11;
 	ModelRenderer shape11_1;
 	ModelRenderer shape11_2;

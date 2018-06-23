@@ -30,20 +30,20 @@ public class ItemDetector extends Item {
 		if (!entityIn.world.isRemote) {
 			List<EntityAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityAngel.class, entityIn.getEntityBoundingBox().grow(25, 25, 25));
 
-			if (entityIn instanceof EntityPlayer) {
+            if (entityIn instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entityIn;
 
-				boolean isInHand = WAUtils.isInEitherHand(player, WAObjects.WAItems.TIMEY_WIMEY_DETECTOR);
+                boolean isInHand = WAUtils.isInEitherHand(player, WAObjects.WAItems.TIMEY_WIMEY_DETECTOR);
 
-				if (!angels.isEmpty() && isInHand) {
+                if (!angels.isEmpty() && isInHand) {
 					{
 						player.sendStatusMessage(new TextComponentString("There are " + TextFormatting.YELLOW + angels.size() + TextFormatting.WHITE + " angels around you.. "), true);
 
-						if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
+                        if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
 						}
 
-						if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {
+                        if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {
 							for (Object chicken : entityIn.world.getEntitiesWithinAABB(EntityChicken.class, entityIn.getEntityBoundingBox().grow(30, 30, 30))) {
 								if (chicken instanceof EntityChicken && entityIn.world.rand.nextBoolean()) {
 									EntityChicken chick = (EntityChicken) chicken;
@@ -54,7 +54,7 @@ public class ItemDetector extends Item {
 							}
 						}
 
-					}
+                    }
 				}
 			}
 		}

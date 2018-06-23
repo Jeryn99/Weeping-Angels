@@ -277,7 +277,7 @@ public class EntityAngel extends EntityMob {
 	private int isDimensionAllowed(int dimID) {
 		for (int dim : WAConfig.angels.notAllowedDimensions) {
 			if (dim == dimID) {
-				return dimension;
+				return this.dimension;
 			}
 		}
 		return dimID;

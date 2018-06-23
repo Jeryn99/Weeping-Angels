@@ -63,7 +63,7 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 		}
 	}
 
-	public AngelPoses getRandomPose(World world) {
+    public AngelPoses getRandomPose(World world) {
 		return AngelPoses.values()[world.rand.nextInt(AngelPoses.values().length)];
 	}
 	

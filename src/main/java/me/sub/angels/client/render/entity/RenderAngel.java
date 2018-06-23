@@ -26,7 +26,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	private ModelBase modelTwo = new ModelAngelEd();
 	private ModelAngelChild modelChild = new ModelAngelChild();
 
-	public RenderAngel() {
+    public RenderAngel() {
 		super(Minecraft.getMinecraft().getRenderManager(), new ModelAngelEd(), 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
@@ -39,7 +39,7 @@ public class RenderAngel extends RenderLiving<EntityAngel> {
 	@Override
 	protected void renderModel(EntityAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 
-		GlStateManager.pushMatrix();
+        GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		
 		if (angel.getHealth() > 0.0F) {

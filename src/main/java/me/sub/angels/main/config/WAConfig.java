@@ -26,7 +26,7 @@ public class WAConfig {
 		public int maximumSpawn = 4;
 		
 		@Config.LangKey("config.spawn_probability")
-        @Config.Comment("The angel spawn probability rate")
+		@Config.Comment("The angel spawn probability rate")
 		public int spawnProbability = 50;
 		
 		@Config.LangKey("config.min_spawn")
@@ -38,6 +38,11 @@ public class WAConfig {
 		@Config.Comment("This will only accept: WATER_CREATURE, AMBIENT, CREATURE, MONSTER || Anything else WILL crash your game.")
 		@Config.RequiresMcRestart
 		public EnumCreatureType spawnType = EnumCreatureType.MONSTER;
+
+		@Config.LangKey("config.disallowed_spawn_biomes")
+		@Config.Comment("Note: A list of biomes where angels should NOT spawn.")
+		public String[] notAllowedBiomes = {"minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"};
+		
 	}
 	
 	public static class Angels {
@@ -102,18 +107,22 @@ public class WAConfig {
 		public String[] disAllowedBlocks = { Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop" };
 		
 		@Config.LangKey("config.disallowed_dimensions")
+		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
 		public int[] notAllowedDimensions = { 1 };
+
+		@Config.LangKey("config.angel_camera")
+		@Config.Comment("Camera FOV update when mouse over a angel")
+		public boolean cameraUpdate = false;
 	}
 
-
-    @Mod.EventBusSubscriber
-    public static class EventHandler {
-        @SubscribeEvent
-        public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-            if (event.getModID().equals(WeepingAngels.MODID)) {
-                ConfigManager.sync(WeepingAngels.MODID, Config.Type.INSTANCE);
-            }
-        }
+	@Mod.EventBusSubscriber
+	public static class EventHandler {
+		@SubscribeEvent
+		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+			if (event.getModID().equals(WeepingAngels.MODID)) {
+				ConfigManager.sync(WeepingAngels.MODID, Config.Type.INSTANCE);
+			}
+		}
 	}
 	
 }

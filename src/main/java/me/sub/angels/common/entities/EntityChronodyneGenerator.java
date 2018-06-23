@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityChronodyneGenerator extends EntityThrowable {
 
-	public EntityChronodyneGenerator(World worldIn) {
+    public EntityChronodyneGenerator(World worldIn) {
 		super(worldIn);
 	}
 	
@@ -67,12 +67,12 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			
 			if (!world.isRemote) {
 
-				EntityAnomaly a = new EntityAnomaly(world);
+                EntityAnomaly a = new EntityAnomaly(world);
 				a.setEntityEyeHeight(result.entityHit.getEyeHeight());
 				a.copyLocationAndAnglesFrom(result.entityHit);
 				world.spawnEntity(a);
 
-				result.entityHit.setDead();
+                result.entityHit.setDead();
 				setDead();
 			}
 		}
