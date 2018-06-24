@@ -47,10 +47,11 @@ public class WAConfig {
 	
 	public static class Angels {
 
+
 		@Config.LangKey("config.angel_move_sound")
 		@Config.Comment("Non-child angels play scraping sounds when moving, this toggles that")
-		public boolean playScrapSounds;
-
+		public boolean playScrapSounds = true;
+		
 		@Config.LangKey("config.angel_damage")
 		@Config.Comment("The damage dealt by an angel")
 		public double damage = 8.0D;
@@ -110,11 +111,12 @@ public class WAConfig {
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
 		public int[] notAllowedDimensions = { 1 };
 
-		@Config.LangKey("config.angel_camera")
-		@Config.Comment("Camera FOV update when mouse over a angel")
-		public boolean cameraUpdate = false;
-	}
+		@Config.LangKey("config.entitiesNotToTeleport")
+		@Config.Comment("This is a list of entities NOT to be teleported by angels.")
+		public String[] entitiesNotToTeleport = {"minecraft:minecart", "minecraft:boat", "weeping-angels:anomaly", "weeping-angels:weepingangel", "minecraft:item_frame"};
 
+	}
+	
 	@Mod.EventBusSubscriber
 	public static class EventHandler {
 		@SubscribeEvent

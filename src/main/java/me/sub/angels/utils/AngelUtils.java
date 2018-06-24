@@ -21,6 +21,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
@@ -127,7 +128,7 @@ public class AngelUtils {
 	/**
 	 * Method that detects whether entityBeingWatched is the the view sight of viewer
 	 *
-	 * @param viewer             The viewer entity
+	 * @param viewer The viewer entity
 	 * @param entityBeingWatched The entity being watched by viewer
 	 */
 	public static boolean isInSight(EntityLivingBase viewer, Entity entityBeingWatched) {
@@ -191,6 +192,10 @@ public class AngelUtils {
 				angel2.setSeen(true);
 			}
 		}
+	}
+
+	public static ResourceLocation getEntityRegName(Class<? extends Entity> e) {
+		return EntityList.getKey(e);
 	}
 	
 	public static boolean isDarkForPlayer(EntityAngel angel, EntityLivingBase living) {

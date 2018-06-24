@@ -11,7 +11,6 @@ import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.item.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -238,40 +237,14 @@ public class EntityAngel extends EntityMob {
 		
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
-	
-	@Override
-	protected void collideWithEntity(Entity entity) {
-		entity.applyEntityCollision(this);
 
-		AngelUtils.handleKeyThief(entity, this);
-		
-		// Teleporting
-		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityAngel) && !(entity instanceof EntityPainting) && !(entity instanceof EntityItemFrame) && !(entity instanceof EntityItem) && !(entity instanceof EntityThrowable) && !(entity instanceof EntityAnomaly) && !entity.isRidingOrBeingRiddenBy(this) && !(entity instanceof EntityBoat) && !(entity instanceof EntityMinecart);
-
-		if (world.isRemote) return;
-
-		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
-			int dimID;
-			
-			if (WAConfig.angels.angelDimTeleport) {
-				dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
-			} else {
-				dimID = dimension;
-			}
-			
-			if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
-				EntityAnomaly a = new EntityAnomaly(world);
-				a.copyLocationAndAnglesFrom(entity);
-				a.setEntityEyeHeight(entity.getEyeHeight());
-				world.spawnEntity(a);
-				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
-				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
-				int y = world.getHeight(x, z);
-				playSound(WAObjects.Sounds.ANGEL_TELEPORT, 1.0F, 1.0F);
-				heal(4.0F);
-				correctTeleportPos(entity, x, y, z, dimID, this);
+	public static boolean canTeleportEntity(Class<? extends Entity> e) {
+		for (String name : WAConfig.angels.entitiesNotToTeleport) {
+			if (name.equals(AngelUtils.getEntityRegName(e).toString())) {
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	private int isDimensionAllowed(int dimID) {
@@ -324,25 +297,38 @@ public class EntityAngel extends EntityMob {
 	}
 	
 	@Override
-	public void onUpdate() {
+	protected void collideWithEntity(Entity entity) {
+		entity.applyEntityCollision(this);
 
-		super.onUpdate();
-		
-		if (isSeen()) {
-			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) getAttackTarget();
-				if (getDistance(getAttackTarget()) <= 1.5F) {
-					AngelUtils.blowOutTorch(player);
-				}
+		AngelUtils.handleKeyThief(entity, this);
+
+		// Teleporting
+		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityHanging) && !(entity instanceof EntityThrowable) && !entity.isRidingOrBeingRiddenBy(this) && canTeleportEntity(entity.getClass());
+
+		if (world.isRemote) return;
+
+		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
+			int dimID;
+
+			if (WAConfig.angels.angelDimTeleport) {
+				dimID = world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length);
+			} else {
+				dimID = dimension;
 			}
-			// Light block breaking
-			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
+
+			if (DimensionManager.isDimensionRegistered(isDimensionAllowed(dimID))) {
+				EntityAnomaly a = new EntityAnomaly(world);
+				a.copyLocationAndAnglesFrom(entity);
+				a.setEntityEyeHeight(entity.getEyeHeight());
+				world.spawnEntity(a);
+				int x = entity.getPosition().getX() + rand.nextInt(WAConfig.angels.teleportRange);
+				int z = entity.getPosition().getZ() + rand.nextInt(WAConfig.angels.teleportRange);
+				int y = world.getHeight(x, z);
+				playSound(WAObjects.Sounds.ANGEL_TELEPORT, 1.0F, 1.0F);
+				heal(4.0F);
+				correctTeleportPos(entity, x, y, z, dimID, this);
+			}
 		}
-		
-		if (!world.isRemote) {
-			setSeen(getIsInView());
-		}
-		
 	}
 	
 	@SubscribeEvent
@@ -496,8 +482,30 @@ public class EntityAngel extends EntityMob {
 		return false;
 	}
 
+	@Override
+	public void onUpdate() {
+
+		super.onUpdate();
+
+		if (isSeen()) {
+			if (isChild() && getAttackTarget() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) getAttackTarget();
+				if (getDistance(getAttackTarget()) <= 1.5F) {
+					AngelUtils.blowOutTorch(player);
+				}
+			}
+			// Light block breaking
+			replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
+		}
+
+		if (!world.isRemote) {
+			setSeen(getIsInView());
+		}
+
+	}
+
 	public AngelPoses getBestPoseForSituation(EntityAngel angel, EntityLivingBase player) {
-		
+
 		if (angel.getDistance(player) < 1.0F) {
 			return AngelPoses.ANGRY;
 		}

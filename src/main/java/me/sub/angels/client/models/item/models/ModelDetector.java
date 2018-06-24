@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class ModelDetector extends ModelBase {
 
-	private ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
+    private ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
 	
 	ModelRenderer spin_1;
 	ModelRenderer spin_2;
@@ -732,7 +732,7 @@ public class ModelDetector extends ModelBase {
 		shape14_34.addChild(shape14_35);
 	}
 
-	/**
+    /**
 	 * Sets the models various rotation angles then renders the model.
 	 */
 	@Override
