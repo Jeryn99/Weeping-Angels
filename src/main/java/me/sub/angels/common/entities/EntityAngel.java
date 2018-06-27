@@ -238,13 +238,8 @@ public class EntityAngel extends EntityMob {
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
 
-	public static boolean canTeleportEntity(Class<? extends Entity> e) {
-		for (String name : WAConfig.angels.entitiesNotToTeleport) {
-			if (name.equals(AngelUtils.getEntityRegName(e).toString())) {
-				return false;
-			}
-		}
-		return true;
+    public boolean canTeleportEntity(Entity entity) {
+        return WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityHanging) && !(entity instanceof EntityThrowable) && !entity.isRidingOrBeingRiddenBy(entity) && !entity.isBeingRidden() && WAConfig.angels.teleportType != WAObjects.TeleportType.PLAYER_ONLY;
 	}
 	
 	private int isDimensionAllowed(int dimID) {
@@ -302,12 +297,9 @@ public class EntityAngel extends EntityMob {
 
 		AngelUtils.handleKeyThief(entity, this);
 
-		// Teleporting
-		boolean flag = WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityHanging) && !(entity instanceof EntityThrowable) && !entity.isRidingOrBeingRiddenBy(this) && canTeleportEntity(entity.getClass());
-
 		if (world.isRemote) return;
 
-		if (flag && rand.nextInt(100) == 50 || flag && WAConfig.angels.justTeleport) {
+        if (canTeleportEntity(entity) && rand.nextInt(100) == 50 || canTeleportEntity(entity) && WAConfig.angels.justTeleport) {
 			int dimID;
 
 			if (WAConfig.angels.angelDimTeleport) {

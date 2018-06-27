@@ -11,6 +11,8 @@ item.angel_1.name=Ange pleureur(1)
 item.angel_child.name=Ange pleureur(Enfant)
 
 entity.angel.name=Ange pleureur
+entity.anomaly.name=Anomalie
+entity.weepingAngelpainting.name=Peinture d'Ange
 
 sound.angel_seen=Ange vu
 sound.child_run=Enfant qui court
@@ -53,8 +55,7 @@ config.angel_move_sound=Basculer les sons de mouvement pour les anges
 
 category.angels=Ange
 category.spawn=Taux d'apparition
+config.teleport_type=The Teleport type
 entity.angel_painting.name=Peinture d'Ange
-entity.anomaly.name=Anomalie
-entity.weepingAngelpainting.name=Peinture d'Ange
 message.infected=Vous avez été infecté
 message.look_away=Tu dois détourner le regard de cet ange !

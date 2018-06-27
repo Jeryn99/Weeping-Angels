@@ -11,6 +11,8 @@ item.angel_1.name=Angel (1)
 item.angel_child.name=Angel (Child)
 
 entity.angel.name=Weinender Engel
+entity.anomaly.name=Anomaly
+entity.weepingAngelpainting.name=Angel painting
 
 sound.angel_seen=Engel gesichtet
 sound.child_run=rennendes Kind
@@ -53,8 +55,7 @@ config.angel_move_sound=Toggle movement sounds for the angels
 
 category.angels=Engel
 category.spawn=Spawn Rate
+config.teleport_type=The Teleport type
 entity.angel_painting.name=Angel painting
-entity.anomaly.name=Anomaly
-entity.weepingAngelpainting.name=Angel painting
 message.infected=Du wurdest von einem Engel infisziert, du wirst sterben.
 message.look_away=Du musst von diesem Engel wegsehen!

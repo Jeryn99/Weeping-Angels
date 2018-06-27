@@ -1,5 +1,6 @@
 package me.sub.angels.main.config;
 
+import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.WeepingAngels;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -111,9 +112,9 @@ public class WAConfig {
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
 		public int[] notAllowedDimensions = { 1 };
 
-		@Config.LangKey("config.entitiesNotToTeleport")
-		@Config.Comment("This is a list of entities NOT to be teleported by angels.")
-		public String[] entitiesNotToTeleport = {"minecraft:minecart", "minecraft:boat", "weeping-angels:anomaly", "weeping-angels:weepingangel", "minecraft:item_frame"};
+		@Config.LangKey("config.teleport_type")
+		@Config.Comment("Decide whether to just teleport or entities")
+		public WAObjects.TeleportType teleportType = WAObjects.TeleportType.PLAYER_ONLY;
 
 	}
 	

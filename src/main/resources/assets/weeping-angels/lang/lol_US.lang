@@ -11,6 +11,8 @@ item.angel_1.name=Angel (1)
 item.angel_child.name=Angel (Child)
 
 entity.angel.name=Spooky Statooz
+entity.anomaly.name=Anomaly
+entity.weepingAngelpainting.name=Angel painting
 
 sound.angel_seen=Statooz saw
 sound.child_run=Childer Runz
@@ -53,8 +55,7 @@ config.angel_move_sound=Toggle movement sounds for the angels
 
 category.angels=Statooz
 category.spawn=Spahn Rats
+config.teleport_type=The Teleport type
 entity.angel_painting.name=Angel painting
-entity.anomaly.name=Anomaly
-entity.weepingAngelpainting.name=Angel painting
 message.infected=You have been infected by a Weeping Angel, you will now die.
 message.look_away=You must look away from this angel!
