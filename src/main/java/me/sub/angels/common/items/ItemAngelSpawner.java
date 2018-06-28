@@ -39,6 +39,8 @@ public class ItemAngelSpawner<E extends EntityAngel> extends Item {
 			entity.setChild(isChild);
 			entity.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 			worldIn.spawnEntity(entity);
+		
+			player.getHeldItem(hand).setCount(player.getHeldItem(hand).getCount() - 1);
 		}
 		return EnumActionResult.PASS;
 	}
