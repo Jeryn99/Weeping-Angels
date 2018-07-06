@@ -13,7 +13,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -237,10 +236,6 @@ public class EntityAngel extends EntityMob {
 		
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 	}
-
-    public boolean canTeleportEntity(Entity entity) {
-        return WAConfig.angels.teleportEntities && !isChild() && !(entity instanceof EntityHanging) && !(entity instanceof EntityThrowable) && !entity.isRidingOrBeingRiddenBy(entity) && !entity.isBeingRidden() && WAConfig.angels.teleportType != WAObjects.TeleportType.PLAYER_ONLY;
-	}
 	
 	private int isDimensionAllowed(int dimID) {
 		for (int dim : WAConfig.angels.notAllowedDimensions) {
@@ -299,7 +294,7 @@ public class EntityAngel extends EntityMob {
 
 		if (world.isRemote) return;
 
-        if (canTeleportEntity(entity) && rand.nextInt(100) == 50 || canTeleportEntity(entity) && WAConfig.angels.justTeleport) {
+        if (entity instanceof EntityPlayer && rand.nextInt(100) == 50 && WAConfig.angels.justTeleport) {
 			int dimID;
 
 			if (WAConfig.angels.angelDimTeleport) {

@@ -1,6 +1,5 @@
 package me.sub.angels.main.config;
 
-import me.sub.angels.common.WAObjects;
 import me.sub.angels.main.WeepingAngels;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -72,11 +71,7 @@ public class WAConfig {
 		@Config.LangKey("config.teleportRange")
 		@Config.Comment("The maximum range a user can be teleported by the Angels")
 		public int teleportRange = 450;
-		
-		@Config.LangKey("config.teleport_entities")
-		@Config.Comment("If this is enabled there is a chance of you being teleported by a weeping angel")
-		public boolean teleportEntities = true;
-		
+
 		@Config.LangKey("config.angel_locking")
 		@Config.Comment("If this is enabled, angels will freeze when they see one another {WIP, not the best}")
 		public boolean angelLocking = false;
@@ -111,11 +106,6 @@ public class WAConfig {
 		@Config.LangKey("config.disallowed_dimensions")
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
 		public int[] notAllowedDimensions = { 1 };
-
-		@Config.LangKey("config.teleport_type")
-		@Config.Comment("Decide whether to just teleport or entities")
-		public WAObjects.TeleportType teleportType = WAObjects.TeleportType.PLAYER_ONLY;
-
 	}
 	
 	@Mod.EventBusSubscriber

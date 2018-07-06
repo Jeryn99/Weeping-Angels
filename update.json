@@ -1,8 +1,8 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "16",
-    "1.12.2-recommended": "16"
+    "1.12.2-latest": "16.5",
+    "1.12.2-recommended": "16.5"
   },
   "1.12.2": {
     "10": "Fixed Server crash",
@@ -13,6 +13,7 @@
     "13": "Added block statues, fixed sounds/pose data, removed a broken pose that looked weird",
     "14.5": "Anomalies! Faster loading times!, Overall overhaul internally!",
     "15": "Painting crash fix and boat and minecart handling, please drop into the discord if you have any further ideas for the mod",
-    "16": "Fixed Dynamic FOV crash (By purging it.), Added a entities not to teleport config. Got poorer."
+    "16": "Fixed Dynamic FOV crash (By purging it.), Added a entities not to teleport config. Got poorer.",
+    "16.5": "Fixes teleport crash. Angels now only teleport players. So sorry."
   }
 }

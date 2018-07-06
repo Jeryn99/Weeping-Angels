@@ -31,7 +31,8 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 	public static void registerFixesGen(DataFixer fixer) {
 		EntityThrowable.registerFixesThrowable(fixer, "gen");
 	}
-	
+
+
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
