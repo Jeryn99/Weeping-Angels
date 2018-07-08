@@ -1,12 +1,12 @@
 package me.sub.angels.client.models.poses;
 
-import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
 public class PoseAngry extends PoseBase {
-	
-	public PoseAngry(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+
+    public PoseAngry(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -14,7 +14,8 @@ public class PoseAngry extends PoseBase {
 	
 	@Override
 	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right) {
-		float swing = MathHelper.sin(getSwingProgress() * (float) Math.PI);
+
+        float swing = MathHelper.sin(getSwingProgress() * (float) Math.PI);
 		float f1 = MathHelper.sin((1.0F - (1.0F - getSwingProgress()) * (1.0F - getSwingProgress())) * (float) Math.PI);
 		right_arm.rotateAngleZ = 0.0F;
 		left_arm.rotateAngleZ = 0.0F;
@@ -36,13 +37,9 @@ public class PoseAngry extends PoseBase {
 	}
 	
 	@Override
-	public boolean angryFace(EntityAngel angel) {
+    public boolean angryFace() {
 		return true;
 	}
-
-    @Override
-    public void setBodyAngles(ModelRenderer body) {
-    }
 	
 	@Override
 	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}

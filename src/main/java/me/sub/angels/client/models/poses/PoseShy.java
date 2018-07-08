@@ -1,11 +1,11 @@
 package me.sub.angels.client.models.poses;
 
-import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelRenderer;
 
 public class PoseShy extends PoseBase {
-	
-	public PoseShy(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+
+    public PoseShy(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -13,28 +13,32 @@ public class PoseShy extends PoseBase {
 	
 	@Override
 	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right) {
+        right_arm.rotateAngleX = -1.8029251F;
+        right_arm.rotateAngleY = -0.01169371F;
+        right_arm.rotateAngleZ = -0.8136725F;
+		
 		left_arm.rotateAngleX = 0;
-        left_arm.rotateAngleY = 0.4F;
-        left_arm.rotateAngleZ = -0.3F;
-        wrist_left.rotateAngleX = -0.4F;
-        right_arm.rotateAngleX = -1.3F;
-        right_arm.rotateAngleY = -0.9F;
-        wrist_right.rotateAngleX = -0.9F;
+        left_arm.rotateAngleY = 0.0122173F;
+        left_arm.rotateAngleZ = -0.191986F;
+
+        wrist_right.rotateAngleX = -0.174533F;
+        wrist_right.rotateAngleY = 0;
+        wrist_right.rotateAngleZ = 0;
+
+        wrist_left.rotateAngleX = -0.46565384F;
+        wrist_left.rotateAngleY = 0;
+        wrist_left.rotateAngleZ = 0;
 	}
 	
 	@Override
 	public void setHeadAngles(ModelRenderer head) {
-        head.rotateAngleX = degreeToRadian(30);
-        head.rotateAngleY = degreeToRadian(19);
+        head.rotateAngleX = 0.31084314F;
+        head.rotateAngleY = 0.52604224F;
 		head.rotateAngleZ = 0;
 	}
 
     @Override
-    public void setBodyAngles(ModelRenderer body) {
-    }
-	
-	@Override
-	public boolean angryFace(EntityAngel angel) {
+    public boolean angryFace() {
 		return false;
 	}
 	

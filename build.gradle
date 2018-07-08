@@ -9,9 +9,9 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "16.5"
-group = "me.sub.angels"
-archivesBaseName = "weeping-angels"
+version = "17"
+group = "me.sub.weeping-angels"
+archivesBaseName = "Weeping Angels"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -19,10 +19,10 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.4.2708"
+    version = "1.12.2-14.23.4.2729"
     runDir = "run"
     mappings = "snapshot_20171003"
-    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    makeObfSourceJar = false
 }
 
 dependencies {
@@ -36,11 +36,11 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'

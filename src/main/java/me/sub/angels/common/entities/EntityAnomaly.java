@@ -21,10 +21,6 @@ public class EntityAnomaly extends EntityLiving {
 
     }
 
-    @Override
-    public void travel(float strafe, float vertical, float forward) {
-
-    }
 
     @Override
     public boolean getIsInvulnerable() {
@@ -63,3 +59,4 @@ public class EntityAnomaly extends EntityLiving {
         getDataManager().set(EYE_HEIGHT, eyeHeight);
     }
 }
+

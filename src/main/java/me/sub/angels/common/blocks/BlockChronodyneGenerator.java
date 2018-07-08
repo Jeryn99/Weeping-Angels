@@ -1,8 +1,8 @@
 package me.sub.angels.common.blocks;
 
+import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.WAObjects;
-import me.sub.angels.common.tiles.TileEntityChronodyneGenerator;
-import me.sub.angels.main.WeepingAngels;
+import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

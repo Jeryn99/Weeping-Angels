@@ -1,13 +1,13 @@
 package me.sub.angels.client.models.poses;
 
-import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelRenderer;
 
 public class PoseHidingFace extends PoseBase {
 	
 	public PoseHidingFace() {}
-	
-	public PoseHidingFace(EntityAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+
+    public PoseHidingFace(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -31,13 +31,9 @@ public class PoseHidingFace extends PoseBase {
 	}
 	
 	@Override
-	public boolean angryFace(EntityAngel angel) {
+    public boolean angryFace() {
 		return false;
 	}
-
-    @Override
-    public void setBodyAngles(ModelRenderer body) {
-    }
 	
 	@Override
 	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}

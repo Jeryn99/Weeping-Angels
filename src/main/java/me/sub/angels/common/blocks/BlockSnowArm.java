@@ -1,7 +1,7 @@
 package me.sub.angels.common.blocks;
 
-import me.sub.angels.common.tiles.TileEntitySnowArm;
-import me.sub.angels.main.WeepingAngels;
+import me.sub.angels.WeepingAngels;
+import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.tileentity.TileEntity;

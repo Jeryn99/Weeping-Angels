@@ -1,10 +1,9 @@
 package me.sub.angels.common.blocks;
 
-import me.sub.angels.client.models.poses.AngelPoses;
-import me.sub.angels.common.tiles.TileEntityPlinth;
-import me.sub.angels.main.WeepingAngels;
+import me.sub.angels.WeepingAngels;
+import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,8 +15,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockAngelStatue extends Block implements ITileEntityProvider {
-	
+public class BlockAngelStatue extends Block {
+
 	public BlockAngelStatue(String name) {
 		super(Material.CORAL);
 		setUnlocalizedName(name);
@@ -25,13 +24,18 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 		translucent = true;
 		this.setHardness(1.0F);
 	}
-	
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityPlinth();
 	}
-	
+
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
@@ -63,8 +67,8 @@ public class BlockAngelStatue extends Block implements ITileEntityProvider {
 		}
 	}
 
-    public AngelPoses getRandomPose(World world) {
-		return AngelPoses.values()[world.rand.nextInt(AngelPoses.values().length)];
+	public PoseManager.AngelPoses getRandomPose(World world) {
+		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
 	}
 	
 }

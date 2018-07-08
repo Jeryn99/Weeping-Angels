@@ -1,7 +1,7 @@
 package me.sub.angels.client.models.entity;
 
-import me.sub.angels.client.models.poses.AngelPoses;
-import me.sub.angels.common.entities.EntityAngel;
+import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,70 +12,70 @@ public class ModelAngel extends ModelBase {
 	/**
 	 * Weeping Angel - Ford Created using Techne
 	 */
-	ModelRenderer AngryLeftArm2;
-	ModelRenderer AngryRightArm2;
-	ModelRenderer AngryLeftArm1;
-	ModelRenderer AngryRightArm1;
-	ModelRenderer LeftEyebrow;
-	ModelRenderer RightEyebrow;
-	ModelRenderer Headband;
-	ModelRenderer Nose;
-	ModelRenderer Chin;
-	ModelRenderer ChinAngleLeft;
-	ModelRenderer ChinAngleRight;
-	ModelRenderer CheekLeft;
-	ModelRenderer CheekRight;
-	ModelRenderer HeadMain;
-	ModelRenderer HeadUnder;
-	ModelRenderer Teeth;
-	ModelRenderer Hair1;
-	ModelRenderer Hair2;
-	ModelRenderer Hair3;
-	ModelRenderer Hair4;
-	ModelRenderer Hair5;
-	ModelRenderer Hair6;
-	ModelRenderer Hair7;
-	ModelRenderer Hair8;
-	ModelRenderer Hair9;
-	ModelRenderer Hair10;
-	ModelRenderer Hair11;
-	ModelRenderer Hair12;
-	ModelRenderer TorsoMain;
-	ModelRenderer Dress1;
-	ModelRenderer Dress2;
-	ModelRenderer Dress3;
-	ModelRenderer Dress4;
-	ModelRenderer Dress5;
-	ModelRenderer Dress6;
-	ModelRenderer Dress7;
-	ModelRenderer Dress8;
-	ModelRenderer Dress9;
-	ModelRenderer Dress10;
-	ModelRenderer Dress11;
-	ModelRenderer Dress12;
-	ModelRenderer Dress13;
-	ModelRenderer RightArm1;
-	ModelRenderer RightArm2;
-	ModelRenderer LeftArm1;
-	ModelRenderer LeftArm2;
-	ModelRenderer LeftWing1;
-	ModelRenderer LeftWing2;
-	ModelRenderer LeftWing3;
-	ModelRenderer LeftWing4;
-	ModelRenderer LeftWing5;
-	ModelRenderer LeftWing6;
-	ModelRenderer LeftWing7;
-	ModelRenderer LeftWing8;
-	ModelRenderer LeftWing9;
-	ModelRenderer RightWing1;
-	ModelRenderer RightWing2;
-	ModelRenderer RightWing3;
-	ModelRenderer RightWing4;
-	ModelRenderer RightWing5;
-	ModelRenderer RightWing6;
-	ModelRenderer RightWing7;
-	ModelRenderer RightWing8;
-	ModelRenderer RightWing9;
+    private ModelRenderer AngryLeftArm2;
+    private ModelRenderer AngryRightArm2;
+    private ModelRenderer AngryLeftArm1;
+    private ModelRenderer AngryRightArm1;
+    private ModelRenderer LeftEyebrow;
+    private ModelRenderer RightEyebrow;
+    private ModelRenderer Headband;
+    private ModelRenderer Nose;
+    private ModelRenderer Chin;
+    private ModelRenderer ChinAngleLeft;
+    private ModelRenderer ChinAngleRight;
+    private ModelRenderer CheekLeft;
+    private ModelRenderer CheekRight;
+    private ModelRenderer HeadMain;
+    private ModelRenderer HeadUnder;
+    private ModelRenderer Teeth;
+    private ModelRenderer Hair1;
+    private ModelRenderer Hair2;
+    private ModelRenderer Hair3;
+    private ModelRenderer Hair4;
+    private ModelRenderer Hair5;
+    private ModelRenderer Hair6;
+    private ModelRenderer Hair7;
+    private ModelRenderer Hair8;
+    private ModelRenderer Hair9;
+    private ModelRenderer Hair10;
+    private ModelRenderer Hair11;
+    private ModelRenderer Hair12;
+    private ModelRenderer TorsoMain;
+    private ModelRenderer Dress1;
+    private ModelRenderer Dress2;
+    private ModelRenderer Dress3;
+    private ModelRenderer Dress4;
+    private ModelRenderer Dress5;
+    private ModelRenderer Dress6;
+    private ModelRenderer Dress7;
+    private ModelRenderer Dress8;
+    private ModelRenderer Dress9;
+    private ModelRenderer Dress10;
+    private ModelRenderer Dress11;
+    private ModelRenderer Dress12;
+    private ModelRenderer Dress13;
+    private ModelRenderer RightArm1;
+    private ModelRenderer RightArm2;
+    private ModelRenderer LeftArm1;
+    private ModelRenderer LeftArm2;
+    private ModelRenderer LeftWing1;
+    private ModelRenderer LeftWing2;
+    private ModelRenderer LeftWing3;
+    private ModelRenderer LeftWing4;
+    private ModelRenderer LeftWing5;
+    private ModelRenderer LeftWing6;
+    private ModelRenderer LeftWing7;
+    private ModelRenderer LeftWing8;
+    private ModelRenderer LeftWing9;
+    private ModelRenderer RightWing1;
+    private ModelRenderer RightWing2;
+    private ModelRenderer RightWing3;
+    private ModelRenderer RightWing4;
+    private ModelRenderer RightWing5;
+    private ModelRenderer RightWing6;
+    private ModelRenderer RightWing7;
+    private ModelRenderer RightWing8;
+    private ModelRenderer RightWing9;
 	
 	public ModelAngel() {
 		textureWidth = 128;
@@ -471,10 +471,10 @@ public class ModelAngel extends ModelBase {
 	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		EntityAngel angel = null;
-		
-		if (entity instanceof EntityAngel) {
-			angel = (EntityAngel) entity;
+        EntityWeepingAngel angel = null;
+
+        if (entity instanceof EntityWeepingAngel) {
+            angel = (EntityWeepingAngel) entity;
 		}
 		
 		// Head
@@ -482,7 +482,7 @@ public class ModelAngel extends ModelBase {
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.enableLighting();
-		if (!angel.getPoseName().equals(AngelPoses.ANGRY.toString())) {
+        if (!angel.getPose().equals(PoseManager.AngelPoses.ANGRY.toString())) {
 			GlStateManager.rotate(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
@@ -511,7 +511,7 @@ public class ModelAngel extends ModelBase {
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
 
-        if (angel.getPoseName().equals(AngelPoses.ANGRY.toString())) {
+        if (angel.getPose().equals(PoseManager.AngelPoses.ANGRY.toString())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);
