@@ -2,15 +2,17 @@ package me.sub.angels.client.models.poses;
 
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class PoseBase {
 
     private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
-    private EntityWeepingAngel angel;
+	private EntityWeepingAngel angel;
 	
 	public PoseBase() {}
 
-    public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
 		this.ageInTicks = ageInTicks;
@@ -33,7 +35,12 @@ public abstract class PoseBase {
 	/**
 	 * Determines angry face
 	 */
-    public abstract boolean angryFace();
+	public abstract boolean angryFace();
+
+	/**
+	 * Determines angry face
+	 */
+	public abstract void setBodyAngles(ModelRenderer body);
 	
 	/**
 	 * Basically I never use this, it's there for the sake of it, used to set wing angles
@@ -41,51 +48,51 @@ public abstract class PoseBase {
 	public abstract void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing);
 	
 	/**
-     * Returns the Entities Limb Swing
+	 * Returns the entities Limb Swing
 	 */
 	public float getLimbSwing() {
 		return limbSwing;
 	}
 	
 	/**
-     * Returns the Entities Limb Swing amount
+	 * Returns the entities Limb Swing amount
 	 */
 	public float getLimbSwingAmount() {
 		return limbSwingAmount;
 	}
 	
 	/**
-     * Returns the Entities age in ticks
+	 * Returns the entities age in ticks
 	 */
 	public float getAgeInTicks() {
 		return ageInTicks;
 	}
 	
 	/**
-     * Returns the Entities head pitch
+	 * Returns the entities head pitch
 	 */
 	public float getHeadPitch() {
 		return headPitch;
 	}
 	
 	/**
-     * Returns the Entities head yaw
+	 * Returns the entities head yaw
 	 */
 	public float getNetheadYaw() {
 		return netheadYaw;
 	}
 	
 	/**
-     * Returns the Entities Swing progress
+	 * Returns the entities Swing progress
 	 */
 	public float getSwingProgress() {
 		return swingProgress;
 	}
 	
 	/**
-     * Returns the Entities in use
+	 * Returns the entities in use
 	 */
-    public EntityWeepingAngel getAngel() {
+	public EntityWeepingAngel getAngel() {
 		return angel;
 	}
 	
@@ -95,4 +102,12 @@ public abstract class PoseBase {
 	public float degreeToRadian(float degree) {
 		return (float) (degree * Math.PI / 180);
 	}
+
+	@SideOnly(Side.CLIENT)
+	public void resetAngles(ModelRenderer model) {
+		model.rotateAngleX = 0;
+		model.rotateAngleY = 0;
+		model.rotateAngleY = 0;
+	}
+	
 }

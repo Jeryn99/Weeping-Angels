@@ -29,6 +29,10 @@ public class PoseAngryTwo extends PoseBase {
 	}
 
     @Override
+    public void setBodyAngles(ModelRenderer body) {
+    }
+
+    @Override
     public boolean angryFace() {
 		return true;
 	}

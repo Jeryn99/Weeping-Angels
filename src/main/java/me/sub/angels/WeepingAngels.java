@@ -1,6 +1,7 @@
 package me.sub.angels;
 
 import me.sub.angels.common.WAObjects;
+import me.sub.angels.utils.AngelUtils;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -32,7 +33,10 @@ public class WeepingAngels {
 
 
     @Mod.EventHandler
-    public void postinit(FMLPostInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event) {
+
+        AngelUtils.setupLightItems();
+
         if (event.getSide() == Side.SERVER) return;
 
         WAObjects.setUpRenders();

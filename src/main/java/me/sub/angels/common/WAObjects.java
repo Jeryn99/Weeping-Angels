@@ -23,6 +23,7 @@ import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.sub.angels.common.tileentities.TileEntityPlinth;
 import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import me.sub.angels.common.world.generation.WorldGenCatacombs;
+import me.sub.angels.common.world.generation.WorldGenSnowArms;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -83,6 +84,7 @@ public class WAObjects {
         e.getRegistry().register(new BlockChronodyneGenerator("cg"));
 
         GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
+        GameRegistry.registerWorldGenerator(new WorldGenSnowArms(), 7);
 
         GameRegistry.registerTileEntity(TileEntitySnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
         GameRegistry.registerTileEntity(TileEntityChronodyneGenerator.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
@@ -227,6 +229,7 @@ public class WAObjects {
         public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
         public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
     }
+
 
 }
 

@@ -18,9 +18,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 
     private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
-
     private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
-
     private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 
     private ModelBase modelOne = new ModelAngel();
@@ -39,10 +37,8 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
      */
     @Override
     protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-
         GlStateManager.pushMatrix();
         RenderHelper.enableStandardItemLighting();
-
         if (angel.getHealth() > 0.0F) {
 
             if (angel.isChild()) {
@@ -61,7 +57,6 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
                 }
             }
         }
-
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popMatrix();
     }

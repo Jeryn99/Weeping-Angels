@@ -26,12 +26,19 @@ public class PoseThinking extends PoseBase {
     public boolean angryFace() {
 		return false;
 	}
+
+    @Override
+    public void setBodyAngles(ModelRenderer body) {
+    }
 	
 	@Override
 	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}
 	
 	@Override
     public void setHeadAngles(ModelRenderer head) {
+        head.rotateAngleX = 0;
+        head.rotateAngleY = 0;
+        head.rotateAngleZ = 0;
     }
 	
 }

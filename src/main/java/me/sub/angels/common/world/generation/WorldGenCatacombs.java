@@ -1,6 +1,7 @@
 package me.sub.angels.common.world.generation;
 
 import me.sub.angels.WeepingAngels;
+import me.sub.angels.config.WAConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -46,6 +47,8 @@ public class WorldGenCatacombs implements IWorldGenerator {
      */
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-
+        if (WAConfig.angels.genCatacombs) {
+            // TODO - Re-write Catacomb generation
+        }
     }
 }

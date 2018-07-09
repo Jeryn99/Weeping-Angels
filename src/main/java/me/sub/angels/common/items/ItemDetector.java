@@ -12,8 +12,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -31,6 +29,7 @@ public class ItemDetector extends Item {
         if (!entityIn.world.isRemote) {
             List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getEntityBoundingBox().grow(25, 25, 25));
 
+
             if (entityIn instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entityIn;
 
@@ -38,8 +37,6 @@ public class ItemDetector extends Item {
 
                 if (!angels.isEmpty() && isInHand) {
                     {
-                        player.sendStatusMessage(new TextComponentString("There are " + TextFormatting.YELLOW + angels.size() + TextFormatting.WHITE + " angels around you.. "), true);
-
                         if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
                             worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
                         }

@@ -19,7 +19,7 @@ public class WATeleporter extends Teleporter {
     }
 
 
-    public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityWeepingAngel entityBeingWatched) {
+    public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityWeepingAngel entityWatching) {
         if (entity.getEntityWorld().isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isEntityAlive()) {
             return false;
         }
@@ -29,8 +29,8 @@ public class WATeleporter extends Teleporter {
         if (entity instanceof EntityPlayerMP) {
             player = (EntityPlayerMP) entity;
 
-            if (entityBeingWatched != null) {
-                MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityBeingWatched, pos, targetDim));
+            if (entityWatching != null) {
+                MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityWatching, pos, targetDim));
             }
         }
 

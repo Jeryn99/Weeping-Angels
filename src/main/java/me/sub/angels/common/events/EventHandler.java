@@ -14,7 +14,7 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -33,7 +33,7 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void cancelDamage(LivingHurtEvent e) {
+    public static void cancelDamage(LivingAttackEvent e) {
         Entity source = e.getSource().getTrueSource();
         if (source instanceof EntityLivingBase) {
             EntityLivingBase attacker = (EntityLivingBase) source;

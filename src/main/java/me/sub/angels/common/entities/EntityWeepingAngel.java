@@ -3,6 +3,7 @@ package me.sub.angels.common.entities;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
+import me.sub.angels.common.misc.WATeleporter;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -25,16 +26,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-@Mod.EventBusSubscriber
 public class EntityWeepingAngel extends EntityMob {
 
     private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
@@ -116,12 +118,15 @@ public class EntityWeepingAngel extends EntityMob {
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
-
         if (!WAConfig.angels.justTeleport) {
             if (this.getHealth() > 5) {
                 entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
             } else {
                 entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+            }
+        } else {
+            if (entity instanceof EntityPlayer) {
+                teleportPlayer((EntityPlayer) entity);
             }
         }
         return false;
@@ -260,6 +265,10 @@ public class EntityWeepingAngel extends EntityMob {
     @Override
     public void onUpdate() {
 
+        if (WAConfig.angels.angelLocking) {
+            angelQuantumLocking();
+        }
+
         this.setSeen(isInView());
 
         super.onUpdate();
@@ -307,6 +316,26 @@ public class EntityWeepingAngel extends EntityMob {
         return null;
     }
 
+    private void angelQuantumLocking() {
+        List<EntityWeepingAngel> entityList = world.getEntitiesWithinAABB(EntityWeepingAngel.class, getEntityBoundingBox().expand(32.0D, 32.0D, 32.0D));
+        for (EntityWeepingAngel viewer : entityList) {
+            if (viewer != this && !viewer.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.toString())) {
+                Vec3d vec3 = viewer.getLook(1.0F).normalize();
+                Vec3d vecPoint = new Vec3d(posX - viewer.posX, getEntityBoundingBox().minY + height / 2.0F - (viewer.posY + viewer.getEyeHeight()), posZ - viewer.posZ);
+                double lengthVector = vecPoint.lengthVector();
+                vecPoint = vecPoint.normalize();
+                double dotProduct = vec3.dotProduct(vecPoint);
+                boolean viewed = (dotProduct > 1.0D / lengthVector) && (viewer.canEntityBeSeen(this));
+
+                if (viewed) {
+                    setSeenTime(0);
+                }
+
+                setSeen(viewed);
+            }
+        }
+    }
+
     private boolean isInView() {
         for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
             if (AngelUtils.isInSight(player, this) && !player.isSpectator()) {
@@ -320,5 +349,29 @@ public class EntityWeepingAngel extends EntityMob {
         }
         setSeenTime(0);
         return false;
+    }
+
+
+    private void teleportPlayer(EntityPlayer player) {
+
+        if (world.isRemote) return;
+
+        int range = WAConfig.angels.teleportRange;
+
+        EntityAnomaly anomaly = new EntityAnomaly(world);
+        anomaly.setPositionAndUpdate(player.posX, player.posY, player.posZ);
+        world.spawnEntity(anomaly);
+        WATeleporter.teleportDimEntity(player, player.getPosition().add(range, 67, range), decideDimension(), this);
+    }
+
+    private int decideDimension() {
+        Integer[] ids = DimensionManager.getStaticDimensionIDs();
+        Integer tempId = ids[rand.nextInt(ids.length)];
+        for (int id : WAConfig.angels.notAllowedDimensions) {
+            if (id == tempId) {
+                return dimension;
+            }
+        }
+        return tempId;
     }
 }
