@@ -1,10 +1,6 @@
 package me.sub.angels.common;
 
 import me.sub.angels.WeepingAngels;
-import me.sub.angels.client.models.item.ModelDetector;
-import me.sub.angels.client.renders.RenderAngelPainting;
-import me.sub.angels.client.renders.entities.*;
-import me.sub.angels.client.renders.items.RenderItemStackBase;
 import me.sub.angels.common.blocks.BlockAngelStatue;
 import me.sub.angels.common.blocks.BlockChronodyneGenerator;
 import me.sub.angels.common.blocks.BlockSnowArm;
@@ -23,7 +19,6 @@ import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.sub.angels.common.tileentities.TileEntityPlinth;
 import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import me.sub.angels.common.world.generation.WorldGenCatacombs;
-import me.sub.angels.common.world.generation.WorldGenSnowArms;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -36,15 +31,11 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
@@ -84,7 +75,6 @@ public class WAObjects {
         e.getRegistry().register(new BlockChronodyneGenerator("cg"));
 
         GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
-        GameRegistry.registerWorldGenerator(new WorldGenSnowArms(), 7);
 
         GameRegistry.registerTileEntity(TileEntitySnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
         GameRegistry.registerTileEntity(TileEntityChronodyneGenerator.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
@@ -143,29 +133,6 @@ public class WAObjects {
             item.setCreativeTab(tab);
             WAObjects.items.add(item);
         }
-    }
-
-    /**
-     * Set up the rendering for entities and tileentities
-     */
-    @SideOnly(Side.CLIENT)
-    public static void setUpRenders() {
-
-        // Entities
-        RenderingRegistry.registerEntityRenderingHandler(EntityWeepingAngel.class, new RenderWeepingAngel());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
-
-        // Projectiles
-        RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderChronodyneGenerator());
-
-        // TESRS
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
-
-        WAObjects.Items.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
-
     }
 
     @SubscribeEvent

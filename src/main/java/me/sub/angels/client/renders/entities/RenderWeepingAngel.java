@@ -32,33 +32,8 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
         addLayer(new LayerHeldItem(this));
     }
 
-    /**
-     * Renders the model in RenderLiving
-     */
-    @Override
-    protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-        GlStateManager.pushMatrix();
-        RenderHelper.enableStandardItemLighting();
-        if (angel.getHealth() > 0.0F) {
-
-            if (angel.isChild()) {
-                bindTexture(TEXTURE_CHILD);
-                modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-            } else {
-
-                if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
-                    bindTexture(TEXTURE_ONE);
-                    modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-                }
-
-                if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
-                    bindTexture(TEXTURE_TWO);
-                    modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-                }
-            }
-        }
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+    private static void bindAngelTex(ResourceLocation loc) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
     }
 
     @Override
@@ -71,5 +46,33 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
         return true;
     }
 
+    /**
+     * Renders the model in RenderLiving
+     */
+    @Override
+    protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        GlStateManager.pushMatrix();
+        RenderHelper.enableStandardItemLighting();
+        if (angel.getHealth() > 0.0F) {
+
+            if (angel.isChild()) {
+                bindAngelTex(TEXTURE_CHILD);
+                modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+            } else {
+
+                if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
+                    bindAngelTex(TEXTURE_ONE);
+                    modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                }
+
+                if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
+                    bindAngelTex(TEXTURE_TWO);
+                    modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                }
+            }
+        }
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.popMatrix();
+    }
 
 }

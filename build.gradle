@@ -22,7 +22,7 @@ minecraft {
     version = "1.12.2-14.23.4.2729"
     runDir = "run"
     mappings = "snapshot_20171003"
-    makeObfSourceJar = false
+    makeObfSourceJar = true
 }
 
 dependencies {
