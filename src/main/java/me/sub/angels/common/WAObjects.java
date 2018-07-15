@@ -21,15 +21,12 @@ import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import me.sub.angels.common.world.generation.WorldGenCatacombs;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -52,7 +49,7 @@ public class WAObjects {
     public static CreativeTabs ANGEL_TAB = new CreativeTabAngel("angels");
     // Helper, gets reset after init
     private static List<Item> itemBlocks = new ArrayList<>();
-    private static List<Item> items = new ArrayList<>();
+    public static List<Item> items = new ArrayList<>();
 
     @SubscribeEvent
     public static void addItems(RegistryEvent.Register<Item> e) {
@@ -135,13 +132,6 @@ public class WAObjects {
         }
     }
 
-    @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent ev) {
-        for (Item item : items) {
-            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-        }
-        items = new ArrayList<>();
-    }
 
     private static void registerBlocks(IForgeRegistry<Block> reg, Block... blocks) {
         reg.registerAll(blocks);
@@ -196,7 +186,5 @@ public class WAObjects {
         public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
         public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
     }
-
-
 }
 

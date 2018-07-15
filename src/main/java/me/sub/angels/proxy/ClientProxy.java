@@ -12,8 +12,15 @@ import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.sub.angels.common.tileentities.TileEntityPlinth;
 import me.sub.angels.common.tileentities.TileEntitySnowArm;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.ArrayList;
 
 public class ClientProxy extends CommonProxy {
 
@@ -40,6 +47,14 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
 
+    }
+
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent ev) {
+        for (Item item : WAObjects.items) {
+            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+        }
+        WAObjects.items = new ArrayList<>();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package me.sub.angels.utils;
 
 import com.google.common.collect.Lists;
+import me.sub.angels.common.entities.EntityQuantumLockBase;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.config.WAConfig;
 import net.minecraft.block.Block;
@@ -76,7 +77,7 @@ public class AngelUtils {
         return yaw < 60 && yaw > -60 && livingBase.canEntityBeSeen(angel);
     }
 
-    public static boolean isDarkForPlayer(EntityWeepingAngel angel, EntityPlayer living) {
+    public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityPlayer living) {
         return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !AngelUtils.handLightCheck(living);
     }
 
