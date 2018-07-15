@@ -132,7 +132,6 @@ public class WAObjects {
         }
     }
 
-
     private static void registerBlocks(IForgeRegistry<Block> reg, Block... blocks) {
         reg.registerAll(blocks);
         for (Block block : blocks) {
