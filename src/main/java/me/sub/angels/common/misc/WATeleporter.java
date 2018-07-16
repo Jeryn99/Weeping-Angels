@@ -18,7 +18,6 @@ public class WATeleporter extends Teleporter {
         super(worldIn);
     }
 
-
     public static boolean teleportDimEntity(Entity entity, BlockPos pos, int targetDim, EntityWeepingAngel entityWatching) {
         if (entity.getEntityWorld().isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isEntityAlive()) {
             return false;
@@ -80,7 +79,6 @@ public class WATeleporter extends Teleporter {
 
         return true;
     }
-
 
     @Override
     public void placeInPortal(Entity entity, float rotationYaw) {

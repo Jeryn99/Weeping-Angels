@@ -48,7 +48,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     private SoundEvent[] seenSounds = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
     private long soundTime = 0L;
 
-
     public EntityWeepingAngel(World world) {
         super(world);
 
@@ -66,7 +65,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
         experienceValue = WAConfig.angels.xpGained;
     }
-
 
     @Override
     protected void entityInit() {
@@ -132,7 +130,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         return false;
     }
 
-
     private int getRandomType() {
         if (rand.nextBoolean()) {
             return 1;
@@ -168,7 +165,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         }
     }
 
-
     public String getPose() {
         return getDataManager().get(CURRENT_POSE);
     }
@@ -184,7 +180,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     public void setChild(boolean child) {
         getDataManager().set(IS_CHILD, child);
     }
-
 
     public int getType() {
         return getDataManager().get(TYPE);
@@ -218,7 +213,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         entity.applyEntityCollision(this);
     }
 
-
     /**
      * Dead and sleeping entities cannot move
      */
@@ -245,7 +239,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        //TODO figure out why the hell it's being so weird
+        // TODO figure out why the hell it's being so weird
         replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
     }
 
@@ -271,7 +265,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     }
 
     private boolean replaceBlocks(AxisAlignedBB box) {
-        //if (!WAConfig.angels.blockBreaking) return false;
+        // if (!WAConfig.angels.blockBreaking) return false;
 
         for (int x = (int) box.minX; x <= box.maxX; x++) {
             for (int y = (int) box.minY; y <= box.maxY; y++) {
@@ -319,7 +313,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         return false;
     }
 
-
     private boolean canBreak(IBlockState blockState) {
         for (String regName : WAConfig.angels.disAllowedBlocks) {
             if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
@@ -328,7 +321,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         }
         return true;
     }
-
 
     private void playBreakEvent(BlockPos pos, Block block) {
 

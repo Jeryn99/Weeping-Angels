@@ -83,8 +83,6 @@ public class EventHandler {
         }
     }
 
-
-
     @SubscribeEvent
     public static void cancelDamage(LivingAttackEvent e) {
         Entity source = e.getSource().getTrueSource();
@@ -116,5 +114,5 @@ public class EventHandler {
             }
         }
     }
-
+	
 }

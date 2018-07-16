@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 import java.util.function.Function;
 
-
 public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 
     private Function<World, E> entityCreator;
@@ -39,5 +38,5 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
         }
         return EnumActionResult.PASS;
     }
-
+	
 }

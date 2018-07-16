@@ -1,18 +1,13 @@
-![enter image description here](https://i.imgur.com/SCzHRbP.png)
+![Logo image](https://i.imgur.com/SCzHRbP.png)
 
 <h1 id="about">About</h1>
 The Weeping Angels are creatures from before time itself. Otherwise known as The Lonely Assassins, these creatures have evolved to possess the universe’s best self defence mechanism. When observed by any creature, the creature becomes quantum locked and is frozen in stone. Whilst some may call this a curse, one cannot kill a stone and a stone cannot kill you. But if you turn your back, even for just a second… it can.
 
 _Of course, you can take a swing at stone with a pickaxe…_
 
-<h1 id="downloads">Downloads</h1>
-Download latest:
-
-[![Download](https://curse.nikky.moe/api/img/291249)](https://curse.nikky.moe/api/url/291249)
-
-All Downloads:
-
-[![Files](https://curse.nikky.moe/api/img/291249/files?logo)](https://minecraft.curseforge.com/projects/291249/files)
+<h1 id="modders">For Modders</h1>
+An API is in the works for modders to block to angels teleporting to their dimensions. 
+More will come soon, suggestions welcome. To work with the api, you only need to add the sources of the mod as a dependency to your workspace and uses Forges methods of  inter-mod inteergration.
 
 <h1 id="credits">Credits</h1>
 <h2 id="models">Models</h2>

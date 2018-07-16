@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelSnowArm extends ModelBase {
 
-	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
+    private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 
-	private ModelRenderer left_arm;
+    private ModelRenderer left_arm;
 	private ModelRenderer left_arm_wrist;
 	
 	public ModelSnowArm() {

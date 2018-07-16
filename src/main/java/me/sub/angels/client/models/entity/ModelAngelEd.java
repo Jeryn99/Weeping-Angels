@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class ModelAngelEd extends ModelBiped {
 
-	private ModelRenderer right_wing_0;
+    private ModelRenderer right_wing_0;
 	private ModelRenderer left_wing_0;
 	private ModelRenderer back_cloth_2;
 	private ModelRenderer head_2;
@@ -54,7 +54,7 @@ public class ModelAngelEd extends ModelBiped {
 	private ModelRenderer right_wing_3;
 	private ModelRenderer right_wing_4;
 
-	public ModelAngelEd() {
+    public ModelAngelEd() {
 		textureWidth = 88;
 		textureHeight = 88;
 		teeth_1 = new ModelRenderer(this, 63, 39);
@@ -212,7 +212,7 @@ public class ModelAngelEd extends ModelBiped {
 		back_cloth.addChild(back_cloth_2);
 	}
 
-	public void quickRender(float scale, TileEntityPlinth p) {
+    public void quickRender(float scale, TileEntityPlinth p) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GlStateManager.enableLighting();
@@ -235,7 +235,7 @@ public class ModelAngelEd extends ModelBiped {
 		GlStateManager.popMatrix();
 	}
 
-	@Override
+    @Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -259,9 +259,9 @@ public class ModelAngelEd extends ModelBiped {
 		GlStateManager.popMatrix();
 	}
 
-	public void tilePosing(TileEntityPlinth p) {
+    public void tilePosing(TileEntityPlinth p) {
         PoseBase pose = PoseManager.AngelPoses.valueOf(p.getPose()).getPose();
-
+		
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
 		this.left_arm.rotateAngleX = 0;
@@ -295,7 +295,7 @@ public class ModelAngelEd extends ModelBiped {
     private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 
         if (entity instanceof EntityWeepingAngel) {
-
+			
 			this.head.rotateAngleY = netheadYaw * 0.017453292F;
 			this.head.rotateAngleX = headPitch * 0.017453292F;
 

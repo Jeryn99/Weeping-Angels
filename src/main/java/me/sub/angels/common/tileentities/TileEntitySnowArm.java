@@ -1,6 +1,5 @@
 package me.sub.angels.common.tileentities;
 
-
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.misc.WATeleporter;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,5 +21,5 @@ public class TileEntitySnowArm extends TileEntity implements ITickable {
             world.setBlockToAir(getPos());
         }
     }
-
+	
 }

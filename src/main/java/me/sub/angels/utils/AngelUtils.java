@@ -101,7 +101,6 @@ public class AngelUtils {
         return false;
     }
 
-
     // Spawn Set up
     public static void setUpSpawns() {
         Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
@@ -121,5 +120,5 @@ public class AngelUtils {
             }
         }
     }
-
+	
 }

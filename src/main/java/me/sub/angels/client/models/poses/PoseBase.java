@@ -12,7 +12,7 @@ public abstract class PoseBase {
 	
 	public PoseBase() {}
 
-	public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+    public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
 		this.ageInTicks = ageInTicks;
@@ -37,7 +37,7 @@ public abstract class PoseBase {
 	 */
 	public abstract boolean angryFace();
 
-	/**
+    /**
 	 * Determines angry face
 	 */
 	public abstract void setBodyAngles(ModelRenderer body);
@@ -103,7 +103,7 @@ public abstract class PoseBase {
 		return (float) (degree * Math.PI / 180);
 	}
 
-	@SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT)
 	public void resetAngles(ModelRenderer model) {
 		model.rotateAngleX = 0;
 		model.rotateAngleY = 0;

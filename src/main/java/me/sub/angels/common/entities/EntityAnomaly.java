@@ -21,7 +21,6 @@ public class EntityAnomaly extends EntityLiving {
 
     }
 
-
     @Override
     public boolean getIsInvulnerable() {
         return true;
@@ -59,4 +58,3 @@ public class EntityAnomaly extends EntityLiving {
         getDataManager().set(EYE_HEIGHT, eyeHeight);
     }
 }
-

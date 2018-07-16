@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-
 public class ItemDetector extends Item {
 
     public ItemDetector() {
@@ -28,7 +27,6 @@ public class ItemDetector extends Item {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.world.isRemote) {
             List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getEntityBoundingBox().grow(25, 25, 25));
-
 
             if (entityIn instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entityIn;

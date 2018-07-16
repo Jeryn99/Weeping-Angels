@@ -26,45 +26,34 @@ import java.util.ArrayList;
 @Mod.EventBusSubscriber
 public class ClientProxy extends CommonProxy {
 
-    @Override
-    public void preInit() {
-        super.preInit();
-
-    }
-
-    @Override
-    public void init() {
-        super.init();
-
-        // Entities
-        RenderingRegistry.registerEntityRenderingHandler(EntityWeepingAngel.class, new RenderWeepingAngel());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, new RenderAngelPainting());
-        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, new RenderAnomaly());
-
-        // Projectiles
-        RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, new RenderChronodyneGenerator());
-
-        // TESRS
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
-
-    }
-
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent ev) {
         for (Item item : WAObjects.items) {
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
         }
         WAObjects.items = new ArrayList<>();
+        WAObjects.Items.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
+    }
+
+    @Override
+    public void preInit() {
+        super.preInit();
+        RenderingRegistry.registerEntityRenderingHandler(EntityWeepingAngel.class, RenderWeepingAngel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAngelPainting.class, RenderAngelPainting::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, RenderAnomaly::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
     }
 
     @Override
     public void postInit() {
         super.postInit();
-
-        // ITEM TESRS
-        WAObjects.Items.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
-
     }
 }

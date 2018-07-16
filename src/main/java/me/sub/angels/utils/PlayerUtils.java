@@ -8,7 +8,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class PlayerUtils {
 
-
     public static boolean isInHand(EnumHand hand, EntityPlayer holder, ItemStack item) {
         if (!holder.getHeldItem(hand).isEmpty()) {
             ItemStack heldItem = holder.getHeldItem(hand);
@@ -47,7 +46,5 @@ public class PlayerUtils {
         if (!player.world.isRemote) return;
         player.sendStatusMessage(textComponent, isHotBar);
     }
-
-
+	
 }
-

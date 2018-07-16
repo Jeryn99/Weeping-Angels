@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 
 public class BlockAngelStatue extends Block {
 
-	public BlockAngelStatue(String name) {
+    public BlockAngelStatue(String name) {
 		super(Material.CORAL);
 		setUnlocalizedName(name);
 		setRegistryName(WeepingAngels.MODID, name);
@@ -25,18 +25,18 @@ public class BlockAngelStatue extends Block {
 		this.setHardness(1.0F);
 	}
 
-	@Nullable
+    @Nullable
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityPlinth();
 	}
 
-	@Override
+    @Override
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
 
-	@Override
+    @Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -67,7 +67,7 @@ public class BlockAngelStatue extends Block {
 		}
 	}
 
-	public PoseManager.AngelPoses getRandomPose(World world) {
+    public PoseManager.AngelPoses getRandomPose(World world) {
 		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
 	}
 	
