@@ -26,7 +26,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -269,53 +268,60 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         }
     }
 
-    private boolean replaceBlocks(AxisAlignedBB box) {
-        // if (!WAConfig.angels.blockBreaking) return false;
-
-        for (int x = (int) box.minX; x <= box.maxX; x++) {
-            for (int y = (int) box.minY; y <= box.maxY; y++) {
-                for (int z = (int) box.minZ; z <= box.maxZ; z++) {
+    private void replaceBlocks(AxisAlignedBB box)
+    {
+        if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0)
+            return;
+        for (int x = (int) box.minX; x <= box.maxX; x++)
+        {
+            for (int y = (int) box.minY; y <= box.maxY; y++)
+            {
+                for (int z = (int) box.minZ; z <= box.maxZ; z++)
+                {
 
                     BlockPos pos = new BlockPos(x, y, z);
                     IBlockState blockState = world.getBlockState(pos);
 
-                    if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
+                    if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5)
+                    {
 
-                        if (world.isRemote) {
-                            System.out.println(blockState.getBlock());
+                        if (!canBreak(blockState))
+                        {
+                            continue;
                         }
 
-                        if (!canBreak(blockState)) {
-                            return false;
-                        }
-
-                        if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
+                        if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE
+                                || blockState.getLightValue(world, pos) >= 7)
+                        {
                             playBreakEvent(pos, Blocks.AIR);
-                            return true;
                         }
 
-                        if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
+                        if (blockState.getBlock() == Blocks.LIT_PUMPKIN)
+                        {
                             playBreakEvent(pos, Blocks.PUMPKIN);
-                            return true;
                         }
 
-                        if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
+                        if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP)
+                        {
                             playBreakEvent(pos, Blocks.REDSTONE_LAMP);
-                            return true;
                         }
 
-                        if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
-                            if (getHealth() < getMaxHealth()) {
+                        if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal)
+                        {
+                            if (getHealth() < getMaxHealth())
+                            {
                                 heal(1.5F);
                                 world.setBlockToAir(pos);
-                                return true;
                             }
                         }
+                        else
+                            continue;
+
+                        return;
                     }
                 }
             }
         }
-        return false;
     }
 
     private boolean canBreak(IBlockState blockState) {
@@ -333,8 +339,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
             playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
             InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(world.getBlockState(pos).getBlock()));
             world.setBlockState(pos, block.getDefaultState());
-        } else {
-            world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
+
+            //TODO Packets?
+            //world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, pos.getX(), pos.getY(), pos.getZ(), 1.0D, 1.0D, 1.0D);
         }
     }
 
