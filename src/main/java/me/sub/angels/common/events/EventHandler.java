@@ -3,6 +3,7 @@ package me.sub.angels.common.events;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.events.mods.EventAngelTeleport;
+import me.sub.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +24,11 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -110,6 +113,19 @@ public class EventHandler {
 
                 if (!(source instanceof Entity)) {
                     e.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onSpawn(LivingSpawnEvent.CheckSpawn e) {
+        if(e.getEntity() instanceof EntityWeepingAngel){
+            e.setResult(Event.Result.DENY);
+            for (int i : WAConfig.spawn.dimensionWhitelist)
+            {
+                if(i == e.getWorld().provider.getDimension()){
+                    e.setResult(Event.Result.DEFAULT);
                 }
             }
         }

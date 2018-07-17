@@ -43,6 +43,10 @@ public class WAConfig {
         @Config.Comment("Note: A list of biomes where angels should NOT spawn.")
         public String[] notAllowedBiomes = {"minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"};
 
+        @Config.LangKey("config.allowed_spawn_dimensions")
+        @Config.Comment("Note: A list of dimension ids where angels should spawn.")
+        public int[] dimensionWhitelist = {-1, 0, 1};
+
     }
 
     public static class Angels {
