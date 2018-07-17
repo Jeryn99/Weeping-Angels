@@ -1,15 +1,17 @@
-entity.weepingangel.name=Weeping Angel
+
 item.angel_painting.name=Angel Painting
-tile.arm.name=Arm in snow
 item.unlit_torch.name=Unlit Torch
 item.timey_wimey_detector.name=Timey Wimey Detector
 item.chronodyne_generator.name=Chronodyne Generator
 item.plinth.name=Angel Statue
-tile.plinth.name=Angel Statue
 item.angel_0.name=Weeping Angel (0)
 item.angel_1.name=Weeping Angel (1)
 item.angel_child.name=Weeping Angel (Child)
 
+tile.arm.name=Arm in snow
+tile.plinth.name=Angel Statue
+
+entity.weepingangel.name=Weeping Angel
 entity.angel.name=Weeping Angel
 entity.anomaly.name=Anomaly
 entity.weepingAngelpainting.name=Angel painting
@@ -22,7 +24,7 @@ sound.angel_teleport=Angel teleported player
 sound.stone_scrap=Stone scrapings
 sound.ding=Ding!
 sound.blow=Blow
-sound.angel_death=Angel dies
+sound.angel_death=Angel crumbles to death
 
 source.angel=was sent back in time by a Angel!
 source.angel_neck_snap=had their neck snapped by a Angel!
@@ -53,6 +55,7 @@ config.disallowed_blocks=A list of blocks angels should NOT break.
 config.disallowed_dimensions=A list of dimensions angels should NOT go to.
 config.angel_move_sound=Toggle movement sounds for the angels
 config.teleport_type=The Teleport type
+config.allowed_spawn_dimensions=A list of dimensions where angels SHOULD spawn
 
 category.angels=Angels
 category.spawn=Spawn Rates

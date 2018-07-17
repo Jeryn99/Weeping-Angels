@@ -1,9 +1,14 @@
 package me.sub.angels.proxy;
 
 import me.sub.angels.client.models.item.ModelDetector;
-import me.sub.angels.client.renders.RenderAngelPainting;
-import me.sub.angels.client.renders.entities.*;
+import me.sub.angels.client.renders.entities.RenderAngelPainting;
+import me.sub.angels.client.renders.entities.RenderAnomaly;
+import me.sub.angels.client.renders.entities.RenderChronodyneGenerator;
+import me.sub.angels.client.renders.entities.RenderWeepingAngel;
 import me.sub.angels.client.renders.items.RenderItemStackBase;
+import me.sub.angels.client.renders.tileentities.RenderTileEntityCG;
+import me.sub.angels.client.renders.tileentities.RenderTileEntityPlinth;
+import me.sub.angels.client.renders.tileentities.RenderTileEntitySnowArm;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityAngelPainting;
 import me.sub.angels.common.entities.EntityAnomaly;

@@ -1,4 +1,4 @@
-package me.sub.angels.client.renders;
+package me.sub.angels.client.renders.entities;
 
 import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.entities.EntityAngelPainting;

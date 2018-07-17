@@ -1,4 +1,4 @@
-package me.sub.angels.client.renders.entities;
+package me.sub.angels.client.renders.tileentities;
 
 import me.sub.angels.client.models.entity.ModelCG;
 import me.sub.angels.common.misc.WAConstants;

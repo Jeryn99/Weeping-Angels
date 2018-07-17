@@ -61,7 +61,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.TORCH), false));
         tasks.addTask(2, new EntityAITempt(this, 3.5D, Item.getItemFromBlock(Blocks.REDSTONE_TORCH), false));
         tasks.addTask(8, new EntityAIMoveThroughVillage(this, 1.0D, false));
-        targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 
         experienceValue = WAConfig.angels.xpGained;
     }
@@ -254,13 +254,18 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     @Override
     protected void playStepSound(BlockPos pos, Block block) {
         if (prevPosX != posX && prevPosZ != posZ) {
-            if (!isChild()) {
+
+            if (WAConfig.angels.playScrapSounds && !isChild()) {
                 playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
-            } else {
+            }
+
+
+            if (isChild()) {
                 if (world.rand.nextInt(5) == 5) {
                     playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
                 }
             }
+
         }
     }
 
@@ -345,16 +350,23 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
     private void teleportPlayer(EntityPlayer player) {
         if (world.isRemote) return;
+
+        int dim;
         int range = WAConfig.angels.teleportRange;
         EntityAnomaly anomaly = new EntityAnomaly(world);
         anomaly.setPositionAndUpdate(player.posX, player.posY, player.posZ);
         world.spawnEntity(anomaly);
-        int dim = decideDimension();
+
+        if (WAConfig.angels.angelDimTeleport) {
+            dim = decideDimension();
+        } else {
+            dim = dimension;
+        }
         WorldServer ws = (WorldServer) world;
         ws.getMinecraftServer().getWorld(dim);
         int x = rand.nextInt(range);
         int z = rand.nextInt(range);
-        WATeleporter.teleportDimEntity(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(), z), dim, this);
+        WATeleporter.teleportDimEntity(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
     }
 
     private int decideDimension() {
