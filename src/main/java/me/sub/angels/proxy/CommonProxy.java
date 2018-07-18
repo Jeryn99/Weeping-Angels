@@ -9,7 +9,7 @@ public class CommonProxy {
 
 	public void init() {
 	}
-
+	
 	public void postInit() {
 		AngelUtils.setupLightItems();
 	}

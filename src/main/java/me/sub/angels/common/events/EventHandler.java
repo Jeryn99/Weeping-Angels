@@ -120,11 +120,10 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onSpawn(LivingSpawnEvent.CheckSpawn e) {
-        if(e.getEntity() instanceof EntityWeepingAngel){
+        if (e.getEntity() instanceof EntityWeepingAngel) {
             e.setResult(Event.Result.DENY);
-            for (int i : WAConfig.spawn.dimensionWhitelist)
-            {
-                if(i == e.getWorld().provider.getDimension()){
+            for (int i : WAConfig.spawn.dimensionWhitelist) {
+                if (i == e.getWorld().provider.getDimension()) {
                     e.setResult(Event.Result.DEFAULT);
                 }
             }
