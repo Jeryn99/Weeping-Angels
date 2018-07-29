@@ -1,10 +1,11 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "17",
-    "1.12.2-recommended": "17"
+    "1.12.2-latest": "18",
+    "1.12.2-recommended": "18"
   },
   "1.12.2": {
-    "17": "Too long, read here: https://minecraft.curseforge.com/projects/weeping-angels-mod/files/2585566"
+    "17.5": "A server side boot crash, please report things when you find them...",
+    "18": "FMLCommonHandler crash fix. Last fix until 1.13"
   }
 }

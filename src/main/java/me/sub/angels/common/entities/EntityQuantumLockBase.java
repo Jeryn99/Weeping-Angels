@@ -14,7 +14,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.List;
 
@@ -102,17 +101,19 @@ public class EntityQuantumLockBase extends EntityMob {
     }
 
     private boolean isInView() {
-        for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-            if (AngelUtils.isInSight(player, this) && !player.isSpectator() && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-                if (getAttackTarget() == player && getSeenTime() == 1) {
-                    if (this instanceof EntityWeepingAngel) {
-                        EntityWeepingAngel angel = (EntityWeepingAngel) this;
-                        angel.setPose(PoseManager.getBestPoseForSituation(angel, player).toString());
-                        SoundEvent sound = angel.getSeenSound();
-                        playSound(sound, 1.0F, 1.0F);
+        if (world.playerEntities != null) {
+            for (EntityPlayer player : world.playerEntities) {
+                if (AngelUtils.isInSight(player, this) && !player.isSpectator() && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
+                    if (getAttackTarget() == player && getSeenTime() == 1) {
+                        if (this instanceof EntityWeepingAngel) {
+                            EntityWeepingAngel angel = (EntityWeepingAngel) this;
+                            angel.setPose(PoseManager.getBestPoseForSituation(angel, player).toString());
+                            SoundEvent sound = angel.getSeenSound();
+                            playSound(sound, 1.0F, 1.0F);
+                        }
                     }
+                    return true;
                 }
-                return true;
             }
         }
         setSeenTime(0);

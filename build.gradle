@@ -9,7 +9,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "17"
+version = "18"
 group = "me.sub.weeping-angels"
 archivesBaseName = "Weeping Angels"
 
