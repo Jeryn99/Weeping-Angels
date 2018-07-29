@@ -20,12 +20,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	private static final ResourceLocation PAINTING_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/paintings_angels.png");
-
-    public RenderAngelPainting(RenderManager manager) {
+	
+	public RenderAngelPainting(RenderManager manager) {
 		super(manager);
 	}
-
-    /**
+	
+	/**
 	 * Renders the desired {@code T} type Entity.
 	 */
 	@Override
@@ -37,37 +37,37 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(getEntityTexture(entity));
 		EntityAngelPainting.EnumAngelArt art = entity.art;
 		GlStateManager.scale(0.0625F, 0.0625F, 0.0625F);
-
-        if (this.renderOutlines) {
+		
+		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
 		}
-
-        this.renderPainting(entity, art.sizeX, art.sizeY, art.offsetX, art.offsetY);
-
-        if (this.renderOutlines) {
+		
+		this.renderPainting(entity, art.sizeX, art.sizeY, art.offsetX, art.offsetY);
+		
+		if (this.renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}
-
-        GlStateManager.disableRescaleNormal();
+		
+		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
-
-    /**
+	
+	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
 	protected ResourceLocation getEntityTexture(EntityAngelPainting entity) {
 		return PAINTING_TEXTURE;
 	}
-
-    private void renderPainting(EntityAngelPainting painting, int width, int height, int textureU, int textureV) {
+	
+	private void renderPainting(EntityAngelPainting painting, int width, int height, int textureU, int textureV) {
 		float paintingWidth = (float) (-width) / 2.0F;
 		float paintingHeight = (float) (-height) / 2.0F;
-
-        for (int i = 0; i < width / 16; ++i) {
+		
+		for (int i = 0; i < width / 16; ++i) {
 			for (int j = 0; j < height / 16; ++j) {
 				float f15 = paintingWidth + (float) ((i + 1) * 16);
 				float f16 = paintingWidth + (float) (i * 16);
@@ -109,30 +109,30 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 			}
 		}
 	}
-
-    private void setLightmap(EntityAngelPainting painting, float p_77008_2_, float p_77008_3_) {
+	
+	private void setLightmap(EntityAngelPainting painting, float p_77008_2_, float p_77008_3_) {
 		int x = MathHelper.floor(painting.posX);
 		int y = MathHelper.floor(painting.posY + (double) (p_77008_3_ / 16.0F));
 		int z = MathHelper.floor(painting.posZ);
 		EnumFacing enumfacing = painting.facingDirection;
-
-        if (enumfacing == EnumFacing.NORTH) {
+		
+		if (enumfacing == EnumFacing.NORTH) {
 			x = MathHelper.floor(painting.posX + (double) (p_77008_2_ / 16.0F));
 		}
-
-        if (enumfacing == EnumFacing.WEST) {
+		
+		if (enumfacing == EnumFacing.WEST) {
 			z = MathHelper.floor(painting.posZ - (double) (p_77008_2_ / 16.0F));
 		}
-
-        if (enumfacing == EnumFacing.SOUTH) {
+		
+		if (enumfacing == EnumFacing.SOUTH) {
 			z = MathHelper.floor(painting.posX - (double) (p_77008_2_ / 16.0F));
 		}
-
-        if (enumfacing == EnumFacing.EAST) {
+		
+		if (enumfacing == EnumFacing.EAST) {
 			z = MathHelper.floor(painting.posZ + (double) (p_77008_2_ / 16.0F));
 		}
-
-        int l = this.renderManager.world.getCombinedLight(new BlockPos(x, y, z), 0);
+		
+		int l = this.renderManager.world.getCombinedLight(new BlockPos(x, y, z), 0);
 		int i1 = l % 65536;
 		int j1 = l / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);

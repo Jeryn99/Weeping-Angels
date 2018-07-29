@@ -9,25 +9,25 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class ModelAngelChild extends ModelBiped {
-    ModelRenderer head_2;
-    ModelRenderer head;
-    ModelRenderer body;
-    ModelRenderer nose;
-    ModelRenderer mouthtop;
-    ModelRenderer right_wing_0;
-    ModelRenderer right_wing_0_1;
-    ModelRenderer left_arm;
-    ModelRenderer right_arm;
-    ModelRenderer left_leg;
-    ModelRenderer right_leg;
-    ModelRenderer right_wing_1;
-    ModelRenderer right_wing_2;
-    ModelRenderer right_wing_3;
-    ModelRenderer right_wing_4;
-    ModelRenderer right_wing_1_1;
-    ModelRenderer right_wing_2_1;
-    ModelRenderer right_wing_3_1;
-    ModelRenderer right_wing_4_1;
+	ModelRenderer head_2;
+	ModelRenderer head;
+	ModelRenderer body;
+	ModelRenderer nose;
+	ModelRenderer mouthtop;
+	ModelRenderer right_wing_0;
+	ModelRenderer right_wing_0_1;
+	ModelRenderer left_arm;
+	ModelRenderer right_arm;
+	ModelRenderer left_leg;
+	ModelRenderer right_leg;
+	ModelRenderer right_wing_1;
+	ModelRenderer right_wing_2;
+	ModelRenderer right_wing_3;
+	ModelRenderer right_wing_4;
+	ModelRenderer right_wing_1_1;
+	ModelRenderer right_wing_2_1;
+	ModelRenderer right_wing_3_1;
+	ModelRenderer right_wing_4_1;
 	
 	public ModelAngelChild() {
 		this.textureWidth = 64;
@@ -120,9 +120,9 @@ public class ModelAngelChild extends ModelBiped {
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
-        if (entityIn instanceof EntityWeepingAngel) {
-            EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
+		
+		if (entityIn instanceof EntityWeepingAngel) {
+			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
 			if (angel.getSeenTime() == 1) {
 				angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 			}
@@ -150,8 +150,8 @@ public class ModelAngelChild extends ModelBiped {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-
-    public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
+	
+	public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
 		

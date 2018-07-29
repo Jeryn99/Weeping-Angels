@@ -16,8 +16,8 @@ import org.lwjgl.opengl.GL11;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd extends ModelBiped {
-
-    private ModelRenderer right_wing_0;
+	
+	private ModelRenderer right_wing_0;
 	private ModelRenderer left_wing_0;
 	private ModelRenderer back_cloth_2;
 	private ModelRenderer head_2;
@@ -53,8 +53,8 @@ public class ModelAngelEd extends ModelBiped {
 	private ModelRenderer right_wing_2;
 	private ModelRenderer right_wing_3;
 	private ModelRenderer right_wing_4;
-
-    public ModelAngelEd() {
+	
+	public ModelAngelEd() {
 		textureWidth = 88;
 		textureHeight = 88;
 		teeth_1 = new ModelRenderer(this, 63, 39);
@@ -191,8 +191,8 @@ public class ModelAngelEd extends ModelBiped {
 		left_wing_3.addChild(left_wing_4);
 		angry_mouth.addChild(teeth_3);
 		angry_mouth.addChild(teeth_2);
-
-        head.addChild(nose);
+		
+		head.addChild(nose);
 		head.addChild(coverup);
 		head.addChild(face);
 		angry_mouth.addChild(teeth_5);
@@ -211,8 +211,8 @@ public class ModelAngelEd extends ModelBiped {
 		head.addChild(head_2);
 		back_cloth.addChild(back_cloth_2);
 	}
-
-    public void quickRender(float scale, TileEntityPlinth p) {
+	
+	public void quickRender(float scale, TileEntityPlinth p) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GlStateManager.enableLighting();
@@ -234,8 +234,8 @@ public class ModelAngelEd extends ModelBiped {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
-
-    @Override
+	
+	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -258,9 +258,9 @@ public class ModelAngelEd extends ModelBiped {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GlStateManager.popMatrix();
 	}
-
-    public void tilePosing(TileEntityPlinth p) {
-        PoseBase pose = PoseManager.AngelPoses.valueOf(p.getPose()).getPose();
+	
+	public void tilePosing(TileEntityPlinth p) {
+		PoseBase pose = PoseManager.AngelPoses.valueOf(p.getPose()).getPose();
 		
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
@@ -275,31 +275,31 @@ public class ModelAngelEd extends ModelBiped {
 		pose.setHeadAngles(this.head);
 		angry_mouth.isHidden = true;
 	}
-
-    private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	
+	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-
-    @Override
+	
+	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
 		// lallalaallaalal
 	}
-
-    @Override
+	
+	@Override
 	protected ModelRenderer getArmForSide(EnumHandSide side) {
 		return side == EnumHandSide.LEFT ? left_arm : right_arm;
 	}
-
-    private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-
-        if (entity instanceof EntityWeepingAngel) {
+	
+	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
+		
+		if (entity instanceof EntityWeepingAngel) {
 			
 			this.head.rotateAngleY = netheadYaw * 0.017453292F;
 			this.head.rotateAngleX = headPitch * 0.017453292F;
-
-            this.right_arm.rotationPointY = 2.5F;
+			
+			this.right_arm.rotationPointY = 2.5F;
 			this.left_arm.rotationPointY = 2.5F;
 			this.left_arm.rotateAngleX = 0;
 			this.left_arm.rotateAngleY = 0;
@@ -307,17 +307,17 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleX = 0;
 			this.right_arm.rotateAngleY = 0;
 			this.right_arm.rotateAngleZ = 0;
-            EntityWeepingAngel angel = (EntityWeepingAngel) entity;
-
-            PoseBase pose = PoseManager.AngelPoses.valueOf(angel.getPose()).getPose();
-
-            if (pose != null) {
-                this.angry_mouth.isHidden = !pose.angryFace();
+			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
+			
+			PoseBase pose = PoseManager.AngelPoses.valueOf(angel.getPose()).getPose();
+			
+			if (pose != null) {
+				this.angry_mouth.isHidden = !pose.angryFace();
 				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 				pose.setWingAngles(this.left_wing_0, this.right_wing_0);
 				pose.setHeadAngles(this.head);
-
-                if (pose.angryFace()) {
+				
+				if (pose.angryFace()) {
 					this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 					this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 					this.angry_mouth.isHidden = false;
@@ -325,15 +325,15 @@ public class ModelAngelEd extends ModelBiped {
 					this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 					this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				}
-
-                if (pose instanceof PoseThinking) {
+				
+				if (pose instanceof PoseThinking) {
 					this.right_eyebrow.rotateAngleZ = 0.15F;
 					this.right_eyebrow.rotationPointY = -4.5F;
 					this.left_eyebrow.rotationPointY = -4.2F;
 				}
 			}
 		} else {
-            PoseBase pose = PoseManager.AngelPoses.valueOf(PoseManager.AngelPoses.SHY.toString()).getPose();
+			PoseBase pose = PoseManager.AngelPoses.valueOf(PoseManager.AngelPoses.SHY.toString()).getPose();
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
 			pose.setHeadAngles(this.head);

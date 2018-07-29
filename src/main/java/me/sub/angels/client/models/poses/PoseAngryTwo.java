@@ -4,8 +4,8 @@ import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelRenderer;
 
 public class PoseAngryTwo extends PoseBase {
-
-    public PoseAngryTwo(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	
+	public PoseAngryTwo(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -27,13 +27,12 @@ public class PoseAngryTwo extends PoseBase {
 	public void setHeadAngles(ModelRenderer head) {
 		
 	}
-
-    @Override
-    public void setBodyAngles(ModelRenderer body) {
-    }
-
-    @Override
-    public boolean angryFace() {
+	
+	@Override
+	public void setBodyAngles(ModelRenderer body) {}
+	
+	@Override
+	public boolean angryFace() {
 		return true;
 	}
 	

@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
-
+	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
 		for (Item item : WAObjects.items) {
@@ -40,7 +40,7 @@ public class ClientProxy extends CommonProxy {
 		WAObjects.items = new ArrayList<>();
 		WAObjects.Items.TIMEY_WIMEY_DETECTOR.setTileEntityItemStackRenderer(new RenderItemStackBase(new ModelDetector()));
 	}
-
+	
 	@Override
 	public void preInit() {
 		super.preInit();
@@ -49,7 +49,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnomaly.class, RenderAnomaly::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
 	}
-
+	
 	@Override
 	public void init() {
 		super.init();
@@ -57,7 +57,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlinth.class, new RenderTileEntityPlinth());
 	}
-
+	
 	@Override
 	public void postInit() {
 		super.postInit();

@@ -24,14 +24,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class AngelUtils {
-
+	
 	public static ArrayList<Item> lightItems = new ArrayList<Item>();
-
+	
 	/**
 	 * Method that detects whether a tile is the the view sight of viewer
 	 *
 	 * @param viewer The viewer entity
-	 * @param tile   The tile being watched by viewer
+	 * @param tile The tile being watched by viewer
 	 */
 	public static boolean isInSightTile(EntityLivingBase viewer, TileEntity tile) {
 		double dx = tile.getPos().getX() - viewer.posX;
@@ -53,10 +53,10 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-
+		
 		return yaw < 60 && yaw > -60;
 	}
-
+	
 	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
 		double dx = angel.posX - livingBase.posX;
 		double dz;
@@ -77,25 +77,25 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-
+		
 		return yaw < 60 && yaw > -60 && livingBase.canEntityBeSeen(angel);
 	}
-
+	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityPlayer living) {
 		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !AngelUtils.handLightCheck(living);
 	}
-
+	
 	public static void setupLightItems() {
 		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {
-
+			
 			if (block.getLightValue(block.getDefaultState()) > 7) {
 				lightItems.add(Item.getItemFromBlock(block));
 			}
-
+			
 			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 		}
 	}
-
+	
 	public static boolean handLightCheck(EntityPlayer player) {
 		for (Item item : lightItems) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
@@ -104,47 +104,47 @@ public class AngelUtils {
 		}
 		return false;
 	}
-
+	
 	// Spawn Set up
 	public static void setUpSpawns() {
 		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
 		ArrayList<Biome> spawn = Lists.newArrayList();
 		spawn.addAll(biomes);
-
+		
 		for (String rs : WAConfig.spawn.notAllowedBiomes) {
 			if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
 				Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
 				spawn.remove(removedBiome);
 			}
 		}
-
+		
 		for (Biome biome : spawn) {
 			if (biome != null) {
 				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
 			}
 		}
 	}
-
+	
 	public static void removeLightFromHand(EntityPlayerMP playerMP, EntityWeepingAngel angel) {
 		if (playerMP.getDistanceSq(angel) < 1) {
-
+			
 			ItemStack stack = playerMP.getHeldItem(EnumHand.MAIN_HAND);
 			if (lightCheck(playerMP, stack, angel)) {
 				return;
 			}
-
+			
 			stack = playerMP.getHeldItem(EnumHand.OFF_HAND);
 			lightCheck(playerMP, stack, angel);
 		}
 	}
-
+	
 	private static boolean lightCheck(EntityPlayerMP player, ItemStack stack, EntityWeepingAngel angel) {
 		if (lightItems.contains(stack.getItem()) && stack.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
 			stack.shrink(1);
 			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
 			return true;
 		}
-
+		
 		if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
 			stack.shrink(1);
 			player.addItemStackToInventory(new ItemStack(WAObjects.Items.UNLIT_TORCH));

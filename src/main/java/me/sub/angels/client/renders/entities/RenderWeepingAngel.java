@@ -17,37 +17,37 @@ import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
-
-    private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
+	
+	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
-
-    private ModelBase modelOne = new ModelAngel();
+	
+	private ModelBase modelOne = new ModelAngel();
 	private ModelBase modelTwo = new ModelAngelEd();
 	private ModelAngelChild modelChild = new ModelAngelChild();
-
-    public RenderWeepingAngel(RenderManager manager) {
+	
+	public RenderWeepingAngel(RenderManager manager) {
 		super(manager, new ModelAngelEd(), 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
 		addLayer(new LayerHeldItem(this));
 	}
-
-    private static void bindAngelTex(ResourceLocation loc) {
+	
+	private static void bindAngelTex(ResourceLocation loc) {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
 	}
-
-    @Override
+	
+	@Override
 	protected ResourceLocation getEntityTexture(EntityWeepingAngel entity) {
 		return null;
 	}
-
-    @Override
+	
+	@Override
 	protected boolean setBrightness(EntityWeepingAngel angel, float partialTicks, boolean combineTextures) {
 		return true;
 	}
-
-    /**
+	
+	/**
 	 * Renders the model in RenderLiving
 	 */
 	@Override
@@ -55,18 +55,18 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		if (angel.getHealth() > 0.0F) {
-
-            if (angel.isChild()) {
+			
+			if (angel.isChild()) {
 				bindAngelTex(TEXTURE_CHILD);
 				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 			} else {
-
-                if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
+				
+				if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
 					bindAngelTex(TEXTURE_ONE);
 					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
-
-                if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
+				
+				if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
 					bindAngelTex(TEXTURE_TWO);
 					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}

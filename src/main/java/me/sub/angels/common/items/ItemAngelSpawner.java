@@ -14,29 +14,29 @@ import net.minecraft.world.World;
 import java.util.function.Function;
 
 public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
-
-    private Function<World, E> entityCreator;
-    private AngelEnums.AngelType type;
-
-    public ItemAngelSpawner(AngelEnums.AngelType type, Function<World, E> angel) {
-        entityCreator = angel;
-        this.type = type;
-        this.setCreativeTab(WAObjects.ANGEL_TAB);
-    }
-
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
-        if (!worldIn.isRemote) {
-            EntityWeepingAngel angel = entityCreator.apply(worldIn);
-            angel.setType(type.getId());
-            angel.setChild(type.isChild());
-            angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-            worldIn.spawnEntity(angel);
-
-            player.getHeldItem(hand).shrink(1);
-        }
-        return EnumActionResult.PASS;
-    }
+	
+	private Function<World, E> entityCreator;
+	private AngelEnums.AngelType type;
+	
+	public ItemAngelSpawner(AngelEnums.AngelType type, Function<World, E> angel) {
+		entityCreator = angel;
+		this.type = type;
+		this.setCreativeTab(WAObjects.ANGEL_TAB);
+	}
+	
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		
+		if (!worldIn.isRemote) {
+			EntityWeepingAngel angel = entityCreator.apply(worldIn);
+			angel.setType(type.getId());
+			angel.setChild(type.isChild());
+			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+			worldIn.spawnEntity(angel);
+			
+			player.getHeldItem(hand).shrink(1);
+		}
+		return EnumActionResult.PASS;
+	}
 	
 }

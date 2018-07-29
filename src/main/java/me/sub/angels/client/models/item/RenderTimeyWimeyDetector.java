@@ -5,13 +5,13 @@ import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.item.ItemStack;
 
 public class RenderTimeyWimeyDetector extends TileEntityItemStackRenderer {
-
-    private ModelDetector model = new ModelDetector();
-
-    @Override
-    public void renderByItem(ItemStack theStack, float partialTicks) {
-        GlStateManager.pushMatrix();
-        model.render(0.0625f);
-        GlStateManager.popMatrix();
-    }
+	
+	private ModelDetector model = new ModelDetector();
+	
+	@Override
+	public void renderByItem(ItemStack theStack, float partialTicks) {
+		GlStateManager.pushMatrix();
+		model.render(0.0625f);
+		GlStateManager.popMatrix();
+	}
 }

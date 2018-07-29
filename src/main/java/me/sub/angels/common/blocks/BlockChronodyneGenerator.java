@@ -58,15 +58,15 @@ public class BlockChronodyneGenerator extends Block {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
-
-    @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
-    }
+	
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
 	
 	@Nullable
 	@Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
+	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityChronodyneGenerator();
 	}
 }

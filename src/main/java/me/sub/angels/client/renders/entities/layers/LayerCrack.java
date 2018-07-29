@@ -14,49 +14,49 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
-
-    private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
-    private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
-    private final RenderWeepingAngel angelRenderer;
-
-    private final ModelBase modelOne = new ModelAngel();
-    private final ModelBase modelTwo = new ModelAngelEd();
-    private ModelBase modelMain = modelTwo;
-
-    public LayerCrack(RenderWeepingAngel angelRendererIn) {
-        this.angelRenderer = angelRendererIn;
-    }
-
-    @Override
-    public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (angel.getType() == 0) {
-            modelMain = modelOne;
-        }
-
-        if (angel.getType() == 1) {
-            modelMain = modelTwo;
-        }
-
-        if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
-            GlStateManager.pushMatrix();
-
-            boolean flag = angel.isInvisible();
-            GlStateManager.depthMask(!flag);
-            if (!angel.isChild()) {
-                if (angel.getType() == 1) {
-                    angelRenderer.bindTexture(CRACK_TEX_2);
-                } else {
-                    angelRenderer.bindTexture(CRACK_TEX);
-                }
-
-                modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            }
-            GlStateManager.popMatrix();
-        }
-    }
-
-    @Override
-    public boolean shouldCombineTextures() {
-        return false;
-    }
+	
+	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
+	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
+	private final RenderWeepingAngel angelRenderer;
+	
+	private final ModelBase modelOne = new ModelAngel();
+	private final ModelBase modelTwo = new ModelAngelEd();
+	private ModelBase modelMain = modelTwo;
+	
+	public LayerCrack(RenderWeepingAngel angelRendererIn) {
+		this.angelRenderer = angelRendererIn;
+	}
+	
+	@Override
+	public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		if (angel.getType() == 0) {
+			modelMain = modelOne;
+		}
+		
+		if (angel.getType() == 1) {
+			modelMain = modelTwo;
+		}
+		
+		if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
+			GlStateManager.pushMatrix();
+			
+			boolean flag = angel.isInvisible();
+			GlStateManager.depthMask(!flag);
+			if (!angel.isChild()) {
+				if (angel.getType() == 1) {
+					angelRenderer.bindTexture(CRACK_TEX_2);
+				} else {
+					angelRenderer.bindTexture(CRACK_TEX);
+				}
+				
+				modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+			}
+			GlStateManager.popMatrix();
+		}
+	}
+	
+	@Override
+	public boolean shouldCombineTextures() {
+		return false;
+	}
 }
