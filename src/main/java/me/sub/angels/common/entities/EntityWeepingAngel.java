@@ -343,7 +343,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			for (EntityPlayer player : world.playerEntities) {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
+					if(playerMP.getDistance(this) < 45) {
+						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
+					}
 				}
 			}
 		}
