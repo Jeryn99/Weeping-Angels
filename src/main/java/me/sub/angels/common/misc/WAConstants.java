@@ -8,6 +8,7 @@ public class WAConstants {
 	public static final String TIME_SEEN = "timeSeen";
 	public static final String TYPE = "type";
 	public static final String ANGEL_CHILD = "angelChild";
+	public static final String PREVPOS = "prevPos";
 	
 	// Angel Painting
 	public static final String MOTIVE = "Motive";

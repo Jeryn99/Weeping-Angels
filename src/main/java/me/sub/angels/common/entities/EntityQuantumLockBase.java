@@ -6,15 +6,12 @@ import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -24,6 +21,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BLOCK_POS);
 	
 	public EntityQuantumLockBase(World worldIn) {
 		super(worldIn);
@@ -34,6 +32,15 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.entityInit();
 		getDataManager().register(IS_SEEN, false);
 		getDataManager().register(TIME_VIEWED, 0);
+		getDataManager().register(PREVBLOCKPOS, BlockPos.ORIGIN);
+	}
+
+	public BlockPos getPrevPos() {
+		return getDataManager().get(PREVBLOCKPOS);
+	}
+
+	public void setPrevPos(BlockPos pos) {
+		getDataManager().set(PREVBLOCKPOS, pos);
 	}
 	
 	@Override
@@ -41,6 +48,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.writeEntityToNBT(compound);
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
 		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
+		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());
 	}
 	
 	@Override
@@ -48,6 +56,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.readEntityFromNBT(compound);
 		if (compound.hasKey(WAConstants.IS_SEEN)) setSeen(compound.getBoolean(WAConstants.IS_SEEN));
 		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
+		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
 	}
 	
 	public boolean isSeen() {
@@ -106,22 +115,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	private boolean isInView() {
 		if (world.playerEntities != null) {
 			for (EntityPlayer player : world.playerEntities) {
-				if (AngelUtils.isInSight(player, this) && !player.isSpectator() && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-					if (getAttackTarget() == player && getSeenTime() == 1) {
-						if (this instanceof EntityWeepingAngel) {
-							EntityWeepingAngel angel = (EntityWeepingAngel) this;
-							angel.setPose(PoseManager.getBestPoseForSituation(angel, player).toString());
-							SoundEvent sound = angel.getSeenSound();
-							System.out.println("sadasdsds");
-							if(player instanceof EntityPlayerMP && sound != null){
-								EntityPlayerMP mp = (EntityPlayerMP) player;
-								System.out.println(sound.getSoundName());
-								mp.connection.sendPacket(new SPacketSoundEffect(sound, SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
-							}
-
-							//playSound(sound, 1.0F, 1.0F);
-						}
-					}
+				if (AngelUtils.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
 					return true;
 				}
 			}

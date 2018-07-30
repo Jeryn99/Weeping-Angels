@@ -60,8 +60,8 @@ public class AngelUtils {
 		return yaw < 60 && yaw > -60;
 	}
 
-	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
-		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel);
+	public static boolean isInSight(EntityPlayer livingBase, EntityQuantumLockBase angel) {
+		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityPlayer living) {
@@ -137,7 +137,7 @@ public class AngelUtils {
 		return false;
 	}
 
-	public static boolean isInFrontOfEntity(Entity entity, Entity target){
+	public static boolean isInFrontOfEntity(Entity entity, Entity target) {
 		Vec3d vec3d = target.getPositionVector();
 		Vec3d vec3d1 = entity.getLook(1.0F);
 		Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
@@ -145,34 +145,14 @@ public class AngelUtils {
 		return vec3d2.dotProduct(vec3d1) < 0.0;
 	}
 
-	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel){
+	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
 		AxisAlignedBB vB = viewer.getEntityBoundingBox();
 		AxisAlignedBB aB = angel.getEntityBoundingBox();
-		Vec3d[] viewerPoints = {
-				new Vec3d(vB.minX, vB.minY, vB.minZ),
-				new Vec3d(vB.minX, vB.minY, vB.maxZ),
-				new Vec3d(vB.minX, vB.maxY, vB.minZ),
-				new Vec3d(vB.minX, vB.maxY, vB.maxZ),
-				new Vec3d(vB.maxX, vB.maxY, vB.minZ),
-				new Vec3d(vB.maxX, vB.maxY, vB.maxZ),
-				new Vec3d(vB.maxX, vB.minY, vB.maxZ),
-				new Vec3d(vB.maxX, vB.minY, vB.minZ),
-		};
-		Vec3d[] angelPoints = {
-				new Vec3d(aB.minX, aB.minY, aB.minZ),
-				new Vec3d(aB.minX, aB.minY, aB.maxZ),
-				new Vec3d(aB.minX, aB.maxY, aB.minZ),
-				new Vec3d(aB.minX, aB.maxY, aB.maxZ),
-				new Vec3d(aB.maxX, aB.maxY, aB.minZ),
-				new Vec3d(aB.maxX, aB.maxY, aB.maxZ),
-				new Vec3d(aB.maxX, aB.minY, aB.maxZ),
-				new Vec3d(aB.maxX, aB.minY, aB.minZ),
-		};
+		Vec3d[] viewerPoints = {new Vec3d(vB.minX, vB.minY, vB.minZ), new Vec3d(vB.minX, vB.minY, vB.maxZ), new Vec3d(vB.minX, vB.maxY, vB.minZ), new Vec3d(vB.minX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.maxY, vB.minZ), new Vec3d(vB.maxX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.minZ),};
+		Vec3d[] angelPoints = {new Vec3d(aB.minX, aB.minY, aB.minZ), new Vec3d(aB.minX, aB.minY, aB.maxZ), new Vec3d(aB.minX, aB.maxY, aB.minZ), new Vec3d(aB.minX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.maxY, aB.minZ), new Vec3d(aB.maxX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.minZ),};
 
-		for (int i = 0; i < viewerPoints.length; i++)
-		{
-			if(viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null)
-				return false;
+		for (int i = 0; i < viewerPoints.length; i++) {
+			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
 		}
 		return true;
 	}
