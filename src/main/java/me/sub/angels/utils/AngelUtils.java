@@ -6,6 +6,7 @@ import me.sub.angels.common.entities.EntityQuantumLockBase;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.config.WAConfig;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -56,29 +59,9 @@ public class AngelUtils {
 		
 		return yaw < 60 && yaw > -60;
 	}
-	
+
 	public static boolean isInSight(EntityLivingBase livingBase, EntityLivingBase angel) {
-		double dx = angel.posX - livingBase.posX;
-		double dz;
-		for (dz = angel.posZ - livingBase.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-			dx = (Math.random() - Math.random()) * 0.01D;
-		}
-		while (livingBase.rotationYaw > 360) {
-			livingBase.rotationYaw -= 360;
-		}
-		while (livingBase.rotationYaw < -360) {
-			livingBase.rotationYaw += 360;
-		}
-		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - livingBase.rotationYaw;
-		yaw = yaw - 90;
-		while (yaw < -180) {
-			yaw += 360;
-		}
-		while (yaw >= 180) {
-			yaw -= 360;
-		}
-		
-		return yaw < 60 && yaw > -60 && livingBase.canEntityBeSeen(angel);
+		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel);
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityPlayer living) {
@@ -153,5 +136,44 @@ public class AngelUtils {
 		}
 		return false;
 	}
-	
+
+	public static boolean isInFrontOfEntity(Entity entity, Entity target){
+		Vec3d vec3d = target.getPositionVector();
+		Vec3d vec3d1 = entity.getLook(1.0F);
+		Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
+		vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
+		return vec3d2.dotProduct(vec3d1) < 0.0;
+	}
+
+	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel){
+		AxisAlignedBB vB = viewer.getEntityBoundingBox();
+		AxisAlignedBB aB = angel.getEntityBoundingBox();
+		Vec3d[] viewerPoints = {
+				new Vec3d(vB.minX, vB.minY, vB.minZ),
+				new Vec3d(vB.minX, vB.minY, vB.maxZ),
+				new Vec3d(vB.minX, vB.maxY, vB.minZ),
+				new Vec3d(vB.minX, vB.maxY, vB.maxZ),
+				new Vec3d(vB.maxX, vB.maxY, vB.minZ),
+				new Vec3d(vB.maxX, vB.maxY, vB.maxZ),
+				new Vec3d(vB.maxX, vB.minY, vB.maxZ),
+				new Vec3d(vB.maxX, vB.minY, vB.minZ),
+		};
+		Vec3d[] angelPoints = {
+				new Vec3d(aB.minX, aB.minY, aB.minZ),
+				new Vec3d(aB.minX, aB.minY, aB.maxZ),
+				new Vec3d(aB.minX, aB.maxY, aB.minZ),
+				new Vec3d(aB.minX, aB.maxY, aB.maxZ),
+				new Vec3d(aB.maxX, aB.maxY, aB.minZ),
+				new Vec3d(aB.maxX, aB.maxY, aB.maxZ),
+				new Vec3d(aB.maxX, aB.minY, aB.maxZ),
+				new Vec3d(aB.maxX, aB.minY, aB.minZ),
+		};
+
+		for (int i = 0; i < viewerPoints.length; i++)
+		{
+			if(viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null)
+				return false;
+		}
+		return true;
+	}
 }
