@@ -198,8 +198,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-		System.out.println(getSeenTime());
-		
 		this.rotationYawHead = this.rotationYaw;
 		if (!world.isRemote && ticksExisted % 5 == 0) {
 			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(100));
@@ -261,13 +259,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void onUpdate() {
 		super.onUpdate();
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
-	}
-
-	@Override
-	protected void playStepSound(BlockPos pos, Block block) {
-		if (prevPosX != posX && prevPosZ != posZ) {
-			
-		}
 	}
 
 	private void replaceBlocks(AxisAlignedBB box) {

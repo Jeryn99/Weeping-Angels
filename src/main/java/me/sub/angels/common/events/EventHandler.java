@@ -94,7 +94,7 @@ public class EventHandler {
 			
 			if (victim instanceof EntityWeepingAngel) {
 				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-				boolean isPic = item.getItem() instanceof ItemPickaxe;
+				boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe");
 				e.setCanceled(!isPic);
 				
 				if (!isPic) {
