@@ -63,10 +63,6 @@ public class WAConfig {
 		@Config.Comment("XP gained from angels")
 		public int xpGained = 25;
 		
-		@Config.LangKey("config.angel_speed")
-		@Config.Comment("The speed angels move at")
-		public double speed = 0.23000000417232513D;
-		
 		@Config.LangKey("config.teleport_instant")
 		@Config.Comment("just teleport. no damage.")
 		public boolean justTeleport = false;

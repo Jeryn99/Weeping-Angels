@@ -9,18 +9,16 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
 public class TileEntityPlinth extends TileEntity implements ITickable {
-	
-	AxisAlignedBB BB = new AxisAlignedBB(45, 45, 45, 45, 45, 45);
+
 	private boolean hasSpawned = false;
 	private int rotation;
-	private String pose = PoseManager.AngelPoses.HIDING_FACE.toString();
+	private String pose = PoseManager.randomPose(PoseManager.AngelPoses.class).toString();
 	
 	public boolean getHasSpawned() {
 		return hasSpawned;
@@ -103,11 +101,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 			}
 		}
 	}
-	
-	public PoseManager.AngelPoses getRandomPose(World world) {
-		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
-	}
-	
+
 	public String getPose() {
 		return pose;
 	}

@@ -107,7 +107,6 @@ public class EventHandler {
 					}
 					
 					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-					pick.setDamage(item, pick.getDamage(item) - 1);
 				}
 				
 				if (!(source instanceof Entity)) {

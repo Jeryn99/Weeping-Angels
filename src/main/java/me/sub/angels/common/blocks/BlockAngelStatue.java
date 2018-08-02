@@ -62,13 +62,9 @@ public class BlockAngelStatue extends Block {
 			int rotation = MathHelper.floor(placer.rotationYaw + 180);
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
 			plinth.setRotation(rotation);
-			plinth.setPose(getRandomPose(world).toString());
+			plinth.setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
 			plinth.sendUpdates();
 		}
 	}
-	
-	public PoseManager.AngelPoses getRandomPose(World world) {
-		return PoseManager.AngelPoses.values()[world.rand.nextInt(PoseManager.AngelPoses.values().length)];
-	}
-	
+
 }
