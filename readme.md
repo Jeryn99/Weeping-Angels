@@ -5,10 +5,6 @@ The Weeping Angels are creatures from before time itself. Otherwise known as The
 
 _Of course, you can take a swing at stone with a pickaxe…_
 
-<h1 id="modders">For Modders</h1>
-An API is in the works for modders to block to angels teleporting to their dimensions. 
-More will come soon, suggestions welcome. To work with the api, you only need to add the sources of the mod as a dependency to your workspace and uses Forges methods of  inter-mod inteergration.
-
 <h1 id="credits">Credits</h1>
 <h2 id="models">Models</h2>
 <p>Angels: Ed and Ford</p>
