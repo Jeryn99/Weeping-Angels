@@ -50,10 +50,14 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-		
+
 		@Config.LangKey("config.angel_move_sound")
 		@Config.Comment("Non-child angels play scraping sounds when moving, this toggles that")
 		public boolean playScrapSounds = true;
+
+		@Config.LangKey("config.angel_seen_sound")
+		@Config.Comment("Toggle seen sounds")
+		public boolean playSeenSounds = true;
 		
 		@Config.LangKey("config.angel_damage")
 		@Config.Comment("The damage dealt by an angel")

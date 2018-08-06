@@ -12,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -100,7 +101,7 @@ public class EventHandler {
 				if (!isPic) {
 					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
 				} else {
-					ItemPickaxe pick = (ItemPickaxe) item.getItem();
+					Item pick = item.getItem();
 					
 					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
 						e.setCanceled(true);
