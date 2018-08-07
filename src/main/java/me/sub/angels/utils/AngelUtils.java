@@ -60,11 +60,11 @@ public class AngelUtils {
 		return yaw < 60 && yaw > -60;
 	}
 
-	public static boolean isInSight(EntityPlayer livingBase, EntityQuantumLockBase angel) {
+	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
 		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
 	}
 	
-	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityPlayer living) {
+	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
 		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !AngelUtils.handLightCheck(living);
 	}
 	
@@ -79,7 +79,7 @@ public class AngelUtils {
 		}
 	}
 	
-	public static boolean handLightCheck(EntityPlayer player) {
+	public static boolean handLightCheck(EntityLivingBase player) {
 		for (Item item : lightItems) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
 				return true;

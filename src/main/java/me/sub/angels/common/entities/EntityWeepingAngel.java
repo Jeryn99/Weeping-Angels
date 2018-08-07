@@ -55,6 +55,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
     private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
 
+
     private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
     private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
 
@@ -111,6 +112,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
 	}
 
 	@Override
@@ -122,7 +124,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 		}
 
-		if (!WAConfig.angels.justTeleport) {
+		if (!WAConfig.angels.justTeleport || isWeak()) {
 
 			if (getHealth() > 5) {
 				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
@@ -210,22 +212,26 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-
         if (ticksExisted % 2400 == 0 && !world.isRemote) {
             setHungerLevel(getHungerLevel() - 1);
+            if(isWeak()){
+            	this.attackEntityFrom(DamageSource.STARVE, 2);
+			}
         }
+
+		if(isQuantumLocked()) return;
 
 		this.rotationYawHead = this.rotationYaw;
 		if (!world.isRemote && ticksExisted % 5 == 0) {
 			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(100));
-            players.removeIf(player -> player.isSpectator());
+            players.removeIf(EntityPlayer::isSpectator);
 			if (players.isEmpty()) return;
 			EntityPlayer closest = null;
 			for (EntityPlayer player : players) {
 
 				if (AngelUtils.isInSight(player, this)) {
 					setSeenTime(getSeenTime() + 1);
-                    if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds) {
+                    if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds && !player.isCreative()) {
 						((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 						setPrevPos(getPosition());
 						setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
@@ -274,14 +280,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
     public boolean isWeak() {
-        return getHungerLevel() < 5;
+        return getHungerLevel() < 15;
     }
 	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
 
-		if (ticksExisted % 500 == 0 && getAttackTarget() == null) {
+		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked()) {
 			setPose(PoseManager.AngelPoses.HIDING_FACE.toString());
 		}
 
@@ -289,7 +295,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	private void replaceBlocks(AxisAlignedBB box) {
-		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0) return;
+		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
 			for (int y = (int) box.minY; y <= box.maxY; y++) {
 				for (int z = (int) box.minZ; z <= box.maxZ; z++) {

@@ -10,6 +10,7 @@ public class WAConstants {
 	public static final String ANGEL_CHILD = "angelChild";
 	public static final String PREVPOS = "prevPos";
 	public static final String HUNGER_LEVEL = "hungerLevel";
+	public static final String QAUNTUM_LOCKED = "qauntumLocked";
 	
 	// Angel Painting
 	public static final String MOTIVE = "Motive";
