@@ -1,19 +1,15 @@
 package me.sub.angels.common.entities;
 
-import me.sub.angels.WeepingAngels;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.misc.WAConstants;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -38,22 +34,6 @@ public class EntityQuantumLockBase extends EntityMob {
 		getDataManager().register(QUANTUM, false);
 	}
 
-	public BlockPos getPrevPos() {
-		return getDataManager().get(PREVBLOCKPOS);
-	}
-
-	public void setPrevPos(BlockPos pos) {
-		getDataManager().set(PREVBLOCKPOS, pos);
-	}
-
-	public boolean isQuantumLocked(){
-		return getDataManager().get(QUANTUM);
-	}
-
-	public void setQuantum(boolean locked){
-		getDataManager().set(QUANTUM, locked);
-	}
-	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
@@ -66,18 +46,18 @@ public class EntityQuantumLockBase extends EntityMob {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		if (compound.hasKey(WAConstants.IS_SEEN)) setSeen(compound.getBoolean(WAConstants.IS_SEEN));
 		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
 		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
 		if (compound.hasKey(WAConstants.QAUNTUM_LOCKED)) setQuantum(compound.getBoolean(WAConstants.QAUNTUM_LOCKED));
+        if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
 	}
 	
 	public boolean isSeen() {
-		return getDataManager().get(IS_SEEN);
-	}
-	
-	public void setSeen(boolean beingViewed) {
-		getDataManager().set(IS_SEEN, beingViewed);
+        return getSeenTime() > 0;
+    }
+
+    public void setSeen(boolean seen) {
+        getDataManager().set(IS_SEEN, seen);
 	}
 	
 	public int getSeenTime() {
@@ -87,33 +67,55 @@ public class EntityQuantumLockBase extends EntityMob {
 	public void setSeenTime(int time) {
 		getDataManager().set(TIME_VIEWED, time);
 	}
-	
-	private void quantumLocking() {
-		if(!WAConfig.angels.angelLocking) return;
 
-		List<EntityQuantumLockBase> entityList = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().expand(32.0D, 32.0D, 32.0D));
-		for (EntityQuantumLockBase viewer : entityList) {
-			if (viewer != this && !world.isRemote) {
+    public BlockPos getPrevPos() {
+        return getDataManager().get(PREVBLOCKPOS);
+    }
 
-				if (viewer instanceof EntityWeepingAngel) {
-					EntityWeepingAngel angelViewer = (EntityWeepingAngel) viewer;
-					if (!angelViewer.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.toString())) {
-						continue;
-					}
-				}
+    public void setPrevPos(BlockPos pos) {
+        getDataManager().set(PREVBLOCKPOS, pos);
+    }
 
-				boolean viewed = AngelUtils.isInSight(viewer, this);
+    public boolean isQuantumLocked() {
+        return getDataManager().get(QUANTUM);
+    }
 
-				if (viewed) {
-					setSeenTime(getSeenTime() + 1);
-				} else {
-					setSeenTime(0);
-				}
+    public void setQuantum(boolean locked) {
+        getDataManager().set(QUANTUM, locked);
+    }
 
-				setSeen(viewed);
-				setQuantum(viewed);
+    private boolean quantumLocking() {
+        if (!WAConfig.angels.angelLocking) return false;
+
+        if (ticksExisted % 5 == 0) {
+            List<EntityQuantumLockBase> entityList = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(32.0D));
+
+            if (entityList.isEmpty()) {
+                return false;
+            }
+
+            for (EntityQuantumLockBase viewer : entityList) {
+                if (viewer != this && !world.isRemote) {
+
+                    if (viewer instanceof EntityWeepingAngel) {
+                        EntityWeepingAngel angelViewer = (EntityWeepingAngel) viewer;
+                        if (angelViewer.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.toString())) {
+                            //return false;
+                        }
+                    }
+
+                    boolean viewed = AngelUtils.isInSight(viewer, this);
+
+                    if (viewed) {
+                        setSeenTime(getSeenTime() + 1);
+                    } else {
+                        setSeenTime(0);
+                    }
+                    return viewed;
+                }
 			}
 		}
+        return false;
 	}
 
 	@Override
@@ -123,20 +125,8 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	@Override
 	public void onUpdate() {
-		quantumLocking();
-		this.setSeen(isInView());
+        setQuantum(quantumLocking());
 		super.onUpdate();
 	}
-	
-	private boolean isInView() {
-		if (world.playerEntities != null) {
-			for (EntityPlayer player : world.playerEntities) {
-				if (AngelUtils.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player) && !player.isPotionActive(MobEffects.BLINDNESS)) {
-					return true;
-				}
-			}
-		}
-		setSeenTime(0);
-		return false;
-	}
+
 }
