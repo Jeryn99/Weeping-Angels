@@ -26,27 +26,22 @@ public class ItemHanging extends Item {
 		} else if (side == EnumFacing.UP) {
 			return EnumActionResult.FAIL;
 		} else {
-			BlockPos blockpos1 = pos.offset(side);
-			
-			if (!player.canPlayerEdit(blockpos1, side, stack)) {
+			BlockPos offsetPos = pos.offset(side);
+
+			if (!player.canPlayerEdit(offsetPos, side, stack)) {
 				return EnumActionResult.FAIL;
 			} else {
-				EntityHanging entityhanging = this.createHangingEntity(worldIn, blockpos1, side);
+				EntityHanging entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);
 				
 				if (entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {
 						worldIn.spawnEntity(entityhanging);
 					}
-					
 					stack.shrink(1);
 				}
 				
 				return EnumActionResult.PASS;
 			}
 		}
-	}
-	
-	private EntityHanging createHangingEntity(World worldIn, BlockPos pos, EnumFacing clickedSide) {
-		return new EntityAngelPainting(worldIn, pos, clickedSide);
 	}
 }

@@ -5,9 +5,9 @@ import me.sub.angels.api.ICanTeleport;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
-import me.sub.angels.common.misc.WATeleporter;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
+import me.sub.angels.utils.WATeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
@@ -96,7 +96,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		if (isChild() && rand.nextInt(3) == 2) {
+		if (isChild() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {
             return CHILD_SOUNDS[rand.nextInt(CHILD_SOUNDS.length)];
 		}
 		return null;
@@ -117,6 +117,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
+
 		if (WAConfig.angels.torchBlowOut && isChild()) {
 			if (entity instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) entity;
@@ -287,7 +288,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked()) {
+		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.AngelPoses.HIDING_FACE.toString());
 		}
 
@@ -397,7 +398,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		ws.getMinecraftServer().getWorld(dim);
 		int x = rand.nextInt(range);
 		int z = rand.nextInt(range);
-		WATeleporter.teleportDimEntity(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
+		WATeleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
 	}
 
 	private int decideDimension() {

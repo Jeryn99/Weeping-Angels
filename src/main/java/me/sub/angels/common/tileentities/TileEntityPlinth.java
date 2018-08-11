@@ -1,8 +1,8 @@
 package me.sub.angels.common.tileentities;
 
 import me.sub.angels.client.models.poses.PoseManager;
+import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
-import me.sub.angels.common.misc.AngelEnums;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;

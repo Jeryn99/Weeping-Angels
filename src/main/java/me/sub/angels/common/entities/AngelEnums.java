@@ -1,4 +1,4 @@
-package me.sub.angels.common.misc;
+package me.sub.angels.common.entities;
 
 public class AngelEnums {
 	

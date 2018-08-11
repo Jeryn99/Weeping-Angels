@@ -4,6 +4,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
@@ -52,9 +53,10 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 			if (world.isAirBlock(pos)) {
 				world.setBlockState(pos, WAObjects.Blocks.CG.getDefaultState());
 				if (world.getTileEntity(pos) != null) {
-					world.getTileEntity(pos).getTileData().setDouble(WAConstants.ABS_X, posX);
-					world.getTileEntity(pos).getTileData().setDouble(WAConstants.ABS_Y, posY);
-					world.getTileEntity(pos).getTileData().setDouble(WAConstants.ABS_Z, posZ);
+					NBTTagCompound tileData = world.getTileEntity(pos).getTileData();
+					tileData.setDouble(WAConstants.ABS_X, posX);
+					tileData.setDouble(WAConstants.ABS_Y, posY);
+					tileData.setDouble(WAConstants.ABS_Z, posZ);
 					this.setDead();
 				}
 			}

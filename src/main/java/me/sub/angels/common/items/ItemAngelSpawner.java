@@ -1,8 +1,8 @@
 package me.sub.angels.common.items;
 
-import me.sub.angels.common.WAObjects;
+import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
-import me.sub.angels.common.misc.AngelEnums;
+import me.sub.angels.common.misc.WATabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumActionResult;
@@ -21,7 +21,7 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 	public ItemAngelSpawner(AngelEnums.AngelType type, Function<World, E> angel) {
 		entityCreator = angel;
 		this.type = type;
-		this.setCreativeTab(WAObjects.ANGEL_TAB);
+		this.setCreativeTab(WATabs.MAIN_TAB);
 	}
 	
 	@Override

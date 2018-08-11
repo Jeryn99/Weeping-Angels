@@ -8,7 +8,6 @@ import me.sub.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
@@ -106,6 +105,10 @@ public class AngelUtils {
 				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
 			}
 		}
+	}
+
+	public static int secondsToTicks(int seconds) {
+		return 20 * seconds;
 	}
 	
 	public static void removeLightFromHand(EntityPlayerMP playerMP, EntityWeepingAngel angel) {

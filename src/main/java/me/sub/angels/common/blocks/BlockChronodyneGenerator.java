@@ -1,7 +1,7 @@
 package me.sub.angels.common.blocks;
 
 import me.sub.angels.WeepingAngels;
-import me.sub.angels.common.WAObjects;
+import me.sub.angels.common.misc.WATabs;
 import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -25,7 +25,7 @@ public class BlockChronodyneGenerator extends Block {
 		setUnlocalizedName(name);
 		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
-		this.setCreativeTab(WAObjects.ANGEL_TAB);
+		this.setCreativeTab(WATabs.MAIN_TAB);
 	}
 	
 	@Override

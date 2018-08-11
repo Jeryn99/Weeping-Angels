@@ -1,4 +1,4 @@
-package me.sub.angels.common.misc;
+package me.sub.angels.utils;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;

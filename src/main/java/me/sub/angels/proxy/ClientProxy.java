@@ -20,6 +20,7 @@ import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import me.sub.angels.utils.RenderUtil;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,10 +32,10 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
-		for (Item item : WAObjects.items) {
+		for (Item item : WAObjects.ITEMS) {
 			RenderUtil.setItemRender(item);
 		}
-		WAObjects.items = new ArrayList<>();
+		WAObjects.ITEMS = new ArrayList<>();
 		RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
 	}
 	
@@ -68,5 +69,9 @@ public class ClientProxy extends CommonProxy {
 		RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
 	}
 
+	@SubscribeEvent
+	public static void renderHand(RenderSpecificHandEvent event) {
+
+	}
 
 }
