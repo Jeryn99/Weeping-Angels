@@ -1,6 +1,5 @@
 package me.sub.angels.common.blocks;
 
-import me.sub.angels.WeepingAngels;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.block.Block;
@@ -16,11 +15,9 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class BlockAngelStatue extends Block {
-	
-	public BlockAngelStatue(String name) {
+
+	public BlockAngelStatue() {
 		super(Material.CORAL);
-		setUnlocalizedName(name);
-		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
 		this.setHardness(1.0F);
 	}

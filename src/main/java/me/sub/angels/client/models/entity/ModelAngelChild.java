@@ -6,7 +6,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelAngelChild extends ModelBiped {
 	ModelRenderer head_2;
@@ -131,14 +130,14 @@ public class ModelAngelChild extends ModelBiped {
 		this.head_2.render(scale);
 		this.head.render(scale);
 		GlStateManager.pushMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableCull();
 		GlStateManager.translate(this.body.offsetX, this.body.offsetY, this.body.offsetZ);
 		GlStateManager.translate(this.body.rotationPointX * scale, this.body.rotationPointY * scale, this.body.rotationPointZ * scale);
 		GlStateManager.scale(0.7D, 0.7D, 0.7D);
 		GlStateManager.translate(-this.body.offsetX, -this.body.offsetY, -this.body.offsetZ);
 		GlStateManager.translate(-this.body.rotationPointX * scale, -this.body.rotationPointY * scale, -this.body.rotationPointZ * scale);
 		this.body.render(scale);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
 	

@@ -7,7 +7,6 @@ import me.sub.angels.client.models.entity.ModelAngelEd;
 import me.sub.angels.client.renders.entities.layers.LayerCrack;
 import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -32,11 +31,7 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 		addLayer(new LayerCrack(this));
 		addLayer(new LayerHeldItem(this));
 	}
-	
-	private static void bindAngelTex(ResourceLocation loc) {
-		Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
-	}
-	
+
 	@Override
 	protected ResourceLocation getEntityTexture(EntityWeepingAngel entity) {
 		return null;
@@ -55,19 +50,19 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		if (angel.getHealth() > 0.0F) {
-			
+
 			if (angel.isChild()) {
-				bindAngelTex(TEXTURE_CHILD);
+				bindTexture(TEXTURE_CHILD);
 				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 			} else {
 				
 				if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
-					bindAngelTex(TEXTURE_ONE);
+					bindTexture(TEXTURE_ONE);
 					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
 				
 				if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
-					bindAngelTex(TEXTURE_TWO);
+					bindTexture(TEXTURE_TWO);
 					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
 			}

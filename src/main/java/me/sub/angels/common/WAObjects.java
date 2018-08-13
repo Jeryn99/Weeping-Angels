@@ -62,8 +62,15 @@ public class WAObjects {
 	@SubscribeEvent
 	public static void addBlocks(RegistryEvent.Register<Block> e) {
 		IForgeRegistry<Block> reg = e.getRegistry();
-		registerBlocks(reg, new BlockSnowArm("arm"), new BlockAngelStatue("plinth"));
-		reg.register(new BlockChronodyneGenerator("cg"));
+
+		registerBlocks(reg,
+				setUpBlock(new BlockSnowArm(), "arm"),
+				setUpBlock(new BlockAngelStatue(), "plinth")
+		);
+
+		reg.register(
+				setUpBlock(new BlockChronodyneGenerator(), "cg")
+		);
 		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
 		regTiles();
 	}
@@ -109,17 +116,23 @@ public class WAObjects {
 	private static SoundEvent setUpSound(String soundName) {
 		return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName)).setRegistryName(soundName);
 	}
-	
+
 	private static Item setUpItem(Item item, String name, boolean addToTab) {
 		item.setRegistryName(WeepingAngels.MODID, name);
 		item.setUnlocalizedName(name);
-		
+
 		if (addToTab) {
 			item.setCreativeTab(WATabs.MAIN_TAB);
 		}
 
 		WAObjects.ITEMS.add(item);
 		return item;
+	}
+
+	private static Block setUpBlock(Block block, String name) {
+		block.setRegistryName(WeepingAngels.MODID, name);
+		block.setUnlocalizedName(WeepingAngels.MODID + "." + name);
+		return block;
 	}
 	
 	private static void registerItems(IForgeRegistry<Item> reg, CreativeTabs tab, Item[] items) {

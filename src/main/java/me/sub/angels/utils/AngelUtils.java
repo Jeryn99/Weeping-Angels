@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityQuantumLockBase;
 import me.sub.angels.common.entities.EntityWeepingAngel;
-import me.sub.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,6 +23,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+-angels.WAConfig;
 
 public class AngelUtils {
 	

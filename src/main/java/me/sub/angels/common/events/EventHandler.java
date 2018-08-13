@@ -1,9 +1,9 @@
 package me.sub.angels.common.events;
 
+import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.events.mods.EventAngelTeleport;
-import me.sub.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +33,9 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
-@Mod.EventBusSubscriber
+-angels.WAConfig;
+
+@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class EventHandler {
 	
 	@SubscribeEvent
@@ -53,7 +55,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
 		EntityPlayer player = e.player;
-		if (!player.world.isRemote) {
+		if (!player.world.isRemote && WAConfig.angels.enableUpdateChecker) {
 			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
 			if (version.status == ForgeVersion.Status.OUTDATED) {
 				TextComponentString url = new TextComponentString(TextFormatting.AQUA + TextFormatting.BOLD.toString() + "UPDATE");

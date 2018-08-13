@@ -1,6 +1,5 @@
 package me.sub.angels.common.blocks;
 
-import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.misc.WATabs;
 import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import net.minecraft.block.Block;
@@ -19,11 +18,9 @@ import javax.annotation.Nullable;
 public class BlockChronodyneGenerator extends Block {
 	
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
-	
-	public BlockChronodyneGenerator(String name) {
+
+	public BlockChronodyneGenerator() {
 		super(Material.GRASS, MapColor.ADOBE);
-		setUnlocalizedName(name);
-		setRegistryName(WeepingAngels.MODID, name);
 		translucent = true;
 		this.setCreativeTab(WATabs.MAIN_TAB);
 	}
