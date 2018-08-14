@@ -16,9 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -62,9 +60,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public EntityWeepingAngel(World world) {
 		super(world);
 
-		tasks.addTask(1, new EntityAIAttackMelee(this, 2.0F, false));
-		tasks.addTask(2, new EntityAIBreakDoor(this));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		tasks.addTask(0, new EntityAIBreakDoor(this));
 
 		experienceValue = WAConfig.angels.xpGained;
 	}
@@ -266,7 +262,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
 		
 		Vec3d vec3d = p.getCurrentPos();
-		this.setLocationAndAngles(vec3d.x + rand.nextFloat() * (rand.nextBoolean() ? -1 : 1), vec3d.y, vec3d.z + rand.nextFloat() * (rand.nextBoolean() ? -1 : 1), this.rotationYaw, this.rotationPitch);
+		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
 
 		if (WAConfig.angels.playScrapSounds && !isChild()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
