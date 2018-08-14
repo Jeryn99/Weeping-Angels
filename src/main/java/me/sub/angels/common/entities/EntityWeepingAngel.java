@@ -5,6 +5,7 @@ import me.sub.angels.api.ICanTeleport;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
+import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import me.sub.angels.utils.WATeleporter;
 import net.minecraft.block.Block;
@@ -46,8 +47,6 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.List;
-
--angels.WAConfig;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
