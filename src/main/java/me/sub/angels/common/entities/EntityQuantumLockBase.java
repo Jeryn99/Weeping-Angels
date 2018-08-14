@@ -2,6 +2,7 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.misc.WAConstants;
+import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,8 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
-
--angels.WAConfig;
 
 public class EntityQuantumLockBase extends EntityMob {
 	

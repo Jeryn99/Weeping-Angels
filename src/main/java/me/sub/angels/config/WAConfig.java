@@ -3,12 +3,12 @@ package me.sub.angels.config;
 import me.sub.angels.WeepingAngels;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
--angels.Config;
-		-angels.ConfigManager;
 
 @Config(modid = WeepingAngels.MODID)
 public class WAConfig {

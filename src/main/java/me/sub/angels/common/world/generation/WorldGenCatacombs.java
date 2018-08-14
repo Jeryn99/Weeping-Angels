@@ -1,6 +1,7 @@
 package me.sub.angels.common.world.generation;
 
 import me.sub.angels.WeepingAngels;
+import me.sub.angels.config.WAConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -9,7 +10,6 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
--angels.WAConfig;
 
 // TODO Use Biome decoration event instead of...this
 public class WorldGenCatacombs implements IWorldGenerator {

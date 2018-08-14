@@ -2,6 +2,7 @@ package me.sub.angels.common.items;
 
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityWeepingAngel;
+import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.PlayerUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -15,7 +16,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
--angels.WAConfig;
 
 public class ItemDetector extends Item {
 	
