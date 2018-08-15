@@ -12,8 +12,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.List;
-
 public class EntityQuantumLockBase extends EntityMob {
 	
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
@@ -88,19 +86,13 @@ public class EntityQuantumLockBase extends EntityMob {
         if (!WAConfig.angels.angelLocking) return false;
 
         if (ticksExisted % 5 == 0) {
-            List<EntityQuantumLockBase> entityList = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(32.0D));
-
-            if (entityList.isEmpty()) {
-                return false;
-            }
-
-            for (EntityQuantumLockBase viewer : entityList) {
+			for (EntityQuantumLockBase viewer : world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(32.0D))) {
                 if (viewer != this && !world.isRemote) {
 
                     if (viewer instanceof EntityWeepingAngel) {
                         EntityWeepingAngel angelViewer = (EntityWeepingAngel) viewer;
                         if (angelViewer.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.toString())) {
-                            //return false;
+							return false;
                         }
                     }
 
@@ -122,11 +114,10 @@ public class EntityQuantumLockBase extends EntityMob {
 	protected boolean isMovementBlocked() {
 		return true;
 	}
-	
-	@Override
-	public void onUpdate() {
-        setQuantum(quantumLocking());
-		super.onUpdate();
-	}
 
+	@Override
+	public void onEntityUpdate() {
+		super.onEntityUpdate();
+		setQuantum(quantumLocking());
+	}
 }
