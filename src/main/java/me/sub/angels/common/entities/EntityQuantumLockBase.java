@@ -96,7 +96,7 @@ public class EntityQuantumLockBase extends EntityMob {
                         }
                     }
 
-                    boolean viewed = AngelUtils.isInSight(viewer, this);
+					boolean viewed = AngelUtils.canSee(viewer, this);
 
                     if (viewed) {
                         setSeenTime(getSeenTime() + 1);

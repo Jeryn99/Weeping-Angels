@@ -15,9 +15,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class WorldJsonUtils {
 
     public static WorldJsonUtils INSTANCE = new WorldJsonUtils();
@@ -66,7 +67,7 @@ public class WorldJsonUtils {
                 object = parser.parse(new FileReader(jsonFile)).getAsJsonObject();
             } else {
                 InputStream stream = getClass().getClassLoader().getResourceAsStream("assets/" + WeepingAngels.MODID + "/chunks/" + name + ".json");
-                object = parser.parse(new BufferedReader(new InputStreamReader(stream, "UTF-8"))).getAsJsonObject();
+                object = parser.parse(new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))).getAsJsonObject();
             }
 
             for (JsonElement blocks : object.get("blocks").getAsJsonArray()) {

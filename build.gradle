@@ -9,14 +9,24 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "18.5"
+version = "19"
 group = "me.sub.weeping-angels"
-archivesBaseName = "Weeping Angels"
+archivesBaseName = "weeping-angels"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
+
+jar {
+    manifest {
+        attributes([
+                'Maven-Artifact': "${project.group}:${archivesBaseName}:${project.version}",
+                'Timestamp'     : System.currentTimeMillis()
+        ])
+    }
+}
+
 minecraft {
     version = "1.12.2-14.23.4.2729"
     runDir = "run"

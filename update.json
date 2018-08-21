@@ -1,12 +1,13 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "18",
-    "1.12.2-recommended": "18"
+    "1.12.2-latest": "19",
+    "1.12.2-recommended": "19"
   },
   "1.12.2": {
     "17.5": "A server side boot crash, please report things when you find them...",
     "18": "FMLCommonHandler crash fix.",
-    "18.5": "Angel on Angel Quantum locking (Must be enabled in config), support for pickaxes from other mods, removed pose per situation stuff"
+    "18.5": "Angel on Angel Quantum locking (Must be enabled in config), support for pickaxes from other mods, removed pose per situation stuff",
+    "19": "Fixes to the server watchdog, Deprecated things that will be removed, tidied code, performance issues fix"
   }
 }

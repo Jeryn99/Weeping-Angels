@@ -122,7 +122,7 @@ public class ModelAngelChild extends ModelBiped {
 		
 		if (entityIn instanceof EntityWeepingAngel) {
 			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
-			if (angel.getSeenTime() == 1) {
+			if (angel.getSeenTime() == 2) {
 				angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 			}
 		}

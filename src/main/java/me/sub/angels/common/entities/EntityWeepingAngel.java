@@ -31,6 +31,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -290,6 +292,17 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 	}
+
+
+	@Override
+	protected PathNavigate createNavigator(World worldIn) {
+		final PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
+		navigator.setCanSwim(false);
+		navigator.setBreakDoors(true);
+		navigator.setAvoidSun(false);
+		return navigator;
+	}
+
 
 	private void replaceBlocks(AxisAlignedBB box) {
 		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;

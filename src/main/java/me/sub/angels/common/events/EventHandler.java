@@ -3,20 +3,17 @@ package me.sub.angels.common.events;
 import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityWeepingAngel;
-import me.sub.angels.common.events.mods.EventAngelTeleport;
 import me.sub.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -37,18 +34,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class EventHandler {
-	
-	@SubscribeEvent
-	public static void angelTeleported(EventAngelTeleport e) {
-		EntityPlayer player = e.getEntityPlayer();
-		if (player.world.rand.nextInt(2) == 2) {
-			player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 600, 3));
-			player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 1));
-			player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 600, 3));
-			player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 3));
-		}
-	}
-	
+
 	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
 	 */
@@ -73,10 +59,10 @@ public class EventHandler {
 	 * Spawning arms in snow biomes
 	 */
 	@SubscribeEvent
-	public static void decorateBiomeEvent(DecorateBiomeEvent e) {
-		if (e.getWorld().getBiome(e.getPos()).isSnowyBiome()) {
-			if (e.getRand().nextInt(30) <= 10) {
-				generate(e.getWorld(), e.getPos());
+	public static void decorateBiomeEvent(DecorateBiomeEvent.Decorate e) {
+		if (e.getWorld().getBiome(e.getPlacementPos()).isSnowyBiome()) {
+			if (e.getRand().nextInt(5) <= 3) {
+				generate(e.getWorld(), e.getPlacementPos());
 			}
 		}
 	}
@@ -118,7 +104,7 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void onSpawn(LivingSpawnEvent.CheckSpawn e) {
 		if (e.getEntity() instanceof EntityWeepingAngel) {

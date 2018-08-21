@@ -13,7 +13,6 @@ import me.sub.angels.common.misc.WATabs;
 import me.sub.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.sub.angels.common.tileentities.TileEntityPlinth;
 import me.sub.angels.common.tileentities.TileEntitySnowArm;
-import me.sub.angels.common.world.generation.WorldGenCatacombs;
 import me.sub.angels.utils.AngelUtils;
 import me.sub.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -71,7 +70,7 @@ public class WAObjects {
 		reg.register(
 				setUpBlock(new BlockChronodyneGenerator(), "cg")
 		);
-		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 8);
+
 		regTiles();
 	}
 

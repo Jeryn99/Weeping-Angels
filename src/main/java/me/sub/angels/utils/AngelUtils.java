@@ -21,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,15 +70,40 @@ public class AngelUtils {
 	
 	public static void setupLightItems() {
 		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {
-			
-			if (block.getLightValue(block.getDefaultState()) > 7) {
+
+			if (AngelUtils.getLightValue(block) > 7) {
 				lightItems.add(Item.getItemFromBlock(block));
 			}
 			
 			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 		}
 	}
-	
+
+	public static boolean canSee(EntityLivingBase viewer, EntityLivingBase angel) {
+		double dx = angel.posX - viewer.posX;
+		double dz;
+		for (dz = angel.posX - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+			dx = (Math.random() - Math.random()) * 0.01D;
+		}
+		while (viewer.rotationYaw > 360) {
+			viewer.rotationYaw -= 360;
+		}
+		while (viewer.rotationYaw < -360) {
+			viewer.rotationYaw += 360;
+		}
+		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
+		yaw = yaw - 90;
+		while (yaw < -180) {
+			yaw += 360;
+		}
+		while (yaw >= 180) {
+			yaw -= 360;
+		}
+
+		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(angel);
+	}
+
+
 	public static boolean handLightCheck(EntityLivingBase player) {
 		for (Item item : lightItems) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
@@ -123,6 +149,11 @@ public class AngelUtils {
 			lightCheck(playerMP, stack, angel);
 		}
 	}
+
+	public static int getLightValue(Block block) {
+		int lightValue = ReflectionHelper.getPrivateValue(Block.class, block, 9);
+		return lightValue;
+	}
 	
 	private static boolean lightCheck(EntityPlayerMP player, ItemStack stack, EntityWeepingAngel angel) {
 		if (lightItems.contains(stack.getItem()) && stack.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
@@ -159,4 +190,6 @@ public class AngelUtils {
 		}
 		return true;
 	}
+
+
 }

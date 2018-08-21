@@ -10,7 +10,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
@@ -214,7 +213,7 @@ public class ModelAngelEd extends ModelBiped {
 	
 	public void quickRender(float scale, TileEntityPlinth p) {
 		GlStateManager.pushMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableCull();
 		GlStateManager.enableLighting();
 		tilePosing(p);
 		cloth_1.render(scale);
@@ -231,14 +230,14 @@ public class ModelAngelEd extends ModelBiped {
 		left_wing_0.render(scale);
 		left_arm.render(scale);
 		GlStateManager.disableLighting();
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableCull();
 		GlStateManager.enableLighting();
 		angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 		cloth_1.render(scale);
@@ -255,7 +254,7 @@ public class ModelAngelEd extends ModelBiped {
 		left_wing_0.render(scale);
 		left_arm.render(scale);
 		GlStateManager.disableLighting();
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
 	
