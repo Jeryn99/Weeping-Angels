@@ -80,10 +80,6 @@ public class WAConfig {
 		@Config.Comment("The maximum range a user can be teleported by the Angels")
 		public int teleportRange = 450;
 
-		@Config.LangKey("config.weeping-angels.angel_locking")
-		@Config.Comment("If this is enabled, angels will freeze when they see one another {WIP, not the best}")
-		public boolean angelLocking = false;
-
 		@Config.LangKey("config.weeping-angels.angeldimteleport")
 		@Config.Comment("If this is enabled, angel teleporting can also tp the player to other dimensions")
 		public boolean angelDimTeleport = true;

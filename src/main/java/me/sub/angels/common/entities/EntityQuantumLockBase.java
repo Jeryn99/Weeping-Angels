@@ -38,7 +38,6 @@ public class EntityQuantumLockBase extends EntityMob {
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
 		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
 		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());
-		compound.setBoolean(WAConstants.QAUNTUM_LOCKED, isQuantumLocked());
 	}
 	
 	@Override
@@ -46,7 +45,6 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.readEntityFromNBT(compound);
 		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
 		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
-		if (compound.hasKey(WAConstants.QAUNTUM_LOCKED)) setQuantum(compound.getBoolean(WAConstants.QAUNTUM_LOCKED));
         if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
 	}
 	
@@ -82,42 +80,9 @@ public class EntityQuantumLockBase extends EntityMob {
         getDataManager().set(QUANTUM, locked);
     }
 
-    private boolean quantumLocking() {
-        if (!WAConfig.angels.angelLocking) return false;
-
-        if (ticksExisted % 5 == 0) {
-			for (EntityQuantumLockBase viewer : world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(32.0D))) {
-                if (viewer != this && !world.isRemote) {
-
-                    if (viewer instanceof EntityWeepingAngel) {
-                        EntityWeepingAngel angelViewer = (EntityWeepingAngel) viewer;
-                        if (angelViewer.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.toString())) {
-							return false;
-                        }
-                    }
-
-					boolean viewed = AngelUtils.canSee(viewer, this);
-
-                    if (viewed) {
-                        setSeenTime(getSeenTime() + 1);
-                    } else {
-                        setSeenTime(0);
-                    }
-                    return viewed;
-                }
-			}
-		}
-        return false;
-	}
-
 	@Override
 	protected boolean isMovementBlocked() {
 		return true;
 	}
 
-	@Override
-	public void onEntityUpdate() {
-		super.onEntityUpdate();
-		setQuantum(quantumLocking());
-	}
 }
