@@ -8,25 +8,21 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentTranslation;
 
 public class PlayerUtils {
-	
-	public static boolean isInHand(EnumHand hand, EntityLivingBase holder, ItemStack item) {
-		if (!holder.getHeldItem(hand).isEmpty()) {
+
+	public static boolean isInHand(EnumHand hand, EntityLivingBase holder, Item item) {
 			ItemStack heldItem = holder.getHeldItem(hand);
-			return heldItem.isItemEqual(item);
-		} else {
-			return false;
-		}
+		return heldItem.getItem() == item;
 	}
 	
 	public static boolean isInMainHand(EntityLivingBase holder, Item item) {
-		return isInHand(EnumHand.MAIN_HAND, holder, new ItemStack(item));
+		return isInHand(EnumHand.MAIN_HAND, holder, item);
 	}
 	
 	/**
 	 * Checks if player has item in offhand
 	 */
 	public static boolean isInOffHand(EntityLivingBase holder, Item item) {
-		return isInHand(EnumHand.OFF_HAND, holder, new ItemStack(item));
+		return isInHand(EnumHand.OFF_HAND, holder, item);
 	}
 	
 	/**

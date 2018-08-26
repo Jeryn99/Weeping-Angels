@@ -223,7 +223,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		this.rotationYawHead = this.rotationYaw;
 		if (!world.isRemote && ticksExisted % 5 == 0) {
 			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(100));
-            players.removeIf(EntityPlayer::isSpectator);
+            players.removeIf(player -> player.isSpectator() || player.isInvisible());
 			if (players.isEmpty()) return;
 			EntityPlayer closest = null;
 			for (EntityPlayer player : players) {
@@ -246,7 +246,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			Vec3d vect = closest.getPositionVector();
 			float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
 			rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-			if (getDistance(closest) < 1)
+            if (getDistance(closest) < 1 && !closest.isCreative())
 				attackEntityAsMob(closest);
 			else
 				teleportTowards(closest);
