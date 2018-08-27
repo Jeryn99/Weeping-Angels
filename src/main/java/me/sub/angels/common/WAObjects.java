@@ -3,6 +3,7 @@ package me.sub.angels.common;
 import me.sub.angels.WeepingAngels;
 import me.sub.angels.common.blocks.BlockAngelStatue;
 import me.sub.angels.common.blocks.BlockChronodyneGenerator;
+import me.sub.angels.common.blocks.BlockMineable;
 import me.sub.angels.common.blocks.BlockSnowArm;
 import me.sub.angels.common.entities.*;
 import me.sub.angels.common.items.ItemAngelSpawner;
@@ -19,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -55,7 +57,9 @@ public class WAObjects {
 				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true),
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true),
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true));
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
+				setUpItem(new Item(), "kontron_ingot", true)
+		);
 	}
 	
 	@SubscribeEvent
@@ -64,7 +68,8 @@ public class WAObjects {
 
 		registerBlocks(reg,
 				setUpBlock(new BlockSnowArm(), "arm"),
-				setUpBlock(new BlockAngelStatue(), "plinth")
+				setUpBlock(new BlockAngelStatue(), "plinth"),
+				setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore")
 		);
 
 		reg.register(
@@ -155,6 +160,7 @@ public class WAObjects {
 		public static final Block ARM = null;
 		public static final Block CG = null;
 		public static final Block PLINTH = null;
+		public static final Block KONTRON_ORE = null;
 	}
 	
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
@@ -166,6 +172,7 @@ public class WAObjects {
 		public static final Item ANGEL_0 = null;
 		public static final Item ANGEL_1 = null;
 		public static final Item ANGEL_CHILD = null;
+		public static final Item KONTRON_INGOT = null;
 	}
 	
 	// Sounds

@@ -2,11 +2,11 @@ package me.sub.angels.common.entities;
 
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -46,7 +46,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 		
 		if (result.typeOfHit == Type.BLOCK) {
 			BlockPos pos = new BlockPos(result.getBlockPos().getX(), result.getBlockPos().getY() + 1, result.getBlockPos().getZ());
-			if (world.isAirBlock(pos)) {
+			if (world.isAirBlock(pos) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
 				world.setBlockState(pos, WAObjects.Blocks.CG.getDefaultState());
 				if (world.getTileEntity(pos) != null) {
 					NBTTagCompound tileData = world.getTileEntity(pos).getTileData();

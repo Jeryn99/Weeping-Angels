@@ -1,11 +1,11 @@
 entity.weepingangel.name=Spooky Statooz
 item.angel_painting.name=Statooz Painthing
-tile.arm.name=Cold arme
+tile.weeping-angels.arm.name=Cold arme
 item.unlit_torch.name=No Brite Torc
 item.timey_wimey_detector.name=It Goes Dingeh!
 item.chronodyne_generator.name=Crayonide Generat
 item.plinth.name=Spooky Statooz
-tile.plinth.name=Spooky Statooz
+tile.weeping-angels.plinth.name=Spooky Statooz
 item.angel_0.name=Angel (0)
 item.angel_1.name=Angel (1)
 item.angel_child.name=Angel (Child)

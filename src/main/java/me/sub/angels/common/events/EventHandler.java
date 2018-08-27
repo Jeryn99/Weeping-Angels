@@ -21,6 +21,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -31,9 +32,14 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
+import java.util.Random;
+
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class EventHandler {
+
+	private static WorldGenMinable genCrystal = new WorldGenMinable(WAObjects.Blocks.KONTRON_ORE.getDefaultState(), 3);
+
 
 	/**
 	 * Update checker thing, tells the player that the mods out of date if they're on a old build
@@ -54,20 +60,33 @@ public class EventHandler {
 			}
 		}
 	}
-	
-	/*
-	 * Spawning arms in snow biomes
-	 */
+
+
 	@SubscribeEvent
-	public static void decorateBiomeEvent(DecorateBiomeEvent.Decorate e) {
-		if (e.getWorld().getBiome(e.getPlacementPos()).isSnowyBiome()) {
-			if (e.getRand().nextInt(5) <= 3) {
-				generate(e.getWorld(), e.getPlacementPos());
+	public static void decorateBiomeEvent(DecorateBiomeEvent.Pre e) {
+
+		World world = e.getWorld();
+		Random rand = e.getRand();
+
+		if (world.getBiome(e.getPos()).isSnowyBiome()) {
+			if (rand.nextInt(5) <= 3) {
+				generateArms(world, e.getPos());
+			}
+		}
+
+		int blockY = rand.nextInt(64);
+		int blockX = e.getChunkPos().x * 16 + (rand.nextInt(16) + 8);
+		int blockZ = e.getChunkPos().z * 16 + (rand.nextInt(16) + 8);
+		BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+
+		if (world.provider.getDimension() == 0 && rand.nextBoolean() && !world.getBiome(e.getPos()).isSnowyBiome()) {
+			if (blockY > 3 && blockY < 60) {
+				genCrystal.generate(world, rand, pos);
 			}
 		}
 	}
-	
-	private static void generate(World world, BlockPos position) {
+
+	private static void generateArms(World world, BlockPos position) {
 		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
 		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
 			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) world.setBlockState(pos, WAObjects.Blocks.ARM.getDefaultState(), 1);
@@ -116,5 +135,5 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 }

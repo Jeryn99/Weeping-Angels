@@ -1,11 +1,11 @@
 entity.weepingangel.name=Weinender Engel
 item.angel_painting.name=Engel Gemälde
-tile.arm.name=Arm im Schnee
+tile.weeping-angels.arm.name=Arm im Schnee
 item.unlit_torch.name=Unbeleuchtete Fackel
 item.timey_wimey_detector.name=Timey Wimey Detektor
 item.chronodyne_generator.name=Chronodyne Generator
 item.plinth.name=Engel Statue
-tile.plinth.name=Engel Statue
+tile.weeping-angels.plinth.name=Engel Statue
 item.angel_0.name=Angel (0)
 item.angel_1.name=Angel (1)
 item.angel_child.name=Angel (Child)

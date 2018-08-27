@@ -1,11 +1,11 @@
 entity.weepingangel.name=Ange pleureur
 item.angel_painting.name=Peinture d'Ange
-tile.arm.name=Bras dans la neige
+tile.weeping-angels.arm.name=Bras dans la neige
 item.unlit_torch.name=Torche éteinte
 item.timey_wimey_detector.name=Détecteur Timey Wimey
 item.chronodyne_generator.name=Générateur de Chronodyne
 item.plinth.name=Statue d'Ange
-tile.plinth.name=Statue d'Ange
+tile.weeping-angels.plinth.name=Statue d'Ange
 item.angel_0.name=Ange pleureur(0)
 item.angel_1.name=Ange pleureur(1)
 item.angel_child.name=Ange pleureur(Enfant)
