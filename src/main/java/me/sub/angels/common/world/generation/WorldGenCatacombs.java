@@ -29,9 +29,8 @@ public class WorldGenCatacombs {
 	private static ResourceLocation catacomb_hallway_broken_2 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_broken_2");
 	private static ResourceLocation catacomb_hallway_broken_3 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_broken_3");
 
-
 	public static ResourceLocation[] allParts = new ResourceLocation[]{partCorner1, partStraight, partTSection, partCrossSection};
-
+	
 	public static ResourceLocation[] allStraightParts = new ResourceLocation[] { catacomb_hallway_flat_1, catacomb_hallway_flat_2, catacomb_hallway_flat_3, partStraight, catacomb_hallway_clean_1, catacomb_hallway_clean_2, catacomb_hallway_clean_3, catacomb_hallway_clean_4, catacomb_hallway_broken_1, catacomb_hallway_broken_2, catacomb_hallway_broken_3 };
 
 	public static ResourceLocation getStraightPart(Random rand) {
@@ -40,7 +39,7 @@ public class WorldGenCatacombs {
 
 	@SubscribeEvent
 	public static void generate(DecorateBiomeEvent e) {
-		if (WAConfig.angels.genCatacombs) {
+		if (WAConfig.worldGen.genCatacombs) {
 			// TODO - Re-write Catacomb generation
 		}
 	}

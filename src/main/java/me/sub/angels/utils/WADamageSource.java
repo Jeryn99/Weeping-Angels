@@ -9,14 +9,14 @@ import net.minecraft.util.text.TextComponentTranslation;
 // To-do - Make translating less limited
 public class WADamageSource extends DamageSource {
 
-	private String name;
+    private String name;
 
-	public WADamageSource(String name) {
+    public WADamageSource(String name) {
 		super(name);
 		this.name = "damagesrc.angels." + name;
 	}
 
-	@Override
+    @Override
 	public ITextComponent getDeathMessage(EntityLivingBase entity) {
 		return new TextComponentString(entity.getName() + " ").appendSibling(new TextComponentTranslation(name));
 	}

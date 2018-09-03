@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelCG extends ModelBase {
 
-	private ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/cg_tex.png");
+    private ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/cg_tex.png");
 	
 	private ModelRenderer MAIN;
 	private ModelRenderer shape11;

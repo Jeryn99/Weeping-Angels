@@ -32,8 +32,7 @@ public class WorldJsonUtils {
                 for (int z = 0; z < 16; z++) {
                     IBlockState state = world.getBlockState(origin.add(new BlockPos(x, y, z)));
                     JsonBlock block = new JsonBlock(state.getBlock().getRegistryName().getResourceDomain(), state.getBlock().getRegistryName().getResourcePath(), state.getBlock().getMetaFromState(state));
-                    if (!states.contains(block))
-                        states.add(block);
+                    if (!states.contains(block)) states.add(block);
                     blockArray[x][y][z] = states.indexOf(block);
                 }
             }
@@ -73,8 +72,7 @@ public class WorldJsonUtils {
             for (JsonElement blocks : object.get("blocks").getAsJsonArray()) {
                 JsonObject resourceElement = blocks.getAsJsonObject();
                 JsonBlock block = new JsonBlock(resourceElement.get("domain").toString(), resourceElement.get("path").toString(), resourceElement.get("meta").getAsInt());
-                if (!states.contains(block))
-                    states.add(block);
+                if (!states.contains(block)) states.add(block);
             }
 
             JsonArray array = object.getAsJsonArray("blockArray");
@@ -143,8 +141,7 @@ public class WorldJsonUtils {
         public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
             if (!(sender.getCommandSenderEntity() instanceof EntityPlayer))
                 throw new CommandException("Can only use this command as a player", (Object[]) args);
-            if (args.length == 0)
-                throw new CommandException("No arguments given", (Object[]) args);
+            if (args.length == 0) throw new CommandException("No arguments given", (Object[]) args);
             EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
 
             INSTANCE.generateJson(player.world, (int) player.posX >> 4, (int) player.posY >> 4, (int) player.posZ >> 4, args[0]);
@@ -168,14 +165,12 @@ public class WorldJsonUtils {
         public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
             if (!(sender.getCommandSenderEntity() instanceof EntityPlayer))
                 throw new CommandException("Can only use regeneration debug commands as player", (Object[]) args);
-            if (args.length == 0)
-                throw new CommandException("No arguments given", (Object[]) args);
+            if (args.length == 0) throw new CommandException("No arguments given", (Object[]) args);
             EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
 
             INSTANCE.fromJson(player.world, (int) player.posX >> 4, (int) player.posY >> 4, (int) player.posZ >> 4, args[0], false);
         }
 
     }
-
-
+	
 }

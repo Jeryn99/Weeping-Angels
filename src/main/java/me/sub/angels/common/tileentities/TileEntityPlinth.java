@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 
 public class TileEntityPlinth extends TileEntity implements ITickable {
 
-	private boolean hasSpawned = false;
+    private boolean hasSpawned = false;
 	private int rotation;
 	private String pose = PoseManager.randomPose(PoseManager.AngelPoses.class).toString();
 	
@@ -102,7 +102,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		}
 	}
 
-	public String getPose() {
+    public String getPose() {
 		return pose;
 	}
 	

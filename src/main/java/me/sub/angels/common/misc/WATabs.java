@@ -12,5 +12,5 @@ public class WATabs {
             return new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR);
         }
     };
-
+	
 }

@@ -103,7 +103,6 @@ public class AngelUtils {
 		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(angel);
 	}
 
-
 	public static boolean handLightCheck(EntityLivingBase player) {
 		for (Item item : lightItems) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
@@ -156,18 +155,21 @@ public class AngelUtils {
 	}
 	
 	private static boolean lightCheck(EntityPlayerMP player, ItemStack stack, EntityWeepingAngel angel) {
-		if (lightItems.contains(stack.getItem()) && stack.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
-			stack.shrink(1);
-			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
-			return true;
-		}
-		
+
 		if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
 			stack.shrink(1);
 			player.addItemStackToInventory(new ItemStack(WAObjects.Items.UNLIT_TORCH));
 			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
 			return true;
 		}
+
+		if (lightItems.contains(stack.getItem())) {
+			if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) return false;
+			stack.shrink(1);
+			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
+			return true;
+		}
+
 		return false;
 	}
 
@@ -184,12 +186,11 @@ public class AngelUtils {
 		AxisAlignedBB aB = angel.getEntityBoundingBox();
 		Vec3d[] viewerPoints = {new Vec3d(vB.minX, vB.minY, vB.minZ), new Vec3d(vB.minX, vB.minY, vB.maxZ), new Vec3d(vB.minX, vB.maxY, vB.minZ), new Vec3d(vB.minX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.maxY, vB.minZ), new Vec3d(vB.maxX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.minZ),};
 		Vec3d[] angelPoints = {new Vec3d(aB.minX, aB.minY, aB.minZ), new Vec3d(aB.minX, aB.minY, aB.maxZ), new Vec3d(aB.minX, aB.maxY, aB.minZ), new Vec3d(aB.minX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.maxY, aB.minZ), new Vec3d(aB.maxX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.minZ),};
-
+		
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
 		}
 		return true;
 	}
-
 
 }

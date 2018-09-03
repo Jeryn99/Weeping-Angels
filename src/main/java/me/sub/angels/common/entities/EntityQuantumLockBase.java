@@ -1,16 +1,21 @@
 package me.sub.angels.common.entities;
 
-import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.misc.WAConstants;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityQuantumLockBase extends EntityMob {
 	
@@ -21,6 +26,72 @@ public class EntityQuantumLockBase extends EntityMob {
 
 	public EntityQuantumLockBase(World worldIn) {
 		super(worldIn);
+	}
+
+	@Override
+	public void onLivingUpdate() {
+
+
+		if (!world.isRemote && ticksExisted % 5 == 0 && WAConfig.angels.freezeOnAngel) {
+			List<EntityQuantumLockBase> quantumLockBases = this.world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
+
+			boolean flag = quantumLockBases.isEmpty();
+
+			if (flag) {
+				setQuantum(false);
+			} else {
+				for (EntityQuantumLockBase base : quantumLockBases) {
+					if (base.getUniqueID() != this.getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
+						setQuantum(AngelUtils.canSee(base, this));
+						//	WeepingAngels.LOGGER.warn(base.getName() + " can see " + this.getDisplayName().getUnformattedText());
+						return;
+					}
+				}
+			}
+		}
+
+		if (isQuantumLocked()) return;
+
+		super.onLivingUpdate();
+
+		this.rotationYawHead = this.rotationYaw;
+		if (!world.isRemote && ticksExisted % 5 == 0) {
+			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(60));
+			players.removeIf(player -> player.isSpectator() || player.isInvisible());
+			if (players.isEmpty()) return;
+			EntityPlayer closest = null;
+			for (EntityPlayer player : players) {
+
+				if (AngelUtils.isInSight(player, this)) {
+					setSeenTime(getSeenTime() + 1);
+					invokeSeen(player);
+					return;
+
+				} else if (closest == null || this.getDistance(closest) > this.getDistance(player)) {
+					closest = player;
+					setSeenTime(0);
+				}
+			}
+
+			Vec3d vecp = getPositionVector();
+			Vec3d vect = closest.getPositionVector();
+			float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
+			rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
+			if (getDistance(closest) < 1 && !closest.isCreative())
+				attackEntityAsMob(closest);
+			else
+				teleportTowards(closest);
+		}
+	}
+
+	public void teleportTowards(EntityLivingBase closest) {
+		if (isQuantumLocked()) return;
+		Path p = this.navigator.getPathToEntityLiving(closest);
+		if (p == null) return;
+		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
+
+		Vec3d vec3d = p.getCurrentPos();
+		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
 	}
 	
 	@Override
@@ -45,15 +116,15 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.readEntityFromNBT(compound);
 		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
 		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
-        if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
+		if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
 	}
 	
 	public boolean isSeen() {
-        return getSeenTime() > 0;
-    }
+		return getSeenTime() > 0;
+	}
 
-    public void setSeen(boolean seen) {
-        getDataManager().set(IS_SEEN, seen);
+	public void setSeen(boolean seen) {
+		getDataManager().set(IS_SEEN, seen);
 	}
 	
 	public int getSeenTime() {
@@ -64,25 +135,33 @@ public class EntityQuantumLockBase extends EntityMob {
 		getDataManager().set(TIME_VIEWED, time);
 	}
 
-    public BlockPos getPrevPos() {
-        return getDataManager().get(PREVBLOCKPOS);
-    }
+	public BlockPos getPrevPos() {
+		return getDataManager().get(PREVBLOCKPOS);
+	}
 
-    public void setPrevPos(BlockPos pos) {
-        getDataManager().set(PREVBLOCKPOS, pos);
-    }
+	public void setPrevPos(BlockPos pos) {
+		getDataManager().set(PREVBLOCKPOS, pos);
+	}
 
-    public boolean isQuantumLocked() {
-        return getDataManager().get(QUANTUM);
-    }
+	public boolean isQuantumLocked() {
+		return getDataManager().get(QUANTUM);
+	}
 
-    public void setQuantum(boolean locked) {
-        getDataManager().set(QUANTUM, locked);
-    }
-
+	public void setQuantum(boolean locked) {
+		getDataManager().set(QUANTUM, locked);
+	}
+	
 	@Override
 	protected boolean isMovementBlocked() {
 		return true;
 	}
 
+	public boolean isAngel() {
+		return false;
+	}
+
+	public void invokeSeen(EntityPlayer player) {
+		// TODO Do nothing.
+	}
+	
 }

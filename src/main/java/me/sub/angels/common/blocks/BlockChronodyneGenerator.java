@@ -19,7 +19,7 @@ public class BlockChronodyneGenerator extends Block {
 	
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 
-	public BlockChronodyneGenerator() {
+    public BlockChronodyneGenerator() {
 		super(Material.GRASS, MapColor.ADOBE);
 		translucent = true;
 		this.setCreativeTab(WATabs.MAIN_TAB);

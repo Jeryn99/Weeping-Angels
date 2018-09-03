@@ -69,6 +69,5 @@ public class BlockMineable extends Block {
         }
         return 0;
     }
-
+	
 }
-

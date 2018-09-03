@@ -3,7 +3,6 @@ package me.sub.angels.common.items;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.config.WAConfig;
-import me.sub.angels.utils.PlayerUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
@@ -15,7 +14,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import java.util.List;
-
 
 public class ItemDetector extends Item {
 	
@@ -31,10 +29,9 @@ public class ItemDetector extends Item {
 			
 			if (entityIn instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entityIn;
-				
-				boolean isInHand = PlayerUtils.isInEitherHand(player, WAObjects.Items.TIMEY_WIMEY_DETECTOR);
-				
-				if (!angels.isEmpty() && isInHand) {
+
+
+                if (!angels.isEmpty() && isSelected) {
 					{
 						if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);

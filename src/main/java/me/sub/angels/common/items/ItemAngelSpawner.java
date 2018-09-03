@@ -32,7 +32,7 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 			angel.setType(type.getId());
 			angel.setChild(type.isChild());
 			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-			angel.faceEntity(player, 360,360);
+			angel.faceEntity(player, 360, 360);
 			worldIn.spawnEntity(angel);
 			
 			player.getHeldItem(hand).shrink(1);

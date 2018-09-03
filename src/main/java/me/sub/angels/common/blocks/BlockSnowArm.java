@@ -10,18 +10,18 @@ import javax.annotation.Nullable;
 
 public class BlockSnowArm extends BlockSnow {
 
-	public BlockSnowArm() {
+    public BlockSnowArm() {
 		super();
 		translucent = true;
 	}
 
-	@Nullable
+    @Nullable
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntitySnowArm();
 	}
 
-	@Override
+    @Override
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}

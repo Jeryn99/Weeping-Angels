@@ -209,19 +209,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	public enum EnumAngelArt {
-		AngelOne("Angel_One", 16, 32, 0, 0),
-		AngelTwo("Angel_Two", 16, 32, 0, 64),
-		BlankPaintingOne("Paint_BlankOne", 16, 32, 16, 64),
-		AngelThree("Angel_Three", 16, 32, 32, 64),
-		BlankPaintingTwo("Paint_BlankTwo", 16, 32, 48, 64),
-		AngelFour("Angel_Four", 16, 32, 64, 64),
-		BlankPaintingThree("Paint_BlankThree", 16, 32, 80, 64),
-		AngelFive("Angel_Five", 16, 32, 96, 64),
-		BlankPaintingFour("Paint_BlankFour", 16, 32, 112, 64),
-		AngelSix("Angel_Six", 16, 32, 128, 64),
-		BlankPaintingFive("Angel_Five", 16, 32, 144, 64),
-		AngelSeven("Angel_Seven", 16, 32, 160, 64),
-		BlankPaintingSix("Paint_BlankSix", 16, 32, 176, 64);
+		AngelOne("Angel_One", 0, 0), AngelTwo("Angel_Two", 0, 64), BlankPaintingOne("Paint_BlankOne", 16, 64), AngelThree("Angel_Three", 32, 64), BlankPaintingTwo("Paint_BlankTwo", 48, 64), AngelFour("Angel_Four", 64, 64), BlankPaintingThree("Paint_BlankThree", 80, 64), AngelFive("Angel_Five", 96, 64), BlankPaintingFour("Paint_BlankFour", 112, 64), AngelSix("Angel_Six", 128, 64), BlankPaintingFive("Angel_Five", 144, 64), AngelSeven("Angel_Seven", 160, 64), BlankPaintingSix("Paint_BlankSix", 176, 64);
 		
 		public final String title;
 		public final int sizeX;
@@ -229,10 +217,10 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		public final int offsetX;
 		public final int offsetY;
 
-		EnumAngelArt(String name, int sizeX, int sizeY, int offsetX, int offsetY) {
+		EnumAngelArt(String name, int offsetX, int offsetY) {
 			this.title = name;
-			this.sizeX = sizeX;
-			this.sizeY = sizeY;
+			this.sizeX = 16;
+			this.sizeY = 32;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
 		}

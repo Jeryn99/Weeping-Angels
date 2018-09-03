@@ -10,7 +10,7 @@ public class PoseManager {
         int x = RANDOM.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[x];
     }
-
+	
 	public enum AngelPoses {
         IDLE(new PoseIdle()), HIDING_FACE(new PoseHidingFace()), ANGRY(new PoseAngry()), SHY(new PoseShy()), ANGRY_TWO(new PoseAngryTwo()), OPEN_ARMS(new PoseOpenArms());
 		

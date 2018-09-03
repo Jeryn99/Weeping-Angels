@@ -30,7 +30,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
@@ -39,26 +38,22 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import java.util.List;
-
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
-    private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
 
-
-    private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
-    private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
-
+	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5};
+	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
+	
 	public EntityWeepingAngel(World world) {
 		super(world);
 
@@ -73,9 +68,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, getRandomType());
 		getDataManager().register(CURRENT_POSE, PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
-        getDataManager().register(HUNGER_LEVEL, 50);
+		getDataManager().register(HUNGER_LEVEL, 50);
 	}
-
+	
 	@Override
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
@@ -95,7 +90,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	protected SoundEvent getAmbientSound() {
 		if (isChild() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {
-            return CHILD_SOUNDS[rand.nextInt(CHILD_SOUNDS.length)];
+			return CHILD_SOUNDS[rand.nextInt(CHILD_SOUNDS.length)];
 		}
 		return null;
 	}
@@ -177,23 +172,23 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getDataManager().set(TYPE, angelType);
 	}
 
-    public int getHungerLevel() {
-        return getDataManager().get(HUNGER_LEVEL);
-    }
+	public int getHungerLevel() {
+		return getDataManager().get(HUNGER_LEVEL);
+	}
 
-    public void setHungerLevel(int hunger) {
-        getDataManager().set(HUNGER_LEVEL, hunger);
-    }
-
+	public void setHungerLevel(int hunger) {
+		getDataManager().set(HUNGER_LEVEL, hunger);
+	}
+	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 		compound.setString(WAConstants.POSE, getPose());
 		compound.setInteger(WAConstants.TYPE, getType());
 		compound.setBoolean(WAConstants.ANGEL_CHILD, isChild());
-        compound.setInteger(WAConstants.HUNGER_LEVEL, getHungerLevel());
+		compound.setInteger(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
-
+	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
@@ -204,52 +199,27 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 
-        if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInteger(WAConstants.HUNGER_LEVEL));
+		if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInteger(WAConstants.HUNGER_LEVEL));
 	}
 	
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-        if (ticksExisted % 2400 == 0 && !world.isRemote) {
-            setHungerLevel(getHungerLevel() - 1);
-            if(isWeak()){
-            	this.attackEntityFrom(DamageSource.STARVE, 2);
+		if (ticksExisted % 2400 == 0 && !world.isRemote) {
+			setHungerLevel(getHungerLevel() - 1);
+			if (isWeak()) {
+				this.attackEntityFrom(DamageSource.STARVE, 2);
 			}
-        }
+		}
+	}
 
-		if(isQuantumLocked()) return;
-
-		this.rotationYawHead = this.rotationYaw;
-		if (!world.isRemote && ticksExisted % 5 == 0) {
-			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(100));
-            players.removeIf(player -> player.isSpectator() || player.isInvisible());
-			if (players.isEmpty()) return;
-			EntityPlayer closest = null;
-			for (EntityPlayer player : players) {
-
-				if (AngelUtils.isInSight(player, this)) {
-					setSeenTime(getSeenTime() + 1);
-                    if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds && !player.isCreative()) {
-						((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
-						setPrevPos(getPosition());
-						setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
-					}
-					return;
-
-				} else if (closest == null || this.getDistance(closest) > this.getDistance(player)) {
-					closest = player;
-					setSeenTime(0);
-				}
-			}
-			Vec3d vecp = getPositionVector();
-			Vec3d vect = closest.getPositionVector();
-			float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
-			rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-            if (getDistance(closest) < 1 && !closest.isCreative())
-				attackEntityAsMob(closest);
-			else
-				teleportTowards(closest);
+	@Override
+	public void invokeSeen(EntityPlayer player) {
+		if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds && !player.isCreative()) {
+			((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+			setPrevPos(getPosition());
+			setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
 		}
 	}
 
@@ -258,14 +228,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		return true;
 	}
 
-	private void teleportTowards(EntityLivingBase entity) {
-		Path p = this.navigator.getPathToEntityLiving(entity);
-		if (p == null) return;
-		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
-		
-		Vec3d vec3d = p.getCurrentPos();
-		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
+	@Override
+	public boolean isAngel() {
+		return true;
+	}
 
+	@Override
+	public void teleportTowards(EntityLivingBase entity) {
+		super.teleportTowards(entity);
+		if (isQuantumLocked()) return;
 		if (WAConfig.angels.playScrapSounds && !isChild()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
 		}
@@ -275,12 +246,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
 			}
 		}
-
 	}
 
-    public boolean isWeak() {
-        return getHungerLevel() < 15;
-    }
+	public boolean isWeak() {
+		return getHungerLevel() < 15;
+	}
 	
 	@Override
 	public void onUpdate() {
@@ -293,16 +263,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 	}
 
-
 	@Override
 	protected PathNavigate createNavigator(World worldIn) {
-		final PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
+		PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
 		navigator.setCanSwim(false);
 		navigator.setBreakDoors(true);
 		navigator.setAvoidSun(false);
 		return navigator;
 	}
-
 
 	private void replaceBlocks(AxisAlignedBB box) {
 		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;
@@ -377,7 +345,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			for (EntityPlayer player : world.playerEntities) {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-                    if (playerMP.getDistance(this) < 45 && !playerMP.isCreative()) {
+					if (playerMP.getDistance(this) < 45 && !playerMP.isCreative()) {
 						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
 					}
 				}
@@ -386,9 +354,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	public SoundEvent getSeenSound() {
-        return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
+		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
-
+	
 	private void teleportPlayer(EntityPlayer player) {
 		if (world.isRemote) return;
 		

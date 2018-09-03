@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 @Mod(modid = WeepingAngels.MODID, name = WeepingAngels.NAME, version = WeepingAngels.VERSION, dependencies = WeepingAngels.DEPENDENCIES, updateJSON = WeepingAngels.VERSION_CHECK)
 public class WeepingAngels {
 	
@@ -22,15 +21,15 @@ public class WeepingAngels {
 	public static final String DEPENDENCIES = "required-after:forge@[14.23.4.2706,)";
 	public static final String VERSION_CHECK = "https://raw.githubusercontent.com/SandedShoes/Weeping-Angels-Mod/master/update.json";
 
-	public static Logger LOGGER = LogManager.getLogger(NAME);
+    public static Logger LOGGER = LogManager.getLogger(NAME);
 
-	@Mod.Instance(MODID)
+    @Mod.Instance(MODID)
 	public static WeepingAngels INSTANCE;
 	
 	@SidedProxy(clientSide = "me.sub.angels.proxy.ClientProxy", serverSide = "me.sub.angels.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
-	public static boolean isDevEnv() {
+    public static boolean isDevEnv() {
 		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 	}
 	
@@ -44,12 +43,12 @@ public class WeepingAngels {
 		proxy.init();
 	}
 
-	@Mod.EventHandler
+    @Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit();
 	}
 
-	@Mod.EventHandler
+    @Mod.EventHandler
 	public void serverStart(FMLServerStartingEvent e) {
 		if (isDevEnv()) {
 			e.registerServerCommand(new WorldJsonUtils.BuildJsonCommand());

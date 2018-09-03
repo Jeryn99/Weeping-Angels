@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 
 public class BlockAngelStatue extends Block {
 
-	public BlockAngelStatue() {
+    public BlockAngelStatue() {
 		super(Material.CORAL);
 		translucent = true;
 		this.setHardness(1.0F);

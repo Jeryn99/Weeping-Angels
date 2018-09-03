@@ -16,13 +16,13 @@ import java.util.ArrayList;
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = WeepingAngels.MODID)
 public class ClientEventHandler {
 
-    @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent ev) {
-        for (Item item : WAObjects.ITEMS) {
-            RenderUtil.setItemRender(item);
-        }
-        WAObjects.ITEMS = new ArrayList<>();
-        RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
-    }
-
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent ev) {
+		for (Item item : WAObjects.ITEMS) {
+			RenderUtil.setItemRender(item);
+		}
+		WAObjects.ITEMS = new ArrayList<>();
+		RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
+	}
+	
 }
