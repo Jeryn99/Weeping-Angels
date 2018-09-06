@@ -4,6 +4,7 @@ import me.sub.angels.WeepingAngels;
 import me.sub.angels.client.models.entity.ModelAngel;
 import me.sub.angels.client.models.entity.ModelAngelChild;
 import me.sub.angels.client.models.entity.ModelAngelEd;
+import me.sub.angels.client.models.entity.ModelClassicAngel;
 import me.sub.angels.client.renders.entities.layers.LayerCrack;
 import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
@@ -19,12 +20,17 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	
 	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
+
+	private ResourceLocation TEXTURE_CLASSIC = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_3.png");
+
+
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 	
 	private ModelBase modelOne = new ModelAngel();
 	private ModelBase modelTwo = new ModelAngelEd();
-	private ModelAngelChild modelChild = new ModelAngelChild();
-	
+	private ModelBase modelChild = new ModelAngelChild();
+	private ModelBase modelClassic = new ModelClassicAngel();
+
 	public RenderWeepingAngel(RenderManager manager) {
 		super(manager, new ModelAngelEd(), 0.0F);
 		mainModel = modelTwo;
@@ -49,6 +55,7 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
+
 		if (angel.getHealth() > 0.0F) {
 
 			if (angel.isChild()) {
@@ -65,8 +72,14 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 					bindTexture(TEXTURE_TWO);
 					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
+
+				if (angel.getType() == AngelEnums.AngelType.ANGEL_THREE.getId()) {
+					bindTexture(TEXTURE_CLASSIC);
+					modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				}
 			}
 		}
+
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 	}

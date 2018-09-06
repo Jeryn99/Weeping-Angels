@@ -50,7 +50,17 @@ public class WAObjects {
 	public static void addItems(RegistryEvent.Register<Item> e) {
 		IForgeRegistry<Item> reg = e.getRegistry();
 		registerItems(reg, WATabs.MAIN_TAB, ITEM_BLOCKS.toArray(new Item[ITEM_BLOCKS.size()]));
-        reg.registerAll(setUpItem(new ItemHanging(), "angel_painting", true), setUpItem(new Item(), "unlit_torch", false), setUpItem(new ItemDetector(), "timey_wimey_detector", true), setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true), setUpItem(new Item(), "kontron_ingot", true));
+		reg.registerAll(setUpItem(new ItemHanging(), "angel_painting", true),
+				setUpItem(new Item(), "unlit_torch", false),
+				setUpItem(new ItemDetector(), "timey_wimey_detector", true),
+				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
+				setUpItem(new Item(), "kontron_ingot", true),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true)
+
+		);
 	}
 	
 	@SubscribeEvent
@@ -137,6 +147,7 @@ public class WAObjects {
 		public static final Item CHRONODYNE_GENERATOR = null;
 		public static final Item ANGEL_0 = null;
 		public static final Item ANGEL_1 = null;
+		public static final Item ANGEL_2 = null;
 		public static final Item ANGEL_CHILD = null;
 		public static final Item KONTRON_INGOT = null;
 	}

@@ -39,26 +39,31 @@ public class EntityQuantumLockBase extends EntityMob {
 
 			if (flag) {
 				setQuantum(false);
+				setSeenTime(0);
 			} else {
 				for (EntityQuantumLockBase base : quantumLockBases) {
 					if (base.getUniqueID() != this.getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
 						setQuantum(AngelUtils.canSee(base, this));
-						//	WeepingAngels.LOGGER.warn(base.getName() + " can see " + this.getDisplayName().getUnformattedText());
-						return;
 					}
 				}
 			}
 		}
 
+		System.out.println(this.isQuantumLocked());
+		super.onLivingUpdate();
 		if (isQuantumLocked()) return;
 
-		super.onLivingUpdate();
 
 		this.rotationYawHead = this.rotationYaw;
 		if (!world.isRemote && ticksExisted % 5 == 0) {
 			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(60));
 			players.removeIf(player -> player.isSpectator() || player.isInvisible());
-			if (players.isEmpty()) return;
+
+			if (players.isEmpty()) {
+				setSeenTime(0);
+				return;
+			}
+
 			EntityPlayer closest = null;
 			for (EntityPlayer player : players) {
 
@@ -85,7 +90,10 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 
 	public void teleportTowards(EntityLivingBase closest) {
-		if (isQuantumLocked()) return;
+		if (isQuantumLocked()) {
+			setSeenTime(0);
+			return;
+		}
 		Path p = this.navigator.getPathToEntityLiving(closest);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();

@@ -59,6 +59,8 @@ config.weeping-angels.angel_move_sound=Toggle movement sounds for the angels
 config.weeping-angels.angel_seen_sound=Toggle seen sounds for the angels
 config.weeping-angels.teleport_type=The Teleport type
 config.weeping-angels.allowed_spawn_dimensions=A list of dimensions where angels SHOULD spawn
+config.weeping-angels.ql=Angel on Angel freezing
+config.weeping-angels.pickaxe_only=Pickaxes and generators only?
 
 category.weeping-angels.angels=Angels
 category.weeping-angels.spawn=Spawn Rates

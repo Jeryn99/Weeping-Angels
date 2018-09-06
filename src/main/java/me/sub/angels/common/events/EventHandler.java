@@ -101,6 +101,8 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
+		if (!WAConfig.angels.pickaxeOnly) return;
+
 		Entity source = e.getSource().getTrueSource();
 		if (source instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) source;

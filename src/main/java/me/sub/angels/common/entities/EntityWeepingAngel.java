@@ -219,7 +219,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds && !player.isCreative()) {
 			((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 			setPrevPos(getPosition());
-			setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
+			if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
+				setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
+			} else {
+				setPose(rand.nextBoolean() ? PoseManager.AngelPoses.ANGRY.toString() : PoseManager.AngelPoses.HIDING_FACE.toString());
+			}
 		}
 	}
 

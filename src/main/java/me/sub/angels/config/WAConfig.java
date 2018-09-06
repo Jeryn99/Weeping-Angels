@@ -119,8 +119,13 @@ public class WAConfig {
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
 		public int[] notAllowedDimensions = { 1 };
 
+		@Config.LangKey("config.weeping-angels.ql")
+		@Config.Comment("if enabled, angels will freeze when they see one another.")
+		public boolean freezeOnAngel = false;
 
-        public boolean freezeOnAngel = false;
+		@Config.LangKey("config.weeping-angels.pickaxe_only")
+		@Config.Comment("if enabled, Only pickaxes and generators will work on the angels")
+		public boolean pickaxeOnly = true;
     }
 	
 	@Mod.EventBusSubscriber
