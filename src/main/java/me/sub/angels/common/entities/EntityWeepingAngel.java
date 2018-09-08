@@ -51,8 +51,21 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
 
-    private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5, WAObjects.Sounds.ANGEL_SEEN_6};
-	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
+	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{
+			WAObjects.Sounds.ANGEL_SEEN_1,
+			WAObjects.Sounds.ANGEL_SEEN_2,
+			WAObjects.Sounds.ANGEL_SEEN_3,
+			WAObjects.Sounds.ANGEL_SEEN_4,
+			WAObjects.Sounds.ANGEL_SEEN_5,
+			WAObjects.Sounds.ANGEL_SEEN_6,
+			WAObjects.Sounds.ANGEL_SEEN_7,
+			WAObjects.Sounds.ANGEL_SEEN_8
+	};
+
+	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{
+			SoundEvents.ENTITY_VEX_AMBIENT,
+			WAObjects.Sounds.LAUGHING_CHILD
+	};
 	
 	public EntityWeepingAngel(World world) {
 		super(world);
@@ -223,6 +236,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
 			} else {
 				setPose(rand.nextBoolean() ? PoseManager.AngelPoses.ANGRY.toString() : PoseManager.AngelPoses.HIDING_FACE.toString());
+				System.out.println(getPose());
 			}
 		}
 	}

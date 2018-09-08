@@ -90,7 +90,25 @@ public class WAObjects {
 	@SubscribeEvent
 	public static void addSounds(RegistryEvent.Register<SoundEvent> e) {
 		IForgeRegistry<SoundEvent> reg = e.getRegistry();
-		reg.registerAll(setUpSound("angel_seen_1"), setUpSound("angel_seen_2"), setUpSound("angel_seen_3"), setUpSound("angel_seen_4"), setUpSound("angel_seen_5"), setUpSound("angel_seen_6"), setUpSound("stone_scrap"), setUpSound("child_run"), setUpSound("laughing_child"), setUpSound("light_break"), setUpSound("angel_teleport"), setUpSound("angel_ambient"), setUpSound("ding"), setUpSound("blow"), setUpSound("angel_death"));
+		reg.registerAll(
+				setUpSound("angel_seen_1"),
+				setUpSound("angel_seen_2"),
+				setUpSound("angel_seen_3"),
+				setUpSound("angel_seen_4"),
+				setUpSound("angel_seen_5"),
+				setUpSound("angel_seen_6"),
+				setUpSound("angel_seen_7"),
+				setUpSound("angel_seen_8"),
+				setUpSound("stone_scrap"),
+				setUpSound("child_run"),
+				setUpSound("laughing_child"),
+				setUpSound("light_break"),
+				setUpSound("angel_teleport"),
+				setUpSound("angel_ambient"),
+				setUpSound("ding"),
+				setUpSound("blow"),
+				setUpSound("angel_death")
+		);
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {
@@ -161,6 +179,8 @@ public class WAObjects {
 		public static final SoundEvent ANGEL_SEEN_4 = null;
 		public static final SoundEvent ANGEL_SEEN_5 = null;
 		public static final SoundEvent ANGEL_SEEN_6 = null;
+		public static final SoundEvent ANGEL_SEEN_7 = null;
+		public static final SoundEvent ANGEL_SEEN_8 = null;
 		public static final SoundEvent STONE_SCRAP = null;
 		public static final SoundEvent CHILD_RUN = null;
 		public static final SoundEvent LAUGHING_CHILD = null;

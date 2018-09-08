@@ -3,7 +3,9 @@ package me.sub.angels.client.renders.entities.layers;
 import me.sub.angels.WeepingAngels;
 import me.sub.angels.client.models.entity.ModelAngel;
 import me.sub.angels.client.models.entity.ModelAngelEd;
+import me.sub.angels.client.models.entity.ModelClassicAngel;
 import me.sub.angels.client.renders.entities.RenderWeepingAngel;
+import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,6 +23,7 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	
 	private final ModelBase modelOne = new ModelAngel();
 	private final ModelBase modelTwo = new ModelAngelEd();
+	private final ModelBase modelThree = new ModelClassicAngel();
 	private ModelBase modelMain = modelTwo;
 	
 	public LayerCrack(RenderWeepingAngel angelRendererIn) {
@@ -29,12 +32,17 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	
 	@Override
 	public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		if (angel.getType() == 0) {
+
+		if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
 			modelMain = modelOne;
 		}
-		
-		if (angel.getType() == 1) {
+
+		if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
 			modelMain = modelTwo;
+		}
+
+		if (angel.getType() == AngelEnums.AngelType.ANGEL_THREE.getId()) {
+			modelMain = modelThree;
 		}
 		
 		if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {

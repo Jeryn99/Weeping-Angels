@@ -70,6 +70,26 @@
 			}
 		]
 	},
+  "angel_seen_7": {
+    "category": "hostile",
+    "subtitle": "sound.weeping-angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping-angels:seen/angel_seen_7",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_8": {
+    "category": "hostile",
+    "subtitle": "sound.weeping-angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping-angels:seen/angel_seen_8",
+        "stream": false
+      }
+    ]
+  },
 	
 	"child_run": {
 		"category": "hostile",
@@ -148,6 +168,10 @@
 			{
 				"name": "weeping-angels:stone/stone_scrap_3",
 				"stream": false
+            },
+          {
+            "name": "weeping-angels:stone/stone_scrap_4",
+            "stream": false
 			}
 		]
 	}

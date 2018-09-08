@@ -32,60 +32,48 @@ public class EntityQuantumLockBase extends EntityMob {
 	public void onLivingUpdate() {
 
 
-		if (!world.isRemote && ticksExisted % 5 == 0 && WAConfig.angels.freezeOnAngel) {
-			List<EntityQuantumLockBase> quantumLockBases = this.world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
-
-			boolean flag = quantumLockBases.isEmpty();
-
-			if (flag) {
-				setQuantum(false);
-				setSeenTime(0);
-			} else {
-				for (EntityQuantumLockBase base : quantumLockBases) {
-					if (base.getUniqueID() != this.getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
-						setQuantum(AngelUtils.canSee(base, this));
-					}
-				}
-			}
+		if (!world.isRemote && ticksExisted % 5 == 0) {
+			setQuantum(quantumCheck());
 		}
 
-		System.out.println(this.isQuantumLocked());
 		super.onLivingUpdate();
-		if (isQuantumLocked()) return;
 
+		if (!isQuantumLocked()) {
 
-		this.rotationYawHead = this.rotationYaw;
-		if (!world.isRemote && ticksExisted % 5 == 0) {
-			List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(60));
-			players.removeIf(player -> player.isSpectator() || player.isInvisible());
+			this.rotationYawHead = this.rotationYaw;
+			if (!world.isRemote && ticksExisted % 5 == 0) {
+				List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(60));
+				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 
-			if (players.isEmpty()) {
-				setSeenTime(0);
-				return;
-			}
-
-			EntityPlayer closest = null;
-			for (EntityPlayer player : players) {
-
-				if (AngelUtils.isInSight(player, this)) {
-					setSeenTime(getSeenTime() + 1);
-					invokeSeen(player);
-					return;
-
-				} else if (closest == null || this.getDistance(closest) > this.getDistance(player)) {
-					closest = player;
+				if (players.isEmpty()) {
 					setSeenTime(0);
+					return;
 				}
-			}
 
-			Vec3d vecp = getPositionVector();
-			Vec3d vect = closest.getPositionVector();
-			float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
-			rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-			if (getDistance(closest) < 1 && !closest.isCreative())
-				attackEntityAsMob(closest);
-			else
-				teleportTowards(closest);
+				EntityPlayer closest = null;
+				for (EntityPlayer player : players) {
+
+					if (AngelUtils.isInSight(player, this)) {
+						setSeenTime(getSeenTime() + 1);
+						invokeSeen(player);
+						return;
+
+					} else if (closest == null || this.getDistance(closest) > this.getDistance(player)) {
+						closest = player;
+						setSeenTime(0);
+					}
+				}
+
+				Vec3d vecp = getPositionVector();
+				Vec3d vect = closest.getPositionVector();
+				float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
+				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
+				if (!closest.isCreative()) return;
+				if (getDistance(closest) < 1)
+					attackEntityAsMob(closest);
+				else
+					teleportTowards(closest);
+			}
 		}
 	}
 
@@ -170,6 +158,25 @@ public class EntityQuantumLockBase extends EntityMob {
 
 	public void invokeSeen(EntityPlayer player) {
 		// TODO Do nothing.
+	}
+
+	public boolean quantumCheck() {
+
+		if (WAConfig.angels.freezeOnAngel) {
+
+			List<EntityQuantumLockBase> quantumLockBases = this.world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
+			boolean flag = quantumLockBases.isEmpty();
+			if (flag) {
+				setSeenTime(0);
+			} else {
+				for (EntityQuantumLockBase base : quantumLockBases) {
+					if (base.getUniqueID() != this.getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
+						return AngelUtils.canSee(base, this);
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 }

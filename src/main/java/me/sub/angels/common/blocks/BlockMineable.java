@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public class BlockMineable extends Block {
 
-    private Supplier<ItemStack> item;
+    private Supplier<ItemStack> itemSuppler;
     private int itemQuantity;
     private int itemVariation;
 
@@ -24,7 +24,7 @@ public class BlockMineable extends Block {
         super(Material.ROCK);
         this.setHardness(5.0F);
         setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        item = i;
+        itemSuppler = i;
         setSoundType(SoundType.STONE);
         itemQuantity = quantity;
         itemVariation = variation;
@@ -37,13 +37,13 @@ public class BlockMineable extends Block {
     }
 
     /**
-     * Get the Item that this Block should drop when harvested.
+     * Get the itemSuppler that this Block should drop when harvested.
      *
      * @param fortune the level of the Fortune enchantment on the player's tool
      */
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return item.get().getItem();
+        return itemSuppler.get().getItem();
     }
 
     /**
