@@ -83,12 +83,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 				return;
 			}
 
-			if (art.equals(EnumAngelArt.AngelOne)) {
+			if (art.equals(EnumAngelArt.ANGEL_ONE)) {
 				spawnAngel(getEntityWorld());
 				art = EnumAngelArt.BlankPaintingOne;
 			}
 
-			if (art.equals(EnumAngelArt.AngelTwo)) {
+			if (art.equals(EnumAngelArt.ANGEL_TWO)) {
 				spawnAngel(getEntityWorld());
 				art = EnumAngelArt.BlankPaintingTwo;
 			}
@@ -176,27 +176,27 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	@Override
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
 		BlockPos blockpos = new BlockPos(x - this.posX, y - this.posY, z - this.posZ);
-		BlockPos blockpos1 = this.hangingPosition.add(blockpos);
-		this.setPosition((double) blockpos1.getX(), (double) blockpos1.getY() - 1, (double) blockpos1.getZ());
+		BlockPos hangingPos = this.hangingPosition.add(blockpos);
+		this.setPosition((double) hangingPos.getX(), (double) hangingPos.getY() - 1, (double) hangingPos.getZ());
 	}
 
 	@Override
 	public void writeSpawnData(ByteBuf buffer) {
-		buffer.writeInt(this.art.ordinal());
-		buffer.writeInt(this.chunkCoordX); // x
-		buffer.writeInt(this.chunkCoordY); // y
-		buffer.writeInt(this.chunkCoordZ); // z
-		buffer.writeByte(this.getHorizontalFacing().getIndex());
+		buffer.writeInt(art.ordinal());
+		buffer.writeInt(chunkCoordX); // x
+		buffer.writeInt(chunkCoordY); // y
+		buffer.writeInt(chunkCoordZ); // z
+		buffer.writeByte(getHorizontalFacing().getIndex());
 	}
 
 	@Override
 	public void readSpawnData(ByteBuf buffer) {
 		EnumAngelArt[] ENUM_ART = EnumAngelArt.values();
-		this.art = ENUM_ART[buffer.readInt()];
-		this.chunkCoordX = buffer.readInt();
-		this.chunkCoordY = buffer.readInt();
-		this.chunkCoordZ = buffer.readInt();
-		this.updateFacingWithBoundingBox(EnumFacing.getFront((buffer.readByte())));
+		art = ENUM_ART[buffer.readInt()];
+		chunkCoordX = buffer.readInt();
+		chunkCoordY = buffer.readInt();
+		chunkCoordZ = buffer.readInt();
+		updateFacingWithBoundingBox(EnumFacing.getFront((buffer.readByte())));
 	}
 	
 	private void spawnAngel(World world) {
@@ -209,7 +209,19 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	public enum EnumAngelArt {
-		AngelOne("Angel_One", 0, 0), AngelTwo("Angel_Two", 0, 64), BlankPaintingOne("Paint_BlankOne", 16, 64), AngelThree("Angel_Three", 32, 64), BlankPaintingTwo("Paint_BlankTwo", 48, 64), AngelFour("Angel_Four", 64, 64), BlankPaintingThree("Paint_BlankThree", 80, 64), AngelFive("Angel_Five", 96, 64), BlankPaintingFour("Paint_BlankFour", 112, 64), AngelSix("Angel_Six", 128, 64), BlankPaintingFive("Angel_Five", 144, 64), AngelSeven("Angel_Seven", 160, 64), BlankPaintingSix("Paint_BlankSix", 176, 64);
+		ANGEL_ONE("Angel_One", 0, 0),
+		ANGEL_TWO("Angel_Two", 0, 64),
+		BlankPaintingOne("Paint_BlankOne", 16, 64),
+		AngelThree("Angel_Three", 32, 64),
+		BlankPaintingTwo("Paint_BlankTwo", 48, 64),
+		AngelFour("Angel_Four", 64, 64),
+		BlankPaintingThree("Paint_BlankThree", 80, 64),
+		AngelFive("Angel_Five", 96, 64),
+		BlankPaintingFour("Paint_BlankFour", 112, 64),
+		AngelSix("Angel_Six", 128, 64),
+		BlankPaintingFive("Angel_Five", 144, 64),
+		AngelSeven("Angel_Seven", 160, 64),
+		BlankPaintingSix("Paint_BlankSix", 176, 64);
 		
 		public final String title;
 		public final int sizeX;

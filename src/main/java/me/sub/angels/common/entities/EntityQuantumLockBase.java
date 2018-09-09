@@ -31,18 +31,17 @@ public class EntityQuantumLockBase extends EntityMob {
 	@Override
 	public void onLivingUpdate() {
 
-
-		if (!world.isRemote && ticksExisted % 5 == 0) {
+		if (!world.isRemote && ticksExisted % 4 == 0) {
 			setQuantum(quantumCheck());
 		}
 
 		super.onLivingUpdate();
 
-		if (!isQuantumLocked()) {
+		if (!isQuantumLocked() || WAConfig.angels.freezeOnAngel) {
 
-			this.rotationYawHead = this.rotationYaw;
+			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
-				List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(60));
+				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(60));
 				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 
 				if (players.isEmpty()) {
@@ -64,11 +63,11 @@ public class EntityQuantumLockBase extends EntityMob {
 					}
 				}
 
-				Vec3d vecp = getPositionVector();
-				Vec3d vect = closest.getPositionVector();
-				float angle = (float) Math.toDegrees((float) Math.atan2(vecp.z - vect.z, vecp.x - vect.x));
+				Vec3d vecPos = getPositionVector();
+				Vec3d vecPlayerPos = closest.getPositionVector();
+				float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
 				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-				if (!closest.isCreative()) return;
+				//if (!closest.isCreative()) return;
 				if (getDistance(closest) < 1)
 					attackEntityAsMob(closest);
 				else
@@ -78,11 +77,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 
 	public void teleportTowards(EntityLivingBase closest) {
-		if (isQuantumLocked()) {
-			setSeenTime(0);
-			return;
-		}
-		Path p = this.navigator.getPathToEntityLiving(closest);
+		Path p = getNavigator().getPathToEntityLiving(closest);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
 
@@ -152,19 +147,14 @@ public class EntityQuantumLockBase extends EntityMob {
 		return true;
 	}
 
-	public boolean isAngel() {
-		return false;
-	}
-
 	public void invokeSeen(EntityPlayer player) {
-		// TODO Do nothing.
+
 	}
 
-	public boolean quantumCheck() {
+	private boolean quantumCheck() {
 
 		if (WAConfig.angels.freezeOnAngel) {
-
-			List<EntityQuantumLockBase> quantumLockBases = this.world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
+			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
 				setSeenTime(0);
@@ -175,6 +165,9 @@ public class EntityQuantumLockBase extends EntityMob {
 					}
 				}
 			}
+		} else {
+			setQuantum(false);
+			return false;
 		}
 		return false;
 	}

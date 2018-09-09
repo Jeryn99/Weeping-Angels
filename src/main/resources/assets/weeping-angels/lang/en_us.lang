@@ -61,6 +61,9 @@ config.weeping-angels.teleport_type=The Teleport type
 config.weeping-angels.allowed_spawn_dimensions=A list of dimensions where angels SHOULD spawn
 config.weeping-angels.ql=Angel on Angel freezing
 config.weeping-angels.pickaxe_only=Pickaxes and generators only?
+config.weeping-angels.angel_xp_value=XP gained from Angels
+config.weeping-angels.angel_damage=Damaged gained from angels
 
 category.weeping-angels.angels=Angels
 category.weeping-angels.spawn=Spawn Rates
+category.weeping-angels.worldgen=World Gen

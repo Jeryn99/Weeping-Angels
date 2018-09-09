@@ -29,10 +29,9 @@ import java.util.Collection;
 public class AngelUtils {
 	
 	public static ArrayList<Item> lightItems = new ArrayList<Item>();
-	
-	/**
+
+	/*
 	 * Method that detects whether a tile is the the view sight of viewer
-	 *
 	 * @param viewer The viewer entity
 	 * @param tile The tile being watched by viewer
 	 */
@@ -150,8 +149,7 @@ public class AngelUtils {
 	}
 
 	public static int getLightValue(Block block) {
-		int lightValue = ReflectionHelper.getPrivateValue(Block.class, block, 9);
-		return lightValue;
+		return ReflectionHelper.getPrivateValue(Block.class, block, 9);
 	}
 	
 	private static boolean lightCheck(EntityPlayerMP player, ItemStack stack, EntityWeepingAngel angel) {
@@ -174,18 +172,18 @@ public class AngelUtils {
 	}
 
 	public static boolean isInFrontOfEntity(Entity entity, Entity target) {
-		Vec3d vec3d = target.getPositionVector();
-		Vec3d vec3d1 = entity.getLook(1.0F);
-		Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
-		vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
-		return vec3d2.dotProduct(vec3d1) < 0.0;
+		Vec3d vecTargetsPos = target.getPositionVector();
+		Vec3d vecLook = entity.getLook(1.0F);
+		Vec3d vecFinal = vecTargetsPos.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
+		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
+		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
 
 	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
-		AxisAlignedBB vB = viewer.getEntityBoundingBox();
-		AxisAlignedBB aB = angel.getEntityBoundingBox();
-		Vec3d[] viewerPoints = {new Vec3d(vB.minX, vB.minY, vB.minZ), new Vec3d(vB.minX, vB.minY, vB.maxZ), new Vec3d(vB.minX, vB.maxY, vB.minZ), new Vec3d(vB.minX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.maxY, vB.minZ), new Vec3d(vB.maxX, vB.maxY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.maxZ), new Vec3d(vB.maxX, vB.minY, vB.minZ),};
-		Vec3d[] angelPoints = {new Vec3d(aB.minX, aB.minY, aB.minZ), new Vec3d(aB.minX, aB.minY, aB.maxZ), new Vec3d(aB.minX, aB.maxY, aB.minZ), new Vec3d(aB.minX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.maxY, aB.minZ), new Vec3d(aB.maxX, aB.maxY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.maxZ), new Vec3d(aB.maxX, aB.minY, aB.minZ),};
+		AxisAlignedBB viewerEntityBoundingBox = viewer.getEntityBoundingBox();
+		AxisAlignedBB angelEntityBoundingBox = angel.getEntityBoundingBox();
+		Vec3d[] viewerPoints = {new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ),};
+		Vec3d[] angelPoints = {new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ),};
 		
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;

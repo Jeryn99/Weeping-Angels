@@ -1,7 +1,5 @@
 package me.sub.angels.common.entities;
 
-import me.sub.angels.api.IBreakException;
-import me.sub.angels.api.ICanTeleport;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
@@ -42,7 +40,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -222,7 +219,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (ticksExisted % 2400 == 0 && !world.isRemote) {
 			setHungerLevel(getHungerLevel() - 1);
 			if (isWeak()) {
-				this.attackEntityFrom(DamageSource.STARVE, 2);
+				attackEntityFrom(DamageSource.STARVE, 2);
 			}
 		}
 	}
@@ -236,18 +233,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
 			} else {
 				setPose(rand.nextBoolean() ? PoseManager.AngelPoses.ANGRY.toString() : PoseManager.AngelPoses.HIDING_FACE.toString());
-				System.out.println(getPose());
 			}
 		}
 	}
 
 	@Override
 	protected boolean isMovementBlocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isAngel() {
 		return true;
 	}
 
@@ -303,15 +294,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 						if (!canBreak(blockState)) {
 							continue;
-						}
-
-						if (blockState.getBlock() instanceof IBreakException) {
-							IBreakException block = (IBreakException) blockState.getBlock();
-							if (block.shouldBreak()) {
-								playBreakEvent(pos, Blocks.AIR);
-							} else {
-								continue;
-							}
 						}
 
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
@@ -404,16 +386,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				return 0;
 			}
 		}
-
-		if (FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(tempId).provider instanceof ICanTeleport) {
-			ICanTeleport provider = (ICanTeleport) world.provider;
-			if (provider.shouldTeleport()) {
-				return tempId;
-			} else {
-				return 0;
-			}
-		}
-
 		return tempId;
 	}
 }

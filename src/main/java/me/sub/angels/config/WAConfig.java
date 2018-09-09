@@ -17,7 +17,9 @@ public class WAConfig {
 
     @Config.LangKey("category.weeping-angels.spawn")
 	public static final Spawn spawn = new Spawn();
-    public static final WorldGen worldGen = new WorldGen();
+
+	@Config.LangKey("category.weeping-angels.worldgen")
+	public static final WorldGen worldGen = new WorldGen();
 
     public static class WorldGen {
 
@@ -54,7 +56,7 @@ public class WAConfig {
 
         @Config.LangKey("config.weeping-angels.disallowed_spawn_biomes")
 		@Config.Comment("Note: A list of biomes where angels should NOT spawn.")
-		public String[] notAllowedBiomes = { "minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean" };
+		public String[] notAllowedBiomes = {"minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"};
 
         @Config.LangKey("config.weeping-angels.allowed_spawn_dimensions")
 		@Config.Comment("Note: A list of dimension ids where angels should spawn.")

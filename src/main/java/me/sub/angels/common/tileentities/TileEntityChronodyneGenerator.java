@@ -24,7 +24,6 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 					a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 					world.spawnEntity(a);
 				}
-				
 				angel.setDead();
 			}
 			
