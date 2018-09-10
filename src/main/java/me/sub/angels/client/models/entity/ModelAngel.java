@@ -482,7 +482,7 @@ public class ModelAngel extends ModelBase {
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.enableLighting();
-		if (!angel.getPose().equals(PoseManager.AngelPoses.ANGRY.toString())) {
+		if (!angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
 			GlStateManager.rotate(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
@@ -510,8 +510,8 @@ public class ModelAngel extends ModelBase {
 		Hair11.render(scale);
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
-		
-		if (angel.getPose().equals(PoseManager.AngelPoses.ANGRY.toString())) {
+
+		if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);

@@ -77,7 +77,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super.entityInit();
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, getRandomType());
-		getDataManager().register(CURRENT_POSE, PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
+		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
 	
@@ -230,9 +230,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 			setPrevPos(getPosition());
 			if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
-				setPose(PoseManager.randomPose(PoseManager.AngelPoses.class).toString());
+				setPose(PoseManager.getRandomPose().getRegistryName());
 			} else {
-				setPose(rand.nextBoolean() ? PoseManager.AngelPoses.ANGRY.toString() : PoseManager.AngelPoses.HIDING_FACE.toString());
+				setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
 			}
 		}
 	}
@@ -266,7 +266,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super.onUpdate();
 
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
-			setPose(PoseManager.AngelPoses.HIDING_FACE.toString());
+			setPose(PoseManager.getRandomPose().toString());
 		}
 
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));

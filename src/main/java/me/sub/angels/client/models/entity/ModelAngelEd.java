@@ -259,7 +259,7 @@ public class ModelAngelEd extends ModelBiped {
 	}
 	
 	public void tilePosing(TileEntityPlinth p) {
-		PoseBase pose = PoseManager.AngelPoses.valueOf(p.getPose()).getPose();
+		PoseBase pose = PoseManager.getPoseFromString(p.getPose());
 		
 		this.right_arm.rotationPointY = 2.5F;
 		this.left_arm.rotationPointY = 2.5F;
@@ -307,8 +307,8 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleY = 0;
 			this.right_arm.rotateAngleZ = 0;
 			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
-			
-			PoseBase pose = PoseManager.AngelPoses.valueOf(angel.getPose()).getPose();
+
+			PoseBase pose = PoseManager.getPoseFromString(angel.getPose());
 			
 			if (pose != null) {
 				this.angry_mouth.isHidden = !pose.angryFace();
@@ -332,7 +332,7 @@ public class ModelAngelEd extends ModelBiped {
 				}
 			}
 		} else {
-			PoseBase pose = PoseManager.AngelPoses.valueOf(PoseManager.AngelPoses.SHY.toString()).getPose();
+			PoseBase pose = PoseManager.POSE_SHY;
 			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
 			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
 			pose.setHeadAngles(this.head);
