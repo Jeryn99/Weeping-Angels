@@ -32,15 +32,15 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	
 	@Override
 	public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
+		
 		if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
 			modelMain = modelOne;
 		}
-
+		
 		if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
 			modelMain = modelTwo;
 		}
-
+		
 		if (angel.getType() == AngelEnums.AngelType.ANGEL_THREE.getId()) {
 			modelMain = modelThree;
 		}

@@ -15,8 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class TileEntityPlinth extends TileEntity implements ITickable {
-
-    private boolean hasSpawned = false;
+	
+	private boolean hasSpawned = false;
 	private int rotation;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
 	
@@ -101,8 +101,8 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 			}
 		}
 	}
-
-    public String getPose() {
+	
+	public String getPose() {
 		return pose;
 	}
 	

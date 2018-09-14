@@ -119,7 +119,7 @@ public class ModelAngelChild extends ModelBiped {
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
+		
 		if (entityIn instanceof EntityWeepingAngel) {
 			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
 			if (angel.getSeenTime() == 5) {

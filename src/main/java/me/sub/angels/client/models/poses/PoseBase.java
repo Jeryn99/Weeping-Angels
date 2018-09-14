@@ -10,7 +10,7 @@ public abstract class PoseBase {
 	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
 	private EntityWeepingAngel angel;
 	private String registryName = "MISSINGNAME";
-
+	
 	public PoseBase() {}
 	
 	public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
@@ -22,15 +22,15 @@ public abstract class PoseBase {
 		this.swingProgress = swingProgress;
 		this.angel = angel;
 	}
-
+	
 	public String getRegistryName() {
 		return registryName;
 	}
-
+	
 	public void setRegistryName(String registryName) {
 		this.registryName = registryName;
 	}
-
+	
 	/**
 	 * Used to set the Models arm angles
 	 */

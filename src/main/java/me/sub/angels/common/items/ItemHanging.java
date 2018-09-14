@@ -27,8 +27,8 @@ public class ItemHanging extends Item {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos offsetPos = pos.offset(side);
-
-            if (!player.canPlayerEdit(offsetPos, side, stack)) {
+			
+			if (!player.canPlayerEdit(offsetPos, side, stack)) {
 				return EnumActionResult.FAIL;
 			} else {
 				EntityHanging entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);

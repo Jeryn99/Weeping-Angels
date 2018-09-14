@@ -29,7 +29,7 @@ import java.util.Collection;
 public class AngelUtils {
 	
 	public static ArrayList<Item> lightItems = new ArrayList<Item>();
-
+	
 	/*
 	 * Method that detects whether a tile is the the view sight of viewer
 	 * @param viewer The viewer entity
@@ -58,7 +58,7 @@ public class AngelUtils {
 		
 		return yaw < 60 && yaw > -60;
 	}
-
+	
 	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
 		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
 	}
@@ -69,7 +69,7 @@ public class AngelUtils {
 	
 	public static void setupLightItems() {
 		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {
-
+			
 			if (AngelUtils.getLightValue(block) > 7) {
 				lightItems.add(Item.getItemFromBlock(block));
 			}
@@ -77,7 +77,7 @@ public class AngelUtils {
 			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 		}
 	}
-
+	
 	public static boolean canSee(EntityLivingBase viewer, EntityLivingBase angel) {
 		double dx = angel.posX - viewer.posX;
 		double dz;
@@ -98,10 +98,10 @@ public class AngelUtils {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-
+		
 		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(angel);
 	}
-
+	
 	public static boolean handLightCheck(EntityLivingBase player) {
 		for (Item item : lightItems) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
@@ -130,7 +130,7 @@ public class AngelUtils {
 			}
 		}
 	}
-
+	
 	public static int secondsToTicks(int seconds) {
 		return 20 * seconds;
 	}
@@ -147,30 +147,30 @@ public class AngelUtils {
 			lightCheck(playerMP, stack, angel);
 		}
 	}
-
+	
 	public static int getLightValue(Block block) {
 		return ReflectionHelper.getPrivateValue(Block.class, block, 9);
 	}
 	
 	private static boolean lightCheck(EntityPlayerMP player, ItemStack stack, EntityWeepingAngel angel) {
-
+		
 		if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
 			stack.shrink(1);
 			player.addItemStackToInventory(new ItemStack(WAObjects.Items.UNLIT_TORCH));
 			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
 			return true;
 		}
-
+		
 		if (lightItems.contains(stack.getItem())) {
 			if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) return false;
 			stack.shrink(1);
 			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
 			return true;
 		}
-
+		
 		return false;
 	}
-
+	
 	public static boolean isInFrontOfEntity(Entity entity, Entity target) {
 		Vec3d vecTargetsPos = target.getPositionVector();
 		Vec3d vecLook = entity.getLook(1.0F);
@@ -178,17 +178,17 @@ public class AngelUtils {
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
-
+	
 	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
 		AxisAlignedBB viewerEntityBoundingBox = viewer.getEntityBoundingBox();
 		AxisAlignedBB angelEntityBoundingBox = angel.getEntityBoundingBox();
-		Vec3d[] viewerPoints = {new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ),};
-		Vec3d[] angelPoints = {new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ),};
+		Vec3d[] viewerPoints = { new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), };
+		Vec3d[] angelPoints = { new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), };
 		
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
 		}
 		return true;
 	}
-
+	
 }

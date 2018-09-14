@@ -47,31 +47,19 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
-
-	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{
-			WAObjects.Sounds.ANGEL_SEEN_1,
-			WAObjects.Sounds.ANGEL_SEEN_2,
-			WAObjects.Sounds.ANGEL_SEEN_3,
-			WAObjects.Sounds.ANGEL_SEEN_4,
-			WAObjects.Sounds.ANGEL_SEEN_5,
-			WAObjects.Sounds.ANGEL_SEEN_6,
-			WAObjects.Sounds.ANGEL_SEEN_7,
-			WAObjects.Sounds.ANGEL_SEEN_8
-	};
-
-	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{
-			SoundEvents.ENTITY_VEX_AMBIENT,
-			WAObjects.Sounds.LAUGHING_CHILD
-	};
+	
+	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[] { WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5, WAObjects.Sounds.ANGEL_SEEN_6, WAObjects.Sounds.ANGEL_SEEN_7, WAObjects.Sounds.ANGEL_SEEN_8 };
+	
+	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[] { SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD };
 	
 	public EntityWeepingAngel(World world) {
 		super(world);
-
+		
 		tasks.addTask(0, new EntityAIBreakDoor(this));
-
+		
 		experienceValue = WAConfig.angels.xpGained;
 	}
-
+	
 	@Override
 	protected void entityInit() {
 		super.entityInit();
@@ -86,17 +74,17 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
-
+	
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
 	}
-
+	
 	@Override
 	protected SoundEvent getDeathSound() {
 		return WAObjects.Sounds.ANGEL_DEATH;
 	}
-
+	
 	@Override
 	protected SoundEvent getAmbientSound() {
 		if (isChild() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {
@@ -104,12 +92,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public float getEyeHeight() {
 		return this.isChild() ? this.height : 1.3F;
 	}
-
+	
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
@@ -117,19 +105,19 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
 	}
-
+	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-
+		
 		if (WAConfig.angels.torchBlowOut && isChild()) {
 			if (entity instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) entity;
 				AngelUtils.removeLightFromHand(player, this);
 			}
 		}
-
+		
 		if (!WAConfig.angels.justTeleport || isWeak()) {
-
+			
 			if (getHealth() > 5) {
 				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 			} else {
@@ -143,49 +131,49 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return false;
 	}
-
+	
 	private int getRandomType() {
 		if (rand.nextBoolean()) {
 			return 1;
 		}
 		return 0;
 	}
-
+	
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
 		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
 	}
-
+	
 	public String getPose() {
 		return getDataManager().get(CURRENT_POSE);
 	}
-
+	
 	public void setPose(String newPose) {
 		getDataManager().set(CURRENT_POSE, newPose);
 	}
-
+	
 	public boolean isChild() {
 		return getDataManager().get(IS_CHILD);
 	}
-
+	
 	public void setChild(boolean child) {
 		getDataManager().set(IS_CHILD, child);
 	}
-
+	
 	public int getType() {
 		return getDataManager().get(TYPE);
 	}
-
+	
 	public void setType(int angelType) {
 		getDataManager().set(TYPE, angelType);
 	}
-
+	
 	public int getHungerLevel() {
 		return getDataManager().get(HUNGER_LEVEL);
 	}
-
+	
 	public void setHungerLevel(int hunger) {
 		getDataManager().set(HUNGER_LEVEL, hunger);
 	}
@@ -202,20 +190,20 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-
+		
 		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
-
+		
 		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInteger(WAConstants.TYPE));
-
+		
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
-
+		
 		if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInteger(WAConstants.HUNGER_LEVEL));
 	}
 	
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-
+		// setPose(PoseManager.POSE_TEMP.getRegistryName());
 		if (ticksExisted % 2400 == 0 && !world.isRemote) {
 			setHungerLevel(getHungerLevel() - 1);
 			if (isWeak()) {
@@ -223,7 +211,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 		}
 	}
-
+	
 	@Override
 	public void invokeSeen(EntityPlayer player) {
 		if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && WAConfig.angels.playSeenSounds && !player.isCreative()) {
@@ -236,12 +224,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 		}
 	}
-
+	
 	@Override
 	protected boolean isMovementBlocked() {
 		return true;
 	}
-
+	
 	@Override
 	public void teleportTowards(EntityLivingBase entity) {
 		super.teleportTowards(entity);
@@ -249,14 +237,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (WAConfig.angels.playScrapSounds && !isChild()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
 		}
-
+		
 		if (isChild()) {
 			if (world.rand.nextInt(5) == 5) {
 				playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
 			}
 		}
 	}
-
+	
 	public boolean isWeak() {
 		return getHungerLevel() < 15;
 	}
@@ -264,14 +252,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
+		
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.getRandomPose().toString());
 		}
-
+		
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
 	}
-
+	
 	@Override
 	protected PathNavigate createNavigator(World worldIn) {
 		PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
@@ -280,7 +268,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		navigator.setAvoidSun(false);
 		return navigator;
 	}
-
+	
 	private void replaceBlocks(AxisAlignedBB box) {
 		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;
 		for (int x = (int) box.minX; x <= box.maxX; x++) {
@@ -289,28 +277,28 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					
 					BlockPos pos = new BlockPos(x, y, z);
 					IBlockState blockState = world.getBlockState(pos);
-
+					
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
-
+						
 						if (!canBreak(blockState)) {
 							continue;
 						}
-
+						
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
 							playBreakEvent(pos, Blocks.AIR);
 							return;
 						}
-
+						
 						if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
 							playBreakEvent(pos, Blocks.PUMPKIN);
 							return;
 						}
-
+						
 						if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
 							playBreakEvent(pos, Blocks.REDSTONE_LAMP);
 							return;
 						}
-
+						
 						if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
 							if (getHealth() < getMaxHealth()) {
 								heal(1.5F);
@@ -318,14 +306,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 							}
 						} else
 							continue;
-
+						
 						return;
 					}
 				}
 			}
 		}
 	}
-
+	
 	private boolean canBreak(IBlockState blockState) {
 		for (String regName : WAConfig.angels.disAllowedBlocks) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
@@ -334,14 +322,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return true;
 	}
-
+	
 	private void playBreakEvent(BlockPos pos, Block block) {
-
+		
 		if (!world.isRemote) {
 			playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(world.getBlockState(pos).getBlock()));
 			world.setBlockState(pos, block.getDefaultState());
-
+			
 			for (EntityPlayer player : world.playerEntities) {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
@@ -352,7 +340,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 		}
 	}
-
+	
 	public SoundEvent getSeenSound() {
 		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
@@ -365,7 +353,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		EntityAnomaly anomaly = new EntityAnomaly(world);
 		anomaly.setPositionAndUpdate(player.posX, player.posY, player.posZ);
 		world.spawnEntity(anomaly);
-
+		
 		if (WAConfig.angels.angelDimTeleport) {
 			dim = decideDimension();
 		} else {
@@ -377,7 +365,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		int z = rand.nextInt(range);
 		WATeleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
 	}
-
+	
 	private int decideDimension() {
 		Integer[] ids = DimensionManager.getStaticDimensionIDs();
 		Integer tempId = ids[rand.nextInt(ids.length)];

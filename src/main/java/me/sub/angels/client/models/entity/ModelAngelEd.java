@@ -307,7 +307,7 @@ public class ModelAngelEd extends ModelBiped {
 			this.right_arm.rotateAngleY = 0;
 			this.right_arm.rotateAngleZ = 0;
 			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
-
+			
 			PoseBase pose = PoseManager.getPoseFromString(angel.getPose());
 			
 			if (pose != null) {

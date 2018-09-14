@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = WeepingAngels.MODID)
 public class ClientEventHandler {
-
+	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
 		for (Item item : WAObjects.ITEMS) {

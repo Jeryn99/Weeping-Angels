@@ -14,7 +14,7 @@ public class EntityAnomaly extends EntityLiving {
 	public EntityAnomaly(World worldIn) {
 		super(worldIn);
 	}
-
+	
 	@Override
 	public boolean getIsInvulnerable() {
 		return true;

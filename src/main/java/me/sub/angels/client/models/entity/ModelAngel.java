@@ -510,7 +510,7 @@ public class ModelAngel extends ModelBase {
 		Hair11.render(scale);
 		Hair12.render(scale);
 		GlStateManager.popMatrix();
-
+		
 		if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);

@@ -41,8 +41,8 @@ public class WAObjects {
 	public static final DamageSource ANGEL = new WADamageSource("backintime");
 	public static final DamageSource STONE = new WADamageSource("punch_stone");
 	public static final DamageSource ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
-
-    public static List<Item> ITEMS = new ArrayList<>();
+	
+	public static List<Item> ITEMS = new ArrayList<>();
 	// Helper, gets reset after init
 	private static List<Item> ITEM_BLOCKS = new ArrayList<>();
 	
@@ -50,84 +50,58 @@ public class WAObjects {
 	public static void addItems(RegistryEvent.Register<Item> e) {
 		IForgeRegistry<Item> reg = e.getRegistry();
 		registerItems(reg, WATabs.MAIN_TAB, ITEM_BLOCKS.toArray(new Item[ITEM_BLOCKS.size()]));
-		reg.registerAll(setUpItem(new ItemHanging(), "angel_painting", true),
-				setUpItem(new Item(), "unlit_torch", false),
-				setUpItem(new ItemDetector(), "timey_wimey_detector", true),
-				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
-				setUpItem(new Item(), "kontron_ingot", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true)
-
+		reg.registerAll(setUpItem(new ItemHanging(), "angel_painting", true), setUpItem(new Item(), "unlit_torch", false), setUpItem(new ItemDetector(), "timey_wimey_detector", true), setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true), setUpItem(new Item(), "kontron_ingot", true), setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true)
+		
 		);
 	}
 	
 	@SubscribeEvent
 	public static void addBlocks(RegistryEvent.Register<Block> e) {
 		IForgeRegistry<Block> reg = e.getRegistry();
-
-        registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"));
-
-        reg.register(setUpBlock(new BlockChronodyneGenerator(), "cg"));
+		
+		registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"));
+		
+		reg.register(setUpBlock(new BlockChronodyneGenerator(), "cg"));
 		
 		regTiles();
 	}
-
-    public static void regTiles() {
+	
+	public static void regTiles() {
 		GameRegistry.registerTileEntity(TileEntitySnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
 		GameRegistry.registerTileEntity(TileEntityChronodyneGenerator.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
 		GameRegistry.registerTileEntity(TileEntityPlinth.class, new ResourceLocation(WeepingAngels.MODID + ":plinth"));
 	}
-
-    @SubscribeEvent
+	
+	@SubscribeEvent
 	public static void addEntities(RegistryEvent.Register<EntityEntry> e) {
 		IForgeRegistry<EntityEntry> reg = e.getRegistry();
-        reg.registerAll(EntityEntries.ANOMALY, EntityEntries.CHRONODYNE_GENERATOR, EntityEntries.WEEPING_ANGEL, EntityEntries.WEEPING_ANGEL_PAINTING);
+		reg.registerAll(EntityEntries.ANOMALY, EntityEntries.CHRONODYNE_GENERATOR, EntityEntries.WEEPING_ANGEL, EntityEntries.WEEPING_ANGEL_PAINTING);
 		AngelUtils.setUpSpawns();
 	}
 	
 	@SubscribeEvent
 	public static void addSounds(RegistryEvent.Register<SoundEvent> e) {
 		IForgeRegistry<SoundEvent> reg = e.getRegistry();
-		reg.registerAll(
-				setUpSound("angel_seen_1"),
-				setUpSound("angel_seen_2"),
-				setUpSound("angel_seen_3"),
-				setUpSound("angel_seen_4"),
-				setUpSound("angel_seen_5"),
-				setUpSound("angel_seen_6"),
-				setUpSound("angel_seen_7"),
-				setUpSound("angel_seen_8"),
-				setUpSound("stone_scrap"),
-				setUpSound("child_run"),
-				setUpSound("laughing_child"),
-				setUpSound("light_break"),
-				setUpSound("angel_teleport"),
-				setUpSound("angel_ambient"),
-				setUpSound("ding"),
-				setUpSound("blow"),
-				setUpSound("angel_death")
-		);
+		reg.registerAll(setUpSound("angel_seen_1"), setUpSound("angel_seen_2"), setUpSound("angel_seen_3"), setUpSound("angel_seen_4"), setUpSound("angel_seen_5"), setUpSound("angel_seen_6"), setUpSound("angel_seen_7"), setUpSound("angel_seen_8"), setUpSound("stone_scrap"), setUpSound("child_run"), setUpSound("laughing_child"), setUpSound("light_break"), setUpSound("angel_teleport"), setUpSound("angel_ambient"), setUpSound("ding"), setUpSound("blow"), setUpSound("angel_death"));
 	}
 	
 	private static SoundEvent setUpSound(String soundName) {
 		return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName)).setRegistryName(soundName);
 	}
-
-    private static Item setUpItem(Item item, String name, boolean addToTab) {
+	
+	private static Item setUpItem(Item item, String name, boolean addToTab) {
 		item.setRegistryName(WeepingAngels.MODID, name);
 		item.setUnlocalizedName(name);
-
-        if (addToTab) {
+		
+		if (addToTab) {
 			item.setCreativeTab(WATabs.MAIN_TAB);
 		}
-
-        WAObjects.ITEMS.add(item);
+		
+		WAObjects.ITEMS.add(item);
 		return item;
 	}
-
-    private static Block setUpBlock(Block block, String name) {
+	
+	private static Block setUpBlock(Block block, String name) {
 		block.setRegistryName(WeepingAngels.MODID, name);
 		block.setUnlocalizedName(WeepingAngels.MODID + "." + name);
 		return block;

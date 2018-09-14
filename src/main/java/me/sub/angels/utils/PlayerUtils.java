@@ -8,9 +8,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentTranslation;
 
 public class PlayerUtils {
-
-    public static boolean isInHand(EnumHand hand, EntityLivingBase holder, Item item) {
-        ItemStack heldItem = holder.getHeldItem(hand);
+	
+	public static boolean isInHand(EnumHand hand, EntityLivingBase holder, Item item) {
+		ItemStack heldItem = holder.getHeldItem(hand);
 		return heldItem.getItem() == item;
 	}
 	

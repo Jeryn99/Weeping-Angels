@@ -29,9 +29,8 @@ public class ItemDetector extends Item {
 			
 			if (entityIn instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entityIn;
-
-
-                if (!angels.isEmpty() && isSelected) {
+				
+				if (!angels.isEmpty() && isSelected) {
 					{
 						if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
