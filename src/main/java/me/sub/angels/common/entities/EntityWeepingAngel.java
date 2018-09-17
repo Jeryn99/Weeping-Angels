@@ -231,8 +231,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void teleportTowards(EntityLivingBase entity) {
-		super.teleportTowards(entity);
+	public void moveTowards(EntityLivingBase entity) {
+		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
 		if (WAConfig.angels.playScrapSounds && !isChild()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
@@ -256,8 +256,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.getRandomPose().toString());
 		}
-		
-		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange, WAConfig.angels.blockBreakRange));
+
+		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange));
 	}
 	
 	@Override
@@ -271,11 +271,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	private void replaceBlocks(AxisAlignedBB box) {
 		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;
-		for (int x = (int) box.minX; x <= box.maxX; x++) {
-			for (int y = (int) box.minY; y <= box.maxY; y++) {
-				for (int z = (int) box.minZ; z <= box.maxZ; z++) {
-					
-					BlockPos pos = new BlockPos(x, y, z);
+
+		for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
+
 					IBlockState blockState = world.getBlockState(pos);
 					
 					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
@@ -311,9 +309,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					}
 				}
 			}
-		}
-	}
-	
+
+
 	private boolean canBreak(IBlockState blockState) {
 		for (String regName : WAConfig.angels.disAllowedBlocks) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
@@ -324,7 +321,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	private void playBreakEvent(BlockPos pos, Block block) {
-		
 		if (!world.isRemote) {
 			playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(world.getBlockState(pos).getBlock()));

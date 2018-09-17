@@ -82,5 +82,9 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 	}
-	
+
+	@Override
+	public void doRender(EntityWeepingAngel entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	}
 }

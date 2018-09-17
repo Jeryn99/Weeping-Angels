@@ -31,7 +31,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	@Override
 	public void onLivingUpdate() {
 
-		if (isEntityInsideOpaqueBlock()) {
+		if (!isNotColliding()) {
 			this.motionX = 1;
 		}
 
@@ -44,7 +44,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		if (!isQuantumLocked() || WAConfig.angels.freezeOnAngel) {
 			
 			rotationYawHead = rotationYaw;
-			if (!world.isRemote && ticksExisted % 3 == 0) {
+			if (!world.isRemote && ticksExisted % 5 == 0) {
 				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(60));
 				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 				
@@ -75,16 +75,25 @@ public class EntityQuantumLockBase extends EntityMob {
 				if (getDistance(closest) < 1)
 					attackEntityAsMob(closest);
 				else
-					teleportTowards(closest);
+					moveTowards(closest);
 			}
 		}
 	}
-	
-	public void teleportTowards(EntityLivingBase closest) {
+
+	public void moveTowards(EntityLivingBase closest) {
 		Path p = getNavigator().getPathToEntityLiving(closest);
 		if (p == null) return;
+		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
+
+		Vec3d vec3d = p.getCurrentPos();
+		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
+	}
+
+	public void moveTowards(BlockPos pos) {
+		Path p = getNavigator().getPathToPos(pos);
+		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 2) p.incrementPathIndex();
-		
+
 		Vec3d vec3d = p.getCurrentPos();
 		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
 	}
