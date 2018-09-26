@@ -8,7 +8,7 @@ public class WATabs {
 	
 	public static CreativeTabs MAIN_TAB = new CreativeTabs("angels") {
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack createIcon() {
 			return new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR);
 		}
 	};

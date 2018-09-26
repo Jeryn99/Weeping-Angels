@@ -196,7 +196,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		chunkCoordX = buffer.readInt();
 		chunkCoordY = buffer.readInt();
 		chunkCoordZ = buffer.readInt();
-		updateFacingWithBoundingBox(EnumFacing.getFront((buffer.readByte())));
+		updateFacingWithBoundingBox(EnumFacing.byHorizontalIndex(buffer.readByte()));
 	}
 	
 	private void spawnAngel(World world) {

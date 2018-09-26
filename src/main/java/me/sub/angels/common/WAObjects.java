@@ -91,7 +91,7 @@ public class WAObjects {
 	
 	private static Item setUpItem(Item item, String name, boolean addToTab) {
 		item.setRegistryName(WeepingAngels.MODID, name);
-		item.setUnlocalizedName(name);
+		item.setTranslationKey(name);
 		
 		if (addToTab) {
 			item.setCreativeTab(WATabs.MAIN_TAB);
@@ -103,7 +103,7 @@ public class WAObjects {
 	
 	private static Block setUpBlock(Block block, String name) {
 		block.setRegistryName(WeepingAngels.MODID, name);
-		block.setUnlocalizedName(WeepingAngels.MODID + "." + name);
+		block.setTranslationKey(WeepingAngels.MODID + "." + name);
 		return block;
 	}
 	
@@ -119,7 +119,7 @@ public class WAObjects {
 		reg.registerAll(blocks);
 		for (Block block : blocks) {
 			block.setCreativeTab(WATabs.MAIN_TAB);
-			ITEM_BLOCKS.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
+			ITEM_BLOCKS.add(new ItemBlock(block).setRegistryName(block.getRegistryName()).setTranslationKey(block.getTranslationKey()));
 		}
 	}
 	

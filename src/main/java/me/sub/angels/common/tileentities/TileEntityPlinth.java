@@ -86,8 +86,8 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	@Override
 	public void update() {
 		if (world.isRemote) return;
-		
-		if (world.isBlockIndirectlyGettingPowered(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
+
+		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
 			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
 				EntityWeepingAngel angel = new EntityWeepingAngel(world);

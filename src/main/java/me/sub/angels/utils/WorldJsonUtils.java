@@ -31,7 +31,7 @@ public class WorldJsonUtils {
 			for (int y = 0; y < 16; y++) {
 				for (int z = 0; z < 16; z++) {
 					IBlockState state = world.getBlockState(origin.add(new BlockPos(x, y, z)));
-					JsonBlock block = new JsonBlock(state.getBlock().getRegistryName().getResourceDomain(), state.getBlock().getRegistryName().getResourcePath(), state.getBlock().getMetaFromState(state));
+					JsonBlock block = new JsonBlock(state.getBlock().getRegistryName().getNamespace(), state.getBlock().getRegistryName().getNamespace(), state.getBlock().getMetaFromState(state));
 					if (!states.contains(block)) states.add(block);
 					blockArray[x][y][z] = states.indexOf(block);
 				}

@@ -133,7 +133,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public static void onLootTablesLoaded(LootTableLoadEvent event) {
-		if (event.getName().getResourcePath().contains("chests")) {
+		if (event.getName().getNamespace().contains("chests")) {
 			final LootPool pool2 = event.getTable().getPool("pool2");
 			if (pool2 != null) {
 				pool2.addEntry(new LootEntryItem(WAObjects.Items.CHRONODYNE_GENERATOR, 10, 0, new LootFunction[] { new SetCount(new LootCondition[0], new RandomValueRange(1, 5)) }, new LootCondition[0], "weeping-angels:generators"));
