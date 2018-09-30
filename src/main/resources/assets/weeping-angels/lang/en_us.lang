@@ -28,13 +28,13 @@ sound.weeping-angels.ding=Ding!
 sound.weeping-angels.blow=Blow
 sound.weeping-angels.angel_death=Angel crumbles to death
 
-source.weeping-angels.angel=was sent back in time by a Angel!
-source.weeping-angels.angel_neck_snap=had their neck snapped by a Angel!
-source.weeping-angels.punch_stone=broke their bones by punching stone...
+source.weeping-angels.angel=%s was sent back in time by a Angel!
+source.weeping-angels.angel_neck_snap=%s had their neck snapped by a Angel!
+source.weeping-angels.punch_stone=%s broke their bones by punching stone...
 
-damagesrc.angels.backintime=was sent back in time by a Angel!
-damagesrc.angels.punch_stone=broke their bones by punching stone...
-damagesrc.angels.neck_snap=had their neck snapped by a Angel!
+damagesrc.angels.backintime=%s was sent back in time by a Angel!
+damagesrc.angels.punch_stone=%s broke their bones by punching stone...
+damagesrc.angels.neck_snap=%s had their neck snapped by a Angel!
 
 itemGroup.angels=Weeping Angels
 

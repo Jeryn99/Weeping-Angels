@@ -113,7 +113,7 @@ public class EventHandler {
 				e.setCanceled(!isPic);
 				
 				if (!isPic) {
-					attacker.attackEntityFrom(WAObjects.STONE, 2.5F);
+                    attacker.attackEntityFrom(WAObjects.STONE, 2F);
 				} else {
 					Item pick = item.getItem();
 					

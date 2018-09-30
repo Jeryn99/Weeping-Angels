@@ -20,7 +20,6 @@ public class WAConstants {
 	public static final String ABS_Y = "abs_y";
 	public static final String ABS_Z = "abs_z";
 	
-	public static final String DALEK_MOD_KEY = "thedalekmod:tardisKey";
-	public static final String TARDIS_MOD_KEY = "tardis:key";
+	public static final String[] KEYS = new String[]{"thedalekmod:tardisKey", "tardis:key"};
 	
 }
