@@ -5,7 +5,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
-import me.sub.angels.utils.WATeleporter;
+import me.sub.angels.utils.Teleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
@@ -95,7 +95,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public float getEyeHeight() {
-		return this.isChild() ? this.height : 1.3F;
+        return isChild() ? height : 1.3F;
 	}
 	
 	@Override
@@ -359,7 +359,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		ws.getMinecraftServer().getWorld(dim);
 		int x = rand.nextInt(range);
 		int z = rand.nextInt(range);
-		WATeleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
+        Teleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
 	}
 	
 	private int decideDimension() {

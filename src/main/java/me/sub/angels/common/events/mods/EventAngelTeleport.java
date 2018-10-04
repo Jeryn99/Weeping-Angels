@@ -18,7 +18,7 @@ public class EventAngelTeleport extends PlayerEvent {
 	public EventAngelTeleport(EntityPlayer player, EntityWeepingAngel angel, BlockPos destinationPos, int targetDimension) {
 		super(player);
 		this.angel = angel;
-		this.previous = player.getPosition();
+        previous = player.getPosition();
 		this.destinationPos = destinationPos;
 		this.targetDimension = targetDimension;
 	}

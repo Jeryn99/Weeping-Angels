@@ -18,7 +18,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 			
 			for (EntityWeepingAngel angel : world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos()))) {
 				if (world.isRemote) {
-					this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 1.0D, 0.0D, 0.0D);
+                    world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPos().getX(), getPos().getY(), getPos().getZ(), 1.0D, 0.0D, 0.0D);
 				} else {
 					EntityAnomaly a = new EntityAnomaly(world);
 					a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);

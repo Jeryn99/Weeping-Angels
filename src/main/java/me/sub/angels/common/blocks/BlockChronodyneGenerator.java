@@ -22,7 +22,7 @@ public class BlockChronodyneGenerator extends Block {
 	public BlockChronodyneGenerator() {
 		super(Material.GRASS, MapColor.ADOBE);
 		translucent = true;
-		this.setCreativeTab(WATabs.MAIN_TAB);
+        setCreativeTab(WATabs.MAIN_TAB);
 	}
 	
 	@Override

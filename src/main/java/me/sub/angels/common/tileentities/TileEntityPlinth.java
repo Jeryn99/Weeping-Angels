@@ -33,7 +33,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		super.readFromNBT(compound);
 		setHasSpawned(compound.getBoolean("hasSpawned"));
 		setPose(compound.getString("pose"));
-		this.rotation = compound.getInteger("rotation");
+        rotation = compound.getInteger("rotation");
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	public int getRotation() {
-		return this.rotation;
+        return rotation;
 	}
 	
 	public void setRotation(int rotation) {
@@ -57,12 +57,12 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	@Override
 	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(this.pos, 3, this.getUpdateTag());
+        return new SPacketUpdateTileEntity(pos, 3, getUpdateTag());
 	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		return this.writeToNBT(new NBTTagCompound());
+        return writeToNBT(new NBTTagCompound());
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	public void sendUpdates() {
 		world.markBlockRangeForRenderUpdate(pos, pos);
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.scheduleBlockUpdate(pos, this.getBlockType(), 0, 0);
+        world.scheduleBlockUpdate(pos, getBlockType(), 0, 0);
 		markDirty();
 	}
 	

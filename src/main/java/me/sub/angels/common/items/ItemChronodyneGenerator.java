@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class ItemChronodyneGenerator extends Item {
 	public ItemChronodyneGenerator() {
-		this.maxStackSize = 16;
+        maxStackSize = 16;
 	}
 	
 	/**

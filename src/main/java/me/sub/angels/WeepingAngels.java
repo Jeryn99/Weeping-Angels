@@ -1,14 +1,11 @@
 package me.sub.angels;
 
 import me.sub.angels.proxy.CommonProxy;
-import me.sub.angels.utils.WorldJsonUtils;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,11 +25,7 @@ public class WeepingAngels {
 	
 	@SidedProxy(clientSide = "me.sub.angels.proxy.ClientProxy", serverSide = "me.sub.angels.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
-	public static boolean isDevEnv() {
-		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-	}
-	
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit();
@@ -47,13 +40,5 @@ public class WeepingAngels {
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit();
 	}
-	
-	@Mod.EventHandler
-	public void serverStart(FMLServerStartingEvent e) {
-		if (isDevEnv()) {
-			e.registerServerCommand(new WorldJsonUtils.BuildJsonCommand());
-			e.registerServerCommand(new WorldJsonUtils.GenerateJsonCommand());
-		}
-	}
-	
+
 }

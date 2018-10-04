@@ -260,18 +260,18 @@ public class ModelAngelEd extends ModelBiped {
 	
 	public void tilePosing(TileEntityPlinth p) {
 		PoseBase pose = PoseManager.getPoseFromString(p.getPose());
-		
-		this.right_arm.rotationPointY = 2.5F;
-		this.left_arm.rotationPointY = 2.5F;
-		this.left_arm.rotateAngleX = 0;
-		this.left_arm.rotateAngleY = 0;
-		this.left_arm.rotateAngleZ = 0;
-		this.right_arm.rotateAngleX = 0;
-		this.right_arm.rotateAngleY = 0;
-		this.right_arm.rotateAngleZ = 0;
-		pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
-		pose.setWingAngles(this.left_wing_0, this.right_wing_0);
-		pose.setHeadAngles(this.head);
+
+        right_arm.rotationPointY = 2.5F;
+        left_arm.rotationPointY = 2.5F;
+        left_arm.rotateAngleX = 0;
+        left_arm.rotateAngleY = 0;
+        left_arm.rotateAngleZ = 0;
+        right_arm.rotateAngleX = 0;
+        right_arm.rotateAngleY = 0;
+        right_arm.rotateAngleZ = 0;
+        pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+        pose.setWingAngles(left_wing_0, right_wing_0);
+        pose.setHeadAngles(head);
 		angry_mouth.isHidden = true;
 	}
 	
@@ -294,48 +294,48 @@ public class ModelAngelEd extends ModelBiped {
 	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 		
 		if (entity instanceof EntityWeepingAngel) {
-			
-			this.head.rotateAngleY = netheadYaw * 0.017453292F;
-			this.head.rotateAngleX = headPitch * 0.017453292F;
-			
-			this.right_arm.rotationPointY = 2.5F;
-			this.left_arm.rotationPointY = 2.5F;
-			this.left_arm.rotateAngleX = 0;
-			this.left_arm.rotateAngleY = 0;
-			this.left_arm.rotateAngleZ = 0;
-			this.right_arm.rotateAngleX = 0;
-			this.right_arm.rotateAngleY = 0;
-			this.right_arm.rotateAngleZ = 0;
+
+            head.rotateAngleY = netheadYaw * 0.017453292F;
+            head.rotateAngleX = headPitch * 0.017453292F;
+
+            right_arm.rotationPointY = 2.5F;
+            left_arm.rotationPointY = 2.5F;
+            left_arm.rotateAngleX = 0;
+            left_arm.rotateAngleY = 0;
+            left_arm.rotateAngleZ = 0;
+            right_arm.rotateAngleX = 0;
+            right_arm.rotateAngleY = 0;
+            right_arm.rotateAngleZ = 0;
 			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
 			
 			PoseBase pose = PoseManager.getPoseFromString(angel.getPose());
 			
 			if (pose != null) {
-				this.angry_mouth.isHidden = !pose.angryFace();
-				pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
-				pose.setWingAngles(this.left_wing_0, this.right_wing_0);
-				pose.setHeadAngles(this.head);
+                angry_mouth.isHidden = !pose.angryFace();
+                pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+                pose.setWingAngles(left_wing_0, right_wing_0);
+                pose.setHeadAngles(head);
 				
 				if (pose.angryFace()) {
-					this.right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-					this.left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-					this.angry_mouth.isHidden = false;
+                    right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+                    left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+                    angry_mouth.isHidden = false;
 				} else {
-					this.right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-					this.left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+                    right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+                    left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				}
 				
 				if (pose instanceof PoseThinking) {
-					this.right_eyebrow.rotateAngleZ = 0.15F;
-					this.right_eyebrow.rotationPointY = -4.5F;
-					this.left_eyebrow.rotationPointY = -4.2F;
+                    right_eyebrow.rotateAngleZ = 0.15F;
+                    right_eyebrow.rotationPointY = -4.5F;
+                    left_eyebrow.rotationPointY = -4.2F;
 				}
 			}
 		} else {
 			PoseBase pose = PoseManager.POSE_SHY;
-			pose.setArmAngles(this.left_arm, this.right_arm, this.left_arm_1, this.right_arm_1);
-			pose.setWingAngles(this.left_wing_0, this.right_wing_0);
-			pose.setHeadAngles(this.head);
+            pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+            pose.setWingAngles(left_wing_0, right_wing_0);
+            pose.setHeadAngles(head);
 			angry_mouth.isHidden = true;
 		}
 	}

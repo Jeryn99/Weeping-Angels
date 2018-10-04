@@ -18,8 +18,8 @@ import java.util.List;
 public class ItemDetector extends Item {
 	
 	public ItemDetector() {
-		this.setCreativeTab(CreativeTabs.TOOLS);
-		this.setMaxStackSize(1);
+        setCreativeTab(CreativeTabs.TOOLS);
+        setMaxStackSize(1);
 	}
 	
 	@Override

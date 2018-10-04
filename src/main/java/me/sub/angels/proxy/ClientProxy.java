@@ -16,31 +16,32 @@ import me.sub.angels.common.tileentities.TileEntityPlinth;
 import me.sub.angels.common.tileentities.TileEntitySnowArm;
 import me.sub.angels.utils.RenderUtil;
 
+@SuppressWarnings("unused")
 public class ClientProxy extends CommonProxy {
-	
+
 	@Override
 	public void preInit() {
 		super.preInit();
 		entityRenders();
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
 		tileRenders();
 	}
-	
+
 	@Override
 	public void postInit() {
 		super.postInit();
 	}
-	
+
 	private void tileRenders() {
 		RenderUtil.bindTESR(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
 		RenderUtil.bindTESR(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
 		RenderUtil.bindTESR(TileEntityPlinth.class, new RenderTileEntityPlinth());
 	}
-	
+
 	private void entityRenders() {
 		RenderUtil.bindEntityRender(EntityWeepingAngel.class, RenderWeepingAngel::new);
 		RenderUtil.bindEntityRender(EntityAngelPainting.class, RenderAngelPainting::new);

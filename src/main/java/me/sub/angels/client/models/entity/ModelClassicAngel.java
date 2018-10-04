@@ -31,8 +31,8 @@ public class ModelClassicAngel extends ModelBiped {
 	private float angleZ;
 	
 	public ModelClassicAngel() {
-		this.textureHeight = 32;
-		this.textureWidth = 64;
+        textureHeight = 32;
+        textureWidth = 64;
 		leftfoot = new ModelRenderer(this, 32, 0);
 		leftfoot.addBox(-2F, 7F, -4F, 6, 5, 8);
 		leftfoot.setRotationPoint(2.0F, 12F, 0.0F);

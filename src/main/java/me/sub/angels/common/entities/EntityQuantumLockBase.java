@@ -32,7 +32,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	public void onLivingUpdate() {
 
 		if (!isNotColliding()) {
-			this.motionX = 1;
+            motionX = 1;
 		}
 
 		if (!world.isRemote && ticksExisted % 4 == 0) {
@@ -86,7 +86,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
 
 		Vec3d vec3d = p.getCurrentPos();
-		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
+        setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
 	}
 
 	public void moveTowards(BlockPos pos) {
@@ -95,7 +95,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 2) p.incrementPathIndex();
 
 		Vec3d vec3d = p.getCurrentPos();
-		this.setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, this.rotationYaw, this.rotationPitch);
+        setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
 	}
 	
 	@Override
@@ -163,13 +163,13 @@ public class EntityQuantumLockBase extends EntityMob {
 	private boolean quantumCheck() {
 		
 		if (WAConfig.angels.freezeOnAngel) {
-			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, this.getEntityBoundingBox().grow(25));
+            List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
 				setSeenTime(0);
 			} else {
 				for (EntityQuantumLockBase base : quantumLockBases) {
-					if (base.getUniqueID() != this.getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
+                    if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
 						return AngelUtils.canSee(base, this);
 					}
 				}

@@ -12,8 +12,9 @@ import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nullable;
 
-public final class WATeleporter {
-	private WATeleporter() {}
+public final class Teleporter {
+    private Teleporter() {
+    }
 	
 	@Nullable
 	public static Entity move(Entity entity, int dimension, BlockPos pos) {
@@ -22,7 +23,7 @@ public final class WATeleporter {
 	
 	@Nullable
 	public static Entity move(Entity entity, int dimension, double x, double y, double z) {
-		if (entity.world.isRemote || entity.isRiding() || entity.isBeingRidden() || !entity.isNonBoss()) {
+        if (entity.world.isRemote || !entity.isNonBoss()) {
 			return null;
 		}
 		if (entity.dimension == dimension) {

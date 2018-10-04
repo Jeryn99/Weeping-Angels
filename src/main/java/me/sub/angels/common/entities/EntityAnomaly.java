@@ -45,7 +45,7 @@ public class EntityAnomaly extends EntityLiving {
 	}
 	
 	public float getEntityEyeHeight() {
-		return this.getDataManager().get(EYE_HEIGHT);
+        return getDataManager().get(EYE_HEIGHT);
 	}
 	
 	public void setEntityEyeHeight(float eyeHeight) {

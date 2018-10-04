@@ -17,18 +17,17 @@ import java.util.function.Supplier;
 public class BlockMineable extends Block {
 	
 	private Supplier<ItemStack> itemSuppler;
-	private int itemQuantity;
-	private int itemVariation;
-	
-	public BlockMineable(Supplier<ItemStack> i, int quantity, int variation) {
+    private int itemQuantity, itemVariation;
+
+    public BlockMineable(Supplier<ItemStack> stackSupplier, int quantity, int variation) {
 		super(Material.ROCK);
-		this.setHardness(5.0F);
+        setHardness(5.0F);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-		itemSuppler = i;
+        this.itemSuppler = stackSupplier;
 		setSoundType(SoundType.STONE);
 		itemQuantity = quantity;
 		itemVariation = variation;
-		this.setHarvestLevel("pickaxe", 0);
+        setHarvestLevel("pickaxe", 0);
 	}
 	
 	@Override

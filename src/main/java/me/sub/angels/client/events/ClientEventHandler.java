@@ -13,9 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = WeepingAngels.MODID)
 public class ClientEventHandler {
-	
+
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
 		for (Item item : WAObjects.ITEMS) {
@@ -24,5 +25,5 @@ public class ClientEventHandler {
 		WAObjects.ITEMS = new ArrayList<>();
 		RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
 	}
-	
+
 }

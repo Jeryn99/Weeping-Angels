@@ -27,12 +27,14 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	private ModelBase modelMain = modelTwo;
 	
 	public LayerCrack(RenderWeepingAngel angelRendererIn) {
-		this.angelRenderer = angelRendererIn;
+        angelRenderer = angelRendererIn;
 	}
 	
 	@Override
 	public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		
+
+        if (angel.isDead) return;
+
 		if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
 			modelMain = modelOne;
 		}

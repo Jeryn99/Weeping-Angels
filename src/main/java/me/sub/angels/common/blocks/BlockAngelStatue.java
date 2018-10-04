@@ -19,7 +19,7 @@ public class BlockAngelStatue extends Block {
 	public BlockAngelStatue() {
 		super(Material.CORAL);
 		translucent = true;
-		this.setHardness(1.0F);
+        setHardness(1.0F);
 	}
 	
 	@Nullable

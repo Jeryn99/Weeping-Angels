@@ -21,7 +21,7 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 	public ItemAngelSpawner(AngelEnums.AngelType type, Function<World, E> angel) {
 		entityCreator = angel;
 		this.type = type;
-		this.setCreativeTab(WATabs.MAIN_TAB);
+        setCreativeTab(WATabs.MAIN_TAB);
 	}
 	
 	@Override

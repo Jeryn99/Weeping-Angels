@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
-import me.sub.angels.utils.WATeleporter;
+import me.sub.angels.utils.Teleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,19 +34,19 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
 		for (EnumAngelArt EnumAngelArt : ENUM_ART) {
-			this.art = EnumAngelArt;
-			this.updateFacingWithBoundingBox(side);
-			
-			if (this.onValidSurface()) {
+            art = EnumAngelArt;
+            updateFacingWithBoundingBox(side);
+
+            if (onValidSurface()) {
 				arraylist.add(EnumAngelArt);
 			}
 		}
 		
 		if (!arraylist.isEmpty()) {
-			this.art = (EntityAngelPainting.EnumAngelArt) arraylist.get(this.rand.nextInt(arraylist.size()));
-		}
-		
-		this.updateFacingWithBoundingBox(side);
+            art = (EntityAngelPainting.EnumAngelArt) arraylist.get(rand.nextInt(arraylist.size()));
+        }
+
+        updateFacingWithBoundingBox(side);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -56,12 +56,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		
 		for (EnumAngelArt EnumAngelArt : ENUM_ART) {
 			if (EnumAngelArt.title.equals(name)) {
-				this.art = EnumAngelArt;
+                art = EnumAngelArt;
 				break;
 			}
 		}
-		
-		this.updateFacingWithBoundingBox(side);
+
+        updateFacingWithBoundingBox(side);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setString(WAConstants.MOTIVE, this.art.title);
+        tagCompound.setString(WAConstants.MOTIVE, art.title);
 		super.writeEntityToNBT(tagCompound);
 	}
 	
@@ -125,12 +125,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		
 		for (EnumAngelArt EnumAngelArt : ENUM_ART) {
 			if (EnumAngelArt.title.equals(s)) {
-				this.art = EnumAngelArt;
+                art = EnumAngelArt;
 			}
 		}
-		
-		if (this.art == null) {
-			this.art = EnumAngelArt.AngelFive;
+
+        if (art == null) {
+            art = EnumAngelArt.AngelFive;
 		}
 		
 		super.readEntityFromNBT(tagCompund);
@@ -140,11 +140,11 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		if (art == null) {
 			art = EnumAngelArt.AngelFive;
 		}
-		return this.art.sizeX;
+        return art.sizeX;
 	}
 	
 	public int getHeightPixels() {
-		return this.art.sizeY;
+        return art.sizeY;
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void onBroken(Entity entity) {
-		if (this.world.getGameRules().getBoolean("doTileDrops")) {
+        if (world.getGameRules().getBoolean("doTileDrops")) {
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) entity;
 				
@@ -160,8 +160,8 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 					return;
 				}
 			}
-			
-			this.entityDropItem(new ItemStack(WAObjects.Items.ANGEL_PAINTING), 0.0F);
+
+            entityDropItem(new ItemStack(WAObjects.Items.ANGEL_PAINTING), 0.0F);
 		}
 	}
 	
@@ -175,9 +175,9 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
-		BlockPos blockpos = new BlockPos(x - this.posX, y - this.posY, z - this.posZ);
-		BlockPos hangingPos = this.hangingPosition.add(blockpos);
-		this.setPosition((double) hangingPos.getX(), (double) hangingPos.getY() - 1, (double) hangingPos.getZ());
+        BlockPos blockpos = new BlockPos(x - posX, y - posY, z - posZ);
+        BlockPos hangingPos = hangingPosition.add(blockpos);
+        setPosition((double) hangingPos.getX(), (double) hangingPos.getY() - 1, (double) hangingPos.getZ());
 	}
 	
 	@Override
@@ -203,7 +203,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		if (!world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			WATeleporter.move(angel, dimension, new BlockPos(this.posX + 1, this.posY + 1, this.posZ + 1));
+            Teleporter.move(angel, dimension, new BlockPos(posX + 1, posY + 1, posZ + 1));
 			world.spawnEntity(angel);
 		}
 	}
@@ -218,9 +218,9 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		public final int offsetY;
 		
 		EnumAngelArt(String name, int offsetX, int offsetY) {
-			this.title = name;
-			this.sizeX = 16;
-			this.sizeY = 32;
+            title = name;
+            sizeX = 16;
+            sizeY = 32;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
 		}

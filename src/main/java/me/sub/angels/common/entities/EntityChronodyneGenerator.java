@@ -22,7 +22,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 	
 	public EntityChronodyneGenerator(World worldIn, EntityLivingBase throwerIn) {
 		super(worldIn, throwerIn);
-		this.shoot(throwerIn, throwerIn.rotationPitch, throwerIn.rotationYawHead, 0, 1.5F, 1.0F);
+        shoot(throwerIn, throwerIn.rotationPitch, throwerIn.rotationYawHead, 0, 1.5F, 1.0F);
 	}
 	
 	public EntityChronodyneGenerator(World worldIn, double x, double y, double z) {
@@ -53,14 +53,14 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 					tileData.setDouble(WAConstants.ABS_X, posX);
 					tileData.setDouble(WAConstants.ABS_Y, posY);
 					tileData.setDouble(WAConstants.ABS_Z, posZ);
-					this.setDead();
+                    setDead();
 				}
 			}
 		}
 		
 		if (result.entityHit instanceof EntityWeepingAngel) {
 			if (world.isRemote) {
-				this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 1.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPosition().getX(), getPosition().getY(), getPosition().getZ(), 1.0D, 0.0D, 0.0D);
 			}
 			
 			if (!world.isRemote) {
@@ -74,10 +74,10 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 				setDead();
 			}
 		}
-		
-		if (!this.world.isRemote) {
-			this.world.setEntityState(this, (byte) 3);
-			this.setDead();
+
+        if (!world.isRemote) {
+            world.setEntityState(this, (byte) 3);
+            setDead();
 		}
 	}
 }
