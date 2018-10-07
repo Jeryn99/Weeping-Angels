@@ -71,7 +71,7 @@ public class EntityQuantumLockBase extends EntityMob {
 				Vec3d vecPlayerPos = closest.getPositionVector();
 				float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
 				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-				// if (!closest.isCreative()) return;
+				if (!isSeen()) return;
 				if (getDistance(closest) < 1)
 					attackEntityAsMob(closest);
 				else
@@ -81,6 +81,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 
 	public void moveTowards(EntityLivingBase closest) {
+		if (isSeen()) return;
 		Path p = getNavigator().getPathToEntityLiving(closest);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
@@ -90,6 +91,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 
 	public void moveTowards(BlockPos pos) {
+		if (isSeen()) return;
 		Path p = getNavigator().getPathToPos(pos);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 2) p.incrementPathIndex();
@@ -159,9 +161,9 @@ public class EntityQuantumLockBase extends EntityMob {
 	public void invokeSeen(EntityPlayer player) {
 		
 	}
-	
+
 	private boolean quantumCheck() {
-		
+
 		if (WAConfig.angels.freezeOnAngel) {
             List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();

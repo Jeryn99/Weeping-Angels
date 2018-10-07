@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 
 public class BlockChronodyneGenerator extends Block {
 	
@@ -60,8 +59,7 @@ public class BlockChronodyneGenerator extends Block {
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
-	
-	@Nullable
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityChronodyneGenerator();

@@ -4,7 +4,7 @@ import me.sub.angels.common.entities.AngelEnums;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.misc.WATabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.function.Function;
 
-public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
+public class ItemAngelSpawner<E extends EntityWeepingAngel> extends ItemMonsterPlacer {
 	
 	private Function<World, E> entityCreator;
 	private AngelEnums.AngelType type;
@@ -34,7 +34,6 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 			angel.faceEntity(player, 360, 360);
 			worldIn.spawnEntity(angel);
-			
 			player.getHeldItem(hand).shrink(1);
 		}
 		return EnumActionResult.PASS;

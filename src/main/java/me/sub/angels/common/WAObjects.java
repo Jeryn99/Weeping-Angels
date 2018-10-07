@@ -37,10 +37,10 @@ import java.util.List;
 
 @Mod.EventBusSubscriber
 public class WAObjects {
-	
-	public static final DamageSource ANGEL = new WADamageSource("backintime");
-	public static final DamageSource STONE = new WADamageSource("punch_stone");
-	public static final DamageSource ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
+
+    public static DamageSource ANGEL = new WADamageSource("backintime"),
+            STONE = new WADamageSource("punch_stone"),
+            ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
 	
 	public static List<Item> ITEMS = new ArrayList<>();
 	// Helper, gets reset after init
@@ -125,53 +125,53 @@ public class WAObjects {
 	
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
 	public static class Blocks {
-		public static final Block ARM = null;
-		public static final Block CG = null;
-		public static final Block PLINTH = null;
-		public static final Block KONTRON_ORE = null;
+        public static Block ARM = null;
+        public static Block CG = null;
+        public static Block PLINTH = null;
+        public static Block KONTRON_ORE = null;
 	}
 	
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
 	public static class Items {
-		public static final Item ANGEL_PAINTING = null;
-		public static final Item UNLIT_TORCH = null;
-		public static final Item TIMEY_WIMEY_DETECTOR = null;
-		public static final Item CHRONODYNE_GENERATOR = null;
-		public static final Item ANGEL_0 = null;
-		public static final Item ANGEL_1 = null;
-		public static final Item ANGEL_2 = null;
-		public static final Item ANGEL_CHILD = null;
-		public static final Item KONTRON_INGOT = null;
+        public static Item ANGEL_PAINTING = null;
+        public static Item UNLIT_TORCH = null;
+        public static Item TIMEY_WIMEY_DETECTOR = null;
+        public static Item CHRONODYNE_GENERATOR = null;
+        public static Item ANGEL_0 = null;
+        public static Item ANGEL_1 = null;
+        public static Item ANGEL_2 = null;
+        public static Item ANGEL_CHILD = null;
+        public static Item KONTRON_INGOT = null;
 	}
 	
 	// Sounds
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
 	public static class Sounds {
-		public static final SoundEvent ANGEL_SEEN_1 = null;
-		public static final SoundEvent ANGEL_SEEN_2 = null;
-		public static final SoundEvent ANGEL_SEEN_3 = null;
-		public static final SoundEvent ANGEL_SEEN_4 = null;
-		public static final SoundEvent ANGEL_SEEN_5 = null;
-		public static final SoundEvent ANGEL_SEEN_6 = null;
-		public static final SoundEvent ANGEL_SEEN_7 = null;
-		public static final SoundEvent ANGEL_SEEN_8 = null;
-		public static final SoundEvent STONE_SCRAP = null;
-		public static final SoundEvent CHILD_RUN = null;
-		public static final SoundEvent LAUGHING_CHILD = null;
-		public static final SoundEvent LIGHT_BREAK = null;
-		public static final SoundEvent ANGEL_TELEPORT = null;
-		public static final SoundEvent ANGEL_AMBIENT = null;
-		public static final SoundEvent DING = null;
-		public static final SoundEvent BLOW = null;
-		public static final SoundEvent ANGEL_DEATH = null;
+        public static SoundEvent ANGEL_SEEN_1 = null;
+        public static SoundEvent ANGEL_SEEN_2 = null;
+        public static SoundEvent ANGEL_SEEN_3 = null;
+        public static SoundEvent ANGEL_SEEN_4 = null;
+        public static SoundEvent ANGEL_SEEN_5 = null;
+        public static SoundEvent ANGEL_SEEN_6 = null;
+        public static SoundEvent ANGEL_SEEN_7 = null;
+        public static SoundEvent ANGEL_SEEN_8 = null;
+        public static SoundEvent STONE_SCRAP = null;
+        public static SoundEvent CHILD_RUN = null;
+        public static SoundEvent LAUGHING_CHILD = null;
+        public static SoundEvent LIGHT_BREAK = null;
+        public static SoundEvent ANGEL_TELEPORT = null;
+        public static SoundEvent ANGEL_AMBIENT = null;
+        public static SoundEvent DING = null;
+        public static SoundEvent BLOW = null;
+        public static SoundEvent ANGEL_DEATH = null;
 	}
 	
 	// Entities
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
 	public static class EntityEntries {
-		public static final EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityWeepingAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
-		public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
-		public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
-		public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
+        public static EntityEntry WEEPING_ANGEL = EntityEntryBuilder.create().entity(EntityWeepingAngel.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingangel"), 0).name("angel").tracker(80, 3, false).build();
+        public static EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(WeepingAngels.MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
+        public static EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(WeepingAngels.MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+        public static EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(WeepingAngels.MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
 	}
 }

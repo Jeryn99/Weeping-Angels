@@ -12,8 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class BlockAngelStatue extends Block {
 	
 	public BlockAngelStatue() {
@@ -21,8 +19,7 @@ public class BlockAngelStatue extends Block {
 		translucent = true;
         setHardness(1.0F);
 	}
-	
-	@Nullable
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityPlinth();

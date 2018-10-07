@@ -20,7 +20,9 @@ public class WAConfig {
 	
 	@Config.LangKey("category.weeping-angels.worldgen")
 	public static final WorldGen worldGen = new WorldGen();
-	
+
+	public static Integergrations integrations = new Integergrations();
+
 	public static class WorldGen {
 		
 		@Config.LangKey("config.weeping-angels.gen_arms")
@@ -129,7 +131,11 @@ public class WAConfig {
 		@Config.Comment("if enabled, Only pickaxes and generators will work on the angels")
 		public boolean pickaxeOnly = true;
 	}
-	
+
+	public static class Integergrations {
+		public boolean vivecraftSupport = false;
+	}
+
 	@Mod.EventBusSubscriber
 	public static class EventHandler {
 		@SubscribeEvent
@@ -139,5 +145,5 @@ public class WAConfig {
 			}
 		}
 	}
-	
+
 }

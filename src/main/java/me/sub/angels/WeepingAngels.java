@@ -1,11 +1,15 @@
 package me.sub.angels;
 
+import me.sub.angels.common.packets.MessageUpdateSeen;
 import me.sub.angels.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +23,9 @@ public class WeepingAngels {
 	public static final String VERSION_CHECK = "https://raw.githubusercontent.com/SandedShoes/Weeping-Angels-Mod/master/update.json";
 	
 	public static Logger LOGGER = LogManager.getLogger(NAME);
-	
+
+	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+
 	@Mod.Instance(MODID)
 	public static WeepingAngels INSTANCE;
 	
@@ -34,6 +40,7 @@ public class WeepingAngels {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
+		NETWORK.registerMessage(MessageUpdateSeen.Handler.class, MessageUpdateSeen.class, 2, Side.SERVER);
 	}
 	
 	@Mod.EventHandler

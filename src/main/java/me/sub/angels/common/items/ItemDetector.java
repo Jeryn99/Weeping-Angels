@@ -28,8 +28,6 @@ public class ItemDetector extends Item {
 			List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getEntityBoundingBox().grow(25, 25, 25));
 			
 			if (entityIn instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) entityIn;
-				
 				if (!angels.isEmpty() && isSelected) {
 					{
 						if ((Math.cos(entityIn.ticksExisted) + 3) > 3.84F) {

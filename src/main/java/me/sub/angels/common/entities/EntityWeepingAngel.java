@@ -1,12 +1,12 @@
 package me.sub.angels.common.entities;
 
+import com.google.common.collect.Lists;
 import me.sub.angels.client.models.poses.PoseManager;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.misc.WAConstants;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
 import me.sub.angels.utils.Teleporter;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
@@ -19,27 +19,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+
+import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -283,17 +282,17 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 						}
 						
 						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
-							playBreakEvent(pos, Blocks.AIR);
+							AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 							return;
 						}
 						
 						if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
-							playBreakEvent(pos, Blocks.PUMPKIN);
+							AngelUtils.playBreakEvent(this, pos, Blocks.PUMPKIN);
 							return;
 						}
 						
 						if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
-							playBreakEvent(pos, Blocks.REDSTONE_LAMP);
+							AngelUtils.playBreakEvent(this, pos, Blocks.REDSTONE_LAMP);
 							return;
 						}
 						
@@ -319,24 +318,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return true;
 	}
-	
-	private void playBreakEvent(BlockPos pos, Block block) {
-		if (!world.isRemote) {
-			playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
-			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(world.getBlockState(pos).getBlock()));
-			world.setBlockState(pos, block.getDefaultState());
-			
-			for (EntityPlayer player : world.playerEntities) {
-				if (player instanceof EntityPlayerMP) {
-					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					if (playerMP.getDistance(this) < 45 && !playerMP.isCreative()) {
-						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
-					}
-				}
-			}
-		}
-	}
-	
+
 	public SoundEvent getSeenSound() {
 		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
@@ -363,13 +345,24 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	private int decideDimension() {
-		Integer[] ids = DimensionManager.getStaticDimensionIDs();
-		Integer tempId = ids[rand.nextInt(ids.length)];
-		for (int id : WAConfig.angels.notAllowedDimensions) {
-			if (id == tempId) {
-				return 0;
+		List<Integer> ids = Lists.newArrayList(); //List to add dims to
+		DimensionType[] types = DimensionType.values(); //Get all Dimension types
+
+		for (DimensionType type : types) {
+
+			int[] idArray = DimensionManager.getDimensions(type);
+
+			for (int id : idArray) {
+				ids.add(id);
 			}
+
+			for (int remove : WAConfig.angels.notAllowedDimensions) {
+				ids.remove(remove);
+			}
+
 		}
-		return tempId;
+
+		return ids.get(rand.nextInt(ids.size()));
 	}
 }
+

@@ -12,8 +12,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-
 public class TileEntityPlinth extends TileEntity implements ITickable {
 	
 	private boolean hasSpawned = false;
@@ -55,7 +53,6 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
         return new SPacketUpdateTileEntity(pos, 3, getUpdateTag());
 	}

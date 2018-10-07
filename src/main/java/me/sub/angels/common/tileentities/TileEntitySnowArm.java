@@ -13,7 +13,6 @@ public class TileEntitySnowArm extends TileEntity implements ITickable {
 	
 	@Override
 	public void update() {
-		// TODO Grabbing the players leg
 		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.setChild(false);

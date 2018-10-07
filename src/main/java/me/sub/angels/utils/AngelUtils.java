@@ -8,15 +8,20 @@ import me.sub.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -173,11 +178,13 @@ public class AngelUtils {
 	
 	public static boolean isInFrontOfEntity(Entity entity, Entity target) {
 		Vec3d vecTargetsPos = target.getPositionVector();
-		Vec3d vecLook = entity.getLook(1.0F);
+		Vec3d vecLook = entity.getLookVec();
+
 		Vec3d vecFinal = vecTargetsPos.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
+
 	
 	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
 		AxisAlignedBB viewerEntityBoundingBox = viewer.getEntityBoundingBox();
@@ -189,6 +196,23 @@ public class AngelUtils {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
 		}
 		return true;
+	}
+
+	public static void playBreakEvent(Entity entity, BlockPos pos, Block block) {
+		if (!entity.world.isRemote) {
+			entity.playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
+			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
+			entity.world.setBlockState(pos, block.getDefaultState());
+
+			for (EntityPlayer player : entity.world.playerEntities) {
+				if (player instanceof EntityPlayerMP) {
+					EntityPlayerMP playerMP = (EntityPlayerMP) player;
+					if (playerMP.getDistanceSq(pos) < 45) {
+						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
+					}
+				}
+			}
+		}
 	}
 	
 }

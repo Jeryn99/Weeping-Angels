@@ -13,10 +13,8 @@ import net.minecraftforge.common.util.ITeleporter;
 import javax.annotation.Nullable;
 
 public final class Teleporter {
-    private Teleporter() {
-    }
-	
-	@Nullable
+
+    @Nullable
 	public static Entity move(Entity entity, int dimension, BlockPos pos) {
 		return move(entity, dimension, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 	}
