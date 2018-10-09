@@ -8,7 +8,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class ServerReflector extends VivecraftReflector {
 
@@ -50,6 +49,7 @@ public class ServerReflector extends VivecraftReflector {
     @Override
     public boolean init() {
         enabled = 0;
+        WeepingAngels.LOGGER.info("Checking for Vivecraft Client...");
         try {
             //Vivecraft Client/Non-VR
             Class<?> cNetworkHelper = Class.forName("com.mtbs3d.minecrift.api.NetworkHelper");
@@ -70,6 +70,7 @@ public class ServerReflector extends VivecraftReflector {
 
         }catch (Exception e){
             enabled = -1;
+            WeepingAngels.LOGGER.info("No Vivecraft Client detected!");
         }
 
         if(enabled<0)
@@ -130,7 +131,7 @@ public class ServerReflector extends VivecraftReflector {
             }
 
         } catch (Exception e) {
-            WeepingAngels.LOGGER.warn( "Vivecraft Client: Unknown Error Parsing isVRPlayer\n" + e.getStackTrace());
+            WeepingAngels.LOGGER.warn("Vivecraft Client: Unknown Error Parsing isVRPlayer\n" + e.getStackTrace());
         }
 
         return false;

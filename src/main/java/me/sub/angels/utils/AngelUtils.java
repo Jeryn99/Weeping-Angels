@@ -1,7 +1,6 @@
 package me.sub.angels.utils;
 
 import com.google.common.collect.Lists;
-import me.sub.angels.combat.vivecraft.ServerReflector;
 import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityQuantumLockBase;
 import me.sub.angels.common.entities.EntityWeepingAngel;
@@ -68,7 +67,13 @@ public class AngelUtils {
 
 
 	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
-		return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase)) && !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
+
+		boolean flag = !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
+
+		if (livingBase instanceof EntityPlayer) {
+			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase)) && flag;
+		}
+		return isInFrontOfEntity(livingBase, angel, false) && flag;
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
