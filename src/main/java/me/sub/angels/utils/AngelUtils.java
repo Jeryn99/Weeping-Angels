@@ -68,12 +68,12 @@ public class AngelUtils {
 
 	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
 
-		boolean flag = !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
+		if (viewBlocked(livingBase, angel) || AngelUtils.isDarkForPlayer(angel, livingBase)) return false;
 
 		if (livingBase instanceof EntityPlayer) {
-			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase)) && flag;
+			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase));
 		}
-		return isInFrontOfEntity(livingBase, angel, false) && flag;
+		return isInFrontOfEntity(livingBase, angel, false);
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {

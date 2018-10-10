@@ -172,7 +172,7 @@ public class EntityQuantumLockBase extends EntityMob {
 			} else {
 				for (EntityQuantumLockBase base : quantumLockBases) {
                     if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
-						return AngelUtils.canSee(base, this);
+                        if (AngelUtils.canSee(base, this)) return true;
 					}
 				}
 			}
