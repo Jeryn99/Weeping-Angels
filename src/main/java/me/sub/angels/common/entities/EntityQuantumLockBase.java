@@ -71,7 +71,7 @@ public class EntityQuantumLockBase extends EntityMob {
 				Vec3d vecPlayerPos = closest.getPositionVector();
 				float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
 				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-				if (!isSeen()) return;
+                if (isSeen()) return;
 				if (getDistance(closest) < 1)
 					attackEntityAsMob(closest);
 				else
