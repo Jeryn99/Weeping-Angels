@@ -30,7 +30,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	
 	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side) {
 		super(worldIn, pos);
-		ArrayList arraylist = Lists.newArrayList();
+		ArrayList<EnumAngelArt> ART_LIST = Lists.newArrayList();
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
 		for (EnumAngelArt EnumAngelArt : ENUM_ART) {
@@ -38,12 +38,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
             updateFacingWithBoundingBox(side);
 
             if (onValidSurface()) {
-				arraylist.add(EnumAngelArt);
+				ART_LIST.add(EnumAngelArt);
 			}
 		}
-		
-		if (!arraylist.isEmpty()) {
-            art = (EntityAngelPainting.EnumAngelArt) arraylist.get(rand.nextInt(arraylist.size()));
+
+		if (!ART_LIST.isEmpty()) {
+			art = ART_LIST.get(rand.nextInt(ART_LIST.size()));
         }
 
         updateFacingWithBoundingBox(side);

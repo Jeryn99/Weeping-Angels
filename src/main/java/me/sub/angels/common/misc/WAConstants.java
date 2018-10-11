@@ -1,5 +1,7 @@
 package me.sub.angels.common.misc;
 
+import me.sub.angels.config.WAConfig;
+
 public class WAConstants {
 	
 	// Angel
@@ -19,7 +21,7 @@ public class WAConstants {
 	public static final String ABS_X = "abs_x";
 	public static final String ABS_Y = "abs_y";
 	public static final String ABS_Z = "abs_z";
-	
-	public static final String[] KEYS = new String[]{"thedalekmod:tardisKey", "tardis:key"};
+
+    public static final String[] KEYS = WAConfig.integrations.keyStrings;
 	
 }

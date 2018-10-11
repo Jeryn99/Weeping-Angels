@@ -21,7 +21,8 @@ public class WAConfig {
 	@Config.LangKey("category.weeping-angels.worldgen")
 	public static final WorldGen worldGen = new WorldGen();
 
-	public static Integergrations integrations = new Integergrations();
+    @Config.LangKey("category.weeping-angels.mod_intergrations")
+    public static Intergrations integrations = new Intergrations();
 
 	public static class WorldGen {
 		
@@ -132,8 +133,10 @@ public class WAConfig {
 		public boolean pickaxeOnly = true;
 	}
 
-	public static class Integergrations {
+    public static class Intergrations {
 		public boolean vivecraftSupport = false;
+
+        public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
 	}
 
 	@Mod.EventBusSubscriber

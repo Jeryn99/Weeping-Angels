@@ -5,6 +5,7 @@ import me.sub.angels.common.WAObjects;
 import me.sub.angels.common.entities.EntityQuantumLockBase;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.config.WAConfig;
+import me.sub.angels.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -63,9 +64,16 @@ public class AngelUtils {
 		
 		return yaw < 60 && yaw > -60;
 	}
-	
+
+
 	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
-		return isInFrontOfEntity(livingBase, angel) && !viewBlocked(livingBase, angel) && !AngelUtils.isDarkForPlayer(angel, livingBase);
+
+		if (viewBlocked(livingBase, angel) || AngelUtils.isDarkForPlayer(angel, livingBase)) return false;
+
+		if (livingBase instanceof EntityPlayer) {
+			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase));
+		}
+		return isInFrontOfEntity(livingBase, angel, false);
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
@@ -82,7 +90,8 @@ public class AngelUtils {
 			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 		}
 	}
-	
+
+
 	public static boolean canSee(EntityLivingBase viewer, EntityLivingBase angel) {
 		double dx = angel.posX - viewer.posX;
 		double dz;
@@ -176,9 +185,19 @@ public class AngelUtils {
 		return false;
 	}
 	
-	public static boolean isInFrontOfEntity(Entity entity, Entity target) {
+	public static boolean isInFrontOfEntity(Entity entity, Entity target, boolean vr) {
 		Vec3d vecTargetsPos = target.getPositionVector();
-		Vec3d vecLook = entity.getLookVec();
+		Vec3d vecLook;
+
+		if(vr){
+			if(entity instanceof EntityPlayer) {
+				vecLook = CommonProxy.reflector.getHMDRot((EntityPlayer) entity);
+			} else {
+				throw new RuntimeException("yo dawg, only players can use vr");
+			}
+		} else {
+			vecLook = entity.getLookVec();
+		}
 
 		Vec3d vecFinal = vecTargetsPos.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
