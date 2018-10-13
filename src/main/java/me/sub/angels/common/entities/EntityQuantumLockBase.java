@@ -94,7 +94,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		if (isSeen()) return;
 		Path p = getNavigator().getPathToPos(pos);
 		if (p == null) return;
-		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 2) p.incrementPathIndex();
+		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
 
 		Vec3d vec3d = p.getCurrentPos();
         setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
