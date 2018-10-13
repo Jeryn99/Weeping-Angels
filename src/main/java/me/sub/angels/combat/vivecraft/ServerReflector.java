@@ -106,7 +106,7 @@ public class ServerReflector extends VivecraftReflector {
                 conQuaternion = cQuaternion.getConstructor(float.class,float.class,float.class,float.class);
                 mVecMultiply = cQuaternion.getMethod("multiply", Vec3d.class);
 
-                WeepingAngels.LOGGER.error("Vivecraft Forge Extensions detected! Enabling compatability features.");
+                WeepingAngels.LOGGER.info("Vivecraft Forge Extensions detected! Enabling compatability features.");
             }catch (Exception e)
             {
                 enabled = -1;
@@ -168,7 +168,7 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDPos", e);
         }
-        return player.getPositionVector().addVector(0, 1.62, 0);
+        return player.getPositionVector().add(0, 1.62, 0);
     }
 
     @Override
@@ -255,7 +255,7 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getControllerPos", e);
         }
-        return player.getPositionVector().addVector(0, 1.62, 0);
+        return player.getPositionVector().add(0, 1.62, 0);
     }
 
     @Override
