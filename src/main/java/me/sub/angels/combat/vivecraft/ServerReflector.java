@@ -50,7 +50,7 @@ public class ServerReflector extends VivecraftReflector {
     @Override
     public boolean init() {
         enabled = 0;
-        WeepingAngels.LOGGER.error("Checking for Vivecraft Client...");
+        WeepingAngels.LOGGER.info("Checking for Vivecraft Client...");
         try {
             //Vivecraft Client/Non-VR
             Class<?> cNetworkHelper = Class.forName("com.mtbs3d.minecrift.api.NetworkHelper");
@@ -67,11 +67,10 @@ public class ServerReflector extends VivecraftReflector {
             mGetHMDPos = cVivePlayer.getDeclaredMethod("getHMDPos");
             isVR = cVivePlayer.getMethod("isVR");
 
-            WeepingAngels.LOGGER.error("Vivecraft Client detected! Enabling compatibility features.");
+            WeepingAngels.LOGGER.info("Vivecraft Client detected! Enabling compatibility features.");
 
         }catch (Exception e){
             enabled = -1;
-            WeepingAngels.LOGGER.error("No Vivecraft Client detected!",e);
         }
 
         if(enabled<0)
@@ -111,9 +110,11 @@ public class ServerReflector extends VivecraftReflector {
             }catch (Exception e)
             {
                 enabled = -1;
-                WeepingAngels.LOGGER.error("No Vivecraft Forge Extensions detected!",e);
             }
         }
+
+        if(enabled<0)
+            WeepingAngels.LOGGER.info("Vivecraft not detected!");
 
         return enabled>=0;
     }
@@ -198,7 +199,7 @@ public class ServerReflector extends VivecraftReflector {
                 return (Vec3d)mVecMultiply.invoke(quaternion,new Vec3d(0,0,-1));
             }
         } catch (Exception e) {
-            WeepingAngels.LOGGER.error("Vivecraft Server: Unknown Error Parsing getHMDRot", e);
+            WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDRot", e);
         }
         return player.getLookVec();
     }
