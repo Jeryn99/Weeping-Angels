@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -28,6 +29,7 @@ import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -114,6 +116,22 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				AngelUtils.removeLightFromHand(player, this);
 			}
 		}
+
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
+                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                    ItemStack stack = player.inventory.getStackInSlot(i);
+                    for (String regName : WAConstants.KEYS) {
+                        if (regName.matches(stack.getItem().getRegistryName().toString())) {
+                            setHeldItem(EnumHand.MAIN_HAND, player.inventory.getStackInSlot(i).copy());
+                            player.inventory.getStackInSlot(i).setCount(0);
+                            player.inventoryContainer.detectAndSendChanges();
+                        }
+                    }
+                }
+            }
+        }
 
 		if (WAConfig.angels.justTeleport) {
 			if (entity instanceof EntityPlayer && !isChild()) {
