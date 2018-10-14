@@ -14,7 +14,7 @@ public class WeepingAngels {
 	
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "30";
+	public static final String VERSION = "25";
 	public static final String DEPENDENCIES = "required-after:forge@[14.23.2.2638,)";
 	public static final String VERSION_CHECK = "https://raw.githubusercontent.com/SandedShoes/Weeping-Angels-Mod/master/update.json";
 	
