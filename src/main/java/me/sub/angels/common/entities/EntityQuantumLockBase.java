@@ -55,24 +55,23 @@ public class EntityQuantumLockBase extends EntityMob {
 				
 				EntityPlayer closest = null;
 				for (EntityPlayer player : players) {
-					
-					if (AngelUtils.isInSight(player, this)) {
+					if (AngelUtils.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
 						return;
-
 					} else if (closest == null) {
 						closest = player;
+
 						setSeenTime(0);
 					}
 				}
-				
+
 				Vec3d vecPos = getPositionVector();
 				Vec3d vecPlayerPos = closest.getPositionVector();
 				float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
 				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
                 if (isSeen()) return;
-				if (getDistance(closest) < 1)
+				if (getDistance(closest) < 2)
 					attackEntityAsMob(closest);
 				else
 					moveTowards(closest);
@@ -85,9 +84,9 @@ public class EntityQuantumLockBase extends EntityMob {
 		Path p = getNavigator().getPathToEntityLiving(closest);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
-
 		Vec3d vec3d = p.getCurrentPos();
-        setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
+		faceEntity(closest, 10.0F, 10.0F);
+		setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
 	}
 
 	public void moveTowards(BlockPos pos) {
@@ -95,7 +94,6 @@ public class EntityQuantumLockBase extends EntityMob {
 		Path p = getNavigator().getPathToPos(pos);
 		if (p == null) return;
 		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
-
 		Vec3d vec3d = p.getCurrentPos();
         setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
 	}
@@ -155,7 +153,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	@Override
 	protected boolean isMovementBlocked() {
-		return !isEntityInsideOpaqueBlock();
+		return false;
 	}
 	
 	public void invokeSeen(EntityPlayer player) {

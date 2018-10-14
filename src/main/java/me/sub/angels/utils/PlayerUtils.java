@@ -40,7 +40,7 @@ public class PlayerUtils {
 	}
 	
 	public static void sendMessageToPlayer(EntityPlayer player, TextComponentTranslation textComponent, boolean isHotBar) {
-		if (!player.world.isRemote) return;
+		if (player.world.isRemote) return;
 		player.sendStatusMessage(textComponent, isHotBar);
 	}
 	

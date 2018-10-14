@@ -107,25 +107,34 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		
+
 		if (WAConfig.angels.torchBlowOut && isChild()) {
 			if (entity instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) entity;
 				AngelUtils.removeLightFromHand(player, this);
 			}
 		}
-		
-		if (!WAConfig.angels.justTeleport || isWeak()) {
-			
-			if (getHealth() > 5) {
-				entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-			} else {
-				entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-				heal(2.0F);
-			}
-		} else {
+
+		if (WAConfig.angels.justTeleport) {
 			if (entity instanceof EntityPlayer && !isChild()) {
 				teleportPlayer((EntityPlayer) entity);
+			} else {
+
+				boolean teleport = rand.nextBoolean() && !isWeak() && !isChild() && WAConfig.angels.teleportEnabled;
+				if (teleport) {
+					if (entity instanceof EntityPlayer) {
+						teleportPlayer((EntityPlayer) entity);
+					}
+				} else {
+					if (getHealth() > 5) {
+						entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+						heal(4.0F);
+					} else {
+						entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+						heal(2.0F);
+					}
+				}
+
 			}
 		}
 		return false;
@@ -202,7 +211,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		// setPose(PoseManager.POSE_TEMP.getRegistryName());
 		if (ticksExisted % 2400 == 0 && !world.isRemote) {
 			setHungerLevel(getHungerLevel() - 1);
 			if (isWeak()) {
@@ -253,11 +261,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
-		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
-			setPose(PoseManager.getRandomPose().toString());
-		}
 
+		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
+			setPose(PoseManager.POSE_HIDING_FACE.toString());
+		}
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange));
 	}
 	
@@ -271,45 +278,47 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
-		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || !isQuantumLocked()) return;
+		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || isQuantumLocked()) return;
+
+		if (world.getLight(getPosition()) == 0) {
+			return;
+		}
 
 		for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
+			IBlockState blockState = world.getBlockState(pos);
+			if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 
-					IBlockState blockState = world.getBlockState(pos);
-					
-					if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
-						
-						if (!canBreak(blockState)) {
-							continue;
-						}
-						
-						if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE || blockState.getLightValue(world, pos) >= 7) {
-							AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
-							return;
-						}
-						
-						if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
-							AngelUtils.playBreakEvent(this, pos, Blocks.PUMPKIN);
-							return;
-						}
-						
-						if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
-							AngelUtils.playBreakEvent(this, pos, Blocks.REDSTONE_LAMP);
-							return;
-						}
-						
-						if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
-							if (getHealth() < getMaxHealth()) {
-								heal(1.5F);
-								world.setBlockToAir(pos);
-							}
-						} else
-							continue;
-						
-						return;
-					}
+				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
+					continue;
 				}
+
+				if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+					return;
+				}
+
+				if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.PUMPKIN);
+					return;
+				}
+
+				if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.REDSTONE_LAMP);
+					return;
+				}
+
+				if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
+					if (getHealth() < getMaxHealth()) {
+						heal(1.5F);
+						world.setBlockToAir(pos);
+					}
+				} else
+					continue;
+
+				return;
 			}
+		}
+	}
 
 
 	private boolean canBreak(IBlockState blockState) {

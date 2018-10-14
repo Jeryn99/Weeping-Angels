@@ -18,7 +18,30 @@ public final class Teleporter {
 	public static Entity move(Entity entity, int dimension, BlockPos pos) {
 		return move(entity, dimension, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 	}
-	
+
+	public static BlockPos getSafePos(World world, double x, double y, double z) {
+		BlockPos p = new BlockPos(x, y, z);
+
+		if (world.isAirBlock(p)) {
+			if (world.getBlockState(p.add(0, -1, 0)).getMaterial().isSolid()) {
+				return p;
+			} else {
+				for (int i = 1; i < 255; i++) {
+					if (world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
+						return new BlockPos(p.getX(), i, p.getZ());
+					}
+				}
+			}
+		} else {
+			for (int i = 1; i < 255; i++) {
+				if (world.isAirBlock(p.add(0, -p.getY() + i, 0)) && world.getBlockState(p.add(0, -p.getY() + i - 1, 0)).getMaterial().isSolid()) {
+					return new BlockPos(p.getX(), i, p.getZ());
+				}
+			}
+		}
+		return p;
+	}
+
 	@Nullable
 	public static Entity move(Entity entity, int dimension, double x, double y, double z) {
         if (entity.world.isRemote || !entity.isNonBoss()) {
@@ -37,7 +60,8 @@ public final class Teleporter {
 	
 	public static Entity move(EntityPlayer player, BlockPos pos, int dim, EntityWeepingAngel entityWeepingAngel) {
 		MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityWeepingAngel, pos, dim));
-		return move(player, dim, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+		BlockPos newPos = getSafePos(player.world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+		return move(player, dim, newPos.getX(), newPos.getY(), newPos.getZ());
 	}
 	
 	private static final class WATeleport implements ITeleporter {

@@ -22,7 +22,7 @@ public class WAConfig {
 	public static final WorldGen worldGen = new WorldGen();
 
     @Config.LangKey("category.weeping-angels.mod_intergrations")
-    public static Intergrations integrations = new Intergrations();
+	public static Integrations integrations = new Integrations();
 
 	public static class WorldGen {
 		
@@ -68,7 +68,11 @@ public class WAConfig {
 	}
 	
 	public static class Angels {
-		
+
+		@Config.LangKey("config.weeping-angels.hardcore")
+		@Config.Comment("if enabled, No way to attack/kill angels. Just running.")
+		public boolean hardcoreMode = false;
+
 		@Config.LangKey("config.weeping-angels.update_checker")
 		@Config.Comment("Config to toggle the update available checker")
 		public boolean enableUpdateChecker = true;
@@ -118,7 +122,7 @@ public class WAConfig {
 		public boolean torchBlowOut = true;
 		
 		@Config.LangKey("config.weeping-angels.disallowed_blocks")
-		public String[] disAllowedBlocks = { Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop" };
+		public String[] disAllowedBlocks = {Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"};
 		
 		@Config.LangKey("config.weeping-angels.disallowed_dimensions")
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
@@ -127,16 +131,18 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.ql")
 		@Config.Comment("if enabled, angels will freeze when they see one another.")
 		public boolean freezeOnAngel = false;
-		
+
 		@Config.LangKey("config.weeping-angels.pickaxe_only")
 		@Config.Comment("if enabled, Only pickaxes and generators will work on the angels")
 		public boolean pickaxeOnly = true;
+
+		@Config.LangKey("config.weeping-angels.teleport_enabled")
+		@Config.Comment("Toggle for teleporting")
+		public boolean teleportEnabled = true;
 	}
 
-    public static class Intergrations {
-		public boolean vivecraftSupport = false;
-
-        public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
+	public static class Integrations {
+		public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
 	}
 
 	@Mod.EventBusSubscriber

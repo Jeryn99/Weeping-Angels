@@ -7,7 +7,6 @@ import net.minecraft.util.math.Vec3d;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -239,7 +238,7 @@ public class ServerReflector extends VivecraftReflector {
 
                     float worldScale = fWorldScale.getFloat(playerData);
 
-                    return new Vec3d(fPosX.getFloat(playerHMD),fPosY.getFloat(playerHMD),fPosZ.getFloat(playerHMD)).addVector(dir.x * 0.3 * worldScale,-0.4 * worldScale, dir.z * 0.3 * worldScale);
+                    return new Vec3d(fPosX.getFloat(playerHMD), fPosY.getFloat(playerHMD), fPosZ.getFloat(playerHMD)).add(dir.x * 0.3 * worldScale, -0.4 * worldScale, dir.z * 0.3 * worldScale);
                 }
                 else {
                     Object playerController = (c == 0) ? fController0.get(playerData) : fController1.get(playerData);

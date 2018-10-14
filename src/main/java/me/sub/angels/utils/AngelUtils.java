@@ -67,8 +67,7 @@ public class AngelUtils {
 
 
 	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
-
-		if (viewBlocked(livingBase, angel) || AngelUtils.isDarkForPlayer(angel, livingBase)) return false;
+		if (viewBlocked(livingBase, angel)) return false;
 
 		if (livingBase instanceof EntityPlayer) {
 			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase));
@@ -77,7 +76,7 @@ public class AngelUtils {
 	}
 	
 	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
-		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0 && !AngelUtils.handLightCheck(living);
+		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) == 0; //&& !AngelUtils.handLightCheck(living);
 	}
 	
 	public static void setupLightItems() {

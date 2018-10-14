@@ -101,13 +101,20 @@ public class EventHandler {
 	@SubscribeEvent
 	public static void cancelDamage(LivingAttackEvent e) {
 		if (!WAConfig.angels.pickaxeOnly) return;
-		
+
+
 		Entity source = e.getSource().getTrueSource();
 		if (source instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) source;
 			EntityLivingBase victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityWeepingAngel) {
+
+				if (WAConfig.angels.hardcoreMode) {
+					e.setCanceled(true);
+					return;
+				}
+
 				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 				boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe");
 				e.setCanceled(!isPic);
