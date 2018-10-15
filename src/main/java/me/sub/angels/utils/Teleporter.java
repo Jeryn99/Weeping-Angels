@@ -1,12 +1,17 @@
 package me.sub.angels.utils;
 
+import me.sub.angels.common.entities.EntityAnomaly;
 import me.sub.angels.common.entities.EntityWeepingAngel;
 import me.sub.angels.common.events.mods.EventAngelTeleport;
+import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ITeleporter;
 
@@ -59,11 +64,31 @@ public final class Teleporter {
 	}
 	
 	public static Entity move(EntityPlayer player, BlockPos pos, int dim, EntityWeepingAngel entityWeepingAngel) {
-		MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityWeepingAngel, pos, dim));
+
+		BlockPos oldPos = player.getPosition();
+
+    	MinecraftForge.EVENT_BUS.post(new EventAngelTeleport(player, entityWeepingAngel, pos, dim));
 		BlockPos newPos = getSafePos(player.world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-		return move(player, dim, newPos.getX(), newPos.getY(), newPos.getZ());
+
+		for(int i=1; i<11; i++){
+			if (isTeleportFriendlyBlock(DimensionManager.getWorld(dim), player, newPos.getX(), newPos.getZ(), newPos.getY(), i, i)) {
+				EntityAnomaly anomaly = new EntityAnomaly(entityWeepingAngel.world);
+				anomaly.setPositionAndUpdate(player.posX, player.posY, player.posZ);
+				entityWeepingAngel.world.spawnEntity(anomaly);
+				return move(player, dim, newPos.getX(), newPos.getY(), newPos.getZ());
+			}
+		}
+
+		return move(player, player.dimension, oldPos.getX(), oldPos.getY(), oldPos.getZ());
 	}
-	
+
+	public static boolean isTeleportFriendlyBlock(World targetWorld, Entity target, int x, int z, int y, int xOffset, int zOffset)
+	{
+		BlockPos blockpos = new BlockPos(x + xOffset, y - 1, z + zOffset);
+		IBlockState iblockstate = targetWorld.getBlockState(blockpos);
+		return iblockstate.getBlockFaceShape(target.world, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID && iblockstate.canEntitySpawn(target) && targetWorld.isAirBlock(blockpos.up()) && targetWorld.isAirBlock(blockpos.up(2));
+	}
+
 	private static final class WATeleport implements ITeleporter {
 		private final double x, y, z;
 		

@@ -3,6 +3,7 @@ package me.sub.angels.common.entities;
 import me.sub.angels.common.misc.WAConstants;
 import me.sub.angels.config.WAConfig;
 import me.sub.angels.utils.AngelUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,11 +20,12 @@ import java.util.List;
 
 public class EntityQuantumLockBase extends EntityMob {
 	
-	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
-	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BLOCK_POS);
-	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
-	
+	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
+	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
+	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
+
 	public EntityQuantumLockBase(World worldIn) {
 		super(worldIn);
 	}
@@ -180,5 +182,15 @@ public class EntityQuantumLockBase extends EntityMob {
 		}
 		return false;
 	}
-	
+
+	public Entity getTarget() {
+		if(getDataManager().get(TARGET) != -1){
+			return world.getEntityByID(getDataManager().get(TARGET));
+		}
+			return null;
+	}
+
+	public void setTarget(Entity entity){
+		getDataManager().set(TARGET, entity.getEntityId());
+	}
 }

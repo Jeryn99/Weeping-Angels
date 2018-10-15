@@ -136,8 +136,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (WAConfig.angels.justTeleport) {
 			if (entity instanceof EntityPlayer && !isChild()) {
 				teleportPlayer((EntityPlayer) entity);
-			} else {
-
+			}
+				} else {
 				boolean teleport = rand.nextBoolean() && !isWeak() && !isChild() && WAConfig.angels.teleportEnabled;
 				if (teleport) {
 					if (entity instanceof EntityPlayer) {
@@ -154,7 +154,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				}
 
 			}
-		}
 		return false;
 	}
 	
@@ -357,9 +356,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		
 		int dim;
 		int range = WAConfig.angels.teleportRange;
-		EntityAnomaly anomaly = new EntityAnomaly(world);
-		anomaly.setPositionAndUpdate(player.posX, player.posY, player.posZ);
-		world.spawnEntity(anomaly);
 		
 		if (WAConfig.angels.angelDimTeleport) {
 			dim = decideDimension();
@@ -386,7 +382,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 
 			for (int remove : WAConfig.angels.notAllowedDimensions) {
-				ids.remove(remove);
+				if(ids.contains(remove)) {
+					ids.remove(remove);
+				}
 			}
 
 		}
