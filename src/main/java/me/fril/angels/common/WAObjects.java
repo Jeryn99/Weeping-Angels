@@ -13,7 +13,7 @@ import me.fril.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.fril.angels.common.tileentities.TileEntityPlinth;
 import me.fril.angels.common.tileentities.TileEntitySnowArm;
 import me.fril.angels.WeepingAngels;
-import me.sub.angels.common.entities.*;
+import me.fril.angels.common.entities.*;
 import me.fril.angels.common.misc.WATabs;
 import me.fril.angels.utils.AngelUtils;
 import me.fril.angels.utils.WADamageSource;
