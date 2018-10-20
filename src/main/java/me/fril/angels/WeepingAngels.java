@@ -23,7 +23,7 @@ public class WeepingAngels {
 	@Mod.Instance(MODID)
 	public static WeepingAngels INSTANCE;
 	
-	@SidedProxy(clientSide = "ClientProxy", serverSide = "CommonProxy")
+	@SidedProxy(clientSide = "me.fril.angels.proxy.ClientProxy", serverSide = "me.fril.angels.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.EventHandler
