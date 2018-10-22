@@ -39,4 +39,9 @@ public class WorldGenStructure extends WorldGenerator implements IStructure {
             template.addBlocksToWorldChunk(world,pos,SETTINGS);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Structure : "+ structureName;
+    }
 }

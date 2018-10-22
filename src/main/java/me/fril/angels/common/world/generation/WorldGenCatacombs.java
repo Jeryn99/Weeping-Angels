@@ -15,23 +15,48 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class WorldGenCatacombs implements IWorldGenerator {
 
 	private static final String PATH_CATACOMB = "catacomb/";
+
 	public static final WorldGenStructure CATACOMB_HALLWAY_0 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_0");
+	public static final WorldGenStructure CATACOMB_HALLWAY_1 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_1");
+	public static final WorldGenStructure CATACOMB_HALLWAY_2 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_2");
+	public static final WorldGenStructure CATACOMB_HALLWAY_3 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_3");
+
+	public static final WorldGenStructure CATACOMB_HALLWAY_FLAT_1 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_flat_1");
+	public static final WorldGenStructure CATACOMB_HALLWAY_FLAT_2 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_flat_2");
+	public static final WorldGenStructure CATACOMB_HALLWAY_FLAT_3 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_flat_3");
+
+	public static final WorldGenStructure CATACOMB_HALLWAY_CLEAN_1 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_clean_1");
+	public static final WorldGenStructure CATACOMB_HALLWAY_CLEAN_2 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_clean_2");
+	public static final WorldGenStructure CATACOMB_HALLWAY_CLEAN_3 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_clean_3");
+	public static final WorldGenStructure CATACOMB_HALLWAY_CLEAN_4 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_clean_4");
+
+	public static final WorldGenStructure CATACOMB_HALLWAY_BROKEN_1 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_broken_1");
+	public static final WorldGenStructure CATACOMB_HALLWAY_BROKEN_2 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_broken_2");
+	public static final WorldGenStructure CATACOMB_HALLWAY_BROKEN_3 = new WorldGenStructure(PATH_CATACOMB + "catacomb_hallway_broken_3");
+
+
+	public static final List<WorldGenStructure> CATACOMBS = Arrays.asList(CATACOMB_HALLWAY_0,CATACOMB_HALLWAY_1,CATACOMB_HALLWAY_2,CATACOMB_HALLWAY_3, CATACOMB_HALLWAY_FLAT_1, CATACOMB_HALLWAY_FLAT_2,CATACOMB_HALLWAY_FLAT_3,CATACOMB_HALLWAY_CLEAN_1,CATACOMB_HALLWAY_CLEAN_2,CATACOMB_HALLWAY_CLEAN_3,CATACOMB_HALLWAY_CLEAN_4,CATACOMB_HALLWAY_BROKEN_1,CATACOMB_HALLWAY_BROKEN_2,CATACOMB_HALLWAY_BROKEN_3);
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimension() == 0){
-			generateStructure(CATACOMB_HALLWAY_0,world,random,chunkX,chunkZ,4);
+			WorldGenStructure theWinnerIs = CATACOMBS.get(random.nextInt(14));
+			WeepingAngels.LOGGER.info(theWinnerIs.toString());
+			generateStructure(theWinnerIs,world,random,chunkX,chunkZ,4);
 		}
 	}
 
 	private void generateStructure(WorldGenerator generator, World world, Random random, int chunkX, int chunkZ, int chance){
 		int x = chunkX * 16 + random.nextInt(15);
 		int z = chunkZ * 16 + random.nextInt(15);
+		//TODO : change 100 to a real value
 		int y = 100;
 		BlockPos pos = new BlockPos(x,y,z);
 
@@ -39,25 +64,7 @@ public class WorldGenCatacombs implements IWorldGenerator {
 			generator.generate(world,random,pos);
 		}
 	}
-/*  private static ResourceLocation partStraight = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_0");
-	private static ResourceLocation partCorner1 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_1");
-	private static ResourceLocation partTSection = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_2");
-	private static ResourceLocation partCrossSection = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_3");
-	private static ResourceLocation catacomb_hallway_flat_1 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_flat_1");
-	private static ResourceLocation catacomb_hallway_flat_2 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_flat_2");
-	private static ResourceLocation catacomb_hallway_flat_3 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_flat_3");
-
-	private static ResourceLocation catacomb_hallway_clean_1 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_clean_1");
-	private static ResourceLocation catacomb_hallway_clean_2 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_clean_2");
-	private static ResourceLocation catacomb_hallway_clean_3 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_clean_3");
-	private static ResourceLocation catacomb_hallway_clean_4 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_clean_4");
-
-	private static ResourceLocation catacomb_hallway_broken_1 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_broken_1");
-	private static ResourceLocation catacomb_hallway_broken_2 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_broken_2");
-	private static ResourceLocation catacomb_hallway_broken_3 = new ResourceLocation(WeepingAngels.MODID, "catacomb/catacomb_hallway_broken_3");
-
-
-	public static ResourceLocation[] allParts = new ResourceLocation[]{partCorner1, partStraight, partTSection, partCrossSection};
+/*	public static ResourceLocation[] allParts = new ResourceLocation[]{partCorner1, partStraight, partTSection, partCrossSection};
 
 	public static ResourceLocation[] allStraightParts = new ResourceLocation[] { catacomb_hallway_flat_1, catacomb_hallway_flat_2, catacomb_hallway_flat_3, partStraight, catacomb_hallway_clean_1, catacomb_hallway_clean_2, catacomb_hallway_clean_3, catacomb_hallway_clean_4, catacomb_hallway_broken_1, catacomb_hallway_broken_2, catacomb_hallway_broken_3 };
 
