@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "normal": {
+      "model": "weeping-angels:plinth"
+    },
+    "facing=north": {
+      "model": "weeping-angels:plinth"
+    },
+    "facing=south": {
+      "model": "weeping-angels:plinth"
+    },
+    "facing=west": {
+      "model": "weeping-angels:plinth"
+    },
+    "facing=east": {
+      "model": "weeping-angels:plinth"
+    }
+  }
+}

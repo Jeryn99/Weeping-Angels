@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "normal": {
+      "model": "weeping-angels:te_base"
+    },
+    "facing=north": {
+      "model": "weeping-angels:te_base"
+    },
+    "facing=south": {
+      "model": "weeping-angels:te_base"
+    },
+    "facing=west": {
+      "model": "weeping-angels:te_base"
+    },
+    "facing=east": {
+      "model": "weeping-angels:te_base"
+    }
+  }
+}
