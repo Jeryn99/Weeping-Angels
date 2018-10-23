@@ -33,6 +33,12 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.genCatacombs")
 		@Config.Comment("Generate catacombs?")
 		public boolean genCatacombs = false;
+
+		@Config.LangKey("config.weeping-angels.chanceGenCatacombs")
+		@Config.Comment("Chance to generate catacombs? 1 chance of ... (default :25)")
+		public int chanceCatacombs = 25;
+
+
 		
 	}
 	

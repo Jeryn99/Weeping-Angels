@@ -51,6 +51,7 @@ config.weeping-angels.min_spawn=Angel - Minimum Spawn
 config.weeping-angels.angel.block_break=Block breaking
 config.weeping-angels.blowout_torch=Blow out torch
 config.weeping-angels.genCatacombs=Gen catacombs?
+config.weeping-angels.chanceGenCatacombs=Chance to generate a catacomb
 config.weeping-angels.teleport_instant=Just teleport & No Damage?
 config.weeping-angels.spawntype=Spawn type
 config.weeping-angels.angel_speed=Angel Speed

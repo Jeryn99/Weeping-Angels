@@ -46,6 +46,7 @@ config.weeping-angels.min_spawn=Ange - Apparition minimale
 config.weeping-angels.angel.block_break=Cassage de blocs
 config.weeping-angels.blowout_torch=Eteindre les torches
 config.weeping-angels.genCatacombs=Générer des catacombes ?
+config.weeping-angels.chanceGenCatacombs=Chance de générer des catacombes
 config.weeping-angels.teleport_instant=Juste se téléporter sans damage ?
 config.weeping-angels.spawntype=Type d'apparition
 config.weeping-angels.angel_speed=Vitesse de l'ange
