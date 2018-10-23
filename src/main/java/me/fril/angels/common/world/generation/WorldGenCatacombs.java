@@ -43,10 +43,10 @@ public class WorldGenCatacombs implements IWorldGenerator {
 
 			while (random.nextInt(3) == 0) {
 				if (random.nextBoolean()){
-					x = random.nextBoolean() ? x + 7 : x - 7;
+					x = x + 7;
 				}
 				else{
-					z = random.nextBoolean() ? z + 7 : z - 7;
+					z = z + 7;
 				}
 
 				generateStructure(getRandomStructure(random), world, random, x, y, z);
