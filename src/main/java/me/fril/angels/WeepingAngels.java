@@ -14,7 +14,7 @@ public class WeepingAngels {
 	
 	public static final String MODID = "weeping-angels";
 	public static final String NAME = "Weeping Angels";
-	public static final String VERSION = "25.1";
+	public static final String VERSION = "26";
 	public static final String DEPENDENCIES = "required-after:forge@[14.23.2.2638,)";
 	public static final String VERSION_CHECK = "https://raw.githubusercontent.com/SandedShoes/Weeping-Angels-Mod/master/update.json";
 	
@@ -23,7 +23,7 @@ public class WeepingAngels {
 	@Mod.Instance(MODID)
 	public static WeepingAngels INSTANCE;
 	
-	@SidedProxy(clientSide = "ClientProxy", serverSide = "CommonProxy")
+	@SidedProxy(clientSide = "me.fril.angels.proxy.ClientProxy", serverSide = "me.fril.angels.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.EventHandler

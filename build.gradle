@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "25.1"
+version = "26"
 group = "me.sub.weeping-angels"
 archivesBaseName = "weeping-angels"
 
@@ -51,9 +51,6 @@ repositories {
 }
 
 dependencies {
-    //JEI
-    compileOnly "mezz.jei:jei_1.12.2:4.11.0.212:api"
-	runtime "mezz.jei:jei_1.12.2:4.11.0.212"
 }
 
 

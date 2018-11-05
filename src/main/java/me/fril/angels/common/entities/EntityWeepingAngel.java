@@ -10,11 +10,9 @@ import me.fril.angels.utils.Teleporter;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -57,7 +55,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super(world);
 		
 		tasks.addTask(0, new EntityAIBreakDoor(this));
-		
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
+
 		experienceValue = WAConfig.angels.xpGained;
 	}
 	
@@ -238,6 +241,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public void invokeSeen(EntityPlayer player) {
+		super.invokeSeen(player);
         if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
             if (WAConfig.angels.playSeenSounds) {
                 ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
@@ -250,12 +254,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			}
 		}
 	}
-	
-	@Override
-	protected boolean isMovementBlocked() {
-		return true;
-	}
-	
+
 	@Override
 	public void moveTowards(EntityLivingBase entity) {
 		super.moveTowards(entity);
@@ -278,6 +277,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+
+
+		if(getSeenTime() == 0){
+			setNoAI(false);
+		}
 
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.POSE_HIDING_FACE.toString());
@@ -368,7 +372,18 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		int z = rand.nextInt(range);
         Teleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
 	}
-	
+
+
+	@Override
+	public void move(MoverType type, double x, double y, double z) {
+		super.move(type, x, y, z);
+	}
+
+	@Override
+	public void travel(float strafe, float vertical, float forward) {
+		super.travel(strafe, vertical, forward);
+	}
+
 	private int decideDimension() {
 		List<Integer> ids = Lists.newArrayList(); //List to add dims to
 		DimensionType[] types = DimensionType.values(); //Get all Dimension types
