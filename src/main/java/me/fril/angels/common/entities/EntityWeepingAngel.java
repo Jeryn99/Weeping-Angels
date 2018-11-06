@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
@@ -385,26 +386,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	private int decideDimension() {
-		List<Integer> ids = Lists.newArrayList(); //List to add dims to
-		DimensionType[] types = DimensionType.values(); //Get all Dimension types
+		List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
 
-		for (DimensionType type : types) {
+        for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
+            if(ids.contains(idToRemove)) {
+                ids.remove(idToRemove);
+            }
+        }
 
-			int[] idArray = DimensionManager.getDimensions(type);
-
-			for (int id : idArray) {
-				ids.add(id);
-			}
-
-			for (int remove : WAConfig.angels.notAllowedDimensions) {
-				if(ids.contains(remove)) {
-					ids.remove(remove);
-				}
-			}
-
-		}
-
-		return ids.get(rand.nextInt(ids.size()));
+        return ids.get(rand.nextInt(ids.size()-1));
 	}
 }
 
