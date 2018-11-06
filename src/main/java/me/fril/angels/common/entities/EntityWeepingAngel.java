@@ -394,7 +394,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
             }
         }
 
-        return ids.get(rand.nextInt(ids.size()));
+        return ids.get(rand.nextInt(ids.size()-1));
 	}
 }
 
