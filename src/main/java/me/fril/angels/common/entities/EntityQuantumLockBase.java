@@ -5,7 +5,9 @@ import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -82,13 +84,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 
 	public void moveTowards(EntityLivingBase closest) {
-		if (isSeen()) return;
-		Path p = getNavigator().getPathToEntityLiving(closest);
-		if (p == null) return;
-		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
-		Vec3d vec3d = p.getCurrentPos();
-		faceEntity(closest, 10.0F, 10.0F);
-		setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
+		getNavigator().tryMoveToEntityLiving(closest, 0.5);
 	}
 
 	public void moveTowards(BlockPos pos) {
@@ -152,14 +148,9 @@ public class EntityQuantumLockBase extends EntityMob {
 	public void setQuantum(boolean locked) {
 		getDataManager().set(QUANTUM, locked);
 	}
-	
-	@Override
-	protected boolean isMovementBlocked() {
-		return false;
-	}
-	
+
 	public void invokeSeen(EntityPlayer player) {
-		
+		setNoAI(true);
 	}
 
 	private boolean quantumCheck() {
