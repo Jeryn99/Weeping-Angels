@@ -29,6 +29,8 @@ public class EntityAnomaly extends EntityLiving {
 	public void onUpdate() {
 		super.onUpdate();
 		
+		setNoAI(true);
+		
 		if (ticksExisted == 1) {
 			playSound(WAObjects.Sounds.ANGEL_TELEPORT, 1.0F, 1.0F);
 		}

@@ -56,17 +56,12 @@ public class WorldGenCatacombs implements IWorldGenerator {
 
 	private void generateStructure(WorldGenerator generator, World world, Random random, int x, int y, int z){
 		BlockPos pos = new BlockPos(x,y,z);
+		if(world.getBiome(pos).getRegistryName().toString().contains("ocean")) return;
 		generator.generate(world,random,pos);
 	}
 
 	private WorldGenStructure getRandomStructure(Random random){
 		return new WorldGenStructure(PATH_CATACOMB + structuresNames.get(random.nextInt(structuresNames.size() - 1)));
 	}
-/*	public static ResourceLocation[] allParts = new ResourceLocation[]{partCorner1, partStraight, partTSection, partCrossSection};
 
-	public static ResourceLocation[] allStraightParts = new ResourceLocation[] { catacomb_hallway_flat_1, catacomb_hallway_flat_2, catacomb_hallway_flat_3, partStraight, catacomb_hallway_clean_1, catacomb_hallway_clean_2, catacomb_hallway_clean_3, catacomb_hallway_clean_4, catacomb_hallway_broken_1, catacomb_hallway_broken_2, catacomb_hallway_broken_3 };
-
-	public static ResourceLocation getStraightPart(Random rand) {
-		return allStraightParts[rand.nextInt(allStraightParts.length)];
-	} */
 }

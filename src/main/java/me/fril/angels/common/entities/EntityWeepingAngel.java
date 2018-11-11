@@ -53,14 +53,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	public EntityWeepingAngel(World world) {
 		super(world);
-		
 		tasks.addTask(0, new EntityAIBreakDoor(this));
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
-
+		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
+		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		experienceValue = WAConfig.angels.xpGained;
 	}
 	

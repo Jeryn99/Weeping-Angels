@@ -34,11 +34,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	@Override
 	public void onLivingUpdate() {
-
-		if (!isNotColliding()) {
-            motionX = 1;
-		}
-
+		
 		if (!world.isRemote && ticksExisted % 4 == 0) {
 			setQuantum(quantumCheck());
 		}
@@ -85,15 +81,6 @@ public class EntityQuantumLockBase extends EntityMob {
 
 	public void moveTowards(EntityLivingBase closest) {
 		getNavigator().tryMoveToEntityLiving(closest, 0.5);
-	}
-
-	public void moveTowards(BlockPos pos) {
-		if (isSeen()) return;
-		Path p = getNavigator().getPathToPos(pos);
-		if (p == null) return;
-		if (p.getCurrentPathLength() > p.getCurrentPathIndex() + 1) p.incrementPathIndex();
-		Vec3d vec3d = p.getCurrentPos();
-        setLocationAndAngles(vec3d.x, vec3d.y, vec3d.z, rotationYaw, rotationPitch);
 	}
 	
 	@Override
