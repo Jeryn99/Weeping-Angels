@@ -1,18 +1,19 @@
 package me.fril.angels.common.entities;
 
-import com.google.common.collect.Lists;
-import me.fril.angels.config.WAConfig;
 import me.fril.angels.client.models.poses.PoseManager;
 import me.fril.angels.common.WAObjects;
 import me.fril.angels.common.misc.WAConstants;
+import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
 import me.fril.angels.utils.Teleporter;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.ai.EntityAIBreakDoor;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -33,13 +34,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -382,15 +378,21 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	private int decideDimension() {
-		List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
-
-        for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
-            if(ids.contains(idToRemove)) {
-                ids.remove(idToRemove);
-            }
-        }
-
-        return ids.get(rand.nextInt(ids.size()-1));
+		//List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
+//
+		//   for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
+		//      if(ids.contains(idToRemove)) {
+		//          ids.remove(idToRemove);
+		//       }
+		//   }
+		
+		//  int id = ids.get(rand.nextInt(ids.size()));
+		
+		//  if(DimensionManager.isDimensionRegistered(id)){
+		// 	return id;
+		//}
+		
+		return 0;
 	}
 }
 

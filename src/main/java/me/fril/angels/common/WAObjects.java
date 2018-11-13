@@ -1,5 +1,6 @@
 package me.fril.angels.common;
 
+import me.fril.angels.WeepingAngels;
 import me.fril.angels.common.blocks.BlockAngelStatue;
 import me.fril.angels.common.blocks.BlockChronodyneGenerator;
 import me.fril.angels.common.blocks.BlockMineable;
@@ -9,12 +10,10 @@ import me.fril.angels.common.items.ItemAngelSpawner;
 import me.fril.angels.common.items.ItemChronodyneGenerator;
 import me.fril.angels.common.items.ItemDetector;
 import me.fril.angels.common.items.ItemHanging;
+import me.fril.angels.common.misc.WATabs;
 import me.fril.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.fril.angels.common.tileentities.TileEntityPlinth;
 import me.fril.angels.common.tileentities.TileEntitySnowArm;
-import me.fril.angels.WeepingAngels;
-import me.fril.angels.common.entities.*;
-import me.fril.angels.common.misc.WATabs;
 import me.fril.angels.utils.AngelUtils;
 import me.fril.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -60,8 +59,9 @@ public class WAObjects {
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true),
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
 				setUpItem(new Item(), "kontron_ingot", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true
-				));
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true)
+				//setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3", true)
+		);
 	}
 	
 	@SubscribeEvent
