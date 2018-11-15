@@ -65,6 +65,8 @@ config.weeping-angels.ql=Angel on Angel freezing
 config.weeping-angels.pickaxe_only=Pickaxes and generators only?
 config.weeping-angels.angel_xp_value=XP gained from Angels
 config.weeping-angels.angel_damage=Damaged gained from angels
+config.weeping-angels.around_player_range=Angel target range
+config.weeping-angels.moveSpeed=Angel move Speed
 
 category.weeping-angels.angels=Angels
 category.weeping-angels.spawn=Spawn Rates

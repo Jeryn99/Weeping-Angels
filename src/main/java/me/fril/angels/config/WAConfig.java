@@ -23,7 +23,8 @@ public class WAConfig {
 
     @Config.LangKey("category.weeping-angels.mod_intergrations")
 	public static Integrations integrations = new Integrations();
-
+	
+	
 	public static class WorldGen {
 		
 		@Config.LangKey("config.weeping-angels.gen_arms")
@@ -37,9 +38,6 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.chanceGenCatacombs")
 		@Config.Comment("Chance to generate catacombs? 1 chance of ... (default :25)")
 		public int chanceCatacombs = 25;
-
-
-		
 	}
 	
 	public static class Spawn {
@@ -141,10 +139,18 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.pickaxe_only")
 		@Config.Comment("if enabled, Only pickaxes and generators will work on the angels")
 		public boolean pickaxeOnly = true;
-
+		
 		@Config.LangKey("config.weeping-angels.teleport_enabled")
 		@Config.Comment("Toggle for teleporting")
 		public boolean teleportEnabled = true;
+		
+		@Config.LangKey("config.weeping-angels.around_player_range")
+		@Config.Comment("Determines the range the angels will look for players within, personally, I'd stay under 100")
+		public int stalkRange = 65;
+		
+		@Config.LangKey("config.weeping-angels.moveSpeed")
+		@Config.Comment("Determines the angels move speed")
+		public int moveSpeed = 2;
 	}
 
 	public static class Integrations {

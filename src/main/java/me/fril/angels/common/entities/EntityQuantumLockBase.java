@@ -1,19 +1,16 @@
 package me.fril.angels.common.entities;
 
-import me.fril.angels.config.WAConfig;
 import me.fril.angels.common.misc.WAConstants;
+import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -45,7 +42,7 @@ public class EntityQuantumLockBase extends EntityMob {
 			
 			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(60));
+				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(WAConfig.angels.stalkRange));
 				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 				
 				if (players.isEmpty()) {
@@ -53,34 +50,34 @@ public class EntityQuantumLockBase extends EntityMob {
 					return;
 				}
 				
-				EntityPlayer closest = null;
+				EntityPlayer targetPlayer = null;
 				for (EntityPlayer player : players) {
 					if (AngelUtils.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
 						return;
-					} else if (closest == null) {
-						closest = player;
+					} else if (targetPlayer == null) {
+						targetPlayer = player;
 
 						setSeenTime(0);
 					}
 				}
 
 				Vec3d vecPos = getPositionVector();
-				Vec3d vecPlayerPos = closest.getPositionVector();
+				Vec3d vecPlayerPos = targetPlayer.getPositionVector();
 				float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
 				rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
                 if (isSeen()) return;
-				if (getDistance(closest) < 2)
-					attackEntityAsMob(closest);
+				if (getDistance(targetPlayer) < 2)
+					attackEntityAsMob(targetPlayer);
 				else
-					moveTowards(closest);
+					moveTowards(targetPlayer);
 			}
 		}
 	}
-
-	public void moveTowards(EntityLivingBase closest) {
-		getNavigator().tryMoveToEntityLiving(closest, 0.5);
+	
+	public void moveTowards(EntityLivingBase targetPlayer) {
+		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.angels.moveSpeed);
 	}
 	
 	@Override

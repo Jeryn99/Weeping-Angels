@@ -53,7 +53,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		tasks.addTask(0, new EntityAIBreakDoor(this));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 50.0F));
 		experienceValue = WAConfig.angels.xpGained;
 	}
 	
@@ -270,9 +270,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
-
-		if(getSeenTime() == 0){
+		
+		
+		if (getSeenTime() == 0 || world.getLight(getPosition()) == 0) {
 			setNoAI(false);
 		}
 
@@ -363,7 +363,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		ws.getMinecraftServer().getWorld(dim);
 		int x = rand.nextInt(range);
 		int z = rand.nextInt(range);
-        Teleporter.move(player, player.getPosition().add(x, ws.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - player.posY, z), dim, this);
+		Teleporter.move(player, player.getPosition().add(x, ws.provider.getAverageGroundLevel(), z), dim, this);
 	}
 
 
