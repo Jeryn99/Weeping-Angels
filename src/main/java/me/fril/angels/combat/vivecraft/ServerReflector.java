@@ -10,11 +10,20 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Bridges gap between the Vivecraft Client and Vivecraft Forge Extensions to the mod.
+ * This class specifically is meant to be used for server-side operations. Uses heavy
+ * reflection so dependancy is not required.
+ */
 public class ServerReflector extends VivecraftReflector {
 
+    // Keeps track of what part of Vivecraft is detected.
+    // 0 = Vivecraft Client/Non-VR companion
+    // 1 = Vivecraft Forge Extensions
+    // -1 = Vanilla Forge
     private int enabled = -1;
 
-    //Vivecraft Client/Non-VR
+    // *** Vivecraft Client/Non-VR Companion methods and fields ***
     private Field fVivePlayers;
 
     private Method mGetControllerDir;
@@ -23,7 +32,7 @@ public class ServerReflector extends VivecraftReflector {
     private Method mGetHMDPos;
     private Method isVR;
 
-    //Vivecraft Forge Extensions
+    // *** Vivecraft Forge Extensions methods and fields ***
     private Constructor<?> conQuaternion;
 
     private Field fHead;
@@ -46,40 +55,48 @@ public class ServerReflector extends VivecraftReflector {
 
     private Method mVecMultiply;
 
+    /**
+     * Initializes the bridge. Since reflection is used we detect if the classes/methods/fields are
+     * present, and store them for later use. Must be run once before any other function is used, likely
+     * during post-init.
+     *
+     * @return Returns true if any version of vivecraft was detected.
+     */
     @Override
     public boolean init() {
         enabled = 0;
-        WeepingAngels.LOGGER.info("Checking for Vivecraft Client...");
+        //WeepingAngels.LOGGER.info("Checking for Vivecraft...");
         try {
-            //Vivecraft Client/Non-VR
+            //Detect classes and fields from the Vivecraft Client/Non-VR Companion
             Class<?> cNetworkHelper = Class.forName("com.mtbs3d.minecrift.api.NetworkHelper");
             Class<?> cVivePlayer = Class.forName("com.mtbs3d.minecrift.api.VivePlayer");
-
+            
+            //Network Helper fields
             fVivePlayers = cNetworkHelper.getDeclaredField("vivePlayers");
 
-            //mGetVivePlayer = fVivePlayers.getType().getMethod("get",Object.class);
-            //mContainsVivePlayer = fVivePlayers.getType().getMethod("containsKey",Object.class);
-
+            //VivePlayer methods
             mGetControllerDir = cVivePlayer.getDeclaredMethod("getControllerDir",int.class);
             mGetHMDDir = cVivePlayer.getDeclaredMethod("getHMDDir");
             mGetControllerPos = cVivePlayer.getDeclaredMethod("getControllerPos",int.class);
             mGetHMDPos = cVivePlayer.getDeclaredMethod("getHMDPos");
             isVR = cVivePlayer.getMethod("isVR");
 
-            WeepingAngels.LOGGER.info("Vivecraft Client detected! Enabling compatibility features.");
+            WeepingAngels.LOGGER.info("Vivecraft Client/Non-VR Companion detected! Enabling compatibility features.");
 
         }catch (Exception e){
+            //Vivecraft client wasn't detected or required classes not available.
             enabled = -1;
         }
 
         if(enabled<0)
         {
-            //Vivecraft Forge Extensions
+            //Detect classes and fields from the Vivecraft Forge Extensions
             enabled = 1;
             try{
                 Class<?> cVRPlayerData = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData");
                 Class<?> cObjectInfo =  Class.forName("com.techjar.vivecraftforge.util.VRPlayerData$ObjectInfo");
 
+                //VRPlayerData fields
                 fHead = cVRPlayerData.getDeclaredField("head");
                 fController0 = cVRPlayerData.getDeclaredField("controller0");
                 fController1 = cVRPlayerData.getDeclaredField("controller1");
@@ -87,6 +104,7 @@ public class ServerReflector extends VivecraftReflector {
                 fSeated = cVRPlayerData.getDeclaredField("seated");
                 fWorldScale = cVRPlayerData.getDeclaredField("worldScale");
 
+                //Object Info (contains pos/rot for a single VR component) fields
                 fPosX = cObjectInfo.getDeclaredField("posX");
                 fPosY = cObjectInfo.getDeclaredField("posY");
                 fPosZ = cObjectInfo.getDeclaredField("posZ");
@@ -96,34 +114,42 @@ public class ServerReflector extends VivecraftReflector {
                 fRotZ = cObjectInfo.getDeclaredField("rotZ");
 
                 Class<?> cPlayerTracker = Class.forName("com.techjar.vivecraftforge.util.PlayerTracker");
-
+                //Player Tracker Methods
                 mGetPlayerData = cPlayerTracker.getMethod("getPlayerData", EntityPlayer.class);
                 mHasPlayerData = cPlayerTracker.getMethod("hasPlayerData",EntityPlayer.class);
 
                 Class<?> cQuaternion = Class.forName("com.techjar.vivecraftforge.util.Quaternion");
-
+                //Used to convert Quaternion to same Vec3d Vivecraft Client/Non-VR uses
                 conQuaternion = cQuaternion.getConstructor(float.class,float.class,float.class,float.class);
                 mVecMultiply = cQuaternion.getMethod("multiply", Vec3d.class);
 
                 WeepingAngels.LOGGER.info("Vivecraft Forge Extensions detected! Enabling compatability features.");
             }catch (Exception e)
             {
+                //Vivecraft Forge Extensions not detected, or incompatability with codebase.
                 enabled = -1;
             }
         }
 
-        if(enabled<0)
-            WeepingAngels.LOGGER.info("Vivecraft not detected!");
+        //if(enabled<0)
+        //    WeepingAngels.LOGGER.info("Vivecraft not detected");
 
         return enabled>=0;
     }
 
+    /**
+     * Checks to see if the player is currently using a VR headset.
+     *
+     * @param player The Player
+     * @return Returns true if the player is listed in the VR player lists.
+     */
     @Override
     public boolean isVRPlayer(EntityPlayer player) {
         if(enabled<0)return false;
         try {
             UUID uuid = player.getUniqueID();
             if(enabled==0) {
+                //Vivecraft Client/Non-VR Companion Methods
                 Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
@@ -131,22 +157,31 @@ public class ServerReflector extends VivecraftReflector {
                 }
             }
             else if(enabled==1) {
+                //Vivecraft Forge Extensions Methods
                 return (boolean)mHasPlayerData.invoke(null,player);
             }
 
         } catch (Exception e) {
+            //Something went wrong with how the methods were used. Should never be the case, BUT you never know.
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing isVRPlayer", e);
+            //Todo: Disable compat?
         }
 
         return false;
     }
 
+    /**
+     * Gets the position of the player's headset. Seems to be in world-space
+     *
+     * @param player The Player
+     * @return The position
+     */
     @Override
     public Vec3d getHMDPos(EntityPlayer player) {
         try {
             UUID uuid = player.getUniqueID();
             if(enabled==0) {
-                //Network Character - attempt to get from NetworkHelper
+                //Vivecraft Client/Non-VR Companion Methods
                 Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
@@ -155,6 +190,7 @@ public class ServerReflector extends VivecraftReflector {
             }
             else if(enabled==1)
             {
+                //Vivecraft Forge Extensions Methods
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null,player));
 
                 float X = fPosX.getFloat(playerHead);
@@ -167,15 +203,22 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDPos", e);
         }
+        //Default to player eye position.
         return player.getPositionVector().add(0, 1.62, 0);
     }
 
+    /**
+     * Gets a vector representing the direction the headset is facing. Does not include side-to-side tilts.
+     *
+     * @param player The Player
+     * @return The direction vector
+     */
     @Override
     public Vec3d getHMDRot(EntityPlayer player) {
         try {
             UUID uuid = player.getUniqueID();
             if(enabled==0) {
-                //Network Character - attempt to get from NetworkHelper
+                //Vivecraft Client/Non-VR Companion Methods
                 Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
@@ -184,8 +227,10 @@ public class ServerReflector extends VivecraftReflector {
             }
             else if(enabled==1)
             {
+                //Vivecraft Forge Extensions Methods
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null,player));
-
+                
+                //Convert Quaternion data to direction Vector
                 float W = fRotW.getFloat(playerHead);
                 float X = fRotX.getFloat(playerHead);
                 float Y = fRotY.getFloat(playerHead);
@@ -193,22 +238,32 @@ public class ServerReflector extends VivecraftReflector {
 
                 Object quaternion = conQuaternion.newInstance(W,X,Y,Z);
 
-                //mNormalize.invoke(quaternion);
-
                 return (Vec3d)mVecMultiply.invoke(quaternion,new Vec3d(0,0,-1));
             }
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDRot", e);
         }
+        //Default to playher look vec
         return player.getLookVec();
     }
 
+    /**
+     * Gets the position of one of the player's controllers. Seems to be in world-space.
+     * Auto calculates controller in seated mode as player wouldn't have tracked controllers
+     * in that case. While Vivecraft Client/Non-VR Companion does this for us, the Forge
+     * Extensions does not.
+     *
+     * @return player The player
+     * @return c 0 - Left Controller, 1 - Right Controller
+     *
+     * @return The position
+     */
     @Override
     public Vec3d getControllerPos(EntityPlayer player, int c) {
         try {
             UUID uuid = player.getUniqueID();
             if(enabled==0) {
-                //Network Character - attempt to get from NetworkHelper
+                //Vivecraft Client/Non-VR Companion Methods
                 Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
@@ -217,10 +272,12 @@ public class ServerReflector extends VivecraftReflector {
             }
             else if(enabled==1)
             {
+                //Vivecraft Forge Extensions Methods
                 Object playerData = mGetPlayerData.invoke(null,player);
 
                 if(fSeated.getBoolean(playerData))
                 {
+                    //Player is seated - calculate controller position as Vivecraft Client does.
                     Object playerHMD = fHead.get(playerData);
 
                     float Wr = fRotW.getFloat(playerHMD);
@@ -254,15 +311,27 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getControllerPos", e);
         }
+        //Default to player eye position
         return player.getPositionVector().add(0, 1.62, 0);
     }
 
+    /**
+     * Gets the direction vector of one of the player's controllers. Seems to be in world-space.
+     * Auto calculates controller in seated mode as player wouldn't have tracked controllers
+     * in that case. While Vivecraft Client/Non-VR Companion does this for us, the Forge
+     * Extensions does not.
+     *
+     * @return player The player
+     * @return c 0 - Left Controller, 1 - Right Controller
+     *
+     * @return The direction
+     */
     @Override
     public Vec3d getControllerRot(EntityPlayer player, int c) {
         try {
             UUID uuid = player.getUniqueID();
             if(enabled==0) {
-                //Network Character - attempt to get from NetworkHelper
+                //Vivecraft Client/Non-VR Companion Methods
                 Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
@@ -271,12 +340,15 @@ public class ServerReflector extends VivecraftReflector {
             }
             else if(enabled==1)
             {
+                //Vivecraft Forge Extensions Methods
                 Object playerData = mGetPlayerData.invoke(null,player);
 
+                //Default to left controller in seated mode, same as Vivecraft Client does
                 if(fSeated.getBoolean(playerData))c=0;
 
                 Object playerController = (c==0)?fController0.get(playerData):fController1.get(playerData);
 
+                //Convert Quaternion to direction vector
                 float W = fRotW.getFloat(playerController);
                 float X = fRotX.getFloat(playerController);
                 float Y = fRotY.getFloat(playerController);
@@ -289,6 +361,7 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getControllerRot", e);
         }
+        //Default to player look vector
         return player.getLookVec();
     }
 }
