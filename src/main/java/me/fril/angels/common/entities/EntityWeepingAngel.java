@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.EntityAIBreakDoor;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -36,6 +37,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -101,6 +106,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
 	}
 	
 	@Override
@@ -378,19 +385,19 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	private int decideDimension() {
-		//List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
-//
-		//   for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
-		//      if(ids.contains(idToRemove)) {
-		//          ids.remove(idToRemove);
-		//       }
-		//   }
+		List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
+
+		   for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
+		      if(ids.contains(idToRemove)) {
+		          ids.remove(Integer.valueOf(idToRemove));
+		       }
+		   }
 		
-		//  int id = ids.get(rand.nextInt(ids.size()));
+		  int id = ids.get(rand.nextInt(ids.size()));
 		
-		//  if(DimensionManager.isDimensionRegistered(id)){
-		// 	return id;
-		//}
+		  if(DimensionManager.isDimensionRegistered(id)){
+		 	return id;
+		}
 		
 		return 0;
 	}

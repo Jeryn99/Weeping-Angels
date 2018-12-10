@@ -150,7 +150,7 @@ public class WAConfig {
 		
 		@Config.LangKey("config.weeping-angels.moveSpeed")
 		@Config.Comment("Determines the angels move speed")
-		public int moveSpeed = 2;
+		public double moveSpeed = 0.5;
 	}
 
 	public static class Integrations {

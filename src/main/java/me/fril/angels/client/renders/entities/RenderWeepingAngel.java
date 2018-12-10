@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	
-	private ResourceLocation TEXTURE_FOUR = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_4.png");
+	public static ResourceLocation TEXTURE_FOUR = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_4.png");
 	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
@@ -27,7 +27,7 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	private ModelBase modelTwo = new ModelAngelEd();
 	private ModelBase modelChild = new ModelAngelChild();
 	private ModelBase modelClassic = new ModelClassicAngel();
-	private ModelBase modelblu = new ModelBluAngel();
+	private ModelBase modelMel = new ModelAngelMel();
 	
 	public RenderWeepingAngel(RenderManager manager) {
 		super(manager, new ModelAngelEd(), 0.0F);
@@ -78,7 +78,7 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 				
 				if (angel.getType() == AngelEnums.AngelType.ANGEL_FOUR.getId()) {
 					bindTexture(TEXTURE_FOUR);
-					modelblu.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				}
 			}
 		}

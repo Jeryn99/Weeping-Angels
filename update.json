@@ -1,8 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
 	"promos": {
-		"1.12.2-latest": "26",
-		"1.12.2-recommended": "26"
+		"1.12.2-latest": "30",
+		"1.12.2-recommended": "30"
 	},
 	"1.12.2": {
 		"17.5": "A server side boot crash, please report things when you find them...",
@@ -12,6 +12,7 @@
 		"21": "Quantum locking, crafting, fixes to update checker formatting, performance fixes, Kontron, New sounds",
 		"25": "Vivecraft/VR support, teleporting Suffocation bug fix, breaking blocks bug fix, Classic Angel model, performance fixes, angels move in darkness again",
 		"25.1": "Teleport bug fix",
-		"26": "Fixes to pathfinding, bet you've all been waiting for this one lol"
+		"26": "Fixes to pathfinding, bet you've all been waiting for this one lol",
+		"30": "Adds new angel, you may also need to regenerate your config to fix a speed issue. Also fixes Dim teleportation crash properly"
 	}
 }

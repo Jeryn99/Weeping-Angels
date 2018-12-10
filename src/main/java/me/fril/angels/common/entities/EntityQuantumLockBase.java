@@ -135,6 +135,9 @@ public class EntityQuantumLockBase extends EntityMob {
 
 	public void invokeSeen(EntityPlayer player) {
 		setNoAI(true);
+		getLookHelper().setLookPositionWithEntity(player, 30,30);
+		getNavigator().setPath(null, 0);
+		
 	}
 
 	private boolean quantumCheck() {
