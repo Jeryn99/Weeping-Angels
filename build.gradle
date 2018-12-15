@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "30"
+version = "31"
 group = "me.sub.weeping-angels"
 archivesBaseName = "weeping-angels"
 
@@ -30,11 +30,6 @@ minecraft {
 
 
 repositories {
-    maven {
-        name = "IC2"
-        url = "http://maven.ic2.player.to"
-    }
-
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven"

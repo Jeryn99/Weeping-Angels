@@ -143,6 +143,15 @@
 			"stream": false
 		}]
 	},
+	
+	 "angel_neck_snap": {
+		"category": "hostile",
+    "subtitle": "sound.weeping-angels.angel_neck_snap",
+		"sounds": [{
+			"name": "weeping-angels:angel_neck_snap",
+			"stream": false
+		}]
+	},
 
 	"stone_scrap": {
       "subtitle": "sound.weeping-angels.stone_scrap",

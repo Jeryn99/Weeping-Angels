@@ -40,6 +40,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
@@ -290,6 +291,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
+	public void onKillEntity(EntityLivingBase entityLivingIn) {
+		super.onKillEntity(entityLivingIn);
+		
+		if(entityLivingIn instanceof EntityPlayer){
+			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP, 1, 1);
+		}
+	}
+	
+	@Override
 	protected PathNavigate createNavigator(World worldIn) {
 		PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
 		navigator.setCanSwim(false);
@@ -341,7 +351,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 	}
 
-
 	private boolean canBreak(IBlockState blockState) {
 		for (String regName : WAConfig.angels.disAllowedBlocks) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
@@ -386,20 +395,20 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 	private int decideDimension() {
 		List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
-
-		   for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
-		      if(ids.contains(idToRemove)) {
-		          ids.remove(Integer.valueOf(idToRemove));
-		       }
-		   }
+		int id = ids.get(rand.nextInt(ids.size()));
+		  
+		for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
+			if(idToRemove == id){
+				return 0;
+			}
+		}
 		
-		  int id = ids.get(rand.nextInt(ids.size()));
-		
-		  if(DimensionManager.isDimensionRegistered(id)){
-		 	return id;
+		if(DimensionManager.isDimensionRegistered(id)){
+			return id;
 		}
 		
 		return 0;
 	}
+	
 }
 
