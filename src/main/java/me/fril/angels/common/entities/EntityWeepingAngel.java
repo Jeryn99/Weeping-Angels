@@ -409,13 +409,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
 			if(idToRemove == id){
 				return 0;
+			} else {
+				if(DimensionManager.isDimensionRegistered(id)){
+					return id;
+				}
 			}
 		}
-		
-		if(DimensionManager.isDimensionRegistered(id)){
-			return id;
-		}
-		
 		return 0;
 	}
 	
