@@ -38,6 +38,10 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.chanceGenCatacombs")
 		@Config.Comment("Chance to generate catacombs? 1 chance of ... (default :25)")
 		public int chanceCatacombs = 25;
+		
+		@Config.LangKey("config.weeping-angels.genOre")
+		@Config.Comment("Configure whether the mods ores spawn. This MAY require a restart when changed.")
+		public boolean genOres = true;
 	}
 	
 	public static class Spawn {

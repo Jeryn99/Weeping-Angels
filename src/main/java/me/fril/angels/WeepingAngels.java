@@ -1,6 +1,5 @@
 package me.fril.angels;
 
-import me.fril.angels.network.MessageSeenSound;
 import me.fril.angels.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -9,7 +8,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,9 +38,6 @@ public class WeepingAngels {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
-		
-		//Network stuff
-		//NETWORK_WRAPPER.registerMessage(MessageSeenSound.Handler.class, MessageSeenSound.class, 0, Side.CLIENT);
 	}
 	
 	@Mod.EventHandler

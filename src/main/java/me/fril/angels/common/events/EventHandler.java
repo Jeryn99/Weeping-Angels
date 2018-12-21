@@ -1,9 +1,9 @@
 package me.fril.angels.common.events;
 
-import me.fril.angels.common.entities.EntityWeepingAngel;
-import me.fril.angels.config.WAConfig;
 import me.fril.angels.WeepingAngels;
 import me.fril.angels.common.WAObjects;
+import me.fril.angels.common.entities.EntityWeepingAngel;
+import me.fril.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,6 +78,7 @@ public class EventHandler {
 			}
 		}
 		
+		if (!WAConfig.worldGen.genOres) return;
 		int blockY = rand.nextInt(64);
 		int blockX = e.getChunkPos().x * 16 + (rand.nextInt(16) + 8);
 		int blockZ = e.getChunkPos().z * 16 + (rand.nextInt(16) + 8);

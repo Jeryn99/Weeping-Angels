@@ -31,12 +31,25 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 public class AngelUtils {
 	
 	public static ArrayList<Item> lightItems = new ArrayList<Item>();
+	public static Random RANDOM = new Random();
 	
-	/*
+	/**
+	 * Returns a random between the specified values;
+	 *
+	 * @param min the minimum value of the random number
+	 * @param max the maximum value of the random number
+	 * @return the random number
+	 */
+	public static double randomBetween(final int min, final int max) {
+		return RANDOM.nextInt((max - min) + 1) + min;
+	}
+	
+	/**
 	 * Method that detects whether a tile is the the view sight of viewer
 	 * @param viewer The viewer entity
 	 * @param tile The tile being watched by viewer

@@ -1,24 +1,22 @@
 package me.fril.angels.common.entities;
 
-import me.fril.angels.WeepingAngels;
 import me.fril.angels.client.models.poses.PoseManager;
 import me.fril.angels.common.WAObjects;
 import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.config.WAConfig;
-import me.fril.angels.network.MessageSeenSound;
-import me.fril.angels.proxy.ClientProxy;
 import me.fril.angels.utils.AngelUtils;
 import me.fril.angels.utils.Teleporter;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -42,11 +40,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import org.lwjgl.Sys;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -388,33 +381,23 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		ws.getMinecraftServer().getWorld(dim);
 		int x = rand.nextInt(range);
 		int z = rand.nextInt(range);
-		Teleporter.move(player, player.getPosition().add(x, ws.provider.getAverageGroundLevel(), z), dim, this);
+		Teleporter.move(player, player.getPosition().add(x, 45, z), dim, this);
 	}
-
-
+	
 	@Override
-	public void move(MoverType type, double x, double y, double z) {
-		super.move(type, x, y, z);
+	public boolean getCanSpawnHere() {
+		return super.getCanSpawnHere() && !world.canSeeSky(this.getPosition());
 	}
-
-	@Override
-	public void travel(float strafe, float vertical, float forward) {
-		super.travel(strafe, vertical, forward);
-	}
-
+	
 	private int decideDimension() {
-		List<Integer> ids = Arrays.asList(DimensionManager.getStaticDimensionIDs());//List to add dims to
-		int id = ids.get(rand.nextInt(ids.size()));
-		  
-		for (int idToRemove : WAConfig.angels.notAllowedDimensions) {
-			if(idToRemove == id){
-				return 0;
-			} else {
-				if(DimensionManager.isDimensionRegistered(id)){
-					return id;
-				}
-			}
+		
+		Integer[] staticDims = DimensionManager.getStaticDimensionIDs();
+		int goTo = staticDims[rand.nextInt(staticDims.length)];
+		
+		if (DimensionManager.isDimensionRegistered(goTo) && goTo != 1) {
+			return goTo;
 		}
+		
 		return 0;
 	}
 	

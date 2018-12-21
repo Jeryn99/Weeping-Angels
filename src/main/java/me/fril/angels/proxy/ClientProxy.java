@@ -1,6 +1,5 @@
 package me.fril.angels.proxy;
 
-import me.fril.angels.client.SeenSoundHandler;
 import me.fril.angels.client.renders.entities.RenderAngelPainting;
 import me.fril.angels.client.renders.entities.RenderAnomaly;
 import me.fril.angels.client.renders.entities.RenderChronodyneGenerator;
@@ -20,8 +19,6 @@ import me.fril.angels.utils.RenderUtil;
 @SuppressWarnings("unused")
 public class ClientProxy extends CommonProxy {
 	
-	public static SeenSoundHandler seenSoundHandler = null;
-	
 	@Override
 	public void preInit() {
 		super.preInit();
@@ -37,7 +34,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void postInit() {
 		super.postInit();
-		seenSoundHandler = new SeenSoundHandler();
 	}
 
 	private void tileRenders() {
