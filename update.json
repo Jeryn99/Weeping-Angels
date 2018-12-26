@@ -13,6 +13,7 @@
 		"25": "Vivecraft/VR support, teleporting Suffocation bug fix, breaking blocks bug fix, Classic Angel model, performance fixes, angels move in darkness again",
 		"25.1": "Teleport bug fix",
 		"26": "Fixes to pathfinding, bet you've all been waiting for this one lol",
-		"31.5": "ACTUALLY fixes Dim teleportation crash properly"
+      "31.5": "ACTUALLY fixes Dim teleportation crash properly",
+      "32": "Better teleporting, ore toggle, Tardis mod intergration"
 	}
 }
