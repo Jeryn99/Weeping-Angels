@@ -5,7 +5,7 @@ import me.fril.angels.common.WAObjects;
 import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
-import me.fril.angels.utils.Teleporter;
+import me.fril.angels.utils.TeleporterRandom;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
@@ -112,7 +112,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-
+		
 		if (WAConfig.angels.torchBlowOut && isChild()) {
 			if (entity instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) entity;
@@ -122,7 +122,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
+	
+			if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                     ItemStack stack = player.inventory.getStackInSlot(i);
                     for (String regName : WAConstants.KEYS) {
@@ -246,9 +247,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
 			setPrevPos(getPosition());
 			if(WAConfig.angels.playSeenSounds) {
-				
-				//WeepingAngels.LOGGER.warn("sent");
-				//WeepingAngels.NETWORK_WRAPPER.sendTo(new MessageSeenSound(0), (EntityPlayerMP) player);
 				((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));	}
 			if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
 				setPose(PoseManager.getRandomPose().getRegistryName());
@@ -381,7 +379,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		ws.getMinecraftServer().getWorld(dim);
 		int x = rand.nextInt(range);
 		int z = rand.nextInt(range);
-		Teleporter.move(player, player.getPosition().add(x, 45, z), dim, this);
+		TeleporterRandom.teleportEntity(DimensionManager.getWorld(dim), player, false, 1200);
 	}
 	
 	@Override

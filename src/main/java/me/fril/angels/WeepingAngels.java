@@ -1,13 +1,13 @@
 package me.fril.angels;
 
+import me.fril.angels.combat.tardis.TardisMod;
 import me.fril.angels.proxy.CommonProxy;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,14 +25,17 @@ public class WeepingAngels {
 	@Mod.Instance(MODID)
 	public static WeepingAngels INSTANCE;
 	
-	public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-	
 	@SidedProxy(clientSide = "me.fril.angels.proxy.ClientProxy", serverSide = "me.fril.angels.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit();
+		
+		if (Loader.isModLoaded("tardis")) {
+			TardisMod.register();
+		}
+		
 	}
 	
 	@Mod.EventHandler

@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "31.5"
+version = "32"
 group = "me.sub.weeping-angels"
 archivesBaseName = "weeping-angels"
 
@@ -31,6 +31,11 @@ minecraft {
 
 repositories {
     maven {
+        name = "IC2"
+        url = "http://maven.ic2.player.to"
+    }
+
+    maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven"
     }
@@ -46,8 +51,16 @@ repositories {
 }
 
 dependencies {
-}
+    //Tardis mod stuff
+    //ic2-ex
+    compileOnly "net.industrial-craft:industrialcraft-2:2.8.98-ex112:api"
+    //runtime "net.industrial-craft:industrialcraft-2:2.8.98-ex112"
 
+    //JEI
+    compileOnly "mezz.jei:jei_1.12.2:4.11.0.212:api"
+    runtime "mezz.jei:jei_1.12.2:4.11.0.212"
+    deobfCompile 'com.github.Spectre0987:TardisMod:0.0.8-dev'
+}
 
 
 jar {

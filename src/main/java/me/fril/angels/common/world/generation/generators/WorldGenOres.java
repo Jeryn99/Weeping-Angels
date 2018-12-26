@@ -47,7 +47,7 @@ public class WorldGenOres implements IWorldGenerator {
 	
 	private void generateOre(@Nonnull final IBlockState ore, @Nonnull final World world, @Nonnull final Random random, final int x, final int z, final int minY, final int maxY, final int size, final int chances) {
 		for (int chance = 0; chance < chances; chance++) {
-			final BlockPos pos = new BlockPos(x + random.nextInt(16), minY + AngelUtils.randomBetween(minY, maxY), z + random.nextInt(16));
+			final BlockPos pos = new BlockPos(x + random.nextInt(8), minY + AngelUtils.randomBetween(minY, maxY), z + random.nextInt(8));
 			final WorldGenMinable generator = new WorldGenMinable(ore, size);
 			generator.generate(world, random, pos);
 		}
