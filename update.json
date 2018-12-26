@@ -1,8 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
 	"promos": {
-		"1.12.2-latest": "31.5",
-		"1.12.2-recommended": "31.5"
+      "1.12.2-latest": "32",
+      "1.12.2-recommended": "32"
 	},
 	"1.12.2": {
 		"17.5": "A server side boot crash, please report things when you find them...",
