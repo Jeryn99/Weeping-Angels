@@ -65,7 +65,7 @@ public class ServerReflector extends VivecraftReflector {
     @Override
     public boolean init() {
         enabled = 0;
-        //WeepingAngels.LOGGER.info("Checking for Vivecraft...");
+        WeepingAngels.LOGGER.info("Checking for Vivecraft...");
         try {
             //Detect classes and fields from the Vivecraft Client/Non-VR Companion
             Class<?> cNetworkHelper = Class.forName("com.mtbs3d.minecrift.api.NetworkHelper");
@@ -84,8 +84,10 @@ public class ServerReflector extends VivecraftReflector {
             WeepingAngels.LOGGER.info("Vivecraft Client/Non-VR Companion detected! Enabling compatibility features.");
 
         }catch (Exception e){
+            WeepingAngels.LOGGER.info("Vivecraft Client/Non-VR Companion was not detected! We will not be enabling compatibility features.");
             //Vivecraft client wasn't detected or required classes not available.
             enabled = -1;
+            
         }
 
         if(enabled<0)

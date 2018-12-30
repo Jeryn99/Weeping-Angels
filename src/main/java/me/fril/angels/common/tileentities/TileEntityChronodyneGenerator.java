@@ -15,19 +15,20 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 	public void update() {
 		
 		if (!world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
-			
-			for (EntityWeepingAngel angel : world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos()))) {
+			world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos())).forEach(entityWeepingAngel -> {
 				if (world.isRemote) {
-                    world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPos().getX(), getPos().getY(), getPos().getZ(), 1.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPos().getX(), getPos().getY(), getPos().getZ(), 1.0D, 0.0D, 0.0D);
 				} else {
 					EntityAnomaly a = new EntityAnomaly(world);
 					a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 					world.spawnEntity(a);
 				}
-				angel.setDead();
-			}
+				entityWeepingAngel.dropStuff();
+				entityWeepingAngel.setDead();
+				world.setBlockToAir(getPos());
+			});
 			
-			world.setBlockToAir(getPos());
+			
 		}
 	}
 	

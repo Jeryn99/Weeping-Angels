@@ -142,7 +142,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				teleportPlayer((EntityPlayer) entity);
 			}
 				} else {
-				boolean teleport = rand.nextBoolean() && !isWeak() && !isChild() && WAConfig.angels.teleportEnabled;
+				boolean teleport = rand.nextBoolean() && rand.nextInt(10) < 5 && !isWeak() && !isChild() && WAConfig.angels.teleportEnabled;
 				if (teleport) {
 					if (entity instanceof EntityPlayer) {
 						teleportPlayer((EntityPlayer) entity);
@@ -399,5 +399,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		return 0;
 	}
 	
+	public void dropStuff() {
+		dropFewItems(true, 4);
+	}
 }
 

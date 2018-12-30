@@ -64,4 +64,9 @@ public class BlockChronodyneGenerator extends Block {
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityChronodyneGenerator();
 	}
+	
+	@Override
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+		return true;
+	}
 }

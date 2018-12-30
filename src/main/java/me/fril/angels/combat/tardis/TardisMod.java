@@ -1,14 +1,17 @@
 package me.fril.angels.combat.tardis;
 
+import me.fril.angels.WeepingAngels;
 import me.fril.angels.common.entities.EntityWeepingAngel;
 import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.Teleporter;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.tardis.mod.common.dimensions.TDimensions;
 import net.tardis.mod.common.dimensions.WorldProviderTardis;
@@ -20,6 +23,7 @@ import net.tardis.mod.network.packets.MessageDoorOpen;
 public class TardisMod {
 	
 	public static void register() {
+		WeepingAngels.LOGGER.info("Tardis Mod Detected, registering compatibility events");
 		MinecraftForge.EVENT_BUS.register(new TardisMod());
 	}
 	
@@ -39,18 +43,21 @@ public class TardisMod {
 			TileEntityTardis tardis = (TileEntityTardis) tileEntity;
 			
 			if (weepingAngel.ticksExisted % 200 == 0) {
-				tardis.fuel = tardis.fuel - 1;
-				weepingAngel.heal(1);
+				if(tardis.fuel > 0.0F) {
+					tardis.setFuel(tardis.fuel - tardis.calcFuelUse() * 4F);
+					weepingAngel.heal(1);
+					return;
+				}
 			}
 		}
+		
 		
 		//Navigate to Tardis Exterior
 		if (tileEntity instanceof TileEntityDoor) {
 			TileEntityDoor door = (TileEntityDoor) tileEntity;
 			weepingAngel.getNavigator().tryMoveToXYZ(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ(), WAConfig.angels.moveSpeed);
-			
-			if (weepingAngel.getDistanceSq(tileEntity.getPos()) < 1) {
-				if (!weepingAngel.getHeldItemMainhand().isEmpty()) {
+			if (weepingAngel.getDistanceSq(tileEntity.getPos()) < 5) {
+				if (!weepingAngel.getHeldItemMainhand().isEmpty() || !door.isLocked) {
 					door.isLocked = false;
 					door.markDirty();
 					NetworkHandler.NETWORK.sendToDimension(new MessageDoorOpen(door.getPos(), door), door.getWorld().provider.getDimension());
@@ -59,9 +66,22 @@ public class TardisMod {
 					
 					try {
 						TileEntityTardis tile = ((TileEntityTardis) DimensionManager.getWorld(TDimensions.TARDIS_ID).getTileEntity(door.getConsolePos()));
-						tile.setTargetDimension(DimensionManager.getStaticDimensionIDs()[weepingAngel.world.rand.nextInt(DimensionManager.getStaticDimensionIDs().length)]);
-						tile.travel();
+						
+						WorldServer ws = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(tile.dimension);
+						if(ws != null) {
+							int size = ws.getWorldBorder().getSize();
+							tile.setDesination(new BlockPos(tile.getWorld().rand.nextInt(size) - size / 2, 64, tile.getWorld().rand.nextInt(size) - size / 2), tile.getTargetDim());
+						}
+						
+						if (!tile.isInFlight()) {
+							tile.startFlight();
+							tile.getDoor().setOpen(false);
+							door.isLocked = true;
+							tile.markDirty();
+							door.markDirty();
+						}
 					} catch (Exception exc) {
+						WeepingAngels.LOGGER.error("Something went wrong while a Angel entered the tardis", exc);
 					}
 					
 				}

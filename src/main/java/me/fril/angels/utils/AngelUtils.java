@@ -35,7 +35,7 @@ import java.util.Random;
 
 public class AngelUtils {
 	
-	public static ArrayList<Item> lightItems = new ArrayList<Item>();
+	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	public static Random RANDOM = new Random();
 	
 	/**
@@ -93,14 +93,12 @@ public class AngelUtils {
 	}
 	
 	public static void setupLightItems() {
-		for (Block block : ForgeRegistries.BLOCKS.getValuesCollection()) {
-			
+		ForgeRegistries.BLOCKS.getValuesCollection().forEach(block -> {
 			if (AngelUtils.getLightValue(block) > 7) {
-				lightItems.add(Item.getItemFromBlock(block));
+				LIGHT_ITEMS.add(Item.getItemFromBlock(block));
 			}
-			
-			lightItems.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
-		}
+		});
+			LIGHT_ITEMS.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
 	}
 
 
@@ -129,7 +127,7 @@ public class AngelUtils {
 	}
 	
 	public static boolean handLightCheck(EntityLivingBase player) {
-		for (Item item : lightItems) {
+		for (Item item : LIGHT_ITEMS) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
 				return true;
 			}
@@ -140,21 +138,21 @@ public class AngelUtils {
 	// Spawn Set up
 	public static void setUpSpawns() {
 		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
-		ArrayList<Biome> spawn = Lists.newArrayList();
-		spawn.addAll(biomes);
+		ArrayList<Biome> SPAWNS = Lists.newArrayList();
+		SPAWNS.addAll(biomes);
 		
 		for (String rs : WAConfig.spawn.notAllowedBiomes) {
 			if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
 				Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
-				spawn.remove(removedBiome);
+				SPAWNS.remove(removedBiome);
 			}
 		}
 		
-		for (Biome biome : spawn) {
+		SPAWNS.forEach(biome -> {
 			if (biome != null) {
 				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
 			}
-		}
+		});
 	}
 	
 	public static int secondsToTicks(int seconds) {
@@ -187,7 +185,7 @@ public class AngelUtils {
 			return true;
 		}
 		
-		if (lightItems.contains(stack.getItem())) {
+		if (LIGHT_ITEMS.contains(stack.getItem())) {
 			if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH)) return false;
 			stack.shrink(1);
 			angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
@@ -205,7 +203,7 @@ public class AngelUtils {
 			if(entity instanceof EntityPlayer) {
 				vecLook = CommonProxy.reflector.getHMDRot((EntityPlayer) entity);
 			} else {
-				throw new RuntimeException("yo dawg, only players can use vr");
+				throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getEntityData());
 			}
 		} else {
 			vecLook = entity.getLookVec();
@@ -218,10 +216,10 @@ public class AngelUtils {
 
 	
 	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
-		AxisAlignedBB viewerEntityBoundingBox = viewer.getEntityBoundingBox();
-		AxisAlignedBB angelEntityBoundingBox = angel.getEntityBoundingBox();
-		Vec3d[] viewerPoints = { new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.minX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.minZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.maxY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.maxZ), new Vec3d(viewerEntityBoundingBox.maxX, viewerEntityBoundingBox.minY, viewerEntityBoundingBox.minZ), };
-		Vec3d[] angelPoints = { new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.minX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.minZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.maxY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.maxZ), new Vec3d(angelEntityBoundingBox.maxX, angelEntityBoundingBox.minY, angelEntityBoundingBox.minZ), };
+		AxisAlignedBB viewerBoundBox = viewer.getEntityBoundingBox();
+		AxisAlignedBB angelBoundingBox = angel.getEntityBoundingBox();
+		Vec3d[] viewerPoints = { new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ), };
+		Vec3d[] angelPoints = { new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ), };
 		
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
@@ -235,15 +233,14 @@ public class AngelUtils {
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
 
-			for (EntityPlayer player : entity.world.playerEntities) {
+			entity.world.playerEntities.forEach(player -> {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					if (playerMP.getDistanceSq(pos) < 45) {
 						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
 					}
 				}
+			});
 			}
 		}
-	}
-	
 }

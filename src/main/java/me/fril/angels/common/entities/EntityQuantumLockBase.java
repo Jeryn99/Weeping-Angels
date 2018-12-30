@@ -23,7 +23,6 @@ public class EntityQuantumLockBase extends EntityMob {
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
 	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
 
 	public EntityQuantumLockBase(World worldIn) {
 		super(worldIn);
@@ -160,15 +159,5 @@ public class EntityQuantumLockBase extends EntityMob {
 		}
 		return false;
 	}
-
-	public Entity getTarget() {
-		if(getDataManager().get(TARGET) != -1){
-			return world.getEntityByID(getDataManager().get(TARGET));
-		}
-			return null;
-	}
-
-	public void setTarget(Entity entity){
-		getDataManager().set(TARGET, entity.getEntityId());
-	}
+	
 }
