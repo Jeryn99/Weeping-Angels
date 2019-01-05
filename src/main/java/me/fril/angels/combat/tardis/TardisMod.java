@@ -45,6 +45,7 @@ public class TardisMod {
 			if (weepingAngel.ticksExisted % 200 == 0) {
 				if(tardis.fuel > 0.0F) {
 					tardis.setFuel(tardis.fuel - tardis.calcFuelUse() * 4F);
+					tardis.markDirty();
 					weepingAngel.heal(1);
 					return;
 				}
@@ -70,7 +71,7 @@ public class TardisMod {
 						WorldServer ws = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(tile.dimension);
 						if(ws != null) {
 							int size = ws.getWorldBorder().getSize();
-							tile.setDesination(new BlockPos(tile.getWorld().rand.nextInt(size) - size / 2, 64, tile.getWorld().rand.nextInt(size) - size / 2), tile.getTargetDim());
+							tile.setDesination(new BlockPos(tile.getWorld().rand.nextInt(size) - size / 4, 64, tile.getWorld().rand.nextInt(size) - size / 4), tile.getTargetDim());
 						}
 						
 						if (!tile.isInFlight()) {

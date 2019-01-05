@@ -31,7 +31,7 @@ public class WorldGenOres implements IWorldGenerator {
 			case NETHER:
 				break;
 			case OVERWORLD:
-				this.generateOverworld(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
+				this.genOverworld(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 				break;
 			case THE_END:
 				break;
@@ -40,8 +40,8 @@ public class WorldGenOres implements IWorldGenerator {
 			
 		}
 	}
-	
-	private void generateOverworld(@Nonnull final Random random, final int chunkX, final int chunkZ, @Nonnull final World world, @Nonnull final IChunkGenerator chunkGenerator, @Nonnull final IChunkProvider chunkProvider) {
+
+	private void genOverworld(@Nonnull final Random random, final int chunkX, final int chunkZ, @Nonnull final World world, @Nonnull final IChunkGenerator chunkGenerator, @Nonnull final IChunkProvider chunkProvider) {
 		this.generateOre(WAObjects.Blocks.KONTRON_ORE.getDefaultState(), world, random, chunkX << 4, chunkZ << 4, OVERWORLD_MIN_Y, OVERWORLD_MAX_Y, OVERWORLD_SIZE, OVERWORLD_CHANCE);
 	}
 	

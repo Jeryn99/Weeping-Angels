@@ -1,6 +1,7 @@
 package me.fril.angels.config;
 
 import me.fril.angels.WeepingAngels;
+import me.fril.angels.utils.EnumTeleportType;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
@@ -23,7 +24,8 @@ public class WAConfig {
 
     @Config.LangKey("category.weeping-angels.mod_intergrations")
 	public static Integrations integrations = new Integrations();
-	
+
+	public static Teleport teleport = new Teleport();
 	
 	public static class WorldGen {
 		
@@ -100,19 +102,7 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.angel_xp_value")
 		@Config.Comment("XP gained from angels")
 		public int xpGained = 25;
-		
-		@Config.LangKey("config.weeping-angels.teleport_instant")
-		@Config.Comment("just teleport. no damage.")
-		public boolean justTeleport = false;
-		
-		@Config.LangKey("config.weeping-angels.teleportRange")
-		@Config.Comment("The maximum range a user can be teleported by the Angels")
-		public int teleportRange = 450;
-		
-		@Config.LangKey("config.weeping-angels.angeldimteleport")
-		@Config.Comment("If this is enabled, angel teleporting can also tp the player to other dimensions")
-		public boolean angelDimTeleport = true;
-		
+
 		@Config.LangKey("config.weeping-angels.angel.block_break")
 		@Config.Comment("If this is enabled, angels will break blocks (If gamerules allow)")
 		public boolean blockBreaking = true;
@@ -131,11 +121,7 @@ public class WAConfig {
 		
 		@Config.LangKey("config.weeping-angels.disallowed_blocks")
 		public String[] disAllowedBlocks = {Blocks.AIR.getRegistryName().toString(), "thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"};
-		
-		@Config.LangKey("config.weeping-angels.disallowed_dimensions")
-		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
-		public int[] notAllowedDimensions = { 1 };
-		
+
 		@Config.LangKey("config.weeping-angels.ql")
 		@Config.Comment("if enabled, angels will freeze when they see one another.")
 		public boolean freezeOnAngel = false;
@@ -143,22 +129,41 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.pickaxe_only")
 		@Config.Comment("if enabled, Only pickaxes and generators will work on the angels")
 		public boolean pickaxeOnly = true;
-		
-		@Config.LangKey("config.weeping-angels.teleport_enabled")
-		@Config.Comment("Toggle for teleporting")
-		public boolean teleportEnabled = true;
-		
+
 		@Config.LangKey("config.weeping-angels.around_player_range")
 		@Config.Comment("Determines the range the angels will look for players within, personally, I'd stay under 100")
 		public int stalkRange = 65;
 		
 		@Config.LangKey("config.weeping-angels.moveSpeed")
 		@Config.Comment("Determines the angels move speed")
-		public double moveSpeed = 0.5;
+		public double moveSpeed = 1.5;
 	}
 
 	public static class Integrations {
 		public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
+	}
+
+	public static class Teleport {
+
+		@Config.LangKey("config.weeping-angels.teleport_enabled")
+		@Config.Comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES")
+		public EnumTeleportType teleportType = EnumTeleportType.RANDOM_PLACE;
+
+		@Config.LangKey("config.weeping-angels.disallowed_dimensions")
+		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")
+		public int[] notAllowedDimensions = {1};
+
+		@Config.LangKey("config.weeping-angels.teleport_instant")
+		@Config.Comment("just teleport. no damage.")
+		public boolean justTeleport = false;
+
+		@Config.LangKey("config.weeping-angels.teleportRange")
+		@Config.Comment("The maximum range a user can be teleported by the Angels")
+		public int teleportRange = 450;
+
+		@Config.LangKey("config.weeping-angels.angeldimteleport")
+		@Config.Comment("If this is enabled, angel teleporting can also tp the player to other dimensions")
+		public boolean angelDimTeleport = true;
 	}
 
 	@Mod.EventBusSubscriber

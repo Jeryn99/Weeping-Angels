@@ -5,6 +5,7 @@ import me.fril.angels.common.WAObjects;
 import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
+import me.fril.angels.utils.EnumTeleportType;
 import me.fril.angels.utils.TeleporterRandom;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
@@ -137,12 +138,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
             }
         }
 
-		if (WAConfig.angels.justTeleport) {
+		if (WAConfig.teleport.justTeleport) {
 			if (entity instanceof EntityPlayer && !isChild()) {
 				teleportPlayer((EntityPlayer) entity);
 			}
 				} else {
-				boolean teleport = rand.nextBoolean() && rand.nextInt(10) < 5 && !isWeak() && !isChild() && WAConfig.angels.teleportEnabled;
+			boolean teleport = rand.nextBoolean() && rand.nextInt(10) < 5 && !isWeak() && !isChild() && WAConfig.teleport.teleportType != EnumTeleportType.DONT;
 				if (teleport) {
 					if (entity instanceof EntityPlayer) {
 						teleportPlayer((EntityPlayer) entity);
@@ -368,34 +369,39 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (world.isRemote) return;
 		
 		int dim;
-		int range = WAConfig.angels.teleportRange;
-		
-		if (WAConfig.angels.angelDimTeleport) {
+		if (WAConfig.teleport.angelDimTeleport) {
 			dim = decideDimension();
 		} else {
 			dim = dimension;
 		}
 		WorldServer ws = (WorldServer) world;
 		ws.getMinecraftServer().getWorld(dim);
-		int x = rand.nextInt(range);
-		int z = rand.nextInt(range);
-		TeleporterRandom.teleportEntity(DimensionManager.getWorld(dim), player, false, 1200);
-	}
-	
-	@Override
-	public boolean getCanSpawnHere() {
-		return super.getCanSpawnHere() && !world.canSeeSky(this.getPosition());
+
+		EnumTeleportType type = WAConfig.teleport.teleportType;
+
+		switch (type) {
+			case DONT:
+				break;
+			case STRUCTURES:
+				TeleporterRandom.handleStructures(player);
+				break;
+			case RANDOM_PLACE:
+				TeleporterRandom.teleportEntity(DimensionManager.getWorld(dim), player, WAConfig.teleport.teleportRange);
+				break;
+		}
 	}
 	
 	private int decideDimension() {
-		
 		Integer[] staticDims = DimensionManager.getStaticDimensionIDs();
 		int goTo = staticDims[rand.nextInt(staticDims.length)];
-		
 		if (DimensionManager.isDimensionRegistered(goTo) && goTo != 1) {
+			for (int id : WAConfig.teleport.notAllowedDimensions) {
+				if (id == goTo) {
+					return 0;
+				}
+			}
 			return goTo;
 		}
-		
 		return 0;
 	}
 	

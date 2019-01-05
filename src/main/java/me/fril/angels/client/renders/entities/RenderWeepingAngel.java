@@ -3,7 +3,6 @@ package me.fril.angels.client.renders.entities;
 import me.fril.angels.WeepingAngels;
 import me.fril.angels.client.models.entity.*;
 import me.fril.angels.client.renders.entities.layers.LayerCrack;
-import me.fril.angels.common.entities.AngelEnums;
 import me.fril.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
@@ -51,44 +50,35 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	 */
 	@Override
 	protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+		if (angel.isDead) return;
+
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
-		
-		if (angel.getHealth() > 0.0F) {
-			
-			if (angel.isChild()) {
+
+		switch (angel.getType()) {
+			case -1:
 				bindTexture(TEXTURE_CHILD);
 				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-			} else {
-				
-				if (angel.getType() == AngelEnums.AngelType.ANGEL_ONE.getId()) {
-					bindTexture(TEXTURE_ONE);
-					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				}
-				
-				if (angel.getType() == AngelEnums.AngelType.ANGEL_TWO.getId()) {
-					bindTexture(TEXTURE_TWO);
-					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				}
-				
-				if (angel.getType() == AngelEnums.AngelType.ANGEL_THREE.getId()) {
-					bindTexture(TEXTURE_CLASSIC);
-					modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				}
-				
-				if (angel.getType() == AngelEnums.AngelType.ANGEL_FOUR.getId()) {
-					bindTexture(TEXTURE_FOUR);
-					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				}
-			}
+				break;
+			case 0:
+				bindTexture(TEXTURE_ONE);
+				modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				break;
+			case 1:
+				bindTexture(TEXTURE_TWO);
+				modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				break;
+			case 2:
+				bindTexture(TEXTURE_CLASSIC);
+				modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				break;
+			case 3:
+				bindTexture(TEXTURE_FOUR);
+				modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+				break;
 		}
-		
+
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
-	}
-
-	@Override
-	public void doRender(EntityWeepingAngel entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 }

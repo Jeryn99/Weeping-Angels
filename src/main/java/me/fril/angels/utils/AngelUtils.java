@@ -34,7 +34,11 @@ import java.util.Collection;
 import java.util.Random;
 
 public class AngelUtils {
-	
+
+	public static String[] endStructures = new String[]{"EndCity",};
+	public static String[] overworldStructures = new String[]{"Stronghold", "Monument", "Village", "Mansion", "Temple", "Mineshaft"};
+	public static String[] netherStructures = new String[]{"Fortress"};
+
 	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	public static Random RANDOM = new Random();
 	
