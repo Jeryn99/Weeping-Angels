@@ -10,7 +10,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = WeepingAngels.MODID)
+@Config(modid = WeepingAngels.MODID, name = "Weeping Angels")
 public class WAConfig {
 	
 	@Config.LangKey("category.weeping-angels.angels")
