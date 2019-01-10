@@ -1,11 +1,10 @@
 package me.fril.angels.client.events;
 
+import me.fril.angels.WeepingAngels;
 import me.fril.angels.client.models.item.ModelDetector;
 import me.fril.angels.client.renders.items.RenderItemStackBase;
 import me.fril.angels.common.WAObjects;
-import me.fril.angels.WeepingAngels;
 import me.fril.angels.utils.RenderUtil;
-import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,9 +18,8 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent ev) {
-		for (Item item : WAObjects.ITEMS) {
-			RenderUtil.setItemRender(item);
-		}
+		WAObjects.ITEMS.forEach(RenderUtil::setItemRender);
+
 		WAObjects.ITEMS = new ArrayList<>();
 		RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
 	}

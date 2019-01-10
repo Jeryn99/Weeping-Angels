@@ -116,7 +116,7 @@ public class WAConfig {
 		public boolean chickenGoboom = true;
 		
 		@Config.LangKey("config.weeping-angels.blowout_torch")
-		@Config.Comment("If this is enabled, baby angels will blow out torches")
+        @Config.Comment("If this is enabled, baby angels will blow out light items from the players hand")
 		public boolean torchBlowOut = true;
 		
 		@Config.LangKey("config.weeping-angels.disallowed_blocks")

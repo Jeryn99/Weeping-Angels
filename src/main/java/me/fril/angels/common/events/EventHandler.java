@@ -30,6 +30,7 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -157,6 +158,16 @@ public class EventHandler {
 				if (i == e.getWorld().provider.getDimension()) {
 					e.setResult(Event.Result.DEFAULT);
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onMissingMappingItem(RegistryEvent.MissingMappings<Item> e) {
+		for (RegistryEvent.MissingMappings.Mapping<Item> map : e.getAllMappings()) {
+			if (map.key.toString().equals("weeping-angels:unlit_torch")) {
+				WeepingAngels.LOGGER.warn("This world contains a removed item, removing: " + map.key);
+				map.ignore();
 			}
 		}
 	}

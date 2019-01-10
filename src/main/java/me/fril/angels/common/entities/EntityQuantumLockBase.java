@@ -3,7 +3,7 @@ package me.fril.angels.common.entities;
 import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
-import net.minecraft.entity.Entity;
+import me.fril.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,7 +51,7 @@ public class EntityQuantumLockBase extends EntityMob {
 				
 				EntityPlayer targetPlayer = null;
 				for (EntityPlayer player : players) {
-					if (AngelUtils.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
+                    if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
 						return;
@@ -149,7 +149,7 @@ public class EntityQuantumLockBase extends EntityMob {
 			} else {
 				for (EntityQuantumLockBase base : quantumLockBases) {
                     if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
-                        if (AngelUtils.canSee(base, this)) return true;
+                        if (ViewUtil.canEntitySee(base, this)) return true;
 					}
 				}
 			}

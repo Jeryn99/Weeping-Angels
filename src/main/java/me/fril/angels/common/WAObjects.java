@@ -52,7 +52,6 @@ public class WAObjects {
 		registerItems(reg, WATabs.MAIN_TAB, ITEM_BLOCKS.toArray(new Item[ITEM_BLOCKS.size()]));
 		reg.registerAll(
 				setUpItem(new ItemHanging(), "angel_painting", true),
-				setUpItem(new Item(), "unlit_torch", false),
 				setUpItem(new ItemDetector(), "timey_wimey_detector", true),
 				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true),
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true),
@@ -143,7 +142,6 @@ public class WAObjects {
 	@GameRegistry.ObjectHolder(WeepingAngels.MODID)
 	public static class Items {
 		public static final Item ANGEL_PAINTING = null;
-		public static final Item UNLIT_TORCH = null;
 		public static final Item TIMEY_WIMEY_DETECTOR = null;
 		public static final Item CHRONODYNE_GENERATOR = null;
 		public static final Item ANGEL_0 = null;

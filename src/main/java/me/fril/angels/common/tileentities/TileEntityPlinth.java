@@ -1,7 +1,7 @@
 package me.fril.angels.common.tileentities;
 
-import me.fril.angels.common.entities.AngelEnums;
 import me.fril.angels.client.models.poses.PoseManager;
+import me.fril.angels.common.entities.AngelEnums;
 import me.fril.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityPlinth extends TileEntity implements ITickable {
 	
 	private boolean hasSpawned = false;
-	private int rotation;
+	private int rotation = 0;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
 	
 	public boolean getHasSpawned() {

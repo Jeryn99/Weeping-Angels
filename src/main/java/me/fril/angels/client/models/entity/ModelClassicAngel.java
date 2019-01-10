@@ -1,7 +1,7 @@
 package me.fril.angels.client.models.entity;
 
-import me.fril.angels.common.entities.EntityWeepingAngel;
 import me.fril.angels.client.models.poses.PoseManager;
+import me.fril.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ public class ModelClassicAngel extends ModelBiped {
 	private ModelRenderer leftarm;
 	private ModelRenderer rightleg;
 	private ModelRenderer leftleg;
-	private float angleX;
+	private float angleX = 0.3622F;
 	private float angleY;
 	private float angleZ;
 	
@@ -149,7 +149,7 @@ public class ModelClassicAngel extends ModelBiped {
 	
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		setRotationAngles(entity, f, f1, f2, f3, f4, f5);
+		setRotationAngles(entity);
 		leftfoot.render(f5);
 		rightfoot.render(f5);
 		leftwing1.render(f5);
@@ -167,13 +167,16 @@ public class ModelClassicAngel extends ModelBiped {
 		rightleg.render(f5);
 		leftleg.render(f5);
 	}
-	
-	public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+
+	public void setRotationAngles(Entity entity) {
 		if (entity instanceof EntityWeepingAngel) {
 			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
-			
+
+			angleX = toRadians(10F);
+			angleY = toRadians(30F);
+			angleZ = toRadians(5F);
+
 			if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
-				System.out.println("hiding angeryeyrye");
 				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
 				rightarm.rotateAngleZ = 0.0F;
 				leftarm.rotateAngleZ = 0.0F;
@@ -181,10 +184,13 @@ public class ModelClassicAngel extends ModelBiped {
 				leftarm.rotateAngleY = 0.1F - f6 * 0.6F;
 				rightarm.rotateAngleX = -1.570796F;
 				leftarm.rotateAngleX = -1.570796F;
+
+				angleX = toRadians(20F);
+				angleY = toRadians(60F);
+				angleZ = toRadians(5F);
 			}
 			
 			if (angel.getPose().equals(PoseManager.POSE_HIDING_FACE.getRegistryName())) {
-				System.out.println("hiding");
 				rightarm.rotateAngleX = -1.04533F;
 				rightarm.rotateAngleY = -0.55851F;
 				rightarm.rotateAngleZ = 0.0F;

@@ -1,20 +1,10 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
 	"promos": {
-      "1.12.2-latest": "32",
-      "1.12.2-recommended": "32"
+		"1.12.2-latest": "33",
+		"1.12.2-recommended": "33"
 	},
 	"1.12.2": {
-		"17.5": "A server side boot crash, please report things when you find them...",
-		"18": "FMLCommonHandler crash fix.",
-		"18.5": "Angel on Angel Quantum locking (Must be enabled in config), support for pickaxes from other mods, removed pose per situation stuff",
-		"19.1": "Removed a feature that lags out servers heavily.",
-		"21": "Quantum locking, crafting, fixes to update checker formatting, performance fixes, Kontron, New sounds",
-		"25": "Vivecraft/VR support, teleporting Suffocation bug fix, breaking blocks bug fix, Classic Angel model, performance fixes, angels move in darkness again",
-		"25.1": "Teleport bug fix",
-		"26": "Fixes to pathfinding, bet you've all been waiting for this one lol",
-      "31.5": "ACTUALLY fixes Dim teleportation crash properly",
-		"32": "Better teleporting, ore toggle, Tardis mod intergration",
-		"32.5": "Teleporter Enums, brightness fixes, config name change"
+		"33": "Teleporting is now 98% safer, I promise || Code has been optimised majorly for performance || Removed Redundant unlit Torch || A_Dizzle model rotations fixed"
 	}
 }

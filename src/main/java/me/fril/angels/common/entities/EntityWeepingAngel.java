@@ -6,7 +6,7 @@ import me.fril.angels.common.misc.WAConstants;
 import me.fril.angels.config.WAConfig;
 import me.fril.angels.utils.AngelUtils;
 import me.fril.angels.utils.EnumTeleportType;
-import me.fril.angels.utils.TeleporterRandom;
+import me.fril.angels.utils.Teleporter;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
@@ -39,8 +39,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -67,7 +65,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	protected void entityInit() {
 		super.entityInit();
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
-		getDataManager().register(TYPE, getRandomType());
+		getDataManager().register(TYPE, AngelUtils.randomType().getId());
 		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
@@ -90,7 +88,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	protected SoundEvent getAmbientSound() {
-		if (isChild() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {
+		if (isCherub() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {
 			return CHILD_SOUNDS[rand.nextInt(CHILD_SOUNDS.length)];
 		}
 		return null;
@@ -98,7 +96,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public float getEyeHeight() {
-        return isChild() ? height : 1.3F;
+		return isCherub() ? height : 1.3F;
 	}
 	
 	@Override
@@ -113,107 +111,79 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		
-		if (WAConfig.angels.torchBlowOut && isChild()) {
-			if (entity instanceof EntityPlayerMP) {
-				EntityPlayerMP player = (EntityPlayerMP) entity;
-				AngelUtils.removeLightFromHand(player, this);
-			}
-		}
 
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-	
+		if (entity instanceof EntityPlayerMP) {
+
+			EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+
+			//Blowing out light items from the players hand
+			if (WAConfig.angels.torchBlowOut && isCherub()) {
+				AngelUtils.removeLightFromHand(playerMP, this);
+			}
+
+			//Steals keys from the player
 			if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
-                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                    ItemStack stack = player.inventory.getStackInSlot(i);
-                    for (String regName : WAConstants.KEYS) {
-                        if (regName.matches(stack.getItem().getRegistryName().toString())) {
-                            setHeldItem(EnumHand.MAIN_HAND, player.inventory.getStackInSlot(i).copy());
-                            player.inventory.getStackInSlot(i).setCount(0);
-                            player.inventoryContainer.detectAndSendChanges();
-                        }
-                    }
-                }
-            }
-        }
-
-		if (WAConfig.teleport.justTeleport) {
-			if (entity instanceof EntityPlayer && !isChild()) {
-				teleportPlayer((EntityPlayer) entity);
-			}
-				} else {
-			boolean teleport = rand.nextBoolean() && rand.nextInt(10) < 5 && !isWeak() && !isChild() && WAConfig.teleport.teleportType != EnumTeleportType.DONT;
-				if (teleport) {
-					if (entity instanceof EntityPlayer) {
-						teleportPlayer((EntityPlayer) entity);
-					}
-				} else {
-					if (getHealth() > 5) {
-						entity.attackEntityFrom(WAObjects.ANGEL, 4.0F);
-						heal(4.0F);
-					} else {
-						entity.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-						heal(2.0F);
+				for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
+					ItemStack stack = playerMP.inventory.getStackInSlot(i);
+					for (String regName : WAConstants.KEYS) {
+						if (regName.matches(stack.getItem().getRegistryName().toString())) {
+							setHeldItem(EnumHand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
+							playerMP.inventory.getStackInSlot(i).setCount(0);
+							playerMP.inventoryContainer.detectAndSendChanges();
+						}
 					}
 				}
-
 			}
-		return false;
-	}
-	
-	private int getRandomType() {
-		if (rand.nextBoolean()) {
-			return 1;
+
+
+			//Teleporting and damage
+			if (WAConfig.teleport.justTeleport) {
+				if (!isCherub()) {
+					teleportInteraction(playerMP);
+					return false;
+				} else {
+					dealDamage(playerMP);
+					return true;
+				}
+			} else {
+				boolean shouldTeleport = rand.nextInt(10) < 5 && !isWeak();
+				if (shouldTeleport) {
+					teleportInteraction(playerMP);
+					return false;
+				} else {
+					dealDamage(playerMP);
+					return true;
+				}
+			}
+
 		}
-		return 0;
+		return true;
 	}
-	
+
+
+	public void dealDamage(EntityPlayer playerMP) {
+		if (getHealth() > 5) {
+			playerMP.attackEntityFrom(WAObjects.ANGEL, 4.0F);
+			heal(4.0F);
+		} else {
+			playerMP.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
+			heal(2.0F);
+		}
+	}
+
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
 		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
 	}
-	
-	public String getPose() {
-		return getDataManager().get(CURRENT_POSE);
-	}
-	
-	public void setPose(String newPose) {
-		getDataManager().set(CURRENT_POSE, newPose);
-	}
-	
-	public boolean isChild() {
-		return getDataManager().get(IS_CHILD);
-	}
-	
-	public void setChild(boolean child) {
-		getDataManager().set(IS_CHILD, child);
-	}
-	
-	public int getType() {
-		return getDataManager().get(TYPE);
-	}
-	
-	public void setType(int angelType) {
-		getDataManager().set(TYPE, angelType);
-	}
-	
-	public int getHungerLevel() {
-		return getDataManager().get(HUNGER_LEVEL);
-	}
-	
-	public void setHungerLevel(int hunger) {
-		getDataManager().set(HUNGER_LEVEL, hunger);
-	}
-	
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 		compound.setString(WAConstants.POSE, getPose());
 		compound.setInteger(WAConstants.TYPE, getType());
-		compound.setBoolean(WAConstants.ANGEL_CHILD, isChild());
+		compound.setBoolean(WAConstants.ANGEL_CHILD, isCherub());
 		compound.setInteger(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
 	
@@ -266,11 +236,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void moveTowards(EntityLivingBase entity) {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
-		if (WAConfig.angels.playScrapSounds && !isChild()) {
+		if (WAConfig.angels.playScrapSounds && !isCherub()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
 		}
-		
-		if (isChild()) {
+
+		if (isCherub()) {
 			if (world.rand.nextInt(5) == 5) {
 				playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
 			}
@@ -298,7 +268,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public void onKillEntity(EntityLivingBase entityLivingIn) {
 		super.onKillEntity(entityLivingIn);
-		
+
 		if(entityLivingIn instanceof EntityPlayer){
 			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP, 1, 1);
 		}
@@ -364,18 +334,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return true;
 	}
-	
-	private void teleportPlayer(EntityPlayer player) {
+
+	private void teleportInteraction(EntityPlayer player) {
 		if (world.isRemote) return;
-		
-		int dim;
-		if (WAConfig.teleport.angelDimTeleport) {
-			dim = decideDimension();
-		} else {
-			dim = dimension;
-		}
-		WorldServer ws = (WorldServer) world;
-		ws.getMinecraftServer().getWorld(dim);
 
 		EnumTeleportType type = WAConfig.teleport.teleportType;
 
@@ -383,30 +344,53 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			case DONT:
 				break;
 			case STRUCTURES:
-				TeleporterRandom.handleStructures(player);
+				Teleporter.handleStructures(player);
 				break;
 			case RANDOM_PLACE:
-				TeleporterRandom.teleportEntity(DimensionManager.getWorld(dim), player, WAConfig.teleport.teleportRange);
+				if (rand.nextBoolean()) {
+					BlockPos pos = new BlockPos(player.posX + rand.nextInt(WAConfig.teleport.teleportRange), 0, player.posZ + rand.nextInt(WAConfig.teleport.teleportRange));
+					Teleporter.moveSafeAcrossDim(player, pos);
+				} else {
+					Teleporter.handleStructures(player);
+				}
 				break;
 		}
 	}
-	
-	private int decideDimension() {
-		Integer[] staticDims = DimensionManager.getStaticDimensionIDs();
-		int goTo = staticDims[rand.nextInt(staticDims.length)];
-		if (DimensionManager.isDimensionRegistered(goTo) && goTo != 1) {
-			for (int id : WAConfig.teleport.notAllowedDimensions) {
-				if (id == goTo) {
-					return 0;
-				}
-			}
-			return goTo;
-		}
-		return 0;
-	}
-	
+
 	public void dropStuff() {
 		dropFewItems(true, 4);
+	}
+
+	public String getPose() {
+		return getDataManager().get(CURRENT_POSE);
+	}
+
+	public void setPose(String newPose) {
+		getDataManager().set(CURRENT_POSE, newPose);
+	}
+
+	public boolean isCherub() {
+		return getDataManager().get(IS_CHILD);
+	}
+
+	public void setChild(boolean child) {
+		getDataManager().set(IS_CHILD, child);
+	}
+
+	public int getType() {
+		return getDataManager().get(TYPE);
+	}
+
+	public void setType(int angelType) {
+		getDataManager().set(TYPE, angelType);
+	}
+
+	public int getHungerLevel() {
+		return getDataManager().get(HUNGER_LEVEL);
+	}
+
+	public void setHungerLevel(int hunger) {
+		getDataManager().set(HUNGER_LEVEL, hunger);
 	}
 }
 

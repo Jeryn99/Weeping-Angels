@@ -132,10 +132,6 @@ public class ServerReflector extends VivecraftReflector {
                 enabled = -1;
             }
         }
-
-        //if(enabled<0)
-        //    WeepingAngels.LOGGER.info("Vivecraft not detected");
-
         return enabled>=0;
     }
 
@@ -166,7 +162,6 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             //Something went wrong with how the methods were used. Should never be the case, BUT you never know.
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing isVRPlayer", e);
-            //Todo: Disable compat?
         }
 
         return false;
