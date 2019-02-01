@@ -1,0 +1,9 @@
+{
+    "defaults":{
+        "model":"builtin/entity"
+    },
+    "variants":{
+        "inventory":[{}],
+        "normal":[{}]
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "weeping-angels",
+  "name": "Weeping Angels",
+  "description": "Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5",
+  "version": "1.0.0",
+  "side": "universal",
+  "initializers": [
+    "me.sub.angels.WeepingAngels",
+    "me.sub.angels.common.WAObjects",
+    "me.sub.angels.client.WeepingAngelsClient"
+  ],
+  "requires": {
+    "fabric": "*"
+  }
+}

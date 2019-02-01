@@ -1,0 +1,61 @@
+
+item.angel_painting.name=Angel Painting
+item.unlit_torch.name=Unlit Torch
+item.timey_wimey_detector.name=Timey Wimey Detector
+item.chronodyne_generator.name=Chronodyne Generator
+item.plinth.name=Angel Statue
+item.angel_0.name=Weeping Angel (0)
+item.angel_1.name=Weeping Angel (1)
+item.angel_child.name=Weeping Angel (Child)
+
+tile.arm.name=Arm in snow
+tile.plinth.name=Angel Statue
+
+entity.weepingangel.name=Weeping Angel
+entity.angel.name=Weeping Angel
+entity.anomaly.name=Anomaly
+entity.weepingAngelpainting.name=Angel painting
+
+sound.angel_seen=Angel seen
+sound.child_run=Child running
+sound.laughing_child=Laughing Child
+sound.light_break=Light break
+sound.angel_teleport=Angel teleported player
+sound.stone_scrap=Stone scrapings
+sound.ding=Ding!
+sound.blow=Blow
+sound.angel_death=Angel crumbles to death
+
+source.angel=was sent back in time by a Angel!
+source.angel_neck_snap=had their neck snapped by a Angel!
+source.punch_stone=broke their bones by punching stone...
+
+damagesrc.angels.backintime=was sent back in time by a Angel!
+damagesrc.angels.punch_stone=broke their bones by punching stone...
+damagesrc.angels.neck_snap=had their neck snapped by a Angel!
+
+itemGroup.angels=Weeping Angels
+
+config.teleportRange=Teleport range
+config.teleport_entities=Teleport Entities?
+config.angel_locking=Angel on Angel, Quantum locking
+config.angeldimteleport=Angel inter-dimensional teleporting
+config.block_break_range=Block break Range
+config.chicken_go_boom=Chicken Explosions?
+config.max_spawn=Angel - Maximum spawn
+config.spawn_probability=Spawn Probability
+config.min_spawn=Angel - Minimum Spawn
+config.angel.block_break=Block breaking
+config.blowout_torch=Blow out torch
+config.genCatacombs=Gen catacombs?
+config.teleport_instant=Just teleport & No Damage?
+config.spawntype=Spawn type
+config.angel_speed=Angel Speed
+config.disallowed_blocks=A list of blocks angels should NOT break.
+config.disallowed_dimensions=A list of dimensions angels should NOT go to.
+config.angel_move_sound=Toggle movement sounds for the angels
+config.teleport_type=The Teleport type
+config.allowed_spawn_dimensions=A list of dimensions where angels SHOULD spawn
+
+category.angels=Angels
+category.spawn=Spawn Rates
