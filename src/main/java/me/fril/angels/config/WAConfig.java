@@ -137,6 +137,10 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.moveSpeed")
 		@Config.Comment("Determines the angels move speed")
 		public double moveSpeed = 1.5;
+
+		@Config.LangKey("config.weeping-angels.transparent_blocks")
+		@Config.Comment("List of blocks that you should be able to see angels through")
+		public String[] transparent_blocks = {"modid:block_name"};
 	}
 
 	public static class Integrations {
