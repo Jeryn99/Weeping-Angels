@@ -1,10 +1,10 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
 	"promos": {
-		"1.12.2-latest": "33",
-		"1.12.2-recommended": "33"
+		"1.12.2-latest": "34",
+		"1.12.2-recommended": "34"
 	},
 	"1.12.2": {
-		"33": "Teleporting is now 98% safer, I promise || Code has been optimised majorly for performance || Removed Redundant unlit Torch || A_Dizzle model rotations fixed"
+		"34": "Angels can't be seen through transparent blocks now"
 	}
 }

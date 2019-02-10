@@ -1,29 +1,29 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "IPI",
-        "EKE",
-        "IRI"
-    ],
-    "key": {
-        "I": {
-            "item": "minecraft:iron_ingot"
-        },
-        "E": {
-            "item": "minecraft:ender_pearl"
-        },
-        "R": {
-            "item": "minecraft:redstone"
-        },
-        "P": {
-            "item": "minecraft:stone_pressure_plate"
-        },
-        "K": {
-            "item": "weeping-angels:kontron_ingot"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "EKE",
+    "IRI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
     },
-    "result": {
-        "item": "weeping-angels:chronodyne_generator",
-        "count": 16
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "minecraft:stone_pressure_plate"
+    },
+    "K": {
+      "item": "weeping-angels:kontron_ingot"
     }
+  },
+  "result": {
+    "item": "weeping-angels:chronodyne_generator",
+    "count": 16
+  }
 }
