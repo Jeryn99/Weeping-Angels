@@ -17,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -29,17 +30,7 @@ public class ViewUtil {
 	public static boolean isInFrontOfEntity(Entity entity, Entity target, boolean vr) {
 		Vec3d vecTargetsPos = target.getPositionVector();
 		Vec3d vecLook;
-		
-		if (vr) {
-			if (entity instanceof EntityPlayer) {
-				vecLook = CommonProxy.reflector.getHMDRot((EntityPlayer) entity);
-			} else {
-				throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getEntityData());
-			}
-		} else {
-			vecLook = entity.getLookVec();
-		}
-		
+		vecLook = entity.getLookVec();
 		Vec3d vecFinal = vecTargetsPos.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
@@ -47,20 +38,20 @@ public class ViewUtil {
 	
 	
 	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
-		AxisAlignedBB viewerBoundBox = viewer.getEntityBoundingBox();
-		AxisAlignedBB angelBoundingBox = angel.getEntityBoundingBox();
+		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
+		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
 		Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 		Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 		
 		for (int i = 0; i < viewerPoints.length; i++) {
-			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
+			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, true, false) == null) return false;
 			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], pos -> {
 				IBlockState state = viewer.world.getBlockState(pos);
 				for (String transparent_block : WAConfig.angels.transparent_blocks)
 					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
 				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
 						!(state.getBlock() instanceof BlockPane) && !(state.getBlock() instanceof BlockVine) && !(state.getBlock() instanceof BlockLeaves) &&
-						state.getCollisionBoundingBox(viewer.world, pos) != Block.NULL_AABB && state.getBlock().canCollideCheck(state, false);
+						state.getCollisionShape(viewer.world, pos) != Block.NULL_AABB && state.getBlock().isCollidable(state);
 			}) == null) return false;
 		}
 		return true;
@@ -265,7 +256,7 @@ public class ViewUtil {
 		if (viewBlocked(livingBase, angel)) return false;
 		
 		if (livingBase instanceof EntityPlayer) {
-			return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase));
+			return isInFrontOfEntity(livingBase, angel, false);
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
