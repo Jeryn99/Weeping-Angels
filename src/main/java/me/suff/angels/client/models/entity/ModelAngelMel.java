@@ -9,8 +9,8 @@ import me.suff.angels.client.models.poses.PoseManager;
 import me.suff.angels.client.renders.entities.RenderWeepingAngel;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelAngelMel extends ModelBase {
@@ -587,27 +587,27 @@ public class ModelAngelMel extends ModelBase {
 			
 			//Covering Face arms render/
 			if (pose == PoseManager.POSE_HIDING_FACE) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
 				armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			//Idle render
 			if (pose == PoseManager.POSE_IDLE) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
 				armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			//Shriek render
 			if (pose.getRegistryName().toLowerCase().contains("angry")) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
 				armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			if (pose == PoseManager.POSE_SHY) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
 				armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}

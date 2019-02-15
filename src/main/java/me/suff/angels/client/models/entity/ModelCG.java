@@ -2,8 +2,8 @@ package me.suff.angels.client.models.entity;
 
 import me.suff.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -606,12 +606,12 @@ public class ModelCG extends ModelBase {
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
-		GlStateManager.translate(MAIN.offsetX, MAIN.offsetY, MAIN.offsetZ);
-		GlStateManager.translate(MAIN.rotationPointX * scale, MAIN.rotationPointY * scale, MAIN.rotationPointZ * scale);
-		GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		GlStateManager.translate(-MAIN.offsetX, -MAIN.offsetY, -MAIN.offsetZ);
-		GlStateManager.translate(-MAIN.rotationPointX * scale, -MAIN.rotationPointY * scale, -MAIN.rotationPointZ * scale);
+		Minecraft.getInstance().renderEngine.bindTexture(TEXTURE);
+		GlStateManager.translatef(MAIN.offsetX, MAIN.offsetY, MAIN.offsetZ);
+		GlStateManager.translatef(MAIN.rotationPointX * scale, MAIN.rotationPointY * scale, MAIN.rotationPointZ * scale);
+		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+		GlStateManager.translatef(-MAIN.offsetX, -MAIN.offsetY, -MAIN.offsetZ);
+		GlStateManager.translatef(-MAIN.rotationPointX * scale, -MAIN.rotationPointY * scale, -MAIN.rotationPointZ * scale);
 		MAIN.render(scale);
 		GlStateManager.popMatrix();
 	}

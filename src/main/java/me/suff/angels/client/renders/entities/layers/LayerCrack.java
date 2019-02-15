@@ -8,14 +8,11 @@ import me.suff.angels.client.models.entity.ModelAngelMel;
 import me.suff.angels.client.models.entity.ModelClassicAngel;
 import me.suff.angels.client.renders.entities.RenderWeepingAngel;
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
@@ -35,8 +32,7 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	}
 	
 	@Override
-	public void doRenderLayer(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		
+	public void render(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		switch (angel.getType()) {
 			case -1:
 				modelMain = modelChild;

@@ -24,11 +24,13 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -119,7 +121,7 @@ public class WAObjects {
 		return block;
 	}
 	
-	private static void registerItems(IForgeRegistry<Item> reg, CreativeTabs tab, Item[] items) {
+	private static void registerItems(IForgeRegistry<Item> reg, ItemGroup tab, Item[] items) {
 		reg.registerAll(items);
 		for (Item item : items) {
 			item.setCreativeTab(tab);

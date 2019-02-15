@@ -6,8 +6,9 @@ import me.suff.angels.common.entities.EntityChronodyneGenerator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.client.renderer.entity.RenderSprite;
 
-public class RenderChronodyneGenerator extends RenderSnowball<EntityChronodyneGenerator> {
+public class RenderChronodyneGenerator extends RenderSprite<EntityChronodyneGenerator> {
 	
 	private ModelCG model = new ModelCG();
 	
@@ -18,7 +19,7 @@ public class RenderChronodyneGenerator extends RenderSnowball<EntityChronodyneGe
 	@Override
 	public void doRender(EntityChronodyneGenerator entity, double x, double y, double z, float par8, float par9) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y - 1.3, z);
+		GlStateManager.translated(x, y - 1.3, z);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.disableFog();
 		GlStateManager.disableLighting();

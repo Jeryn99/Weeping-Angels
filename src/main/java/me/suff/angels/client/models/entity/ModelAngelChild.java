@@ -1,9 +1,9 @@
 package me.suff.angels.client.models.entity;
 
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
@@ -132,11 +132,11 @@ public class ModelAngelChild extends ModelBiped {
 		head.render(scale);
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
-		GlStateManager.translate(body.offsetX, body.offsetY, body.offsetZ);
-		GlStateManager.translate(body.rotationPointX * scale, body.rotationPointY * scale, body.rotationPointZ * scale);
-		GlStateManager.scale(0.7D, 0.7D, 0.7D);
-		GlStateManager.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
-		GlStateManager.translate(-body.rotationPointX * scale, -body.rotationPointY * scale, -body.rotationPointZ * scale);
+		GlStateManager.translatef(body.offsetX, body.offsetY, body.offsetZ);
+		GlStateManager.translatef(body.rotationPointX * scale, body.rotationPointY * scale, body.rotationPointZ * scale);
+		GlStateManager.scaled(0.7D, 0.7D, 0.7D);
+		GlStateManager.translatef(-body.offsetX, -body.offsetY, -body.offsetZ);
+		GlStateManager.translatef(-body.rotationPointX * scale, -body.rotationPointY * scale, -body.rotationPointZ * scale);
 		body.render(scale);
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();

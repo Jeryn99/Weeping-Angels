@@ -7,16 +7,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityPlinth extends TileEntity implements ITickable {
 	
 	private boolean hasSpawned = false;
 	private int rotation = 0;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
+	
+	public TileEntityPlinth(TileEntityType<?> tileEntityTypeIn) {
+		super(tileEntityTypeIn);
+	}
 	
 	public boolean getHasSpawned() {
 		return hasSpawned;
@@ -27,18 +30,18 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		setHasSpawned(compound.getBoolean("hasSpawned"));
 		setPose(compound.getString("pose"));
-		rotation = compound.getInteger("rotation");
+		rotation = compound.getInt("rotation");
 	}
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public NBTTagCompound write(NBTTagCompound compound) {
+		super.write(compound);
 		compound.setBoolean("hasSpawned", hasSpawned);
-		compound.setInteger("rotation", rotation);
+		compound.setInt("rotation", rotation);
 		compound.setString("pose", pose);
 		return compound;
 	}
@@ -59,7 +62,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+		return write(new NBTTagCompound());
 	}
 	
 	@Override
@@ -68,7 +71,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 		handleUpdateTag(pkt.getNbtCompound());
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return super.getRenderBoundingBox().grow(8, 8, 8);
 	}
@@ -76,12 +79,11 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	public void sendUpdates() {
 		world.markBlockRangeForRenderUpdate(pos, pos);
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.scheduleBlockUpdate(pos, getBlockType(), 0, 0);
 		markDirty();
 	}
 	
 	@Override
-	public void update() {
+	public void tick() {
 		if (world.isRemote) return;
 		
 		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {

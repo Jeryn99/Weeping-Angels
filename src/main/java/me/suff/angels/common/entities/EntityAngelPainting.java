@@ -11,9 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,7 +52,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		updateFacingWithBoundingBox(side);
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side, String name) {
 		this(worldIn, pos, side);
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
@@ -68,14 +71,14 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	public void writeEntityToNBT(NBTTagCompound tagCompound) {
+	public void write(NBTTagCompound tagCompound) {
 		tagCompound.setString(WAConstants.MOTIVE, art.title);
-		super.writeEntityToNBT(tagCompound);
+		super.write(tagCompound);
 	}
 	
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		
 		if (ticksExisted % 200 == 0) {
 			
@@ -119,7 +122,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	public void readEntityFromNBT(NBTTagCompound tagCompund) {
+	public void read(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
@@ -133,7 +136,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 			art = EnumAngelArt.AngelFive;
 		}
 		
-		super.readEntityFromNBT(tagCompund);
+		super.read(tagCompund);
 	}
 	
 	public int getWidthPixels() {
@@ -156,7 +159,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 			if (entity instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) entity;
 				
-				if (entityplayer.capabilities.isCreativeMode) {
+				if (entityplayer.isCreative()) {
 					return;
 				}
 			}
@@ -181,7 +184,26 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	@Override
-	public void writeSpawnData(ByteBuf buffer) {
+	public void writeAdditional(NBTTagCompound buffer) {
+		super.writeAdditional(buffer);
+		buffer.setInt("art", art.ordinal());
+		buffer.setInt("chunkCoordX",chunkCoordX); // x
+		buffer.setInt("chunkCoordY",chunkCoordY); // y
+		buffer.setInt("chunkCoordZ",chunkCoordZ); // z
+		buffer.setInt("index",getHorizontalFacing().getIndex());
+	}
+	
+	private void spawnAngel(World world) {
+		if (!world.isRemote) {
+			EntityWeepingAngel angel = new EntityWeepingAngel(world);
+			angel.copyLocationAndAnglesFrom(this);
+			Teleporter.move(angel, dimension.getId(), new BlockPos(posX + 1, posY + 1, posZ + 1));
+			world.spawnEntity(angel);
+		}
+	}
+	
+	@Override
+	public void writeSpawnData(PacketBuffer buffer) {
 		buffer.writeInt(art.ordinal());
 		buffer.writeInt(chunkCoordX); // x
 		buffer.writeInt(chunkCoordY); // y
@@ -190,22 +212,13 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	@Override
-	public void readSpawnData(ByteBuf buffer) {
+	public void readSpawnData(PacketBuffer buffer) {
 		EnumAngelArt[] ENUM_ART = EnumAngelArt.values();
 		art = ENUM_ART[buffer.readInt()];
 		chunkCoordX = buffer.readInt();
 		chunkCoordY = buffer.readInt();
 		chunkCoordZ = buffer.readInt();
 		updateFacingWithBoundingBox(EnumFacing.byHorizontalIndex(buffer.readByte()));
-	}
-	
-	private void spawnAngel(World world) {
-		if (!world.isRemote) {
-			EntityWeepingAngel angel = new EntityWeepingAngel(world);
-			angel.copyLocationAndAnglesFrom(this);
-			Teleporter.move(angel, dimension, new BlockPos(posX + 1, posY + 1, posZ + 1));
-			world.spawnEntity(angel);
-		}
 	}
 	
 	public enum EnumAngelArt {

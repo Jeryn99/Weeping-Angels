@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -32,8 +33,12 @@ import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -47,28 +52,8 @@ public class EventHandler {
 	
 	private static WorldGenMinable genCrystal = new WorldGenMinable(WAObjects.Blocks.KONTRON_ORE.getDefaultState(), 3);
 	
-	/**
-	 * Update checker thing, tells the player that the mods out of date if they're on a old build
-	 */
 	@SubscribeEvent
-	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
-		EntityPlayer player = e.player;
-		if (!player.world.isRemote && WAConfig.angels.enableUpdateChecker) {
-			ForgeVersion.CheckResult version = ForgeVersion.getResult(Loader.instance().activeModContainer());
-			if (version.status.equals(ForgeVersion.Status.OUTDATED)) {
-				TextComponentString url = new TextComponentString(TextFormatting.AQUA + TextFormatting.BOLD.toString() + "UPDATE");
-				url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraft.curseforge.com/projects/weeping-angels-mod"));
-				url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
-				
-				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "[Weeping Angels] : ").appendSibling(url));
-				String changes = version.changes.get(version.target);
-				player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Changes: " + TextFormatting.BLUE + changes));
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public static void decorateBiomeEvent(DecorateBiomeEvent.Pre e) {
+	public static void decorateBiomeEvent(BiomeEvent e) {
 		
 		World world = e.getWorld();
 		Random rand = e.getRand();
@@ -85,7 +70,7 @@ public class EventHandler {
 		int blockZ = e.getChunkPos().z * 16 + (rand.nextInt(16) + 8);
 		BlockPos pos = new BlockPos(blockX, blockY, blockZ);
 		
-		if (world.provider.getDimension() == 0 && rand.nextBoolean() && !world.getBiome(e.getPos()).isSnowyBiome()) {
+		if (world.getDimension().getType().getId() == 0 && rand.nextBoolean() && !world.getBiome(e.getPos()).isSnowyBiome()) {
 			if (blockY > 3 && blockY < 60) {
 				genCrystal.generate(world, rand, pos);
 			}
@@ -95,8 +80,8 @@ public class EventHandler {
 	private static void generateArms(World world, BlockPos position) {
 		if (!WAConfig.worldGen.arms) return;
 		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
-		if ((!world.provider.isNether() || pos.getY() < 255) && world.getBiome(position).isSnowyBiome()) {
-			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER)
+		if ((!world.dimension.isNether() || pos.getY() < 255) && world.getBiome(position).doesSnowGenerate(world, pos)) {
+			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_BLOCK)
 				world.setBlockState(pos, WAObjects.Blocks.ARM.getDefaultState(), 1);
 		}
 	}
@@ -156,7 +141,7 @@ public class EventHandler {
 		if (e.getEntity() instanceof EntityWeepingAngel) {
 			e.setResult(Event.Result.DENY);
 			for (int i : WAConfig.spawn.dimensionWhitelist) {
-				if (i == e.getWorld().provider.getDimension()) {
+				if (i == e.getWorld().getDimension().getType().getId()) {
 					e.setResult(Event.Result.DEFAULT);
 				}
 			}

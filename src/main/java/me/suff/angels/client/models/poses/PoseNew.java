@@ -1,6 +1,6 @@
 package me.suff.angels.client.models.poses;
 
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 
 public class PoseNew extends PoseBase {
 	

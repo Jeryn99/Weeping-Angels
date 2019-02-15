@@ -1,7 +1,7 @@
 package me.suff.angels.client.models.poses;
 
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
 public class PoseAngry extends PoseBase {

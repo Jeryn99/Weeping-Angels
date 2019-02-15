@@ -7,12 +7,14 @@ import me.suff.angels.common.entities.EntityQuantumLockBase;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
 import net.minecraft.block.Block;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,9 +24,11 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +53,7 @@ public class AngelUtils {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					if (playerMP.getDistanceSq(pos) < 45) {
-						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
+						playerMP.connection.sendPacket(new SPacketParticles(Particles.CRIT, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
 					}
 				}
 			});
@@ -73,7 +77,7 @@ public class AngelUtils {
 	 * WARNING: ONLY CALLED ONCE AND CACHED INTO AngelUtils::LIGHT_ITEMS
 	 */
 	public static void setupLightItems() {
-		ForgeRegistries.BLOCKS.getValuesCollection().forEach(block -> {
+		ForgeRegistries.BLOCKS.getValues().forEach(block -> {
 			if (AngelUtils.getLightValue(block) > 7) {
 				LIGHT_ITEMS.add(Item.getItemFromBlock(block));
 			}
@@ -99,7 +103,7 @@ public class AngelUtils {
 	 * Sets up weeping angel spawns
 	 */
 	public static void setUpSpawns() {
-		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
+		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValues();
 		ArrayList<Biome> SPAWNS = Lists.newArrayList();
 		SPAWNS.addAll(biomes);
 		
@@ -139,13 +143,13 @@ public class AngelUtils {
 	}
 	
 	public static int getLightValue(Block block) {
-		return ReflectionHelper.getPrivateValue(Block.class, block, 9);
+		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 3);
 	}
 	
 	private static boolean lightCheck(ItemStack stack, EntityWeepingAngel angel) {
 		if (LIGHT_ITEMS.contains(stack.getItem())) {
 			stack.shrink(1);
-			angel.dropItem(stack.getItem(), 1);
+			angel.entityDropItem(stack);
 			return true;
 		}
 		

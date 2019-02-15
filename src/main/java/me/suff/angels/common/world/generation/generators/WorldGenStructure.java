@@ -9,6 +9,8 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
@@ -23,10 +25,10 @@ public class WorldGenStructure extends WorldGenerator implements IStructure {
 	}
 	
 	public static void generateStructure(World world, BlockPos pos) {
-		MinecraftServer mcServer = world.getMinecraftServer();
+		MinecraftServer mcServer = world.getServer();
 		TemplateManager manager = WORLD_SERVER.getStructureTemplateManager();
 		ResourceLocation location = new ResourceLocation(WeepingAngels.MODID, structureName);
-		Template template = manager.get(mcServer, location);
+		Template template = manager.getTemplate(location);
 		
 		if (template != null) {
 			IBlockState state = world.getBlockState(pos);

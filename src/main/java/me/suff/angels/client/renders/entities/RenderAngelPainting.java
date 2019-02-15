@@ -31,12 +31,12 @@ public class RenderAngelPainting extends Render<EntityAngelPainting> {
 	@Override
 	public void doRender(EntityAngelPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
+		GlStateManager.translatef(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
-		Minecraft.getMinecraft().getTextureManager().bindTexture(getEntityTexture(entity));
+		Minecraft.getInstance().getTextureManager().bindTexture(getEntityTexture(entity));
 		EntityAngelPainting.EnumAngelArt art = entity.art;
-		GlStateManager.scale(0.0625F, 0.0625F, 0.0625F);
+		GlStateManager.scaled(0.0625F, 0.0625F, 0.0625F);
 		
 		if (renderOutlines) {
 			GlStateManager.enableColorMaterial();

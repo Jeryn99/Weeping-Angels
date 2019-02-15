@@ -7,12 +7,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+
+import static net.minecraft.world.dimension.DimensionType.*;
 
 public class WorldGenOres implements IWorldGenerator {
 	
@@ -27,8 +30,8 @@ public class WorldGenOres implements IWorldGenerator {
 		
 		if (!WAConfig.worldGen.genOres) return;
 		
-		switch (world.provider.getDimensionType()) {
-			case NETHER:
+		switch (world.dimension.getType().getId()) {
+			case NETHER.getId():
 				break;
 			case OVERWORLD:
 				this.genOverworld(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);

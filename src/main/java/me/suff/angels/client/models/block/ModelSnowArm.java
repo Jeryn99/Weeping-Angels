@@ -2,9 +2,9 @@ package me.suff.angels.client.models.block;
 
 import me.suff.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelSnowArm extends ModelBase {
@@ -29,7 +29,7 @@ public class ModelSnowArm extends ModelBase {
 	
 	public void render(float scale) {
 		GlStateManager.pushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ANGEL_TEXTURE);
+		Minecraft.getInstance().getTextureManager().bindTexture(ANGEL_TEXTURE);
 		left_arm.render(scale);
 		GlStateManager.popMatrix();
 	}

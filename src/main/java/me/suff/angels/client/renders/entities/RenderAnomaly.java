@@ -32,9 +32,9 @@ public class RenderAnomaly extends RenderEntity {
 		EntityAnomaly anom = (EntityAnomaly) entity;
 		
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y + anom.getEntityEyeHeight(), z + 0.2F);
+		GlStateManager.translatef(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
-		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.scaled(scale, scale, scale);
 		
 		int timer = ((EntityAnomaly) entity).ticksExisted;
 		
@@ -57,7 +57,7 @@ public class RenderAnomaly extends RenderEntity {
 			GlStateManager.enableCull();
 			GlStateManager.depthMask(false);
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(0.0F, -1.0F, -2.0F);
+			GlStateManager.translatef(0.0F, -1.0F, -2.0F);
 			
 			for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
 				GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);

@@ -1,6 +1,7 @@
 package me.suff.angels.common.items;
 
 import me.suff.angels.common.entities.EntityChronodyneGenerator;
+import me.suff.angels.common.misc.WATabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,8 +11,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemChronodyneGenerator extends Item {
+	
 	public ItemChronodyneGenerator() {
-		maxStackSize = 16;
+		super(new Properties().maxStackSize(16).group(WATabs.MAIN_TAB));
 	}
 	
 	/**
@@ -21,7 +23,7 @@ public class ItemChronodyneGenerator extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		
-		if (!playerIn.capabilities.isCreativeMode) {
+		if (!playerIn.isCreative()) {
 			itemstack.shrink(1);
 		}
 		

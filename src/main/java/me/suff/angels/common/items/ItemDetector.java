@@ -1,9 +1,11 @@
 package me.suff.angels.common.items;
 
+import me.suff.angels.client.models.item.ModelDetector;
+import me.suff.angels.client.renders.items.RenderItemStackBase;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityWeepingAngel;
+import me.suff.angels.common.misc.WATabs;
 import me.suff.angels.config.WAConfig;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,14 +20,13 @@ import java.util.List;
 public class ItemDetector extends Item {
 	
 	public ItemDetector() {
-		setCreativeTab(CreativeTabs.TOOLS);
-		setMaxStackSize(1);
+		super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1).setTEISR(() -> new RenderItemStackBase(new ModelDetector())));
 	}
 	
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!entityIn.world.isRemote) {
-			List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getEntityBoundingBox().grow(25, 25, 25));
+			List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getBoundingBox().grow(25, 25, 25));
 			
 			if (entityIn instanceof EntityPlayer) {
 				if (!angels.isEmpty() && isSelected) {
@@ -35,11 +36,11 @@ public class ItemDetector extends Item {
 						}
 						
 						if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {
-							for (EntityChicken chick : entityIn.world.getEntitiesWithinAABB(EntityChicken.class, entityIn.getEntityBoundingBox().grow(30, 30, 30))) {
+							for (EntityChicken chick : entityIn.world.getEntitiesWithinAABB(EntityChicken.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
 								if (entityIn.world.rand.nextBoolean()) {
 									chick.getEntityWorld().createExplosion(chick, chick.getPosition().getX(), chick.getPosition().getY(), chick.getPosition().getZ(), 0.5F, false);
-									chick.dropItem(Items.EGG, 1);
-									chick.setDead();
+									chick.entityDropItem(Items.EGG, 1);
+									chick.remove();
 								}
 							}
 						}

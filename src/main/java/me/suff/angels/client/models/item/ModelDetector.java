@@ -2,10 +2,10 @@ package me.suff.angels.client.models.item;
 
 import me.suff.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
@@ -734,7 +734,7 @@ public class ModelDetector extends ModelBase {
 	
 	public void render(float scale) {
 		
-		long time = 60 * Minecraft.getMinecraft().world.getWorldTime();
+		long time = 60 * Minecraft.getInstance().world.getGameTime();
 		
 		// Start
 		GlStateManager.pushMatrix();
@@ -747,52 +747,52 @@ public class ModelDetector extends ModelBase {
 		c_min.rotateAngleZ = c_seg.rotateAngleZ / 60;
 		c_hour.rotateAngleZ = c_min.rotateAngleZ / 60;
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		Minecraft.getInstance().getTextureManager().bindTexture(tex);
 		
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(spin_1.offsetX, spin_1.offsetY, spin_1.offsetZ);
-		GlStateManager.translate(spin_1.rotationPointX * scale, spin_1.rotationPointY * scale, spin_1.rotationPointZ * scale);
-		GlStateManager.scale(1.3D, 1.3D, 0.5D);
-		GlStateManager.translate(-spin_1.offsetX, -spin_1.offsetY, -spin_1.offsetZ);
-		GlStateManager.translate(-spin_1.rotationPointX * scale, -spin_1.rotationPointY * scale, -spin_1.rotationPointZ * scale);
+		GlStateManager.translatef(spin_1.offsetX, spin_1.offsetY, spin_1.offsetZ);
+		GlStateManager.translatef(spin_1.rotationPointX * scale, spin_1.rotationPointY * scale, spin_1.rotationPointZ * scale);
+		GlStateManager.scaled(1.3D, 1.3D, 0.5D);
+		GlStateManager.translatef(-spin_1.offsetX, -spin_1.offsetY, -spin_1.offsetZ);
+		GlStateManager.translatef(-spin_1.rotationPointX * scale, -spin_1.rotationPointY * scale, -spin_1.rotationPointZ * scale);
 		spin_1.render(scale);
 		GlStateManager.popMatrix();
 		shape146.render(scale);
 		shape146_2.render(scale);
 		shape81.render(scale);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(shape125_1.offsetX, shape125_1.offsetY, shape125_1.offsetZ);
-		GlStateManager.translate(shape125_1.rotationPointX * scale, shape125_1.rotationPointY * scale, shape125_1.rotationPointZ * scale);
-		GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		GlStateManager.translate(-shape125_1.offsetX, -shape125_1.offsetY, -shape125_1.offsetZ);
-		GlStateManager.translate(-shape125_1.rotationPointX * scale, -shape125_1.rotationPointY * scale, -shape125_1.rotationPointZ * scale);
+		GlStateManager.translatef(shape125_1.offsetX, shape125_1.offsetY, shape125_1.offsetZ);
+		GlStateManager.translatef(shape125_1.rotationPointX * scale, shape125_1.rotationPointY * scale, shape125_1.rotationPointZ * scale);
+		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+		GlStateManager.translatef(-shape125_1.offsetX, -shape125_1.offsetY, -shape125_1.offsetZ);
+		GlStateManager.translatef(-shape125_1.rotationPointX * scale, -shape125_1.rotationPointY * scale, -shape125_1.rotationPointZ * scale);
 		shape125_1.render(scale);
 		GlStateManager.popMatrix();
 		shape146_4.render(scale);
 		shape110.render(scale);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(spin_3.offsetX, spin_3.offsetY, spin_3.offsetZ);
-		GlStateManager.translate(spin_3.rotationPointX * scale, spin_3.rotationPointY * scale, spin_3.rotationPointZ * scale);
-		GlStateManager.scale(0.6D, 0.6D, 0.5D);
-		GlStateManager.translate(-spin_3.offsetX, -spin_3.offsetY, -spin_3.offsetZ);
-		GlStateManager.translate(-spin_3.rotationPointX * scale, -spin_3.rotationPointY * scale, -spin_3.rotationPointZ * scale);
+		GlStateManager.translatef(spin_3.offsetX, spin_3.offsetY, spin_3.offsetZ);
+		GlStateManager.translatef(spin_3.rotationPointX * scale, spin_3.rotationPointY * scale, spin_3.rotationPointZ * scale);
+		GlStateManager.scaled(0.6D, 0.6D, 0.5D);
+		GlStateManager.translatef(-spin_3.offsetX, -spin_3.offsetY, -spin_3.offsetZ);
+		GlStateManager.translatef(-spin_3.rotationPointX * scale, -spin_3.rotationPointY * scale, -spin_3.rotationPointZ * scale);
 		spin_3.render(scale);
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(spin_4.offsetX, spin_4.offsetY, spin_4.offsetZ);
-		GlStateManager.translate(spin_4.rotationPointX * scale, spin_4.rotationPointY * scale, spin_4.rotationPointZ * scale);
-		GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		GlStateManager.translate(-spin_4.offsetX, -spin_4.offsetY, -spin_4.offsetZ);
-		GlStateManager.translate(-spin_4.rotationPointX * scale, -spin_4.rotationPointY * scale, -spin_4.rotationPointZ * scale);
+		GlStateManager.translatef(spin_4.offsetX, spin_4.offsetY, spin_4.offsetZ);
+		GlStateManager.translatef(spin_4.rotationPointX * scale, spin_4.rotationPointY * scale, spin_4.rotationPointZ * scale);
+		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+		GlStateManager.translatef(-spin_4.offsetX, -spin_4.offsetY, -spin_4.offsetZ);
+		GlStateManager.translatef(-spin_4.rotationPointX * scale, -spin_4.rotationPointY * scale, -spin_4.rotationPointZ * scale);
 		spin_4.render(scale);
 		GlStateManager.popMatrix();
 		MAIN.render(scale);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(spin_2.offsetX, spin_2.offsetY, spin_2.offsetZ);
-		GlStateManager.translate(spin_2.rotationPointX * scale, spin_2.rotationPointY * scale, spin_2.rotationPointZ * scale);
-		GlStateManager.scale(1.0D, 1.0D, 0.5D);
-		GlStateManager.translate(-spin_2.offsetX, -spin_2.offsetY, -spin_2.offsetZ);
-		GlStateManager.translate(-spin_2.rotationPointX * scale, -spin_2.rotationPointY * scale, -spin_2.rotationPointZ * scale);
+		GlStateManager.translatef(spin_2.offsetX, spin_2.offsetY, spin_2.offsetZ);
+		GlStateManager.translatef(spin_2.rotationPointX * scale, spin_2.rotationPointY * scale, spin_2.rotationPointZ * scale);
+		GlStateManager.scaled(1.0D, 1.0D, 0.5D);
+		GlStateManager.translatef(-spin_2.offsetX, -spin_2.offsetY, -spin_2.offsetZ);
+		GlStateManager.translatef(-spin_2.rotationPointX * scale, -spin_2.rotationPointY * scale, -spin_2.rotationPointZ * scale);
 		spin_2.render(scale);
 		GlStateManager.popMatrix();
 		shape146_1.render(scale);
@@ -800,11 +800,11 @@ public class ModelDetector extends ModelBase {
 		shape1_AAAAA.render(scale);
 		shape81_1.render(scale);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(phone.offsetX, phone.offsetY, phone.offsetZ);
-		GlStateManager.translate(phone.rotationPointX * scale, phone.rotationPointY * scale, phone.rotationPointZ * scale);
-		GlStateManager.scale(1.2D, 1.2D, 1.2D);
-		GlStateManager.translate(-phone.offsetX, -phone.offsetY, -phone.offsetZ);
-		GlStateManager.translate(-phone.rotationPointX * scale, -phone.rotationPointY * scale, -phone.rotationPointZ * scale);
+		GlStateManager.translatef(phone.offsetX, phone.offsetY, phone.offsetZ);
+		GlStateManager.translatef(phone.rotationPointX * scale, phone.rotationPointY * scale, phone.rotationPointZ * scale);
+		GlStateManager.scaled(1.2D, 1.2D, 1.2D);
+		GlStateManager.translatef(-phone.offsetX, -phone.offsetY, -phone.offsetZ);
+		GlStateManager.translatef(-phone.rotationPointX * scale, -phone.rotationPointY * scale, -phone.rotationPointZ * scale);
 		phone.render(scale);
 		GlStateManager.popMatrix();
 		shape125.render(scale);
@@ -813,9 +813,9 @@ public class ModelDetector extends ModelBase {
 		float timer = System.nanoTime() / 1000000000l;
 		GlStateManager.pushMatrix();
 		if (timer % 2 == 0) {
-			GlStateManager.enableAlpha();
+			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 0.5F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 0.5F);
 			int bright = 0xF0;
 			int brightX = bright % 65536;
 			int brightY = bright / 65536;
@@ -825,9 +825,9 @@ public class ModelDetector extends ModelBase {
 		light.render(scale);
 		
 		if (timer % 2 == 0) {
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0x0, 0xf0);
-			GlStateManager.disableAlpha();
+			GlStateManager.disableAlphaTest();
 			GlStateManager.disableBlend();
 		}
 		

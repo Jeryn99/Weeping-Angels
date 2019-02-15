@@ -5,9 +5,9 @@ import me.suff.angels.client.models.poses.PoseManager;
 import me.suff.angels.client.models.poses.PoseThinking;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.tileentities.TileEntityPlinth;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHandSide;
 
