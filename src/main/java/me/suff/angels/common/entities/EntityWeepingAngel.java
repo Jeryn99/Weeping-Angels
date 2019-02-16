@@ -40,6 +40,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
@@ -69,10 +71,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
 	
+	@Nullable
 	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData entityLivingData, @Nullable NBTTagCompound itemNbt) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
-		return super.onInitialSpawn(difficulty, livingdata);
+		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
 	}
 	
 	@Override
@@ -99,14 +102,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
+	protected void registerAttributes() {
+		super.registerAttributes();
+		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
+		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
+		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+		this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
 	}
+	
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
@@ -172,36 +176,36 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-		dropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
+		entityDropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
 		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
 	}
 	
 	@Override
-	public void writeEntityToNBT(NBTTagCompound compound) {
-		super.writeEntityToNBT(compound);
+	public void write(NBTTagCompound compound) {
+		super.write(compound);
 		compound.setString(WAConstants.POSE, getPose());
-		compound.setInteger(WAConstants.TYPE, getType());
+		compound.setInt(WAConstants.TYPE, getAngelType());
 		compound.setBoolean(WAConstants.ANGEL_CHILD, isCherub());
-		compound.setInteger(WAConstants.HUNGER_LEVEL, getHungerLevel());
+		compound.setInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
 	
 	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
-		super.readEntityFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		
 		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
 		
-		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInteger(WAConstants.TYPE));
+		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
 		
 		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
 		
-		if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInteger(WAConstants.HUNGER_LEVEL));
+		if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
 	
 	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
+	public void livingTick() {
+		super.livingTick();
 		if (ticksExisted % 2400 == 0 && !world.isRemote) {
 			setHungerLevel(getHungerLevel() - 1);
 			if (isWeak()) {
@@ -219,7 +223,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			if (WAConfig.angels.playSeenSounds) {
 				((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 			}
-			if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
+			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
 				setPose(PoseManager.getRandomPose().getRegistryName());
 			} else {
 				setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
@@ -252,8 +256,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		
 		if (getSeenTime() == 0 || world.getLight(getPosition()) == 0 || world.isAirBlock(getPosition().down())) {
 			setNoAI(false);
@@ -262,7 +266,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.POSE_HIDING_FACE.toString());
 		}
-		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange));
+		replaceBlocks(getBoundingBox().grow(WAConfig.angels.blockBreakRange));
 	}
 	
 	@Override
@@ -303,20 +307,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					return;
 				}
 				
-				if (blockState.getBlock() == Blocks.LIT_PUMPKIN) {
-					AngelUtils.playBreakEvent(this, pos, Blocks.PUMPKIN);
-					return;
-				}
-				
-				if (blockState.getBlock() == Blocks.LIT_REDSTONE_LAMP) {
-					AngelUtils.playBreakEvent(this, pos, Blocks.REDSTONE_LAMP);
-					return;
-				}
-				
 				if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
 					if (getHealth() < getMaxHealth()) {
 						heal(1.5F);
-						world.setBlockToAir(pos);
+						world.removeBlock(pos);
 					}
 				} else
 					continue;
@@ -377,7 +371,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getDataManager().set(IS_CHILD, child);
 	}
 	
-	public int getType() {
+	public int getAngelType() {
 		return getDataManager().get(TYPE);
 	}
 	

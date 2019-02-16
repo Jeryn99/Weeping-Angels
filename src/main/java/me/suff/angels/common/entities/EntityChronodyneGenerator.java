@@ -5,14 +5,12 @@ import me.suff.angels.common.misc.WAConstants;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Particles;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityChronodyneGenerator extends EntityThrowable {
 	
@@ -33,7 +31,6 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 	 * Handler for {@link World#setEntityState}
 	 */
 	@Override
-	@SideOnly(Side.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		
 	}
@@ -44,7 +41,7 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		
-		if (result.typeOfHit == Type.BLOCK) {
+		if (result.type == Type.BLOCK) {
 			BlockPos pos = new BlockPos(result.getBlockPos().getX(), result.getBlockPos().getY() + 1, result.getBlockPos().getZ());
 			if (world.isAirBlock(pos) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
 				world.setBlockState(pos, WAObjects.Blocks.CG.getDefaultState());
@@ -53,31 +50,31 @@ public class EntityChronodyneGenerator extends EntityThrowable {
 					tileData.setDouble(WAConstants.ABS_X, posX);
 					tileData.setDouble(WAConstants.ABS_Y, posY);
 					tileData.setDouble(WAConstants.ABS_Z, posZ);
-					setDead();
+					remove();
 				}
 			}
 		}
 		
-		if (result.entityHit instanceof EntityWeepingAngel) {
+		if (result.entity instanceof EntityWeepingAngel) {
 			if (world.isRemote) {
-				world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPosition().getX(), getPosition().getY(), getPosition().getZ(), 1.0D, 0.0D, 0.0D);
+				world.spawnParticle(Particles.EXPLOSION, getPosition().getX(), getPosition().getY(), getPosition().getZ(), 1.0D, 0.0D, 0.0D);
 			}
 			
 			if (!world.isRemote) {
 				
 				EntityAnomaly a = new EntityAnomaly(world);
-				a.setEntityEyeHeight(result.entityHit.getEyeHeight());
-				a.copyLocationAndAnglesFrom(result.entityHit);
+				a.setEntityEyeHeight(result.entity.getEyeHeight());
+				a.copyLocationAndAnglesFrom(result.entity);
 				world.spawnEntity(a);
 				
-				result.entityHit.setDead();
-				setDead();
+				result.entity.remove();
+				remove();
 			}
 		}
 		
 		if (!world.isRemote) {
 			world.setEntityState(this, (byte) 3);
-			setDead();
+			remove();
 		}
 	}
 }

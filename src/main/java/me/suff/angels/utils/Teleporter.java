@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nullable;
@@ -16,12 +17,12 @@ import java.util.Random;
 public final class Teleporter {
 	
 	@Nullable
-	public static Entity move(Entity entity, int dimension, BlockPos pos) {
+	public static Entity move(Entity entity, DimensionType dimension, BlockPos pos) {
 		return move(entity, dimension, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 	}
 	
 	@Nullable
-	public static Entity move(Entity entity, int dimension, double x, double y, double z) {
+	public static Entity move(Entity entity, DimensionType dimension, double x, double y, double z) {
 		if (entity.world.isRemote || !entity.isNonBoss()) {
 			return null;
 		}
@@ -45,13 +46,13 @@ public final class Teleporter {
 		entity.world.spawnEntity(anomaly);
 		
 		if (entity instanceof EntityPlayerMP) {
-			DimensionType newDimension = getRandomDimension(entity.world.provider.getDimensionType(), new Random());
-			entity.changeDimension(newDimension.getId(), (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
+			DimensionType newDimension = getRandomDimension(entity.world.dimension.getType(), new Random());
+			entity.changeDimension(newDimension, (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
 			boolean beSafeFlag = newDimension == DimensionType.THE_END || newDimension == DimensionType.NETHER;
 			BlockPos spawn = beSafeFlag ? pos : world.getSpawnPoint();
 			
-			while (!(world.isAirBlock(spawn) && world.isAirBlock(spawn.up())) && spawn.getY() < world.provider.getHeight() - 5)
+			while (!(world.isAirBlock(spawn) && world.isAirBlock(spawn.up())) && spawn.getY() < world.dimension.getHeight() - 5)
 				spawn = spawn.up();
 			
 			entity.setPositionAndUpdate(spawn.getX(), spawn.getY(), spawn.getZ());
@@ -61,7 +62,7 @@ public final class Teleporter {
 	}
 	
 	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
-		DimensionType[] dimensions = DimensionType.values();
+		Iterable<DimensionType> dimensions = DimensionType.func_212681_b();
 		if (dimensions.length == 1)
 			return current;
 		
@@ -79,7 +80,7 @@ public final class Teleporter {
 		
 		String[] targetStructure = null;
 		
-		switch (player.world.provider.getDimension()) {
+		switch (player.world.dimension.getType().getId()) {
 			case 0:
 				targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
 				break;
@@ -94,7 +95,7 @@ public final class Teleporter {
 		}
 		
 		if (targetStructure != null) {
-			BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), false);
+			BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
 			if (bPos != null) {
 				Teleporter.move(player, player.dimension, bPos);
 			}

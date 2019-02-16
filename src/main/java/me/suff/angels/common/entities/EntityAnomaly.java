@@ -16,7 +16,7 @@ public class EntityAnomaly extends EntityLiving {
 	}
 	
 	@Override
-	public boolean getIsInvulnerable() {
+	public boolean isInvulnerable() {
 		return true;
 	}
 	
@@ -26,8 +26,8 @@ public class EntityAnomaly extends EntityLiving {
 	}
 	
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		
 		setNoAI(true);
 		
@@ -36,13 +36,13 @@ public class EntityAnomaly extends EntityLiving {
 		}
 		
 		if (ticksExisted > 100) {
-			setDead();
+			remove();
 		}
 	}
 	
 	@Override
-	protected void entityInit() {
-		super.entityInit();
+	protected void initEntityAI() {
+		super.initEntityAI();
 		getDataManager().register(EYE_HEIGHT, getEyeHeight());
 	}
 	

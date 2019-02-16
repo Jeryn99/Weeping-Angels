@@ -29,19 +29,19 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	@Override
-	public void onLivingUpdate() {
+	public void livingTick() {
 		
 		if (!world.isRemote && ticksExisted % 4 == 0) {
 			setQuantum(quantumCheck());
 		}
 		
-		super.onLivingUpdate();
+		super.livingTick();
 		
 		if (!isQuantumLocked() || WAConfig.angels.freezeOnAngel) {
 			
 			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(WAConfig.angels.stalkRange));
+				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getBoundingBox().grow(WAConfig.angels.stalkRange));
 				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 				
 				if (players.isEmpty()) {
@@ -89,17 +89,17 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	@Override
-	public void writeEntityToNBT(NBTTagCompound compound) {
-		super.writeEntityToNBT(compound);
+	public void write(NBTTagCompound compound) {
+		super.write(compound);
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
-		compound.setInteger(WAConstants.TIME_SEEN, getSeenTime());
+		compound.setInt(WAConstants.TIME_SEEN, getSeenTime());
 		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());
 	}
 	
 	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
-		super.readEntityFromNBT(compound);
-		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInteger(WAConstants.TIME_SEEN));
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
+		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
 		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
 		if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
 	}
@@ -142,7 +142,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	private boolean quantumCheck() {
 		
 		if (WAConfig.angels.freezeOnAngel) {
-			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getEntityBoundingBox().grow(25));
+			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
 				setSeenTime(0);
