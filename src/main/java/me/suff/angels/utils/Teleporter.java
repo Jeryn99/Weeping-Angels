@@ -28,7 +28,9 @@ public final class Teleporter {
 		
 		if (entity.dimension == dimension) {
 			if (entity instanceof EntityPlayerMP) {
-				((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, entity.rotationYaw, entity.rotationPitch);
+				if(((EntityPlayerMP) entity).connection != null) {
+					((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, entity.rotationYaw, entity.rotationPitch);
+				}
 			} else {
 				entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
 			}
@@ -45,7 +47,7 @@ public final class Teleporter {
 		entity.world.spawnEntity(anomaly);
 		
 		if (entity instanceof EntityPlayerMP) {
-			DimensionType newDimension = getRandomDimension(entity.world.provider.getDimensionType(), new Random());
+			DimensionType newDimension = getRandomDimension(entity.world.provider.getDimensionType(), entity.world.rand);
 			entity.changeDimension(newDimension.getId(), (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
 			boolean beSafeFlag = newDimension == DimensionType.THE_END || newDimension == DimensionType.NETHER;
@@ -62,10 +64,14 @@ public final class Teleporter {
 	
 	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
 		DimensionType[] dimensions = DimensionType.values();
-		if (dimensions.length == 1)
-			return current;
+		if (dimensions == null || dimensions.length <= 1)
+			return DimensionType.OVERWORLD;
 		
 		DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
+		
+		if(dim == null){
+			return DimensionType.OVERWORLD;
+		}
 		
 		for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {
 			if (notAllowedDimension == dim.getId()) {

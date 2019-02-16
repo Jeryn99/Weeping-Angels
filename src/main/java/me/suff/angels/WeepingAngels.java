@@ -2,6 +2,7 @@ package me.suff.angels;
 
 import me.suff.angels.combat.tardis.TardisMod;
 import me.suff.angels.proxy.CommonProxy;
+import net.minecraft.client.audio.MovingSoundMinecart;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -35,7 +36,6 @@ public class WeepingAngels {
 		if (Loader.isModLoaded("tardis")) {
 			TardisMod.register();
 		}
-		
 	}
 	
 	@Mod.EventHandler
