@@ -28,7 +28,7 @@ public final class Teleporter {
 		
 		if (entity.dimension == dimension) {
 			if (entity instanceof EntityPlayerMP) {
-				if(((EntityPlayerMP) entity).connection != null) {
+				if (((EntityPlayerMP) entity).connection != null) {
 					((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, entity.rotationYaw, entity.rotationPitch);
 				}
 			} else {
@@ -69,7 +69,7 @@ public final class Teleporter {
 		
 		DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
 		
-		if(dim == null){
+		if (dim == null) {
 			return DimensionType.OVERWORLD;
 		}
 		

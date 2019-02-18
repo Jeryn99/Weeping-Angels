@@ -133,6 +133,11 @@ public class EventHandler {
 						e.setCanceled(true);
 					}
 					
+					if(attacker instanceof EntityPlayer){
+						EntityPlayer player = (EntityPlayer) attacker;
+						player.getCooldownTracker().setCooldown(item.getItem(), 100);
+					}
+					
 					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 				}
 				
