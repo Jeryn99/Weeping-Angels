@@ -15,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -33,7 +32,6 @@ import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -133,12 +131,16 @@ public class EventHandler {
 						e.setCanceled(true);
 					}
 					
-					if(attacker instanceof EntityPlayer){
+					if (attacker instanceof EntityPlayer) {
 						EntityPlayer player = (EntityPlayer) attacker;
-						player.getCooldownTracker().setCooldown(item.getItem(), 100);
+						if (!player.getCooldownTracker().hasCooldown(item.getItem())) {
+							victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+							player.getCooldownTracker().setCooldown(item.getItem(), 250);
+						} else {
+							e.setCanceled(true);
+						}
 					}
 					
-					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 				}
 				
 				if (!(source instanceof Entity)) {
