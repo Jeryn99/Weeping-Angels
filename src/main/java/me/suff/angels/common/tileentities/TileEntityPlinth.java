@@ -1,13 +1,13 @@
 package me.suff.angels.common.tileentities;
 
 import me.suff.angels.client.models.poses.PoseManager;
+import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.AngelEnums;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 
@@ -17,8 +17,8 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	private int rotation = 0;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
 	
-	public TileEntityPlinth(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+	public TileEntityPlinth() {
+		super(WAObjects.Tiles.PLINTH);
 	}
 	
 	public boolean getHasSpawned() {

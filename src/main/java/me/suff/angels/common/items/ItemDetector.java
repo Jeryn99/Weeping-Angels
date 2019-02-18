@@ -6,8 +6,6 @@ import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.misc.WATabs;
 import me.suff.angels.config.WAConfig;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +16,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.function.Supplier;
 
 public class ItemDetector extends Item {
 	

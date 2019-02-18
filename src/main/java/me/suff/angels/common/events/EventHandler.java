@@ -6,7 +6,6 @@ import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -15,11 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -29,21 +23,13 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.SetCount;
-import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import java.util.Random;
 
@@ -144,16 +130,6 @@ public class EventHandler {
 				if (i == e.getWorld().getDimension().getType().getId()) {
 					e.setResult(Event.Result.DEFAULT);
 				}
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public static void onMissingMappingItem(RegistryEvent.MissingMappings<Item> e) {
-		for (RegistryEvent.MissingMappings.Mapping<Item> map : e.getAllMappings()) {
-			if (map.key.toString().equals("weeping-angels:unlit_torch")) {
-				WeepingAngels.LOGGER.warn("This world contains a removed item, removing: " + map.key);
-				map.ignore();
 			}
 		}
 	}

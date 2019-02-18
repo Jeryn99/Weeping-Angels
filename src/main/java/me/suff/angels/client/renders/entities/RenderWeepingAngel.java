@@ -8,12 +8,12 @@ import me.suff.angels.client.models.entity.ModelAngelMel;
 import me.suff.angels.client.models.entity.ModelClassicAngel;
 import me.suff.angels.client.renders.entities.layers.LayerCrack;
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {

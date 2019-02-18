@@ -1,7 +1,6 @@
 package me.suff.angels.common.entities;
 
 import com.google.common.collect.Lists;
-import io.netty.buffer.ByteBuf;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.misc.WAConstants;
 import me.suff.angels.utils.Teleporter;
@@ -18,8 +17,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
@@ -28,11 +25,11 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	public EntityAngelPainting.EnumAngelArt art;
 	
 	public EntityAngelPainting(World worldIn) {
-		super(worldIn);
+		super(null, worldIn);
 	}
 	
 	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side) {
-		super(worldIn, pos);
+		this(worldIn);
 		ArrayList<EnumAngelArt> ART_LIST = Lists.newArrayList();
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
@@ -67,13 +64,15 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		updateFacingWithBoundingBox(side);
 	}
 	
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
-	public void write(NBTTagCompound tagCompound) {
-		tagCompound.setString(WAConstants.MOTIVE, art.title);
-		super.write(tagCompound);
+	public NBTTagCompound serializeNBT() {
+		return null;
+	}
+	
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt) {
+		nbt.setString(WAConstants.MOTIVE, art.title);
+		super.deserializeNBT(nbt);
 	}
 	
 	@Override
@@ -187,17 +186,17 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	public void writeAdditional(NBTTagCompound buffer) {
 		super.writeAdditional(buffer);
 		buffer.setInt("art", art.ordinal());
-		buffer.setInt("chunkCoordX",chunkCoordX); // x
-		buffer.setInt("chunkCoordY",chunkCoordY); // y
-		buffer.setInt("chunkCoordZ",chunkCoordZ); // z
-		buffer.setInt("index",getHorizontalFacing().getIndex());
+		buffer.setInt("chunkCoordX", chunkCoordX); // x
+		buffer.setInt("chunkCoordY", chunkCoordY); // y
+		buffer.setInt("chunkCoordZ", chunkCoordZ); // z
+		buffer.setInt("index", getHorizontalFacing().getIndex());
 	}
 	
 	private void spawnAngel(World world) {
 		if (!world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			Teleporter.move(angel, dimension.getId(), new BlockPos(posX + 1, posY + 1, posZ + 1));
+			Teleporter.move(angel, dimension, new BlockPos(posX + 1, posY + 1, posZ + 1));
 			world.spawnEntity(angel);
 		}
 	}

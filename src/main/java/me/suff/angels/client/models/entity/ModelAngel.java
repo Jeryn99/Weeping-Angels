@@ -2,9 +2,9 @@ package me.suff.angels.client.models.entity;
 
 import me.suff.angels.client.models.poses.PoseManager;
 import me.suff.angels.common.entities.EntityWeepingAngel;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.client.renderer.entity.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 public class ModelAngel extends ModelBase {

@@ -8,9 +8,9 @@ import me.suff.angels.client.models.entity.ModelAngelMel;
 import me.suff.angels.client.models.entity.ModelClassicAngel;
 import me.suff.angels.client.renders.entities.RenderWeepingAngel;
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
@@ -33,7 +33,7 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 	
 	@Override
 	public void render(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		switch (angel.getType()) {
+		switch (angel.getAngelType()) {
 			case -1:
 				modelMain = modelChild;
 				break;
@@ -56,7 +56,7 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
 			GlStateManager.pushMatrix();
 			
 			if (!angel.isChild()) {
-				if (angel.getType() == 1) {
+				if (angel.getAngelType() == 1) {
 					angelRenderer.bindTexture(CRACK_TEX_2);
 				} else {
 					angelRenderer.bindTexture(CRACK_TEX);

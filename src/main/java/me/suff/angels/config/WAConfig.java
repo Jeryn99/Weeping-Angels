@@ -13,18 +13,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = WeepingAngels.MODID, name = "Weeping Angels")
 public class WAConfig {
 	
-	@Config.LangKey("category.weeping-angels.angels")
-	public static final Angels angels = new Angels();
-	
-	@Config.LangKey("category.weeping-angels.spawn")
-	public static final Spawn spawn = new Spawn();
-	
-	@Config.LangKey("category.weeping-angels.worldgen")
-	public static final WorldGen worldGen = new WorldGen();
-	
-	@Config.LangKey("category.weeping-angels.mod_intergrations")
-	public static Integrations integrations = new Integrations();
-	
 	public static Teleport teleport = new Teleport();
 	
 	public static class WorldGen {
@@ -170,14 +158,5 @@ public class WAConfig {
 		public boolean angelDimTeleport = true;
 	}
 	
-	@Mod.EventBusSubscriber
-	public static class EventHandler {
-		@SubscribeEvent
-		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-			if (event.getModID().equals(WeepingAngels.MODID)) {
-				ConfigManager.sync(WeepingAngels.MODID, Config.Type.INSTANCE);
-			}
-		}
-	}
 	
 }

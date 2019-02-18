@@ -1,12 +1,10 @@
 package me.suff.angels.utils;
 
 import me.suff.angels.common.entities.EntityAnomaly;
-import me.suff.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.util.ITeleporter;
@@ -62,18 +60,18 @@ public final class Teleporter {
 	}
 	
 	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
-		Iterable<DimensionType> dimensions = DimensionType.func_212681_b();
-		if (dimensions.length == 1)
-			return current;
+		//Iterable<DimensionType> dimensions = DimensionType.func_212681_b();
+		//if (dimensions.spliterator().characteristics() == 1)
+		//	return current;
 		
-		DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
+		//DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
 		
-		for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {
-			if (notAllowedDimension == dim.getId()) {
-				return current;
-			}
-		}
-		return dim;
+		//for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {
+		//	if (notAllowedDimension == dim.getId()) {
+		//		return current;
+		//	}
+		//}
+		return current;
 	}
 	
 	public static void handleStructures(EntityPlayer player) {

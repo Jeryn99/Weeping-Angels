@@ -7,7 +7,6 @@ import me.suff.angels.common.entities.EntityQuantumLockBase;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
 import net.minecraft.block.Block;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,14 +19,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -108,17 +102,17 @@ public class AngelUtils {
 		SPAWNS.addAll(biomes);
 		
 		for (String rs : WAConfig.spawn.notAllowedBiomes) {
-			if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
-				Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
-				SPAWNS.remove(removedBiome);
-			}
+			//	if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
+			//		Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
+			//		SPAWNS.remove(removedBiome);
+			//	}
 		}
 		
-		SPAWNS.forEach(biome -> {
-			if (biome != null) {
-				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
-			}
-		});
+		//	SPAWNS.forEach(biome -> {
+		//		if (biome != null) {
+		//EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
+		//		}
+		//	});
 	}
 	
 	/**

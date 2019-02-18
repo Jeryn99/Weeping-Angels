@@ -5,7 +5,6 @@ import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityChronodyneGenerator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.entity.RenderSprite;
 
 public class RenderChronodyneGenerator extends RenderSprite<EntityChronodyneGenerator> {

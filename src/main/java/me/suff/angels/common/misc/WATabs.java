@@ -1,7 +1,6 @@
 package me.suff.angels.common.misc;
 
 import me.suff.angels.common.WAObjects;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 

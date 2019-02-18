@@ -80,8 +80,8 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	@Override
-	protected void entityInit() {
-		super.entityInit();
+	protected void registerData() {
+		super.registerData();
 		getDataManager().register(IS_SEEN, false);
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(PREVBLOCKPOS, BlockPos.ORIGIN);
@@ -89,6 +89,19 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	@Override
+	public void deserializeNBT(NBTTagCompound compound) {
+		super.deserializeNBT(compound);
+		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
+		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
+		if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
+	}
+	
+	@Override
+	public NBTTagCompound serializeNBT() {
+		
+		return super.serializeNBT();
+	}
+	
 	public void write(NBTTagCompound compound) {
 		super.write(compound);
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
@@ -96,13 +109,6 @@ public class EntityQuantumLockBase extends EntityMob {
 		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());
 	}
 	
-	@Override
-	public void read(NBTTagCompound compound) {
-		super.read(compound);
-		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
-		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
-		if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
-	}
 	
 	public boolean isSeen() {
 		return getSeenTime() > 0;

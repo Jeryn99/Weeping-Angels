@@ -12,7 +12,7 @@ public class EntityAnomaly extends EntityLiving {
 	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(EntityAnomaly.class, DataSerializers.FLOAT);
 	
 	public EntityAnomaly(World worldIn) {
-		super(worldIn);
+		super(null,worldIn);
 	}
 	
 	@Override

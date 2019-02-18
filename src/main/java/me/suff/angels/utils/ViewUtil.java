@@ -2,7 +2,6 @@ package me.suff.angels.utils;
 
 import me.suff.angels.common.entities.EntityQuantumLockBase;
 import me.suff.angels.config.WAConfig;
-import me.suff.angels.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPane;
@@ -44,7 +43,8 @@ public class ViewUtil {
 		Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 		
 		for (int i = 0; i < viewerPoints.length; i++) {
-			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, true, false) == null) return false;
+			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, true, false) == null)
+				return false;
 			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], pos -> {
 				IBlockState state = viewer.world.getBlockState(pos);
 				for (String transparent_block : WAConfig.angels.transparent_blocks)

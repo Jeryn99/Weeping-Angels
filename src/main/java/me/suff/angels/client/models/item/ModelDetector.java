@@ -816,17 +816,17 @@ public class ModelDetector extends ModelBase {
 			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 0.5F);
-			int bright = 0xF0;
-			int brightX = bright % 65536;
-			int brightY = bright / 65536;
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, brightX, brightY);
+			final int packedMaxLight = 0xf000f0; //15728880
+			final int skyLight = packedMaxLight % 0x10000; //65536
+			final int blockLight = packedMaxLight / 0x10000; //65536
+			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, skyLight, blockLight);
 		}
 		
 		light.render(scale);
 		
 		if (timer % 2 == 0) {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0x0, 0xf0);
+			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, 0x0, 0xf0);
 			GlStateManager.disableAlphaTest();
 			GlStateManager.disableBlend();
 		}

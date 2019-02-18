@@ -14,9 +14,7 @@ import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.suff.angels.common.tileentities.TileEntityPlinth;
 import me.suff.angels.common.tileentities.TileEntitySnowArm;
-import me.suff.angels.proxy.CommonProxy;
 import me.suff.angels.utils.RenderUtil;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -31,7 +29,7 @@ public class WeepingAngels {
 	
 	public static Logger LOGGER = LogManager.getLogger(NAME);
 	
-	public WeepingAngels(){
+	public WeepingAngels() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 	}
 	
@@ -45,7 +43,6 @@ public class WeepingAngels {
 		RenderUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
 		RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
 	}
-	
 	
 	
 }
