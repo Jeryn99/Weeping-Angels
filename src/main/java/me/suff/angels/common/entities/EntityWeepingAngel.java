@@ -341,8 +341,6 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		EnumTeleportType type = WAConfig.teleport.teleportType;
 		
 		switch (type) {
-			case DONT:
-				break;
 			case STRUCTURES:
 				Teleporter.handleStructures(player);
 				break;
@@ -353,6 +351,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				} else {
 					Teleporter.handleStructures(player);
 				}
+				break;
+			default:
 				break;
 		}
 	}
