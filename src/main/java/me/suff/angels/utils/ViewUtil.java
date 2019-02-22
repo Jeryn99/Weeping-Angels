@@ -20,7 +20,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
 
@@ -50,7 +49,7 @@ public class ViewUtil {
 				return false;
 			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, false, false, pos -> {
 				IBlockState state = viewer.world.getBlockState(pos);
-				for (String transparent_block : WAConfig.angels.transparent_blocks)
+				for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get())
 					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
 				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
 						!(state.getBlock() instanceof BlockPane) && !(state.getBlock() instanceof BlockVine) && !(state.getBlock() instanceof BlockLeaves) &&

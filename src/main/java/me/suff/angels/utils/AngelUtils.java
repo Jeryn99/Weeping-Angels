@@ -101,7 +101,7 @@ public class AngelUtils {
 		ArrayList<Biome> SPAWNS = Lists.newArrayList();
 		SPAWNS.addAll(biomes);
 		
-		for (String rs : WAConfig.spawn.notAllowedBiomes) {
+		for (String rs : WAConfig.CONFIG.notAllowedBiomes.get()) {
 			//	if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
 			//		Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
 			//		SPAWNS.remove(removedBiome);

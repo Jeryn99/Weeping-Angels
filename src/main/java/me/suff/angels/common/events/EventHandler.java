@@ -1,6 +1,5 @@
 package me.suff.angels.common.events;
 
-import me.suff.angels.WeepingAngels;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
@@ -27,12 +26,11 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 public class EventHandler {
 	
 	private static void generateArms(World world, BlockPos position) {
-		if (!WAConfig.worldGen.arms) return;
+		if (!WAConfig.CONFIG.arms.get()) return;
 		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
 		if ((!world.dimension.isNether() || pos.getY() < 255) && world.getBiome(position).doesSnowGenerate(world, pos)) {
 			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_BLOCK)
@@ -42,7 +40,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void cancelDamage(LivingAttackEvent e) {
-		if (!WAConfig.angels.pickaxeOnly) return;
+		if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
 		
 		Entity source = e.getSource().getTrueSource();
 		if (source instanceof EntityLivingBase) {
@@ -51,7 +49,7 @@ public class EventHandler {
 			
 			if (victim instanceof EntityWeepingAngel) {
 				
-				if (WAConfig.angels.hardcoreMode) {
+				if (WAConfig.CONFIG.hardcoreMode.get()) {
 					e.setCanceled(true);
 					return;
 				}
@@ -93,7 +91,7 @@ public class EventHandler {
 	public void onSpawn(LivingSpawnEvent.CheckSpawn e) {
 		if (e.getEntity() instanceof EntityWeepingAngel) {
 			e.setResult(Event.Result.DENY);
-			for (int i : WAConfig.spawn.dimensionWhitelist) {
+			for (int i : WAConfig.CONFIG.dimensionWhitelist.get()) {
 				if (i == e.getWorld().getDimension().getType().getId()) {
 					e.setResult(Event.Result.DEFAULT);
 				}

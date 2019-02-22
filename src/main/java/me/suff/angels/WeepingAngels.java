@@ -5,7 +5,6 @@ import me.suff.angels.client.renders.entities.RenderWeepingAngel;
 import me.suff.angels.client.renders.tileentities.RenderTileEntityCG;
 import me.suff.angels.client.renders.tileentities.RenderTileEntityPlinth;
 import me.suff.angels.client.renders.tileentities.RenderTileEntitySnowArm;
-import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityAnomaly;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.events.EventHandler;
@@ -51,7 +50,7 @@ public class WeepingAngels {
 		RenderUtil.bindEntityRender(EntityWeepingAngel.class, RenderWeepingAngel::new);
 		//RenderUtil.bindEntityRender(EntityAngelPainting.class, RenderAngelPainting::new);
 		RenderUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
-		RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
+		//RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
 		//RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);

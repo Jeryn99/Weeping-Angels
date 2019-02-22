@@ -35,7 +35,7 @@ public class ItemDetector extends Item {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING, SoundCategory.PLAYERS, 0.5F, 1.0F);
 						}
 						
-						if (worldIn.rand.nextInt(5) == 3 && WAConfig.angels.chickenGoboom) {
+						if (worldIn.rand.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
 							for (EntityChicken chick : entityIn.world.getEntitiesWithinAABB(EntityChicken.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
 								if (entityIn.world.rand.nextBoolean()) {
 									chick.getEntityWorld().createExplosion(chick, chick.getPosition().getX(), chick.getPosition().getY(), chick.getPosition().getZ(), 0.5F, false);

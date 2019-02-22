@@ -58,7 +58,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 50.0F));
-		experienceValue = WAConfig.angels.xpGained;
+		experienceValue = WAConfig.CONFIG.xpGained.get();
 	}
 	
 	
@@ -104,7 +104,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	protected void registerAttributes() {
 		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.angels.damage);
+		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.CONFIG.damage.get());
 		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
@@ -120,7 +120,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			EntityPlayerMP playerMP = (EntityPlayerMP) entity;
 			
 			//Blowing out light items from the players hand
-			if (WAConfig.angels.torchBlowOut && isCherub()) {
+			if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
 				AngelUtils.removeLightFromHand(playerMP, this);
 			}
 			
@@ -140,7 +140,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			
 			
 			//Teleporting and damage
-			if (WAConfig.teleport.justTeleport) {
+			if (WAConfig.CONFIG.justTeleport.get()) {
 				if (!isCherub()) {
 					teleportInteraction(playerMP);
 					return false;
@@ -220,7 +220,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		
 		if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
 			setPrevPos(getPosition());
-			if (WAConfig.angels.playSeenSounds) {
+			if (WAConfig.CONFIG.playSeenSounds.get()) {
 				((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 			}
 			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
@@ -240,7 +240,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void moveTowards(EntityLivingBase entity) {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
-		if (WAConfig.angels.playScrapSounds && !isCherub()) {
+		if (WAConfig.CONFIG.playScrapSounds.get() && !isCherub()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
 		}
 		
@@ -266,7 +266,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.POSE_HIDING_FACE.toString());
 		}
-		replaceBlocks(getBoundingBox().grow(WAConfig.angels.blockBreakRange));
+		replaceBlocks(getBoundingBox().grow(WAConfig.CONFIG.blockBreakRange.get()));
 	}
 	
 	@Override
@@ -288,7 +288,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
-		if (world.isRemote || !WAConfig.angels.blockBreaking || ticksExisted % 100 != 0 || isQuantumLocked()) return;
+		if (world.isRemote || !WAConfig.CONFIG.blockBreaking.get() || ticksExisted % 100 != 0 || isQuantumLocked())
+			return;
 		
 		if (world.getLight(getPosition()) == 0) {
 			return;
@@ -321,7 +322,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	private boolean canBreak(IBlockState blockState) {
-		for (String regName : WAConfig.angels.disAllowedBlocks) {
+		for (String regName : WAConfig.CONFIG.disAllowedBlocks.get()) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
 				return false;
 			}
@@ -332,7 +333,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private void teleportInteraction(EntityPlayer player) {
 		if (world.isRemote) return;
 		
-		EnumTeleportType type = WAConfig.teleport.teleportType;
+		EnumTeleportType type = EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 		
 		switch (type) {
 			case DONT:
@@ -342,7 +343,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				break;
 			case RANDOM_PLACE:
 				if (rand.nextBoolean()) {
-					BlockPos pos = new BlockPos(player.posX + rand.nextInt(WAConfig.teleport.teleportRange), 0, player.posZ + rand.nextInt(WAConfig.teleport.teleportRange));
+					BlockPos pos = new BlockPos(player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get()), 0, player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get()));
 					Teleporter.moveSafeAcrossDim(player, pos);
 				} else {
 					Teleporter.handleStructures(player);

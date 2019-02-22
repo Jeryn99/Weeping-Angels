@@ -6,7 +6,6 @@ import me.suff.angels.utils.AngelUtils;
 import me.suff.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,11 +38,11 @@ public class EntityQuantumLockBase extends EntityMob {
 		
 		super.livingTick();
 		
-		if (!isQuantumLocked() || WAConfig.angels.freezeOnAngel) {
+		if (!isQuantumLocked() || WAConfig.CONFIG.freezeOnAngel.get()) {
 			
 			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getBoundingBox().grow(WAConfig.angels.stalkRange));
+				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
 				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
 				
 				if (players.isEmpty()) {
@@ -78,7 +77,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	public void moveTowards(EntityLivingBase targetPlayer) {
-		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.angels.moveSpeed);
+		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.CONFIG.moveSpeed.get());
 	}
 	
 	@Override
@@ -144,7 +143,7 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	private boolean quantumCheck() {
 		
-		if (WAConfig.angels.freezeOnAngel) {
+		if (WAConfig.CONFIG.freezeOnAngel.get()) {
 			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
