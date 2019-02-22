@@ -53,7 +53,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
 	
 	public EntityWeepingAngel(World world) {
-		super(world);
+		super(world, WAObjects.EntityEntries.WEEPING_ANGEL);
 		tasks.addTask(0, new EntityAIBreakDoor(this));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
@@ -63,8 +63,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	
 	@Override
-	protected void entityInit() {
-		super.entityInit();
+	protected void registerData() {
+		super.registerData();
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, AngelUtils.randomType().getId());
 		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
@@ -182,8 +182,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void write(NBTTagCompound compound) {
-		super.write(compound);
+	public void writeAdditional(NBTTagCompound compound) {
+		super.writeAdditional(compound);
 		compound.setString(WAConstants.POSE, getPose());
 		compound.setInt(WAConstants.TYPE, getAngelType());
 		compound.setBoolean(WAConstants.ANGEL_CHILD, isCherub());

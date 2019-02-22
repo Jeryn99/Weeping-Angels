@@ -5,6 +5,8 @@ import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.AngelUtils;
 import me.suff.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,8 +26,8 @@ public class EntityQuantumLockBase extends EntityMob {
 	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
 	
-	public EntityQuantumLockBase(World worldIn) {
-		super(worldIn);
+	public EntityQuantumLockBase(World worldIn, EntityType entityType) {
+		super(entityType, worldIn);
 	}
 	
 	@Override
@@ -97,13 +99,8 @@ public class EntityQuantumLockBase extends EntityMob {
 	}
 	
 	@Override
-	public NBTTagCompound serializeNBT() {
-		
-		return super.serializeNBT();
-	}
-	
-	public void write(NBTTagCompound compound) {
-		super.write(compound);
+	public void writeAdditional(NBTTagCompound compound) {
+		super.writeAdditional(compound);
 		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
 		compound.setInt(WAConstants.TIME_SEEN, getSeenTime());
 		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());

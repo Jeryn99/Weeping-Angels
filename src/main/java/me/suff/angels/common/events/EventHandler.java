@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.RandomValueRange;
@@ -26,42 +25,11 @@ import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Random;
-
-@Mod.EventBusSubscriber(modid = WeepingAngels.MODID)
 public class EventHandler {
-	
-	private static WorldGenMinable genCrystal = new WorldGenMinable(WAObjects.Blocks.KONTRON_ORE.getDefaultState(), 3);
-	
-	@SubscribeEvent
-	public static void decorateBiomeEvent(BiomeEvent e) {
-		
-		World world = e.getWorld();
-		Random rand = e.getRand();
-		
-		if (world.getBiome(e.getPos()).isSnowyBiome()) {
-			if (rand.nextInt(5) <= 3) {
-				generateArms(world, e.getPos());
-			}
-		}
-		
-		if (!WAConfig.worldGen.genOres) return;
-		int blockY = rand.nextInt(64);
-		int blockX = e.getChunkPos().x * 16 + (rand.nextInt(16) + 8);
-		int blockZ = e.getChunkPos().z * 16 + (rand.nextInt(16) + 8);
-		BlockPos pos = new BlockPos(blockX, blockY, blockZ);
-		
-		if (world.getDimension().getType().getId() == 0 && rand.nextBoolean() && !world.getBiome(e.getPos()).isSnowyBiome()) {
-			if (blockY > 3 && blockY < 60) {
-				genCrystal.generate(world, rand, pos);
-			}
-		}
-	}
 	
 	private static void generateArms(World world, BlockPos position) {
 		if (!WAConfig.worldGen.arms) return;
@@ -73,9 +41,8 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void cancelDamage(LivingAttackEvent e) {
+	public void cancelDamage(LivingAttackEvent e) {
 		if (!WAConfig.angels.pickaxeOnly) return;
-		
 		
 		Entity source = e.getSource().getTrueSource();
 		if (source instanceof EntityLivingBase) {
@@ -113,7 +80,7 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void onLootTablesLoaded(LootTableLoadEvent event) {
+	public void onLootTablesLoaded(LootTableLoadEvent event) {
 		if (event.getName().getNamespace().contains("chests")) {
 			final LootPool pool2 = event.getTable().getPool("pool2");
 			if (pool2 != null) {
@@ -123,7 +90,7 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void onSpawn(LivingSpawnEvent.CheckSpawn e) {
+	public void onSpawn(LivingSpawnEvent.CheckSpawn e) {
 		if (e.getEntity() instanceof EntityWeepingAngel) {
 			e.setResult(Event.Result.DENY);
 			for (int i : WAConfig.spawn.dimensionWhitelist) {

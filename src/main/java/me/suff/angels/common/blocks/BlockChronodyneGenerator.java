@@ -1,17 +1,19 @@
 package me.suff.angels.common.blocks;
 
-import me.suff.angels.common.misc.WATabs;
 import me.suff.angels.common.tileentities.TileEntityChronodyneGenerator;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+
+import javax.annotation.Nullable;
 
 
 public class BlockChronodyneGenerator extends Block {
@@ -19,27 +21,17 @@ public class BlockChronodyneGenerator extends Block {
 	protected static final AxisAlignedBB CG_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D);
 	
 	public BlockChronodyneGenerator() {
-		super(Material.GRASS, MapColor.ADOBE);
-		translucent = true;
-		setCreativeTab(WATabs.MAIN_TAB);
+		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return CG_AABB;
-	}
-	
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
+	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return VoxelShapes.create(CG_AABB);
 	}
 	
 	@Override
-	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
-		return true;
+	public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return VoxelShapes.create(CG_AABB);
 	}
 	
 	@Override
@@ -60,8 +52,9 @@ public class BlockChronodyneGenerator extends Block {
 		return true;
 	}
 	
+	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
+	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
 		return new TileEntityChronodyneGenerator();
 	}
 	
@@ -70,8 +63,4 @@ public class BlockChronodyneGenerator extends Block {
 		return false;
 	}
 	
-	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return true;
-	}
 }

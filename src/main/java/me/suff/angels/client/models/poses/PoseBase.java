@@ -2,8 +2,8 @@ package me.suff.angels.client.models.poses;
 
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.model.ModelRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class PoseBase {
 	
@@ -113,7 +113,7 @@ public abstract class PoseBase {
 		return (float) (degree * Math.PI / 180);
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void resetAngles(ModelRenderer model) {
 		model.rotateAngleX = 0;
 		model.rotateAngleY = 0;
