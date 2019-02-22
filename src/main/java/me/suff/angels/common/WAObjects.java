@@ -5,6 +5,7 @@ import me.suff.angels.common.blocks.BlockChronodyneGenerator;
 import me.suff.angels.common.blocks.BlockMineable;
 import me.suff.angels.common.blocks.BlockSnowArm;
 import me.suff.angels.common.entities.AngelEnums;
+import me.suff.angels.common.entities.EntityAnomaly;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.items.ItemAngelSpawner;
 import me.suff.angels.common.items.ItemChronodyneGenerator;
@@ -36,7 +37,7 @@ import java.util.List;
 
 import static me.suff.angels.WeepingAngels.MODID;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
 	
 	public static DamageSource ANGEL = new WADamageSource("backintime"),
@@ -49,6 +50,7 @@ public class WAObjects {
 	
 	@SubscribeEvent
 	public static void addItems(RegistryEvent.Register<Item> e) {
+		System.out.println("FUCKING WORK YOU TRASH");
 		IForgeRegistry<Item> reg = e.getRegistry();
 		//reg.registerAll(reg, WATabs.MAIN_TAB, ITEM_BLOCKS.toArray(new Item[ITEM_BLOCKS.size()]));
 		reg.registerAll(
@@ -80,12 +82,7 @@ public class WAObjects {
 	@SubscribeEvent
 	public static void addEntities(RegistryEvent.Register<EntityType<?>> e) {
 		IForgeRegistry<EntityType<?>> reg = e.getRegistry();
-		reg.registerAll(
-				///EntityEntries.ANOMALY,
-				//EntityEntries.CHRONODYNE_GENERATOR,
-				EntityEntries.WEEPING_ANGEL
-				//EntityEntries.WEEPING_ANGEL_PAINTING
-		);
+		reg.registerAll(EntityEntries.WEEPING_ANGEL, EntityEntries.ANOMALY);
 		AngelUtils.setUpSpawns();
 	}
 	
@@ -118,9 +115,9 @@ public class WAObjects {
 	}
 	
 	public static class Tiles {
-		public static TileEntityType<?> ARM = TileEntityType.register(MODID + ":snowarm", TileEntityType.Builder.create(TileEntitySnowArm::new)).setRegistryName(new ResourceLocation(MODID + ":snowarm"));
-		public static TileEntityType<?> CG = TileEntityType.register(MODID + ":cg", TileEntityType.Builder.create(TileEntityChronodyneGenerator::new)).setRegistryName(new ResourceLocation(MODID + ":cg"));
-		public static TileEntityType<?> PLINTH = TileEntityType.register(MODID + ":plinth", TileEntityType.Builder.create(TileEntityPlinth::new)).setRegistryName(new ResourceLocation(MODID + ":plinth"));
+		public static TileEntityType<?> ARM = TileEntityType.register(MODID + ":snowarm", TileEntityType.Builder.create(TileEntitySnowArm::new));
+		public static TileEntityType<?> CG = TileEntityType.register(MODID + ":cg", TileEntityType.Builder.create(TileEntityChronodyneGenerator::new));
+		public static TileEntityType<?> PLINTH = TileEntityType.register(MODID + ":plinth", TileEntityType.Builder.create(TileEntityPlinth::new));
 	}
 	
 	@ObjectHolder(MODID)
@@ -170,9 +167,10 @@ public class WAObjects {
 	// Entities
 	@ObjectHolder(MODID)
 	public static class EntityEntries {
-		public static EntityType WEEPING_ANGEL = EntityType.register(MODID + ":weeping_angel", EntityType.Builder.create(EntityWeepingAngel.class, EntityWeepingAngel::new).tracker(256, 20, false)).setRegistryName(new ResourceLocation(MODID, "weeping_angel"));
+		public static EntityType WEEPING_ANGEL = EntityType.register(MODID + ":weeping_angel", EntityType.Builder.create(EntityWeepingAngel.class, EntityWeepingAngel::new).tracker(256, 20, false));
+		public static EntityType ANOMALY = EntityType.register(MODID + ":anomaly", EntityType.Builder.create(EntityAnomaly.class, EntityAnomaly::new).tracker(256, 20, false));
+		//public static EntityType WEEPING_ANGEL = EntityType.register(MODID + ":weeping_angel", EntityType.Builder.create(EntityWeepingAngel.class, EntityWeepingAngel::new).tracker(256, 20, false)).setRegistryName(new ResourceLocation(MODID, "weeping_angel"));
 		//public static final EntityEntry WEEPING_ANGEL_PAINTING = EntityEntryBuilder.create().entity(EntityAngelPainting.class).id(new ResourceLocation(MODID, "weepingAngelpainting"), 1).name("weepingAngelpainting").tracker(80, Integer.MAX_VALUE, false).build();
 		//	public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
-		//	public static final EntityEntry ANOMALY = EntityEntryBuilder.create().entity(EntityAnomaly.class).id(new ResourceLocation(MODID, "anomaly"), 3).name("anomaly").tracker(80, 3, true).build();
 	}
 }

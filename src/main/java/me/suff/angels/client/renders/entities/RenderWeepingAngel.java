@@ -54,12 +54,12 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	 */
 	@Override
 	protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		if (angel.isDead) return;
+		if (!angel.isAlive()) return;
 		
 		GlStateManager.pushMatrix();
 		RenderHelper.enableStandardItemLighting();
 		
-		switch (angel.getType()) {
+		switch (angel.getAngelType()) {
 			case -1:
 				bindTexture(TEXTURE_CHILD);
 				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);

@@ -483,7 +483,7 @@ public class ModelAngel extends ModelBase {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableLighting();
 		if (!angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
-			GlStateManager.rotate(20, 1, 0, 0);
+			GlStateManager.rotatef(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
 		RightEyebrow.render(scale);

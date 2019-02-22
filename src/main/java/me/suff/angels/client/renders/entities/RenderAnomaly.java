@@ -32,7 +32,7 @@ public class RenderAnomaly extends RenderEntity {
 		EntityAnomaly anom = (EntityAnomaly) entity;
 		
 		GlStateManager.pushMatrix();
-		GlStateManager.translatef(x, y + anom.getEntityEyeHeight(), z + 0.2F);
+		GlStateManager.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
 		GlStateManager.scaled(scale, scale, scale);
 		
@@ -53,19 +53,19 @@ public class RenderAnomaly extends RenderEntity {
 			GlStateManager.shadeModel(7425);
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			GlStateManager.disableAlpha();
+			GlStateManager.disableAlphaTest();
 			GlStateManager.enableCull();
 			GlStateManager.depthMask(false);
 			GlStateManager.pushMatrix();
 			GlStateManager.translatef(0.0F, -1.0F, -2.0F);
 			
 			for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
-				GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-				GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotate(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+				GlStateManager.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
 				float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
 				float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
 				bufferbuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
@@ -93,9 +93,9 @@ public class RenderAnomaly extends RenderEntity {
 			GlStateManager.disableCull();
 			GlStateManager.disableBlend();
 			GlStateManager.shadeModel(7424);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GlStateManager.enableTexture2D();
-			GlStateManager.enableAlpha();
+			GlStateManager.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
 		}
 		

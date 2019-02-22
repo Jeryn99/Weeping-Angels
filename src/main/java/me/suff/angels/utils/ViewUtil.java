@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -19,6 +20,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -45,146 +48,190 @@ public class ViewUtil {
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, true, false) == null)
 				return false;
-			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], pos -> {
+			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, false, false, pos -> {
 				IBlockState state = viewer.world.getBlockState(pos);
 				for (String transparent_block : WAConfig.angels.transparent_blocks)
 					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
 				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
 						!(state.getBlock() instanceof BlockPane) && !(state.getBlock() instanceof BlockVine) && !(state.getBlock() instanceof BlockLeaves) &&
-						state.getCollisionShape(viewer.world, pos) != Block.NULL_AABB && state.getBlock().isCollidable(state);
+						state.getCollisionShape(viewer.world, pos) != VoxelShapes.empty() && state.getBlock().isCollidable(state);
 			}) == null) return false;
 		}
 		return true;
 	}
 	
-	/**
-	 * Slightly modified from {@link World#rayTraceBlocks(Vec3d, Vec3d, boolean, boolean, boolean)} to take a predicate as an argument
-	 */
 	@Nullable
-	private static RayTraceResult rayTraceBlocks(World world, Vec3d vec31, Vec3d vec32, Predicate<BlockPos> stopOn) {
-		if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
-			if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
-				int i = MathHelper.floor(vec32.x);
-				int j = MathHelper.floor(vec32.y);
-				int k = MathHelper.floor(vec32.z);
-				int l = MathHelper.floor(vec31.x);
-				int i1 = MathHelper.floor(vec31.y);
-				int j1 = MathHelper.floor(vec31.z);
+	public static RayTraceResult rayTraceBlocks(World world, Vec3d start, Vec3d end, RayTraceFluidMode fluidMode, boolean p_200259_4_, boolean p_200259_5_, Predicate<BlockPos> stopOn) {
+		double d0 = start.x;
+		double d1 = start.y;
+		double d2 = start.z;
+		if (!Double.isNaN(d0) && !Double.isNaN(d1) && !Double.isNaN(d2)) {
+			if (!Double.isNaN(end.x) && !Double.isNaN(end.y) && !Double.isNaN(end.z)) {
+				int i = MathHelper.floor(end.x);
+				int j = MathHelper.floor(end.y);
+				int k = MathHelper.floor(end.z);
+				int l = MathHelper.floor(d0);
+				int i1 = MathHelper.floor(d1);
+				int j1 = MathHelper.floor(d2);
 				BlockPos blockpos = new BlockPos(l, i1, j1);
+				
 				IBlockState iblockstate = world.getBlockState(blockpos);
 				
 				if (stopOn.test(blockpos)) {
-					RayTraceResult raytraceresult = iblockstate.collisionRayTrace(world, blockpos, vec31, vec32);
-					
+					RayTraceResult raytraceresult = Block.collisionRayTrace(iblockstate, world, blockpos, start, end);
 					if (raytraceresult != null) {
 						return raytraceresult;
 					}
 				}
 				
+				IFluidState ifluidstate = world.getFluidState(blockpos);
+				if (!p_200259_4_ || !iblockstate.getCollisionShape(world, blockpos).isEmpty()) {
+					boolean flag = iblockstate.getBlock().isCollidable(iblockstate);
+					boolean flag1 = fluidMode.predicate.test(ifluidstate);
+					if (flag || flag1) {
+						RayTraceResult raytraceresult = null;
+						
+						
+						if (flag) {
+							raytraceresult = Block.collisionRayTrace(iblockstate, world, blockpos, start, end);
+						}
+						
+						if (raytraceresult == null && flag1) {
+							raytraceresult = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double)ifluidstate.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
+						}
+						
+						if (raytraceresult != null) {
+							return raytraceresult;
+						}
+					}
+				}
+				
+				RayTraceResult raytraceresult2 = null;
 				int k1 = 200;
 				
-				while (k1-- >= 0) {
-					if (Double.isNaN(vec31.x) || Double.isNaN(vec31.y) || Double.isNaN(vec31.z)) {
+				while(k1-- >= 0) {
+					if (Double.isNaN(d0) || Double.isNaN(d1) || Double.isNaN(d2)) {
 						return null;
 					}
 					
 					if (l == i && i1 == j && j1 == k) {
-						return null;
+						return p_200259_5_ ? raytraceresult2 : null;
 					}
 					
-					boolean flag2 = true;
-					boolean flag = true;
-					boolean flag1 = true;
-					double d0 = 999.0D;
-					double d1 = 999.0D;
-					double d2 = 999.0D;
-					
-					if (i > l) {
-						d0 = (double) l + 1.0D;
-					} else if (i < l) {
-						d0 = (double) l + 0.0D;
-					} else {
-						flag2 = false;
-					}
-					
-					if (j > i1) {
-						d1 = (double) i1 + 1.0D;
-					} else if (j < i1) {
-						d1 = (double) i1 + 0.0D;
-					} else {
-						flag = false;
-					}
-					
-					if (k > j1) {
-						d2 = (double) j1 + 1.0D;
-					} else if (k < j1) {
-						d2 = (double) j1 + 0.0D;
-					} else {
-						flag1 = false;
-					}
-					
+					boolean flag4 = true;
+					boolean flag5 = true;
+					boolean flag6 = true;
 					double d3 = 999.0D;
 					double d4 = 999.0D;
 					double d5 = 999.0D;
-					double d6 = vec32.x - vec31.x;
-					double d7 = vec32.y - vec31.y;
-					double d8 = vec32.z - vec31.z;
-					
-					if (flag2) {
-						d3 = (d0 - vec31.x) / d6;
+					if (i > l) {
+						d3 = (double)l + 1.0D;
+					} else if (i < l) {
+						d3 = (double)l + 0.0D;
+					} else {
+						flag4 = false;
 					}
 					
-					if (flag) {
-						d4 = (d1 - vec31.y) / d7;
+					if (j > i1) {
+						d4 = (double)i1 + 1.0D;
+					} else if (j < i1) {
+						d4 = (double)i1 + 0.0D;
+					} else {
+						flag5 = false;
 					}
 					
-					if (flag1) {
-						d5 = (d2 - vec31.z) / d8;
+					if (k > j1) {
+						d5 = (double)j1 + 1.0D;
+					} else if (k < j1) {
+						d5 = (double)j1 + 0.0D;
+					} else {
+						flag6 = false;
 					}
 					
-					if (d3 == -0.0D) {
-						d3 = -1.0E-4D;
+					double d6 = 999.0D;
+					double d7 = 999.0D;
+					double d8 = 999.0D;
+					double d9 = end.x - d0;
+					double d10 = end.y - d1;
+					double d11 = end.z - d2;
+					if (flag4) {
+						d6 = (d3 - d0) / d9;
 					}
 					
-					if (d4 == -0.0D) {
-						d4 = -1.0E-4D;
+					if (flag5) {
+						d7 = (d4 - d1) / d10;
 					}
 					
-					if (d5 == -0.0D) {
-						d5 = -1.0E-4D;
+					if (flag6) {
+						d8 = (d5 - d2) / d11;
+					}
+					
+					if (d6 == -0.0D) {
+						d6 = -1.0E-4D;
+					}
+					
+					if (d7 == -0.0D) {
+						d7 = -1.0E-4D;
+					}
+					
+					if (d8 == -0.0D) {
+						d8 = -1.0E-4D;
 					}
 					
 					EnumFacing enumfacing;
-					
-					if (d3 < d4 && d3 < d5) {
+					if (d6 < d7 && d6 < d8) {
 						enumfacing = i > l ? EnumFacing.WEST : EnumFacing.EAST;
-						vec31 = new Vec3d(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
-					} else if (d4 < d5) {
+						d0 = d3;
+						d1 += d10 * d6;
+						d2 += d11 * d6;
+					} else if (d7 < d8) {
 						enumfacing = j > i1 ? EnumFacing.DOWN : EnumFacing.UP;
-						vec31 = new Vec3d(vec31.x + d6 * d4, d1, vec31.z + d8 * d4);
+						d0 += d9 * d7;
+						d1 = d4;
+						d2 += d11 * d7;
 					} else {
 						enumfacing = k > j1 ? EnumFacing.NORTH : EnumFacing.SOUTH;
-						vec31 = new Vec3d(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
+						d0 += d9 * d8;
+						d1 += d10 * d8;
+						d2 = d5;
 					}
 					
-					l = MathHelper.floor(vec31.x) - (enumfacing == EnumFacing.EAST ? 1 : 0);
-					i1 = MathHelper.floor(vec31.y) - (enumfacing == EnumFacing.UP ? 1 : 0);
-					j1 = MathHelper.floor(vec31.z) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
+					l = MathHelper.floor(d0) - (enumfacing == EnumFacing.EAST ? 1 : 0);
+					i1 = MathHelper.floor(d1) - (enumfacing == EnumFacing.UP ? 1 : 0);
+					j1 = MathHelper.floor(d2) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
 					blockpos = new BlockPos(l, i1, j1);
-					if (stopOn.test(blockpos)) {
-						RayTraceResult raytraceresult1 = world.getBlockState(blockpos).collisionRayTrace(world, blockpos, vec31, vec32);
-						
-						if (raytraceresult1 != null) {
-							return raytraceresult1;
+					IBlockState iblockstate1 = world.getBlockState(blockpos);
+					IFluidState ifluidstate1 = world.getFluidState(blockpos);
+					if (!p_200259_4_ || iblockstate1.getMaterial() == Material.PORTAL || !iblockstate1.getCollisionShape(world, blockpos).isEmpty()) {
+						boolean flag2 = iblockstate1.getBlock().isCollidable(iblockstate1);
+						boolean flag3 = fluidMode.predicate.test(ifluidstate1);
+						if (!flag2 && !flag3) {
+							raytraceresult2 = new RayTraceResult(RayTraceResult.Type.MISS, new Vec3d(d0, d1, d2), enumfacing, blockpos);
+						} else {
+							RayTraceResult raytraceresult1 = null;
+							if (flag2) {
+								raytraceresult1 = Block.collisionRayTrace(iblockstate1, world, blockpos, start, end);
+							}
+							
+							if (raytraceresult1 == null && flag3) {
+								raytraceresult1 = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double)ifluidstate1.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
+							}
+							
+							if (raytraceresult1 != null) {
+								return raytraceresult1;
+							}
 						}
 					}
 				}
+				
+				return p_200259_5_ ? raytraceresult2 : null;
+			} else {
+				return null;
 			}
+		} else {
+			return null;
 		}
-		
-		return null;
 	}
-	
 	
 	/**
 	 * Method that detects whether a entity is the the view sight of another entity

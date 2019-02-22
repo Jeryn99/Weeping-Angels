@@ -606,7 +606,7 @@ public class ModelCG extends ModelBase {
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
-		Minecraft.getInstance().renderEngine.bindTexture(TEXTURE);
+		Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
 		GlStateManager.translatef(MAIN.offsetX, MAIN.offsetY, MAIN.offsetZ);
 		GlStateManager.translatef(MAIN.rotationPointX * scale, MAIN.rotationPointY * scale, MAIN.rotationPointZ * scale);
 		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
