@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "weeping-angels:items/arm"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "weeping-angels:items/arm"
+  }
 }

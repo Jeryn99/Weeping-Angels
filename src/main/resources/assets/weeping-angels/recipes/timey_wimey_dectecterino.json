@@ -1,34 +1,34 @@
 ﻿{
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#R#",
-        "COV",
-        "BBB"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:repeater"
-        },
-        "R": {
-            "item": "minecraft:redstone_torch"
-        },
-        "C": {
-            "item": "minecraft:clock"
-        },
-        "O": {
-            "item": "minecraft:planks",
-			"data" : 0
-        },
-        "V": {
-            "item": "minecraft:redstone"
-        },
-        "B": {
-            "item": "minecraft:brick"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#R#",
+    "COV",
+    "BBB"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:repeater"
     },
-    "result": {
-        "item": "weeping-angels:timey_wimey_detector",
-        "count": 1
+    "R": {
+      "item": "minecraft:redstone_torch"
     },
-    "group": "angels"
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "O": {
+      "item": "minecraft:planks",
+      "data": 0
+    },
+    "V": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:brick"
+    }
+  },
+  "result": {
+    "item": "weeping-angels:timey_wimey_detector",
+    "count": 1
+  },
+  "group": "angels"
 }

@@ -7,6 +7,7 @@ item.plinth.name=Angel Statue
 item.angel_0.name=Weeping Angel (0)
 item.angel_1.name=Weeping Angel (1)
 item.angel_2.name=Weeping Angel (a_dizzle)
+item.angel_3.name=Weeping Angel (2)
 item.angel_child.name=Weeping Angel (Child)
 item.kontron_ingot.name=Kontron Ingot
 
@@ -65,6 +66,8 @@ config.weeping-angels.ql=Angel on Angel freezing
 config.weeping-angels.pickaxe_only=Pickaxes and generators only?
 config.weeping-angels.angel_xp_value=XP gained from Angels
 config.weeping-angels.angel_damage=Damaged gained from angels
+config.weeping-angels.around_player_range=Angel target range
+config.weeping-angels.moveSpeed=Angel move Speed
 
 category.weeping-angels.angels=Angels
 category.weeping-angels.spawn=Spawn Rates

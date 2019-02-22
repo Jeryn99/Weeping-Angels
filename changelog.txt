@@ -1,0 +1,2 @@
+Build: 1.13.2-25.0.10 - Fri Feb 15 06:11:58 GMT 2019
+	cpw: Use MC VERSION in the dependencies string for the extra jar
