@@ -1,5 +1,6 @@
 package me.suff.angels.common.items;
 
+import me.suff.angels.common.entities.EntityChronodyneGenerator;
 import me.suff.angels.common.misc.WATabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,8 +28,8 @@ public class ItemChronodyneGenerator extends Item {
 		}
 		
 		if (!worldIn.isRemote) {
-			//EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
-			//worldIn.spawnEntity(gen);
+		//	EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
+		//	worldIn.spawnEntity(gen);
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}

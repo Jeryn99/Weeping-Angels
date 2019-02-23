@@ -50,19 +50,18 @@ public class WAObjects {
 	
 	@SubscribeEvent
 	public static void addItems(RegistryEvent.Register<Item> e) {
-		System.out.println("FUCKING WORK YOU TRASH");
 		IForgeRegistry<Item> reg = e.getRegistry();
-		//reg.registerAll(reg, WATabs.MAIN_TAB, ITEM_BLOCKS.toArray(new Item[ITEM_BLOCKS.size()]));
+		ITEM_BLOCKS.forEach(reg::register);
 		reg.registerAll(
-				setUpItem(new ItemHanging(), "angel_painting", true),
-				setUpItem(new ItemDetector(), "timey_wimey_detector", true),
-				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
-				setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB)), "kontron_ingot", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3", true)
+				setUpItem(new ItemHanging(), "angel_painting"),
+				setUpItem(new ItemDetector(), "timey_wimey_detector"),
+				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator"),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0"),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1"),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child"),
+				setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB)), "kontron_ingot"),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2"),
+				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3")
 		);
 	}
 	
@@ -96,7 +95,7 @@ public class WAObjects {
 		return new SoundEvent(new ResourceLocation(MODID, soundName)).setRegistryName(soundName);
 	}
 	
-	private static Item setUpItem(Item item, String name, boolean addToTab) {
+	private static Item setUpItem(Item item, String name) {
 		item.setRegistryName(MODID, name);
 		WAObjects.ITEMS.add(item);
 		return item;
