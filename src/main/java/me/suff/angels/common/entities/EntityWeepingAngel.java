@@ -5,7 +5,6 @@ import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.misc.WAConstants;
 import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.AngelUtils;
-import me.suff.angels.utils.EnumTeleportType;
 import me.suff.angels.utils.Teleporter;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.BlockPortal;
@@ -338,7 +337,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private void teleportInteraction(EntityPlayer player) {
 		if (world.isRemote) return;
 		
-		EnumTeleportType type = WAConfig.teleport.teleportType;
+		AngelUtils.EnumTeleportType type = WAConfig.teleport.teleportType;
 		
 		switch (type) {
 			case STRUCTURES:

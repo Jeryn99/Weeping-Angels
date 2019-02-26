@@ -55,11 +55,7 @@ dependencies {
     //ic2-ex
     compileOnly "net.industrial-craft:industrialcraft-2:2.8.98-ex112:api"
     //runtime "net.industrial-craft:industrialcraft-2:2.8.98-ex112"
-
-    //JEI
-    compileOnly "mezz.jei:jei_1.12.2:4.11.0.212:api"
-    runtime "mezz.jei:jei_1.12.2:4.11.0.212"
-    deobfCompile 'com.github.Spectre0987:TardisMod:0.0.8-dev'
+    deobfCompile 'com.github.Spectre0987:TardisMod:0.0.9b'
 }
 
 

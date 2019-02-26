@@ -9,6 +9,7 @@ import me.suff.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -27,7 +28,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 public class AngelUtils {
@@ -38,21 +38,19 @@ public class AngelUtils {
 	public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};
 	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	
-	
 	public static void playBreakEvent(Entity entity, BlockPos pos, Block block) {
 		if (!entity.world.isRemote) {
 			entity.playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
-			
-			entity.world.playerEntities.forEach(player -> {
+			for (EntityPlayer player : entity.world.playerEntities) {
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					if (playerMP.getDistanceSq(pos) < 45) {
 						playerMP.connection.sendPacket(new SPacketParticles(EnumParticleTypes.CRIT_MAGIC, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
 					}
 				}
-			});
+			}
 		}
 	}
 	
@@ -99,9 +97,8 @@ public class AngelUtils {
 	 * Sets up weeping angel spawns
 	 */
 	public static void setUpSpawns() {
-		Collection<Biome> biomes = ForgeRegistries.BIOMES.getValuesCollection();
 		ArrayList<Biome> SPAWNS = Lists.newArrayList();
-		SPAWNS.addAll(biomes);
+		SPAWNS.addAll(ForgeRegistries.BIOMES.getValuesCollection());
 		
 		for (String rs : WAConfig.spawn.notAllowedBiomes) {
 			if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
@@ -110,11 +107,12 @@ public class AngelUtils {
 			}
 		}
 		
-		SPAWNS.forEach(biome -> {
-			if (biome != null) {
-				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
+		for (Biome spawn : SPAWNS) {
+			if (spawn != null) {
+				EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, spawn);
 			}
-		});
+		}
+		
 	}
 	
 	/**
@@ -168,4 +166,7 @@ public class AngelUtils {
 		return RANDOM.nextInt((max - min) + 1) + min;
 	}
 	
+	public enum EnumTeleportType {
+		STRUCTURES, RANDOM_PLACE, DONT
+	}
 }

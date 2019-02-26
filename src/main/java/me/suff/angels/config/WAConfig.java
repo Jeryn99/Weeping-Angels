@@ -1,7 +1,7 @@
 package me.suff.angels.config;
 
 import me.suff.angels.WeepingAngels;
-import me.suff.angels.utils.EnumTeleportType;
+import me.suff.angels.utils.AngelUtils;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
@@ -151,7 +151,7 @@ public class WAConfig {
 		
 		@Config.LangKey("config.weeping-angels.teleport_enabled")
 		@Config.Comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES")
-		public EnumTeleportType teleportType = EnumTeleportType.RANDOM_PLACE;
+		public AngelUtils.EnumTeleportType teleportType = AngelUtils.EnumTeleportType.RANDOM_PLACE;
 		
 		@Config.LangKey("config.weeping-angels.disallowed_dimensions")
 		@Config.Comment("Note: This a list of dimensions that angels should NOT teleport you to.")

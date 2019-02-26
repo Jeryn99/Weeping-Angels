@@ -1,4 +1,4 @@
-package me.suff.angels.combat.vivecraft;
+package me.suff.angels.compat.vivecraft;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;

@@ -63,11 +63,7 @@ public final class Teleporter {
 	}
 	
 	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
-		DimensionType[] dimensions = DimensionType.values();
-		if (dimensions == null || dimensions.length <= 1)
-			return DimensionType.OVERWORLD;
-		
-		DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
+		DimensionType dim = randomEnum(DimensionType.class, rand);
 		
 		if (dim == null) {
 			return DimensionType.OVERWORLD;
@@ -75,7 +71,7 @@ public final class Teleporter {
 		
 		for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {
 			if (notAllowedDimension == dim.getId()) {
-				return current;
+				return DimensionType.OVERWORLD;
 			}
 		}
 		return dim;
@@ -121,5 +117,11 @@ public final class Teleporter {
 			entity.setLocationAndAngles(x, y, z, yaw, entity.rotationPitch);
 		}
 	}
+	
+	public static <T extends Enum<?>> T randomEnum(Class<T> clazz, Random random) {
+		int x = random.nextInt(clazz.getEnumConstants().length);
+		return clazz.getEnumConstants()[x];
+	}
+	
 	
 }

@@ -1,6 +1,6 @@
 package me.suff.angels.proxy;
 
-import me.suff.angels.combat.vivecraft.ServerReflector;
+import me.suff.angels.compat.vivecraft.ServerReflector;
 import me.suff.angels.common.world.generation.WorldGenCatacombs;
 import me.suff.angels.common.world.generation.generators.WorldGenOres;
 import me.suff.angels.utils.AngelUtils;

@@ -68,17 +68,14 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void decorateBiomeEvent(DecorateBiomeEvent.Pre e) {
-		
+	public static void onBiomeDecorated(DecorateBiomeEvent.Pre e) {
 		World world = e.getWorld();
 		Random rand = e.getRand();
-		
 		if (world.getBiome(e.getPos()).isSnowyBiome()) {
 			if (rand.nextInt(5) <= 3) {
 				generateArms(world, e.getPos());
 			}
 		}
-		
 		if (!WAConfig.worldGen.genOres) return;
 		int blockY = rand.nextInt(64);
 		int blockX = e.getChunkPos().x * 16 + (rand.nextInt(16) + 8);

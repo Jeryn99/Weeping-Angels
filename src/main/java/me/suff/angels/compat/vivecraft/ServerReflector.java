@@ -1,4 +1,4 @@
-package me.suff.angels.combat.vivecraft;
+package me.suff.angels.compat.vivecraft;
 
 import me.suff.angels.WeepingAngels;
 import net.minecraft.entity.player.EntityPlayer;
