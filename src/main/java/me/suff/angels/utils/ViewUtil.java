@@ -12,6 +12,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -63,6 +65,13 @@ public class ViewUtil {
 						state.getCollisionBoundingBox(viewer.world, pos) != Block.NULL_AABB && state.getBlock().canCollideCheck(state, false);
 			}) == null) return false;
 		}
+		
+		if(angel.ticksExisted % 1200 == 0){
+			if(angel.getDistance(viewer) < 15) {
+				viewer.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 15));
+			}
+		}
+		
 		return true;
 	}
 	

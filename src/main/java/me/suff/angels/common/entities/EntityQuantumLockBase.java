@@ -160,4 +160,5 @@ public class EntityQuantumLockBase extends EntityMob {
 		return false;
 	}
 	
+	
 }

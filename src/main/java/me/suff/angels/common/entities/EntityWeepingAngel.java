@@ -261,7 +261,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.POSE_HIDING_FACE.toString());
 		}
+		
 		replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange));
+		
 	}
 	
 	@Override
