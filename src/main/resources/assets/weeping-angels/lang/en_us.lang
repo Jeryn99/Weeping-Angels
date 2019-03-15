@@ -68,7 +68,11 @@ config.weeping-angels.angel_xp_value=XP gained from Angels
 config.weeping-angels.angel_damage=Damaged gained from angels
 config.weeping-angels.around_player_range=Angel target range
 config.weeping-angels.moveSpeed=Angel move Speed
-
+config.weeping-angels.stealable=Stealable Items
+config.weeping-angels.tardis_theft_range=Tardis Theft Range
+config.weeping-angels.tardis_theft_dimensions=Dimensional Theft
 category.weeping-angels.angels=Angels
 category.weeping-angels.spawn=Spawn Rates
 category.weeping-angels.worldgen=World Gen
+config.weeping-angels.tardis_fuel=Fuel Drainage
+config.weeping-angels.tardis_mod=Tardis Mod Integration

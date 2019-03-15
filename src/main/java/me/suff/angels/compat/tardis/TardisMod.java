@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -23,8 +24,10 @@ import net.tardis.mod.network.packets.MessageDoorOpen;
 public class TardisMod {
 	
 	public static void register() {
-		WeepingAngels.LOGGER.info("Tardis Mod Detected, registering compatibility events");
-		MinecraftForge.EVENT_BUS.register(new TardisMod());
+		if (WAConfig.integrations.tardisModIntegration) {
+			WeepingAngels.LOGGER.info("Tardis Mod Detected, registering compatibility events");
+			MinecraftForge.EVENT_BUS.register(new TardisMod());
+		}
 	}
 	
 	@SubscribeEvent
@@ -44,7 +47,7 @@ public class TardisMod {
 		if (tileEntity instanceof TileEntityTardis && weepingAngel.world.provider instanceof WorldProviderTardis) {
 			TileEntityTardis tardis = (TileEntityTardis) tileEntity;
 			
-			if (weepingAngel.ticksExisted % 200 == 0) {
+			if (weepingAngel.ticksExisted % 200 == 0 && WAConfig.integrations.tardisFuelTheft) {
 				if (tardis.fuel > 0.0F) {
 					tardis.setFuel(tardis.fuel - tardis.calcFuelUse() * 2.5F);
 					tardis.getWorld().playSound(null, tileEntity.getPos(), TSounds.cloister_bell, SoundCategory.BLOCKS, 1, 1);
@@ -68,8 +71,17 @@ public class TardisMod {
 					try {
 						TileEntityTardis tile = ((TileEntityTardis) DimensionManager.getWorld(TDimensions.TARDIS_ID).getTileEntity(door.getConsolePos()));
 						
-						if (!tile.isInFlight() && weepingAngel.ticksExisted < 500) {
-							tile.setDesination(new BlockPos(tile.getPos().getX() + tile.getWorld().rand.nextInt(5000), 64, tile.getPos().getZ() + tile.getWorld().rand.nextInt(5000)), Teleporter.getRandomDimension(tile.getWorld().provider.getDimensionType(), tile.getWorld().rand).getId());
+						if (tile != null && !tile.isInFlight() && weepingAngel.ticksExisted < 500 && WAConfig.integrations.tardisTheft) {
+							
+							DimensionType dimensionDest = null;
+							
+							if (WAConfig.integrations.tardisTheftDimensional) {
+								dimensionDest = Teleporter.getRandomDimension(DimensionManager.getWorld(tile.dimension).provider.getDimensionType(), door.getWorld().rand);
+							} else {
+								dimensionDest = DimensionManager.getWorld(tile.dimension).provider.getDimensionType();
+							}
+							
+							tile.setDesination(new BlockPos(tile.getPos().getX() + tile.getWorld().rand.nextInt(WAConfig.integrations.theftRange), 64, tile.getPos().getZ() + tile.getWorld().rand.nextInt(WAConfig.integrations.theftRange)), dimensionDest.getId());
 							tile.getDoor().setOpen(false);
 							tile.startFlight();
 							tile.markDirty();

@@ -144,7 +144,31 @@ public class WAConfig {
 	}
 	
 	public static class Integrations {
+		@Config.LangKey("config.weeping-angels.stealable")
+		@Config.Comment("List of items the Weeping angels will be able to steal from you")
 		public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
+		
+		
+		@Config.LangKey("config.weeping-angels.tardis_mod")
+		@Config.Comment("Whether integration with the TARDIS mod is enabled")
+		public boolean tardisModIntegration = true;
+		
+		@Config.LangKey("config.weeping-angels.tardis_theft")
+		@Config.Comment("Whether the angel will steal your TARDIS on entry")
+		public boolean tardisTheft = true;
+		
+		@Config.LangKey("config.weeping-angels.tardis_theft_dimensions")
+		@Config.Comment("Whether the angel will move a stolen tardis between dimensions")
+		public boolean tardisTheftDimensional = true;
+		
+		@Config.LangKey("config.weeping-angels.tardis_theft_range")
+		@Config.Comment("How far a Angel can move a stolen TARDIS from it's previous destination")
+		public int theftRange = 5000;
+		
+		@Config.LangKey("config.weeping-angels.tardis_fuel")
+		@Config.Comment("Whether the angel will drain a TARDIS of it's fuel or not")
+		public boolean tardisFuelTheft = true;
+		
 	}
 	
 	public static class Teleport {
