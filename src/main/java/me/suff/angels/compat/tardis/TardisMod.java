@@ -76,7 +76,7 @@ public class TardisMod {
 							DimensionType dimensionDest = null;
 							
 							if (WAConfig.integrations.tardisTheftDimensional) {
-								dimensionDest = Teleporter.getRandomDimension(DimensionManager.getWorld(tile.dimension).provider.getDimensionType(), door.getWorld().rand);
+								dimensionDest = Teleporter.getRandomDimension(door.getWorld().rand);
 							} else {
 								dimensionDest = DimensionManager.getWorld(tile.dimension).provider.getDimensionType();
 							}

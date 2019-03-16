@@ -352,6 +352,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				} else {
 					Teleporter.handleStructures(player);
 				}
+			case DONT:
+				dealDamage(player);
 				break;
 			default:
 				break;

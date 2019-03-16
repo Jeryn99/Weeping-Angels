@@ -66,8 +66,8 @@ public class ViewUtil {
 			}) == null) return false;
 		}
 		
-		if(angel.ticksExisted % 1200 == 0){
-			if(angel.getDistance(viewer) < 15) {
+		if (angel.ticksExisted % 1200 == 0) {
+			if (angel.getDistance(viewer) < 15) {
 				viewer.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 15));
 			}
 		}

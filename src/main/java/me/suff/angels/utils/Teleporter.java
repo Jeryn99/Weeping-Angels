@@ -47,7 +47,7 @@ public final class Teleporter {
 		entity.world.spawnEntity(anomaly);
 		
 		if (entity instanceof EntityPlayerMP) {
-			DimensionType newDimension = getRandomDimension(entity.world.provider.getDimensionType(), entity.world.rand);
+			DimensionType newDimension = getRandomDimension(entity.world.rand);
 			entity.changeDimension(newDimension.getId(), (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
 			boolean beSafeFlag = newDimension == DimensionType.THE_END || newDimension == DimensionType.NETHER;
@@ -62,10 +62,10 @@ public final class Teleporter {
 		return entity;
 	}
 	
-	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
+	public static DimensionType getRandomDimension(Random rand) {
 		DimensionType dim = randomEnum(DimensionType.class, rand);
 		
-		if (dim == null) {
+		if (dim == null || WAConfig.teleport.angelDimTeleport) {
 			return DimensionType.OVERWORLD;
 		}
 		
@@ -103,6 +103,11 @@ public final class Teleporter {
 		}
 	}
 	
+	public static <T extends Enum<?>> T randomEnum(Class<T> clazz, Random random) {
+		int x = random.nextInt(clazz.getEnumConstants().length);
+		return clazz.getEnumConstants()[x];
+	}
+	
 	public static final class WATeleport implements ITeleporter {
 		private final double x, y, z;
 		
@@ -116,11 +121,6 @@ public final class Teleporter {
 		public void placeEntity(World world, Entity entity, float yaw) {
 			entity.setLocationAndAngles(x, y, z, yaw, entity.rotationPitch);
 		}
-	}
-	
-	public static <T extends Enum<?>> T randomEnum(Class<T> clazz, Random random) {
-		int x = random.nextInt(clazz.getEnumConstants().length);
-		return clazz.getEnumConstants()[x];
 	}
 	
 	
