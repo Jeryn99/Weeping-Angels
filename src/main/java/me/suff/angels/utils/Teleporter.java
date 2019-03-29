@@ -47,7 +47,7 @@ public final class Teleporter {
 		entity.world.spawnEntity(anomaly);
 		
 		if (entity instanceof EntityPlayerMP) {
-			DimensionType newDimension = getRandomDimension(entity.world.rand);
+			DimensionType newDimension = getRandomDimension(entity, entity.world.rand);
 			entity.changeDimension(newDimension.getId(), (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
 			boolean beSafeFlag = newDimension == DimensionType.THE_END || newDimension == DimensionType.NETHER;
@@ -62,11 +62,11 @@ public final class Teleporter {
 		return entity;
 	}
 	
-	public static DimensionType getRandomDimension(Random rand) {
+	public static DimensionType getRandomDimension(Entity angel, Random rand) {
 		DimensionType dim = randomEnum(DimensionType.class, rand);
 		
-		if (dim == null || WAConfig.teleport.angelDimTeleport) {
-			return DimensionType.OVERWORLD;
+		if (dim == null || !WAConfig.teleport.angelDimTeleport) {
+			return angel.world.provider.getDimensionType();
 		}
 		
 		for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {

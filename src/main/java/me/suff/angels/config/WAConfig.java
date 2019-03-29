@@ -141,6 +141,14 @@ public class WAConfig {
 		@Config.LangKey("config.weeping-angels.transparent_blocks")
 		@Config.Comment("List of blocks that you should be able to see angels through")
 		public String[] transparent_blocks = {"modid:block_name"};
+		
+		@Config.LangKey("config.weeping-angels.pick_cooldown")
+		@Config.Comment("If enabled, your picxaxe is given a cooldown until you can hit a angel again")
+		public boolean pickaxeCooldown = true;
+		
+		@Config.LangKey("config.weeping-angels.pick_cooldown_ticks")
+		@Config.Comment("If enabled, your picxaxe is given a cooldown until you can hit a angel again (20 ticks = 1 second)")
+		public int pickaxeCooldownTicks = 250;
 	}
 	
 	public static class Integrations {

@@ -267,6 +267,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
+	public boolean isEntityInvulnerable(DamageSource source) {
+		return super.isEntityInvulnerable(source);
+	}
+	
+	@Override
 	public void onKillEntity(EntityLivingBase entityLivingIn) {
 		super.onKillEntity(entityLivingIn);
 		

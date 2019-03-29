@@ -109,12 +109,10 @@ public class EventHandler {
 			EntityLivingBase victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityWeepingAngel) {
-				
 				if (WAConfig.angels.hardcoreMode) {
 					e.setCanceled(true);
 					return;
 				}
-				
 				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 				boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe");
 				e.setCanceled(!isPic);
@@ -132,17 +130,18 @@ public class EventHandler {
 						EntityPlayer player = (EntityPlayer) attacker;
 						if (!player.getCooldownTracker().hasCooldown(item.getItem())) {
 							victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-							player.getCooldownTracker().setCooldown(item.getItem(), 250);
+							if (WAConfig.angels.pickaxeCooldown) {
+								player.getCooldownTracker().setCooldown(item.getItem(), WAConfig.angels.pickaxeCooldownTicks);
+							}
 						} else {
 							e.setCanceled(true);
 						}
+					} else {
+						e.setCanceled(true);
 					}
 					
 				}
 				
-				if (!(source instanceof Entity)) {
-					e.setCanceled(true);
-				}
 			}
 		}
 	}

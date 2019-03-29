@@ -21,6 +21,8 @@ import net.tardis.mod.common.tileentity.TileEntityTardis;
 import net.tardis.mod.network.NetworkHandler;
 import net.tardis.mod.network.packets.MessageDoorOpen;
 
+import java.util.Iterator;
+
 public class TardisMod {
 	
 	public static void register() {
@@ -34,20 +36,25 @@ public class TardisMod {
 	public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
 		if (e.getEntity() instanceof EntityWeepingAngel) {
 			EntityWeepingAngel weepingAngel = (EntityWeepingAngel) e.getEntity();
-			for (TileEntity tileEntity : weepingAngel.world.loadedTileEntityList) {
+			
+			Iterator<TileEntity> tileIterator = weepingAngel.world.loadedTileEntityList.iterator();
+			while (tileIterator.hasNext()) {
+				TileEntity tileEntity = tileIterator.next();
 				processTile(tileEntity, weepingAngel);
+				tileIterator.remove();
 			}
 		}
+		
 	}
 	
 	private void processTile(TileEntity tileEntity, EntityWeepingAngel weepingAngel) {
-		if (weepingAngel.getDistanceSq(tileEntity.getPos()) > 10) return;
+		if (weepingAngel.getDistanceSq(tileEntity.getPos()) > 15) return;
 		
 		//Steal the fuel from the tardis if in the interior
 		if (tileEntity instanceof TileEntityTardis && weepingAngel.world.provider instanceof WorldProviderTardis) {
 			TileEntityTardis tardis = (TileEntityTardis) tileEntity;
 			
-			if (weepingAngel.ticksExisted % 200 == 0 && WAConfig.integrations.tardisFuelTheft) {
+			if (weepingAngel.ticksExisted % 100 == 0 && WAConfig.integrations.tardisFuelTheft) {
 				if (tardis.fuel > 0.0F) {
 					tardis.setFuel(tardis.fuel - tardis.calcFuelUse() * 2.5F);
 					tardis.getWorld().playSound(null, tileEntity.getPos(), TSounds.cloister_bell, SoundCategory.BLOCKS, 1, 1);
@@ -76,7 +83,7 @@ public class TardisMod {
 							DimensionType dimensionDest = null;
 							
 							if (WAConfig.integrations.tardisTheftDimensional) {
-								dimensionDest = Teleporter.getRandomDimension(door.getWorld().rand);
+								dimensionDest = Teleporter.getRandomDimension(weepingAngel, door.getWorld().rand);
 							} else {
 								dimensionDest = DimensionManager.getWorld(tile.dimension).provider.getDimensionType();
 							}

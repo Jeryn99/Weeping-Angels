@@ -14,6 +14,7 @@ item.kontron_ingot.name=Kontron Ingot
 tile.weeping-angels.arm.name=Arm in snow
 tile.weeping-angels.plinth.name=Angel Statue
 tile.weeping-angels.kontron_ore.name=Kontron Ore
+tile.weeping-angels.cg_generator.name=Chronodyne Generator
 
 entity.weepingangel.name=Weeping Angel
 entity.angel.name=Weeping Angel
