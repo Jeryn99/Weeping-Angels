@@ -4,9 +4,11 @@ import me.suff.angels.WeepingAngels;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.Teleporter;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
@@ -21,7 +23,9 @@ import net.tardis.mod.common.tileentity.TileEntityTardis;
 import net.tardis.mod.network.NetworkHandler;
 import net.tardis.mod.network.packets.MessageDoorOpen;
 
-import java.util.Iterator;
+import java.util.Objects;
+
+import static net.tardis.mod.common.tileentity.TileEntityTardis.defaultFuelUse;
 
 public class TardisMod {
 	
@@ -36,12 +40,16 @@ public class TardisMod {
 	public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
 		if (e.getEntity() instanceof EntityWeepingAngel) {
 			EntityWeepingAngel weepingAngel = (EntityWeepingAngel) e.getEntity();
-			
-			Iterator<TileEntity> tileIterator = weepingAngel.world.loadedTileEntityList.iterator();
-			while (tileIterator.hasNext()) {
-				TileEntity tileEntity = tileIterator.next();
-				processTile(tileEntity, weepingAngel);
-				tileIterator.remove();
+			if (weepingAngel.ticksExisted % 200 == 0 && WAConfig.integrations.tardisFuelTheft && e.getEntity().world.provider instanceof WorldProviderTardis) {
+				AxisAlignedBB box = weepingAngel.getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange);
+				for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
+					IBlockState blockState = weepingAngel.world.getBlockState(pos);
+					if (blockState.getBlock().hasTileEntity(blockState)) {
+						if (weepingAngel.world.getTileEntity(pos) != null) {
+							processTile(Objects.requireNonNull(weepingAngel.world.getTileEntity(pos)), weepingAngel);
+						}
+					}
+				}
 			}
 		}
 		
@@ -49,19 +57,15 @@ public class TardisMod {
 	
 	private void processTile(TileEntity tileEntity, EntityWeepingAngel weepingAngel) {
 		if (weepingAngel.getDistanceSq(tileEntity.getPos()) > 15) return;
-		
 		//Steal the fuel from the tardis if in the interior
 		if (tileEntity instanceof TileEntityTardis && weepingAngel.world.provider instanceof WorldProviderTardis) {
 			TileEntityTardis tardis = (TileEntityTardis) tileEntity;
-			
-			if (weepingAngel.ticksExisted % 100 == 0 && WAConfig.integrations.tardisFuelTheft) {
-				if (tardis.fuel > 0.0F) {
-					tardis.setFuel(tardis.fuel - tardis.calcFuelUse() * 2.5F);
-					tardis.getWorld().playSound(null, tileEntity.getPos(), TSounds.cloister_bell, SoundCategory.BLOCKS, 1, 1);
-					tardis.markDirty();
-					weepingAngel.heal(1);
-					return;
-				}
+			if (tardis.fuel > 0.0F) {
+				tardis.setFuel(tardis.fuel - defaultFuelUse * 1.5F);
+				tardis.getWorld().playSound(null, tileEntity.getPos(), TSounds.cloister_bell, SoundCategory.BLOCKS, 1, 1);
+				tardis.markDirty();
+				weepingAngel.heal(1);
+				return;
 			}
 		}
 		
