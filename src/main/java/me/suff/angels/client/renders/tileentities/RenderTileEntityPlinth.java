@@ -1,5 +1,6 @@
 package me.suff.angels.client.renders.tileentities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.angels.WeepingAngels;
 import me.suff.angels.client.models.entity.ModelAngelEd;
 import me.suff.angels.common.tileentities.TileEntityPlinth;
@@ -25,18 +26,6 @@ public class RenderTileEntityPlinth extends TileEntityRenderer<TileEntityPlinth>
 		GlStateManager.rotatef(-tile.getRotation(), 0, 1, 0);
 		
 		if (!tile.getHasSpawned()) {
-			
-			// GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-			// GlStateManager.color(0.2f, 0.2f, 1, 0.5f);
-			
-			// if (getWorld().rand.nextInt(5) == 1) {
-			// GlStateManager.translatef(0, this.getWorld().rand.nextInt(3) / 100.0f, 0);
-			// GlStateManager.translatef(this.getWorld().rand.nextInt(3) / 100.0f, 0, 0);
-			// }
-			// if (getWorld().rand.nextInt(10) == 1) {
-			// GlStateManager.scaled(1, 1 + this.getWorld().rand.nextInt(5) / 100.0f, 1);
-			// }
-			
 			Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
 			ed.quickRender(0.0625f, tile);
 			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);

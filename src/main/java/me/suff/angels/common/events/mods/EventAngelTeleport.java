@@ -1,7 +1,7 @@
 package me.suff.angels.common.events.mods;
 
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
@@ -15,7 +15,7 @@ public class EventAngelTeleport extends PlayerEvent {
 	private final EntityWeepingAngel angel;
 	private final BlockPos previous, destinationPos;
 	
-	public EventAngelTeleport(EntityPlayer player, EntityWeepingAngel angel, BlockPos destinationPos, int targetDimension) {
+	public EventAngelTeleport(PlayerEntity player, EntityWeepingAngel angel, BlockPos destinationPos, int targetDimension) {
 		super(player);
 		this.angel = angel;
 		previous = player.getPosition();

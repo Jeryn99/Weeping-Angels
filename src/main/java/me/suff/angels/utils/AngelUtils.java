@@ -7,18 +7,18 @@ import me.suff.angels.common.entities.EntityQuantumLockBase;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.Particles;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketParticles;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
+import net.minecraft.network.play.server.SSpawnParticlePacket;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -43,11 +43,11 @@ public class AngelUtils {
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
 			
-			entity.world.playerEntities.forEach(player -> {
-				if (player instanceof EntityPlayerMP) {
-					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					if (playerMP.getDistanceSq(pos) < 45) {
-						playerMP.connection.sendPacket(new SPacketParticles(Particles.CRIT, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
+			entity.world.getPlayers().forEach(player -> {
+				if (player instanceof ServerPlayerEntity) {
+					ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
+					if (playerMP.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 45) {
+						playerMP.connection.sendPacket(new SSpawnParticlePacket(ParticleTypes.CRIT, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
 					}
 				}
 			});
@@ -61,8 +61,8 @@ public class AngelUtils {
 	 * @param angel Angel involved (Used for checking if there is light around the angel)
 	 * @param angel The entity being watched by viewer
 	 */
-	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
-		return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living);
+	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, LivingEntity living) {
+		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living);
 	}
 	
 	
@@ -76,15 +76,15 @@ public class AngelUtils {
 				LIGHT_ITEMS.add(Item.getItemFromBlock(block));
 			}
 		});
-		LIGHT_ITEMS.add(Item.getItemFromBlock(Blocks.REDSTONE_TORCH));
-		LIGHT_ITEMS.add(Item.getItemFromBlock(Blocks.TORCH));
+		LIGHT_ITEMS.add(Blocks.REDSTONE_TORCH.asItem());
+		LIGHT_ITEMS.add(Blocks.TORCH.asItem());
 		LIGHT_ITEMS.removeIf(item -> item == Items.AIR);
 	}
 	
 	/**
 	 * Checks if the entity has a item that emites light in their hand
 	 */
-	public static boolean handLightCheck(EntityLivingBase player) {
+	public static boolean handLightCheck(LivingEntity player) {
 		for (Item item : LIGHT_ITEMS) {
 			if (PlayerUtils.isInEitherHand(player, item)) {
 				return true;
@@ -123,9 +123,9 @@ public class AngelUtils {
 	}
 	
 	
-	public static void removeLightFromHand(EntityPlayerMP playerMP, EntityWeepingAngel angel) {
+	public static void removeLightFromHand(ServerPlayerEntity playerMP, EntityWeepingAngel angel) {
 		if (playerMP.getDistanceSq(angel) < 1) {
-			for (EnumHand enumHand : EnumHand.values()) {
+			for (Hand enumHand : Hand.values()) {
 				ItemStack stack = playerMP.getHeldItem(enumHand);
 				if (lightCheck(stack, angel)) {
 					stack.shrink(1);
@@ -166,4 +166,7 @@ public class AngelUtils {
 		return RANDOM.nextInt((max - min) + 1) + min;
 	}
 	
+	public enum EnumTeleportType {
+		STRUCTURES, RANDOM_PLACE, DONT
+	}
 }

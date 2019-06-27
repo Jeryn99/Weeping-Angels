@@ -5,13 +5,15 @@ import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.misc.WAConstants;
 import me.suff.angels.utils.Teleporter;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.item.HangingEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,7 +22,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 import java.util.ArrayList;
 
-public class EntityAngelPainting extends EntityHanging implements IEntityAdditionalSpawnData {
+public class EntityAngelPainting extends HangingEntity implements IEntityAdditionalSpawnData {
 	
 	public EntityAngelPainting.EnumAngelArt art;
 	
@@ -28,7 +30,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		super(null, worldIn);
 	}
 	
-	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side) {
+	public EntityAngelPainting(World worldIn, BlockPos pos, Direction side) {
 		this(worldIn);
 		ArrayList<EnumAngelArt> ART_LIST = Lists.newArrayList();
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
@@ -50,7 +52,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public EntityAngelPainting(World worldIn, BlockPos pos, EnumFacing side, String name) {
+	public EntityAngelPainting(World worldIn, BlockPos pos, Direction side, String name) {
 		this(worldIn, pos, side);
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
@@ -65,12 +67,12 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	@Override
-	public NBTTagCompound serializeNBT() {
+	public CompoundNBT serializeNBT() {
 		return null;
 	}
 	
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		nbt.setString(WAConstants.MOTIVE, art.title);
 		super.deserializeNBT(nbt);
 	}
@@ -121,7 +123,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	public void read(NBTTagCompound tagCompund) {
+	public void read(CompoundNBT tagCompund) {
 		String s = tagCompund.getString(WAConstants.MOTIVE);
 		EntityAngelPainting.EnumAngelArt[] ENUM_ART = EntityAngelPainting.EnumAngelArt.values();
 		
@@ -154,9 +156,9 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	 */
 	@Override
 	public void onBroken(Entity entity) {
-		if (world.getGameRules().getBoolean("doTileDrops")) {
-			if (entity instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entity;
+		if (world.getGameRules().func_223585_a("doTileDrops")) {
+			if (entity instanceof PlayerEntity) {
+				PlayerEntity entityplayer = (PlayerEntity) entity;
 				
 				if (entityplayer.isCreative()) {
 					return;
@@ -183,13 +185,18 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 	}
 	
 	@Override
-	public void writeAdditional(NBTTagCompound buffer) {
+	public void writeAdditional(CompoundNBT buffer) {
 		super.writeAdditional(buffer);
-		buffer.setInt("art", art.ordinal());
-		buffer.setInt("chunkCoordX", chunkCoordX); // x
-		buffer.setInt("chunkCoordY", chunkCoordY); // y
-		buffer.setInt("chunkCoordZ", chunkCoordZ); // z
-		buffer.setInt("index", getHorizontalFacing().getIndex());
+		buffer.putInt("art", art.ordinal());
+		buffer.putInt("chunkCoordX", chunkCoordX); // x
+		buffer.putInt("chunkCoordY", chunkCoordY); // y
+		buffer.putInt("chunkCoordZ", chunkCoordZ); // z
+		buffer.putInt("index", getHorizontalFacing().getIndex());
+	}
+	
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return null;
 	}
 	
 	private void spawnAngel(World world) {
@@ -217,7 +224,7 @@ public class EntityAngelPainting extends EntityHanging implements IEntityAdditio
 		chunkCoordX = buffer.readInt();
 		chunkCoordY = buffer.readInt();
 		chunkCoordZ = buffer.readInt();
-		updateFacingWithBoundingBox(EnumFacing.byHorizontalIndex(buffer.readByte()));
+		updateFacingWithBoundingBox(Direction.byHorizontalIndex(buffer.readByte()));
 	}
 	
 	public enum EnumAngelArt {

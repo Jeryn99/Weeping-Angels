@@ -3,7 +3,7 @@ package me.suff.angels.common.tileentities;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.utils.Teleporter;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,7 +18,7 @@ public class TileEntitySnowArm extends TileEntity implements ITickable {
 	
 	@Override
 	public void tick() {
-		if (!world.getEntitiesWithinAABB(EntityPlayer.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
+		if (!world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.setChild(false);
 			Teleporter.move(angel, world.dimension.getType(), getPos());

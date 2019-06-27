@@ -1,12 +1,13 @@
 package me.suff.angels.client.renders.entities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.angels.common.entities.EntityAnomaly;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderEntity;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.DefaultRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -15,11 +16,11 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Random;
 
-public class RenderAnomaly extends RenderEntity {
+public class RenderAnomaly extends DefaultRenderer {
 	
 	private Random random;
 	
-	public RenderAnomaly(RenderManager manager) {
+	public RenderAnomaly(EntityRendererManager manager) {
 		super(manager);
 		random = new Random(432L);
 	}

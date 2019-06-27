@@ -1,5 +1,6 @@
 package me.suff.angels.client.renders.entities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.angels.WeepingAngels;
 import me.suff.angels.client.models.entity.ModelAngel;
 import me.suff.angels.client.models.entity.ModelAngelChild;
@@ -8,17 +9,21 @@ import me.suff.angels.client.models.entity.ModelAngelMel;
 import me.suff.angels.client.models.entity.ModelClassicAngel;
 import me.suff.angels.client.renders.entities.layers.LayerCrack;
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
+import javax.annotation.Nullable;
+
+public class RenderWeepingAngel extends MobRenderer {
 	
 	public static ResourceLocation TEXTURE_FOUR = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_4.png");
+	private final EntityModel mainModel;
 	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
 	private ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
@@ -26,63 +31,66 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 	
-	private ModelBase modelOne = new ModelAngel();
-	private ModelBase modelTwo = new ModelAngelEd();
-	private ModelBase modelChild = new ModelAngelChild();
-	private ModelBase modelClassic = new ModelClassicAngel();
-	private ModelBase modelMel = new ModelAngelMel();
+	private EntityModel modelOne = new ModelAngel();
+	private EntityModel modelTwo = new ModelAngelEd();
+	private EntityModel modelChild = new ModelAngelChild();
+	private EntityModel modelClassic = new ModelClassicAngel();
+	private EntityModel modelMel = new ModelAngelMel();
 	
-	public RenderWeepingAngel(RenderManager manager) {
+	public RenderWeepingAngel(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd(), 0.0F);
 		mainModel = modelTwo;
 		addLayer(new LayerCrack(this));
-		addLayer(new LayerHeldItem(this));
+		addLayer(new HeldItemLayer(this));
 	}
 	
+	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWeepingAngel entity) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return null;
 	}
 	
+	
 	@Override
-	protected boolean setBrightness(EntityWeepingAngel angel, float partialTicks, boolean combineTextures) {
+	protected boolean setBrightness(LivingEntity entitylivingbaseIn, float partialTicks, boolean combineTextures) {
 		return true;
 	}
 	
-	/**
-	 * Renders the model in RenderLiving
-	 */
 	@Override
-	protected void renderModel(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		if (!angel.isAlive()) return;
+	protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+		if (!living.isAlive()) return;
 		
-		GlStateManager.pushMatrix();
-		RenderHelper.enableStandardItemLighting();
-		
-		switch (angel.getAngelType()) {
-			case -1:
-				bindTexture(TEXTURE_CHILD);
-				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 0:
-				bindTexture(TEXTURE_ONE);
-				modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 1:
-				bindTexture(TEXTURE_TWO);
-				modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 2:
-				bindTexture(TEXTURE_CLASSIC);
-				modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 3:
-				bindTexture(TEXTURE_FOUR);
-				modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
+		if (living instanceof EntityWeepingAngel) {
+			GlStateManager.pushMatrix();
+			RenderHelper.enableStandardItemLighting();
+			EntityWeepingAngel angel = (EntityWeepingAngel) living;
+			
+			switch (angel.getAngelType()) {
+				case -1:
+					bindTexture(TEXTURE_CHILD);
+					modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
+				case 0:
+					bindTexture(TEXTURE_ONE);
+					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
+				case 1:
+					bindTexture(TEXTURE_TWO);
+					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
+				case 2:
+					bindTexture(TEXTURE_CLASSIC);
+					modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
+				case 3:
+					bindTexture(TEXTURE_FOUR);
+					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
+			}
+			
+			RenderHelper.disableStandardItemLighting();
+			GlStateManager.popMatrix();
 		}
-		
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
 	}
+	
 }

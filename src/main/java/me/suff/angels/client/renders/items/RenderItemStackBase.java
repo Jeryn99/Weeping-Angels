@@ -1,15 +1,15 @@
 package me.suff.angels.client.renders.items;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.ItemStack;
 
-public class RenderItemStackBase extends TileEntityItemStackRenderer {
+public class RenderItemStackBase extends ItemStackTileEntityRenderer {
 	
-	private ModelBase modelBase;
+	private EntityModel modelBase;
 	
-	public RenderItemStackBase(ModelBase model) {
+	public RenderItemStackBase(EntityModel model) {
 		modelBase = model;
 	}
 	

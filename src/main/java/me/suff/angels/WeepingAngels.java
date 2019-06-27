@@ -13,8 +13,8 @@ import me.suff.angels.common.tileentities.TileEntityPlinth;
 import me.suff.angels.common.tileentities.TileEntitySnowArm;
 import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.RenderUtil;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -33,7 +33,7 @@ public class WeepingAngels {
 	
 	public WeepingAngels() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-	//	MinecraftForge.EVENT_BUS.register(new WAObjects());
+		//	MinecraftForge.EVENT_BUS.register(new WAObjects());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 	}
@@ -51,7 +51,7 @@ public class WeepingAngels {
 		//RenderUtil.bindEntityRender(EntityAngelPainting.class, RenderAngelPainting::new);
 		RenderUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
 		//RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
-
+		
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
 		//RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, RenderChronodyneGenerator::new);
 	}

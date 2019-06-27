@@ -3,21 +3,22 @@ package me.suff.angels.utils;
 import me.suff.angels.common.entities.EntityQuantumLockBase;
 import me.suff.angels.config.WAConfig;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.BlockVine;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.PaneBlock;
+import net.minecraft.block.VineBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -38,7 +39,7 @@ public class ViewUtil {
 	}
 	
 	
-	public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
+	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
 		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
 		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
 		Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
@@ -48,11 +49,11 @@ public class ViewUtil {
 			if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, true, false) == null)
 				return false;
 			if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], RayTraceFluidMode.NEVER, false, false, pos -> {
-				IBlockState state = viewer.world.getBlockState(pos);
+				BlockState state = viewer.world.getBlockState(pos);
 				for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get())
 					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
 				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
-						!(state.getBlock() instanceof BlockPane) && !(state.getBlock() instanceof BlockVine) && !(state.getBlock() instanceof BlockLeaves) &&
+						!(state.getBlock() instanceof PaneBlock) && !(state.getBlock() instanceof VineBlock) && !(state.getBlock() instanceof LeavesBlock) &&
 						state.getCollisionShape(viewer.world, pos) != VoxelShapes.empty() && state.getBlock().isCollidable(state);
 			}) == null) return false;
 		}
@@ -60,8 +61,9 @@ public class ViewUtil {
 	}
 	
 	@Nullable
-	public static RayTraceResult rayTraceBlocks(World world, Vec3d start, Vec3d end, RayTraceFluidMode fluidMode, boolean p_200259_4_, boolean p_200259_5_, Predicate<BlockPos> stopOn) {
+	public static RayTraceResult rayTraceBlocks(World world, Vec3d start, Vec3d end, BlockRayTraceResult fluidMode, boolean p_200259_4_, boolean p_200259_5_, Predicate<BlockPos> stopOn) {
 		double d0 = start.x;
+		ClientWorld
 		double d1 = start.y;
 		double d2 = start.z;
 		if (!Double.isNaN(d0) && !Double.isNaN(d1) && !Double.isNaN(d2)) {
@@ -74,7 +76,7 @@ public class ViewUtil {
 				int j1 = MathHelper.floor(d2);
 				BlockPos blockpos = new BlockPos(l, i1, j1);
 				
-				IBlockState iblockstate = world.getBlockState(blockpos);
+				BlockState iblockstate = world.getBlockState(blockpos);
 				
 				if (stopOn.test(blockpos)) {
 					RayTraceResult raytraceresult = Block.collisionRayTrace(iblockstate, world, blockpos, start, end);
@@ -96,7 +98,7 @@ public class ViewUtil {
 						}
 						
 						if (raytraceresult == null && flag1) {
-							raytraceresult = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double)ifluidstate.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
+							raytraceresult = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double) ifluidstate.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
 						}
 						
 						if (raytraceresult != null) {
@@ -108,7 +110,7 @@ public class ViewUtil {
 				RayTraceResult raytraceresult2 = null;
 				int k1 = 200;
 				
-				while(k1-- >= 0) {
+				while (k1-- >= 0) {
 					if (Double.isNaN(d0) || Double.isNaN(d1) || Double.isNaN(d2)) {
 						return null;
 					}
@@ -124,25 +126,25 @@ public class ViewUtil {
 					double d4 = 999.0D;
 					double d5 = 999.0D;
 					if (i > l) {
-						d3 = (double)l + 1.0D;
+						d3 = (double) l + 1.0D;
 					} else if (i < l) {
-						d3 = (double)l + 0.0D;
+						d3 = (double) l + 0.0D;
 					} else {
 						flag4 = false;
 					}
 					
 					if (j > i1) {
-						d4 = (double)i1 + 1.0D;
+						d4 = (double) i1 + 1.0D;
 					} else if (j < i1) {
-						d4 = (double)i1 + 0.0D;
+						d4 = (double) i1 + 0.0D;
 					} else {
 						flag5 = false;
 					}
 					
 					if (k > j1) {
-						d5 = (double)j1 + 1.0D;
+						d5 = (double) j1 + 1.0D;
 					} else if (k < j1) {
-						d5 = (double)j1 + 0.0D;
+						d5 = (double) j1 + 0.0D;
 					} else {
 						flag6 = false;
 					}
@@ -177,29 +179,29 @@ public class ViewUtil {
 						d8 = -1.0E-4D;
 					}
 					
-					EnumFacing enumfacing;
+					Direction enumfacing;
 					if (d6 < d7 && d6 < d8) {
-						enumfacing = i > l ? EnumFacing.WEST : EnumFacing.EAST;
+						enumfacing = i > l ? Direction.WEST : Direction.EAST;
 						d0 = d3;
 						d1 += d10 * d6;
 						d2 += d11 * d6;
 					} else if (d7 < d8) {
-						enumfacing = j > i1 ? EnumFacing.DOWN : EnumFacing.UP;
+						enumfacing = j > i1 ? Direction.DOWN : Direction.UP;
 						d0 += d9 * d7;
 						d1 = d4;
 						d2 += d11 * d7;
 					} else {
-						enumfacing = k > j1 ? EnumFacing.NORTH : EnumFacing.SOUTH;
+						enumfacing = k > j1 ? Direction.NORTH : Direction.SOUTH;
 						d0 += d9 * d8;
 						d1 += d10 * d8;
 						d2 = d5;
 					}
 					
-					l = MathHelper.floor(d0) - (enumfacing == EnumFacing.EAST ? 1 : 0);
-					i1 = MathHelper.floor(d1) - (enumfacing == EnumFacing.UP ? 1 : 0);
-					j1 = MathHelper.floor(d2) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
+					l = MathHelper.floor(d0) - (enumfacing == Direction.EAST ? 1 : 0);
+					i1 = MathHelper.floor(d1) - (enumfacing == Direction.UP ? 1 : 0);
+					j1 = MathHelper.floor(d2) - (enumfacing == Direction.SOUTH ? 1 : 0);
 					blockpos = new BlockPos(l, i1, j1);
-					IBlockState iblockstate1 = world.getBlockState(blockpos);
+					BlockState iblockstate1 = world.getBlockState(blockpos);
 					IFluidState ifluidstate1 = world.getFluidState(blockpos);
 					if (!p_200259_4_ || iblockstate1.getMaterial() == Material.PORTAL || !iblockstate1.getCollisionShape(world, blockpos).isEmpty()) {
 						boolean flag2 = iblockstate1.getBlock().isCollidable(iblockstate1);
@@ -213,7 +215,7 @@ public class ViewUtil {
 							}
 							
 							if (raytraceresult1 == null && flag3) {
-								raytraceresult1 = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double)ifluidstate1.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
+								raytraceresult1 = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, (double) ifluidstate1.getHeight(), 1.0D).func_212433_a(start, end, blockpos);
 							}
 							
 							if (raytraceresult1 != null) {
@@ -238,7 +240,7 @@ public class ViewUtil {
 	 * @param viewer      The viewer entity
 	 * @param beingViewed The entity being watched by viewer
 	 */
-	public static boolean canEntitySee(EntityLivingBase viewer, EntityLivingBase beingViewed) {
+	public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
 		double dx = beingViewed.posX - viewer.posX;
 		double dz;
 		for (dz = beingViewed.posX - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
@@ -268,7 +270,7 @@ public class ViewUtil {
 	 * @param viewer The viewer entity
 	 * @param tile   The tile being watched by viewer
 	 */
-	public static boolean isInSightTile(EntityLivingBase viewer, TileEntity tile) {
+	public static boolean isInSightTile(LivingEntity viewer, TileEntity tile) {
 		double dx = tile.getPos().getX() - viewer.posX;
 		double dz;
 		for (dz = tile.getPos().getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
@@ -298,10 +300,10 @@ public class ViewUtil {
 	 * @param livingBase The viewer entity
 	 * @param angel      The entity being watched by viewer
 	 */
-	public static boolean isInSight(EntityLivingBase livingBase, EntityQuantumLockBase angel) {
+	public static boolean isInSight(LivingEntity livingBase, EntityQuantumLockBase angel) {
 		if (viewBlocked(livingBase, angel)) return false;
 		
-		if (livingBase instanceof EntityPlayer) {
+		if (livingBase instanceof PlayerEntity) {
 			return isInFrontOfEntity(livingBase, angel, false);
 		}
 		return isInFrontOfEntity(livingBase, angel, false);

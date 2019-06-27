@@ -3,29 +3,31 @@ package me.suff.angels.common.events;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.config.WAConfig;
+import me.suff.angels.utils.AngelUtils;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.ItemLootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunction;
+import net.minecraft.world.storage.loot.conditions.ILootCondition;
+import net.minecraft.world.storage.loot.functions.ILootFunction;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 public class EventHandler {
 	
@@ -43,9 +45,9 @@ public class EventHandler {
 		if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
 		
 		Entity source = e.getSource().getTrueSource();
-		if (source instanceof EntityLivingBase) {
-			EntityLivingBase attacker = (EntityLivingBase) source;
-			EntityLivingBase victim = e.getEntityLiving();
+		if (source instanceof LivingEntity) {
+			LivingEntity attacker = (LivingEntity) source;
+			LivingEntity victim = e.getEntityLiving();
 			
 			if (victim instanceof EntityWeepingAngel) {
 				
@@ -54,8 +56,8 @@ public class EventHandler {
 					return;
 				}
 				
-				ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-				boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe");
+				ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+				boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
 				e.setCanceled(!isPic);
 				
 				if (!isPic) {
@@ -63,7 +65,7 @@ public class EventHandler {
 				} else {
 					Item pick = item.getItem();
 					
-					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
+					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
 						e.setCanceled(true);
 					}
 					
@@ -82,7 +84,7 @@ public class EventHandler {
 		if (event.getName().getNamespace().contains("chests")) {
 			final LootPool pool2 = event.getTable().getPool("pool2");
 			if (pool2 != null) {
-				pool2.addEntry(new LootEntryItem(WAObjects.Items.CHRONODYNE_GENERATOR, 10, 0, new LootFunction[]{new SetCount(new LootCondition[0], new RandomValueRange(1, 5))}, new LootCondition[0], "weeping-angels:generators"));
+				pool2.addEntry(new ItemLootEntry(WAObjects.Items.CHRONODYNE_GENERATOR, 10, 0, new ILootFunction[]{new SetCount(new ILootCondition[0], new RandomValueRange(1, 5))}, new ILootCondition[0], "weeping-angels:generators"));
 			}
 		}
 	}
@@ -98,5 +100,10 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
+	@SubscribeEvent
+	public void serverStartingEvent(FMLServerStartingEvent event) {
+		AngelUtils.LIGHT_ITEMS.clear();
+		AngelUtils.setupLightItems();
+	}
 }

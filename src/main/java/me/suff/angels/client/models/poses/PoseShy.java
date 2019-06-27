@@ -1,7 +1,7 @@
 package me.suff.angels.client.models.poses;
 
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseShy extends PoseBase {
 	
@@ -13,7 +13,7 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right) {
+	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right) {
 		left_arm.rotateAngleX = 0;
 		left_arm.rotateAngleY = 0.4F;
 		left_arm.rotateAngleZ = -0.3F;
@@ -24,14 +24,14 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setHeadAngles(ModelRenderer head) {
+	public void setHeadAngles(RendererModel head) {
 		head.rotateAngleX = degreeToRadian(30);
 		head.rotateAngleY = degreeToRadian(19);
 		head.rotateAngleZ = 0;
 	}
 	
 	@Override
-	public void setBodyAngles(ModelRenderer body) {
+	public void setBodyAngles(RendererModel body) {
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {
+	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {
 	}
 	
 }

@@ -1,9 +1,9 @@
 package me.suff.angels.common.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
@@ -25,12 +25,12 @@ public class BlockMineable extends Block {
 	}
 	
 	@Override
-	public IItemProvider getItemDropped(IBlockState state, World worldIn, BlockPos pos, int fortune) {
+	public IItemProvider getItemDropped(BlockState state, World worldIn, BlockPos pos, int fortune) {
 		return itemSuppler.get().getItem();
 	}
 	
 	@Override
-	public int quantityDropped(IBlockState state, Random random) {
+	public int quantityDropped(BlockState state, Random random) {
 		return itemQuantity + random.nextInt(itemVariation);
 	}
 	

@@ -4,11 +4,11 @@ import me.suff.angels.common.misc.WAConstants;
 import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.AngelUtils;
 import me.suff.angels.utils.ViewUtil;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class EntityQuantumLockBase extends EntityMob {
+public class EntityQuantumLockBase extends MonsterEntity {
 	
 	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
@@ -42,16 +42,16 @@ public class EntityQuantumLockBase extends EntityMob {
 			
 			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
-				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerSleeping());
+				List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
+				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep());
 				
 				if (players.isEmpty()) {
 					setSeenTime(0);
 					return;
 				}
 				
-				EntityPlayer targetPlayer = null;
-				for (EntityPlayer player : players) {
+				PlayerEntity targetPlayer = null;
+				for (PlayerEntity player : players) {
 					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
@@ -76,7 +76,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		}
 	}
 	
-	public void moveTowards(EntityLivingBase targetPlayer) {
+	public void moveTowards(LivingEntity targetPlayer) {
 		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.CONFIG.moveSpeed.get());
 	}
 	
@@ -85,24 +85,24 @@ public class EntityQuantumLockBase extends EntityMob {
 		super.registerData();
 		getDataManager().register(IS_SEEN, false);
 		getDataManager().register(TIME_VIEWED, 0);
-		getDataManager().register(PREVBLOCKPOS, BlockPos.ORIGIN);
+		getDataManager().register(PREVBLOCKPOS, BlockPos.ZERO);
 		getDataManager().register(QUANTUM, false);
 	}
 	
 	@Override
-	public void deserializeNBT(NBTTagCompound compound) {
+	public void deserializeNBT(CompoundNBT compound) {
 		super.deserializeNBT(compound);
-		if (compound.hasKey(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
-		if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
-		if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
+		if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
+		if (compound.contains(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
+		if (compound.contains(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
 	}
 	
 	@Override
-	public void writeAdditional(NBTTagCompound compound) {
+	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
-		compound.setBoolean(WAConstants.IS_SEEN, isSeen());
-		compound.setInt(WAConstants.TIME_SEEN, getSeenTime());
-		compound.setLong(WAConstants.PREVPOS, getPrevPos().toLong());
+		compound.putBoolean(WAConstants.IS_SEEN, isSeen());
+		compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
+		compound.putLong(WAConstants.PREVPOS, getPrevPos().toLong());
 	}
 	
 	
@@ -134,7 +134,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		getDataManager().set(QUANTUM, locked);
 	}
 	
-	public void invokeSeen(EntityPlayer player) {
+	public void invokeSeen(PlayerEntity player) {
 		setNoAI(true);
 		getLookHelper().setLookPositionWithEntity(player, 30, 30);
 		getNavigator().setPath(null, 0);

@@ -2,13 +2,14 @@ package me.suff.angels.common.items;
 
 import me.suff.angels.common.entities.EntityAngelPainting;
 import me.suff.angels.common.misc.WATabs;
-import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.HangingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -19,23 +20,24 @@ public class ItemHanging extends Item {
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemUseContext context) {
-		EntityPlayer player = context.getPlayer();
-		EnumFacing side = context.getFace();
+	public ActionResultType onItemUse(ItemUseContext context) {
+		PlayerEntity player = context.getPlayer();
+		Direction side = context.getFace();
 		ItemStack stack = player.getHeldItemMainhand();
 		World worldIn = context.getWorld();
+		SpawnEggItem
 		
-		if (side == EnumFacing.DOWN) {
-			return EnumActionResult.FAIL;
-		} else if (side == EnumFacing.UP) {
-			return EnumActionResult.FAIL;
+		if (side == Direction.DOWN) {
+			return ActionResultType.FAIL;
+		} else if (side == Direction.UP) {
+			return ActionResultType.FAIL;
 		} else {
 			BlockPos offsetPos = context.getPos().offset(side);
 			
 			if (!player.canPlayerEdit(offsetPos, side, stack)) {
-				return EnumActionResult.FAIL;
+				return ActionResultType.FAIL;
 			} else {
-				EntityHanging entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);
+				HangingEntity entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);
 				
 				if (entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {
@@ -44,7 +46,7 @@ public class ItemHanging extends Item {
 					stack.shrink(1);
 				}
 				
-				return EnumActionResult.PASS;
+				return ActionResultType.PASS;
 			}
 		}
 	}

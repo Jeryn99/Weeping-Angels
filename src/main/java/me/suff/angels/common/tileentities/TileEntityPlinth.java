@@ -4,9 +4,9 @@ import me.suff.angels.client.models.poses.PoseManager;
 import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.AngelEnums;
 import me.suff.angels.common.entities.EntityWeepingAngel;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -30,7 +30,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public void read(NBTTagCompound compound) {
+	public void read(CompoundNBT compound) {
 		super.read(compound);
 		setHasSpawned(compound.getBoolean("hasSpawned"));
 		setPose(compound.getString("pose"));
@@ -38,7 +38,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public NBTTagCompound write(NBTTagCompound compound) {
+	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.setBoolean("hasSpawned", hasSpawned);
 		compound.setInt("rotation", rotation);
@@ -56,17 +56,17 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, 3, getUpdateTag());
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
 	}
 	
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return write(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return write(new CompoundNBT());
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		super.onDataPacket(net, pkt);
 		handleUpdateTag(pkt.getNbtCompound());
 	}

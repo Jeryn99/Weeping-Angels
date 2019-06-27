@@ -19,8 +19,8 @@ import me.suff.angels.utils.AngelUtils;
 import me.suff.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
@@ -109,7 +109,7 @@ public class WAObjects {
 	private static void registerBlocks(IForgeRegistry<Block> reg, Block... blocks) {
 		reg.registerAll(blocks);
 		for (Block block : blocks) {
-			ITEM_BLOCKS.add(new ItemBlock(block, new Item.Properties().group(WATabs.MAIN_TAB)).setRegistryName(block.getRegistryName()));
+			ITEM_BLOCKS.add(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB)).setRegistryName(block.getRegistryName()));
 		}
 	}
 	

@@ -1,8 +1,8 @@
 package me.suff.angels.client.renders.tileentities;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.angels.client.models.block.ModelSnowArm;
 import me.suff.angels.common.tileentities.TileEntitySnowArm;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 
 public class RenderTileEntitySnowArm extends TileEntityRenderer<TileEntitySnowArm> {

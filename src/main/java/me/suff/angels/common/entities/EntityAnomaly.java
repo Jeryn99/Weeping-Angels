@@ -1,18 +1,18 @@
 package me.suff.angels.common.entities;
 
 import me.suff.angels.common.WAObjects;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
-public class EntityAnomaly extends EntityLiving {
+public class EntityAnomaly extends MobEntity {
 	
 	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(EntityAnomaly.class, DataSerializers.FLOAT);
 	
 	public EntityAnomaly(World worldIn) {
-		super(WAObjects.EntityEntries.ANOMALY,worldIn);
+		super(WAObjects.EntityEntries.ANOMALY, worldIn);
 	}
 	
 	@Override

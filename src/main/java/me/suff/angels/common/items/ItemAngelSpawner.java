@@ -1,13 +1,14 @@
 package me.suff.angels.common.items;
 
+import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.entities.AngelEnums;
 import me.suff.angels.common.entities.EntityWeepingAngel;
 import me.suff.angels.common.misc.WATabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,19 +26,19 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemUseContext context) {
+	public ActionResultType onItemUse(ItemUseContext context) {
 		World worldIn = context.getWorld();
 		BlockPos pos = context.getPos();
-		EntityPlayer player = context.getPlayer();
-		EnumHand hand = player.getActiveHand();
+		PlayerEntity player = context.getPlayer();
+		Hand hand = player.getActiveHand();
 		
 		if (!worldIn.isRemote) {
-			EntityWeepingAngel angel = entityCreator.apply(worldIn);
+			EntityWeepingAngel angel = (EntityWeepingAngel) WAObjects.EntityEntries.WEEPING_ANGEL.create(worldIn);
 			angel.setType(type.getId());
 			angel.setChild(type.isChild());
 			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 			angel.faceEntity(player, 10.0F, 10.0F);
-			worldIn.spawnEntity(angel);
+			
 			player.getHeldItem(hand).shrink(1);
 		}
 		return super.onItemUse(context);

@@ -1,13 +1,12 @@
 package me.suff.angels.common.items;
 
-import me.suff.angels.common.entities.EntityChronodyneGenerator;
 import me.suff.angels.common.misc.WATabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ItemChronodyneGenerator extends Item {
@@ -20,7 +19,7 @@ public class ItemChronodyneGenerator extends Item {
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		
 		if (!playerIn.isCreative()) {
@@ -28,9 +27,9 @@ public class ItemChronodyneGenerator extends Item {
 		}
 		
 		if (!worldIn.isRemote) {
-		//	EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
-		//	worldIn.spawnEntity(gen);
+			//	EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
+			//	worldIn.spawnEntity(gen);
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+		return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
 	}
 }

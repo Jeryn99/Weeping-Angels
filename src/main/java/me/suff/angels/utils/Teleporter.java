@@ -2,14 +2,17 @@ package me.suff.angels.utils;
 
 import me.suff.angels.common.entities.EntityAnomaly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.util.ITeleporter;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Random;
 
 public final class Teleporter {
@@ -26,8 +29,8 @@ public final class Teleporter {
 		}
 		
 		if (entity.dimension == dimension) {
-			if (entity instanceof EntityPlayerMP) {
-				((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, entity.rotationYaw, entity.rotationPitch);
+			if (entity instanceof ServerPlayerEntity) {
+				((ServerPlayerEntity) entity).connection.setPlayerLocation(x, y, z, entity.rotationYaw, entity.rotationPitch);
 			} else {
 				entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
 			}
@@ -43,11 +46,11 @@ public final class Teleporter {
 		anomaly.setLocationAndAngles(entityOldPos.getX(), entityOldPos.getY(), entityOldPos.getZ(), entity.rotationYaw, entity.rotationPitch);
 		entity.world.spawnEntity(anomaly);
 		
-		if (entity instanceof EntityPlayerMP) {
+		if (entity instanceof ServerPlayerEntity) {
 			DimensionType newDimension = getRandomDimension(entity.world.dimension.getType(), new Random());
 			entity.changeDimension(newDimension, (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
-			boolean beSafeFlag = newDimension == DimensionType.THE_END || newDimension == DimensionType.NETHER;
+			boolean beSafeFlag = newDimension == DimensionType.field_223229_c_ || newDimension == DimensionType.field_223228_b_;
 			BlockPos spawn = beSafeFlag ? pos : world.getSpawnPoint();
 			
 			while (!(world.isAirBlock(spawn) && world.isAirBlock(spawn.up())) && spawn.getY() < world.dimension.getHeight() - 5)
@@ -60,21 +63,16 @@ public final class Teleporter {
 	}
 	
 	public static DimensionType getRandomDimension(DimensionType current, Random rand) {
-		//Iterable<DimensionType> dimensions = DimensionType.func_212681_b();
-		//if (dimensions.spliterator().characteristics() == 1)
-		//	return current;
+		Collection<ModDimension> dimensions = ForgeRegistries.MOD_DIMENSIONS.getValues();
 		
-		//DimensionType dim = dimensions[rand.nextInt(dimensions.length)];
+		ModDimension[] dimArray = dimensions.toArray(new ModDimension[0]);
 		
-		//for (int notAllowedDimension : WAConfig.teleport.notAllowedDimensions) {
-		//	if (notAllowedDimension == dim.getId()) {
-		//		return current;
-		//	}
-		//}
+		//WAConfig.CONFIG.notAllowedDimensions.get()
+		
 		return current;
 	}
 	
-	public static void handleStructures(EntityPlayer player) {
+	public static void handleStructures(PlayerEntity player) {
 		
 		String[] targetStructure = null;
 		
@@ -100,10 +98,11 @@ public final class Teleporter {
 		}
 	}
 	
-	public static final class WATeleport implements ITeleporter {
+	public static final class WATeleport extends net.minecraft.world.Teleporter {
 		private final double x, y, z;
 		
 		public WATeleport(double x, double y, double z) {
+			super();
 			this.x = x;
 			this.y = y;
 			this.z = z;

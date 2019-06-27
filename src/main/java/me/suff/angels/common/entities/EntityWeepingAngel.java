@@ -5,36 +5,35 @@ import me.suff.angels.common.WAObjects;
 import me.suff.angels.common.misc.WAConstants;
 import me.suff.angels.config.WAConfig;
 import me.suff.angels.utils.AngelUtils;
-import me.suff.angels.utils.EnumTeleportType;
 import me.suff.angels.utils.Teleporter;
-import net.minecraft.block.BlockEndPortal;
-import net.minecraft.block.BlockPortal;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.EndPortalBlock;
+import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.ai.goal.BreakDoorGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.network.play.server.SPlaySoundEffectPacket;
+import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -54,10 +53,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	public EntityWeepingAngel(World world) {
 		super(world, WAObjects.EntityEntries.WEEPING_ANGEL);
-		tasks.addTask(0, new EntityAIBreakDoor(this));
-		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 50.0F));
+		tasks.addTask(0, new BreakDoorGoal(this));
+		tasks.addTask(5, new MoveTowardsRestrictionGoal(this, 1.0D));
+		tasks.addTask(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		tasks.addTask(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
 		experienceValue = WAConfig.CONFIG.xpGained.get();
 	}
 	
@@ -73,7 +72,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Nullable
 	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData entityLivingData, @Nullable NBTTagCompound itemNbt) {
+	public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData entityLivingData, @Nullable CompoundNBT itemNbt) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
 		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
 	}
@@ -115,9 +114,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		
-		if (entity instanceof EntityPlayerMP) {
+		if (entity instanceof ServerPlayerEntity) {
 			
-			EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+			ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
 			
 			//Blowing out light items from the players hand
 			if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
@@ -130,7 +129,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					ItemStack stack = playerMP.inventory.getStackInSlot(i);
 					for (String regName : WAConstants.KEYS) {
 						if (regName.matches(stack.getItem().getRegistryName().toString())) {
-							setHeldItem(EnumHand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
+							setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
 							playerMP.inventory.getStackInSlot(i).setCount(0);
 							playerMP.inventoryContainer.detectAndSendChanges();
 						}
@@ -164,7 +163,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	
-	public void dealDamage(EntityPlayer playerMP) {
+	public void dealDamage(PlayerEntity playerMP) {
 		if (getHealth() > 5) {
 			playerMP.attackEntityFrom(WAObjects.ANGEL, 4.0F);
 			heal(4.0F);
@@ -182,7 +181,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void writeAdditional(NBTTagCompound compound) {
+	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 		compound.setString(WAConstants.POSE, getPose());
 		compound.setInt(WAConstants.TYPE, getAngelType());
@@ -191,7 +190,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void read(NBTTagCompound compound) {
+	public void read(CompoundNBT compound) {
 		super.read(compound);
 		
 		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
@@ -215,13 +214,13 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void invokeSeen(EntityPlayer player) {
+	public void invokeSeen(PlayerEntity player) {
 		super.invokeSeen(player);
 		
-		if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
+		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
 			setPrevPos(getPosition());
 			if (WAConfig.CONFIG.playSeenSounds.get()) {
-				((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+				((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 			}
 			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
 				setPose(PoseManager.getRandomPose().getRegistryName());
@@ -237,7 +236,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	
 	@Override
-	public void moveTowards(EntityLivingBase entity) {
+	public void moveTowards(LivingEntity entity) {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
 		if (WAConfig.CONFIG.playScrapSounds.get() && !isCherub()) {
@@ -270,17 +269,17 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	@Override
-	public void onKillEntity(EntityLivingBase entityLivingIn) {
+	public void onKillEntity(LivingEntity entityLivingIn) {
 		super.onKillEntity(entityLivingIn);
 		
-		if (entityLivingIn instanceof EntityPlayer) {
+		if (entityLivingIn instanceof PlayerEntity) {
 			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP, 1, 1);
 		}
 	}
 	
 	@Override
-	protected PathNavigate createNavigator(World worldIn) {
-		PathNavigateGround navigator = new PathNavigateGround(this, worldIn);
+	protected PathNavigator createNavigator(World worldIn) {
+		GroundPathNavigator navigator = new GroundPathNavigator(this, worldIn);
 		navigator.setCanSwim(false);
 		navigator.setBreakDoors(true);
 		navigator.setAvoidSun(false);
@@ -296,7 +295,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		
 		for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
-			IBlockState blockState = world.getBlockState(pos);
+			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
 				
 				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
@@ -308,7 +307,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					return;
 				}
 				
-				if (blockState.getBlock() instanceof BlockPortal || blockState.getBlock() instanceof BlockEndPortal) {
+				if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
 					if (getHealth() < getMaxHealth()) {
 						heal(1.5F);
 						world.removeBlock(pos);
@@ -321,7 +320,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 	}
 	
-	private boolean canBreak(IBlockState blockState) {
+	private boolean canBreak(BlockState blockState) {
 		for (String regName : WAConfig.CONFIG.disAllowedBlocks.get()) {
 			if (blockState.getBlock().getRegistryName().toString().equals(regName)) {
 				return false;
@@ -330,10 +329,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		return true;
 	}
 	
-	private void teleportInteraction(EntityPlayer player) {
+	private void teleportInteraction(PlayerEntity player) {
 		if (world.isRemote) return;
 		
-		EnumTeleportType type = EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
+		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 		
 		switch (type) {
 			case DONT:

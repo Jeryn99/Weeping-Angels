@@ -1,16 +1,16 @@
 package me.suff.angels.client.models.poses;
 
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseNew extends PoseBase {
 	
 	@Override
-	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right) {
+	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right) {
 		
 	}
 	
 	@Override
-	public void setHeadAngles(ModelRenderer head) {
+	public void setHeadAngles(RendererModel head) {
 		resetAngles(head);
 	}
 	
@@ -20,12 +20,12 @@ public class PoseNew extends PoseBase {
 	}
 	
 	@Override
-	public void setBodyAngles(ModelRenderer body) {
+	public void setBodyAngles(RendererModel body) {
 		
 	}
 	
 	@Override
-	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {
+	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {
 		
 	}
 	
