@@ -17,7 +17,7 @@ Nictogen: <a href="https://github.com/ReallySub/Weeping-Angels-Mod/commit/f379ba
 <h2 id="links">Links</h2>
 <p>Rolf (<a href="https://twitter.com/Rolfaal">https://twitter.com/Rolfaal</a>)<br>
 Ford (<a href="https://twitter.com/SixSixSixer">https://twitter.com/SixSixSixer</a>)<br>
-Ed (<a href="https://twitter.com/EdusgprNetwork">https://twitter.com/EdusgprNetwork</a>)<br>
+Ed (<a href="https://twitter.com/Edrax_Doodles">https://twitter.com/Edrax_Doodles</a>)<br>
 Spectre ()<br>
 Nictogen: (<a href="https://twitter.com/nictogen">https://twitter.com/nictogen</a>)</p>
 
