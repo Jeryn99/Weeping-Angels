@@ -10,10 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EndPortalBlock;
 import net.minecraft.block.NetherPortalBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
@@ -29,17 +26,14 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.function.Predicate;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -50,17 +44,25 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5, WAObjects.Sounds.ANGEL_SEEN_6, WAObjects.Sounds.ANGEL_SEEN_7, WAObjects.Sounds.ANGEL_SEEN_8};
 	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
-	
+
+	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> {
+		return p_213697_0_ == Difficulty.EASY;
+	};
+
+	public EntityWeepingAngel(EntityType type, World world) {
+		this(world);
+	}
+
 	public EntityWeepingAngel(World world) {
 		super(world, WAObjects.EntityEntries.WEEPING_ANGEL);
-		tasks.addTask(0, new BreakDoorGoal(this));
-		tasks.addTask(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-		tasks.addTask(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-		tasks.addTask(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
+		goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
+		goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
+		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
 		experienceValue = WAConfig.CONFIG.xpGained.get();
 	}
-	
-	
+
+
 	@Override
 	protected void registerData() {
 		super.registerData();
@@ -69,14 +71,14 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
-	
+
 	@Nullable
 	@Override
-	public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData entityLivingData, @Nullable CompoundNBT itemNbt) {
+	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
-		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
+		return super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 	}
-	
+
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
@@ -94,11 +96,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 		return null;
 	}
-	
-	@Override
-	public float getEyeHeight() {
-		return isCherub() ? height : 1.3F;
-	}
+
+	//@Override
+	//public float getEyeHeight() {
+	//	return isCherub() ? getHeight() : 1.3F;
+//	}
 	
 	@Override
 	protected void registerAttributes() {
@@ -131,7 +133,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 						if (regName.matches(stack.getItem().getRegistryName().toString())) {
 							setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
 							playerMP.inventory.getStackInSlot(i).setCount(0);
-							playerMP.inventoryContainer.detectAndSendChanges();
+							playerMP.container.detectAndSendChanges();
 						}
 					}
 				}
@@ -172,34 +174,36 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			heal(2.0F);
 		}
 	}
-	
+
+
 	@Override
-	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+	protected void dropLoot(DamageSource p_213354_1_, boolean p_213354_2_) {
 		entityDropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
 		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
 		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
+		//TODO Actually use loottables
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
-		compound.setString(WAConstants.POSE, getPose());
-		compound.setInt(WAConstants.TYPE, getAngelType());
-		compound.setBoolean(WAConstants.ANGEL_CHILD, isCherub());
-		compound.setInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
+		compound.putString(WAConstants.POSE, getAngelPose());
+		compound.putInt(WAConstants.TYPE, getAngelType());
+		compound.putBoolean(WAConstants.ANGEL_CHILD, isCherub());
+		compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
 	
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		
-		if (compound.hasKey(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
-		
-		if (compound.hasKey(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
-		
-		if (compound.hasKey(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
-		
-		if (compound.hasKey(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
+
+		if (compound.contains(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
+
+		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
+
+		if (compound.contains(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
+
+		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
 	
 	@Override
@@ -293,10 +297,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		if (world.getLight(getPosition()) == 0) {
 			return;
 		}
-		
-		for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
+
+		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ)).iterator(); iterator.hasNext(); ) {
+			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
-			if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
+			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 				
 				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 					continue;
@@ -310,7 +315,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
 					if (getHealth() < getMaxHealth()) {
 						heal(1.5F);
-						world.removeBlock(pos);
+						world.removeBlock(pos, true);
 					}
 				} else
 					continue;
@@ -352,10 +357,10 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	public void dropStuff() {
-		dropFewItems(true, 4);
+		dropLoot(true, 4);
 	}
-	
-	public String getPose() {
+
+	public String getAngelPose() {
 		return getDataManager().get(CURRENT_POSE);
 	}
 	

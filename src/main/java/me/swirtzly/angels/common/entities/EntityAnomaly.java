@@ -1,6 +1,7 @@
 package me.swirtzly.angels.common.entities;
 
 import me.swirtzly.angels.common.WAObjects;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -14,7 +15,11 @@ public class EntityAnomaly extends MobEntity {
 	public EntityAnomaly(World worldIn) {
 		super(WAObjects.EntityEntries.ANOMALY, worldIn);
 	}
-	
+
+	public EntityAnomaly(EntityType type, World world){
+		this(world);
+	}
+
 	@Override
 	public boolean isInvulnerable() {
 		return true;
@@ -41,8 +46,8 @@ public class EntityAnomaly extends MobEntity {
 	}
 	
 	@Override
-	protected void initEntityAI() {
-		super.initEntityAI();
+	protected void registerData() {
+		super.registerData();
 		getDataManager().register(EYE_HEIGHT, getEyeHeight());
 	}
 	

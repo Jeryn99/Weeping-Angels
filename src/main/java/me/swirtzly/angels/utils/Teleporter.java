@@ -49,7 +49,7 @@ public final class Teleporter {
 			DimensionType newDimension = getRandomDimension(entity.world.dimension.getType(), new Random());
 			entity.changeDimension(newDimension, (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
 			World world = entity.getEntityWorld();
-			boolean beSafeFlag = newDimension == DimensionType.field_223229_c_ || newDimension == DimensionType.field_223228_b_;
+			boolean beSafeFlag = newDimension == DimensionType.THE_NETHER || newDimension == DimensionType.THE_END;
 			BlockPos spawn = beSafeFlag ? pos : world.getSpawnPoint();
 			
 			while (!(world.isAirBlock(spawn) && world.isAirBlock(spawn.up())) && spawn.getY() < world.dimension.getHeight() - 5)
