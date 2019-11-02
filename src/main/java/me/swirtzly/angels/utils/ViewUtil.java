@@ -274,5 +274,6 @@ public class ViewUtil {
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
-	
+
+
 }

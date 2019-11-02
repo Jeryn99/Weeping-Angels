@@ -2,6 +2,7 @@ package me.swirtzly.angels.common.entities;
 
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
+import me.swirtzly.angels.common.entities.ai.FollowLeader;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
@@ -52,6 +53,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public EntityWeepingAngel(World world) {
 		super(world);
 		tasks.addTask(0, new EntityAIBreakDoor(this));
+        tasks.addTask(0, new FollowLeader(this));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
 		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 50.0F));

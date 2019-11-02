@@ -39,7 +39,7 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
 			
 			Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
 			ed.quickRender(0.0625f, tile);
-			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+            //GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
 		}
 		
 		GlStateManager.popMatrix();

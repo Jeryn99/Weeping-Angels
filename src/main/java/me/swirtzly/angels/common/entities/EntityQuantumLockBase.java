@@ -1,5 +1,6 @@
 package me.swirtzly.angels.common.entities;
 
+import me.swirtzly.angels.common.entities.ai.AngelFormation;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
@@ -11,10 +12,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityQuantumLockBase extends EntityMob {
@@ -23,16 +26,57 @@ public class EntityQuantumLockBase extends EntityMob {
 	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
 	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
-	
+	private static final DataParameter<Boolean> IS_LEADER = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
+	private static AxisAlignedBB SCAN_RANGE = new AxisAlignedBB(0, 0, 0, 1, 1, 1).grow(20);
+	//Leader stuff
+	private EntityQuantumLockBase LEADER = null;
+	private ArrayList<EntityQuantumLockBase> FOLLOWERS = new ArrayList<EntityQuantumLockBase>();
+	private AngelFormation FORMATION = null;
+
 	public EntityQuantumLockBase(World worldIn) {
 		super(worldIn);
+		ArrayList<Vec3d> list = new ArrayList<Vec3d>();
+		list.add(new Vec3d(2, 0, -1));
+		list.add(new Vec3d(-2, 0, -1));
+		FORMATION = new AngelFormation(list);
+	}
+
+	public ArrayList<EntityQuantumLockBase> getFollowers() {
+		if (!IsLeader()) {
+			FOLLOWERS.clear();
+		}
+		return FOLLOWERS;
+	}
+
+	public boolean IsLeader() {
+		return getDataManager().get(IS_LEADER);
+	}
+
+	public void setIsLeader(boolean isLeader) {
+		getDataManager().set(IS_LEADER, isLeader);
+	}
+
+	public EntityQuantumLockBase getLeader() {
+		return LEADER;
+	}
+
+	public void setLeader(EntityQuantumLockBase LEADER) {
+		this.LEADER = LEADER;
+	}
+
+	public AngelFormation getFormation() {
+		return FORMATION;
 	}
 	
 	@Override
 	public void onLivingUpdate() {
-		
+
 		if (!world.isRemote && ticksExisted % 4 == 0) {
 			setQuantum(quantumCheck());
+		}
+
+		if (!world.isRemote) {
+			setLeader(scanForLeader());
 		}
 		
 		super.onLivingUpdate();
@@ -86,6 +130,7 @@ public class EntityQuantumLockBase extends EntityMob {
 		getDataManager().register(TIME_VIEWED, 0);
 		getDataManager().register(PREVBLOCKPOS, BlockPos.ORIGIN);
 		getDataManager().register(QUANTUM, false);
+		getDataManager().register(IS_LEADER, false);
 	}
 	
 	@Override
@@ -159,6 +204,29 @@ public class EntityQuantumLockBase extends EntityMob {
 		}
 		return false;
 	}
-	
-	
+
+
+	public EntityQuantumLockBase scanForLeader() {
+		List<EntityQuantumLockBase> angels = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, SCAN_RANGE.offset(this.getPositionVector()));
+		//Search range for a commander
+		for (EntityQuantumLockBase angel : angels) {
+			if (angel.IsLeader()) {
+				if (!angel.getFollowers().contains(this))
+					angel.addFollower(this);
+				return angel;
+			}
+		}
+		//If we can't find one, promote ourselves
+		this.setIsLeader(true);
+
+		for (EntityQuantumLockBase angel : angels) {
+			angel.setLeader(this);
+			this.addFollower(angel);
+		}
+		return this;
+	}
+
+	public void addFollower(EntityQuantumLockBase drone) {
+		this.FOLLOWERS.add(drone);
+	}
 }
