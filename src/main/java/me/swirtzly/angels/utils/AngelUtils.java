@@ -137,7 +137,7 @@ public class AngelUtils {
 	}
 	
 	public static int getLightValue(Block block) {
-		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 3);
+		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
 	}
 	
 	private static boolean lightCheck(ItemStack stack, EntityWeepingAngel angel) {
