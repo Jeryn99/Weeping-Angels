@@ -156,7 +156,7 @@ public class EntityAngelPainting extends HangingEntity implements IEntityAdditio
 	 */
 	@Override
 	public void onBroken(Entity entity) {
-		if (world.getGameRules().func_223585_a(GameRules.field_223603_f).func_223572_a()) {
+		if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
 			if (entity instanceof PlayerEntity) {
 				PlayerEntity entityplayer = (PlayerEntity) entity;
 				

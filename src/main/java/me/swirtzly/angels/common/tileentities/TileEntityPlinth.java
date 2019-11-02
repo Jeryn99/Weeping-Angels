@@ -77,7 +77,7 @@ public class TileEntityPlinth extends TileEntity implements ITickableTileEntity 
 	}
 	
 	public void sendUpdates() {
-		world.markBlockRangeForRenderUpdate(pos, pos);
+		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
 		markDirty();
 	}

@@ -7,6 +7,7 @@ import me.swirtzly.angels.common.misc.WATabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -33,13 +34,13 @@ public class ItemAngelSpawner<E extends EntityWeepingAngel> extends Item {
 		Hand hand = player.getActiveHand();
 		
 		if (!worldIn.isRemote) {
-			EntityWeepingAngel angel = (EntityWeepingAngel) WAObjects.EntityEntries.WEEPING_ANGEL.create(worldIn);
+			EntityWeepingAngel angel = WAObjects.EntityEntries.WEEPING_ANGEL.create(worldIn);
 			angel.setType(type.getId());
 			angel.setChild(type.isChild());
 			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 			angel.faceEntity(player, 10.0F, 10.0F);
-			
 			player.getHeldItem(hand).shrink(1);
+			worldIn.addEntity(angel);
 		}
 		return super.onItemUse(context);
 	}

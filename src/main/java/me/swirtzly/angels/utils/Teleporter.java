@@ -35,7 +35,8 @@ public final class Teleporter {
 			}
 			return entity;
 		}
-		return entity.changeDimension(dimension, new WATeleport(x, y, z));
+	//	return entity.changeDimension(dimension, new WATeleport(x, y, z));
+		return entity.changeDimension(dimension);
 	}
 	
 	public static Entity moveSafeAcrossDim(Entity entity, BlockPos pos) {
@@ -47,7 +48,7 @@ public final class Teleporter {
 		
 		if (entity instanceof ServerPlayerEntity) {
 			DimensionType newDimension = getRandomDimension(entity.world.dimension.getType(), new Random());
-			entity.changeDimension(newDimension, (world, en, yaw) -> entity.setLocationAndAngles(0, 0, 0, en.rotationYaw, en.rotationPitch));
+			entity.changeDimension(newDimension);
 			World world = entity.getEntityWorld();
 			boolean beSafeFlag = newDimension == DimensionType.THE_NETHER || newDimension == DimensionType.THE_END;
 			BlockPos spawn = beSafeFlag ? pos : world.getSpawnPoint();
@@ -96,21 +97,4 @@ public final class Teleporter {
 			}
 		}
 	}
-	
-	public static final class WATeleport extends net.minecraft.world.Teleporter {
-		private final double x, y, z;
-		
-		public WATeleport(double x, double y, double z) {
-			super();
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-		
-		@Override
-		public void placeEntity(World world, Entity entity, float yaw) {
-			entity.setLocationAndAngles(x, y, z, yaw, entity.rotationPitch);
-		}
-	}
-	
 }

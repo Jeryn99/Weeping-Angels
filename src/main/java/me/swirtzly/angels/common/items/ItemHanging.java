@@ -24,7 +24,6 @@ public class ItemHanging extends Item {
 		Direction side = context.getFace();
 		ItemStack stack = player.getHeldItemMainhand();
 		World worldIn = context.getWorld();
-		SpawnEggItem
 		
 		if (side == Direction.DOWN) {
 			return ActionResultType.FAIL;
@@ -40,7 +39,7 @@ public class ItemHanging extends Item {
 				
 				if (entityhanging.onValidSurface()) {
 					if (!worldIn.isRemote) {
-						worldIn.spawnEntity(entityhanging);
+						worldIn.addEntity(entityhanging);
 					}
 					stack.shrink(1);
 				}

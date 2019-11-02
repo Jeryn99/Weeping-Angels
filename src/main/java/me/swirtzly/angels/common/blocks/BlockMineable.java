@@ -24,18 +24,18 @@ public class BlockMineable extends Block {
 		itemVariation = variation;
 	}
 
-
+/*
 	@Override
 	public IItemProvider getItemDropped(BlockState state, World worldIn, BlockPos pos, int fortune) {
 		return itemSuppler.get().getItem();
 	}
-	
+
 	@Override
 	public int quantityDropped(BlockState state, Random random) {
 		return itemQuantity + random.nextInt(itemVariation);
 	}
-	
-	@Override
+*/
+@Override
 	public void dropXpOnBlockBreak(World worldIn, BlockPos pos, int amount) {
 		super.dropXpOnBlockBreak(worldIn, pos, 1 + RANDOM.nextInt(5));
 	}

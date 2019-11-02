@@ -25,6 +25,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -38,6 +39,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static me.swirtzly.angels.WeepingAngels.MODID;
 
@@ -118,9 +120,9 @@ public class WAObjects {
 	}
 	
 	public static class Tiles {
-		public static TileEntityType<?> ARM = TileEntityType.register(MODID + ":snowarm", TileEntityType.Builder.create(TileEntitySnowArm::new));
-		public static TileEntityType<?> CG = TileEntityType.register(MODID + ":cg", TileEntityType.Builder.create(TileEntityChronodyneGenerator::new));
-		public static TileEntityType<?> PLINTH = TileEntityType.register(MODID + ":plinth", TileEntityType.Builder.create(TileEntityPlinth::new));
+		public static TileEntityType<?> ARM = register(TileEntitySnowArm::new, "snow_arm", Blocks.ARM);
+		public static TileEntityType<?> CG = register(TileEntityChronodyneGenerator::new, "console_steam", Blocks.CG);
+		public static TileEntityType<?> PLINTH = register(TileEntityPlinth::new, "plinth", Blocks.PLINTH);
 	}
 	
 	@ObjectHolder(MODID)
@@ -177,6 +179,28 @@ public class WAObjects {
 		//	public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
 	}
 
+
+	public static List<TileEntityType<?>> TYPES = new ArrayList<TileEntityType<?>>();
+
+	@SubscribeEvent
+	public static void register(RegistryEvent.Register<TileEntityType<?>> event) {
+		for(TileEntityType<?> type : TYPES) {
+			event.getRegistry().register(type);
+		}
+	}
+
+
+	//Tile Creation
+	public static <T extends TileEntity> TileEntityType<T> register(Supplier<T> tile, String name, Block... validBlock) {
+		TileEntityType<T> type = TileEntityType.Builder.create(tile, validBlock).build(null);
+		type.setRegistryName(WeepingAngels.MODID, name);
+		TYPES.add(type);
+		return type;
+	}
+
+
+
+	//Entity Creation
 	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name){
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);

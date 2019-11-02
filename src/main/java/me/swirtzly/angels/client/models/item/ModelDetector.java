@@ -1,5 +1,6 @@
 package me.swirtzly.angels.client.models.item;
 
+import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
@@ -7,6 +8,9 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL;
+
+import static com.mojang.blaze3d.platform.GLX.GL_TEXTURE1;
 
 /**
  * TimeyWimeyDetector - Ed Created using Tabula 5.1.0
@@ -818,14 +822,14 @@ public class ModelDetector extends EntityModel {
 			final int packedMaxLight = 0xf000f0; //15728880
 			final int skyLight = packedMaxLight % 0x10000; //65536
 			final int blockLight = packedMaxLight / 0x10000; //65536
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, skyLight, blockLight);
+			GLX.glMultiTexCoord2f(GL_TEXTURE1, skyLight, blockLight);
 		}
 		
 		light.render(scale);
 		
 		if (timer % 2 == 0) {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, 0x0, 0xf0);
+			GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 0x0, 0xf0);
 			GlStateManager.disableAlphaTest();
 			GlStateManager.disableBlend();
 		}

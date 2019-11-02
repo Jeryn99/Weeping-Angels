@@ -38,7 +38,7 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue blockBreakRange;
 	public final ForgeConfigSpec.BooleanValue chickenGoboom;
 	public final ForgeConfigSpec.BooleanValue torchBlowOut;
-	public final ForgeConfigSpec.ConfigValue<String> disAllowedBlocks;
+	public final ForgeConfigSpec.ConfigValue<String[]> disAllowedBlocks;
 	public final ForgeConfigSpec.BooleanValue freezeOnAngel;
 	public final ForgeConfigSpec.BooleanValue pickaxeOnly;
 	public final ForgeConfigSpec.IntValue stalkRange;
@@ -140,8 +140,8 @@ public class WAConfig {
 				.comment("If this is enabled, baby angels will blow out light items from the players hand")
 				.define("torchBlowOut", true);
 		disAllowedBlocks = builder
-				.translation("config.weeping-angels.disallowed_blocks")
-				.defineInList("disAllowedBlocks", String.valueOf(Arrays.asList("thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air")), Arrays.asList("thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"));
+				.translation("config.weeping-angels.disallowed_blocks") //new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"})
+				.define("disAllowedBlocks", new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"});
 		freezeOnAngel = builder
 				.translation("config.weeping-angels.ql")
 				.comment("if enabled, angels will freeze when they see one another.")
@@ -171,7 +171,7 @@ public class WAConfig {
 		notAllowedDimensions = builder
 				.translation("config.weeping-angels.disallowed_dimensions")
 				.comment("Note: This a list of dimensions that angels should NOT teleport you to.")
-				.defineInList("notAllowedDimension", 1, Arrays.asList(1));
+				.defineInList("notAllowedDimension", "minecraft:the_end", Arrays.asList("minecraft:the_end"));
 		justTeleport = builder
 				.translation("config.weeping-angels.teleport_instant")
 				.comment("just teleport. no damage.")

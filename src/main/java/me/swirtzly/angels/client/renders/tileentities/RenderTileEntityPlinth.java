@@ -5,7 +5,6 @@ import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.ModelAngelEd;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -28,7 +27,7 @@ public class RenderTileEntityPlinth extends TileEntityRenderer<TileEntityPlinth>
 		if (!tile.getHasSpawned()) {
 			Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
 			ed.quickRender(0.0625f, tile);
-			GlStateManager.disableBlend(GlStateManager.Profile.TRANSPARENT_MODEL);
+			GlStateManager.unsetProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
 		}
 		
 		GlStateManager.popMatrix();

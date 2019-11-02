@@ -583,7 +583,7 @@ public class ModelAngelMel extends EntityModel {
 		
 		if (entityIn instanceof EntityWeepingAngel) {
 			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
-			PoseBase pose = PoseManager.getPoseFromString(angel.getPose());
+			PoseBase pose = PoseManager.getPoseFromString(angel.getAngelPose());
 			
 			//Covering Face arms render/
 			if (pose == PoseManager.POSE_HIDING_FACE) {
