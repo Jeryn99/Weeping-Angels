@@ -7,20 +7,20 @@ import me.swirtzly.angels.utils.AngelUtils;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
-	
-	public static final ServerReflector reflector = new ServerReflector();
-	
-	public void preInit() {
-		GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 0);
-		GameRegistry.registerWorldGenerator(new WorldGenOres(), 0);
-	}
-	
-	public void init() {
-		reflector.init();
-	}
-	
-	public void postInit() {
-		AngelUtils.setupLightItems();
-	}
-	
+
+    public static final ServerReflector reflector = new ServerReflector();
+
+    public void preInit() {
+        GameRegistry.registerWorldGenerator(new WorldGenCatacombs(), 0);
+        GameRegistry.registerWorldGenerator(new WorldGenOres(), 0);
+    }
+
+    public void init() {
+        reflector.init();
+    }
+
+    public void postInit() {
+        AngelUtils.setupLightItems();
+    }
+
 }

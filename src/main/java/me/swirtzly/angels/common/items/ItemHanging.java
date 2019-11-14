@@ -12,36 +12,36 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemHanging extends Item {
-	
-	public ItemHanging() {
-		super();
-	}
-	
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getHeldItemMainhand();
-		
-		if (side == EnumFacing.DOWN) {
-			return EnumActionResult.FAIL;
-		} else if (side == EnumFacing.UP) {
-			return EnumActionResult.FAIL;
-		} else {
-			BlockPos offsetPos = pos.offset(side);
-			
-			if (!player.canPlayerEdit(offsetPos, side, stack)) {
-				return EnumActionResult.FAIL;
-			} else {
-				EntityHanging entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);
-				
-				if (entityhanging.onValidSurface()) {
-					if (!worldIn.isRemote) {
-						worldIn.spawnEntity(entityhanging);
-					}
-					stack.shrink(1);
-				}
-				
-				return EnumActionResult.PASS;
-			}
-		}
-	}
+
+    public ItemHanging() {
+        super();
+    }
+
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.getHeldItemMainhand();
+
+        if (side == EnumFacing.DOWN) {
+            return EnumActionResult.FAIL;
+        } else if (side == EnumFacing.UP) {
+            return EnumActionResult.FAIL;
+        } else {
+            BlockPos offsetPos = pos.offset(side);
+
+            if (!player.canPlayerEdit(offsetPos, side, stack)) {
+                return EnumActionResult.FAIL;
+            } else {
+                EntityHanging entityhanging = new EntityAngelPainting(worldIn, offsetPos, side);
+
+                if (entityhanging.onValidSurface()) {
+                    if (!worldIn.isRemote) {
+                        worldIn.spawnEntity(entityhanging);
+                    }
+                    stack.shrink(1);
+                }
+
+                return EnumActionResult.PASS;
+            }
+        }
+    }
 }

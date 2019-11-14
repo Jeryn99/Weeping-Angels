@@ -12,20 +12,20 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class RenderUtil {
-	
-	public static <T extends TileEntity> void bindTESR(Class<T> tileEntityClass, TileEntitySpecialRenderer<? super T> specialRenderer) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
-	}
-	
-	public static <T extends Entity> void bindEntityRender(Class<T> entityClass, IRenderFactory<? super T> renderFactory) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
-	}
-	
-	public static void setItemRender(Item item, TileEntityItemStackRenderer stackRenderer) {
-		item.setTileEntityItemStackRenderer(stackRenderer);
-	}
-	
-	public static void setItemRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-	}
+
+    public static <T extends TileEntity> void bindTESR(Class<T> tileEntityClass, TileEntitySpecialRenderer<? super T> specialRenderer) {
+        ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
+    }
+
+    public static <T extends Entity> void bindEntityRender(Class<T> entityClass, IRenderFactory<? super T> renderFactory) {
+        RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
+    }
+
+    public static void setItemRender(Item item, TileEntityItemStackRenderer stackRenderer) {
+        item.setTileEntityItemStackRenderer(stackRenderer);
+    }
+
+    public static void setItemRender(Item item) {
+        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+    }
 }
