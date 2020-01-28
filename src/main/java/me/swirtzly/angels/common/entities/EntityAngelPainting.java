@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.utils.Teleporter;
+import me.swirtzly.angels.utils.TeleporterNew;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.HangingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -203,7 +204,7 @@ public class EntityAngelPainting extends HangingEntity implements IEntityAdditio
 		if (!world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.copyLocationAndAnglesFrom(this);
-			Teleporter.move(angel, dimension, new BlockPos(posX + 1, posY + 1, posZ + 1));
+			TeleporterNew.teleportEntity(angel, dimension, posX + 1, posY + 1, posZ + 1);
 			world.addEntity(angel);
 		}
 	}

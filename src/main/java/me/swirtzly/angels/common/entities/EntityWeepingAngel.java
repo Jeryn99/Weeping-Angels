@@ -6,6 +6,7 @@ import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.Teleporter;
+import me.swirtzly.angels.utils.TeleporterNew;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EndPortalBlock;
@@ -34,6 +35,8 @@ import net.minecraft.world.*;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.function.Predicate;
+
+import static me.swirtzly.angels.utils.TeleporterNew.yCoordSanity;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -347,8 +350,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				break;
 			case RANDOM_PLACE:
 				if (rand.nextBoolean()) {
-					BlockPos pos = new BlockPos(player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get()), 0, player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get()));
-					Teleporter.moveSafeAcrossDim(player, pos);
+					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+					TeleporterNew.teleportEntity(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
 				} else {
 					Teleporter.handleStructures(player);
 				}

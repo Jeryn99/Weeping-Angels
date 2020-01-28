@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
   "textures": {
-    "0": "block/quartz_block_lines",
+    "0": "block/quartz_pillar",
     "1": "block/quartz_block_top",
-    "particle": "block/quartz_block_lines"
+    "particle": "block/quartz_pillar"
   },
   "elements": [
     {

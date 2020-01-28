@@ -3,10 +3,12 @@ package me.swirtzly.angels.common.tileentities;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.utils.Teleporter;
+import me.swirtzly.angels.utils.TeleporterNew;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 public class TileEntitySnowArm extends TileEntity implements ITickableTileEntity {
 	
@@ -21,7 +23,8 @@ public class TileEntitySnowArm extends TileEntity implements ITickableTileEntity
 		if (!world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			EntityWeepingAngel angel = new EntityWeepingAngel(world);
 			angel.setChild(false);
-			Teleporter.move(angel, world.dimension.getType(), getPos());
+			BlockPos newPos = getPos();
+			TeleporterNew.teleportEntity(angel, world.dimension.getType(), newPos.getX(), newPos.getY(), newPos.getZ() );
 			world.addEntity(angel);
 			world.removeBlock(getPos(), true);
 		}
