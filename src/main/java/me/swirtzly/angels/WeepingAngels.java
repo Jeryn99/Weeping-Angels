@@ -23,10 +23,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod("weeping-angels")
+@Mod("weeping_angels")
 public class WeepingAngels {
 	
-	public static final String MODID = "weeping-angels";
+	public static final String MODID = "weeping_angels";
 	public static final String NAME = "Weeping Angels";
 	
 	public static Logger LOGGER = LogManager.getLogger(NAME);

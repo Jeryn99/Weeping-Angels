@@ -1,0 +1,206 @@
+{
+  "angel_seen_1": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_1",
+        "stream": false
+      }
+    ]
+  },
+  "ding": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.ding",
+    "sounds": [
+      {
+        "name": "weeping_angels:ding",
+        "stream": false
+      }
+    ]
+  },
+  "blow": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.blow",
+    "sounds": [
+      {
+        "name": "weeping_angels:blow",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_2": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_2",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_3": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_3",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_4": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_4",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_5": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_5",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_6": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_6",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_7": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_7",
+        "stream": false
+      }
+    ]
+  },
+  "angel_seen_8": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_seen",
+    "sounds": [
+      {
+        "name": "weeping_angels:seen/angel_seen_8",
+        "stream": false
+      }
+    ]
+  },
+  "child_run": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.child_run",
+    "sounds": [
+      {
+        "name": "weeping_angels:child/child_run",
+        "stream": false
+      }
+    ]
+  },
+  "laughing_child": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.laughing_child",
+    "sounds": [
+      {
+        "name": "weeping_angels:child/laughing_child",
+        "stream": false
+      }
+    ]
+  },
+  "angel_teleport": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_teleport",
+    "sounds": [
+      {
+        "name": "weeping_angels:teleport/angel_teleport",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:teleport/angel_teleport_2",
+        "stream": false
+      }
+    ]
+  },
+  "light_break": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.light_break",
+    "sounds": [
+      {
+        "name": "weeping_angels:light_break",
+        "stream": false
+      }
+    ]
+  },
+  "angel_ambient": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_ambient",
+    "sounds": [
+      {
+        "name": "weeping_angels:angel_ambient",
+        "stream": false
+      }
+    ]
+  },
+  "angel_death": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_death",
+    "sounds": [
+      {
+        "name": "weeping_angels:stone/angel_death",
+        "stream": false
+      }
+    ]
+  },
+  "angel_neck_snap": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_neck_snap",
+    "sounds": [
+      {
+        "name": "weeping_angels:angel_neck_snap",
+        "stream": false
+      }
+    ]
+  },
+  "stone_scrap": {
+    "subtitle": "sound.weeping_angels.stone_scrap",
+    "category": "master",
+    "sounds": [
+      {
+        "name": "weeping_angels:stone/stone_scrap",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_1",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_2",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_3",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_4",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_5",
+        "stream": false
+      }
+    ]
+  }
+}

@@ -9,12 +9,13 @@ import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.HandSide;
 
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd extends BipedModel {
+public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 	
 	private RendererModel right_wing_0;
 	private RendererModel left_wing_0;
@@ -235,7 +236,7 @@ public class ModelAngelEd extends BipedModel {
 	}
 	
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		GlStateManager.enableLighting();

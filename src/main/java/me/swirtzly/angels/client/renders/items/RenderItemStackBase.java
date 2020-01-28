@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class RenderItemStackBase extends ItemStackTileEntityRenderer {
 	
-	private EntityModel modelBase;
+	private EntityModel<?> modelBase;
 	
 	public RenderItemStackBase(EntityModel model) {
 		modelBase = model;
@@ -16,7 +16,7 @@ public class RenderItemStackBase extends ItemStackTileEntityRenderer {
 	@Override
 	public void renderByItem(ItemStack theStack) {
 		GlStateManager.pushMatrix();
-		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f);
+//		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f);
 		GlStateManager.popMatrix();
 	}
 }

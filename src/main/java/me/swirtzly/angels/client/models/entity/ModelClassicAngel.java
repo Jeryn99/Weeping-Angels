@@ -5,10 +5,11 @@ import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 //TODO Fix posing, it's a bit random at the moment
-public class ModelClassicAngel extends BipedModel {
+public class ModelClassicAngel <T extends LivingEntity> extends BipedModel<T>{
 	
 	private RendererModel leftfoot;
 	private RendererModel rightfoot;
@@ -148,7 +149,7 @@ public class ModelClassicAngel extends BipedModel {
 	}
 	
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		setRotationAngles(entity);
 		leftfoot.render(f5);
 		rightfoot.render(f5);

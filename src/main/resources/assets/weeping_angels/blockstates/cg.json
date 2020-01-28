@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "weeping_angels:block/te_base",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "weeping_angels:block/te_base",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "weeping_angels:block/te_base",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "weeping_angels:block/te_base",
+      "y": 90
+    }
+  }
+}

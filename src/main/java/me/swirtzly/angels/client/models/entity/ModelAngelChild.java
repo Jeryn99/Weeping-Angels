@@ -3,11 +3,13 @@ package me.swirtzly.angels.client.models.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelAngelChild extends BipedModel {
+public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	
 	private RendererModel head_2;
 	private RendererModel head;
@@ -119,7 +121,7 @@ public class ModelAngelChild extends BipedModel {
 	}
 	
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	 public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		if (entityIn instanceof EntityWeepingAngel) {
 			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;

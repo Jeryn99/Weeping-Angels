@@ -7,8 +7,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
@@ -38,6 +42,22 @@ public class BlockAngelStatue extends Block {
 	@Override
 	public boolean isVariableOpacity() {
 		return false;
+	}
+	
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
+	
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		BlockState state = super.getStateForPlacement(context);
+		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+	}
+
+	@Override
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.HORIZONTAL_FACING);
 	}
 	
 	/**

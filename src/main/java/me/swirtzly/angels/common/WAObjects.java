@@ -121,7 +121,7 @@ public class WAObjects {
 	
 	public static class Tiles {
 		public static TileEntityType<?> ARM = register(TileEntitySnowArm::new, "snow_arm", Blocks.ARM);
-		public static TileEntityType<?> CG = register(TileEntityChronodyneGenerator::new, "console_steam", Blocks.CG);
+		public static TileEntityType<?> CG = register(TileEntityChronodyneGenerator::new, "cg", Blocks.CG);
 		public static TileEntityType<?> PLINTH = register(TileEntityPlinth::new, "plinth", Blocks.PLINTH);
 	}
 	
