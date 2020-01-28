@@ -11,6 +11,7 @@ import me.swirtzly.angels.common.events.EventHandler;
 import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
+import me.swirtzly.angels.common.world.WorldGen;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.RenderUtil;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,11 +36,11 @@ public class WeepingAngels {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		//	MinecraftForge.EVENT_BUS.register(new WAObjects());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
 	}
 	
-	private void setup(final FMLCommonSetupEvent event) {
-	
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		WorldGen.applyFeatures();
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
