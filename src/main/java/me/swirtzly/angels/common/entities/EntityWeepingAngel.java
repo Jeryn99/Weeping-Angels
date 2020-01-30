@@ -361,7 +361,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 	
 	public void dropStuff() {
-//		dropLoot(true, 4);
+		//dropLoot(true, 4);
 	}
 
 	public String getAngelPose() {

@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.0'
-group = 'me.swirtzly.weeping-angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'weeping-angels'
+group = 'me.swirtzly.weeping_angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'weeping_angels'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -115,7 +115,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "weeping-angels",
+                "Specification-Title": "weeping_angels",
                 "Specification-Vendor": "swirtzly",
                 "Specification-Version": "1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,

@@ -1,9 +1,11 @@
 package me.swirtzly.angels.config;
 
+import com.google.common.collect.Lists;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class WAConfig {
 	public static final WAConfig CONFIG;
@@ -25,7 +27,7 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue spawnProbability;
 	public final ForgeConfigSpec.IntValue minSpawn;
 	public final ForgeConfigSpec.ConfigValue<String> spawnType;
-	public final ForgeConfigSpec.ConfigValue<String[]> notAllowedBiomes;
+	public final ForgeConfigSpec.ConfigValue<List<String>> notAllowedBiomes;
 	public final ForgeConfigSpec.ConfigValue<Integer[]> dimensionWhitelist;
 	//Angel
 	public final ForgeConfigSpec.BooleanValue hardcoreMode;
@@ -38,12 +40,12 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue blockBreakRange;
 	public final ForgeConfigSpec.BooleanValue chickenGoboom;
 	public final ForgeConfigSpec.BooleanValue torchBlowOut;
-	public final ForgeConfigSpec.ConfigValue<String[]> disAllowedBlocks;
+	public final ForgeConfigSpec.ConfigValue<List<String>> disAllowedBlocks;
 	public final ForgeConfigSpec.BooleanValue freezeOnAngel;
 	public final ForgeConfigSpec.BooleanValue pickaxeOnly;
 	public final ForgeConfigSpec.IntValue stalkRange;
 	public final ForgeConfigSpec.DoubleValue moveSpeed;
-	public final ForgeConfigSpec.ConfigValue<String[]> transparent_blocks;
+	public final ForgeConfigSpec.ConfigValue<List<String>> transparent_blocks;
 	
 	//Teleport
 	public final ForgeConfigSpec.ConfigValue<String> teleportType;
@@ -92,7 +94,7 @@ public class WAConfig {
 		notAllowedBiomes = builder
 				.translation("config.weeping_angels.disallowed_spawn_biomes")
 				.comment("Note: A list of biomes where angels should NOT spawn.")
-				.define("notAllowedBiomes", new String[]{"minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"});
+				.define("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
 		dimensionWhitelist = builder
 				.translation("config.weeping_angels.allowed_spawn_dimensions")
 				.comment("Note: A list of dimension ids where angels should spawn.")
@@ -141,7 +143,7 @@ public class WAConfig {
 				.define("torchBlowOut", true);
 		disAllowedBlocks = builder
 				.translation("config.weeping_angels.disallowed_blocks") //new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"})
-				.define("disAllowedBlocks", new String[]{"tardis:exterior_steampunk","tardis:exterior_clock", "minecraft:air"}); 
+				.define("disAllowedBlocks", Lists.newArrayList("tardis:exterior_steampunk","tardis:exterior_clock", "minecraft:air"));
 				//TODO: Update disallowed block registry names for Tardis Mod 1.14 when build is released
 				//TODO: Add disallowed block registry names for Dalek Mod 1.3+ when that releases
 		freezeOnAngel = builder
@@ -163,7 +165,7 @@ public class WAConfig {
 		transparent_blocks = builder
 				.translation("config.weeping_angels.transparent_blocks")
 				.comment("List of blocks that you should be able to see angels through")
-				.define("transparentBlocks", new String[]{"modid:block_name"});
+				.define("transparentBlocks", Lists.newArrayList("modid:block_name"), String.class::isInstance);
 		builder.pop();
 		builder.push("teleport");
 		teleportType = builder
