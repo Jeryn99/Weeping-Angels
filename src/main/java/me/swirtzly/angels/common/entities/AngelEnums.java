@@ -1,5 +1,6 @@
 package me.swirtzly.angels.common.entities;
 
+
 /*
  * This enum contains the angel types for use with ItemAngelSpawner
  */

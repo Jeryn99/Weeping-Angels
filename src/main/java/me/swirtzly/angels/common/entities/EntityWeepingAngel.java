@@ -146,7 +146,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			//Teleporting and damage
 			if (WAConfig.CONFIG.justTeleport.get()) {
 				if (!isCherub()) {
-					teleportInteraction(playerMP);
+				 	teleportInteraction(playerMP);
 					return false;
 				} else {
 					dealDamage(playerMP);
@@ -352,7 +352,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-					TeleporterNew.teleportEntity(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
+					TeleporterNew.teleportPlayer(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
 				} else {
 					Teleporter.handleStructures(player);
 				}

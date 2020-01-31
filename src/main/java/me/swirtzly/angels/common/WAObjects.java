@@ -173,7 +173,7 @@ public class WAObjects {
 	@ObjectHolder(MODID)
 	public static class EntityEntries {
 
-		public static final EntityType<EntityWeepingAngel> WEEPING_ANGEL = registerMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false);
+		public static final EntityType<EntityWeepingAngel> WEEPING_ANGEL = registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false);
 		public static final EntityType<EntityAnomaly> ANOMALY = registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false);
 
 		//	public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
@@ -201,7 +201,7 @@ public class WAObjects {
 
 
 	//Entity Creation
-	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name){
+	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, boolean isImmuneToFire,String name){
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
 		builder.setShouldReceiveVelocityUpdates(sendUpdate);
@@ -213,17 +213,44 @@ public class WAObjects {
 		type.setRegistryName(loc);
 		return type;
 	}
+	//Fire Resistant Entity Creation
+	public static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate,String name){
+		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
+		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
+		builder.setShouldReceiveVelocityUpdates(sendUpdate);
+		builder.setTrackingRange(trackingRange);
+		builder.setUpdateInterval(updateFreq);
+		builder.immuneToFire();
+		builder.size(width, height);
+		builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+		EntityType<T> type = builder.build(loc.toString());
+		type.setRegistryName(loc);
+		return type;
+	}
 
 	public static <T extends Entity> EntityType<T> registerStatic(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name){
-		return registerBase(factory, client, classification, width, height, 64, 40, false, name);
+		return registerBase(factory, client, classification, width, height, 64, 40, false, false, name);
 	}
 
 	public static <T extends Entity> EntityType<T> registerMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
-		return registerBase(factory, client, classification, width, height, 80, 3, velocity, name);
+		return registerBase(factory, client, classification, width, height, 80, 3, velocity, false, name);
 	}
-
-	public static <T extends Entity> EntityType<T> registerMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity, int trackingRange, int updateFreq) {
-		return registerBase(factory, client, classification, width, height, trackingRange, updateFreq, velocity, name);
+	/**Fire Resistant Variant of entity
+	 * 
+	 * @param <T>
+	 * @param factory
+	 * @param client
+	 * @param classification
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param velocity
+	 * @param trackingRange
+	 * @param updateFreq
+	 * @return
+	 */
+	public static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
+		return registerFireImmuneBase(factory, client, classification,width, height,80, 3, velocity, name);
 	}
 
 	public interface IClientSpawner<T> {

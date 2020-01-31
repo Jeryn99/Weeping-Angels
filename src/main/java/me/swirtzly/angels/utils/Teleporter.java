@@ -49,7 +49,7 @@ public final class Teleporter {
 		if (targetStructure != null) {
 			BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
 			if (bPos != null) {
-				TeleporterNew.teleportEntity(player, player.dimension, bPos.getX(), bPos.getY(), bPos.getZ());
+				TeleporterNew.teleportPlayer(player, player.dimension, bPos.getX(), bPos.getY(), bPos.getZ());
 			}
 		}
 	}

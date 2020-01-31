@@ -25,8 +25,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 
 public class TeleporterNew {
-
-
+	
     public static Entity teleportEntity(Entity entity, DimensionType dimension, double xCoord, double yCoord, double zCoord, float yaw, float pitch){
         if (entity == null || entity.world.isRemote)
             return entity;
@@ -52,6 +51,20 @@ public class TeleporterNew {
 
     public static Entity teleportEntity(Entity entity, DimensionType dimension, double xCoord, double yCoord, double zCoord) {
         return teleportEntity(entity, dimension, xCoord, yCoord, zCoord, entity.rotationYaw, entity.rotationPitch);
+    }
+    /**
+     * Teleports Player only
+     * @param entity
+     * @param dimension
+     * @param xCoord
+     * @param yCoord
+     * @param zCoord
+     * @return
+     * @implNote User when exclusivelyteleporting players 
+     */
+    
+    public static PlayerEntity teleportPlayer(PlayerEntity entity, DimensionType dimension, double xCoord, double yCoord, double zCoord) {
+    	return (ServerPlayerEntity) teleportEntity(entity, dimension, xCoord, yCoord, zCoord, entity.rotationYaw, entity.rotationPitch);
     }
 
     private static Entity handleEntityTeleport(Entity entity, MinecraftServer server, DimensionType sourceDim, DimensionType targetDim, double xCoord, double yCoord, double zCoord, float yaw, float pitch) {
@@ -155,7 +168,7 @@ public class TeleporterNew {
         for (final EffectInstance effectinstance : player.getActivePotionEffects()) {
             player.connection.sendPacket(new SPlayEntityEffectPacket(player.getEntityId(), effectinstance));
         }
-        //player.connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
+        // player.connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
         BasicEventHooks.firePlayerChangedDimensionEvent(player, dimensiontype, destination);
         return player;
     }

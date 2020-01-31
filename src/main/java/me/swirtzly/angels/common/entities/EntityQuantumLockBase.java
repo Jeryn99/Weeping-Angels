@@ -105,6 +105,10 @@ public class EntityQuantumLockBase extends MonsterEntity {
 		compound.putLong(WAConstants.PREVPOS, getPrevPos().toLong());
 	}
 	
+	@Override
+   public boolean canBreatheUnderwater() {
+      return true;
+   }
 	
 	public boolean isSeen() {
 		return getSeenTime() > 0;
