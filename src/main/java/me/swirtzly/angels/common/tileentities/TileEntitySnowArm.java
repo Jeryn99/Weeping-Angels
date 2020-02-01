@@ -2,7 +2,6 @@ package me.swirtzly.angels.common.tileentities;
 
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
-import me.swirtzly.angels.utils.Teleporter;
 import me.swirtzly.angels.utils.TeleporterNew;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;

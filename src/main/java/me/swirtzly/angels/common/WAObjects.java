@@ -201,7 +201,7 @@ public class WAObjects {
 
 
 	//Entity Creation
-	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, boolean isImmuneToFire,String name){
+	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name){
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
 		builder.setShouldReceiveVelocityUpdates(sendUpdate);
@@ -229,11 +229,11 @@ public class WAObjects {
 	}
 
 	public static <T extends Entity> EntityType<T> registerStatic(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name){
-		return registerBase(factory, client, classification, width, height, 64, 40, false, false, name);
+		return registerBase(factory, client, classification, width, height, 64, 40, false, name);
 	}
 
 	public static <T extends Entity> EntityType<T> registerMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
-		return registerBase(factory, client, classification, width, height, 80, 3, velocity, false, name);
+		return registerBase(factory, client, classification, width, height, 80, 3, velocity, name);
 	}
 	/**Fire Resistant Variant of entity
 	 * 
