@@ -28,7 +28,7 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue minSpawn;
 	public final ForgeConfigSpec.ConfigValue<String> spawnType;
 	public final ForgeConfigSpec.ConfigValue<List<String>> notAllowedBiomes;
-	public final ForgeConfigSpec.ConfigValue<Integer[]> dimensionWhitelist;
+	public final ForgeConfigSpec.ConfigValue<List<? extends Integer>> dimensionWhitelist;
 	//Angel
 	public final ForgeConfigSpec.BooleanValue hardcoreMode;
 	public final ForgeConfigSpec.BooleanValue updateChecker;
@@ -98,7 +98,7 @@ public class WAConfig {
 		dimensionWhitelist = builder
 				.translation("config.weeping_angels.allowed_spawn_dimensions")
 				.comment("Note: A list of dimension ids where angels should spawn.")
-				.define("dimensionWhitelist", new Integer[]{-1, 0, 1});
+				.defineList("dimensionWhitelist", Lists.newArrayList(-1, 0, 1), Integer.class::isInstance);
 		builder.pop();
 		builder.push("angel");
 		hardcoreMode = builder

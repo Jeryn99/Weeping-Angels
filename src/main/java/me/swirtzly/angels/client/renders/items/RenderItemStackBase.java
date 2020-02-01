@@ -15,8 +15,6 @@ public class RenderItemStackBase extends ItemStackTileEntityRenderer {
 	
 	@Override
 	public void renderByItem(ItemStack theStack) {
-		GlStateManager.pushMatrix();
-//		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f);
-		GlStateManager.popMatrix();
+		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f);;
 	}
 }

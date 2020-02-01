@@ -1,5 +1,7 @@
 package me.swirtzly.angels.common.items;
 
+import me.swirtzly.angels.common.WAObjects;
+import me.swirtzly.angels.common.entities.EntityChronodyneGenerator;
 import me.swirtzly.angels.common.misc.WATabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,16 +21,17 @@ public class ItemChronodyneGenerator extends Item {
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity playerIn, Hand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		
 		if (!playerIn.isCreative()) {
 			itemstack.shrink(1);
 		}
 		
-		if (!worldIn.isRemote) {
-			//	EntityChronodyneGenerator gen = new EntityChronodyneGenerator(worldIn, playerIn);
-			//	worldIn.spawnEntity(gen);
+		if (!world.isRemote) {
+			EntityChronodyneGenerator laser = new EntityChronodyneGenerator(WAObjects.EntityEntries.CHRONODYNE_GENERATOR, playerIn, world);
+			laser.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3.5F, 0F);
+			world.addEntity(laser);
 		}
 		return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
 	}

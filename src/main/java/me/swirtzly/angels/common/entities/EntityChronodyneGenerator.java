@@ -1,32 +1,127 @@
 package me.swirtzly.angels.common.entities;
 
+import me.swirtzly.angels.common.WAObjects;
+import me.swirtzly.angels.common.entities.EntityAnomaly;
+import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.misc.WAConstants;
+import net.minecraft.block.material.Material;
+import net.minecraft.command.impl.TagCommand;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
-public class EntityChronodyneGenerator extends ThrowableEntity {
+/**
+ * Created by Swirtzly
+ * on 06/10/2019 @ 12:17
+ */
+public class EntityChronodyneGenerator extends ThrowableEntity implements IRendersAsItem {
 
-	protected EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> p_i48540_1_, World p_i48540_2_) {
-		super(p_i48540_1_, p_i48540_2_);
+	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, World worldIn) {
+		super(type, worldIn);
 	}
 
-	protected EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> p_i48541_1_, double p_i48541_2_, double p_i48541_4_, double p_i48541_6_, World p_i48541_8_) {
-		super(p_i48541_1_, p_i48541_2_, p_i48541_4_, p_i48541_6_, p_i48541_8_);
+	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, double x, double y, double z, World worldIn) {
+		super(type, x, y, z, worldIn);
 	}
 
-	protected EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> p_i48542_1_, LivingEntity p_i48542_2_, World p_i48542_3_) {
-		super(p_i48542_1_, p_i48542_2_, p_i48542_3_);
+
+	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, LivingEntity livingEntityIn, World worldIn) {
+		super(type, livingEntityIn, worldIn);
 	}
+
+
+	public EntityChronodyneGenerator(World world) {
+		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR, world);
+	}
+
+
+	@Override
+	public void tick() {
+		double speed = new Vec3d(posX, posY, posZ).distanceTo(new Vec3d(prevPosX, prevPosY, prevPosZ));
+		if (!this.world.isRemote && (ticksExisted > 30 * 20 || speed < 0.01)) {
+			this.remove();
+		}
+
+
+
+		if (this.isAlive())
+			super.tick();
+	}
+
+	@Override
+	protected void onImpact(RayTraceResult result) {
+		if (result == null || !isAlive())
+			return;
+
+		//Entity Hit
+		if (result.getType() == RayTraceResult.Type.ENTITY) {
+			EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
+			if (entityHitResult.getEntity() == this.getThrower() || entityHitResult == null) return;
+			Entity hitEntity = entityHitResult.getEntity();
+			if (hitEntity instanceof EntityWeepingAngel) {
+				if (!world.isRemote) {
+					EntityAnomaly a = new EntityAnomaly(world);
+					a.setEntityEyeHeight(hitEntity.getEyeHeight());
+					a.copyLocationAndAnglesFrom(hitEntity);
+					world.addEntity(a);
+					hitEntity.remove();
+					remove();
+				}
+			}
+
+		}
+
+		if (result.getType() == RayTraceResult.Type.BLOCK) {
+			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
+			BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
+			if (world.isAirBlock(pos) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
+				world.setBlockState(pos, WAObjects.Blocks.CG.getDefaultState());
+				if (world.getTileEntity(pos) != null) {
+					CompoundNBT tileData = world.getTileEntity(pos).getTileData();
+					tileData.putDouble(WAConstants.ABS_X, posX);
+					tileData.putDouble(WAConstants.ABS_Y, posY);
+					tileData.putDouble(WAConstants.ABS_Z, posZ);
+					remove();
+				}
+			}
+		}
+
+
+		if (!world.isRemote) {
+			world.setEntityState(this, (byte) 3);
+			remove();
+		}
+
+	}
+
 
 	@Override
 	protected void registerData() {
 
 	}
-	
+
+
 	@Override
-	protected void onImpact(RayTraceResult result) {
-	
+	public boolean isInWater() {
+		return false;
+	}
+
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
+	@Override
+	public ItemStack getItem() {
+		return ItemStack.EMPTY;
 	}
 }

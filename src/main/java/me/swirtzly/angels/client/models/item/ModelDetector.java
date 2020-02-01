@@ -17,7 +17,7 @@ import static com.mojang.blaze3d.platform.GLX.GL_TEXTURE1;
  */
 public class ModelDetector extends EntityModel {
 	
-	private ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/items/new_tex.png");
+	private ResourceLocation tex = new ResourceLocation(WeepingAngels.MODID, "textures/item/new_tex.png");
 	
 	private RendererModel spin_1;
 	private RendererModel spin_2;
@@ -752,69 +752,83 @@ public class ModelDetector extends EntityModel {
 		
 		Minecraft.getInstance().getTextureManager().bindTexture(tex);
 		
-		GlStateManager.pushMatrix();
+		GlStateManager.pushMatrix(); //matrix 1
 		GlStateManager.translatef(spin_1.offsetX, spin_1.offsetY, spin_1.offsetZ);
 		GlStateManager.translatef(spin_1.rotationPointX * scale, spin_1.rotationPointY * scale, spin_1.rotationPointZ * scale);
 		GlStateManager.scaled(1.3D, 1.3D, 0.5D);
 		GlStateManager.translatef(-spin_1.offsetX, -spin_1.offsetY, -spin_1.offsetZ);
 		GlStateManager.translatef(-spin_1.rotationPointX * scale, -spin_1.rotationPointY * scale, -spin_1.rotationPointZ * scale);
 		spin_1.render(scale);
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 1
+
+
 		shape146.render(scale);
 		shape146_2.render(scale);
 		shape81.render(scale);
-		GlStateManager.pushMatrix();
+
+
+		GlStateManager.pushMatrix(); //matrix 2
 		GlStateManager.translatef(shape125_1.offsetX, shape125_1.offsetY, shape125_1.offsetZ);
 		GlStateManager.translatef(shape125_1.rotationPointX * scale, shape125_1.rotationPointY * scale, shape125_1.rotationPointZ * scale);
 		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 		GlStateManager.translatef(-shape125_1.offsetX, -shape125_1.offsetY, -shape125_1.offsetZ);
 		GlStateManager.translatef(-shape125_1.rotationPointX * scale, -shape125_1.rotationPointY * scale, -shape125_1.rotationPointZ * scale);
 		shape125_1.render(scale);
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 2
+
+
 		shape146_4.render(scale);
 		shape110.render(scale);
-		GlStateManager.pushMatrix();
+
+		GlStateManager.pushMatrix(); //matrix 3
 		GlStateManager.translatef(spin_3.offsetX, spin_3.offsetY, spin_3.offsetZ);
 		GlStateManager.translatef(spin_3.rotationPointX * scale, spin_3.rotationPointY * scale, spin_3.rotationPointZ * scale);
 		GlStateManager.scaled(0.6D, 0.6D, 0.5D);
 		GlStateManager.translatef(-spin_3.offsetX, -spin_3.offsetY, -spin_3.offsetZ);
 		GlStateManager.translatef(-spin_3.rotationPointX * scale, -spin_3.rotationPointY * scale, -spin_3.rotationPointZ * scale);
 		spin_3.render(scale);
-		GlStateManager.popMatrix();
-		GlStateManager.pushMatrix();
+		GlStateManager.popMatrix(); //matrix 3
+
+		GlStateManager.pushMatrix(); //matrix 4
 		GlStateManager.translatef(spin_4.offsetX, spin_4.offsetY, spin_4.offsetZ);
 		GlStateManager.translatef(spin_4.rotationPointX * scale, spin_4.rotationPointY * scale, spin_4.rotationPointZ * scale);
 		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 		GlStateManager.translatef(-spin_4.offsetX, -spin_4.offsetY, -spin_4.offsetZ);
 		GlStateManager.translatef(-spin_4.rotationPointX * scale, -spin_4.rotationPointY * scale, -spin_4.rotationPointZ * scale);
 		spin_4.render(scale);
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 4
+
 		MAIN.render(scale);
-		GlStateManager.pushMatrix();
+
+		GlStateManager.pushMatrix(); //matrix 5
 		GlStateManager.translatef(spin_2.offsetX, spin_2.offsetY, spin_2.offsetZ);
 		GlStateManager.translatef(spin_2.rotationPointX * scale, spin_2.rotationPointY * scale, spin_2.rotationPointZ * scale);
 		GlStateManager.scaled(1.0D, 1.0D, 0.5D);
 		GlStateManager.translatef(-spin_2.offsetX, -spin_2.offsetY, -spin_2.offsetZ);
 		GlStateManager.translatef(-spin_2.rotationPointX * scale, -spin_2.rotationPointY * scale, -spin_2.rotationPointZ * scale);
 		spin_2.render(scale);
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 5
+
 		shape146_1.render(scale);
 		shape146_3.render(scale);
 		shape1_AAAAA.render(scale);
 		shape81_1.render(scale);
-		GlStateManager.pushMatrix();
+
+		GlStateManager.pushMatrix(); //matrix 6
 		GlStateManager.translatef(phone.offsetX, phone.offsetY, phone.offsetZ);
 		GlStateManager.translatef(phone.rotationPointX * scale, phone.rotationPointY * scale, phone.rotationPointZ * scale);
 		GlStateManager.scaled(1.2D, 1.2D, 1.2D);
 		GlStateManager.translatef(-phone.offsetX, -phone.offsetY, -phone.offsetZ);
 		GlStateManager.translatef(-phone.rotationPointX * scale, -phone.rotationPointY * scale, -phone.rotationPointZ * scale);
 		phone.render(scale);
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 6
+
 		shape125.render(scale);
 		
 		// Light
 		float timer = System.nanoTime() / 1000000000l;
-		GlStateManager.pushMatrix();
+
+		GlStateManager.pushMatrix(); //matrix 7
 		if (timer % 2 == 0) {
 			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
@@ -834,7 +848,7 @@ public class ModelDetector extends EntityModel {
 			GlStateManager.disableBlend();
 		}
 		
-		GlStateManager.popMatrix();
+		GlStateManager.popMatrix(); //matrix 7
 		// Light end
 		
 		GlStateManager.popMatrix();

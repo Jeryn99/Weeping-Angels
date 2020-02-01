@@ -7,6 +7,7 @@ import me.swirtzly.angels.common.blocks.BlockMineable;
 import me.swirtzly.angels.common.blocks.BlockSnowArm;
 import me.swirtzly.angels.common.entities.AngelEnums;
 import me.swirtzly.angels.common.entities.EntityAnomaly;
+import me.swirtzly.angels.common.entities.EntityChronodyneGenerator;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.items.ItemAngelSpawner;
 import me.swirtzly.angels.common.items.ItemChronodyneGenerator;
@@ -74,7 +75,7 @@ public class WAObjects {
 	@SubscribeEvent
 	public static void addBlocks(RegistryEvent.Register<Block> e) {
 		IForgeRegistry<Block> reg = e.getRegistry();
-		registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"));
+		registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(null), "kontron_ore"));
 		reg.register(setUpBlock(new BlockChronodyneGenerator(), "cg"));
 	}
 	
@@ -87,7 +88,7 @@ public class WAObjects {
 	@SubscribeEvent
 	public static void addEntities(RegistryEvent.Register<EntityType<?>> e) {
 		IForgeRegistry<EntityType<?>> reg = e.getRegistry();
-		reg.registerAll(EntityEntries.WEEPING_ANGEL, EntityEntries.ANOMALY);
+		reg.registerAll(EntityEntries.WEEPING_ANGEL, EntityEntries.ANOMALY, EntityEntries.CHRONODYNE_GENERATOR);
 		AngelUtils.setUpSpawns();
 	}
 	
@@ -175,8 +176,7 @@ public class WAObjects {
 
 		public static final EntityType<EntityWeepingAngel> WEEPING_ANGEL = registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false);
 		public static final EntityType<EntityAnomaly> ANOMALY = registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false);
-
-		//	public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+		public static final EntityType<EntityChronodyneGenerator> CHRONODYNE_GENERATOR = registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "laser", true);
 	}
 
 
@@ -213,6 +213,7 @@ public class WAObjects {
 		type.setRegistryName(loc);
 		return type;
 	}
+
 	//Fire Resistant Entity Creation
 	public static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate,String name){
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
@@ -245,8 +246,6 @@ public class WAObjects {
 	 * @param height
 	 * @param name
 	 * @param velocity
-	 * @param trackingRange
-	 * @param updateFreq
 	 * @return
 	 */
 	public static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
