@@ -39,7 +39,7 @@ public class AngelUtils {
 	
 	public static void playBreakEvent(Entity entity, BlockPos pos, Block block) {
 		if (!entity.world.isRemote) {
-			entity.playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
+			entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
 			
@@ -129,7 +129,7 @@ public class AngelUtils {
 				ItemStack stack = playerMP.getHeldItem(enumHand);
 				if (lightCheck(stack, angel)) {
 					stack.shrink(1);
-					angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
+					angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
 					return;
 				}
 			}

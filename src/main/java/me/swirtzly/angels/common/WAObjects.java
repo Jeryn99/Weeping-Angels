@@ -25,7 +25,6 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
@@ -34,7 +33,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -71,7 +73,8 @@ public class WAObjects {
 				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3")
 		);
 	}
-	
+
+
 	@SubscribeEvent
 	public static void addBlocks(RegistryEvent.Register<Block> e) {
 		IForgeRegistry<Block> reg = e.getRegistry();
@@ -91,17 +94,7 @@ public class WAObjects {
 		reg.registerAll(EntityEntries.WEEPING_ANGEL, EntityEntries.ANOMALY, EntityEntries.CHRONODYNE_GENERATOR);
 		AngelUtils.setUpSpawns();
 	}
-	
-	@SubscribeEvent
-	public static void addSounds(RegistryEvent.Register<SoundEvent> e) {
-		IForgeRegistry<SoundEvent> reg = e.getRegistry();
-		reg.registerAll(setUpSound("angel_seen_1"), setUpSound("angel_seen_2"), setUpSound("angel_seen_3"), setUpSound("angel_seen_4"), setUpSound("angel_seen_5"), setUpSound("angel_seen_6"), setUpSound("angel_seen_7"), setUpSound("angel_seen_8"), setUpSound("stone_scrap"), setUpSound("child_run"), setUpSound("laughing_child"), setUpSound("light_break"), setUpSound("angel_teleport"), setUpSound("angel_ambient"), setUpSound("ding"), setUpSound("blow"), setUpSound("angel_death"), setUpSound("angel_neck_snap"));
-	}
-	
-	private static SoundEvent setUpSound(String soundName) {
-		return new SoundEvent(new ResourceLocation(MODID, soundName)).setRegistryName(soundName);
-	}
-	
+
 	private static Item setUpItem(Item item, String name) {
 		item.setRegistryName(MODID, name);
 		WAObjects.ITEMS.add(item);
@@ -146,34 +139,40 @@ public class WAObjects {
 		public static final Item ANGEL_CHILD = null;
 		public static final Item KONTRON_INGOT = null;
 	}
-	
-	// Sounds
-	@ObjectHolder(MODID)
-	public static class Sounds {
-		public static final SoundEvent ANGEL_SEEN_1 = null;
-		public static final SoundEvent ANGEL_SEEN_2 = null;
-		public static final SoundEvent ANGEL_SEEN_3 = null;
-		public static final SoundEvent ANGEL_SEEN_4 = null;
-		public static final SoundEvent ANGEL_SEEN_5 = null;
-		public static final SoundEvent ANGEL_SEEN_6 = null;
-		public static final SoundEvent ANGEL_SEEN_7 = null;
-		public static final SoundEvent ANGEL_SEEN_8 = null;
-		public static final SoundEvent STONE_SCRAP = null;
-		public static final SoundEvent CHILD_RUN = null;
-		public static final SoundEvent LAUGHING_CHILD = null;
-		public static final SoundEvent LIGHT_BREAK = null;
-		public static final SoundEvent ANGEL_TELEPORT = null;
-		public static final SoundEvent ANGEL_AMBIENT = null;
-		public static final SoundEvent DING = null;
-		public static final SoundEvent BLOW = null;
-		public static final SoundEvent ANGEL_DEATH = null;
-		public static final SoundEvent ANGEL_NECK_SNAP = null;
+
+	private static SoundEvent setUpSound(String soundName) {
+		return new SoundEvent(new ResourceLocation(MODID, soundName));
 	}
-	
+
+	// Sounds
+	public static class Sounds {
+
+		public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
+
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_1 = SOUNDS.register("angel_seen_1", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_2 = SOUNDS.register("angel_seen_2", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_3 = SOUNDS.register("angel_seen_3", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_4 = SOUNDS.register("angel_seen_4", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_5 = SOUNDS.register("angel_seen_5", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_6 = SOUNDS.register("angel_seen_6", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_7 = SOUNDS.register("angel_seen_7", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_8 = SOUNDS.register("angel_seen_8", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> STONE_SCRAP = SOUNDS.register("stone_scrap", () -> setUpSound("stone_scrap"));
+		public static final RegistryObject<SoundEvent> CHILD_RUN = SOUNDS.register("child_run", () -> setUpSound("child_run"));
+		public static final RegistryObject<SoundEvent> LAUGHING_CHILD = SOUNDS.register("laughing_child", () -> setUpSound("laughing_child"));
+		public static final RegistryObject<SoundEvent> LIGHT_BREAK = SOUNDS.register("light_break", () -> setUpSound("light_break"));
+		public static final RegistryObject<SoundEvent> ANGEL_TELEPORT = SOUNDS.register("angel_teleport", () -> setUpSound("angel_teleport"));
+		public static final RegistryObject<SoundEvent> ANGEL_AMBIENT = SOUNDS.register("angel_ambient", () -> setUpSound("angel_ambient"));
+		public static final RegistryObject<SoundEvent> DING = SOUNDS.register("ding", () -> setUpSound("ding"));
+		public static final RegistryObject<SoundEvent> BLOW = SOUNDS.register("blow", () -> setUpSound("blow"));
+		public static final RegistryObject<SoundEvent> ANGEL_DEATH = SOUNDS.register("angel_death", () -> setUpSound("angel_death"));
+		public static final RegistryObject<SoundEvent> ANGEL_NECK_SNAP = SOUNDS.register("angel_neck_snap", () -> setUpSound("angel_neck_snap"));
+	}
+
+
 	// Entities
 	@ObjectHolder(MODID)
 	public static class EntityEntries {
-
 		public static final EntityType<EntityWeepingAngel> WEEPING_ANGEL = registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false);
 		public static final EntityType<EntityAnomaly> ANOMALY = registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false);
 		public static final EntityType<EntityChronodyneGenerator> CHRONODYNE_GENERATOR = registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "laser", true);

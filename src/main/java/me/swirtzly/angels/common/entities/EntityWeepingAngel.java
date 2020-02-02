@@ -44,9 +44,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
-	
-	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1, WAObjects.Sounds.ANGEL_SEEN_2, WAObjects.Sounds.ANGEL_SEEN_3, WAObjects.Sounds.ANGEL_SEEN_4, WAObjects.Sounds.ANGEL_SEEN_5, WAObjects.Sounds.ANGEL_SEEN_6, WAObjects.Sounds.ANGEL_SEEN_7, WAObjects.Sounds.ANGEL_SEEN_8};
-	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
+
+	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get()};
+	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
 
 	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> {
 		return p_213697_0_ == Difficulty.EASY;
@@ -78,7 +78,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	@Nullable
 	@Override
 	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
-		playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
+		playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 		return super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 	}
 
@@ -89,7 +89,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
 	@Override
 	protected SoundEvent getDeathSound() {
-		return WAObjects.Sounds.ANGEL_DEATH;
+		return WAObjects.Sounds.ANGEL_DEATH.get();
 	}
 	
 	@Override
@@ -100,11 +100,11 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		return null;
 	}
 
-	//@Override
-	//public float getEyeHeight() {
-	//	return isCherub() ? getHeight() : 1.3F;
-//	}
-	
+	@Override
+	public float getEyeHeight(Pose p_213307_1_) {
+		return isCherub() ? getHeight() : 1.3F;
+	}
+
 	@Override
 	protected void registerAttributes() {
 		super.registerAttributes();
@@ -247,12 +247,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
 		if (WAConfig.CONFIG.playScrapSounds.get() && !isCherub()) {
-			playSound(WAObjects.Sounds.STONE_SCRAP, 0.2F, 1.0F);
+			playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.2F, 1.0F);
 		}
 		
 		if (isCherub()) {
 			if (world.rand.nextInt(5) == 5) {
-				playSound(WAObjects.Sounds.CHILD_RUN, 1.0F, 1.0F);
+				playSound(WAObjects.Sounds.CHILD_RUN.get(), 1.0F, 1.0F);
 			}
 		}
 	}
@@ -280,7 +280,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		super.onKillEntity(entityLivingIn);
 		
 		if (entityLivingIn instanceof PlayerEntity) {
-			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP, 1, 1);
+			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
 		}
 	}
 	

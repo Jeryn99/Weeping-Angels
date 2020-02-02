@@ -6,7 +6,7 @@ import me.swirtzly.angels.client.renders.entities.RenderWeepingAngel;
 import me.swirtzly.angels.client.renders.tileentities.RenderTileEntityCG;
 import me.swirtzly.angels.client.renders.tileentities.RenderTileEntityPlinth;
 import me.swirtzly.angels.client.renders.tileentities.RenderTileEntitySnowArm;
-import me.swirtzly.angels.common.entities.EntityAngelPainting;
+import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityAnomaly;
 import me.swirtzly.angels.common.entities.EntityChronodyneGenerator;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
@@ -20,6 +20,9 @@ import me.swirtzly.angels.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -39,12 +42,18 @@ public class WeepingAngels {
 	
 	public WeepingAngels() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-		//	MinecraftForge.EVENT_BUS.register(new WAObjects());
+		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
 	}
-	
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onNewRegistries(RegistryEvent.NewRegistry e) {
+		WAObjects.Sounds.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+	}
+
+
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		WorldGen.applyFeatures();
 	}
