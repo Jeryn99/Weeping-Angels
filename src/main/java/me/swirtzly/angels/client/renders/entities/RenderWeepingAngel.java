@@ -88,7 +88,6 @@ public class RenderWeepingAngel extends MobRenderer {
 					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					break;
 			}
-			
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 		}

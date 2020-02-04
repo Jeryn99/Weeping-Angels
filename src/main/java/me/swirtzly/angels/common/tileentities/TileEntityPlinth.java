@@ -18,7 +18,7 @@ public class TileEntityPlinth extends TileEntity implements ITickableTileEntity 
 	private String pose = PoseManager.getRandomPose().getRegistryName();
 	
 	public TileEntityPlinth() {
-		super(WAObjects.Tiles.PLINTH);
+		super(WAObjects.Tiles.PLINTH.get());
 	}
 	
 	public boolean getHasSpawned() {

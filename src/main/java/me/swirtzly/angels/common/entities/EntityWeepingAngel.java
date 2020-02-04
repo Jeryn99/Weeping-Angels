@@ -57,7 +57,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	}
 
 	public EntityWeepingAngel(World world) {
-		super(world, WAObjects.EntityEntries.WEEPING_ANGEL);
+		super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
 		goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
 		goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
 		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));

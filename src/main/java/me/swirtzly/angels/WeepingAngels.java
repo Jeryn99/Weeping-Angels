@@ -51,6 +51,11 @@ public class WeepingAngels {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onNewRegistries(RegistryEvent.NewRegistry e) {
 		WAObjects.Sounds.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.Items.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.Blocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 
 

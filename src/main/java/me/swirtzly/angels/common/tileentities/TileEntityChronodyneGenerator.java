@@ -13,7 +13,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
 	
 	public TileEntityChronodyneGenerator() {
-		super(WAObjects.Tiles.CG);
+		super(WAObjects.Tiles.CG.get());
 	}
 	
 	@Override

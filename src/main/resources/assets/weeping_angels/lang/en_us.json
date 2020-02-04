@@ -4,7 +4,6 @@
   "item.weeping_angels.unlit_torch": "Unlit Torch",
   "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detector",
   "item.weeping_angels.chronodyne_generator": "Chronodyne Generator",
-  "item.weeping_angels.plinth": "Angel Statue",
   "item.weeping_angels.angel_0": "Weeping Angel (0)",
   "item.weeping_angels.angel_1": "Weeping Angel (1)",
   "item.weeping_angels.angel_2": "Weeping Angel (a_dizzle)",
@@ -12,7 +11,7 @@
   "item.weeping_angels.angel_child": "Weeping Angel (Child)",
   "item.weeping_angels.kontron_ingot": "Kontron Ingot",
 
-  "block.weeping_angels.arm": "Arm in snow",
+  "block.weeping_angels.snow_arm": "Arm in snow",
   "block.weeping_angels.plinth": "Angel Statue",
   "block.weeping_angels.kontron_ore": "Kontron Ore",
 

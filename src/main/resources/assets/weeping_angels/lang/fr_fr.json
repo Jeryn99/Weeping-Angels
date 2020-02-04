@@ -1,16 +1,20 @@
 {
-  "entity.weepingangel.name": "Ange pleureur",
   "item.weeping_angels.angel_painting": "Peinture d'Ange",
-  "block.weeping_angels.arm": "Bras dans la neige",
   "item.weeping_angels.unlit_torch": "Torche éteinte",
   "item.weeping_angels.timey_wimey_detector": "Détecteur Timey Wimey",
   "item.weeping_angels.chronodyne_generator": "Générateur de Chronodyne",
-  "item.weeping_angels.plinth": "Statue d'Ange",
-  "block.weeping_angels.plinth": "Statue d'Ange",
   "item.weeping_angels.angel_0": "Ange pleureur(0)",
   "item.weeping_angels.angel_1": "Ange pleureur(1)",
+  "item.weeping_angels.angel_2": "Ange pleureur (a_dizzle)",
+  "item.weeping_angels.angel_3": "Ange pleureur (2)",
   "item.weeping_angels.angel_child": "Ange pleureur(Enfant)",
-
+  "item.weeping_angels.kontron_ingot": "Kontron Ingot",	
+	
+  "block.weeping_angels.snow_arm": "Bras dans la neige",
+  "block.weeping_angels.plinth": "Statue d'Ange",
+  "block.weeping_angels.kontron_ore": "Kontron Ore",	
+  
+  "entity.weepingangel.name": "Ange pleureur",
   "entity.angel.name": "Ange pleureur",
   "entity.anomaly.name": "Anomalie",
   "entity.weepingAngelpainting.name": "Peinture d'Ange",

@@ -31,7 +31,7 @@ public class EventHandler {
 		BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
 		if ((!world.dimension.isNether() || pos.getY() < 255) && world.getBiome(position).doesSnowGenerate(world, pos)) {
 			if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_BLOCK)
-				world.setBlockState(pos, WAObjects.Blocks.ARM.getDefaultState(), 1);
+				world.setBlockState(pos, WAObjects.Blocks.ARM.get().getDefaultState(), 1);
 		}
 	}
 	

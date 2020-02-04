@@ -40,7 +40,7 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 
 
 	public EntityChronodyneGenerator(World world) {
-		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR, world);
+		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
 	}
 
 
@@ -84,7 +84,7 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
 			BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
 			if (world.isAirBlock(pos) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
-				world.setBlockState(pos, WAObjects.Blocks.CG.getDefaultState());
+				world.setBlockState(pos, WAObjects.Blocks.CG.get().getDefaultState());
 				if (world.getTileEntity(pos) != null) {
 					CompoundNBT tileData = world.getTileEntity(pos).getTileData();
 					tileData.putDouble(WAConstants.ABS_X, posX);

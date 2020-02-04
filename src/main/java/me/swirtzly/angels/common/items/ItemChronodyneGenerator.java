@@ -29,7 +29,7 @@ public class ItemChronodyneGenerator extends Item {
 		}
 		
 		if (!world.isRemote) {
-			EntityChronodyneGenerator laser = new EntityChronodyneGenerator(WAObjects.EntityEntries.CHRONODYNE_GENERATOR, playerIn, world);
+			EntityChronodyneGenerator laser = new EntityChronodyneGenerator(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
 			laser.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3.5F, 0F);
 			world.addEntity(laser);
 		}

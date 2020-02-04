@@ -14,7 +14,7 @@ public class TileEntitySnowArm extends TileEntity implements ITickableTileEntity
 	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
 	
 	public TileEntitySnowArm() {
-		super(WAObjects.Tiles.ARM);
+		super(WAObjects.Tiles.ARM.get());
 	}
 	
 	@Override

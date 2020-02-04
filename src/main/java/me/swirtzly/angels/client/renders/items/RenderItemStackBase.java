@@ -15,6 +15,6 @@ public class RenderItemStackBase extends ItemStackTileEntityRenderer {
 	
 	@Override
 	public void renderByItem(ItemStack theStack) {
-		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f);;
+		modelBase.render(null, 0, 0, 0, 0, 0, 0.0625f); //This is still broken :(
 	}
 }

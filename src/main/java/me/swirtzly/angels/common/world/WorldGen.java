@@ -27,7 +27,7 @@ public class WorldGen {
 			 biome.addFeature(Decoration.UNDERGROUND_ORES,Biome.createDecoratedFeature(Feature.ORE,
 				 new OreFeatureConfig(
 				 	OreFeatureConfig.FillerBlockType.NATURAL_STONE, 
-					WAObjects.Blocks.KONTRON_ORE.getDefaultState(), 
+					WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 
 					5), //Veins of 5 	
 					Placement.COUNT_RANGE, 
 					new CountRangeConfig(8, 0, 0, 24))); //Up to 8 veins per chunk, between y level 0 and 24

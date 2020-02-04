@@ -1,16 +1,23 @@
 {
-  "entity.weepingangel.name": "Spooky Statooz",
+  
   "item.weeping_angels.angel_painting": "Statooz Painthing",
-  "block.weeping_angels.weeping_angels.arm": "Cold arme",
+  
   "item.weeping_angels.unlit_torch": "No Brite Torc",
   "item.weeping_angels.timey_wimey_detector": "It Goes Dingeh!",
   "item.weeping_angels.chronodyne_generator": "Crayonide Generat",
   "item.weeping_angels.plinth": "Spooky Statooz",
-  "block.weeping_angels.weeping_angels.plinth": "Spooky Statooz",
   "item.weeping_angels.angel_0": "Angel (0)",
   "item.weeping_angels.angel_1": "Angel (1)",
+  "item.weeping_angels.angel_2": "Angel (a_dizzle)",
+  "item.weeping_angels.angel_3": "Angel (2)",
   "item.weeping_angels.angel_child": "Angel (Child)",
-
+  "item.weeping_angels.kontron_ingot": "Kontron Shinies",
+  
+  "block.weeping_angels.weeping_angels.arm": "Cold arme",
+  "block.weeping_angels.weeping_angels.plinth": "Spooky Statooz",
+  "block.weeping_angels.kontron_ore": "Kontron Aww",
+  
+  "entity.weepingangel.name": "Spooky Statooz",
   "entity.angel.name": "Spooky Statooz",
   "entity.anomaly.name": "Anomaly",
   "entity.weepingAngelpainting.name": "Angel painting",

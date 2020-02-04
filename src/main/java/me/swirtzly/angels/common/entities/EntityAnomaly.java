@@ -13,7 +13,7 @@ public class EntityAnomaly extends MobEntity {
 	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(EntityAnomaly.class, DataSerializers.FLOAT);
 	
 	public EntityAnomaly(World worldIn) {
-		super(WAObjects.EntityEntries.ANOMALY, worldIn);
+		super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
 	}
 
 	public EntityAnomaly(EntityType type, World world){
