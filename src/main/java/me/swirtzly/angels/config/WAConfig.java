@@ -88,9 +88,9 @@ public class WAConfig {
 				.defineInRange("minimumSpawn", 2, 1, 24);
 		spawnType = builder
 				.translation("config.weeping_angels.spawntype")
-				.comment("This will only accept: WATER_CREATURE, AMBIENT, CREATURE, MONSTER || Anything else WILL crash your game.")
+                .comment("This will only accept: MONSTER || CREATURE || AMBIENT || WATER_CREATURE || MISC || Anything else WILL crash your game.")
 				.worldRestart()
-				.defineInList("spawnType", "MONSTER", Arrays.asList("WATER_CREATURE", "AMBIENT", "CREATURE", "MONSTER"));
+                .define("spawnType", "MONSTER");
 		notAllowedBiomes = builder
 				.translation("config.weeping_angels.disallowed_spawn_biomes")
 				.comment("Note: A list of biomes where angels should NOT spawn.")

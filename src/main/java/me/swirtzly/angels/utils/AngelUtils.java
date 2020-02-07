@@ -9,6 +9,7 @@ import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -19,6 +20,7 @@ import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -102,17 +104,16 @@ public class AngelUtils {
 		SPAWNS.addAll(biomes);
 		
 		for (String rs : WAConfig.CONFIG.notAllowedBiomes.get()) {
-			//	if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
-			//		Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
-			//		SPAWNS.remove(removedBiome);
-			//	}
+			if (ForgeRegistries.BIOMES.containsKey(new ResourceLocation(rs))) {
+				Biome removedBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(rs));
+				SPAWNS.remove(removedBiome);
+			}
 		}
-		
-		//	SPAWNS.forEach(biome -> {
-		//		if (biome != null) {
-		//EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
-		//		}
-		//	});
+		//TODO FIX CRASH WITH SOMETHING BEING NULL AF
+		for (Biome biome : SPAWNS) {
+			System.out.println("ADDING TO: " + biome.getRegistryName());
+			biome.getSpawns(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get())).add((new Biome.SpawnListEntry(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnProbability.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get())));
+		}
 	}
 	
 	/**
@@ -154,18 +155,8 @@ public class AngelUtils {
 		int pick = new Random().nextInt(AngelEnums.AngelType.values().length);
 		return AngelEnums.AngelType.values()[pick];
 	}
-	
-	/**
-	 * Returns a random between the specified values;
-	 *
-	 * @param min the minimum value of the random number
-	 * @param max the maximum value of the random number
-	 * @return the random number
-	 */
-	public static double randomBetween(final int min, final int max) {
-		return RANDOM.nextInt((max - min) + 1) + min;
-	}
-	
+
+
 	public enum EnumTeleportType {
 		STRUCTURES, RANDOM_PLACE, DONT
 	}

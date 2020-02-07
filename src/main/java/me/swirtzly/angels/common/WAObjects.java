@@ -12,7 +12,6 @@ import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.items.ItemAngelSpawner;
 import me.swirtzly.angels.common.items.ItemChronodyneGenerator;
 import me.swirtzly.angels.common.items.ItemDetector;
-import me.swirtzly.angels.common.items.ItemHanging;
 import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
@@ -100,13 +99,12 @@ public class WAObjects {
 	public static class Items {
 		public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 		
-		public static final RegistryObject<Item> ANGEL_PAINTING = ITEMS.register("angel_painting", ItemHanging::new );
 		public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", ItemDetector::new);
 		public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ItemChronodyneGenerator::new);
 		public static final RegistryObject<Item> ANGEL_0 = ITEMS.register("angel_0",() -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new)));
 		public static final RegistryObject<Item> ANGEL_1 = ITEMS.register("angel_1", () -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new)));
 		public static final RegistryObject<Item> ANGEL_2 = ITEMS.register("angel_2", () -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new)));
-		public static final RegistryObject<Item> ANGEL_3 = ITEMS.register("angel_3", () -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new)));;
+		public static final RegistryObject<Item> ANGEL_3 = ITEMS.register("angel_3", () -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new)));
 		public static final RegistryObject<Item> ANGEL_CHILD = ITEMS.register("angel_child", () -> setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new)));
 		public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
 	}
