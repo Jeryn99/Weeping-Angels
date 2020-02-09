@@ -3,6 +3,10 @@ package me.swirtzly.angels.common.tileentities;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityAnomaly;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +22,16 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 	
 	@Override
 	public void tick() {
-		
+
+		BlockState blockBelow = world.getBlockState(getPos().down());
+		if (blockBelow.isAir() || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
+			ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world);
+			itemEntity.setPosition(getPos().getX(), getPos().getY(), getPos().getZ());
+			itemEntity.setItem(new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get()));
+			world.addEntity(itemEntity);
+			world.removeBlock(getPos(), true);
+		}
+
 		if (!world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			world.getEntitiesWithinAABB(EntityWeepingAngel.class, AABB.offset(getPos())).forEach(entityWeepingAngel -> {
 				if (world.isRemote) {

@@ -58,7 +58,6 @@ public class EntityQuantumLockBase extends MonsterEntity {
 						return;
 					} else if (targetPlayer == null) {
 						targetPlayer = player;
-						
 						setSeenTime(0);
 					}
 				}

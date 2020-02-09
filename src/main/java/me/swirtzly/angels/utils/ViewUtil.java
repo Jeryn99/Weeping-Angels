@@ -3,20 +3,20 @@ package me.swirtzly.angels.utils;
 import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
 import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.VineBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.EndPortalBlock;
+import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.Tags;
 
 public class ViewUtil {
 	
@@ -28,10 +28,12 @@ public class ViewUtil {
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
-	
-	
-	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
-		return false; //TODO Actually write this method
+
+
+	public static boolean viewBlocked(LivingEntity viewer, LivingEntity pred) {
+		Vec3d vec3d = new Vec3d(viewer.posX, viewer.posY + (double) viewer.getEyeHeight(), viewer.posZ);
+		Vec3d vec3d1 = new Vec3d(pred.posX, pred.posY + (double) pred.getEyeHeight(), pred.posZ);
+		return pred.world.rayTraceBlocks(new AngelRayTrace(vec3d, vec3d1, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS;
 	}
 
 	
@@ -102,12 +104,36 @@ public class ViewUtil {
 	 * @param angel      The entity being watched by viewer
 	 */
 	public static boolean isInSight(LivingEntity livingBase, EntityQuantumLockBase angel) {
-		if (viewBlocked(livingBase, angel)) return false;
-		
+		if (viewBlocked(livingBase, angel)) {
+			return true;
+		}
 		if (livingBase instanceof PlayerEntity) {
 			return isInFrontOfEntity(livingBase, angel, false);
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
+	}
+
+	public static class AngelRayTrace extends RayTraceContext {
+
+		public AngelRayTrace(Vec3d p_i50009_1_, Vec3d p_i50009_2_, BlockMode p_i50009_3_, FluidMode p_i50009_4_, Entity p_i50009_5_) {
+			super(p_i50009_1_, p_i50009_2_, p_i50009_3_, p_i50009_4_, p_i50009_5_);
+		}
+
+		@Override
+		public VoxelShape getBlockShape(final BlockState state, final IBlockReader world, final BlockPos pos) {
+			System.out.println(state.getBlock().getRegistryName());
+			if (state.isIn(Tags.Blocks.GLASS) || state.isIn(Tags.Blocks.GLASS_PANES) || state.getBlock() instanceof EndPortalBlock || state.getBlock() instanceof NetherPortalBlock || isBlockedByConfig(state)) {
+				return VoxelShapes.empty();
+			}
+			return super.getBlockShape(state, world, pos);
+		}
+
+		public boolean isBlockedByConfig(BlockState state) {
+			for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
+				return state.getBlock().getRegistryName().toString().equalsIgnoreCase(transparent_block);
+			}
+			return false;
+		}
 	}
 	
 }
