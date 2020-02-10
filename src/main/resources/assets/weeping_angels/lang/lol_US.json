@@ -1,6 +1,6 @@
 {
   
-  "item.weeping_angels.angel_painting": "Statooz Painthing",
+
   
   "item.weeping_angels.unlit_torch": "No Brite Torc",
   "item.weeping_angels.timey_wimey_detector": "It Goes Dingeh!",
@@ -20,7 +20,7 @@
   "entity.weepingangel.name": "Spooky Statooz",
   "entity.angel.name": "Spooky Statooz",
   "entity.anomaly.name": "Anomaly",
-  "entity.weepingAngelpainting.name": "Angel painting",
+
 
   "sound.weeping_angels.angel_seen": "Statooz saw",
   "sound.weeping_angels.child_run": "Childer Runz",

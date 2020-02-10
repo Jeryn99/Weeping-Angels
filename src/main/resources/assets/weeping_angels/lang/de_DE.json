@@ -1,6 +1,6 @@
 {
   
-  "item.weeping_angels.angel_painting": "Engel Gemälde",
+
   
   "item.weeping_angels.unlit_torch": "Unbeleuchtete Fackel",
   "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detektor",
@@ -20,7 +20,7 @@
   "entity.weepingangel.name": "Weinender Engel",	
   "entity.angel.name": "Weinender Engel",
   "entity.anomaly.name": "Anomaly",
-  "entity.weepingAngelpainting.name": "Angel painting",
+
 
   "sound.weeping_angels.angel_seen": "Engel gesichtet",
   "sound.weeping_angels.child_run": "rennendes Kind",
