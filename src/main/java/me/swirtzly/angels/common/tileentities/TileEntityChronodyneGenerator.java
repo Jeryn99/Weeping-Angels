@@ -14,7 +14,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 public class TileEntityChronodyneGenerator extends TileEntity implements ITickableTileEntity {
 	
-	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
+	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1); //Area of Effect
+	private AxisAlignedBB RENDER_BOX = new AxisAlignedBB(-3, 0, -3, 3, 5, 3);
 	
 	public TileEntityChronodyneGenerator() {
 		super(WAObjects.Tiles.CG.get());
@@ -24,7 +25,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 	public void tick() {
 
 		BlockState blockBelow = world.getBlockState(getPos().down());
-		if (blockBelow.isAir() || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
+		if (blockBelow.isAir(world, pos) || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
 			ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world);
 			itemEntity.setPosition(getPos().getX(), getPos().getY(), getPos().getZ());
 			itemEntity.setItem(new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get()));
@@ -46,6 +47,11 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 				world.removeBlock(getPos(), false);
 			});
 		}
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return RENDER_BOX.offset(this.getPos());
 	}
 	
 }

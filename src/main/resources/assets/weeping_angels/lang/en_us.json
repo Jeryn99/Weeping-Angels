@@ -1,6 +1,4 @@
 {
-
-  "item.weeping_angels.angel_painting": "Angel Painting",
   "item.weeping_angels.unlit_torch": "Unlit Torch",
   "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detector",
   "item.weeping_angels.chronodyne_generator": "Chronodyne Generator",
@@ -18,7 +16,6 @@
   "entity.weeping_angels.weeping_angel": "Weeping Angel",
   "entity.angel.name": "Weeping Angel",
   "entity.anomaly.name": "Anomaly",
-  "entity.weepingAngelpainting.name": "Angel painting",
 
   "sound.weeping_angels.angel_seen": "Angel seen",
   "sound.weeping_angels.child_run": "Child running",
