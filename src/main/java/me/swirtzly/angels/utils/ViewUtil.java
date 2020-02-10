@@ -3,20 +3,21 @@ package me.swirtzly.angels.utils;
 import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
 import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.EndPortalBlock;
-import net.minecraft.block.NetherPortalBlock;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.PaneBlock;
+import net.minecraft.block.VineBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.Tags;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class ViewUtil {
 	
@@ -28,14 +29,6 @@ public class ViewUtil {
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
-
-
-	public static boolean viewBlocked(LivingEntity viewer, LivingEntity pred) {
-		Vec3d vec3d = new Vec3d(viewer.posX, viewer.posY + (double) viewer.getEyeHeight(), viewer.posZ);
-		Vec3d vec3d1 = new Vec3d(pred.posX, pred.posY + (double) pred.getEyeHeight(), pred.posZ);
-		return pred.world.rayTraceBlocks(new AngelRayTrace(vec3d, vec3d1, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS;
-	}
-
 	
 	/**
 	 * Method that detects whether a entity is the the view sight of another entity
@@ -105,7 +98,7 @@ public class ViewUtil {
 	 */
 	public static boolean isInSight(LivingEntity livingBase, EntityQuantumLockBase angel) {
 		if (viewBlocked(livingBase, angel)) {
-			return true;
+			return false;
 		}
 		if (livingBase instanceof PlayerEntity) {
 			return isInFrontOfEntity(livingBase, angel, false);
@@ -113,27 +106,165 @@ public class ViewUtil {
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
 
-	public static class AngelRayTrace extends RayTraceContext {
 
-		public AngelRayTrace(Vec3d p_i50009_1_, Vec3d p_i50009_2_, BlockMode p_i50009_3_, FluidMode p_i50009_4_, Entity p_i50009_5_) {
-			super(p_i50009_1_, p_i50009_2_, p_i50009_3_, p_i50009_4_, p_i50009_5_);
+	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
+		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
+		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
+		Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
+		Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
+
+		for (int i = 0; i < viewerPoints.length; i++) {
+			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS)
+				return false;
+			if (rayTraceBlocks(viewer, viewer.world, viewerPoints[i], angelPoints[i], pos -> {
+				BlockState state = viewer.world.getBlockState(pos);
+				for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get())
+					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
+				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
+						!(state.getBlock() instanceof PaneBlock) && !(state.getBlock() instanceof VineBlock) && !(state.getBlock() instanceof LeavesBlock) &&
+						state.getCollisionShape(viewer.world, pos) != VoxelShapes.empty();
+			}) == null) return false;
 		}
 
-		@Override
-		public VoxelShape getBlockShape(final BlockState state, final IBlockReader world, final BlockPos pos) {
-			System.out.println(state.getBlock().getRegistryName());
-			if (state.isIn(Tags.Blocks.GLASS) || state.isIn(Tags.Blocks.GLASS_PANES) || state.getBlock() instanceof EndPortalBlock || state.getBlock() instanceof NetherPortalBlock || isBlockedByConfig(state)) {
-				return VoxelShapes.empty();
+		if (angel.ticksExisted % 1200 == 0) {
+			if (angel.getDistance(viewer) < 15) {
+				//viewer.addPotionEffect(new Effect(MobEffects.BLINDNESS, 15));
 			}
-			return super.getBlockShape(state, world, pos);
 		}
 
-		public boolean isBlockedByConfig(BlockState state) {
-			for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
-				return state.getBlock().getRegistryName().toString().equalsIgnoreCase(transparent_block);
-			}
-			return false;
-		}
+		return true;
 	}
+
+
+	@Nullable
+	private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vec3d vec31, Vec3d vec32, Predicate<BlockPos> stopOn) {
+		if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
+			if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
+				int i = MathHelper.floor(vec32.x);
+				int j = MathHelper.floor(vec32.y);
+				int k = MathHelper.floor(vec32.z);
+				int l = MathHelper.floor(vec31.x);
+				int i1 = MathHelper.floor(vec31.y);
+				int j1 = MathHelper.floor(vec31.z);
+				BlockPos blockpos = new BlockPos(l, i1, j1);
+				BlockState iblockstate = world.getBlockState(blockpos);
+
+				if (stopOn.test(blockpos)) {
+					RayTraceResult raytraceresult = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+					//iblockstate.collisionRayTrace(world, blockpos, vec31, vec32);
+
+					if (raytraceresult != null) {
+						return raytraceresult;
+					}
+				}
+
+				int k1 = 200;
+
+				while (k1-- >= 0) {
+					if (Double.isNaN(vec31.x) || Double.isNaN(vec31.y) || Double.isNaN(vec31.z)) {
+						return null;
+					}
+
+					if (l == i && i1 == j && j1 == k) {
+						return null;
+					}
+
+					boolean flag2 = true;
+					boolean flag = true;
+					boolean flag1 = true;
+					double d0 = 999.0D;
+					double d1 = 999.0D;
+					double d2 = 999.0D;
+
+					if (i > l) {
+						d0 = (double) l + 1.0D;
+					} else if (i < l) {
+						d0 = (double) l + 0.0D;
+					} else {
+						flag2 = false;
+					}
+
+					if (j > i1) {
+						d1 = (double) i1 + 1.0D;
+					} else if (j < i1) {
+						d1 = (double) i1 + 0.0D;
+					} else {
+						flag = false;
+					}
+
+					if (k > j1) {
+						d2 = (double) j1 + 1.0D;
+					} else if (k < j1) {
+						d2 = (double) j1 + 0.0D;
+					} else {
+						flag1 = false;
+					}
+
+					double d3 = 999.0D;
+					double d4 = 999.0D;
+					double d5 = 999.0D;
+					double d6 = vec32.x - vec31.x;
+					double d7 = vec32.y - vec31.y;
+					double d8 = vec32.z - vec31.z;
+
+					if (flag2) {
+						d3 = (d0 - vec31.x) / d6;
+					}
+
+					if (flag) {
+						d4 = (d1 - vec31.y) / d7;
+					}
+
+					if (flag1) {
+						d5 = (d2 - vec31.z) / d8;
+					}
+
+					if (d3 == -0.0D) {
+						d3 = -1.0E-4D;
+					}
+
+					if (d4 == -0.0D) {
+						d4 = -1.0E-4D;
+					}
+
+					if (d5 == -0.0D) {
+						d5 = -1.0E-4D;
+					}
+
+					Direction enumfacing;
+
+					if (d3 < d4 && d3 < d5) {
+						enumfacing = i > l ? Direction.WEST : Direction.EAST;
+						vec31 = new Vec3d(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
+					} else if (d4 < d5) {
+						enumfacing = j > i1 ? Direction.DOWN : Direction.UP;
+						vec31 = new Vec3d(vec31.x + d6 * d4, d1, vec31.z + d8 * d4);
+					} else {
+						enumfacing = k > j1 ? Direction.NORTH : Direction.SOUTH;
+						vec31 = new Vec3d(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
+					}
+
+					l = MathHelper.floor(vec31.x) - (enumfacing == Direction.EAST ? 1 : 0);
+					i1 = MathHelper.floor(vec31.y) - (enumfacing == Direction.UP ? 1 : 0);
+					j1 = MathHelper.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
+					blockpos = new BlockPos(l, i1, j1);
+					if (stopOn.test(blockpos)) {
+						RayTraceResult raytraceresult1 = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+
+						if (raytraceresult1 != null) {
+							return raytraceresult1;
+						}
+					}
+				}
+			}
+		}
+
+		return world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+	}
+
+
+
+
+
 	
 }

@@ -14,6 +14,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -55,10 +57,12 @@ public class EntityQuantumLockBase extends MonsterEntity {
 					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
+						player.sendStatusMessage(new StringTextComponent(TextFormatting.GOLD.toString() + TextFormatting.BOLD + "Can see!"), true);
 						return;
 					} else if (targetPlayer == null) {
 						targetPlayer = player;
 						setSeenTime(0);
+						player.sendStatusMessage(new StringTextComponent(TextFormatting.RED.toString() + TextFormatting.BOLD + "Can't see!"), true);
 					}
 				}
 				
