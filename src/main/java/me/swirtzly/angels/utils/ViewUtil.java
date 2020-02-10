@@ -29,8 +29,8 @@ public class ViewUtil {
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
-	
-	/**
+
+    /**
 	 * Method that detects whether a entity is the the view sight of another entity
 	 *
 	 * @param viewer      The viewer entity
