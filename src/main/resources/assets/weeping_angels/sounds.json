@@ -19,6 +19,16 @@
       }
     ]
   },
+  "projector": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.projector",
+    "sounds": [
+      {
+        "name": "weeping_angels:projector",
+        "stream": true
+      }
+    ]
+  },
   "blow": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.blow",

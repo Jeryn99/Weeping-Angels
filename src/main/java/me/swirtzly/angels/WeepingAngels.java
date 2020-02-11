@@ -16,7 +16,7 @@ import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
 import me.swirtzly.angels.common.world.WorldGen;
 import me.swirtzly.angels.config.WAConfig;
-import me.swirtzly.angels.utils.RenderUtil;
+import me.swirtzly.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -64,14 +64,14 @@ public class WeepingAngels {
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		RenderUtil.bindTESR(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
-		RenderUtil.bindTESR(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
-		RenderUtil.bindTESR(TileEntityPlinth.class, new RenderTileEntityPlinth());
-		
-		RenderUtil.bindEntityRender(EntityWeepingAngel.class, RenderWeepingAngel::new);
-		//RenderUtil.bindEntityRender(EntityAngelPainting.class, RenderAngelPainting::new);
-		RenderUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
-		RenderUtil.bindEntityRender(EntityChronodyneGenerator.class, (EntityRendererManager p_i50956_1_) -> new RenderCG(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
+        ClientUtil.bindTESR(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
+        ClientUtil.bindTESR(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
+        ClientUtil.bindTESR(TileEntityPlinth.class, new RenderTileEntityPlinth());
+
+        ClientUtil.bindEntityRender(EntityWeepingAngel.class, RenderWeepingAngel::new);
+        //ClientUtil.bindEntityRender(EntityAngelPainting.class, RenderAngelPainting::new);
+        ClientUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
+        ClientUtil.bindEntityRender(EntityChronodyneGenerator.class, (EntityRendererManager p_i50956_1_) -> new RenderCG(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
 	}
 	
 	

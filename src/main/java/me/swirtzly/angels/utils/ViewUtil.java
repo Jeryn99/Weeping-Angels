@@ -10,6 +10,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
@@ -128,7 +130,7 @@ public class ViewUtil {
 
 		if (angel.ticksExisted % 1200 == 0) {
 			if (angel.getDistance(viewer) < 15) {
-				//viewer.addPotionEffect(new Effect(MobEffects.BLINDNESS, 15));
+                viewer.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 15));
 			}
 		}
 
@@ -147,12 +149,8 @@ public class ViewUtil {
 				int i1 = MathHelper.floor(vec31.y);
 				int j1 = MathHelper.floor(vec31.z);
 				BlockPos blockpos = new BlockPos(l, i1, j1);
-				BlockState iblockstate = world.getBlockState(blockpos);
-
 				if (stopOn.test(blockpos)) {
 					RayTraceResult raytraceresult = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
-					//iblockstate.collisionRayTrace(world, blockpos, vec31, vec32);
-
 					if (raytraceresult != null) {
 						return raytraceresult;
 					}
@@ -259,7 +257,7 @@ public class ViewUtil {
 			}
 		}
 
-		return world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+        return null;
 	}
 
 

@@ -208,7 +208,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
-	
+
+
 	@Override
 	public void livingTick() {
 		super.livingTick();
