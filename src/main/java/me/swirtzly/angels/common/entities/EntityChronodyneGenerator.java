@@ -5,14 +5,12 @@ import me.swirtzly.angels.common.entities.EntityAnomaly;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.misc.WAConstants;
 import net.minecraft.block.material.Material;
-import net.minecraft.command.impl.TagCommand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.math.*;
@@ -72,6 +70,7 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 					EntityAnomaly a = new EntityAnomaly(world);
 					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
+					//TODO: Make Angel drop its loot when hit by CG
 					world.addEntity(a);
 					hitEntity.remove();
 					remove();

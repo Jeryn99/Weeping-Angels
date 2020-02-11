@@ -1,5 +1,6 @@
 package me.swirtzly.angels.common.entities;
 
+
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
@@ -18,7 +19,6 @@ import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -52,7 +52,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		return p_213697_0_ == Difficulty.EASY;
 	};
 
-	public EntityWeepingAngel(EntityType type, World world) {
+	public EntityWeepingAngel(EntityType<? extends EntityQuantumLockBase> type, World world) {
 		this(world);
 	}
 
@@ -177,14 +177,26 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			heal(2.0F);
 		}
 	}
-
+	
 
 	@Override
-	protected void dropLoot(DamageSource p_213354_1_, boolean p_213354_2_) {
-		entityDropItem(Item.getItemFromBlock(Blocks.STONE), rand.nextInt(3));
-		entityDropItem(getHeldItemMainhand(), getHeldItemMainhand().getCount());
-		entityDropItem(getHeldItemOffhand(), getHeldItemOffhand().getCount());
-		//TODO Actually use loottables
+	protected boolean canDropLoot() {
+		return true;
+	}
+	
+	/*Drops Tardis Keys on Death + uses loot table drops
+	 * Used to allow for config value defined tardis keys to be dropped
+	 * Used instead of adding loot table functions
+	 * 	N.B.There is a loot table function that does the same thing, but it requires:
+	 *  -Hardcoded item registry names
+	 *  -New entry for each tardis key (There could be many Tardis keys/items the player wants the angel to steal and drop on death
+	 */
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		super.onDeath(cause);
+		entityDropItem(getHeldItemMainhand());
+		entityDropItem(getHeldItemOffhand());
 	}
 	
 	@Override
@@ -352,7 +364,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-					TeleporterNew.teleportPlayer(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
+ 					TeleporterNew.teleportPlayer(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
 				} else {
 					Teleporter.handleStructures(player);
 				}
@@ -360,9 +372,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		}
 	}
 	
-	public void dropStuff() {
-		//dropLoot(true, 4);
-	}
+	/*
+	 * Getters and Setters
+	 */
 
 	public String getAngelPose() {
 		return getDataManager().get(CURRENT_POSE);
