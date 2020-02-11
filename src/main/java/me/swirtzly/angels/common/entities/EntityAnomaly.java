@@ -16,7 +16,7 @@ public class EntityAnomaly extends MobEntity {
 		super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
 	}
 
-	public EntityAnomaly(EntityType type, World world){
+	public EntityAnomaly(EntityType<?> type, World world){
 		this(world);
 	}
 

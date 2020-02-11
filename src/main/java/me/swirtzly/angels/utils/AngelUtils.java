@@ -74,7 +74,7 @@ public class AngelUtils {
 	public static void setupLightItems() {
 		ForgeRegistries.BLOCKS.getValues().forEach(block -> {
 			if (AngelUtils.getLightValue(block) > 7) {
-				LIGHT_ITEMS.add(Item.getItemFromBlock(block));
+				LIGHT_ITEMS.add(block.asItem());
 			}
 		});
 		LIGHT_ITEMS.add(Blocks.REDSTONE_TORCH.asItem());

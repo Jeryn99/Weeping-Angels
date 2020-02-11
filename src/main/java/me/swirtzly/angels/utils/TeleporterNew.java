@@ -60,7 +60,7 @@ public class TeleporterNew {
      * @param yCoord
      * @param zCoord
      * @return
-     * @implNote User when exclusivelyteleporting players 
+     * @implNote User when exclusively teleporting players 
      */
     
     public static PlayerEntity teleportPlayer(PlayerEntity entity, DimensionType dimension, double xCoord, double yCoord, double zCoord) {
@@ -179,7 +179,7 @@ public class TeleporterNew {
         while (!(world.isAirBlock(newSpawn) && world.isAirBlock(newSpawn.up())) && newSpawn.getY() < world.dimension.getHeight() - 5) {
             newSpawn = newSpawn.up();
         }
-        System.out.println(newSpawn);
+//        System.out.println(newSpawn);
         return newSpawn;
     }
 

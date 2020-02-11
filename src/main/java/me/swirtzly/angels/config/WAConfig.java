@@ -94,7 +94,7 @@ public class WAConfig {
 		notAllowedBiomes = builder
 				.translation("config.weeping_angels.disallowed_spawn_biomes")
 				.comment("Note: A list of biomes where angels should NOT spawn.")
-				.define("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
+				.define("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:the_end","minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
 		dimensionWhitelist = builder
 				.translation("config.weeping_angels.allowed_spawn_dimensions")
 				.comment("Note: A list of dimension ids where angels should spawn.")

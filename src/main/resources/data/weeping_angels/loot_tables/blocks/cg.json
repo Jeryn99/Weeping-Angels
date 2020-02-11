@@ -1,0 +1,18 @@
+
+   {
+  "type": "minecraft:block",
+  "pools": [
+    {
+    "name":"weeping_angels:cg",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "weeping_angels:chronodyne_generator",
+          "count": 4
+        }
+      ]
+    }
+  ]
+}
+    

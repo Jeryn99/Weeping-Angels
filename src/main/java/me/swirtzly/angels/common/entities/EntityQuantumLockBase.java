@@ -12,10 +12,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class EntityQuantumLockBase extends MonsterEntity {
 	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
 	
-	public EntityQuantumLockBase(World worldIn, EntityType entityType) {
+	public EntityQuantumLockBase(World worldIn, EntityType<? extends MonsterEntity> entityType) {
 		super(entityType, worldIn);
 	}
 	
@@ -57,12 +56,10 @@ public class EntityQuantumLockBase extends MonsterEntity {
 					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
-						player.sendStatusMessage(new StringTextComponent(TextFormatting.GOLD.toString() + TextFormatting.BOLD + "Can see!"), true);
 						return;
 					} else if (targetPlayer == null) {
 						targetPlayer = player;
 						setSeenTime(0);
-						player.sendStatusMessage(new StringTextComponent(TextFormatting.RED.toString() + TextFormatting.BOLD + "Can't see!"), true);
 					}
 				}
 				
@@ -109,9 +106,19 @@ public class EntityQuantumLockBase extends MonsterEntity {
 	}
 	
 	@Override
-   public boolean canBreatheUnderwater() {
-      return true;
-   }
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+	
+	@Override
+	 public boolean canRenderOnFire() {
+		return false;
+	}
+	
+	@Override
+	public boolean isInvulnerableTo(DamageSource source) {
+		return source.isProjectile() || source.isMagicDamage() || source == DamageSource.CRAMMING || source == DamageSource.IN_WALL|| source == DamageSource.ANVIL;
+	}
 	
 	public boolean isSeen() {
 		return getSeenTime() > 0;
