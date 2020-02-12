@@ -1,12 +1,7 @@
 package me.swirtzly.angels.client.renders.entities.layers;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.WeepingAngels;
-import me.swirtzly.angels.client.models.entity.ModelAngel;
-import me.swirtzly.angels.client.models.entity.ModelAngelChild;
-import me.swirtzly.angels.client.models.entity.ModelAngelEd;
-import me.swirtzly.angels.client.models.entity.ModelAngelMel;
-import me.swirtzly.angels.client.models.entity.ModelClassicAngel;
+import me.swirtzly.angels.client.models.entity.*;
 import me.swirtzly.angels.client.renders.entities.RenderWeepingAngel;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -60,8 +55,6 @@ public class LayerCrack extends LayerRenderer {
 			
 			
 			if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
-				GlStateManager.pushMatrix();
-				
 				if (!angel.isChild()) {
 					if (angel.getAngelType() == 1) {
 						angelRenderer.bindTexture(CRACK_TEX_2);
@@ -70,8 +63,6 @@ public class LayerCrack extends LayerRenderer {
 					}
 					modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				}
-				
-				GlStateManager.popMatrix();
 			}
 		}
 	}

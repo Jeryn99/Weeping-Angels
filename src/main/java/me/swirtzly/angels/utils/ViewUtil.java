@@ -2,21 +2,19 @@ package me.swirtzly.angels.utils;
 
 import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
 import me.swirtzly.angels.config.WAConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.VineBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
@@ -61,17 +59,11 @@ public class ViewUtil {
 		
 		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(beingViewed);
 	}
-	
-	/**
-	 * Method that detects whether a tile is the the view sight of viewer
-	 *
-	 * @param viewer The viewer entity
-	 * @param tile   The tile being watched by viewer
-	 */
-	public static boolean isInSightTile(LivingEntity viewer, TileEntity tile) {
-		double dx = tile.getPos().getX() - viewer.posX;
+
+	public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
+		double dx = pos.getX() - viewer.posX;
 		double dz;
-		for (dz = tile.getPos().getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+		for (dz = pos.getX() - viewer.posZ; dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
 			dx = (Math.random() - Math.random()) * 0.01D;
 		}
 		while (viewer.rotationYaw > 360) {
@@ -88,7 +80,8 @@ public class ViewUtil {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-		
+		boolean canSeE = yaw < 60 && yaw > -60;
+		System.out.println("I can see: " + canSeE);
 		return yaw < 60 && yaw > -60;
 	}
 	
@@ -116,15 +109,12 @@ public class ViewUtil {
 		Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
 		for (int i = 0; i < viewerPoints.length; i++) {
-			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS)
+			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
 				return false;
+			}
 			if (rayTraceBlocks(viewer, viewer.world, viewerPoints[i], angelPoints[i], pos -> {
 				BlockState state = viewer.world.getBlockState(pos);
-				for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get())
-					if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
-				return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
-						!(state.getBlock() instanceof PaneBlock) && !(state.getBlock() instanceof VineBlock) && !(state.getBlock() instanceof LeavesBlock) &&
-						state.getCollisionShape(viewer.world, pos) != VoxelShapes.empty();
+				return !canSeeThrough(state, viewer.world, pos);
 			}) == null) return false;
 		}
 
@@ -136,7 +126,6 @@ public class ViewUtil {
 
 		return true;
 	}
-
 
 	@Nullable
 	private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vec3d vec31, Vec3d vec32, Predicate<BlockPos> stopOn) {
@@ -260,6 +249,53 @@ public class ViewUtil {
         return null;
 	}
 
+
+	//This is bloated, I know, but I want to make sure I cover EVERY basis :/
+	public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
+
+		//Tags
+		if (blockState.isIn(Tags.Blocks.GLASS)) return true;
+
+		//Material
+		Material material = blockState.getMaterial();
+
+		if (material == Material.LEAVES) return true;
+		if (material == Material.GLASS) return true;
+		if (material == Material.ICE) return true;
+		if (material == Material.AIR) return true;
+		if (material == Material.WATER) return true;
+		if (material == Material.FIRE) return true;
+		if (material == Material.BARRIER) return true;
+		if (material == Material.PLANTS) return true;
+		if (material == Material.WEB) return true;
+
+		Block block = blockState.getBlock();
+
+		//Block
+		if (block instanceof SlimeBlock) return true;
+		if (block instanceof TrapDoorBlock) return true;
+		if (block instanceof FenceBlock) return true;
+		if (block instanceof FenceGateBlock) return true;
+		if (block instanceof VineBlock) return true;
+		if (block instanceof PaneBlock) return true;
+		if (block instanceof LeavesBlock) return true;
+
+		if (block == Blocks.ACACIA_DOOR) return true;
+		if (block == Blocks.JUNGLE_DOOR) return true;
+		if (block == Blocks.IRON_BARS) return true;
+
+		//Special Snowflakes
+		if (block == Blocks.OAK_DOOR || block == Blocks.IRON_DOOR) {
+			return blockState.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
+		}
+
+		//Config
+		for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
+			if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
+		}
+
+		return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();
+	}
 
 
 

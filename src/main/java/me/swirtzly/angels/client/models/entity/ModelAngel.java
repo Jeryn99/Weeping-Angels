@@ -478,10 +478,10 @@ public class ModelAngel extends EntityModel {
 		}
 		
 		// Head
-		GlStateManager.pushMatrix();
-		
-		GlStateManager.pushMatrix();
-		GlStateManager.enableLighting();
+        GlStateManager.pushMatrix(); //PUSH 1
+
+
+        GlStateManager.pushMatrix(); //PUSH 2
 		if (!angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
 			GlStateManager.rotatef(20, 1, 0, 0);
 		}
@@ -509,7 +509,7 @@ public class ModelAngel extends EntityModel {
 		Hair10.render(scale);
 		Hair11.render(scale);
 		Hair12.render(scale);
-		GlStateManager.popMatrix();
+        GlStateManager.popMatrix(); //POP 1
 		
 		if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
 			AngryRightArm1.render(scale);
@@ -556,8 +556,8 @@ public class ModelAngel extends EntityModel {
 		RightWing7.render(scale);
 		RightWing8.render(scale);
 		RightWing9.render(scale);
-		GlStateManager.disableLighting();
-		GlStateManager.popMatrix();
+
+        GlStateManager.popMatrix(); //POP 2
 	}
 	
 	private void setRotation(RendererModel model, float x, float y, float z) {

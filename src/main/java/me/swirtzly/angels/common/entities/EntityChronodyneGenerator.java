@@ -47,8 +47,6 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 			this.remove();
 		}
 
-
-
 		if (this.isAlive())
 			super.tick();
 	}

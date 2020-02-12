@@ -44,7 +44,6 @@ public class AngelUtils {
 			entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
-			
 			entity.world.getPlayers().forEach(player -> {
 				if (player instanceof ServerPlayerEntity) {
 					ServerPlayerEntity playerMP = (ServerPlayerEntity) player;

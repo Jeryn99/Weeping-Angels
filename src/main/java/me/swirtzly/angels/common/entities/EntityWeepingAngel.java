@@ -7,10 +7,7 @@ import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WATeleporter;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.EndPortalBlock;
-import net.minecraft.block.NetherPortalBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -321,11 +318,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			return;
 		}
 
-		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ)).iterator(); iterator.hasNext(); ) {
+
+		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
 			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
-				
+
 				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 					continue;
 				}
@@ -334,7 +332,20 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 					return;
 				}
-				
+
+				if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
+					System.out.println(blockState.get(RedstoneLampBlock.LIT).booleanValue());
+					if (blockState.get(RedstoneLampBlock.LIT).booleanValue()) {
+						world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
+						playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
+						return;
+					}
+				}
+
+				if (blockState.getBlock().getLightValue(blockState) > 0) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+				}
+
 				if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
 					if (getHealth() < getMaxHealth()) {
 						heal(1.5F);
