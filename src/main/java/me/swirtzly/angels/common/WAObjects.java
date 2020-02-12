@@ -34,6 +34,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -54,7 +55,7 @@ public class WAObjects {
 	}
 		
 	@SubscribeEvent
-	public static void regEntities(RegistryEvent.Register<EntityType<?>> e) {
+	public static void addSpawns(FMLLoadCompleteEvent e) {
 		AngelUtils.setUpSpawns();
 	}
 
@@ -134,27 +135,13 @@ public class WAObjects {
         public static final RegistryObject<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
 	}
 
-
-	// Entities
-	public static class EntityEntries {
-		public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
-		
-		public static final RegistryObject<EntityType<EntityWeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false));
-		public static final RegistryObject<EntityType<EntityAnomaly>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));
-		public static final RegistryObject<EntityType<EntityChronodyneGenerator>> CHRONODYNE_GENERATOR = ENTITIES.register("laser", () -> registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "laser", true));
-	}
-
-
 	//Tile Creation
-	public static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
-		TileEntityType<T> type = TileEntityType.Builder.create(tile, validBlock).build(null);
-		return type;
+	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
+		return TileEntityType.Builder.create(tile, validBlock).build(null);
 	}
-
-
 
 	//Entity Creation
-	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name){
+	private static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
 		builder.setShouldReceiveVelocityUpdates(sendUpdate);
@@ -167,7 +154,7 @@ public class WAObjects {
 	}
 
 	//Fire Resistant Entity Creation
-	public static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate,String name){
+	private static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
 		builder.setShouldReceiveVelocityUpdates(sendUpdate);
@@ -180,6 +167,10 @@ public class WAObjects {
 		return type;
 	}
 
+	private static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
+		return registerFireImmuneBase(factory, client, classification, width, height, 80, 3, velocity, name);
+	}
+
 	public static <T extends Entity> EntityType<T> registerStatic(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name){
 		return registerBase(factory, client, classification, width, height, 64, 40, false, name);
 	}
@@ -187,20 +178,14 @@ public class WAObjects {
 	public static <T extends Entity> EntityType<T> registerMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
 		return registerBase(factory, client, classification, width, height, 80, 3, velocity, name);
 	}
-	/**Fire Resistant Variant of entity
-	 * 
-	 * @param <T>
-	 * @param factory
-	 * @param client
-	 * @param classification
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param velocity
-	 * @return
-	 */
-	public static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
-		return registerFireImmuneBase(factory, client, classification,width, height,80, 3, velocity, name);
+
+	// Entities
+	public static class EntityEntries {
+		public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
+
+		public static final RegistryObject<EntityType<EntityWeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false));
+		public static final RegistryObject<EntityType<EntityAnomaly>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));
+		public static final RegistryObject<EntityType<EntityChronodyneGenerator>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "laser", true));
 	}
 
 	public interface IClientSpawner<T> {

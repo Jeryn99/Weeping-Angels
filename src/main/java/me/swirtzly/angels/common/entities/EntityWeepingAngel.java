@@ -6,8 +6,7 @@ import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
-import me.swirtzly.angels.utils.Teleporter;
-import me.swirtzly.angels.utils.TeleporterNew;
+import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EndPortalBlock;
@@ -31,12 +30,15 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameterSets;
+import net.minecraft.world.storage.loot.LootTable;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-import static me.swirtzly.angels.utils.TeleporterNew.yCoordSanity;
+import static me.swirtzly.angels.utils.WATeleporter.yCoordSanity;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -48,9 +50,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get()};
 	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
 
-	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> {
-		return p_213697_0_ == Difficulty.EASY;
-	};
+    private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
 
 	public EntityWeepingAngel(EntityType<? extends EntityQuantumLockBase> type, World world) {
 		this(world);
@@ -65,6 +65,12 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		experienceValue = WAConfig.CONFIG.xpGained.get();
 	}
 
+    public void dropAngelStuff() {
+        ResourceLocation resourcelocation = this.func_213346_cF();
+        LootTable loottable = this.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+        LootContext.Builder lootcontext$builder = this.func_213363_a(true, DamageSource.STARVE);
+        loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY), this::entityDropItem);
+    }
 
 	@Override
 	protected void registerData() {
@@ -111,8 +117,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.CONFIG.damage.get());
 		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+        getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
 	}
 	
 	
@@ -198,8 +204,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 		entityDropItem(getHeldItemMainhand());
 		entityDropItem(getHeldItemOffhand());
 	}
-	
-	@Override
+
+
+    @Override
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 		compound.putString(WAConstants.POSE, getAngelPose());
@@ -259,7 +266,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 	public void moveTowards(LivingEntity entity) {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
-		if (WAConfig.CONFIG.playScrapSounds.get() && !isCherub()) {
+        if (WAConfig.CONFIG.playScrapeSounds.get() && !isCherub()) {
 			playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.2F, 1.0F);
 		}
 		
@@ -359,15 +366,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 			case DONT:
 				break;
 			case STRUCTURES:
-				Teleporter.handleStructures(player);
+                WATeleporter.handleStructures(player);
 				break;
 			case RANDOM_PLACE:
 				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
- 					TeleporterNew.teleportPlayer(player, player.dimension,x, yCoordSanity(player.world, new BlockPos(x,0,z)).getY(), z);
+                    WATeleporter.teleportPlayer(player, WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(world.rand) : player.dimension, x, yCoordSanity(player.world, new BlockPos(x, 0, z)).getY(), z);
 				} else {
-					Teleporter.handleStructures(player);
+                    WATeleporter.handleStructures(player);
 				}
 				break;
 		}

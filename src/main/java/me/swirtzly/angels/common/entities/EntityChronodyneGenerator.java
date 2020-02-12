@@ -1,8 +1,6 @@
 package me.swirtzly.angels.common.entities;
 
 import me.swirtzly.angels.common.WAObjects;
-import me.swirtzly.angels.common.entities.EntityAnomaly;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.misc.WAConstants;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -67,12 +65,13 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 			Entity hitEntity = entityHitResult.getEntity();
 			if (hitEntity instanceof EntityWeepingAngel) {
 				if (!world.isRemote) {
+					EntityWeepingAngel angel = (EntityWeepingAngel) hitEntity;
 					EntityAnomaly a = new EntityAnomaly(world);
 					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
-					//TODO: Make Angel drop its loot when hit by CG
 					world.addEntity(a);
-					hitEntity.remove();
+					angel.dropAngelStuff();
+					angel.remove();
 					remove();
 				}
 			}

@@ -1,17 +1,12 @@
 package me.swirtzly.angels.utils;
 
-import java.util.LinkedList;
-
+import com.google.common.collect.Lists;
+import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.server.SPlayEntityEffectPacket;
-import net.minecraft.network.play.server.SPlaySoundEventPacket;
-import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
-import net.minecraft.network.play.server.SRespawnPacket;
-import net.minecraft.network.play.server.SServerDifficultyPacket;
-import net.minecraft.network.play.server.SSetPassengersPacket;
+import net.minecraft.network.play.server.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
@@ -24,7 +19,11 @@ import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 
-public class TeleporterNew {
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Random;
+
+public class WATeleporter {
 	
     public static Entity teleportEntity(Entity entity, DimensionType dimension, double xCoord, double yCoord, double zCoord, float yaw, float pitch){
         if (entity == null || entity.world.isRemote)
@@ -127,6 +126,7 @@ public class TeleporterNew {
 
     private static PlayerEntity teleportPlayerInterdimentional(ServerPlayerEntity player, MinecraftServer server, DimensionType sourceDim, DimensionType destination, double xCoord, double yCoord, double zCoord, float yaw, float pitch) {
         DimensionType dimensiontype = player.dimension;
+        player.remove();
         if (dimensiontype == DimensionType.THE_END && destination == DimensionType.OVERWORLD) {
             player.detach();
             player.getServerWorld().removePlayer(player);
@@ -179,9 +179,52 @@ public class TeleporterNew {
         while (!(world.isAirBlock(newSpawn) && world.isAirBlock(newSpawn.up())) && newSpawn.getY() < world.dimension.getHeight() - 5) {
             newSpawn = newSpawn.up();
         }
-//        System.out.println(newSpawn);
         return newSpawn;
     }
+
+
+    public static DimensionType getRandomDimension(Random rand) {
+        Iterable<DimensionType> dimensions = DimensionType.getAll();
+        ArrayList<DimensionType> allowedDimensions = Lists.newArrayList(DimensionType.getAll());
+
+        for (DimensionType dimension : dimensions) {
+            System.out.println(dimension.getRegistryName());
+            for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
+                if (dimension.getRegistryName().toString().equalsIgnoreCase(dimName)) {
+                    allowedDimensions.remove(dimension);
+                }
+            }
+        }
+
+        return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
+    }
+
+    public static void handleStructures(PlayerEntity player) {
+
+        String[] targetStructure = null;
+
+        switch (player.world.dimension.getType().getId()) {
+            case 0:
+                targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
+                break;
+
+            case 1:
+                targetStructure = AngelUtils.END_STRUCTURES;
+                break;
+
+            case -1:
+                targetStructure = AngelUtils.NETHER_STRUCTURES;
+                break;
+        }
+
+        if (targetStructure != null) {
+            BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
+            if (bPos != null) {
+                WATeleporter.teleportPlayer(player, player.dimension, bPos.getX(), bPos.getY(), bPos.getZ());
+            }
+        }
+    }
+
 
     public static Entity getHighestRidingEntity(final Entity mount) {
         Entity entity;

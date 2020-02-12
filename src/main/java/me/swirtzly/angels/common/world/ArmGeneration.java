@@ -6,6 +6,7 @@ import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
@@ -24,20 +25,20 @@ public class ArmGeneration extends Feature<NoFeatureConfig> {
         super(configFactoryIn);
     }
 
-    @Override
-    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+    private static boolean generateArms(World world, BlockPos position) {
         if (!WAConfig.CONFIG.arms.get()) return false;
-        for (int i = 0; i < 77; i++) {
-            BlockPos newPos = pos.up(i);
-            if (newPos.getY() < 255) {
-                if (world.getBlockState(newPos).getBlock() == Blocks.SNOW || world.getBlockState(newPos).getBlock() == Blocks.SNOW_BLOCK) {
-                    world.setBlockState(newPos, WAObjects.Blocks.ARM.get().getDefaultState(), 1);
-                    System.out.println("gen at: " + newPos);
-                    return true;
-                }
-            }
+        BlockPos pos = new BlockPos(position.add(new BlockPos(8, 0, 8)));
+        if ((!world.dimension.isNether() || pos.getY() < 255) && world.getBiome(position).doesSnowGenerate(world, pos)) {
+            if (world.getBlockState(pos).getBlock() == Blocks.SNOW || world.getBlockState(pos).getBlock() == Blocks.SNOW_BLOCK)
+                world.setBlockState(pos, WAObjects.Blocks.ARM.get().getDefaultState(), 1);
+            return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+        return generateArms(world.getWorld(), pos);
     }
 
 }

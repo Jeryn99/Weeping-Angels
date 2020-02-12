@@ -28,11 +28,10 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue minSpawn;
 	public final ForgeConfigSpec.ConfigValue<String> spawnType;
 	public final ForgeConfigSpec.ConfigValue<List<String>> notAllowedBiomes;
-	public final ForgeConfigSpec.ConfigValue<List<? extends Integer>> dimensionWhitelist;
 	//Angel
 	public final ForgeConfigSpec.BooleanValue hardcoreMode;
 	public final ForgeConfigSpec.BooleanValue updateChecker;
-	public final ForgeConfigSpec.BooleanValue playScrapSounds;
+    public final ForgeConfigSpec.BooleanValue playScrapeSounds;
 	public final ForgeConfigSpec.BooleanValue playSeenSounds;
 	public final ForgeConfigSpec.DoubleValue damage;
 	public final ForgeConfigSpec.IntValue xpGained;
@@ -49,7 +48,7 @@ public class WAConfig {
 	
 	//Teleport
 	public final ForgeConfigSpec.ConfigValue<String> teleportType;
-	public final ForgeConfigSpec.ConfigValue<String> notAllowedDimensions;
+    public final ForgeConfigSpec.ConfigValue<List<String>> notAllowedDimensions;
 	public final ForgeConfigSpec.BooleanValue justTeleport;
 	public final ForgeConfigSpec.IntValue teleportRange;
 	public final ForgeConfigSpec.BooleanValue angelDimTeleport;
@@ -95,10 +94,6 @@ public class WAConfig {
 				.translation("config.weeping_angels.disallowed_spawn_biomes")
 				.comment("Note: A list of biomes where angels should NOT spawn.")
 				.define("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:the_end","minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
-		dimensionWhitelist = builder
-				.translation("config.weeping_angels.allowed_spawn_dimensions")
-				.comment("Note: A list of dimension ids where angels should spawn.")
-				.defineList("dimensionWhitelist", Lists.newArrayList(-1, 0, 1), Integer.class::isInstance);
 		builder.pop();
 		builder.push("angel");
 		hardcoreMode = builder
@@ -109,10 +104,10 @@ public class WAConfig {
 				.translation("config.weeping_angels.update_checker")
 				.comment("Config to toggle the update available checker")
 				.define("enableUpdateChecker", true);
-		playScrapSounds = builder
+        playScrapeSounds = builder
 				.translation("config.weeping_angels.angel_move_sound")
 				.comment("Non-child angels play scraping sounds when moving, this toggles that")
-				.define("playScrapSound", true);
+                .define("playScrapeSound", true);
 		playSeenSounds = builder
 				.translation("config.weeping_angels.angel_seen_sound")
 				.comment("Toggle seen sounds")
@@ -144,7 +139,6 @@ public class WAConfig {
 		disAllowedBlocks = builder
 				.translation("config.weeping_angels.disallowed_blocks") //new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"})
 				.define("disAllowedBlocks", Lists.newArrayList("tardis:exterior_steampunk","tardis:exterior_clock", "minecraft:air"));
-				//TODO: Update disallowed block registry names for Tardis Mod 1.14 when build is released
 				//TODO: Add disallowed block registry names for Dalek Mod 1.3+ when that releases
 		freezeOnAngel = builder
 				.translation("config.weeping_angels.ql")
@@ -175,7 +169,7 @@ public class WAConfig {
 		notAllowedDimensions = builder
 				.translation("config.weeping_angels.disallowed_dimensions")
 				.comment("Note: This a list of dimensions that angels should NOT teleport you to.")
-				.defineInList("notAllowedDimension", "minecraft:the_end", Arrays.asList("minecraft:the_end"));
+                .define("notAllowedDimensions", Lists.newArrayList("minecraft:the_end"), String.class::isInstance);
 		justTeleport = builder
 				.translation("config.weeping_angels.teleport_instant")
 				.comment("just teleport. no damage.")

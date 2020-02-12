@@ -4,6 +4,7 @@ import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.config.WAConfig;
+import me.swirtzly.angels.utils.PlayerUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -100,7 +101,7 @@ public class ItemDetector extends Item {
 			List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getBoundingBox().grow(25, 25, 25));
 			
 			if (entityIn instanceof PlayerEntity) {
-				if (!angels.isEmpty() && isSelected) {
+                if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
 					{
 						if (entityIn.ticksExisted % 20 == 0) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.5F, 1.0F);
