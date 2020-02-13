@@ -16,6 +16,7 @@ import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
+import me.swirtzly.angels.common.world.ArmGeneration;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -30,6 +31,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -135,6 +139,19 @@ public class WAObjects {
         public static final RegistryObject<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
 	}
 
+	
+	public static class WorldGenEntries {
+		public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, WeepingAngels.MODID);
+		
+		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
+	}
+	
+	
+	//World Gen-Features Creation
+	private static <C extends IFeatureConfig, F extends Feature<C>> F registerFeatures(F value){
+		return value;
+	}
+
 	//Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
 		return TileEntityType.Builder.create(tile, validBlock).build(null);
@@ -185,7 +202,7 @@ public class WAObjects {
 
 		public static final RegistryObject<EntityType<EntityWeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false));
 		public static final RegistryObject<EntityType<EntityAnomaly>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));
-		public static final RegistryObject<EntityType<EntityChronodyneGenerator>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "laser", true));
+		public static final RegistryObject<EntityType<EntityChronodyneGenerator>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(EntityChronodyneGenerator::new, EntityChronodyneGenerator::new, EntityClassification.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
 	}
 
 	public interface IClientSpawner<T> {

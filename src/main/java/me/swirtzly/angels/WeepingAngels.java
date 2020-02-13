@@ -11,6 +11,7 @@ import me.swirtzly.angels.common.entities.EntityAnomaly;
 import me.swirtzly.angels.common.entities.EntityChronodyneGenerator;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.common.events.EventHandler;
+import me.swirtzly.angels.common.misc.FortuneEnchantBonus;
 import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
@@ -19,6 +20,7 @@ import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -56,11 +58,13 @@ public class WeepingAngels {
 		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		WorldGen.applyFeatures();
+		LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {

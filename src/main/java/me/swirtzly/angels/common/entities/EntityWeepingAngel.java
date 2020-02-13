@@ -67,6 +67,8 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         LootTable loottable = this.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
         LootContext.Builder lootcontext$builder = this.func_213363_a(true, DamageSource.STARVE);
         loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY), this::entityDropItem);
+        entityDropItem(getHeldItemMainhand());
+		entityDropItem(getHeldItemOffhand());
     }
 
 	@Override

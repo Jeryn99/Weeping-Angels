@@ -42,7 +42,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 					a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 					world.addEntity(a);
 				}
-				//TODO: Make Angel drop its loot when walking over CG tile
+				entityWeepingAngel.dropAngelStuff();
 				entityWeepingAngel.remove();
 				world.removeBlock(getPos(), false);
 			});

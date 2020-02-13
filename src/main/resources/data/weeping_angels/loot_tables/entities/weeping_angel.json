@@ -18,13 +18,12 @@
           }
         },
         {
-          "function": "minecraft:apply_bonus",
-          "enchantment": "minecraft:fortune",
-          "formula": "minecraft:uniform_bonus_count",
-          "parameters": {
-            "bonusMultiplier": 2,
-            "extra": 1
-          }
+          "function": "weeping_angels:fortune_enchant",
+          "count": {
+            "min": 1,
+            "max": 4
+          },
+          "limit":64
         }
       ],
       "conditions": [
