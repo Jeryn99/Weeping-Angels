@@ -117,7 +117,7 @@ public class EntityQuantumLockBase extends MonsterEntity {
 	
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		return source.isProjectile() || source.isMagicDamage() || source == DamageSource.CRAMMING || source == DamageSource.IN_WALL|| source == DamageSource.ANVIL;
+        return !source.equals(DamageSource.OUT_OF_WORLD) && source.equals(DamageSource.STARVE);
 	}
 	
 	public boolean isSeen() {

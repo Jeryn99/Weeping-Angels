@@ -25,7 +25,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 	public void tick() {
 
 		BlockState blockBelow = world.getBlockState(getPos().down());
-		if (blockBelow.isAir(world, pos) || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
+		if (blockBelow.isAir(world, pos.down()) || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
 			ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world);
 			itemEntity.setPosition(getPos().getX(), getPos().getY(), getPos().getZ());
 			itemEntity.setItem(new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get()));
@@ -42,7 +42,7 @@ public class TileEntityChronodyneGenerator extends TileEntity implements ITickab
 					a.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
 					world.addEntity(a);
 				}
-				//TODO: Make Angel drop its loot when walking over CG tile
+				entityWeepingAngel.dropAngelStuff();
 				entityWeepingAngel.remove();
 				world.removeBlock(getPos(), false);
 			});

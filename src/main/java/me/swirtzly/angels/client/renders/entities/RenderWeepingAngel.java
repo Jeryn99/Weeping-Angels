@@ -24,16 +24,16 @@ public class RenderWeepingAngel extends MobRenderer {
 	private ResourceLocation TEXTURE_CLASSIC = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_3.png");
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
-	
-	private EntityModel modelOne = new ModelAngel();
-	private EntityModel modelTwo = new ModelAngelEd<EntityWeepingAngel>();
-	private EntityModel modelChild = new ModelAngelChild<EntityWeepingAngel>();
-	private EntityModel modelClassic = new ModelClassicAngel<EntityWeepingAngel>();
-	private EntityModel modelMel = new ModelAngelMel();
+
+    private EntityModel<EntityWeepingAngel> modelOne = new ModelAngel<EntityWeepingAngel>();
+    private EntityModel<EntityWeepingAngel> modelTwo = new ModelAngelEd<EntityWeepingAngel>();
+    private EntityModel<EntityWeepingAngel> modelChild = new ModelAngelChild<EntityWeepingAngel>();
+    private EntityModel<EntityWeepingAngel> modelClassic = new ModelClassicAngel<EntityWeepingAngel>();
+    private EntityModel<EntityWeepingAngel> modelMel = new ModelAngelMel<EntityWeepingAngel>();
 	
 	@SuppressWarnings("unchecked")
 	public RenderWeepingAngel(EntityRendererManager manager) {
-		super(manager, new ModelAngelEd(), 0.0F);
+        super(manager, new ModelAngelEd<EntityWeepingAngel>(), 0.0F);
 		addLayer(new LayerCrack(this));
 		addLayer(new HeldItemLayer(this));
 	}
@@ -49,39 +49,40 @@ public class RenderWeepingAngel extends MobRenderer {
 	protected boolean setBrightness(LivingEntity entitylivingbaseIn, float partialTicks, boolean combineTextures) {
 		return true;
 	}
-	
-	@Override
-	protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		if (!living.isAlive()) return;
-		
-		if (living instanceof EntityWeepingAngel) {
-			GlStateManager.pushMatrix();
-			EntityWeepingAngel angel = (EntityWeepingAngel) living;
-			
-			switch (angel.getAngelType()) {
-				case -1:
-					bindTexture(TEXTURE_CHILD);
-					modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-					break;
-				case 0:
-					bindTexture(TEXTURE_ONE);
-					modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-					break;
-				case 1:
-					bindTexture(TEXTURE_TWO);
-					modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-					break;
-				case 2:
-					bindTexture(TEXTURE_CLASSIC);
-					modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-					break;
-				case 3:
-					bindTexture(TEXTURE_FOUR);
-					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-					break;
-			}
-			GlStateManager.popMatrix();
-		}
-	}
+
+    //TODO: Find cause of Angel rendering full bright when not being directly looked at
+    @Override
+    protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        if (!living.isAlive()) return;
+
+        if (living instanceof EntityWeepingAngel) {
+            GlStateManager.pushMatrix();
+            EntityWeepingAngel angel = (EntityWeepingAngel) living;
+
+            switch (angel.getAngelType()) {
+                case -1:
+                    bindTexture(TEXTURE_CHILD);
+                    modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+                case 0:
+                    bindTexture(TEXTURE_ONE);
+                    modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+                case 1:
+                    bindTexture(TEXTURE_TWO);
+                    modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+                case 2:
+                    bindTexture(TEXTURE_CLASSIC);
+                    modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+                case 3:
+                    bindTexture(TEXTURE_FOUR);
+                    modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+            }
+            GlStateManager.popMatrix();
+        }
+    }
 	
 }

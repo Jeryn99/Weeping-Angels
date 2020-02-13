@@ -1,35 +1,18 @@
 package me.swirtzly.angels.common.world;
 
-import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.common.WAObjects;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Bus.MOD)
+
 public class WorldGen {
-
-	public static final Feature<NoFeatureConfig> ARM_GEN = new ArmGeneration(NoFeatureConfig::deserialize);
-
-
-	@SubscribeEvent
-	public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-		Registry.register(Registry.FEATURE, new ResourceLocation(WeepingAngels.MODID, "snow_arm"), WorldGen.ARM_GEN);
-	}
-
 
 	public static void applyFeatures() {
 	 //Only in Overworld atm, feel free to change this with a config value
@@ -46,7 +29,7 @@ public class WorldGen {
 		 }
 
 			if (biome.getPrecipitation() == Biome.RainType.SNOW) {
-                biome.addFeature(Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(ARM_GEN, IFeatureConfig.NO_FEATURE_CONFIG, Placement.CHORUS_PLANT, IPlacementConfig.NO_PLACEMENT_CONFIG));
+                biome.addFeature(Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(WAObjects.WorldGenEntries.ARM_GEN.get(), IFeatureConfig.NO_FEATURE_CONFIG, Placement.CHORUS_PLANT, IPlacementConfig.NO_PLACEMENT_CONFIG));
 			}
 	}
  }

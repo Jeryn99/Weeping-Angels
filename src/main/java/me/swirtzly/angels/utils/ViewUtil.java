@@ -2,7 +2,9 @@ package me.swirtzly.angels.utils;
 
 import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
 import me.swirtzly.angels.config.WAConfig;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -252,46 +254,46 @@ public class ViewUtil {
 
 	//This is bloated, I know, but I want to make sure I cover EVERY basis :/
 	public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
-
 		//Tags
-		if (blockState.isIn(Tags.Blocks.GLASS)) return true;
-
+        if (blockState.isIn(Tags.Blocks.GLASS))
+            return true;
+		
 		//Material
 		Material material = blockState.getMaterial();
-
-		if (material == Material.LEAVES) return true;
-		if (material == Material.GLASS) return true;
-		if (material == Material.ICE) return true;
-		if (material == Material.AIR) return true;
-		if (material == Material.WATER) return true;
-		if (material == Material.FIRE) return true;
-		if (material == Material.BARRIER) return true;
-		if (material == Material.PLANTS) return true;
-		if (material == Material.WEB) return true;
+        if (!material.isOpaque())
+            return true;
+        if (material.equals(Material.BARRIER))
+            return true;
+		
 
 		Block block = blockState.getBlock();
 
-		//Block
-		if (block instanceof SlimeBlock) return true;
-		if (block instanceof TrapDoorBlock) return true;
-		if (block instanceof FenceBlock) return true;
-		if (block instanceof FenceGateBlock) return true;
-		if (block instanceof VineBlock) return true;
-		if (block instanceof PaneBlock) return true;
-		if (block instanceof LeavesBlock) return true;
+        //Blocks
+//		if (block instanceof SlimeBlock) return true;
+//		if (block instanceof TrapDoorBlock) return true;
+//		if (block instanceof FenceBlock) return true;
+//		if (block instanceof FenceGateBlock) return true;
+//		if (block instanceof VineBlock) return true;
+//		if (block instanceof PaneBlock) return true;
+//		if (block instanceof LeavesBlock) return true;
+//
+//		if (block == Blocks.ACACIA_DOOR) return true;
+//		if (block == Blocks.JUNGLE_DOOR) return true;
+//		if (block == Blocks.IRON_BARS) return true;
 
-		if (block == Blocks.ACACIA_DOOR) return true;
-		if (block == Blocks.JUNGLE_DOOR) return true;
-		if (block == Blocks.IRON_BARS) return true;
-
+        //Covers all Block checks
+        if (!blockState.isSolid()) {
+            return true;
+        }
+		
 		//Special Snowflakes
-		if (block == Blocks.OAK_DOOR || block == Blocks.IRON_DOOR) {
+        if (block instanceof DoorBlock) {
 			return blockState.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
 		}
 
 		//Config
 		for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
-			if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
+            if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return true;
 		}
 
 		return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();

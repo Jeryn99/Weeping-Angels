@@ -3,7 +3,6 @@ package me.swirtzly.angels.client.models.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
