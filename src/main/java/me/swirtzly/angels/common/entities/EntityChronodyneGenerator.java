@@ -13,12 +13,15 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
  * Created by Swirtzly
  * on 06/10/2019 @ 12:17
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class EntityChronodyneGenerator extends ThrowableEntity implements IRendersAsItem {
 
 	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, World worldIn) {

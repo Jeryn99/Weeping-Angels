@@ -23,7 +23,6 @@ public class RenderCG extends SpriteRenderer<EntityChronodyneGenerator> {
     public void doRender(EntityChronodyneGenerator entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translated(x, y - 1.3, z);
-        GlStateManager.enableRescaleNormal();
         GlStateManager.disableFog();
         GlStateManager.disableLighting();
         model.render(entity, 0, 0, 0, 0, 0, 0.0625F);
