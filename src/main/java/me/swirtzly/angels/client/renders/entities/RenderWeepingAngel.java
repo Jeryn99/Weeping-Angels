@@ -25,15 +25,15 @@ public class RenderWeepingAngel extends MobRenderer {
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 	
-	private EntityModel modelOne = new ModelAngel();
-	private EntityModel modelTwo = new ModelAngelEd<EntityWeepingAngel>();
-	private EntityModel modelChild = new ModelAngelChild<EntityWeepingAngel>();
-	private EntityModel modelClassic = new ModelClassicAngel<EntityWeepingAngel>();
-	private EntityModel modelMel = new ModelAngelMel();
+	private EntityModel<EntityWeepingAngel> modelOne = new ModelAngel<EntityWeepingAngel>();
+	private EntityModel<EntityWeepingAngel> modelTwo = new ModelAngelEd<EntityWeepingAngel>();
+	private EntityModel<EntityWeepingAngel> modelChild = new ModelAngelChild<EntityWeepingAngel>();
+	private EntityModel<EntityWeepingAngel> modelClassic = new ModelClassicAngel<EntityWeepingAngel>();
+	private EntityModel<EntityWeepingAngel> modelMel = new ModelAngelMel<EntityWeepingAngel>();
 	
 	@SuppressWarnings("unchecked")
 	public RenderWeepingAngel(EntityRendererManager manager) {
-		super(manager, new ModelAngelEd(), 0.0F);
+		super(manager, new ModelAngelEd<EntityWeepingAngel>(), 0.0F);
 		addLayer(new LayerCrack(this));
 		addLayer(new HeldItemLayer(this));
 	}
@@ -50,6 +50,7 @@ public class RenderWeepingAngel extends MobRenderer {
 		return true;
 	}
 	
+	//TODO: Find cause of Angel rendering full bright when not being directly looked at
 	@Override
 	protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		if (!living.isAlive()) return;

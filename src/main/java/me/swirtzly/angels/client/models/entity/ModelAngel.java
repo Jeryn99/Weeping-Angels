@@ -5,9 +5,9 @@ import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
-public class ModelAngel extends EntityModel {
+public class ModelAngel <T extends LivingEntity> extends EntityModel<T> {
 	
 	/**
 	 * Weeping Angel - Ford Created using Techne
@@ -470,7 +470,7 @@ public class ModelAngel extends EntityModel {
 	}
 	
 	@Override
-	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		EntityWeepingAngel angel = null;
 		
 		if (entity instanceof EntityWeepingAngel) {

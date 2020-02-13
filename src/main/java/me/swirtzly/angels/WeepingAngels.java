@@ -34,6 +34,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+//TODO: Fix server crash regarding Attempted to load class net/minecraft/client/renderer/tileentity/TileEntityRenderer for invalid dist DEDICATED_SERVER
 @Mod("weeping_angels")
 public class WeepingAngels {
 	

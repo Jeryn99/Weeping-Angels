@@ -11,9 +11,9 @@ import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
-public class ModelAngelMel extends EntityModel {
+public class ModelAngelMel <T extends LivingEntity> extends EntityModel<T> {
 	
 	RendererModel Eye1;
 	RendererModel Eye2;
@@ -510,7 +510,7 @@ public class ModelAngelMel extends EntityModel {
 	}
 	
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		Eye1.render(scale);
 		Eye2.render(scale);
