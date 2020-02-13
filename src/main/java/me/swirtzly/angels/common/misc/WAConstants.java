@@ -1,7 +1,5 @@
 package me.swirtzly.angels.common.misc;
 
-import me.swirtzly.angels.config.WAConfig;
-
 public class WAConstants {
 	
 	// Angel

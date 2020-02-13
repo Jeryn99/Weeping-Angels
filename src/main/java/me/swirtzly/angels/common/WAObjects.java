@@ -1,21 +1,22 @@
 package me.swirtzly.angels.common;
 
 import me.swirtzly.angels.WeepingAngels;
-import me.swirtzly.angels.common.blocks.BlockAngelStatue;
-import me.swirtzly.angels.common.blocks.BlockChronodyneGenerator;
-import me.swirtzly.angels.common.blocks.BlockMineable;
-import me.swirtzly.angels.common.blocks.BlockSnowArm;
+import me.swirtzly.angels.common.blocks.ChronodyneGeneratorBlock;
+import me.swirtzly.angels.common.blocks.MineableBlock;
+import me.swirtzly.angels.common.blocks.PlinthBlock;
+import me.swirtzly.angels.common.blocks.SnowArmBlock;
 import me.swirtzly.angels.common.entities.AngelEnums;
-import me.swirtzly.angels.common.entities.EntityAnomaly;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
-import me.swirtzly.angels.common.items.ItemAngelSpawner;
-import me.swirtzly.angels.common.items.ItemChronodyneGenerator;
-import me.swirtzly.angels.common.items.ItemDetector;
-import me.swirtzly.angels.common.items.ItemHanging;
+import me.swirtzly.angels.common.entities.AnomalyEntity;
+import me.swirtzly.angels.common.entities.ChronodyneGeneratorEntity;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.angels.common.items.AngelSpawnerItem;
+import me.swirtzly.angels.common.items.ChronodyneGeneratorItem;
+import me.swirtzly.angels.common.items.DetectorItem;
 import me.swirtzly.angels.common.misc.WATabs;
-import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
-import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
-import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
+import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
+import me.swirtzly.angels.common.tileentities.PlinthTile;
+import me.swirtzly.angels.common.tileentities.SnowArmTile;
+import me.swirtzly.angels.common.world.ArmGeneration;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -24,21 +25,23 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 import static me.swirtzly.angels.WeepingAngels.MODID;
@@ -50,158 +53,111 @@ public class WAObjects {
 			STONE = new WADamageSource("punch_stone"),
 			ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
 	
-	public static List<Item> ITEMS = new ArrayList<>();
-	// Helper, gets reset after init
-	private static List<Item> ITEM_BLOCKS = new ArrayList<>();
-	
 	@SubscribeEvent
-	public static void addItems(RegistryEvent.Register<Item> e) {
-		IForgeRegistry<Item> reg = e.getRegistry();
-		ITEM_BLOCKS.forEach(reg::register);
-		reg.registerAll(
-				setUpItem(new ItemHanging(), "angel_painting"),
-				setUpItem(new ItemDetector(), "timey_wimey_detector"),
-				setUpItem(new ItemChronodyneGenerator(), "chronodyne_generator"),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_ONE, EntityWeepingAngel::new), "angel_0"),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_TWO, EntityWeepingAngel::new), "angel_1"),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child"),
-				setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB)), "kontron_ingot"),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2"),
-				setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3")
-		);
+	public static void regBlockItems(RegistryEvent.Register<Item> e) {
+		genBlockItems(Blocks.ARM.get(),Blocks.KONTRON_ORE.get(),Blocks.PLINTH.get());
 	}
-	
+		
 	@SubscribeEvent
-	public static void addBlocks(RegistryEvent.Register<Block> e) {
-		IForgeRegistry<Block> reg = e.getRegistry();
-		registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"));
-		reg.register(setUpBlock(new BlockChronodyneGenerator(), "cg"));
-	}
-	
-	@SubscribeEvent
-	public static void regTiles(RegistryEvent.Register<TileEntityType<?>> e) {
-		IForgeRegistry<TileEntityType<?>> reg = e.getRegistry();
-		reg.registerAll(Tiles.ARM, Tiles.CG, Tiles.PLINTH);
-	}
-	
-	@SubscribeEvent
-	public static void addEntities(RegistryEvent.Register<EntityType<?>> e) {
-		IForgeRegistry<EntityType<?>> reg = e.getRegistry();
-		reg.registerAll(EntityEntries.WEEPING_ANGEL, EntityEntries.ANOMALY);
+	public static void addSpawns(FMLLoadCompleteEvent e) {
 		AngelUtils.setUpSpawns();
 	}
-	
-	@SubscribeEvent
-	public static void addSounds(RegistryEvent.Register<SoundEvent> e) {
-		IForgeRegistry<SoundEvent> reg = e.getRegistry();
-		reg.registerAll(setUpSound("angel_seen_1"), setUpSound("angel_seen_2"), setUpSound("angel_seen_3"), setUpSound("angel_seen_4"), setUpSound("angel_seen_5"), setUpSound("angel_seen_6"), setUpSound("angel_seen_7"), setUpSound("angel_seen_8"), setUpSound("stone_scrap"), setUpSound("child_run"), setUpSound("laughing_child"), setUpSound("light_break"), setUpSound("angel_teleport"), setUpSound("angel_ambient"), setUpSound("ding"), setUpSound("blow"), setUpSound("angel_death"), setUpSound("angel_neck_snap"));
-	}
-	
-	private static SoundEvent setUpSound(String soundName) {
-		return new SoundEvent(new ResourceLocation(MODID, soundName)).setRegistryName(soundName);
-	}
-	
-	private static Item setUpItem(Item item, String name) {
-		item.setRegistryName(MODID, name);
-		WAObjects.ITEMS.add(item);
+
+	private static Item setUpItem(Item item) {
 		return item;
 	}
 	
-	private static Block setUpBlock(Block block, String name) {
-		block.setRegistryName(MODID, name);
+	private static Block setUpBlock(Block block) {
 		return block;
 	}
 	
-	private static void registerBlocks(IForgeRegistry<Block> reg, Block... blocks) {
-		reg.registerAll(blocks);
+	private static void genBlockItems(Block ... blocks) {
 		for (Block block : blocks) {
-			ITEM_BLOCKS.add(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB)).setRegistryName(block.getRegistryName()));
+			Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), 
+					() -> setUpItem(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB))));
 		}
+	}
+	
+	private static SoundEvent setUpSound(String soundName) {
+		return new SoundEvent(new ResourceLocation(MODID, soundName));
 	}
 	
 	public static class Tiles {
-		public static TileEntityType<?> ARM = register(TileEntitySnowArm::new, "snow_arm", Blocks.ARM);
-		public static TileEntityType<?> CG = register(TileEntityChronodyneGenerator::new, "console_steam", Blocks.CG);
-		public static TileEntityType<?> PLINTH = register(TileEntityPlinth::new, "plinth", Blocks.PLINTH);
+		public static final DeferredRegister<TileEntityType<?>> TILES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
+
+        public static RegistryObject<TileEntityType<?>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
+        public static RegistryObject<TileEntityType<?>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
+        public static RegistryObject<TileEntityType<?>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
 	}
 	
-	@ObjectHolder(MODID)
 	public static class Blocks {
-		public static final Block ARM = null;
-		public static final Block CG = null;
-		public static final Block PLINTH = null;
-		public static final Block KONTRON_ORE = null;
+		public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
+		public static final DeferredRegister<Item> BLOCK_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WeepingAngels.MODID);
+
+        public static final RegistryObject<Block> ARM = BLOCKS.register("snow_arm", () -> setUpBlock(new SnowArmBlock()));
+        public static final RegistryObject<Block> CG = BLOCKS.register("cg", () -> setUpBlock(new ChronodyneGeneratorBlock()));
+        public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
+        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
 	}
 	
-	@ObjectHolder(MODID)
+	
 	public static class Items {
-		public static final Item ANGEL_PAINTING = null;
-		public static final Item TIMEY_WIMEY_DETECTOR = null;
-		public static final Item CHRONODYNE_GENERATOR = null;
-		public static final Item ANGEL_0 = null;
-		public static final Item ANGEL_1 = null;
-		public static final Item ANGEL_2 = null;
-		public static final Item ANGEL_3 = null;
-		public static final Item ANGEL_CHILD = null;
-		public static final Item KONTRON_INGOT = null;
+		public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WeepingAngels.MODID);
+
+        public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
+        public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
+        public static final RegistryObject<Item> ANGEL_0 = ITEMS.register("angel_0", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_ONE, WeepingAngelEntity::new)));
+        public static final RegistryObject<Item> ANGEL_1 = ITEMS.register("angel_1", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_TWO, WeepingAngelEntity::new)));
+        public static final RegistryObject<Item> ANGEL_2 = ITEMS.register("angel_2", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_THREE, WeepingAngelEntity::new)));
+        public static final RegistryObject<Item> ANGEL_3 = ITEMS.register("angel_3", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_FOUR, WeepingAngelEntity::new)));
+        public static final RegistryObject<Item> ANGEL_CHILD = ITEMS.register("angel_child", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_CHILD, WeepingAngelEntity::new)));
+		public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
 	}
-	
+
 	// Sounds
-	@ObjectHolder(MODID)
 	public static class Sounds {
-		public static final SoundEvent ANGEL_SEEN_1 = null;
-		public static final SoundEvent ANGEL_SEEN_2 = null;
-		public static final SoundEvent ANGEL_SEEN_3 = null;
-		public static final SoundEvent ANGEL_SEEN_4 = null;
-		public static final SoundEvent ANGEL_SEEN_5 = null;
-		public static final SoundEvent ANGEL_SEEN_6 = null;
-		public static final SoundEvent ANGEL_SEEN_7 = null;
-		public static final SoundEvent ANGEL_SEEN_8 = null;
-		public static final SoundEvent STONE_SCRAP = null;
-		public static final SoundEvent CHILD_RUN = null;
-		public static final SoundEvent LAUGHING_CHILD = null;
-		public static final SoundEvent LIGHT_BREAK = null;
-		public static final SoundEvent ANGEL_TELEPORT = null;
-		public static final SoundEvent ANGEL_AMBIENT = null;
-		public static final SoundEvent DING = null;
-		public static final SoundEvent BLOW = null;
-		public static final SoundEvent ANGEL_DEATH = null;
-		public static final SoundEvent ANGEL_NECK_SNAP = null;
-	}
-	
-	// Entities
-	@ObjectHolder(MODID)
-	public static class EntityEntries {
+		public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
 
-		public static final EntityType<EntityWeepingAngel> WEEPING_ANGEL = registerMob(EntityWeepingAngel::new, EntityWeepingAngel::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false);
-		public static final EntityType<EntityAnomaly> ANOMALY = registerMob(EntityAnomaly::new, EntityAnomaly::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false);
-
-		//	public static final EntityEntry CHRONODYNE_GENERATOR = EntityEntryBuilder.create().entity(EntityChronodyneGenerator.class).id(new ResourceLocation(MODID, "chronodyne_generator"), 2).name("chronodyne_generator").tracker(80, 3, true).build();
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_1 = SOUNDS.register("angel_seen_1", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_2 = SOUNDS.register("angel_seen_2", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_3 = SOUNDS.register("angel_seen_3", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_4 = SOUNDS.register("angel_seen_4", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_5 = SOUNDS.register("angel_seen_5", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_6 = SOUNDS.register("angel_seen_6", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_7 = SOUNDS.register("angel_seen_7", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN_8 = SOUNDS.register("angel_seen_8", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> STONE_SCRAP = SOUNDS.register("stone_scrap", () -> setUpSound("stone_scrap"));
+		public static final RegistryObject<SoundEvent> CHILD_RUN = SOUNDS.register("child_run", () -> setUpSound("child_run"));
+		public static final RegistryObject<SoundEvent> LAUGHING_CHILD = SOUNDS.register("laughing_child", () -> setUpSound("laughing_child"));
+		public static final RegistryObject<SoundEvent> LIGHT_BREAK = SOUNDS.register("light_break", () -> setUpSound("light_break"));
+		public static final RegistryObject<SoundEvent> ANGEL_TELEPORT = SOUNDS.register("angel_teleport", () -> setUpSound("angel_teleport"));
+		public static final RegistryObject<SoundEvent> ANGEL_AMBIENT = SOUNDS.register("angel_ambient", () -> setUpSound("angel_ambient"));
+		public static final RegistryObject<SoundEvent> DING = SOUNDS.register("ding", () -> setUpSound("ding"));
+		public static final RegistryObject<SoundEvent> BLOW = SOUNDS.register("blow", () -> setUpSound("blow"));
+		public static final RegistryObject<SoundEvent> ANGEL_DEATH = SOUNDS.register("angel_death", () -> setUpSound("angel_death"));
+		public static final RegistryObject<SoundEvent> ANGEL_NECK_SNAP = SOUNDS.register("angel_neck_snap", () -> setUpSound("angel_neck_snap"));
+        public static final RegistryObject<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
 	}
 
 
-	public static List<TileEntityType<?>> TYPES = new ArrayList<TileEntityType<?>>();
+    //World Gen-Features Creation
+    private static <C extends IFeatureConfig, F extends Feature<C>> F registerFeatures(F value) {
+        return value;
+    }
 
-	@SubscribeEvent
-	public static void register(RegistryEvent.Register<TileEntityType<?>> event) {
-		for(TileEntityType<?> type : TYPES) {
-			event.getRegistry().register(type);
-		}
-	}
+    public static class WorldGenEntries {
+        public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 
+        public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
+    }
 
 	//Tile Creation
-	public static <T extends TileEntity> TileEntityType<T> register(Supplier<T> tile, String name, Block... validBlock) {
-		TileEntityType<T> type = TileEntityType.Builder.create(tile, validBlock).build(null);
-		type.setRegistryName(WeepingAngels.MODID, name);
-		TYPES.add(type);
-		return type;
+	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
+		return TileEntityType.Builder.create(tile, validBlock).build(null);
 	}
 
-
-
 	//Entity Creation
-	public static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name){
+	private static <T extends Entity> EntityType<T> registerBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
 		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
 		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
 		builder.setShouldReceiveVelocityUpdates(sendUpdate);
@@ -210,8 +166,25 @@ public class WAObjects {
 		builder.size(width, height);
 		builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
 		EntityType<T> type = builder.build(loc.toString());
-		type.setRegistryName(loc);
 		return type;
+	}
+
+	//Fire Resistant Entity Creation
+	private static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
+		ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
+		EntityType.Builder<T> builder = EntityType.Builder.create(factory, classification);
+		builder.setShouldReceiveVelocityUpdates(sendUpdate);
+		builder.setTrackingRange(trackingRange);
+		builder.setUpdateInterval(updateFreq);
+		builder.immuneToFire();
+		builder.size(width, height);
+		builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+		EntityType<T> type = builder.build(loc.toString());
+		return type;
+	}
+
+	private static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
+		return registerFireImmuneBase(factory, client, classification, width, height, 80, 3, velocity, name);
 	}
 
 	public static <T extends Entity> EntityType<T> registerStatic(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name){
@@ -222,8 +195,13 @@ public class WAObjects {
 		return registerBase(factory, client, classification, width, height, 80, 3, velocity, name);
 	}
 
-	public static <T extends Entity> EntityType<T> registerMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity, int trackingRange, int updateFreq) {
-		return registerBase(factory, client, classification, width, height, trackingRange, updateFreq, velocity, name);
+	// Entities
+	public static class EntityEntries {
+		public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
+
+        public static final RegistryObject<EntityType<WeepingAngelEntity>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngelEntity::new, WeepingAngelEntity::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false));
+        public static final RegistryObject<EntityType<AnomalyEntity>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(AnomalyEntity::new, AnomalyEntity::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));
+        public static final RegistryObject<EntityType<ChronodyneGeneratorEntity>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorEntity::new, ChronodyneGeneratorEntity::new, EntityClassification.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
 	}
 
 	public interface IClientSpawner<T> {

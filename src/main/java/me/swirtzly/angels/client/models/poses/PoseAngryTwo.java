@@ -1,11 +1,11 @@
 package me.swirtzly.angels.client.models.poses;
 
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseAngryTwo extends PoseBase {
-	
-	public PoseAngryTwo(EntityWeepingAngel entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+
+    public PoseAngryTwo(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	

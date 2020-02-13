@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "weeping_angels:block/kontron_ore"
+  }
+}

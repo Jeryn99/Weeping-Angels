@@ -3,12 +3,13 @@ package me.swirtzly.angels.utils;
 import com.google.common.collect.Lists;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.AngelEnums;
-import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.QuantumLockBaseEntity;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -19,6 +20,7 @@ import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -39,10 +41,9 @@ public class AngelUtils {
 	
 	public static void playBreakEvent(Entity entity, BlockPos pos, Block block) {
 		if (!entity.world.isRemote) {
-			entity.playSound(WAObjects.Sounds.LIGHT_BREAK, 1.0F, 1.0F);
+			entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
 			entity.world.setBlockState(pos, block.getDefaultState());
-			
 			entity.world.getPlayers().forEach(player -> {
 				if (player instanceof ServerPlayerEntity) {
 					ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
@@ -61,7 +62,7 @@ public class AngelUtils {
 	 * @param angel Angel involved (Used for checking if there is light around the angel)
 	 * @param angel The entity being watched by viewer
 	 */
-	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, LivingEntity living) {
+    public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
 		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living);
 	}
 	
@@ -73,7 +74,7 @@ public class AngelUtils {
 	public static void setupLightItems() {
 		ForgeRegistries.BLOCKS.getValues().forEach(block -> {
 			if (AngelUtils.getLightValue(block) > 7) {
-				LIGHT_ITEMS.add(Item.getItemFromBlock(block));
+				LIGHT_ITEMS.add(block.asItem());
 			}
 		});
 		LIGHT_ITEMS.add(Blocks.REDSTONE_TORCH.asItem());
@@ -102,17 +103,14 @@ public class AngelUtils {
 		SPAWNS.addAll(biomes);
 		
 		for (String rs : WAConfig.CONFIG.notAllowedBiomes.get()) {
-			//	if (Biome.REGISTRY.containsKey(new ResourceLocation(rs))) {
-			//		Biome removedBiome = Biome.REGISTRY.getObject(new ResourceLocation(rs));
-			//		SPAWNS.remove(removedBiome);
-			//	}
+			if (ForgeRegistries.BIOMES.containsKey(new ResourceLocation(rs))) {
+				Biome removedBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(rs));
+				SPAWNS.remove(removedBiome);
+			}
 		}
-		
-		//	SPAWNS.forEach(biome -> {
-		//		if (biome != null) {
-		//EntityRegistry.addSpawn(EntityWeepingAngel.class, WAConfig.spawn.spawnProbability, WAConfig.spawn.minimumSpawn, WAConfig.spawn.maximumSpawn, WAConfig.spawn.spawnType, biome);
-		//		}
-		//	});
+		for (Biome biome : SPAWNS) {
+            biome.getSpawns(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get())).add((new Biome.SpawnListEntry(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnProbability.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get())));
+		}
 	}
 	
 	/**
@@ -121,15 +119,15 @@ public class AngelUtils {
 	public static int secondsToTicks(int seconds) {
 		return 20 * seconds;
 	}
-	
-	
-	public static void removeLightFromHand(ServerPlayerEntity playerMP, EntityWeepingAngel angel) {
+
+
+    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
 		if (playerMP.getDistanceSq(angel) < 1) {
 			for (Hand enumHand : Hand.values()) {
 				ItemStack stack = playerMP.getHeldItem(enumHand);
 				if (lightCheck(stack, angel)) {
 					stack.shrink(1);
-					angel.playSound(WAObjects.Sounds.BLOW, 1.0F, 1.0F);
+					angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
 					return;
 				}
 			}
@@ -139,8 +137,8 @@ public class AngelUtils {
 	public static int getLightValue(Block block) {
 		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
 	}
-	
-	private static boolean lightCheck(ItemStack stack, EntityWeepingAngel angel) {
+
+    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
 		if (LIGHT_ITEMS.contains(stack.getItem())) {
 			stack.shrink(1);
 			angel.entityDropItem(stack);
@@ -154,18 +152,8 @@ public class AngelUtils {
 		int pick = new Random().nextInt(AngelEnums.AngelType.values().length);
 		return AngelEnums.AngelType.values()[pick];
 	}
-	
-	/**
-	 * Returns a random between the specified values;
-	 *
-	 * @param min the minimum value of the random number
-	 * @param max the maximum value of the random number
-	 * @return the random number
-	 */
-	public static double randomBetween(final int min, final int max) {
-		return RANDOM.nextInt((max - min) + 1) + min;
-	}
-	
+
+
 	public enum EnumTeleportType {
 		STRUCTURES, RANDOM_PLACE, DONT
 	}
