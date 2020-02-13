@@ -1,7 +1,7 @@
 package me.swirtzly.angels.common.items;
 
 import me.swirtzly.angels.common.WAObjects;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.PlayerUtils;
@@ -27,9 +27,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemDetector extends Item {
-	
-	public ItemDetector() {
+public class DetectorItem extends Item {
+
+    public DetectorItem() {
 		super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
 		this.addPropertyOverride(new ResourceLocation("angle"), new IItemPropertyGetter() {
 			@OnlyIn(Dist.CLIENT)
@@ -98,7 +98,7 @@ public class ItemDetector extends Item {
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!entityIn.world.isRemote) {
-			List<EntityWeepingAngel> angels = entityIn.world.getEntitiesWithinAABB(EntityWeepingAngel.class, entityIn.getBoundingBox().grow(25, 25, 25));
+            List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(25, 25, 25));
 			
 			if (entityIn instanceof PlayerEntity) {
                 if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {

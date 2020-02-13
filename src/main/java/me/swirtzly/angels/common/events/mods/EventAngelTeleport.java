@@ -1,6 +1,6 @@
 package me.swirtzly.angels.common.events.mods;
 
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -12,10 +12,10 @@ public class EventAngelTeleport extends PlayerEvent {
 	 */
 	
 	private final int targetDimension;
-	private final EntityWeepingAngel angel;
+	private final WeepingAngelEntity angel;
 	private final BlockPos previous, destinationPos;
-	
-	public EventAngelTeleport(PlayerEntity player, EntityWeepingAngel angel, BlockPos destinationPos, int targetDimension) {
+
+	public EventAngelTeleport(PlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, int targetDimension) {
 		super(player);
 		this.angel = angel;
 		previous = player.getPosition();
@@ -26,7 +26,7 @@ public class EventAngelTeleport extends PlayerEvent {
 	/**
 	 * Returns the angel entity
 	 */
-	public EntityWeepingAngel getAngel() {
+	public WeepingAngelEntity getAngel() {
 		return angel;
 	}
 	

@@ -7,13 +7,13 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelSnowArm extends Model {
+public class SnowArmModel extends Model {
 	
 	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
 	private RendererModel left_arm, left_arm_wrist;
-	
-	public ModelSnowArm() {
+
+	public SnowArmModel() {
 		textureWidth = 88;
 		textureHeight = 88;
 		left_arm = new RendererModel(this, 32, 27);

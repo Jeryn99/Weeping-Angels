@@ -1,6 +1,6 @@
 package me.swirtzly.angels.common.blocks;
 
-import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
+import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -18,11 +18,11 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nullable;
 
 
-public class BlockChronodyneGenerator extends Block {
+public class ChronodyneGeneratorBlock extends Block {
 	
 	private static final VoxelShape CG_AABB = VoxelShapes.create(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
-	
-	public BlockChronodyneGenerator() {
+
+    public ChronodyneGeneratorBlock() {
 		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 
@@ -37,7 +37,7 @@ public class BlockChronodyneGenerator extends Block {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new TileEntityChronodyneGenerator();
+        return new ChronodyneGeneratorTile();
 	}
 	
 	@Override

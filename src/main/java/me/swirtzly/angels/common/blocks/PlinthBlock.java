@@ -1,7 +1,7 @@
 package me.swirtzly.angels.common.blocks;
 
 import me.swirtzly.angels.client.models.poses.PoseManager;
-import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
+import me.swirtzly.angels.common.tileentities.PlinthTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -20,16 +20,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockAngelStatue extends Block {
-	
-	public BlockAngelStatue() {
+public class PlinthBlock extends Block {
+
+    public PlinthBlock() {
 		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new TileEntityPlinth();
+        return new PlinthTile();
 	}
 	
 	
@@ -66,10 +66,10 @@ public class BlockAngelStatue extends Block {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
-		
-		if (world.getTileEntity(pos) instanceof TileEntityPlinth) {
+
+        if (world.getTileEntity(pos) instanceof PlinthTile) {
 			int rotation = MathHelper.floor(placer.rotationYaw + 180);
-			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
+            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			plinth.setRotation(rotation);
 			plinth.setPose(PoseManager.getRandomPose().getRegistryName());
 			plinth.sendUpdates();

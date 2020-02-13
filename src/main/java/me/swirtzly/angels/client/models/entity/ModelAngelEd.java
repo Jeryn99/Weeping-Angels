@@ -4,8 +4,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.client.models.poses.PoseBase;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.client.models.poses.PoseThinking;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
-import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.angels.common.tileentities.PlinthTile;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
@@ -211,8 +211,8 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		head.addChild(head_2);
 		back_cloth.addChild(back_cloth_2);
 	}
-	
-	public void quickRender(float scale, TileEntityPlinth p) {
+
+    public void quickRender(float scale, PlinthTile p) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		GlStateManager.enableLighting();
@@ -258,8 +258,8 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
-	
-	public void tilePosing(TileEntityPlinth p) {
+
+    public void tilePosing(PlinthTile p) {
 		PoseBase pose = PoseManager.getPoseFromString(p.getPose());
 		
 		right_arm.rotationPointY = 2.5F;
@@ -288,8 +288,8 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 	}
 	
 	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		
-		if (entity instanceof EntityWeepingAngel) {
+
+        if (entity instanceof WeepingAngelEntity) {
 			
 			head.rotateAngleY = netheadYaw * 0.017453292F;
 			head.rotateAngleX = headPitch * 0.017453292F;
@@ -302,7 +302,7 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 			right_arm.rotateAngleX = 0;
 			right_arm.rotateAngleY = 0;
 			right_arm.rotateAngleZ = 0;
-			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
+            WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 			
 			PoseBase pose = PoseManager.getPoseFromString(angel.getAngelPose());
 			

@@ -37,23 +37,23 @@ import java.util.function.Predicate;
 
 import static me.swirtzly.angels.utils.WATeleporter.yCoordSanity;
 
-public class EntityWeepingAngel extends EntityQuantumLockBase {
-	
-	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
-	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.STRING);
-	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(EntityWeepingAngel.class, DataSerializers.VARINT);
+public class WeepingAngelEntity extends QuantumLockBaseEntity {
+
+	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
+	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 
 	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get()};
 	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
 
     private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
 
-	public EntityWeepingAngel(EntityType<? extends EntityQuantumLockBase> type, World world) {
+	public WeepingAngelEntity(EntityType<? extends QuantumLockBaseEntity> type, World world) {
 		this(world);
 	}
 
-	public EntityWeepingAngel(World world) {
+	public WeepingAngelEntity(World world) {
 		super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
 		goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
 		goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));

@@ -2,18 +2,18 @@ package me.swirtzly.angels.client.renders.entities.layers;
 
 import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.*;
-import me.swirtzly.angels.client.renders.entities.RenderWeepingAngel;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.client.renders.entities.AngelRender;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class LayerCrack extends LayerRenderer {
+public class CrackLayer extends LayerRenderer {
 	
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
 	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
-	private final RenderWeepingAngel angelRenderer;
+	private final AngelRender angelRenderer;
 	
 	private EntityModel modelOne = new ModelAngel();
 	private EntityModel modelTwo = new ModelAngelEd();
@@ -21,19 +21,19 @@ public class LayerCrack extends LayerRenderer {
 	private EntityModel modelClassic = new ModelClassicAngel();
 	private EntityModel modelMel = new ModelAngelMel();
 	private EntityModel modelMain = modelMel;
-	
-	
-	public LayerCrack(RenderWeepingAngel angelRendererIn) {
+
+
+	public CrackLayer(AngelRender angelRendererIn) {
 		super(angelRendererIn);
 		angelRenderer = angelRendererIn;
 	}
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		
-		if(entityIn instanceof EntityWeepingAngel) {
-			
-			EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
+
+		if (entityIn instanceof WeepingAngelEntity) {
+
+			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
 			
 			switch (angel.getAngelType()) {
 				case -1:

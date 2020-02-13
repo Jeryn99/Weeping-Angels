@@ -2,7 +2,7 @@ package me.swirtzly.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.client.models.poses.PoseManager;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
@@ -471,10 +471,10 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 	
 	@Override
     public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		EntityWeepingAngel angel = null;
-		
-		if (entity instanceof EntityWeepingAngel) {
-			angel = (EntityWeepingAngel) entity;
+        WeepingAngelEntity angel = null;
+
+        if (entity instanceof WeepingAngelEntity) {
+            angel = (WeepingAngelEntity) entity;
 		}
 		
 		// Head

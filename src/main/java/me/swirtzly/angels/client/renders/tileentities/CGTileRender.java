@@ -3,15 +3,15 @@ package me.swirtzly.angels.client.renders.tileentities;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.client.models.entity.ModelCG;
 import me.swirtzly.angels.common.misc.WAConstants;
-import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
+import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 
-public class RenderTileEntityCG extends TileEntityRenderer<TileEntityChronodyneGenerator> {
+public class CGTileRender extends TileEntityRenderer<ChronodyneGeneratorTile> {
 	
 	private ModelCG model = new ModelCG();
 	
 	@Override
-	public void render(TileEntityChronodyneGenerator tile, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(ChronodyneGeneratorTile tile, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		if (tile.getTileData().contains(WAConstants.ABS_X) && tile.getTileData().contains(WAConstants.ABS_Z)) {

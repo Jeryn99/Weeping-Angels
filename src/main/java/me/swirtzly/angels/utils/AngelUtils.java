@@ -3,8 +3,8 @@ package me.swirtzly.angels.utils;
 import com.google.common.collect.Lists;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.AngelEnums;
-import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.QuantumLockBaseEntity;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -62,7 +62,7 @@ public class AngelUtils {
 	 * @param angel Angel involved (Used for checking if there is light around the angel)
 	 * @param angel The entity being watched by viewer
 	 */
-	public static boolean isDarkForPlayer(EntityQuantumLockBase angel, LivingEntity living) {
+    public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
 		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living);
 	}
 	
@@ -119,9 +119,9 @@ public class AngelUtils {
 	public static int secondsToTicks(int seconds) {
 		return 20 * seconds;
 	}
-	
-	
-	public static void removeLightFromHand(ServerPlayerEntity playerMP, EntityWeepingAngel angel) {
+
+
+    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
 		if (playerMP.getDistanceSq(angel) < 1) {
 			for (Hand enumHand : Hand.values()) {
 				ItemStack stack = playerMP.getHeldItem(enumHand);
@@ -137,8 +137,8 @@ public class AngelUtils {
 	public static int getLightValue(Block block) {
 		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
 	}
-	
-	private static boolean lightCheck(ItemStack stack, EntityWeepingAngel angel) {
+
+    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
 		if (LIGHT_ITEMS.contains(stack.getItem())) {
 			stack.shrink(1);
 			angel.entityDropItem(stack);

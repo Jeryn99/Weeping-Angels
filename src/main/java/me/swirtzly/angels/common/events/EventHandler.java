@@ -1,7 +1,7 @@
 package me.swirtzly.angels.common.events;
 
 import me.swirtzly.angels.common.WAObjects;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
@@ -33,7 +33,7 @@ public class EventHandler {
             LivingEntity attacker = (LivingEntity) source;
             LivingEntity victim = e.getEntityLiving();
 
-            if (victim instanceof EntityWeepingAngel) {
+            if (victim instanceof WeepingAngelEntity) {
 
                 if (WAConfig.CONFIG.hardcoreMode.get()) {
                     e.setCanceled(true);

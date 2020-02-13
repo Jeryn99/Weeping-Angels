@@ -1,6 +1,6 @@
 package me.swirtzly.angels.utils;
 
-import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
+import me.swirtzly.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -93,7 +93,7 @@ public class ViewUtil {
 	 * @param livingBase The viewer entity
 	 * @param angel      The entity being watched by viewer
 	 */
-	public static boolean isInSight(LivingEntity livingBase, EntityQuantumLockBase angel) {
+    public static boolean isInSight(LivingEntity livingBase, QuantumLockBaseEntity angel) {
 		if (viewBlocked(livingBase, angel)) {
 			return false;
 		}

@@ -1,18 +1,18 @@
 package me.swirtzly.angels.utils;
 
 import me.swirtzly.angels.client.PlayerMovingSound;
-import me.swirtzly.angels.client.renders.entities.RenderAnomaly;
-import me.swirtzly.angels.client.renders.entities.RenderCG;
-import me.swirtzly.angels.client.renders.entities.RenderWeepingAngel;
-import me.swirtzly.angels.client.renders.tileentities.RenderTileEntityCG;
-import me.swirtzly.angels.client.renders.tileentities.RenderTileEntityPlinth;
-import me.swirtzly.angels.client.renders.tileentities.RenderTileEntitySnowArm;
-import me.swirtzly.angels.common.entities.EntityAnomaly;
-import me.swirtzly.angels.common.entities.EntityChronodyneGenerator;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
-import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
-import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
-import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
+import me.swirtzly.angels.client.renders.entities.AngelRender;
+import me.swirtzly.angels.client.renders.entities.AnomalyRender;
+import me.swirtzly.angels.client.renders.entities.CGRender;
+import me.swirtzly.angels.client.renders.tileentities.CGTileRender;
+import me.swirtzly.angels.client.renders.tileentities.PlinthTileRender;
+import me.swirtzly.angels.client.renders.tileentities.SnowArmTileRender;
+import me.swirtzly.angels.common.entities.AnomalyEntity;
+import me.swirtzly.angels.common.entities.ChronodyneGeneratorEntity;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
+import me.swirtzly.angels.common.tileentities.PlinthTile;
+import me.swirtzly.angels.common.tileentities.SnowArmTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -50,12 +50,12 @@ public class ClientUtil {
     }
 
     public static void doClientStuff() {
-        ClientUtil.bindTESR(TileEntitySnowArm.class, new RenderTileEntitySnowArm());
-        ClientUtil.bindTESR(TileEntityChronodyneGenerator.class, new RenderTileEntityCG());
-        ClientUtil.bindTESR(TileEntityPlinth.class, new RenderTileEntityPlinth());
+        ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
+        ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());
+        ClientUtil.bindTESR(PlinthTile.class, new PlinthTileRender());
 
-        ClientUtil.bindEntityRender(EntityWeepingAngel.class, RenderWeepingAngel::new);
-        ClientUtil.bindEntityRender(EntityAnomaly.class, RenderAnomaly::new);
-        ClientUtil.bindEntityRender(EntityChronodyneGenerator.class, (EntityRendererManager p_i50956_1_) -> new RenderCG(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
+        ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
+        ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);
+        ClientUtil.bindEntityRender(ChronodyneGeneratorEntity.class, (EntityRendererManager p_i50956_1_) -> new CGRender(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
     }
 }

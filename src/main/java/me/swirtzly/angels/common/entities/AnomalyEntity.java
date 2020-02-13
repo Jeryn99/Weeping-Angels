@@ -8,15 +8,15 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
-public class EntityAnomaly extends MobEntity {
-	
-	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(EntityAnomaly.class, DataSerializers.FLOAT);
-	
-	public EntityAnomaly(World worldIn) {
+public class AnomalyEntity extends MobEntity {
+
+    private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.FLOAT);
+
+    public AnomalyEntity(World worldIn) {
 		super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
 	}
 
-	public EntityAnomaly(EntityType<?> type, World world){
+    public AnomalyEntity(EntityType<?> type, World world) {
 		this(world);
 	}
 

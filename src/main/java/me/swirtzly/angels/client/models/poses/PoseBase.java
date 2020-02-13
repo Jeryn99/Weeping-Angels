@@ -1,6 +1,6 @@
 package me.swirtzly.angels.client.models.poses;
 
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -8,13 +8,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class PoseBase {
 	
 	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
-	private EntityWeepingAngel angel;
+    private WeepingAngelEntity angel;
 	private String registryName = "MISSINGNAME";
 	
 	public PoseBase() {
 	}
-	
-	public PoseBase(EntityWeepingAngel angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+
+    public PoseBase(WeepingAngelEntity angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
 		this.ageInTicks = ageInTicks;
@@ -102,7 +102,7 @@ public abstract class PoseBase {
 	/**
 	 * Returns the entities in use
 	 */
-	public EntityWeepingAngel getAngel() {
+    public WeepingAngelEntity getAngel() {
 		return angel;
 	}
 	

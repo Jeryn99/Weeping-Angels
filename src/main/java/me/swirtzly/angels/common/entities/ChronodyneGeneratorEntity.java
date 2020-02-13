@@ -22,23 +22,23 @@ import net.minecraftforge.fml.network.NetworkHooks;
  * on 06/10/2019 @ 12:17
  */
 @OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
-public class EntityChronodyneGenerator extends ThrowableEntity implements IRendersAsItem {
+public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRendersAsItem {
 
-	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 
-	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, double x, double y, double z, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, double x, double y, double z, World worldIn) {
 		super(type, x, y, z, worldIn);
 	}
 
 
-	public EntityChronodyneGenerator(EntityType<? extends ThrowableEntity> type, LivingEntity livingEntityIn, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, LivingEntity livingEntityIn, World worldIn) {
 		super(type, livingEntityIn, worldIn);
 	}
 
 
-	public EntityChronodyneGenerator(World world) {
+    public ChronodyneGeneratorEntity(World world) {
 		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
 	}
 
@@ -64,10 +64,10 @@ public class EntityChronodyneGenerator extends ThrowableEntity implements IRende
 			EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
 			if (entityHitResult.getEntity() == this.getThrower() || entityHitResult == null) return;
 			Entity hitEntity = entityHitResult.getEntity();
-			if (hitEntity instanceof EntityWeepingAngel) {
+            if (hitEntity instanceof WeepingAngelEntity) {
 				if (!world.isRemote) {
-					EntityWeepingAngel angel = (EntityWeepingAngel) hitEntity;
-					EntityAnomaly a = new EntityAnomaly(world);
+                    WeepingAngelEntity angel = (WeepingAngelEntity) hitEntity;
+                    AnomalyEntity a = new AnomalyEntity(world);
 					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
 					world.addEntity(a);

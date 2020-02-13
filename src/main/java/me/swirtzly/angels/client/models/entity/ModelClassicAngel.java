@@ -1,7 +1,7 @@
 package me.swirtzly.angels.client.models.entity;
 
 import me.swirtzly.angels.client.models.poses.PoseManager;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
@@ -170,8 +170,8 @@ public class ModelClassicAngel <T extends LivingEntity> extends BipedModel<T>{
 	}
 	
 	public void setRotationAngles(Entity entity) {
-		if (entity instanceof EntityWeepingAngel) {
-			EntityWeepingAngel angel = (EntityWeepingAngel) entity;
+        if (entity instanceof WeepingAngelEntity) {
+            WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 			
 			angleX = toRadians(10F);
 			angleY = toRadians(30F);

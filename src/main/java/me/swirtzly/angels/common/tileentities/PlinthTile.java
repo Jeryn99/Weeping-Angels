@@ -3,7 +3,7 @@ package me.swirtzly.angels.common.tileentities;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.AngelEnums;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -11,13 +11,13 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
-public class TileEntityPlinth extends TileEntity implements ITickableTileEntity {
+public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	
 	private boolean hasSpawned = false;
 	private int rotation = 0;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
-	
-	public TileEntityPlinth() {
+
+    public PlinthTile() {
 		super(WAObjects.Tiles.PLINTH.get());
 	}
 	
@@ -85,11 +85,11 @@ public class TileEntityPlinth extends TileEntity implements ITickableTileEntity 
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
-		
-		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof TileEntityPlinth) {
-			TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
+
+        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
+            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
-				EntityWeepingAngel angel = new EntityWeepingAngel(world);
+                WeepingAngelEntity angel = new WeepingAngelEntity(world);
 				angel.setType(AngelEnums.AngelType.ANGEL_ONE.getId());
 				angel.setChild(false);
 				angel.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0, 0);

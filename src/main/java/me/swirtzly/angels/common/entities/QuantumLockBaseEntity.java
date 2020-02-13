@@ -19,14 +19,14 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class EntityQuantumLockBase extends MonsterEntity {
-	
-	private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.VARINT);
-	private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BLOCK_POS);
-	private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(EntityQuantumLockBase.class, DataSerializers.BOOLEAN);
-	
-	public EntityQuantumLockBase(World worldIn, EntityType<? extends MonsterEntity> entityType) {
+public class QuantumLockBaseEntity extends MonsterEntity {
+
+    private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
+    private static final DataParameter<Boolean> QUANTUM = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
+
+    public QuantumLockBaseEntity(World worldIn, EntityType<? extends MonsterEntity> entityType) {
 		super(entityType, worldIn);
 	}
 	
@@ -158,12 +158,12 @@ public class EntityQuantumLockBase extends MonsterEntity {
 	private boolean quantumCheck() {
 		
 		if (WAConfig.CONFIG.freezeOnAngel.get()) {
-			List<EntityQuantumLockBase> quantumLockBases = world.getEntitiesWithinAABB(EntityQuantumLockBase.class, getBoundingBox().grow(25));
+            List<QuantumLockBaseEntity> quantumLockBases = world.getEntitiesWithinAABB(QuantumLockBaseEntity.class, getBoundingBox().grow(25));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
 				setSeenTime(0);
 			} else {
-				for (EntityQuantumLockBase base : quantumLockBases) {
+                for (QuantumLockBaseEntity base : quantumLockBases) {
 					if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
 						if (ViewUtil.canEntitySee(base, this)) return true;
 					}

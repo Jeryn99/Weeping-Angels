@@ -1,7 +1,7 @@
 package me.swirtzly.angels.client;
 
 import me.swirtzly.angels.common.WAObjects;
-import me.swirtzly.angels.common.items.ItemDetector;
+import me.swirtzly.angels.common.items.DetectorItem;
 import me.swirtzly.angels.utils.ClientUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
@@ -21,7 +21,7 @@ public class ClientEvents {
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntity();
-            ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof ItemDetector) && !(player.getHeldItemOffhand().getItem() instanceof ItemDetector), 0.4f);
+            ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.4f);
         }
     }
 

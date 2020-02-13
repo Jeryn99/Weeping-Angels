@@ -3,8 +3,8 @@ package me.swirtzly.angels.client.renders.entities;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.*;
-import me.swirtzly.angels.client.renders.entities.layers.LayerCrack;
-import me.swirtzly.angels.common.entities.EntityWeepingAngel;
+import me.swirtzly.angels.client.renders.entities.layers.CrackLayer;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
-public class RenderWeepingAngel extends MobRenderer {
+public class AngelRender extends MobRenderer {
 	
 	public static ResourceLocation TEXTURE_FOUR = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_4.png");
 	private ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
@@ -25,16 +25,16 @@ public class RenderWeepingAngel extends MobRenderer {
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 
-    private EntityModel<EntityWeepingAngel> modelOne = new ModelAngel<EntityWeepingAngel>();
-    private EntityModel<EntityWeepingAngel> modelTwo = new ModelAngelEd<EntityWeepingAngel>();
-    private EntityModel<EntityWeepingAngel> modelChild = new ModelAngelChild<EntityWeepingAngel>();
-    private EntityModel<EntityWeepingAngel> modelClassic = new ModelClassicAngel<EntityWeepingAngel>();
-    private EntityModel<EntityWeepingAngel> modelMel = new ModelAngelMel<EntityWeepingAngel>();
+    private EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<WeepingAngelEntity>();
+    private EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
+    private EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
+    private EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
+    private EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
 	
 	@SuppressWarnings("unchecked")
-	public RenderWeepingAngel(EntityRendererManager manager) {
-        super(manager, new ModelAngelEd<EntityWeepingAngel>(), 0.0F);
-		addLayer(new LayerCrack(this));
+    public AngelRender(EntityRendererManager manager) {
+        super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
+        addLayer(new CrackLayer(this));
 		addLayer(new HeldItemLayer(this));
 	}
 	
@@ -55,9 +55,9 @@ public class RenderWeepingAngel extends MobRenderer {
     protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         if (!living.isAlive()) return;
 
-        if (living instanceof EntityWeepingAngel) {
+        if (living instanceof WeepingAngelEntity) {
             GlStateManager.pushMatrix();
-            EntityWeepingAngel angel = (EntityWeepingAngel) living;
+            WeepingAngelEntity angel = (WeepingAngelEntity) living;
 
             switch (angel.getAngelType()) {
                 case -1:

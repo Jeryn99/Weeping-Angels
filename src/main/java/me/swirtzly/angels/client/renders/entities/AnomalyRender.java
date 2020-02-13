@@ -1,7 +1,7 @@
 package me.swirtzly.angels.client.renders.entities;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.swirtzly.angels.common.entities.EntityAnomaly;
+import me.swirtzly.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,28 +15,28 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Random;
 
-public class RenderAnomaly extends DefaultRenderer {
+public class AnomalyRender extends DefaultRenderer {
 	
 	private Random random;
-	
-	public RenderAnomaly(EntityRendererManager manager) {
+
+	public AnomalyRender(EntityRendererManager manager) {
 		super(manager);
 		random = new Random(432L);
 	}
 	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		
-		if (!(entity instanceof EntityAnomaly)) return;
-		
-		EntityAnomaly anom = (EntityAnomaly) entity;
+
+		if (!(entity instanceof AnomalyEntity)) return;
+
+		AnomalyEntity anom = (AnomalyEntity) entity;
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
 		GlStateManager.scaled(scale, scale, scale);
-		
-		int timer = ((EntityAnomaly) entity).ticksExisted;
+
+		int timer = ((AnomalyEntity) entity).ticksExisted;
 		
 		if (timer > 0) {
 			Tessellator tessellator = Tessellator.getInstance();
