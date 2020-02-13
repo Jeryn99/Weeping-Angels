@@ -13,8 +13,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -62,17 +60,6 @@ public class EventHandler {
             }
         }
     }
-
-    @SubscribeEvent
-    public static void onLootTablesLoaded(LootTableLoadEvent event) {
-        if (event.getName().getNamespace().contains("chests")) {
-            final LootPool pool2 = event.getTable().getPool("pool2");
-            if (pool2 != null) {
-//				pool2.addEntry(new ItemLootEntry(WAObjects.Items.CHRONODYNE_GENERATOR, 10, 0, new ILootFunction[]{new SetCount(new ILootCondition[0], new RandomValueRange(1, 5))}, new ILootCondition[0], "weeping_angels:generators"));
-            }
-        }
-    }
-
 
     @SubscribeEvent
     public static void serverStartingEvent(FMLServerStartingEvent event) {

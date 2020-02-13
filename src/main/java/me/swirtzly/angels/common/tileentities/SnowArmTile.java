@@ -2,7 +2,6 @@ package me.swirtzly.angels.common.tileentities;
 
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +22,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
             WeepingAngelEntity angel = new WeepingAngelEntity(world);
 			angel.setChild(false);
 			BlockPos newPos = getPos();
-            WATeleporter.teleportEntity(angel, world.dimension.getType(), newPos.getX(), newPos.getY(), newPos.getZ());
+			angel.setPosition(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
 			world.addEntity(angel);
 			world.removeBlock(getPos(), true);
 		}
