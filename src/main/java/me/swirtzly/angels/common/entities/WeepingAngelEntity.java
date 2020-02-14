@@ -27,12 +27,16 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import static me.swirtzly.angels.utils.WATeleporter.yCoordSanity;
@@ -369,8 +373,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 		return true;
 	}
-	
-	private void teleportInteraction(PlayerEntity player) {
+
+	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
 		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
@@ -385,7 +389,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-                    WATeleporter.teleportPlayer(player, WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(world.rand) : player.dimension, x, yCoordSanity(player.world, new BlockPos(x, 0, z)).getY(), z);
+					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
+					if (teleportWorld != null) {
+						player.teleport(teleportWorld, x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z, player.rotationYaw, player.rotationPitch);
+					}
 				} else {
                     WATeleporter.handleStructures(player);
 				}
