@@ -5,7 +5,6 @@ import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +15,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
@@ -254,38 +252,14 @@ public class ViewUtil {
 
 	//This is bloated, I know, but I want to make sure I cover EVERY basis :/
 	public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
-		//Tags
-        if (blockState.isIn(Tags.Blocks.GLASS))
-            return true;
 		
-		//Material
-		Material material = blockState.getMaterial();
-        if (!material.isOpaque())
-            return true;
-        if (material.equals(Material.BARRIER))
-            return true;
-		
-
-		Block block = blockState.getBlock();
-
-        //Blocks
-//		if (block instanceof SlimeBlock) return true;
-//		if (block instanceof TrapDoorBlock) return true;
-//		if (block instanceof FenceBlock) return true;
-//		if (block instanceof FenceGateBlock) return true;
-//		if (block instanceof VineBlock) return true;
-//		if (block instanceof PaneBlock) return true;
-//		if (block instanceof LeavesBlock) return true;
-//
-//		if (block == Blocks.ACACIA_DOOR) return true;
-//		if (block == Blocks.JUNGLE_DOOR) return true;
-//		if (block == Blocks.IRON_BARS) return true;
-
-        //Covers all Block checks
-        if (!blockState.isSolid()) {
+        //Covers all Block, Material and Tag checks :D
+        if (!blockState.isSolid() || !blockState.isOpaqueCube(world, pos)) {
             return true;
         }
-		
+        
+        Block block = blockState.getBlock();
+        
 		//Special Snowflakes
         if (block instanceof DoorBlock) {
 			return blockState.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER;

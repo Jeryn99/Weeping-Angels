@@ -117,7 +117,8 @@ public class QuantumLockBaseEntity extends MonsterEntity {
 	
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-        return !source.equals(DamageSource.OUT_OF_WORLD) && source.equals(DamageSource.STARVE);
+		super.isInvulnerableTo(source);
+		return !source.equals(DamageSource.STARVE);
 	}
 	
 	public boolean isSeen() {

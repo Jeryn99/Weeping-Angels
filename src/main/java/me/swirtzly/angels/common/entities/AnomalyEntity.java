@@ -6,6 +6,9 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
@@ -26,6 +29,12 @@ public class AnomalyEntity extends MobEntity {
 	}
 	
 	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return SoundEvents.ENTITY_PLAYER_ATTACK_WEAK;
+	}
+
+	
+	@Override
 	protected boolean isMovementBlocked() {
 		return true;
 	}
@@ -35,7 +44,6 @@ public class AnomalyEntity extends MobEntity {
 		super.tick();
 		
 		setNoAI(true);
-		
 		if (ticksExisted == 1) {
 			playSound(WAObjects.Sounds.ANGEL_TELEPORT.get(), 1.0F, 1.0F);
 		}
