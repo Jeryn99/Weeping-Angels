@@ -44,7 +44,7 @@ public class QuantumLockBaseEntity extends MonsterEntity {
 			rotationYawHead = rotationYaw;
 			if (!world.isRemote && ticksExisted % 5 == 0) {
 				List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
-				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep());
+				players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
 				
 				if (players.isEmpty()) {
 					setSeenTime(0);

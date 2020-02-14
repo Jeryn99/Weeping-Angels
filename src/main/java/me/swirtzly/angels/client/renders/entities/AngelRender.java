@@ -53,8 +53,7 @@ public class AngelRender extends MobRenderer {
     //TODO: Find cause of Angel rendering full bright when not being directly looked at
     @Override
     protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-        if (!living.isAlive()) return;
-
+        //  GlStateManager.setProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
         if (living instanceof WeepingAngelEntity) {
             GlStateManager.pushMatrix();
             WeepingAngelEntity angel = (WeepingAngelEntity) living;
@@ -81,7 +80,9 @@ public class AngelRender extends MobRenderer {
                     modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
                     break;
             }
+            //  GlStateManager.unsetProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
             GlStateManager.popMatrix();
+
         }
     }
 	

@@ -13,12 +13,9 @@ import java.util.Random;
 
 public class WATeleporter {
 
-
     public static int yCoordSanity(World world, BlockPos spawn) {
         return world.getChunk(spawn).getTopBlockY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, spawn.getX(), spawn.getZ());
     }
-
-
 
     public static DimensionType getRandomDimension(Random rand) {
         Iterable<DimensionType> dimensions = DimensionType.getAll();
@@ -55,9 +52,8 @@ public class WATeleporter {
 
         if (targetStructure != null) {
             BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
-            System.out.println(bPos);
             if (bPos != null) {
-                player.teleport(player.getServerWorld(), bPos.getX(), bPos.getY(), bPos.getZ(), player.rotationYaw, player.rotationPitch);
+                player.teleport(player.getServerWorld(), bPos.getX(), yCoordSanity(player.world, bPos), bPos.getZ(), player.rotationYaw, player.rotationPitch);
             }
         }
     }
