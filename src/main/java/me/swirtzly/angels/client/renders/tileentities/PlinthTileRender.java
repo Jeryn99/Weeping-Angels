@@ -27,7 +27,7 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 		
 		if (!tile.getHasSpawned()) {
 			Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
-			ed.quickRender(0.0625f, tile);
+            ed.quickRender(0.0625f, tile.getPose());
 		}
 		
 		GlStateManager.popMatrix();

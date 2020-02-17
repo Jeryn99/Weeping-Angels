@@ -31,8 +31,7 @@ import java.util.Collection;
 import java.util.Random;
 
 public class AngelUtils {
-	
-	private static final Random RANDOM = new Random(23435325);
+
 	public static String[] END_STRUCTURES = new String[]{"EndCity",};
 	public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
 	public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};

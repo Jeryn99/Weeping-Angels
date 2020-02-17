@@ -26,7 +26,7 @@ public class WeepingAngels {
 	
 	public static final String MODID = "weeping_angels";
 	public static final String NAME = "Weeping Angels";
-	
+
 	public static Logger LOGGER = LogManager.getLogger(NAME);
 
 	public WeepingAngels() {
@@ -34,10 +34,7 @@ public class WeepingAngels {
 		MinecraftForge.EVENT_BUS.register(this);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-		});
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff));
 
 	}
 

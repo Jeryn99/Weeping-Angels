@@ -7,12 +7,14 @@ import me.swirtzly.angels.client.renders.entities.CGRender;
 import me.swirtzly.angels.client.renders.tileentities.CGTileRender;
 import me.swirtzly.angels.client.renders.tileentities.PlinthTileRender;
 import me.swirtzly.angels.client.renders.tileentities.SnowArmTileRender;
+import me.swirtzly.angels.client.renders.tileentities.StatueRender;
 import me.swirtzly.angels.common.entities.AnomalyEntity;
 import me.swirtzly.angels.common.entities.ChronodyneGeneratorEntity;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
 import me.swirtzly.angels.common.tileentities.PlinthTile;
 import me.swirtzly.angels.common.tileentities.SnowArmTile;
+import me.swirtzly.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -53,6 +55,7 @@ public class ClientUtil {
         ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
         ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());
         ClientUtil.bindTESR(PlinthTile.class, new PlinthTileRender());
+        ClientUtil.bindTESR(StatueTile.class, new StatueRender());
 
         ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
         ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);

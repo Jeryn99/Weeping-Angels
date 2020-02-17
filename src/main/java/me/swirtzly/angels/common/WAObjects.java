@@ -1,10 +1,7 @@
 package me.swirtzly.angels.common;
 
 import me.swirtzly.angels.WeepingAngels;
-import me.swirtzly.angels.common.blocks.ChronodyneGeneratorBlock;
-import me.swirtzly.angels.common.blocks.MineableBlock;
-import me.swirtzly.angels.common.blocks.PlinthBlock;
-import me.swirtzly.angels.common.blocks.SnowArmBlock;
+import me.swirtzly.angels.common.blocks.*;
 import me.swirtzly.angels.common.entities.AngelEnums;
 import me.swirtzly.angels.common.entities.AnomalyEntity;
 import me.swirtzly.angels.common.entities.ChronodyneGeneratorEntity;
@@ -16,6 +13,7 @@ import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.common.tileentities.ChronodyneGeneratorTile;
 import me.swirtzly.angels.common.tileentities.PlinthTile;
 import me.swirtzly.angels.common.tileentities.SnowArmTile;
+import me.swirtzly.angels.common.tileentities.StatueTile;
 import me.swirtzly.angels.common.world.ArmGeneration;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WADamageSource;
@@ -55,7 +53,7 @@ public class WAObjects {
 	
 	@SubscribeEvent
 	public static void regBlockItems(RegistryEvent.Register<Item> e) {
-		genBlockItems(Blocks.ARM.get(),Blocks.KONTRON_ORE.get(),Blocks.PLINTH.get());
+		genBlockItems(Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
 	}
 		
 	@SubscribeEvent
@@ -88,6 +86,7 @@ public class WAObjects {
         public static RegistryObject<TileEntityType<?>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
         public static RegistryObject<TileEntityType<?>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
         public static RegistryObject<TileEntityType<?>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
+		public static RegistryObject<TileEntityType<?>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
 	}
 	
 	public static class Blocks {
@@ -98,6 +97,7 @@ public class WAObjects {
         public static final RegistryObject<Block> CG = BLOCKS.register("cg", () -> setUpBlock(new ChronodyneGeneratorBlock()));
         public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
         public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
+		public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
 	}
 	
 	

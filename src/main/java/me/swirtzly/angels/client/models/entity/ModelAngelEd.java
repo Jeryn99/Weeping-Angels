@@ -5,7 +5,6 @@ import me.swirtzly.angels.client.models.poses.PoseBase;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.client.models.poses.PoseThinking;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.angels.common.tileentities.PlinthTile;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
@@ -212,11 +211,11 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		back_cloth.addChild(back_cloth_2);
 	}
 
-    public void quickRender(float scale, PlinthTile p) {
+    public void quickRender(float scale, String pose) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		GlStateManager.enableLighting();
-		tilePosing(p);
+        tilePosing(pose);
 		cloth_1.render(scale);
 		right_arm.render(scale);
 		head.render(scale);
@@ -259,8 +258,8 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		GlStateManager.popMatrix();
 	}
 
-    public void tilePosing(PlinthTile p) {
-		PoseBase pose = PoseManager.getPoseFromString(p.getPose());
+    public void tilePosing(String p) {
+        PoseBase pose = PoseManager.getPoseFromString(p);
 		
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
