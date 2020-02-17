@@ -64,7 +64,7 @@ public class WAConfig {
 		catacombs = builder
 				.translation("config.weeping_angels.genCatacombs")
 				.comment("Generate catacombs?")
-				.define("genCatacombs", true);
+				.define("genCatacombs", false);
 		chanceCatacombs = builder
 				.translation("config.weeping_angels.chanceGenCatacombs")
 				.comment("Chance to generate catacombs? 1 chance of ... (default :25)")
@@ -75,6 +75,10 @@ public class WAConfig {
 				.define("genOres", true);
 		builder.pop();
 		builder.push("spawn");
+		minSpawn = builder
+				.translation("config.weeping_angels.min_spawn")
+				.comment("The minimum amount of angels per biome")
+				.defineInRange("minimumSpawn", 2, 1, 24);
 		maxSpawn = builder
 				.translation("config.weeping_angels.max_spawn")
 				.comment("The maximum amount of angels per biome")
@@ -82,11 +86,7 @@ public class WAConfig {
 		spawnProbability = builder
 				.translation("config.weeping_angels.spawn_probability")
 				.comment("The angel spawn probability rate")
-				.defineInRange("spawnProbability", 50, 1, 100);
-		minSpawn = builder
-				.translation("config.weeping_angels.min_spawn")
-				.comment("The minimum amount of angels per biome")
-				.defineInRange("minimumSpawn", 2, 1, 24);
+				.defineInRange("spawnProbability", 15, 1, 100);
 		spawnType = builder
 				.translation("config.weeping_angels.spawntype")
                 .comment("This will only accept: MONSTER || CREATURE || AMBIENT || WATER_CREATURE || MISC || Anything else WILL crash your game.")
@@ -122,14 +122,6 @@ public class WAConfig {
 				.translation("config.weeping_angels.angel_xp_value")
 				.comment("XP gained from angels")
 				.defineInRange("xpGained", 25, 1, Integer.MAX_VALUE);
-		blockBreaking = builder
-				.translation("config.weeping_angels.angel.block_break")
-				.comment("If this is enabled, angels will break blocks (If gamerules allow)")
-				.define("blockBreaking", true);
-		blockBreakRange = builder
-				.translation("config.weeping_angels.block_break_range")
-				.comment("The maximum range a angel can break blocks within")
-				.defineInRange("blockBreakRange", 25, 1, Integer.MAX_VALUE);
 		chickenGoboom = builder
 				.translation("config.weeping_angels.chicken_go_boom")
 				.comment("If this is enabled, the timey wimey detector can blow up chickens when in use randomly")
@@ -138,10 +130,6 @@ public class WAConfig {
 				.translation("config.weeping_angels.blowout_torch")
 				.comment("If this is enabled, baby angels will blow out light items from the players hand")
 				.define("torchBlowOut", true);
-		disAllowedBlocks = builder
-				.translation("config.weeping_angels.disallowed_blocks") //new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"})
-				.defineList("disAllowedBlocks", Lists.newArrayList("tardis:exterior_steampunk","tardis:exterior_clock", "minecraft:air"),String.class::isInstance);
-				//TODO: Add disallowed block registry names for Dalek Mod and Tardis Mod 1.13+ when that releases
 		freezeOnAngel = builder
 				.translation("config.weeping_angels.ql")
 				.comment("if enabled, angels will freeze when they see one another.")
@@ -158,6 +146,18 @@ public class WAConfig {
 				.translation("config.weeping_angels.moveSpeed")
 				.comment("Determines the angels move speed")
 				.defineInRange("moveSpeed", 1.5, 1.0, Double.MAX_VALUE);
+		blockBreaking = builder
+				.translation("config.weeping_angels.angel.block_break")
+				.comment("If this is enabled, angels will break blocks (If gamerules allow)")
+				.define("blockBreaking", true);
+		disAllowedBlocks = builder
+				.translation("config.weeping_angels.disallowed_blocks") //new String[]{"thedalekmod:tardis", "tardis:tardis", "tardis:tardisblocktop", "minecraft:air"})
+				.defineList("disAllowedBlocks", Lists.newArrayList("minecraft:magma_block","minecraft:glowstone","minecraft:sea_lantern","tardis:exterior_steampunk","tardis:exterior_clock", "minecraft:air"),String.class::isInstance);
+				//TODO: Add disallowed block registry names for Dalek Mod and Tardis Mod 1.13+ when that releases
+		blockBreakRange = builder
+				.translation("config.weeping_angels.block_break_range")
+				.comment("The maximum range a angel can break blocks within")
+				.defineInRange("blockBreakRange", 25, 1, Integer.MAX_VALUE);
 		transparent_blocks = builder
 				.translation("config.weeping_angels.transparent_blocks")
 				.comment("List of blocks that you should be able to see angels through.","Format for entries: ModID:BlockRegistryName")

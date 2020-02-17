@@ -34,7 +34,7 @@ public class AngelUtils {
 	
 	private static final Random RANDOM = new Random(23435325);
 	public static String[] END_STRUCTURES = new String[]{"EndCity",};
-	public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
+	public static String[] OVERWORLD_STRUCTURES = new String[]{"Stronghold", "Monument", "Village", "Mansion", "Temple", "Mineshaft"};
 	public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};
 	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	
@@ -63,7 +63,7 @@ public class AngelUtils {
 	 * @param angel The entity being watched by viewer
 	 */
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
-		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living);
+		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
 	}
 	
 	
