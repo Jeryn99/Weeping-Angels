@@ -95,7 +95,7 @@ public class WAConfig {
 		notAllowedBiomes = builder
 				.translation("config.weeping_angels.disallowed_spawn_biomes")
 				.comment("Note: A list of biomes where angels should NOT spawn.")
-				.defineList("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:sky", "minecraft:hell", "minecraft:the_end","minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
+				.defineList("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:nether", "minecraft:the_end","minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
 		builder.pop();
 		builder.push("angel");
 		hardcoreMode = builder
