@@ -15,6 +15,8 @@ import me.swirtzly.angels.common.tileentities.PlinthTile;
 import me.swirtzly.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.angels.common.tileentities.StatueTile;
 import me.swirtzly.angels.common.world.ArmGeneration;
+import me.swirtzly.angels.common.world.GraveStructure;
+import me.swirtzly.angels.common.world.GraveyardPieces;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -32,6 +34,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -43,6 +47,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Supplier;
 
 import static me.swirtzly.angels.WeepingAngels.MODID;
+import static net.minecraft.world.gen.feature.structure.IStructurePieceType.register;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
@@ -149,6 +154,8 @@ public class WAObjects {
         public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 
         public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
+		public static final RegistryObject<Structure<NoFeatureConfig>> GRAVES = FEATURES.register("graves", () -> registerFeatures(new GraveStructure(NoFeatureConfig::deserialize)));
+		public static final IStructurePieceType GRAVE_ONE = register(GraveyardPieces.Piece::new, "GRVY"); //Lol it nearly spells Gravy
     }
 
 	//Tile Creation

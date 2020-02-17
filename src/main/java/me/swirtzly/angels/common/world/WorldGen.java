@@ -27,9 +27,11 @@ public class WorldGen {
 					Placement.COUNT_RANGE, 
 					new CountRangeConfig(8, 0, 0, 24))); //Up to 8 veins per chunk, between y level 0 and 24
 		 }
-
 			if (biome.getPrecipitation() == Biome.RainType.SNOW) {
-                biome.addFeature(Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(WAObjects.WorldGenEntries.ARM_GEN.get(), IFeatureConfig.NO_FEATURE_CONFIG, Placement.CHORUS_PLANT, IPlacementConfig.NO_PLACEMENT_CONFIG));
+				biome.addFeature(Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(WAObjects.WorldGenEntries.ARM_GEN.get(), IFeatureConfig.NO_FEATURE_CONFIG, Placement.CHORUS_PLANT, IPlacementConfig.NO_PLACEMENT_CONFIG));
+			} else {
+				//biome.addFeature(Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(WAObjects.WorldGenEntries.GRAVES.get(), IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+				//biome.addStructure(WAObjects.WorldGenEntries.GRAVES.get(), IFeatureConfig.NO_FEATURE_CONFIG);
 			}
 	}
  }
