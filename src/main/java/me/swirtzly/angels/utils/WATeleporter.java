@@ -2,11 +2,11 @@ package me.swirtzly.angels.utils;
 
 import com.google.common.collect.Lists;
 import me.swirtzly.angels.config.WAConfig;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.Heightmap;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,7 +14,13 @@ import java.util.Random;
 public class WATeleporter {
 
     public static int yCoordSanity(World world, BlockPos spawn) {
-        return world.getChunk(spawn).getTopBlockY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, spawn.getX(), spawn.getZ());
+        for (int i = 0; i < world.getActualHeight(); i++) {
+            BlockPos pos = spawn.up(i);
+            if (world.getBlockState(pos).getMaterial() != Material.LAVA && !world.getBlockState(pos).causesSuffocation(world, pos) && !world.getBlockState(pos.up()).causesSuffocation(world, pos.up())) {
+                return pos.getY();
+            }
+        }
+        return 65;
     }
 
     public static DimensionType getRandomDimension(Random rand) {

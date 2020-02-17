@@ -24,6 +24,7 @@ import net.minecraft.network.play.server.SPlaySoundEffectPacket;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
+import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
@@ -378,23 +379,26 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		if (world.isRemote) return;
 		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
-		
+
+		final Runnable runnable = () -> WATeleporter.handleStructures(player);
 		switch (type) {
 			case DONT:
 				break;
 			case STRUCTURES:
-                WATeleporter.handleStructures(player);
+				world.getServer().enqueue(new TickDelayedTask(0, runnable));
 				break;
 			case RANDOM_PLACE:
 				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
-					if (teleportWorld != null) {
-						player.teleport(teleportWorld, x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z, player.rotationYaw, player.rotationPitch);
-					}
+					world.getServer().enqueue(new TickDelayedTask(0, () -> {
+						ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
+						if (teleportWorld != null) {
+							player.teleport(teleportWorld, x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z, player.rotationYaw, player.rotationPitch);
+						}
+					}));
 				} else {
-                    WATeleporter.handleStructures(player);
+					world.getServer().enqueue(new TickDelayedTask(0, runnable));
 				}
 				break;
 		}
