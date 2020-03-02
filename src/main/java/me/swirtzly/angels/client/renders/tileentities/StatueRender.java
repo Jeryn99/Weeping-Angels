@@ -27,7 +27,7 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        GlStateManager.rotatef(-tile.getRotation(), 0, 1, 0);
+        GlStateManager.rotatef(tile.getRotation(), 0, 1, 0);
 
         Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
         ed.quickRender(0.0625f, tile.getPose());

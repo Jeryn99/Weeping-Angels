@@ -26,7 +26,7 @@ public class ClientEvents {
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntity();
-            ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.4f);
+            ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.2f);
         }
     }
 

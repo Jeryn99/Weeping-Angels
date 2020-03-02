@@ -16,6 +16,7 @@ import me.swirtzly.angels.common.tileentities.PlinthTile;
 import me.swirtzly.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
@@ -44,6 +45,11 @@ public class ClientUtil {
     @OnlyIn(Dist.CLIENT)
     public static void playSound(Object object, SoundEvent soundIn, SoundCategory categoryIn, boolean repeat, Supplier<Boolean> stopCondition, float volumeSfx) {
         Minecraft.getInstance().getSoundHandler().play(new PlayerMovingSound(object, soundIn, categoryIn, repeat, stopCondition, volumeSfx));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void playSound(SoundEvent soundIn, float volumeSfx) {
+        Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
     }
 
     @OnlyIn(Dist.CLIENT)

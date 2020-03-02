@@ -142,6 +142,7 @@ public class WAObjects {
 		public static final RegistryObject<SoundEvent> ANGEL_DEATH = SOUNDS.register("angel_death", () -> setUpSound("angel_death"));
 		public static final RegistryObject<SoundEvent> ANGEL_NECK_SNAP = SOUNDS.register("angel_neck_snap", () -> setUpSound("angel_neck_snap"));
         public static final RegistryObject<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
+		public static final RegistryObject<SoundEvent> TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
 	}
 
 

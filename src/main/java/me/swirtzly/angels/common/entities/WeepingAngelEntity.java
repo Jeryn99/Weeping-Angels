@@ -4,7 +4,11 @@ package me.swirtzly.angels.common.entities;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
+import me.swirtzly.angels.compat.CompatManager;
+import me.swirtzly.angels.compat.ICompat;
 import me.swirtzly.angels.config.WAConfig;
+import me.swirtzly.angels.network.Network;
+import me.swirtzly.angels.network.messages.MessageSFX;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.*;
@@ -264,21 +268,31 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public SoundEvent getSeenSound() {
 		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
-	
-	
+
+
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState blockIn) {
+		if (!blockIn.getMaterial().isLiquid()) {
+			BlockState blockstate = this.world.getBlockState(pos.up());
+			SoundType soundtype = blockstate.getBlock() == Blocks.SNOW ? blockstate.getSoundType(world, pos, this) : blockIn.getSoundType(world, pos, this);
+
+			if (WAConfig.CONFIG.playScrapeSounds.get() && !isCherub()) {
+				playSound(WAObjects.Sounds.STONE_SCRAP.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
+			}
+
+			if (isCherub()) {
+				if (world.rand.nextInt(5) == 5) {
+					playSound(WAObjects.Sounds.CHILD_RUN.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
+				}
+			}
+
+		}
+	}
+
 	@Override
 	public void moveTowards(LivingEntity entity) {
 		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
-        if (WAConfig.CONFIG.playScrapeSounds.get() && !isCherub()) {
-			playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.2F, 1.0F);
-		}
-		
-		if (isCherub()) {
-			if (world.rand.nextInt(5) == 5) {
-				playSound(WAObjects.Sounds.CHILD_RUN.get(), 1.0F, 1.0F);
-			}
-		}
 	}
 	
 	public boolean isWeak() {
@@ -330,6 +344,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
+
+				for (ICompat compat : CompatManager.getCompatiblityModules()) {
+					if (compat.onBlockBreak(this, blockState, pos)) {
+						return;
+					}
+				}
 
 				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 					continue;
@@ -394,6 +414,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					world.getServer().enqueue(new TickDelayedTask(0, () -> {
 						ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 						if (teleportWorld != null) {
+							Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
 							player.teleport(teleportWorld, x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z, player.rotationYaw, player.rotationPitch);
 						}
 					}));
