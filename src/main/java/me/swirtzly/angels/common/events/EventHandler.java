@@ -4,6 +4,7 @@ import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import me.swirtzly.angels.config.WAConfig;
+import me.swirtzly.angels.proxy.CommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,6 +64,13 @@ public class EventHandler {
                 player.sendMessage(new TextComponentString(TextFormatting.GOLD + "[Weeping Angels] : ").appendSibling(url));
                 String changes = version.changes.get(version.target);
                 player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Changes: " + TextFormatting.BLUE + changes));
+            }
+
+            if (CommonProxy.reflector.enabled == 0) {
+                TextComponentString url = new TextComponentString(TextFormatting.AQUA + TextFormatting.BOLD.toString() + "To use Weeping Angels with Vivecraft, you MUST install Vivecraft Forge extensions to have a proper immersive experience, click this message to open the download");
+                url.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/vivecraft-forge-extensions"));
+                url.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Open URL")));
+                player.sendStatusMessage(url, false);
             }
         }
     }

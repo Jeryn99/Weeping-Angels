@@ -21,7 +21,7 @@ public class ServerReflector extends VivecraftReflector {
     // 0 = Vivecraft Client/Non-VR companion
     // 1 = Vivecraft Forge Extensions
     // -1 = Vanilla Forge
-    private int enabled = -1;
+    public int enabled = -1;
 
     // *** Vivecraft Client/Non-VR Companion methods and fields ***
     private Field fVivePlayers;

@@ -28,4 +28,5 @@ public class RenderUtil {
     public static void setItemRender(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
     }
+
 }
