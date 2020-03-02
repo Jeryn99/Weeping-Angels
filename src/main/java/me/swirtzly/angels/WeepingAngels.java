@@ -4,6 +4,7 @@ import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.FortuneEnchantBonus;
 import me.swirtzly.angels.common.world.WorldGen;
 import me.swirtzly.angels.config.WAConfig;
+import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.utils.ClientUtil;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,7 +36,6 @@ public class WeepingAngels {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff));
-
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -53,6 +53,7 @@ public class WeepingAngels {
 	private void setup(final FMLCommonSetupEvent event) {
 		WorldGen.applyFeatures();
 		LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
+		Network.init();
 	}
 
 

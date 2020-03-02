@@ -1,7 +1,10 @@
 package me.swirtzly.angels.utils;
 
 import com.google.common.collect.Lists;
+import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.config.WAConfig;
+import me.swirtzly.angels.network.Network;
+import me.swirtzly.angels.network.messages.MessageSFX;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -59,6 +62,7 @@ public class WATeleporter {
         if (targetStructure != null) {
             BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
+                Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
                 player.teleport(player.getServerWorld(), bPos.getX(), yCoordSanity(player.world, bPos), bPos.getZ(), player.rotationYaw, player.rotationPitch);
             }
         }
