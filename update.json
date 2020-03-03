@@ -1,14 +1,15 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
-    "1.12.2-latest": "1.12.2-41",
-    "1.12.2-recommended": "1.12.2-41"
+    "1.12.2-latest": "1.12.2-42",
+    "1.12.2-recommended": "1.12.2-42"
   },
   "1.12.2": {
     "34": "Angels can't be seen through transparent blocks now",
     "1.12.2-35": "Fixed teleport crashes || Better Tardis theft with Tardis mod",
     "1.12.2-36": "Fixed teleport config || Fixes ConCurrent crash with Tardis mod",
     "1.12.2-40": "Config option to prevent Angel teleporting in creative",
-    "1.12.2-41": "Fixes teleporting issue"
+    "1.12.2-41": "Fixes teleporting issue",
+    "1.12.2-42": "See Changelog on CurseForge"
   }
 }
