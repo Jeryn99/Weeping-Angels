@@ -7,8 +7,7 @@ import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.Teleporter;
-import net.minecraft.block.BlockEndPortal;
-import net.minecraft.block.BlockPortal;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,11 +29,15 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
+<<<<<<< HEAD
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+=======
+import net.minecraft.util.*;
+>>>>>>> 5d722399727e7372973b253d5c585764c010c3c8
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -42,6 +45,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
+
+import static net.minecraft.block.BlockLever.FACING;
+import static net.minecraft.block.BlockLever.POWERED;
 
 public class EntityWeepingAngel extends EntityQuantumLockBase {
 	
@@ -268,6 +274,29 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
 
 
     @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        SoundType soundtype = blockIn.getSoundType(world.getBlockState(pos), world, pos, this);
+
+        if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW_LAYER) {
+            soundtype = Blocks.SNOW_LAYER.getSoundType();
+            this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
+        }
+
+        if (!blockIn.getDefaultState().getMaterial().isLiquid()) {
+            if (WAConfig.angels.playScrapSounds && !isCherub()) {
+                playSound(WAObjects.Sounds.STONE_SCRAP, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+            }
+
+            if (isCherub()) {
+                if (world.rand.nextInt(5) == 5) {
+                    playSound(WAObjects.Sounds.CHILD_RUN, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+                }
+            }
+        }
+    }
+
+
+    @Override
     public void moveTowards(EntityLivingBase entity) {
         super.moveTowards(entity);
         if (isQuantumLocked()) return;
@@ -330,6 +359,27 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         for (BlockPos pos : BlockPos.getAllInBox(new BlockPos(box.minX, box.minY, box.minZ), new BlockPos(box.maxX, box.maxY, box.maxZ))) {
             IBlockState blockState = world.getBlockState(pos);
             if (world.getGameRules().getBoolean("mobGriefing") && getHealth() > 5) {
+
+
+                //Button
+                if (blockState.getBlock() instanceof BlockButton && rand.nextInt(5) < 2) {
+                    world.setBlockState(pos, blockState.withProperty(POWERED, Boolean.TRUE), 3);
+                    world.markBlockRangeForRenderUpdate(pos, pos);
+                    world.notifyNeighborsOfStateChange(pos, blockState.getBlock(), false);
+                    world.notifyNeighborsOfStateChange(pos.offset(blockState.getValue(BlockButton.FACING).getOpposite()), blockState.getBlock(), false);
+                    world.scheduleUpdate(pos, blockState.getBlock(), blockState.getBlock() == Blocks.WOODEN_BUTTON ? 20 : 30);
+                }
+
+                //Lever
+                if (blockState.getBlock() instanceof BlockLever && rand.nextInt(5) < 2) {
+                    blockState = blockState.cycleProperty(POWERED);
+                    world.setBlockState(pos, blockState, 3);
+                    float f = blockState.getValue(POWERED) ? 0.6F : 0.5F;
+                    world.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f);
+                    world.notifyNeighborsOfStateChange(pos, blockState.getBlock(), false);
+                    EnumFacing enumfacing = blockState.getValue(FACING).getFacing();
+                    world.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), blockState.getBlock(), false);
+                }
 
                 if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
                     continue;

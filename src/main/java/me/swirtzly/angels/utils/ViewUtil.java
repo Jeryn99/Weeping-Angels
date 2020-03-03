@@ -4,10 +4,8 @@ import me.swirtzly.angels.common.entities.EntityQuantumLockBase;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.proxy.CommonProxy;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.BlockVine;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,6 +19,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
+
+import static net.minecraftforge.fml.common.Loader.isModLoaded;
 
 public class ViewUtil {
 
@@ -54,11 +54,7 @@ public class ViewUtil {
             if (viewer.world.rayTraceBlocks(viewerPoints[i], angelPoints[i], false, true, false) == null) return false;
             if (rayTraceBlocks(viewer.world, viewerPoints[i], angelPoints[i], pos -> {
                 IBlockState state = viewer.world.getBlockState(pos);
-                for (String transparent_block : WAConfig.angels.transparent_blocks)
-                    if (state.getBlock().getRegistryName().toString().equals(transparent_block)) return false;
-                return state.getMaterial() != Material.GLASS && state.getMaterial() != Material.PORTAL && state.getMaterial() != Material.ICE &&
-                        !(state.getBlock() instanceof BlockPane) && !(state.getBlock() instanceof BlockVine) && !(state.getBlock() instanceof BlockLeaves) &&
-                        state.getCollisionBoundingBox(viewer.world, pos) != Block.NULL_AABB && state.getBlock().canCollideCheck(state, false);
+                return !canSeeThrough(state, angel.world, pos);
             }) == null) return false;
         }
 
@@ -273,6 +269,30 @@ public class ViewUtil {
             return isInFrontOfEntity(livingBase, angel, CommonProxy.reflector.isVRPlayer((EntityPlayer) livingBase));
         }
         return isInFrontOfEntity(livingBase, angel, false);
+    }
+
+    //This is bloated, I know, but I want to make sure I cover EVERY basis :/
+    public static boolean canSeeThrough(IBlockState blockState, World world, BlockPos pos) {
+        Block block = blockState.getBlock();
+
+        if (block instanceof BlockPortal) return !isModLoaded("betterportals");
+
+        //Covers all Block, Material and Tag checks :D
+        if (!blockState.isTopSolid() || !blockState.isOpaqueCube()) {
+            return true;
+        }
+
+        //Special Snowflakes
+        if (block instanceof BlockDoor) {
+            return blockState.getProperties().get(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER;
+        }
+
+        //Config
+        for (String transparent_block : WAConfig.angels.transparent_blocks) {
+            if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return true;
+        }
+
+        return blockState.getCollisionBoundingBox(world, pos) == Block.NULL_AABB;
     }
 
 
