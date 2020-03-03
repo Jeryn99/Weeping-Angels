@@ -373,7 +373,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     }
 
     private void teleportInteraction(EntityPlayer player) {
-        if (world.isRemote || player.isCreative() && WAConfig.angels.teleportInCreative) return;
+        if (world.isRemote || player.isCreative() && !WAConfig.angels.teleportInCreative) return;
 
         AngelUtils.EnumTeleportType type = WAConfig.teleport.teleportType;
 
