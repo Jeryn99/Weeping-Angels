@@ -3,6 +3,7 @@ package me.swirtzly.angels.common.entities;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
@@ -59,18 +60,19 @@ public class EntityChronodyneGenerator extends EntityThrowable {
         }
 
         if (result.entityHit instanceof EntityWeepingAngel) {
+        	Entity hitEntity = result.entityHit;
             if (world.isRemote) {
                 world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, getPosition().getX(), getPosition().getY(), getPosition().getZ(), 1.0D, 0.0D, 0.0D);
             }
 
             if (!world.isRemote) {
-
+            	EntityWeepingAngel angel = (EntityWeepingAngel) hitEntity;
                 EntityAnomaly a = new EntityAnomaly(world);
                 a.setEntityEyeHeight(result.entityHit.getEyeHeight());
                 a.copyLocationAndAnglesFrom(result.entityHit);
                 world.spawnEntity(a);
-
-                result.entityHit.setDead();
+                angel.setDead();
+                angel.dropAngelStuff();
                 setDead();
             }
         }

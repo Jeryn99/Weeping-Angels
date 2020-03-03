@@ -4,6 +4,7 @@ import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.ViewUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -102,6 +104,28 @@ public class EntityQuantumLockBase extends EntityMob {
         if (compound.hasKey(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
         if (compound.hasKey(WAConstants.IS_SEEN)) setQuantum(compound.getBoolean(WAConstants.IS_SEEN));
     }
+    
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+	
+	@Override
+	 public boolean canRenderOnFire() {
+		return false;
+	}
+	
+	@Override
+	public boolean isEntityInvulnerable(DamageSource source) {
+		super.isEntityInvulnerable(source);
+		Entity trueSource = source.getTrueSource();
+		if (trueSource != null && trueSource instanceof EntityPlayer) {
+			return false;
+		}
+		return !source.equals(DamageSource.STARVE);
+	}
+	
+	
 
     public boolean isSeen() {
         return getSeenTime() > 0;

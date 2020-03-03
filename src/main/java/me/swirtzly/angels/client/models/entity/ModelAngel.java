@@ -481,7 +481,6 @@ public class ModelAngel extends ModelBase {
         GlStateManager.pushMatrix();
 
         GlStateManager.pushMatrix();
-        GlStateManager.enableLighting();
         if (!angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
             GlStateManager.rotate(20, 1, 0, 0);
         }
@@ -556,7 +555,6 @@ public class ModelAngel extends ModelBase {
         RightWing7.render(scale);
         RightWing8.render(scale);
         RightWing9.render(scale);
-        GlStateManager.disableLighting();
         GlStateManager.popMatrix();
     }
 

@@ -15,6 +15,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -109,50 +110,41 @@ public class EventHandler {
     @SubscribeEvent
     public static void cancelDamage(LivingAttackEvent e) {
         if (!WAConfig.angels.pickaxeOnly) return;
-
-
+        if (WAConfig.angels.hardcoreMode) { e.setCanceled(true); return;}
+        
         Entity source = e.getSource().getTrueSource();
+        DamageSource dSource = e.getSource();
+        
         if (source instanceof EntityLivingBase) {
             EntityLivingBase attacker = (EntityLivingBase) source;
             EntityLivingBase victim = e.getEntityLiving();
-
+            
             if (victim instanceof EntityWeepingAngel) {
-                if (WAConfig.angels.hardcoreMode) {
-                    e.setCanceled(true);
-                    return;
-                }
                 ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
                 boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe");
                 e.setCanceled(!isPic);
-
-                if (!isPic) {
+                Item pick = item.getItem();
+                if (!isPic && !dSource.isProjectile()) {
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
-                } else {
-                    Item pick = item.getItem();
-
-                    if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
-                        e.setCanceled(true);
-                    }
-
+                    victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
                     if (attacker instanceof EntityPlayer) {
                         EntityPlayer player = (EntityPlayer) attacker;
-                        if (!player.getCooldownTracker().hasCooldown(item.getItem())) {
-                            victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                        if (!player.getCooldownTracker().hasCooldown(pick)) {
                             if (WAConfig.angels.pickaxeCooldown) {
-                                player.getCooldownTracker().setCooldown(item.getItem(), WAConfig.angels.pickaxeCooldownTicks);
+                                player.getCooldownTracker().setCooldown(pick, WAConfig.angels.pickaxeCooldownTicks);
                             }
-                        } else {
-                            e.setCanceled(true);
-                        }
-                    } else {
+                        } 
+                    }
+                } 
+                else if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
+                        e.setCanceled(true);
+                }
+                else if (!(source instanceof Entity)) {
                         e.setCanceled(true);
                     }
-
                 }
-
             }
         }
-    }
 
     @SubscribeEvent
     public static void onLootTablesLoaded(LootTableLoadEvent event) {

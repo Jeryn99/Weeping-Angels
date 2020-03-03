@@ -6,7 +6,6 @@ import me.swirtzly.angels.client.renders.entities.layers.LayerCrack;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
@@ -53,8 +52,6 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
         if (angel.isDead) return;
 
         GlStateManager.pushMatrix();
-        RenderHelper.enableStandardItemLighting();
-
         switch (angel.getType()) {
             case -1:
                 bindTexture(TEXTURE_CHILD);
@@ -77,8 +74,6 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
                 modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
                 break;
         }
-
-        RenderHelper.disableStandardItemLighting();
         GlStateManager.popMatrix();
     }
 }

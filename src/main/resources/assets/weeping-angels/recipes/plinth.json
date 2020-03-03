@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "S",
+        "Q"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone"
+        },
+        "S": {
+            "item": "minecraft:smooth_stone_slab"
+        },
+        "Q": {
+            "item": "minecraft:quartz_pillar"
+        }
+    },
+    "result": {
+    	"item": "weeping-angels:plinth"
+    }
+}

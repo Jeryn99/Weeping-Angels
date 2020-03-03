@@ -4,7 +4,6 @@ import me.swirtzly.angels.client.models.poses.PoseBase;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.client.models.poses.PoseThinking;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
-import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -211,11 +210,11 @@ public class ModelAngelEd extends ModelBiped {
         back_cloth.addChild(back_cloth_2);
     }
 
-    public void quickRender(float scale, TileEntityPlinth p) {
+    public void quickRender(float scale, String pose) {
         GlStateManager.pushMatrix();
         GlStateManager.enableCull();
         GlStateManager.enableLighting();
-        tilePosing(p);
+        tilePosing(pose);
         cloth_1.render(scale);
         right_arm.render(scale);
         head.render(scale);
@@ -238,7 +237,6 @@ public class ModelAngelEd extends ModelBiped {
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         GlStateManager.pushMatrix();
         GlStateManager.enableCull();
-        GlStateManager.enableLighting();
         angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
         cloth_1.render(scale);
         right_arm.render(scale);
@@ -253,13 +251,12 @@ public class ModelAngelEd extends ModelBiped {
         right_wing_0.render(scale);
         left_wing_0.render(scale);
         left_arm.render(scale);
-        GlStateManager.disableLighting();
         GlStateManager.disableCull();
         GlStateManager.popMatrix();
     }
 
-    public void tilePosing(TileEntityPlinth p) {
-        PoseBase pose = PoseManager.getPoseFromString(p.getPose());
+    public void tilePosing(String p) {
+        PoseBase pose = PoseManager.getPoseFromString(p);
 
         right_arm.rotationPointY = 2.5F;
         left_arm.rotationPointY = 2.5F;

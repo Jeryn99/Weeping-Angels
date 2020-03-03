@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "S"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone"
+        },
+        "S": {
+            "item": "minecraft:smooth_stone_slab"
+        }
+    },
+    "result": {
+    	"item": "weeping-angels:statue"
+    }
+}
