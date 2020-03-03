@@ -23,4 +23,5 @@ public class ClientEventHandler {
         WAObjects.ITEMS = new ArrayList<>();
         RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
     }
+
 }
