@@ -38,7 +38,7 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
             // }
 
             Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
-            ed.quickRender(0.0625f, tile);
+            ed.quickRender(0.0625f, tile.getPose());
             //GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
         }
 

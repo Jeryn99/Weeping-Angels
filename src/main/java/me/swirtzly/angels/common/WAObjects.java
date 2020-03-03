@@ -1,6 +1,7 @@
 package me.swirtzly.angels.common;
 
 import me.swirtzly.angels.WeepingAngels;
+import me.swirtzly.angels.common.blocks.BlockAngelPlinth;
 import me.swirtzly.angels.common.blocks.BlockAngelStatue;
 import me.swirtzly.angels.common.blocks.BlockChronodyneGenerator;
 import me.swirtzly.angels.common.blocks.BlockMineable;
@@ -14,6 +15,7 @@ import me.swirtzly.angels.common.misc.WATabs;
 import me.swirtzly.angels.common.tileentities.TileEntityChronodyneGenerator;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import me.swirtzly.angels.common.tileentities.TileEntitySnowArm;
+import me.swirtzly.angels.common.tileentities.TileEntityStatue;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -67,7 +69,7 @@ public class WAObjects {
     public static void addBlocks(RegistryEvent.Register<Block> e) {
         IForgeRegistry<Block> reg = e.getRegistry();
 
-        registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelStatue(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"));
+        registerBlocks(reg, setUpBlock(new BlockSnowArm(), "arm"), setUpBlock(new BlockAngelPlinth(), "plinth"), setUpBlock(new BlockMineable(() -> new ItemStack(Items.KONTRON_INGOT), 2, 1), "kontron_ore"),setUpBlock(new BlockAngelStatue(), "statue"));
 
         reg.register(setUpBlock(new BlockChronodyneGenerator(), "cg"));
 
@@ -78,6 +80,7 @@ public class WAObjects {
         GameRegistry.registerTileEntity(TileEntitySnowArm.class, new ResourceLocation(WeepingAngels.MODID + ":snowarm"));
         GameRegistry.registerTileEntity(TileEntityChronodyneGenerator.class, new ResourceLocation(WeepingAngels.MODID + ":cg"));
         GameRegistry.registerTileEntity(TileEntityPlinth.class, new ResourceLocation(WeepingAngels.MODID + ":plinth"));
+        GameRegistry.registerTileEntity(TileEntityStatue.class, new ResourceLocation(WeepingAngels.MODID + ":statue"));
     }
 
     @SubscribeEvent
@@ -137,6 +140,7 @@ public class WAObjects {
         public static final Block CG = null;
         public static final Block PLINTH = null;
         public static final Block KONTRON_ORE = null;
+        public static final Block STATUE = null;
     }
 
     @GameRegistry.ObjectHolder(WeepingAngels.MODID)

@@ -2,9 +2,12 @@ package me.swirtzly.angels.common.entities;
 
 import me.swirtzly.angels.common.WAObjects;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityAnomaly extends EntityLiving {
@@ -24,6 +27,11 @@ public class EntityAnomaly extends EntityLiving {
     protected boolean isMovementBlocked() {
         return true;
     }
+    
+    @Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return SoundEvents.ENTITY_PLAYER_ATTACK_WEAK;
+	}
 
     @Override
     public void onUpdate() {

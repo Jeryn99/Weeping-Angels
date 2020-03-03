@@ -125,7 +125,7 @@ public class EventHandler {
                     if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
                         e.setCanceled(true);
                     }
-                    
+                    victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
                     if (attacker instanceof EntityPlayer) {
                         EntityPlayer player = (EntityPlayer) attacker;
                         if (!player.getCooldownTracker().hasCooldown(item.getItem())) {
@@ -133,10 +133,9 @@ public class EventHandler {
                                 player.getCooldownTracker().setCooldown(item.getItem(), WAConfig.angels.pickaxeCooldownTicks);
                             }
                         } 
-                        else {
-                            e.setCanceled(true);
-                        }
-                        victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                    }
+                    else if (!(source instanceof Entity)) {
+                        e.setCanceled(true);
                     }
                 }
 

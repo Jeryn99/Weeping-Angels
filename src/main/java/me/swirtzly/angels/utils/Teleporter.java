@@ -17,7 +17,7 @@ public final class Teleporter {
 
     @Nullable
     public static Entity move(Entity entity, int dimension, BlockPos pos) {
-
+    	
         if (entity.isRiding()) {
             entity.dismountRidingEntity();
         }

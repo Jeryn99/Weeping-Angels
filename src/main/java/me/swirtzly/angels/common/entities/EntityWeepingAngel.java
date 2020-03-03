@@ -90,7 +90,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     protected SoundEvent getDeathSound() {
         return WAObjects.Sounds.ANGEL_DEATH;
     }
-
+    
     @Override
     protected SoundEvent getAmbientSound() {
         if (isCherub() && ticksExisted % AngelUtils.secondsToTicks(2) == 0) {

@@ -10,11 +10,13 @@ item.angel_2.name=Weeping Angel (a_dizzle)
 item.angel_3.name=Weeping Angel (2)
 item.angel_child.name=Weeping Angel (Child)
 item.kontron_ingot.name=Kontron Ingot
+item.statue.name=Statue
 
 tile.weeping-angels.arm.name=Arm in snow
 tile.weeping-angels.plinth.name=Angel Statue
 tile.weeping-angels.kontron_ore.name=Kontron Ore
 tile.weeping-angels.cg_generator.name=Chronodyne Generator
+tile.weeping-angels.statue.name=Statue
 
 entity.weepingangel.name=Weeping Angel
 entity.angel.name=Weeping Angel

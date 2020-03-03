@@ -1,35 +1,28 @@
 package me.swirtzly.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
 import me.swirtzly.angels.client.models.poses.PoseManager;
-import me.swirtzly.angels.common.tileentities.TileEntityStatue;
+import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+public class BlockAngelPlinth extends Block {
 
-public class BlockAngelStatue extends Block{
-	
-    public BlockAngelStatue() {
-        super(Material.ROCK);
+    public BlockAngelPlinth() {
+        super(Material.CORAL);
         translucent = true;
         setHardness(1.0F);
-        setSoundType(SoundType.STONE);
     }
 
-    @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEntityStatue();
+        return new TileEntityPlinth();
     }
 
     @Override
@@ -51,11 +44,6 @@ public class BlockAngelStatue extends Block{
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
-    
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
 
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
@@ -64,12 +52,13 @@ public class BlockAngelStatue extends Block{
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
-        if (world.getTileEntity(pos) instanceof TileEntityStatue) {
-            int rotation = MathHelper.floor(placer.rotationYaw);
-            TileEntityStatue statue = (TileEntityStatue) world.getTileEntity(pos);
-            statue.setRotation(rotation);
-            statue.setPose(PoseManager.getRandomPose().getRegistryName());
-            statue.sendUpdates();
+        if (world.getTileEntity(pos) instanceof TileEntityPlinth) {
+            int rotation = MathHelper.floor(placer.rotationYaw + 180);
+            TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
+            plinth.setRotation(rotation);
+            plinth.setPose(PoseManager.getRandomPose().getRegistryName());
+            plinth.sendUpdates();
         }
     }
+
 }

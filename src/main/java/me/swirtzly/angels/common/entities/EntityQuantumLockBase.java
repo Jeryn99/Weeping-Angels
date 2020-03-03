@@ -4,6 +4,7 @@ import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.ViewUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -116,9 +117,12 @@ public class EntityQuantumLockBase extends EntityMob {
 	
 	@Override
 	public boolean isEntityInvulnerable(DamageSource source) {
-		return super.isEntityInvulnerable(source);
-//		super.isEntityInvulnerable(source);
-//		return !source.equals(DamageSource.STARVE); //WIP, only works in 1.14. Here, it prevents you from attacking Angels entirely
+		super.isEntityInvulnerable(source);
+		Entity trueSource = source.getTrueSource();
+		if (trueSource != null && trueSource instanceof EntityPlayer) {
+			return false;
+		}
+		return !source.equals(DamageSource.STARVE);
 	}
 	
 	
