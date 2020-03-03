@@ -6,10 +6,12 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:stone"
+            "item": "minecraft:stone",
+            "data": 0
         },
         "S": {
-            "item": "minecraft:smooth_stone_slab"
+            "item": "minecraft:stone_slab",
+            "data": 0
         }
     },
     "result": {

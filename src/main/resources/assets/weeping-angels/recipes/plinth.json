@@ -7,13 +7,16 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:stone"
+            "item": "minecraft:stone",
+            "data": 0
         },
         "S": {
-            "item": "minecraft:smooth_stone_slab"
+            "item": "minecraft:stone_slab",
+            "data": 0
         },
         "Q": {
-            "item": "minecraft:quartz_pillar"
+            "item": "minecraft:quartz_block",
+            "data":2
         }
     },
     "result": {
