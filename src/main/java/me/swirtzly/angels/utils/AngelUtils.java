@@ -62,7 +62,7 @@ public class AngelUtils {
      * @param angel The entity being watched by viewer
      */
     public static boolean isDarkForPlayer(EntityQuantumLockBase angel, EntityLivingBase living) {
-        return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && !AngelUtils.handLightCheck(living) || living.isPotionActive(MobEffects.BLINDNESS);
+        return !living.isPotionActive(MobEffects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.provider.hasSkyLight() && !AngelUtils.handLightCheck(living) || living.isPotionActive(MobEffects.BLINDNESS);
     }
 
 

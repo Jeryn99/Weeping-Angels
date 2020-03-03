@@ -158,7 +158,7 @@ public class WAConfig {
     public static class Integrations {
         @Config.LangKey("config.weeping-angels.stealable")
         @Config.Comment("List of items the Weeping angels will be able to steal from you")
-        public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key"};
+        public String[] keyStrings = new String[]{"thedalekmod:tardisKey", "tardis:key","tardis:key_01"};
 
 
         @Config.LangKey("config.weeping-angels.tardis_mod")
