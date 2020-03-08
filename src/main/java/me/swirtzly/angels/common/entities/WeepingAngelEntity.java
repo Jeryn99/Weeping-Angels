@@ -4,12 +4,11 @@ package me.swirtzly.angels.common.entities;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
-import me.swirtzly.angels.compat.CompatManager;
-import me.swirtzly.angels.compat.ICompat;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.network.messages.MessageSFX;
 import me.swirtzly.angels.utils.AngelUtils;
+import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -37,6 +36,7 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
@@ -345,43 +345,41 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 
-				for (ICompat compat : CompatManager.getCompatiblityModules()) {
-					if (compat.onBlockBreak(this, blockState, pos)) {
+				if (MinecraftForge.EVENT_BUS.post(new EventAngelBreakEvent(this, blockState, pos))) {
+
+					if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
+						continue;
+					}
+
+					if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
+						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 						return;
 					}
-				}
 
-				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
-					continue;
-				}
-				
-				if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+					if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
+						System.out.println(blockState.get(RedstoneLampBlock.LIT).booleanValue());
+						if (blockState.get(RedstoneLampBlock.LIT)) {
+							world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
+							playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
+							return;
+						}
+					}
+
+					if (blockState.getBlock().getLightValue(blockState) > 0) {
+						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+						return;
+					}
+
+					if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
+						if (getHealth() < getMaxHealth()) {
+							heal(1.5F);
+							world.removeBlock(pos, true);
+						}
+					} else
+						continue;
+
 					return;
 				}
-
-				if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
-					System.out.println(blockState.get(RedstoneLampBlock.LIT).booleanValue());
-					if (blockState.get(RedstoneLampBlock.LIT).booleanValue()) {
-						world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
-						playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
-						return;
-					}
-				}
-
-				if (blockState.getBlock().getLightValue(blockState) > 0) {
-					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
-				}
-
-				if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
-					if (getHealth() < getMaxHealth()) {
-						heal(1.5F);
-						world.removeBlock(pos, true);
-					}
-				} else
-					continue;
-				
-				return;
 			}
 		}
 	}
@@ -400,7 +398,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 
-		final Runnable runnable = () -> WATeleporter.handleStructures(player);
+		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
 		switch (type) {
 			case DONT:
 				break;
@@ -415,7 +413,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 						ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 						if (teleportWorld != null) {
 							Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-							player.teleport(teleportWorld, x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z, player.rotationYaw, player.rotationPitch);
+							WATeleporter.teleportPlayerTo(player, this, new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z), teleportWorld);
 						}
 					}));
 				} else {

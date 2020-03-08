@@ -2,14 +2,21 @@ package me.swirtzly.angels.utils;
 
 import com.google.common.collect.Lists;
 import me.swirtzly.angels.common.WAObjects;
+import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.angels.compat.events.EventAngelTeleport;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.network.messages.MessageSFX;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ModDimension;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,7 +39,7 @@ public class WATeleporter {
 
         for (DimensionType dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-                if (dimension.getRegistryName().toString().equalsIgnoreCase(dimName)) {
+                if (dimension.getRegistryName().toString().equalsIgnoreCase(dimName) || dimension.getRegistryName().toString().contains("tardis")) {
                     allowedDimensions.remove(dimension);
                 }
             }
@@ -41,7 +48,7 @@ public class WATeleporter {
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 
-    public static void handleStructures(ServerPlayerEntity player) {
+    public static void handleStructures(ServerPlayerEntity player, WeepingAngelEntity weepingAngelEntity) {
 
         String[] targetStructure = null;
 
@@ -62,12 +69,18 @@ public class WATeleporter {
         if (targetStructure != null) {
             BlockPos bPos = player.getEntityWorld().findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
-                Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-                player.teleport(player.getServerWorld(), bPos.getX(), yCoordSanity(player.world, bPos), bPos.getZ(), player.rotationYaw, player.rotationPitch);
+                teleportPlayerTo(player, weepingAngelEntity, bPos, player.getServerWorld());
             }
         }
     }
 
+    public static void teleportPlayerTo(ServerPlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, ServerWorld targetDimension){
+        EventAngelTeleport event = new EventAngelTeleport(player, angel, destinationPos, targetDimension);
+        if(MinecraftForge.EVENT_BUS.post(event)){
+            Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
+            player.teleport(event.getTargetDimension(), event.getDestination().getX(), event.getDestination().getY(), event.getDestination().getZ(), player.rotationYaw, player.rotationPitch);
+        }
+    }
 
 
 }

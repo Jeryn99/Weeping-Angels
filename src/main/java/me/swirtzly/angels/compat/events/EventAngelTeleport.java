@@ -1,8 +1,9 @@
-package me.swirtzly.angels.common.events.mods;
+package me.swirtzly.angels.compat.events;
 
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class EventAngelTeleport extends PlayerEvent {
@@ -11,11 +12,11 @@ public class EventAngelTeleport extends PlayerEvent {
 	 * This event fires when a weeping angel has teleported a player.
 	 */
 	
-	private final int targetDimension;
-	private final WeepingAngelEntity angel;
-	private final BlockPos previous, destinationPos;
+	private ServerWorld targetDimension;
+	private WeepingAngelEntity angel;
+	private BlockPos previous, destinationPos;
 
-	public EventAngelTeleport(PlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, int targetDimension) {
+	public EventAngelTeleport(PlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, ServerWorld targetDimension) {
 		super(player);
 		this.angel = angel;
 		previous = player.getPosition();
@@ -46,8 +47,18 @@ public class EventAngelTeleport extends PlayerEvent {
 	
 	/**
 	 * Returns the intended dimension that the player will be teleported to
+	 * @return
 	 */
-	public int getTargetDimension() {
+	public ServerWorld getTargetDimension() {
 		return targetDimension;
 	}
+
+	public void setTargetDimension(ServerWorld targetDimension) {
+		this.targetDimension = targetDimension;
+	}
+
+	public void setDestinationPos(BlockPos destinationPos) {
+		this.destinationPos = destinationPos;
+	}
+
 }

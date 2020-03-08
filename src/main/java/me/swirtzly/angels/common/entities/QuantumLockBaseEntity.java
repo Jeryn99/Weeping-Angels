@@ -6,6 +6,7 @@ import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class QuantumLockBaseEntity extends MonsterEntity {
+public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
     private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.VARINT);
