@@ -120,10 +120,10 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	}
 	
 	@Override
-	 public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
-        if (entityIn instanceof WeepingAngelEntity) {
-            WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
+	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		
+		if (entityIn instanceof WeepingAngelEntity) {
+			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
 			if (angel.getSeenTime() == 5) {
 				angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 			}

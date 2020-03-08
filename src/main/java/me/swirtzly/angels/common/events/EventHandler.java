@@ -20,50 +20,49 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
-
-
-    @SubscribeEvent
-    public static void cancelDamage(LivingAttackEvent e) {
-        if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
-
-        Entity source = e.getSource().getTrueSource();
-        if (source instanceof LivingEntity) {
-            LivingEntity attacker = (LivingEntity) source;
-            LivingEntity victim = e.getEntityLiving();
-
-            if (victim instanceof WeepingAngelEntity) {
-
-                if (WAConfig.CONFIG.hardcoreMode.get()) {
-                    e.setCanceled(true);
-                    return;
-                }
-
-                ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-                boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
-                e.setCanceled(!isPic);
-
-                if (!isPic) {
-                    attacker.attackEntityFrom(WAObjects.STONE, 2F);
-                } else {
-                    Item pick = item.getItem();
-
-                    if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
-                        e.setCanceled(true);
-                    }
-
-                    victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-                }
-
-                if (!(source instanceof Entity)) {
-                    e.setCanceled(true);
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void serverStartingEvent(FMLServerStartingEvent event) {
-        AngelUtils.LIGHT_ITEMS.clear();
-        AngelUtils.setupLightItems();
-    }
+	
+	@SubscribeEvent
+	public static void cancelDamage(LivingAttackEvent e) {
+		if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
+		
+		Entity source = e.getSource().getTrueSource();
+		if (source instanceof LivingEntity) {
+			LivingEntity attacker = (LivingEntity) source;
+			LivingEntity victim = e.getEntityLiving();
+			
+			if (victim instanceof WeepingAngelEntity) {
+				
+				if (WAConfig.CONFIG.hardcoreMode.get()) {
+					e.setCanceled(true);
+					return;
+				}
+				
+				ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+				boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
+				e.setCanceled(!isPic);
+				
+				if (!isPic) {
+					attacker.attackEntityFrom(WAObjects.STONE, 2F);
+				} else {
+					Item pick = item.getItem();
+					
+					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
+						e.setCanceled(true);
+					}
+					
+					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+				}
+				
+				if (!(source instanceof Entity)) {
+					e.setCanceled(true);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public static void serverStartingEvent(FMLServerStartingEvent event) {
+		AngelUtils.LIGHT_ITEMS.clear();
+		AngelUtils.setupLightItems();
+	}
 }

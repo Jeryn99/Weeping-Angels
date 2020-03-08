@@ -4,13 +4,12 @@ import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseThinking extends PoseBase {
-
-    public PoseThinking(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	
+	public PoseThinking(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
-	public PoseThinking() {
-	}
+	public PoseThinking() {}
 	
 	@Override
 	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right) {
@@ -29,12 +28,10 @@ public class PoseThinking extends PoseBase {
 	}
 	
 	@Override
-	public void setBodyAngles(RendererModel body) {
-	}
+	public void setBodyAngles(RendererModel body) {}
 	
 	@Override
-	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {
-	}
+	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {}
 	
 	@Override
 	public void setHeadAngles(RendererModel head) {

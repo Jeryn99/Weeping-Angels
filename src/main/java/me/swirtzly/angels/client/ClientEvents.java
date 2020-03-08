@@ -16,27 +16,26 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Created by Swirtzly
- * on 11/02/2020 @ 21:31
+ * Created by Swirtzly on 11/02/2020 @ 21:31
  */
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientEvents {
-
-    @SubscribeEvent
-    public static void onPlayerJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntity();
-            ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.2f);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onblockHighlight(DrawBlockHighlightEvent event) {
-        if (event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
-            BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) event.getTarget();
-            boolean canSee = PlayerUtils.isInEitherHand(Minecraft.getInstance().player, WAObjects.Blocks.STATUE.get().asItem());
-            event.setCanceled(!canSee && Minecraft.getInstance().world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
-        }
-    }
-
+	
+	@SubscribeEvent
+	public static void onPlayerJoin(EntityJoinWorldEvent event) {
+		if (event.getEntity() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntity();
+			ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.2f);
+		}
+	}
+	
+	@SubscribeEvent
+	public static void onblockHighlight(DrawBlockHighlightEvent event) {
+		if (event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
+			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) event.getTarget();
+			boolean canSee = PlayerUtils.isInEitherHand(Minecraft.getInstance().player, WAObjects.Blocks.STATUE.get().asItem());
+			event.setCanceled(!canSee && Minecraft.getInstance().world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
+		}
+	}
+	
 }

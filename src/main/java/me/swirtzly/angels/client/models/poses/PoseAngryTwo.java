@@ -4,13 +4,12 @@ import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseAngryTwo extends PoseBase {
-
-    public PoseAngryTwo(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	
+	public PoseAngryTwo(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
-	public PoseAngryTwo() {
-	}
+	public PoseAngryTwo() {}
 	
 	@Override
 	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right) {
@@ -30,8 +29,7 @@ public class PoseAngryTwo extends PoseBase {
 	}
 	
 	@Override
-	public void setBodyAngles(RendererModel body) {
-	}
+	public void setBodyAngles(RendererModel body) {}
 	
 	@Override
 	public boolean angryFace() {
@@ -39,6 +37,5 @@ public class PoseAngryTwo extends PoseBase {
 	}
 	
 	@Override
-	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {
-	}
+	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {}
 }

@@ -8,13 +8,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class PoseBase {
 	
 	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
-    private WeepingAngelEntity angel;
+	private WeepingAngelEntity angel;
 	private String registryName = "MISSINGNAME";
 	
-	public PoseBase() {
-	}
-
-    public PoseBase(WeepingAngelEntity angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseBase() {}
+	
+	public PoseBase(WeepingAngelEntity angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
 		this.ageInTicks = ageInTicks;
@@ -102,7 +101,7 @@ public abstract class PoseBase {
 	/**
 	 * Returns the entities in use
 	 */
-    public WeepingAngelEntity getAngel() {
+	public WeepingAngelEntity getAngel() {
 		return angel;
 	}
 	

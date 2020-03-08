@@ -16,8 +16,8 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	private boolean hasSpawned = false;
 	private int rotation = 0;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
-
-    public PlinthTile() {
+	
+	public PlinthTile() {
 		super(WAObjects.Tiles.PLINTH.get());
 	}
 	
@@ -85,12 +85,12 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
-
-        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
-            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
+		
+		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
+			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
-                WeepingAngelEntity angel = new WeepingAngelEntity(world);
-                angel.setType(AngelEnums.AngelType.ANGEL_TWO.getId());
+				WeepingAngelEntity angel = new WeepingAngelEntity(world);
+				angel.setType(AngelEnums.AngelType.ANGEL_TWO.getId());
 				angel.setChild(false);
 				angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 0, 0);
 				angel.setPose(getPose());

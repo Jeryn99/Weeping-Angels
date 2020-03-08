@@ -18,56 +18,50 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
- * Created by Swirtzly
- * on 06/10/2019 @ 12:17
+ * Created by Swirtzly on 06/10/2019 @ 12:17
  */
 @OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRendersAsItem {
-
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
+	
+	public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
-
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, double x, double y, double z, World worldIn) {
+	
+	public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, double x, double y, double z, World worldIn) {
 		super(type, x, y, z, worldIn);
 	}
-
-
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, LivingEntity livingEntityIn, World worldIn) {
+	
+	public ChronodyneGeneratorEntity(EntityType<? extends ThrowableEntity> type, LivingEntity livingEntityIn, World worldIn) {
 		super(type, livingEntityIn, worldIn);
 	}
-
-
-    public ChronodyneGeneratorEntity(World world) {
+	
+	public ChronodyneGeneratorEntity(World world) {
 		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
 	}
-
-
+	
 	@Override
 	public void tick() {
 		double speed = new Vec3d(posX, posY, posZ).distanceTo(new Vec3d(prevPosX, prevPosY, prevPosZ));
 		if (!this.world.isRemote && (ticksExisted > 30 * 20 || speed < 0.01)) {
 			this.remove();
 		}
-
-		if (this.isAlive())
-			super.tick();
+		
+		if (this.isAlive()) super.tick();
 	}
-
+	
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (result == null || !isAlive())
-			return;
-
-		//Entity Hit
+		if (result == null || !isAlive()) return;
+		
+		// Entity Hit
 		if (result.getType() == RayTraceResult.Type.ENTITY) {
 			EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
 			if (entityHitResult.getEntity() == this.getThrower() || entityHitResult == null) return;
 			Entity hitEntity = entityHitResult.getEntity();
-            if (hitEntity instanceof WeepingAngelEntity) {
+			if (hitEntity instanceof WeepingAngelEntity) {
 				if (!world.isRemote) {
-                    WeepingAngelEntity angel = (WeepingAngelEntity) hitEntity;
-                    AnomalyEntity a = new AnomalyEntity(world);
+					WeepingAngelEntity angel = (WeepingAngelEntity) hitEntity;
+					AnomalyEntity a = new AnomalyEntity(world);
 					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
 					world.addEntity(a);
@@ -76,9 +70,9 @@ public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRende
 					remove();
 				}
 			}
-
+			
 		}
-
+		
 		if (result.getType() == RayTraceResult.Type.BLOCK) {
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
 			BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
@@ -93,32 +87,29 @@ public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRende
 				}
 			}
 		}
-
-
+		
 		if (!world.isRemote) {
 			world.setEntityState(this, (byte) 3);
 			remove();
 		}
-
+		
 	}
-
-
+	
 	@Override
 	protected void registerData() {
-
+		
 	}
-
-
+	
 	@Override
 	public boolean isInWater() {
 		return false;
 	}
-
+	
 	@Override
 	public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
-
+	
 	@Override
 	public ItemStack getItem() {
 		return ItemStack.EMPTY;

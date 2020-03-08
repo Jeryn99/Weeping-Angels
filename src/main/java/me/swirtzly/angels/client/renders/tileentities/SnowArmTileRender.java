@@ -6,9 +6,8 @@ import me.swirtzly.angels.common.tileentities.SnowArmTile;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 
 public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
-
-	private SnowArmModel arm = new SnowArmModel();
 	
+	private SnowArmModel arm = new SnowArmModel();
 	
 	@Override
 	public void render(SnowArmTile tile, double x, double y, double z, float partialTicks, int destroyStage) {

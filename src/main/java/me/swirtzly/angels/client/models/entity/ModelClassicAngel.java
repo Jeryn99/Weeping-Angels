@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 //TODO Fix posing, it's a bit random at the moment
-public class ModelClassicAngel <T extends LivingEntity> extends BipedModel<T>{
+public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 	
 	private RendererModel leftfoot;
 	private RendererModel rightfoot;
@@ -170,8 +170,8 @@ public class ModelClassicAngel <T extends LivingEntity> extends BipedModel<T>{
 	}
 	
 	public void setRotationAngles(Entity entity) {
-        if (entity instanceof WeepingAngelEntity) {
-            WeepingAngelEntity angel = (WeepingAngelEntity) entity;
+		if (entity instanceof WeepingAngelEntity) {
+			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 			
 			angleX = toRadians(10F);
 			angleY = toRadians(30F);

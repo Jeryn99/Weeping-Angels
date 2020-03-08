@@ -12,8 +12,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ChronodyneGeneratorItem extends Item {
-
-    public ChronodyneGeneratorItem() {
+	
+	public ChronodyneGeneratorItem() {
 		super(new Properties().maxStackSize(16).group(WATabs.MAIN_TAB));
 	}
 	
@@ -29,7 +29,7 @@ public class ChronodyneGeneratorItem extends Item {
 		}
 		
 		if (!world.isRemote) {
-            ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
+			ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
 			laser.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3.5F, 0F);
 			world.addEntity(laser);
 		}

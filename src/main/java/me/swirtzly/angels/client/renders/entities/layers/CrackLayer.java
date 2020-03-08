@@ -21,8 +21,7 @@ public class CrackLayer extends LayerRenderer {
 	private EntityModel modelClassic = new ModelClassicAngel();
 	private EntityModel modelMel = new ModelAngelMel();
 	private EntityModel modelMain = modelMel;
-
-
+	
 	public CrackLayer(AngelRender angelRendererIn) {
 		super(angelRendererIn);
 		angelRenderer = angelRendererIn;
@@ -30,9 +29,9 @@ public class CrackLayer extends LayerRenderer {
 	
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-
+		
 		if (entityIn instanceof WeepingAngelEntity) {
-
+			
 			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
 			
 			switch (angel.getAngelType()) {
@@ -53,7 +52,6 @@ public class CrackLayer extends LayerRenderer {
 					break;
 			}
 			
-			
 			if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
 				if (!angel.isChild()) {
 					if (angel.getAngelType() == 1) {
@@ -66,7 +64,6 @@ public class CrackLayer extends LayerRenderer {
 			}
 		}
 	}
-	
 	
 	@Override
 	public boolean shouldCombineTextures() {

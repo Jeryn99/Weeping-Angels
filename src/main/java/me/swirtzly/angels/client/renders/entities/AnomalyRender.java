@@ -18,7 +18,7 @@ import java.util.Random;
 public class AnomalyRender extends DefaultRenderer {
 	
 	private Random random;
-
+	
 	public AnomalyRender(EntityRendererManager manager) {
 		super(manager);
 		random = new Random(432L);
@@ -26,16 +26,16 @@ public class AnomalyRender extends DefaultRenderer {
 	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-
+		
 		if (!(entity instanceof AnomalyEntity)) return;
-
+		
 		AnomalyEntity anom = (AnomalyEntity) entity;
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
 		GlStateManager.scaled(scale, scale, scale);
-
+		
 		int timer = ((AnomalyEntity) entity).ticksExisted;
 		
 		if (timer > 0) {
@@ -48,7 +48,7 @@ public class AnomalyRender extends DefaultRenderer {
 			if (f > 0.8F) {
 				f1 = (f - 0.8F) / 0.2F;
 			}
-
+			
 			GlStateManager.disableTexture();
 			GlStateManager.shadeModel(7425);
 			GlStateManager.enableBlend();

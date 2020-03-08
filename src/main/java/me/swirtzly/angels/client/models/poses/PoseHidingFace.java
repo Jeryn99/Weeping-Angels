@@ -5,10 +5,9 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseHidingFace extends PoseBase {
 	
-	public PoseHidingFace() {
-	}
-
-    public PoseHidingFace(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
+	public PoseHidingFace() {}
+	
+	public PoseHidingFace(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 	
@@ -37,11 +36,9 @@ public class PoseHidingFace extends PoseBase {
 	}
 	
 	@Override
-	public void setBodyAngles(RendererModel body) {
-	}
+	public void setBodyAngles(RendererModel body) {}
 	
 	@Override
-	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {
-	}
+	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {}
 	
 }

@@ -89,7 +89,6 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 	private ModelArmsAngry armsAngry = new ModelArmsAngry();
 	private ModelArmsPointing armsPoint = new ModelArmsPointing();
 	
-	
 	public ModelAngelMel() {
 		textureWidth = 128;
 		textureHeight = 128;
@@ -510,7 +509,7 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 	}
 	
 	@Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		Eye1.render(scale);
 		Eye2.render(scale);
@@ -580,26 +579,26 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 		RightWing5.render(scale);
 		RightWing6.render(scale);
 		RightWing7.render(scale);
-
+		
 		if (entityIn instanceof WeepingAngelEntity) {
 			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
 			PoseBase pose = PoseManager.getPoseFromString(angel.getAngelPose());
 			
-			//Covering Face arms render/
+			// Covering Face arms render/
 			if (pose == PoseManager.POSE_HIDING_FACE) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
-			//Idle render
+			// Idle render
 			if (pose == PoseManager.POSE_IDLE) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
-			//Shriek render
+			// Shriek render
 			if (pose.getRegistryName().toLowerCase().contains("angry")) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);

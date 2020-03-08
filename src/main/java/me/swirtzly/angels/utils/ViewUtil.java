@@ -29,11 +29,11 @@ public class ViewUtil {
 		vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
 	}
-
-    /**
+	
+	/**
 	 * Method that detects whether a entity is the the view sight of another entity
 	 *
-	 * @param viewer      The viewer entity
+	 * @param viewer The viewer entity
 	 * @param beingViewed The entity being watched by viewer
 	 */
 	public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
@@ -59,7 +59,7 @@ public class ViewUtil {
 		
 		return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(beingViewed);
 	}
-
+	
 	public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
 		double dx = pos.getX() - viewer.posX;
 		double dz;
@@ -89,9 +89,9 @@ public class ViewUtil {
 	 * Method that detects whether a tile is the the view sight of viewer
 	 *
 	 * @param livingBase The viewer entity
-	 * @param angel      The entity being watched by viewer
+	 * @param angel The entity being watched by viewer
 	 */
-    public static boolean isInSight(LivingEntity livingBase, QuantumLockBaseEntity angel) {
+	public static boolean isInSight(LivingEntity livingBase, QuantumLockBaseEntity angel) {
 		if (viewBlocked(livingBase, angel)) {
 			return false;
 		}
@@ -100,14 +100,13 @@ public class ViewUtil {
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
-
-
+	
 	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
 		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
 		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
-		Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
-		Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
-
+		Vec3d[] viewerPoints = { new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ), };
+		Vec3d[] angelPoints = { new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ), };
+		
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
 				return false;
@@ -117,16 +116,16 @@ public class ViewUtil {
 				return !canSeeThrough(state, viewer.world, pos);
 			}) == null) return false;
 		}
-
+		
 		if (angel.ticksExisted % 1200 == 0) {
 			if (angel.getDistance(viewer) < 15) {
-                viewer.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 15));
+				viewer.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 15));
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Nullable
 	private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vec3d vec31, Vec3d vec32, Predicate<BlockPos> stopOn) {
 		if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
@@ -144,25 +143,25 @@ public class ViewUtil {
 						return raytraceresult;
 					}
 				}
-
+				
 				int k1 = 200;
-
+				
 				while (k1-- >= 0) {
 					if (Double.isNaN(vec31.x) || Double.isNaN(vec31.y) || Double.isNaN(vec31.z)) {
 						return null;
 					}
-
+					
 					if (l == i && i1 == j && j1 == k) {
 						return null;
 					}
-
+					
 					boolean flag2 = true;
 					boolean flag = true;
 					boolean flag1 = true;
 					double d0 = 999.0D;
 					double d1 = 999.0D;
 					double d2 = 999.0D;
-
+					
 					if (i > l) {
 						d0 = (double) l + 1.0D;
 					} else if (i < l) {
@@ -170,7 +169,7 @@ public class ViewUtil {
 					} else {
 						flag2 = false;
 					}
-
+					
 					if (j > i1) {
 						d1 = (double) i1 + 1.0D;
 					} else if (j < i1) {
@@ -178,7 +177,7 @@ public class ViewUtil {
 					} else {
 						flag = false;
 					}
-
+					
 					if (k > j1) {
 						d2 = (double) j1 + 1.0D;
 					} else if (k < j1) {
@@ -186,40 +185,40 @@ public class ViewUtil {
 					} else {
 						flag1 = false;
 					}
-
+					
 					double d3 = 999.0D;
 					double d4 = 999.0D;
 					double d5 = 999.0D;
 					double d6 = vec32.x - vec31.x;
 					double d7 = vec32.y - vec31.y;
 					double d8 = vec32.z - vec31.z;
-
+					
 					if (flag2) {
 						d3 = (d0 - vec31.x) / d6;
 					}
-
+					
 					if (flag) {
 						d4 = (d1 - vec31.y) / d7;
 					}
-
+					
 					if (flag1) {
 						d5 = (d2 - vec31.z) / d8;
 					}
-
+					
 					if (d3 == -0.0D) {
 						d3 = -1.0E-4D;
 					}
-
+					
 					if (d4 == -0.0D) {
 						d4 = -1.0E-4D;
 					}
-
+					
 					if (d5 == -0.0D) {
 						d5 = -1.0E-4D;
 					}
-
+					
 					Direction enumfacing;
-
+					
 					if (d3 < d4 && d3 < d5) {
 						enumfacing = i > l ? Direction.WEST : Direction.EAST;
 						vec31 = new Vec3d(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
@@ -230,14 +229,14 @@ public class ViewUtil {
 						enumfacing = k > j1 ? Direction.NORTH : Direction.SOUTH;
 						vec31 = new Vec3d(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
 					}
-
+					
 					l = MathHelper.floor(vec31.x) - (enumfacing == Direction.EAST ? 1 : 0);
 					i1 = MathHelper.floor(vec31.y) - (enumfacing == Direction.UP ? 1 : 0);
 					j1 = MathHelper.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
 					blockpos = new BlockPos(l, i1, j1);
 					if (stopOn.test(blockpos)) {
 						RayTraceResult raytraceresult1 = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
-
+						
 						if (raytraceresult1 != null) {
 							return raytraceresult1;
 						}
@@ -245,36 +244,31 @@ public class ViewUtil {
 				}
 			}
 		}
-
-        return null;
+		
+		return null;
 	}
-
-
-	//This is bloated, I know, but I want to make sure I cover EVERY basis :/
+	
+	// This is bloated, I know, but I want to make sure I cover EVERY basis :/
 	public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
 		
-        //Covers all Block, Material and Tag checks :D
-        if (!blockState.isSolid() || !blockState.isOpaqueCube(world, pos)) {
-            return true;
-        }
-        
-        Block block = blockState.getBlock();
-        
-		//Special Snowflakes
-        if (block instanceof DoorBlock) {
+		// Covers all Block, Material and Tag checks :D
+		if (!blockState.isSolid() || !blockState.isOpaqueCube(world, pos)) {
+			return true;
+		}
+		
+		Block block = blockState.getBlock();
+		
+		// Special Snowflakes
+		if (block instanceof DoorBlock) {
 			return blockState.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
 		}
-
-		//Config
+		
+		// Config
 		for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
-            if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return true;
+			if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return true;
 		}
-
+		
 		return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();
 	}
-
-
-
-
 	
 }

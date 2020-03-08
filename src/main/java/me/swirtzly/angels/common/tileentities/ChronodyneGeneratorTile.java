@@ -14,16 +14,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 public class ChronodyneGeneratorTile extends TileEntity implements ITickableTileEntity {
 	
-	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1); //Area of Effect
+	private AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1); // Area of Effect
 	private AxisAlignedBB RENDER_BOX = new AxisAlignedBB(-3, 0, -3, 3, 5, 3);
-
+	
 	public ChronodyneGeneratorTile() {
 		super(WAObjects.Tiles.CG.get());
 	}
 	
 	@Override
 	public void tick() {
-
+		
 		BlockState blockBelow = world.getBlockState(getPos().down());
 		if (blockBelow.isAir(world, pos.down()) || blockBelow.getMaterial().isLiquid() || blockBelow.getBlock() == WAObjects.Blocks.CG.get()) {
 			ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world);
@@ -32,7 +32,7 @@ public class ChronodyneGeneratorTile extends TileEntity implements ITickableTile
 			world.addEntity(itemEntity);
 			world.removeBlock(getPos(), true);
 		}
-
+		
 		if (!world.getEntitiesWithinAABB(WeepingAngelEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
 			world.getEntitiesWithinAABB(WeepingAngelEntity.class, AABB.offset(getPos())).forEach(entityWeepingAngel -> {
 				if (world.isRemote) {

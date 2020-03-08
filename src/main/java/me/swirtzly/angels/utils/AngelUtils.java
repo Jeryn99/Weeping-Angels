@@ -31,12 +31,11 @@ import java.util.Collection;
 import java.util.Random;
 
 public class AngelUtils {
-
-	public static String[] END_STRUCTURES = new String[]{"EndCity",};
-	public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
-	public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};
-	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	
+	public static String[] END_STRUCTURES = new String[] { "EndCity", };
+	public static String[] OVERWORLD_STRUCTURES = new String[] { "Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village" };
+	public static String[] NETHER_STRUCTURES = new String[] { "Fortress" };
+	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	
 	public static void playBreakEvent(Entity entity, BlockPos pos, Block block) {
 		if (!entity.world.isRemote) {
@@ -54,21 +53,18 @@ public class AngelUtils {
 		}
 	}
 	
-	
 	/**
 	 * Method that detects whether a tile is the the view sight of viewer
 	 *
 	 * @param angel Angel involved (Used for checking if there is light around the angel)
 	 * @param angel The entity being watched by viewer
 	 */
-    public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
+	public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
 		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
 	}
 	
-	
 	/**
-	 * Method that puts all ItemBlocks of blocks that emite light
-	 * WARNING: ONLY CALLED ONCE AND CACHED INTO AngelUtils::LIGHT_ITEMS
+	 * Method that puts all ItemBlocks of blocks that emite light WARNING: ONLY CALLED ONCE AND CACHED INTO AngelUtils::LIGHT_ITEMS
 	 */
 	public static void setupLightItems() {
 		ForgeRegistries.BLOCKS.getValues().forEach(block -> {
@@ -108,7 +104,7 @@ public class AngelUtils {
 			}
 		}
 		for (Biome biome : SPAWNS) {
-            biome.getSpawns(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get())).add((new Biome.SpawnListEntry(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnProbability.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get())));
+			biome.getSpawns(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get())).add((new Biome.SpawnListEntry(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnProbability.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get())));
 		}
 	}
 	
@@ -118,9 +114,8 @@ public class AngelUtils {
 	public static int secondsToTicks(int seconds) {
 		return 20 * seconds;
 	}
-
-
-    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
+	
+	public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
 		if (playerMP.getDistanceSq(angel) < 1) {
 			for (Hand enumHand : Hand.values()) {
 				ItemStack stack = playerMP.getHeldItem(enumHand);
@@ -136,8 +131,8 @@ public class AngelUtils {
 	public static int getLightValue(Block block) {
 		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
 	}
-
-    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
+	
+	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
 		if (LIGHT_ITEMS.contains(stack.getItem())) {
 			stack.shrink(1);
 			angel.entityDropItem(stack);
@@ -151,8 +146,7 @@ public class AngelUtils {
 		int pick = new Random().nextInt(AngelEnums.AngelType.values().length);
 		return AngelEnums.AngelType.values()[pick];
 	}
-
-
+	
 	public enum EnumTeleportType {
 		STRUCTURES, RANDOM_PLACE, DONT
 	}

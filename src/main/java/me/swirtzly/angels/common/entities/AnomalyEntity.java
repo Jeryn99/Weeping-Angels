@@ -12,17 +12,17 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
-
-    private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.FLOAT);
-
-    public AnomalyEntity(World worldIn) {
+	
+	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.FLOAT);
+	
+	public AnomalyEntity(World worldIn) {
 		super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
 	}
-
-    public AnomalyEntity(EntityType<?> type, World world) {
+	
+	public AnomalyEntity(EntityType<?> type, World world) {
 		this(world);
 	}
-
+	
 	@Override
 	public boolean isInvulnerable() {
 		return true;
@@ -32,7 +32,6 @@ public class AnomalyEntity extends MobEntity {
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_PLAYER_ATTACK_WEAK;
 	}
-
 	
 	@Override
 	protected boolean isMovementBlocked() {

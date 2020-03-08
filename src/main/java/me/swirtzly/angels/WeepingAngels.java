@@ -29,9 +29,9 @@ public class WeepingAngels {
 	
 	public static final String MODID = "weeping_angels";
 	public static final String NAME = "Weeping Angels";
-
+	
 	public static Logger LOGGER = LogManager.getLogger(NAME);
-
+	
 	public WeepingAngels() {
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -39,7 +39,7 @@ public class WeepingAngels {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff));
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onNewRegistries(RegistryEvent.NewRegistry e) {
 		WAObjects.Sounds.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -50,22 +50,20 @@ public class WeepingAngels {
 		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
-
-
+	
 	private void setup(final FMLCommonSetupEvent event) {
 		WorldGen.applyFeatures();
 		LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
 		Network.init();
-
-		if(ModList.get().isLoaded("tardis")){
+		
+		if (ModList.get().isLoaded("tardis")) {
 			System.out.println("Loading Tardis Compatibility");
 			MinecraftForge.EVENT_BUS.register(new Tardis());
 		}
 	}
-
-
+	
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> ClientUtil::doClientStuff);
 	}
-
+	
 }

@@ -17,15 +17,14 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-
 public class ChronodyneGeneratorBlock extends Block {
 	
 	private static final VoxelShape CG_AABB = VoxelShapes.create(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
-
-    public ChronodyneGeneratorBlock() {
+	
+	public ChronodyneGeneratorBlock() {
 		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
-
+	
 	/**
 	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids, INVISIBLE to skip all rendering
 	 */
@@ -33,11 +32,11 @@ public class ChronodyneGeneratorBlock extends Block {
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
-
+	
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new ChronodyneGeneratorTile();
+		return new ChronodyneGeneratorTile();
 	}
 	
 	@Override
@@ -49,19 +48,17 @@ public class ChronodyneGeneratorBlock extends Block {
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return CG_AABB;
 	}
-
-
+	
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
-
-
+	
 	@Override
 	public boolean isVariableOpacity() {
 		return false;
 	}
-
+	
 	@Override
 	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;

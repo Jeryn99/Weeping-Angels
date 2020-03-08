@@ -12,7 +12,7 @@ public class SnowArmModel extends Model {
 	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
 	private RendererModel left_arm, left_arm_wrist;
-
+	
 	public SnowArmModel() {
 		textureWidth = 88;
 		textureHeight = 88;

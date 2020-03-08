@@ -14,7 +14,7 @@ import net.minecraft.util.HandSide;
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
+public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	
 	private RendererModel right_wing_0;
 	private RendererModel left_wing_0;
@@ -210,12 +210,12 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		head.addChild(head_2);
 		back_cloth.addChild(back_cloth_2);
 	}
-
-    public void quickRender(float scale, String pose) {
+	
+	public void quickRender(float scale, String pose) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		GlStateManager.enableLighting();
-        tilePosing(pose);
+		tilePosing(pose);
 		cloth_1.render(scale);
 		right_arm.render(scale);
 		head.render(scale);
@@ -257,9 +257,9 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
-
-    public void tilePosing(String p) {
-        PoseBase pose = PoseManager.getPoseFromString(p);
+	
+	public void tilePosing(String p) {
+		PoseBase pose = PoseManager.getPoseFromString(p);
 		
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
@@ -287,8 +287,8 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 	}
 	
 	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-
-        if (entity instanceof WeepingAngelEntity) {
+		
+		if (entity instanceof WeepingAngelEntity) {
 			
 			head.rotateAngleY = netheadYaw * 0.017453292F;
 			head.rotateAngleX = headPitch * 0.017453292F;
@@ -301,7 +301,7 @@ public class ModelAngelEd <T extends LivingEntity> extends BipedModel<T>{
 			right_arm.rotateAngleX = 0;
 			right_arm.rotateAngleY = 0;
 			right_arm.rotateAngleZ = 0;
-            WeepingAngelEntity angel = (WeepingAngelEntity) entity;
+			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 			
 			PoseBase pose = PoseManager.getPoseFromString(angel.getAngelPose());
 			

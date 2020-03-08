@@ -1,14 +1,13 @@
 package me.swirtzly.angels.common.entities;
 
-
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
+import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.network.messages.MessageSFX;
 import me.swirtzly.angels.utils.AngelUtils;
-import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -47,21 +46,21 @@ import java.util.function.Predicate;
 import static me.swirtzly.angels.utils.WATeleporter.yCoordSanity;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
-
+	
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
-
-	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[]{WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get()};
-	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
-
-    private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
-
+	
+	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[] { WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get() };
+	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[] { SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get() };
+	
+	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
+	
 	public WeepingAngelEntity(EntityType<? extends QuantumLockBaseEntity> type, World world) {
 		this(world);
 	}
-
+	
 	public WeepingAngelEntity(World world) {
 		super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
 		goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
@@ -70,16 +69,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
 		experienceValue = WAConfig.CONFIG.xpGained.get();
 	}
-
-    public void dropAngelStuff() {
-        ResourceLocation resourcelocation = this.func_213346_cF();
-        LootTable loottable = this.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-        LootContext.Builder lootcontext$builder = this.func_213363_a(true, DamageSource.STARVE);
-        loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY), this::entityDropItem);
+	
+	public void dropAngelStuff() {
+		ResourceLocation resourcelocation = this.func_213346_cF();
+		LootTable loottable = this.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+		LootContext.Builder lootcontext$builder = this.func_213363_a(true, DamageSource.STARVE);
+		loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY), this::entityDropItem);
 		entityDropItem(getHeldItemMainhand());
 		entityDropItem(getHeldItemOffhand());
-    }
-
+	}
+	
 	@Override
 	protected void registerData() {
 		super.registerData();
@@ -88,14 +87,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
-
+	
 	@Nullable
 	@Override
 	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 		return super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 	}
-
+	
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
@@ -113,22 +112,21 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public float getEyeHeight(Pose p_213307_1_) {
 		return isCherub() ? getHeight() : 1.3F;
 	}
-
+	
 	@Override
 	protected void registerAttributes() {
 		super.registerAttributes();
 		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.CONFIG.damage.get());
 		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
-        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-        getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
+		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+		getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
 	}
-	
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
@@ -137,12 +135,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			
 			ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
 			
-			//Blowing out light items from the players hand
+			// Blowing out light items from the players hand
 			if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
 				AngelUtils.removeLightFromHand(playerMP, this);
 			}
 			
-			//Steals keys from the player
+			// Steals keys from the player
 			if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
 				for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
 					ItemStack stack = playerMP.inventory.getStackInSlot(i);
@@ -156,11 +154,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				}
 			}
 			
-			
-			//Teleporting and damage
+			// Teleporting and damage
 			if (WAConfig.CONFIG.justTeleport.get()) {
 				if (!isCherub()) {
-				 	teleportInteraction(playerMP);
+					teleportInteraction(playerMP);
 					return false;
 				} else {
 					dealDamage(playerMP);
@@ -181,7 +178,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		return true;
 	}
 	
-	
 	public void dealDamage(PlayerEntity playerMP) {
 		if (getHealth() > 5) {
 			playerMP.attackEntityFrom(WAObjects.ANGEL, 4.0F);
@@ -192,18 +188,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 	}
 	
-
 	@Override
 	protected boolean canDropLoot() {
 		return true;
 	}
 	
-	/*Drops Tardis Keys on Death + uses loot table drops
-	 * Used to allow for config value defined tardis keys to be dropped
-	 * Used instead of adding loot table functions
-	 * 	N.B.There is a loot table function that does the same thing, but it requires:
-	 *  -Hardcoded item registry names
-	 *  -New entry for each tardis key (There could be many Tardis keys/items the player wants the angel to steal and drop on death
+	/*
+	 * Drops Tardis Keys on Death + uses loot table drops Used to allow for config value defined tardis keys to be dropped Used instead of adding loot table functions N.B.There is a loot table function that does the same thing, but it requires: -Hardcoded item registry names -New entry for each tardis key (There could be many Tardis keys/items the player wants the angel to steal and drop on death
 	 */
 	
 	@Override
@@ -212,9 +203,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		entityDropItem(getHeldItemMainhand());
 		entityDropItem(getHeldItemOffhand());
 	}
-
-
-    @Override
+	
+	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 		compound.putString(WAConstants.POSE, getAngelPose());
@@ -226,17 +216,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-
+		
 		if (compound.contains(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
-
+		
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
-
+		
 		if (compound.contains(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
-
+		
 		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
-
-
+	
 	@Override
 	public void livingTick() {
 		super.livingTick();
@@ -268,27 +257,26 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public SoundEvent getSeenSound() {
 		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
-
-
+	
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState blockIn) {
 		if (!blockIn.getMaterial().isLiquid()) {
 			BlockState blockstate = this.world.getBlockState(pos.up());
 			SoundType soundtype = blockstate.getBlock() == Blocks.SNOW ? blockstate.getSoundType(world, pos, this) : blockIn.getSoundType(world, pos, this);
-
+			
 			if (WAConfig.CONFIG.playScrapeSounds.get() && !isCherub()) {
 				playSound(WAObjects.Sounds.STONE_SCRAP.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
 			}
-
+			
 			if (isCherub()) {
 				if (world.rand.nextInt(5) == 5) {
 					playSound(WAObjects.Sounds.CHILD_RUN.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
 				}
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	public void moveTowards(LivingEntity entity) {
 		super.moveTowards(entity);
@@ -332,44 +320,43 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
-		if (world.isRemote || !WAConfig.CONFIG.blockBreaking.get() || ticksExisted % 100 != 0 || isQuantumLocked())
-			return;
+		if (world.isRemote || !WAConfig.CONFIG.blockBreaking.get() || ticksExisted % 100 != 0 || isQuantumLocked()) return;
 		
 		if (world.getLight(getPosition()) == 0) {
 			return;
 		}
-
-
-		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
+		
+		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext();) {
 			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
-
-				if (MinecraftForge.EVENT_BUS.post(new EventAngelBreakEvent(this, blockState, pos))) {
-
+				
+				EventAngelBreakEvent event = new EventAngelBreakEvent(this, blockState, pos);
+				MinecraftForge.EVENT_BUS.post(event);
+				if (!event.isCanceled()) {
+					
 					if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 						continue;
 					}
-
+					
 					if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
 						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 						return;
 					}
-
+					
 					if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
-						System.out.println(blockState.get(RedstoneLampBlock.LIT).booleanValue());
 						if (blockState.get(RedstoneLampBlock.LIT)) {
 							world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
 							playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
 							return;
 						}
 					}
-
+					
 					if (blockState.getBlock().getLightValue(blockState) > 0) {
 						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 						return;
 					}
-
+					
 					if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
 						if (getHealth() < getMaxHealth()) {
 							heal(1.5F);
@@ -377,7 +364,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 						}
 					} else
 						continue;
-
+					
 					return;
 				}
 			}
@@ -392,12 +379,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 		return true;
 	}
-
+	
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
 		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
-
+		
 		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
 		switch (type) {
 			case DONT:
@@ -412,7 +399,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					world.getServer().enqueue(new TickDelayedTask(0, () -> {
 						ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 						if (teleportWorld != null) {
-							Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
 							WATeleporter.teleportPlayerTo(player, this, new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z), teleportWorld);
 						}
 					}));
@@ -426,7 +412,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	/*
 	 * Getters and Setters
 	 */
-
+	
 	public String getAngelPose() {
 		return getDataManager().get(CURRENT_POSE);
 	}
@@ -459,4 +445,3 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		getDataManager().set(HUNGER_LEVEL, hunger);
 	}
 }
-

@@ -28,8 +28,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class DetectorItem extends Item {
-
-    public DetectorItem() {
+	
+	public DetectorItem() {
 		super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
 		this.addPropertyOverride(new ResourceLocation("angle"), new IItemPropertyGetter() {
 			@OnlyIn(Dist.CLIENT)
@@ -38,7 +38,7 @@ public class DetectorItem extends Item {
 			private double rota;
 			@OnlyIn(Dist.CLIENT)
 			private long lastUpdateTick;
-
+			
 			@OnlyIn(Dist.CLIENT)
 			public float call(ItemStack p_call_1_, @Nullable World p_call_2_, @Nullable LivingEntity p_call_3_) {
 				if (p_call_3_ == null && !p_call_1_.isOnItemFrame()) {
@@ -49,7 +49,7 @@ public class DetectorItem extends Item {
 					if (p_call_2_ == null) {
 						p_call_2_ = lvt_5_1_.world;
 					}
-
+					
 					double lvt_6_2_;
 					if (p_call_2_.dimension.isSurfaceWorld()) {
 						double lvt_8_1_ = lvt_4_1_ ? (double) lvt_5_1_.rotationYaw : this.getFrameRotation((ItemFrameEntity) lvt_5_1_);
@@ -59,15 +59,15 @@ public class DetectorItem extends Item {
 					} else {
 						lvt_6_2_ = Math.random();
 					}
-
+					
 					if (lvt_4_1_) {
 						lvt_6_2_ = this.wobble(p_call_2_, lvt_6_2_);
 					}
-
+					
 					return MathHelper.positiveModulo((float) lvt_6_2_, 1.0F);
 				}
 			}
-
+			
 			@OnlyIn(Dist.CLIENT)
 			private double wobble(World p_185093_1_, double p_185093_2_) {
 				if (p_185093_1_.getGameTime() != this.lastUpdateTick) {
@@ -78,15 +78,15 @@ public class DetectorItem extends Item {
 					this.rota *= 0.8D;
 					this.rotation = MathHelper.positiveModulo(this.rotation + this.rota, 1.0D);
 				}
-
+				
 				return this.rotation;
 			}
-
+			
 			@OnlyIn(Dist.CLIENT)
 			private double getFrameRotation(ItemFrameEntity p_185094_1_) {
 				return (double) MathHelper.wrapDegrees(180 + p_185094_1_.getHorizontalFacing().getHorizontalIndex() * 90);
 			}
-
+			
 			@OnlyIn(Dist.CLIENT)
 			private double getSpawnToAngle(IWorld p_185092_1_, Entity p_185092_2_) {
 				BlockPos lvt_3_1_ = p_185092_1_.getSpawnPoint();
@@ -98,10 +98,10 @@ public class DetectorItem extends Item {
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!entityIn.world.isRemote) {
-            List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(25, 25, 25));
+			List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(25, 25, 25));
 			
 			if (entityIn instanceof PlayerEntity) {
-                if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
+				if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
 					{
 						if (entityIn.ticksExisted % 20 == 0) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.5F, 1.0F);
@@ -122,6 +122,5 @@ public class DetectorItem extends Item {
 			}
 		}
 	}
-
-
+	
 }

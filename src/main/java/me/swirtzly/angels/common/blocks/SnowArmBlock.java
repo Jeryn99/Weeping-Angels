@@ -12,15 +12,15 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nullable;
 
 public class SnowArmBlock extends SnowBlock {
-
-    public SnowArmBlock() {
+	
+	public SnowArmBlock() {
 		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new SnowArmTile();
+		return new SnowArmTile();
 	}
 	
 	@Override

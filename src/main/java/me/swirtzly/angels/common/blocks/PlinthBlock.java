@@ -21,23 +21,21 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class PlinthBlock extends Block {
-
-    public PlinthBlock() {
+	
+	public PlinthBlock() {
 		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PlinthTile();
+		return new PlinthTile();
 	}
-	
 	
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
-	
 	
 	@Override
 	public boolean isVariableOpacity() {
@@ -54,7 +52,7 @@ public class PlinthBlock extends Block {
 		BlockState state = super.getStateForPlacement(context);
 		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
 	}
-
+	
 	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		builder.add(BlockStateProperties.HORIZONTAL_FACING);
@@ -66,10 +64,10 @@ public class PlinthBlock extends Block {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
-
-        if (world.getTileEntity(pos) instanceof PlinthTile) {
+		
+		if (world.getTileEntity(pos) instanceof PlinthTile) {
 			int rotation = MathHelper.floor(placer.rotationYaw + 180);
-            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
+			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			plinth.setRotation(rotation);
 			plinth.setPose(PoseManager.getRandomPose().getRegistryName());
 			plinth.sendUpdates();

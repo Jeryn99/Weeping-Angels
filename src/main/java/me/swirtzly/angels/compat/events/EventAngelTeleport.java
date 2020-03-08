@@ -15,7 +15,7 @@ public class EventAngelTeleport extends PlayerEvent {
 	private ServerWorld targetDimension;
 	private WeepingAngelEntity angel;
 	private BlockPos previous, destinationPos;
-
+	
 	public EventAngelTeleport(PlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, ServerWorld targetDimension) {
 		super(player);
 		this.angel = angel;
@@ -47,18 +47,19 @@ public class EventAngelTeleport extends PlayerEvent {
 	
 	/**
 	 * Returns the intended dimension that the player will be teleported to
+	 * 
 	 * @return
 	 */
 	public ServerWorld getTargetDimension() {
 		return targetDimension;
 	}
-
+	
 	public void setTargetDimension(ServerWorld targetDimension) {
 		this.targetDimension = targetDimension;
 	}
-
+	
 	public void setDestinationPos(BlockPos destinationPos) {
 		this.destinationPos = destinationPos;
 	}
-
+	
 }
