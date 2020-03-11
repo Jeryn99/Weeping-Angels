@@ -3,7 +3,6 @@ package me.swirtzly.angels.config;
 import com.google.common.collect.Lists;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
@@ -63,9 +62,9 @@ public class WAConfig {
 		genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
 		builder.pop();
 		builder.push("spawn");
-		minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 2, 1, 24);
-		maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 4, 1, 25);
-		spawnProbability = builder.translation("config.weeping_angels.spawn_probability").comment("The angel spawn probability rate").defineInRange("spawnProbability", 15, 1, 100);
+		minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 2, 1, 100);
+		maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 2, 1, 100);
+		spawnProbability = builder.translation("config.weeping_angels.spawn_probability").comment("The angel spawn probability rate").defineInRange("spawnProbability", 2, 1, 100);
 		spawnType = builder.translation("config.weeping_angels.spawntype").comment("This will only accept: MONSTER || CREATURE || AMBIENT || WATER_CREATURE || MISC || Anything else WILL crash your game.").worldRestart().define("spawnType", "MONSTER");
 		notAllowedBiomes = builder.translation("config.weeping_angels.disallowed_spawn_biomes").comment("Note: A list of biomes where angels should NOT spawn.").defineList("notAllowedBiomes", Lists.newArrayList("minecraft:void", "minecraft:nether", "minecraft:the_end", "minecraft:deep_ocean", "minecraft:ocean"), String.class::isInstance);
 		builder.pop();

@@ -111,6 +111,7 @@ public class WAObjects {
 		public static final RegistryObject<Item> ANGEL_1 = ITEMS.register("angel_1", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_TWO, WeepingAngelEntity::new)));
 		public static final RegistryObject<Item> ANGEL_2 = ITEMS.register("angel_2", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_THREE, WeepingAngelEntity::new)));
 		public static final RegistryObject<Item> ANGEL_3 = ITEMS.register("angel_3", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_FOUR, WeepingAngelEntity::new)));
+		public static final RegistryObject<Item> ANGEL_4 = ITEMS.register("angel_4", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_FIVE, WeepingAngelEntity::new)));
 		public static final RegistryObject<Item> ANGEL_CHILD = ITEMS.register("angel_child", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_CHILD, WeepingAngelEntity::new)));
 		public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
 	}

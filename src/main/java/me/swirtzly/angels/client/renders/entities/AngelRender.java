@@ -24,13 +24,15 @@ public class AngelRender extends MobRenderer {
 	private ResourceLocation TEXTURE_CLASSIC = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_3.png");
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
-	
+	private ResourceLocation TEXTURE_ANGELA = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_angela.png");
+
 	private EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
-	
+	private EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela();
+
 	@SuppressWarnings("unchecked")
 	public AngelRender(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
@@ -49,14 +51,11 @@ public class AngelRender extends MobRenderer {
 		return true;
 	}
 	
-	// TODO: Find cause of Angel rendering full bright when not being directly looked at
 	@Override
 	protected void renderModel(LivingEntity living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		// GlStateManager.setProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
 		if (living instanceof WeepingAngelEntity) {
 			GlStateManager.pushMatrix();
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
-			
 			switch (angel.getAngelType()) {
 				case -1:
 					bindTexture(TEXTURE_CHILD);
@@ -78,8 +77,11 @@ public class AngelRender extends MobRenderer {
 					bindTexture(TEXTURE_FOUR);
 					modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					break;
+				case 4:
+					bindTexture(TEXTURE_ANGELA);
+					modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+					break;
 			}
-			// GlStateManager.unsetProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
 			GlStateManager.popMatrix();
 			
 		}

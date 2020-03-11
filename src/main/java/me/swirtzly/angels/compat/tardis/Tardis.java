@@ -4,11 +4,7 @@ import me.swirtzly.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.compat.events.EventAngelTeleport;
-import me.swirtzly.angels.config.WAConfig;
-import me.swirtzly.angels.utils.PlayerUtils;
 import me.swirtzly.angels.utils.WATeleporter;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.DimensionManager;
@@ -20,7 +16,6 @@ import net.tardis.mod.dimensions.DimensionTardis;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.misc.EmotionHandler;
 import net.tardis.mod.tileentities.TileEntityConsole;
-import net.tardis.mod.tileentities.exteriors.TileEntityExterior;
 
 /**
  * Created by Swirtzly on 04/03/2020 @ 20:52
@@ -66,14 +61,6 @@ public class Tardis {
 						// console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
 						// console.takeoff();
 					}
-				}
-			}
-			
-			// Everywhere else to steal Tardis
-			for (TileEntity tileEntity : angel.world.loadedTileEntityList) {
-				if (tileEntity instanceof TileEntityExterior) {
-					TileEntityExterior exterior = (TileEntityExterior) tileEntity;
-					exterior.open();
 				}
 			}
 			

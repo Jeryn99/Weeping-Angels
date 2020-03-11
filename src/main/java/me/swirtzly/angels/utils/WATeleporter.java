@@ -8,15 +8,12 @@ import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.network.messages.MessageSFX;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ModDimension;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -76,7 +73,8 @@ public class WATeleporter {
 	
 	public static void teleportPlayerTo(ServerPlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, ServerWorld targetDimension) {
 		EventAngelTeleport event = new EventAngelTeleport(player, angel, destinationPos, targetDimension);
-		if (MinecraftForge.EVENT_BUS.post(event)) {
+		MinecraftForge.EVENT_BUS.post(event);
+		if (!event.isCanceled()) {
 			Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
 			player.teleport(event.getTargetDimension(), event.getDestination().getX(), event.getDestination().getY(), event.getDestination().getZ(), player.rotationYaw, player.rotationPitch);
 		}
