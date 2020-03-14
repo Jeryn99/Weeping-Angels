@@ -68,8 +68,8 @@ public class ServerReflector extends VivecraftReflector {
         WeepingAngels.LOGGER.info("Checking for Vivecraft...");
         try {
             //Detect classes and fields from the Vivecraft Client/Non-VR Companion
-            Class<?> cNetworkHelper = Class.forName("com.mtbs3d.minecrift.api.NetworkHelper");
-            Class<?> cVivePlayer = Class.forName("com.mtbs3d.minecrift.api.VivePlayer");
+            Class<?> cNetworkHelper = Class.forName("org.vivecraft.api.NetworkHelper");
+            Class<?> cVivePlayer = Class.forName("org.vivecraft.api.VivePlayer");
 
             //Network Helper fields
             fVivePlayers = cNetworkHelper.getDeclaredField("vivePlayers");
