@@ -54,11 +54,9 @@ public class ServerReflector extends VivecraftReflector {
         enabled = 0;
         WeepingAngels.LOGGER.info("Checking for Vivecraft Client...");
         try {
-<<<<<<< Updated upstream
+
             //Detect classes and fields from the Vivecraft Client/Non-VR Companion
-=======
             //Vivecraft Client/Non-VR
->>>>>>> Stashed changes
             Class<?> cNetworkHelper = Class.forName("org.vivecraft.api.NetworkHelper");
             Class<?> cVivePlayer = Class.forName("org.vivecraft.api.VivePlayer");
 
