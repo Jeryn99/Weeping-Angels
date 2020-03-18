@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**	
+ * Bridges gap between the Vivecraft Client and Vivecraft Forge Extensions to the mod.	
+ * This class specifically is meant to be used for server-side operations. Uses heavy	
+ * reflection so dependancy is not required.	
+ */
 public class ServerReflector extends VivecraftReflector {
 	
 	// Keeps track of what part of Vivecraft is detected.
@@ -48,7 +53,14 @@ public class ServerReflector extends VivecraftReflector {
     private Method mGetPlayerData;
     private Method mIsVRPlayer;
     private Method mVecMultiply;
-
+    
+    /**	
+     * Initializes the bridge. Since reflection is used we detect if the classes/methods/fields are	
+     * present, and store them for later use. Must be run once before any other function is used, likely	
+     * during post-init.	
+     *	
+     * @return Returns true if any version of vivecraft was detected.	
+     */
     @Override
     public boolean init() {
         enabled = 0;
@@ -111,7 +123,13 @@ public class ServerReflector extends VivecraftReflector {
 
         return enabled>=0;
     }
-
+    
+    /**	
+     * Checks to see if the player is currently using a VR headset.	
+     *	
+     * @param player The Player	
+     * @return Returns true if the player is listed in the VR player lists.	
+     */
     @Override
     public boolean isVRPlayer(EntityPlayer player) {
         if(enabled<0)return false;
