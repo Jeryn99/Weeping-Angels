@@ -23,6 +23,6 @@ public class AngelEnums {
 		public boolean isChild() {
 			return isChild;
 		}
-    }
+	}
 	
 }

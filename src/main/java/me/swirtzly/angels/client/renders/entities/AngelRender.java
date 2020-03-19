@@ -25,14 +25,14 @@ public class AngelRender extends MobRenderer {
 	
 	private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
 	private ResourceLocation TEXTURE_ANGELA = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_angela.png");
-
+	
 	private EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela();
-
+	
 	@SuppressWarnings("unchecked")
 	public AngelRender(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
