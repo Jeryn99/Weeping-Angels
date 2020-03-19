@@ -55,7 +55,7 @@ public class WAConfig {
 
         @Config.LangKey("config.weeping-angels.spawn_probability")
         @Config.Comment("The angel spawn probability rate")
-        public int spawnProbability = 50;
+        public int spawnProbability = 20;
 
         @Config.LangKey("config.weeping-angels.min_spawn")
         @Config.Comment("The minimum amount of angels per biome")

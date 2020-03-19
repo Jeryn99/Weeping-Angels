@@ -10,6 +10,7 @@
     "1.12.2-36": "Fixed teleport config || Fixes ConCurrent crash with Tardis mod",
     "1.12.2-40": "Config option to prevent Angel teleporting in creative",
     "1.12.2-41": "Fixes teleporting issue",
-    "1.12.2-42": "See Changelog on CurseForge"
+    "1.12.2-42": "See Changelog on CurseForge",
+    "1.12.2-43": "VR Compatibility || Lowered Loud noises || Fixed bug with creative players || Angels now drop ender pearls || Optimized Animation Code"
   }
 }
