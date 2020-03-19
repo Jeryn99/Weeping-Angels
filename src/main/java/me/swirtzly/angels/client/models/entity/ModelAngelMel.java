@@ -4,7 +4,6 @@ import me.swirtzly.angels.client.models.entity.arms.ModelArmsAngry;
 import me.swirtzly.angels.client.models.entity.arms.ModelArmsCovering;
 import me.swirtzly.angels.client.models.entity.arms.ModelArmsIdle;
 import me.swirtzly.angels.client.models.entity.arms.ModelArmsPointing;
-import me.swirtzly.angels.client.models.poses.PoseBase;
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.client.renders.entities.RenderWeepingAngel;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
@@ -84,7 +83,7 @@ public class ModelAngelMel extends ModelBase {
     ModelRenderer RightWing6;
     ModelRenderer RightWing7;
 
-    ModelArmsCovering armsCovering = new ModelArmsCovering();
+    private ModelArmsCovering armsCovering = new ModelArmsCovering();
     private ModelArmsIdle armsIdle = new ModelArmsIdle();
     private ModelArmsAngry armsAngry = new ModelArmsAngry();
     private ModelArmsPointing armsPoint = new ModelArmsPointing();
@@ -583,36 +582,30 @@ public class ModelAngelMel extends ModelBase {
 
         if (entityIn instanceof EntityWeepingAngel) {
             EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
-            PoseBase pose = PoseManager.getPoseFromString(angel.getPose());
+            PoseManager.AngelPoses pose = PoseManager.getPoseFromString(angel.getPose());
 
-            //Covering Face arms render/
-            if (pose == PoseManager.POSE_HIDING_FACE) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                return;
+            switch (pose) {
+                case ANGRY:
+                case ANGRY_TWO:
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                    armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                    break;
+                case HIDING_FACE:
+                case HIDING_FACE_ANGRY:
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                    armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                    break;
+                case IDLE:
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                    armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                    break;
+                case SHY:
+                case OPEN_ARMS:
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                    armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                    break;
             }
-
-            //Idle render
-            if (pose == PoseManager.POSE_IDLE) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                return;
-            }
-
-            //Shriek render
-            if (pose.getRegistryName().toLowerCase().contains("angry")) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                return;
-            }
-
-            if (pose == PoseManager.POSE_SHY) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                return;
-            }
-
-            armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            //  armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         } else {
             armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }

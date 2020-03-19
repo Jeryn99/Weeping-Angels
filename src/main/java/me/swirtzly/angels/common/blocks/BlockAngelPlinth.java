@@ -56,7 +56,7 @@ public class BlockAngelPlinth extends Block {
             int rotation = MathHelper.floor(placer.rotationYaw + 180);
             TileEntityPlinth plinth = (TileEntityPlinth) world.getTileEntity(pos);
             plinth.setRotation(rotation);
-            plinth.setPose(PoseManager.getRandomPose().getRegistryName());
+            plinth.setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
             plinth.sendUpdates();
         }
     }

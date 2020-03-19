@@ -176,7 +176,7 @@ public class ModelClassicAngel extends ModelBiped {
             angleY = toRadians(30F);
             angleZ = toRadians(5F);
 
-            if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
+            if (angel.getPose().equals(PoseManager.AngelPoses.ANGRY.name())) {
                 float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
                 rightarm.rotateAngleZ = 0.0F;
                 leftarm.rotateAngleZ = 0.0F;
@@ -190,7 +190,7 @@ public class ModelClassicAngel extends ModelBiped {
                 angleZ = toRadians(5F);
             }
 
-            if (angel.getPose().equals(PoseManager.POSE_HIDING_FACE.getRegistryName())) {
+            if (angel.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.name())) {
                 rightarm.rotateAngleX = -1.04533F;
                 rightarm.rotateAngleY = -0.55851F;
                 rightarm.rotateAngleZ = 0.0F;

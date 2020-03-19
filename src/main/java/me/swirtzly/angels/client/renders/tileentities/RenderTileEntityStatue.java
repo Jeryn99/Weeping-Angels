@@ -2,6 +2,7 @@ package me.swirtzly.angels.client.renders.tileentities;
 
 import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.tileentities.TileEntityStatue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,9 +25,8 @@ public class RenderTileEntityStatue extends TileEntitySpecialRenderer<TileEntity
 
         GlStateManager.rotate(tile.getRotation(), 0, 1, 0);
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(ARM_TEX);
-        ed.quickRender(0.0625f, tile.getPose());
-
+        Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
+        ed.render(PoseManager.getPoseFromString(tile.getPose()));
         GlStateManager.popMatrix();
     }
 

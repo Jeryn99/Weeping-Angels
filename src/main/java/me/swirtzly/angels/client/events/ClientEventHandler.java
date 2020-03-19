@@ -1,8 +1,6 @@
 package me.swirtzly.angels.client.events;
 
 import me.swirtzly.angels.WeepingAngels;
-import me.swirtzly.angels.client.models.item.ModelDetector;
-import me.swirtzly.angels.client.renders.items.RenderItemStackBase;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.utils.PlayerUtils;
 import me.swirtzly.angels.utils.RenderUtil;
@@ -26,7 +24,6 @@ public class ClientEventHandler {
         WAObjects.ITEMS.forEach(RenderUtil::setItemRender);
 
         WAObjects.ITEMS = new ArrayList<>();
-        RenderUtil.setItemRender(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new RenderItemStackBase(new ModelDetector()));
     }
 
     @SubscribeEvent

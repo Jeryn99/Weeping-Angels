@@ -29,11 +29,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -74,7 +69,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         super.entityInit();
         getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
         getDataManager().register(TYPE, AngelUtils.randomType().getId());
-        getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
+        getDataManager().register(CURRENT_POSE, PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
         getDataManager().register(HUNGER_LEVEL, 50);
     }
 
@@ -252,15 +247,15 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
     public void invokeSeen(EntityPlayer player) {
         super.invokeSeen(player);
 
-        if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
+        if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong()) {
             setPrevPos(getPosition());
             if (WAConfig.angels.playSeenSounds) {
-                ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+                ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 0.3F, 1F));
             }
             if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
-                setPose(PoseManager.getRandomPose().getRegistryName());
+                setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
             } else {
-                setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
+                setPose(rand.nextBoolean() ? PoseManager.AngelPoses.ANGRY.name() : PoseManager.AngelPoses.HIDING_FACE.name());
             }
         }
     }
@@ -321,7 +316,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         }
 
         if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
-            setPose(PoseManager.POSE_HIDING_FACE.toString());
+            setPose(PoseManager.AngelPoses.HIDING_FACE.name());
         }
 
         replaceBlocks(getEntityBoundingBox().grow(WAConfig.angels.blockBreakRange));

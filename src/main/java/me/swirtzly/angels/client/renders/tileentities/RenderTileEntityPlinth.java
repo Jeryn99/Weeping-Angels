@@ -2,6 +2,7 @@ package me.swirtzly.angels.client.renders.tileentities;
 
 import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.tileentities.TileEntityPlinth;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -26,20 +27,21 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
 
         if (!tile.getHasSpawned()) {
 
-            // GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-            // GlStateManager.color(0.2f, 0.2f, 1, 0.5f);
+          /*   GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+             GlStateManager.color(0.4f, 0.4f, 0.8F, getWorld().rand.nextFloat() * 2);
 
-            // if (getWorld().rand.nextInt(5) == 1) {
-            // GlStateManager.translate(0, this.getWorld().rand.nextInt(3) / 100.0f, 0);
-            // GlStateManager.translate(this.getWorld().rand.nextInt(3) / 100.0f, 0, 0);
-            // }
-            // if (getWorld().rand.nextInt(10) == 1) {
-            // GlStateManager.scale(1, 1 + this.getWorld().rand.nextInt(5) / 100.0f, 1);
-            // }
+             if (getWorld().rand.nextInt(5) == 1) {
+             GlStateManager.translate(0, this.getWorld().rand.nextInt(3) / 100.0f, 0);
+             GlStateManager.translate(this.getWorld().rand.nextInt(3) / 100.0f, 0, 0);
+             }
+             if (getWorld().rand.nextInt(10) == 1) {
+             GlStateManager.scale(1, 1 + this.getWorld().rand.nextInt(5) / 100.0f, 1);
+             }
+           */
 
             Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
-            ed.quickRender(0.0625f, tile.getPose());
-            //GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+            ed.render(PoseManager.getPoseFromString(tile.getPose()));
+            // GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
         }
 
         GlStateManager.popMatrix();

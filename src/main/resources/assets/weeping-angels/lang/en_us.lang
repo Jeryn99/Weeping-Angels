@@ -3,14 +3,14 @@ item.angel_painting.name=Angel Painting
 item.unlit_torch.name=Unlit Torch
 item.timey_wimey_detector.name=Timey Wimey Detector
 item.chronodyne_generator.name=Chronodyne Generator
-item.plinth.name=Angel Statue
+item.plinth.name=Angel Plinth
 item.angel_0.name=Weeping Angel (0)
 item.angel_1.name=Weeping Angel (1)
 item.angel_2.name=Weeping Angel (a_dizzle)
 item.angel_3.name=Weeping Angel (2)
 item.angel_child.name=Weeping Angel (Child)
 item.kontron_ingot.name=Kontron Ingot
-item.statue.name=Statue
+item.statue.name=Angel Statue
 
 tile.weeping-angels.arm.name=Arm in snow
 tile.weeping-angels.plinth.name=Angel Statue

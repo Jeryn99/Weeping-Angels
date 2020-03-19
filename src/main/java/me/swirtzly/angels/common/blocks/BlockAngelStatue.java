@@ -1,7 +1,5 @@
 package me.swirtzly.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
 import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.tileentities.TileEntityStatue;
 import net.minecraft.block.Block;
@@ -15,6 +13,8 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 
 public class BlockAngelStatue extends Block{
@@ -68,7 +68,7 @@ public class BlockAngelStatue extends Block{
             int rotation = MathHelper.floor(placer.rotationYaw);
             TileEntityStatue statue = (TileEntityStatue) world.getTileEntity(pos);
             statue.setRotation(rotation);
-            statue.setPose(PoseManager.getRandomPose().getRegistryName());
+            statue.setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
             statue.sendUpdates();
         }
     }

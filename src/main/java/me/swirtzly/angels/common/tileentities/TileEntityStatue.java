@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityStatue extends TileEntity implements ITickable {
 
     private int rotation = 0;
-    private String pose = PoseManager.getRandomPose().getRegistryName();
+    private String pose = PoseManager.randomEnum(PoseManager.AngelPoses.class).name();
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {

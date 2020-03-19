@@ -16,7 +16,7 @@ public class TileEntityPlinth extends TileEntity implements ITickable {
 
     private boolean hasSpawned = false;
     private int rotation = 0;
-    private String pose = PoseManager.getRandomPose().getRegistryName();
+    private String pose = PoseManager.randomEnum(PoseManager.AngelPoses.class).name();
 
     public boolean getHasSpawned() {
         return hasSpawned;
