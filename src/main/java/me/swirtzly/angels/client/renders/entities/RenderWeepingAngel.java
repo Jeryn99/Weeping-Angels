@@ -20,12 +20,14 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
     private ResourceLocation TEXTURE_CLASSIC = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_3.png");
 
     private ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
+    private ResourceLocation TEXTURE_ANGELA = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_angela.png");
 
     private ModelBase modelOne = new ModelAngel();
     private ModelBase modelTwo = new ModelAngelEd();
     private ModelBase modelChild = new ModelAngelChild();
     private ModelBase modelClassic = new ModelClassicAngel();
     private ModelBase modelMel = new ModelAngelMel();
+    private ModelBase modelAngela = new ModelAngela();
 
     public RenderWeepingAngel(RenderManager manager) {
         super(manager, new ModelAngelEd(), 0.0F);
@@ -72,6 +74,10 @@ public class RenderWeepingAngel extends RenderLiving<EntityWeepingAngel> {
             case 3:
                 bindTexture(TEXTURE_FOUR);
                 modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                break;
+            case 4:
+                bindTexture(TEXTURE_ANGELA);
+                modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
                 break;
         }
         GlStateManager.popMatrix();

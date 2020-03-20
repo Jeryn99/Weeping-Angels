@@ -10,7 +10,8 @@ public class AngelEnums {
         ANGEL_TWO(1, false),
         ANGEL_CHILD(-1, true),
         ANGEL_THREE(2, false),
-        ANGEL_FOUR(3, false);
+        ANGEL_FOUR(3, false),
+        ANGEL_FIVE(4, false);
 
         private final boolean isChild;
         private final int id;

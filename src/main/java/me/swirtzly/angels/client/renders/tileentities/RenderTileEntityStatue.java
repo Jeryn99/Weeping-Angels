@@ -26,7 +26,8 @@ public class RenderTileEntityStatue extends TileEntitySpecialRenderer<TileEntity
         GlStateManager.rotate(tile.getRotation(), 0, 1, 0);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
-        ed.render(PoseManager.getPoseFromString(tile.getPose()));
+        ed.setupAngles(0, 0, 0, 0, 0, 0, PoseManager.getPoseFromString(tile.getPose()));
+        ed.renderQuickly(PoseManager.getPoseFromString(tile.getPose()), 0.06125F);
         GlStateManager.popMatrix();
     }
 

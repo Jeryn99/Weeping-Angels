@@ -7,9 +7,12 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -71,5 +74,19 @@ public class BlockAngelStatue extends Block{
             statue.setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
             statue.sendUpdates();
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (worldIn.isRemote) return false;
+        if (playerIn.isSneaking()) {
+            if (worldIn.getTileEntity(pos) instanceof TileEntityStatue) {
+                TileEntityStatue plinth = (TileEntityStatue) worldIn.getTileEntity(pos);
+                plinth.setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());
+                plinth.sendUpdates();
+            }
+            return false;
+        }
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
 }

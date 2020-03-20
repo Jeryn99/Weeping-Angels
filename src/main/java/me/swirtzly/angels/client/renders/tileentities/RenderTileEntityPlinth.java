@@ -23,7 +23,7 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.translate(0, -1, 0);
 
-        GlStateManager.rotate(-tile.getRotation(), 0, 1, 0);
+        GlStateManager.rotate(tile.getRotation(), 0, 1, 0);
 
         if (!tile.getHasSpawned()) {
 
@@ -40,7 +40,8 @@ public class RenderTileEntityPlinth extends TileEntitySpecialRenderer<TileEntity
            */
 
             Minecraft.getMinecraft().renderEngine.bindTexture(ARM_TEX);
-            ed.render(PoseManager.getPoseFromString(tile.getPose()));
+            ed.setupAngles(0, 0, 0, 0, 0, 0, PoseManager.getPoseFromString(tile.getPose()));
+            ed.renderQuickly(PoseManager.getPoseFromString(tile.getPose()), 0.06125F);
             // GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
         }
 

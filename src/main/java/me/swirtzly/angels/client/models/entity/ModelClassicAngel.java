@@ -7,8 +7,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-//TODO Fix posing, it's a bit random at the moment
-public class ModelClassicAngel extends ModelBiped {
+public class ModelClassicAngel extends ModelBiped implements IAngelModel {
 
     private ModelRenderer leftfoot;
     private ModelRenderer rightfoot;
@@ -148,68 +147,45 @@ public class ModelClassicAngel extends ModelBiped {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        setRotationAngles(entity);
-        leftfoot.render(f5);
-        rightfoot.render(f5);
-        leftwing1.render(f5);
-        leftwing2.render(f5);
-        leftwing3.render(f5);
-        leftwing4.render(f5);
-        rightwing1.render(f5);
-        rightwing2.render(f5);
-        rightwing3.render(f5);
-        rightwing4.render(f5);
-        head.render(f5);
-        body.render(f5);
-        rightarm.render(f5);
-        leftarm.render(f5);
-        rightleg.render(f5);
-        leftleg.render(f5);
+    public void render(Entity entityLivingBaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        if (entityLivingBaseIn instanceof EntityWeepingAngel) {
+            EntityWeepingAngel angel = (EntityWeepingAngel) entityLivingBaseIn;
+            setupAngles(angel.swingProgress, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, PoseManager.getPoseFromString(angel.getPose()));
+            renderQuickly(PoseManager.getPoseFromString(angel.getPose()), 0.06125F);
+        }
     }
 
-    public void setRotationAngles(Entity entity) {
-        if (entity instanceof EntityWeepingAngel) {
-            EntityWeepingAngel angel = (EntityWeepingAngel) entity;
+    private float toRadians(float f) {
+        return f / 57.29578F;
+    }
 
-            angleX = toRadians(10F);
-            angleY = toRadians(30F);
+    @Override
+    public void setupAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
+        angleX = toRadians(10F);
+        angleY = toRadians(30F);
+        angleZ = toRadians(5F);
+
+        if (pose.name().equals(PoseManager.AngelPoses.ANGRY.name())) {
+            float f6 = MathHelper.sin(ageInTicks / 50 * 3.141593F);
+            rightarm.rotateAngleZ = 0.0F;
+            leftarm.rotateAngleZ = 0.0F;
+            rightarm.rotateAngleY = -(0.1F - f6 * 0.6F);
+            leftarm.rotateAngleY = 0.1F - f6 * 0.6F;
+            rightarm.rotateAngleX = -1.570796F;
+            leftarm.rotateAngleX = -1.570796F;
+
+            angleX = toRadians(20F);
+            angleY = toRadians(60F);
             angleZ = toRadians(5F);
+        }
 
-            if (angel.getPose().equals(PoseManager.AngelPoses.ANGRY.name())) {
-                float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
-                rightarm.rotateAngleZ = 0.0F;
-                leftarm.rotateAngleZ = 0.0F;
-                rightarm.rotateAngleY = -(0.1F - f6 * 0.6F);
-                leftarm.rotateAngleY = 0.1F - f6 * 0.6F;
-                rightarm.rotateAngleX = -1.570796F;
-                leftarm.rotateAngleX = -1.570796F;
-
-                angleX = toRadians(20F);
-                angleY = toRadians(60F);
-                angleZ = toRadians(5F);
-            }
-
-            if (angel.getPose().equals(PoseManager.AngelPoses.HIDING_FACE.name())) {
-                rightarm.rotateAngleX = -1.04533F;
-                rightarm.rotateAngleY = -0.55851F;
-                rightarm.rotateAngleZ = 0.0F;
-                leftarm.rotateAngleX = -1.04533F;
-                leftarm.rotateAngleY = 0.55851F;
-                leftarm.rotateAngleZ = 0.0F;
-            } else {
-                rightarm.rotateAngleX = -1.74533F;
-                rightarm.rotateAngleY = -0.55851F;
-                rightarm.rotateAngleZ = 0.0F;
-                leftarm.rotateAngleX = -1.74533F;
-                leftarm.rotateAngleY = 0.55851F;
-                leftarm.rotateAngleZ = 0.0F;
-            }
-            rightwing2.rotateAngleX = rightwing3.rotateAngleX = rightwing4.rotateAngleX = rightwing1.rotateAngleX = leftwing2.rotateAngleX = leftwing3.rotateAngleX = leftwing4.rotateAngleX = leftwing1.rotateAngleX = angleX;
-            rightwing2.rotateAngleY = rightwing3.rotateAngleY = rightwing4.rotateAngleY = rightwing1.rotateAngleY = -angleY;
-            leftwing2.rotateAngleY = leftwing3.rotateAngleY = leftwing4.rotateAngleY = leftwing1.rotateAngleY = angleY;
-            rightwing2.rotateAngleZ = rightwing3.rotateAngleZ = rightwing4.rotateAngleZ = rightwing1.rotateAngleZ = angleZ;
-            leftwing2.rotateAngleZ = leftwing3.rotateAngleZ = leftwing4.rotateAngleZ = leftwing1.rotateAngleZ = -angleZ;
+        if (pose.name().equals(PoseManager.AngelPoses.HIDING_FACE.name())) {
+            rightarm.rotateAngleX = -1.04533F;
+            rightarm.rotateAngleY = -0.55851F;
+            rightarm.rotateAngleZ = 0.0F;
+            leftarm.rotateAngleX = -1.04533F;
+            leftarm.rotateAngleY = 0.55851F;
+            leftarm.rotateAngleZ = 0.0F;
         } else {
             rightarm.rotateAngleX = -1.74533F;
             rightarm.rotateAngleY = -0.55851F;
@@ -218,13 +194,30 @@ public class ModelClassicAngel extends ModelBiped {
             leftarm.rotateAngleY = 0.55851F;
             leftarm.rotateAngleZ = 0.0F;
         }
+        rightwing2.rotateAngleX = rightwing3.rotateAngleX = rightwing4.rotateAngleX = rightwing1.rotateAngleX = leftwing2.rotateAngleX = leftwing3.rotateAngleX = leftwing4.rotateAngleX = leftwing1.rotateAngleX = angleX;
+        rightwing2.rotateAngleY = rightwing3.rotateAngleY = rightwing4.rotateAngleY = rightwing1.rotateAngleY = -angleY;
+        leftwing2.rotateAngleY = leftwing3.rotateAngleY = leftwing4.rotateAngleY = leftwing1.rotateAngleY = angleY;
+        rightwing2.rotateAngleZ = rightwing3.rotateAngleZ = rightwing4.rotateAngleZ = rightwing1.rotateAngleZ = angleZ;
+        leftwing2.rotateAngleZ = leftwing3.rotateAngleZ = leftwing4.rotateAngleZ = leftwing1.rotateAngleZ = -angleZ;
     }
 
-    private float toRadians(float f) {
-        return f / 57.29578F;
-    }
-
-    private float toDegrees(float f) {
-        return f * 57.29578F;
+    @Override
+    public void renderQuickly(PoseManager.AngelPoses pose, float scale) {
+        leftfoot.render(scale);
+        rightfoot.render(scale);
+        leftwing1.render(scale);
+        leftwing2.render(scale);
+        leftwing3.render(scale);
+        leftwing4.render(scale);
+        rightwing1.render(scale);
+        rightwing2.render(scale);
+        rightwing3.render(scale);
+        rightwing4.render(scale);
+        head.render(scale);
+        body.render(scale);
+        rightarm.render(scale);
+        leftarm.render(scale);
+        rightleg.render(scale);
+        leftleg.render(scale);
     }
 }

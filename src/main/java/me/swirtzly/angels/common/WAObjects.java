@@ -1,11 +1,7 @@
 package me.swirtzly.angels.common;
 
 import me.swirtzly.angels.WeepingAngels;
-import me.swirtzly.angels.common.blocks.BlockAngelPlinth;
-import me.swirtzly.angels.common.blocks.BlockAngelStatue;
-import me.swirtzly.angels.common.blocks.BlockChronodyneGenerator;
-import me.swirtzly.angels.common.blocks.BlockMineable;
-import me.swirtzly.angels.common.blocks.BlockSnowArm;
+import me.swirtzly.angels.common.blocks.*;
 import me.swirtzly.angels.common.entities.*;
 import me.swirtzly.angels.common.items.ItemAngelSpawner;
 import me.swirtzly.angels.common.items.ItemChronodyneGenerator;
@@ -61,7 +57,8 @@ public class WAObjects {
                 setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_CHILD, EntityWeepingAngel::new), "angel_child", true),
                 setUpItem(new Item(), "kontron_ingot", true),
                 setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_THREE, EntityWeepingAngel::new), "angel_2", true),
-                setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3", true)
+                setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FOUR, EntityWeepingAngel::new), "angel_3", true),
+                setUpItem(new ItemAngelSpawner<>(AngelEnums.AngelType.ANGEL_FIVE, EntityWeepingAngel::new), "angel_4", true)
         );
     }
 

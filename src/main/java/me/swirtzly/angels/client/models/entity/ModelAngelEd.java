@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd extends ModelBiped {
+public class ModelAngelEd extends ModelBiped implements IAngelModel {
 
     private ModelRenderer right_wing_0;
     private ModelRenderer left_wing_0;
@@ -213,56 +213,16 @@ public class ModelAngelEd extends ModelBiped {
 
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        GlStateManager.pushMatrix();
-        GlStateManager.enableCull();
-
         PoseManager.AngelPoses pose = PoseManager.AngelPoses.IDLE;
-
         if (entityIn instanceof EntityWeepingAngel) {
             EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
             pose = PoseManager.AngelPoses.valueOf(angel.getPose());
-            angelAngles(angel.swingProgress, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, pose);
+            setupAngles(angel.swingProgress, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, pose);
         } else {
-            angelAngles(0, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, pose);
+            setupAngles(0, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, pose);
         }
 
-        cloth_1.render(scale);
-        right_arm.render(scale);
-        head.render(scale);
-        cloth_0.render(scale);
-        back_cloth.render(scale);
-        cloth_2.render(scale);
-        left_wing_1.render(scale);
-        body_2.render(scale);
-        right_wing_1.render(scale);
-        body.render(scale);
-        right_wing_0.render(scale);
-        left_wing_0.render(scale);
-        left_arm.render(scale);
-        GlStateManager.disableCull();
-        GlStateManager.popMatrix();
-    }
-
-    public void render(PoseManager.AngelPoses pose) {
-        float scale = 0.06125F;
-        GlStateManager.pushMatrix();
-        GlStateManager.enableCull();
-        angelAngles(0, 0, 0, 0, 0, 0, pose);
-        cloth_1.render(scale);
-        right_arm.render(scale);
-        head.render(scale);
-        cloth_0.render(scale);
-        back_cloth.render(scale);
-        cloth_2.render(scale);
-        left_wing_1.render(scale);
-        body_2.render(scale);
-        right_wing_1.render(scale);
-        body.render(scale);
-        right_wing_0.render(scale);
-        left_wing_0.render(scale);
-        left_arm.render(scale);
-        GlStateManager.disableCull();
-        GlStateManager.popMatrix();
+        renderQuickly(pose, 0.06125F);
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -273,120 +233,12 @@ public class ModelAngelEd extends ModelBiped {
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        // lallalaallaalal
+        // Not Implemented
     }
 
     @Override
     protected ModelRenderer getArmForSide(EnumHandSide side) {
         return side == EnumHandSide.LEFT ? left_arm : right_arm;
-    }
-
-    public void angelAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
-
-        head.rotateAngleY = netheadYaw * 0.017453292F;
-            head.rotateAngleX = headPitch * 0.017453292F;
-
-            right_arm.rotationPointY = 2.5F;
-            left_arm.rotationPointY = 2.5F;
-            left_arm.rotateAngleX = 0;
-            left_arm.rotateAngleY = 0;
-            left_arm.rotateAngleZ = 0;
-            right_arm.rotateAngleX = 0;
-            right_arm.rotateAngleY = 0;
-            right_arm.rotateAngleZ = 0;
-
-            if (pose != null) {
-                angry_mouth.isHidden = !pose.hasAngryFace();
-
-                switch (pose) {
-                    case ANGRY:
-                        float swing = MathHelper.sin(swingProgress * (float) Math.PI);
-                        float f1 = MathHelper.sin((1.0F - (1.0F - swingProgress) * (1.0F - swingProgress)) * (float) Math.PI);
-                        head.rotateAngleX = headPitch * 0.017453292F;
-                        right_arm.rotateAngleZ = 0.0F;
-                        left_arm.rotateAngleZ = 0.0F;
-                        right_arm.rotateAngleY = -(0.1F - swing * 0.6F);
-                        left_arm.rotateAngleY = 0.1F - swing * 0.6F;
-                        right_arm.rotateAngleX = -1.5F;
-                        left_arm.rotateAngleX = -1.5F;
-                        right_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
-                        left_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
-                        right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-                        left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-                        right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                        left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                        break;
-                    case ANGRY_TWO:
-                        wrist_left.rotateAngleX = -0.52F;
-                        left_arm.rotateAngleX = -1.5F;
-                        left_arm.rotateAngleY = 0.31F;
-                        left_arm.rotateAngleZ = -0.087F;
-                        wrist_right.rotateAngleX = -0.52F;
-                        right_arm.rotateAngleX = -1.5F;
-                        right_arm.rotateAngleY = -0.31F;
-                        right_arm.rotateAngleZ = 0.087F;
-                        break;
-                    case SHY:
-                        left_arm.rotateAngleX = 0;
-                        left_arm.rotateAngleY = 0.4F;
-                        left_arm.rotateAngleZ = -0.3F;
-                        wrist_left.rotateAngleX = -0.4F;
-                        right_arm.rotateAngleX = -1.3F;
-                        right_arm.rotateAngleY = -0.9F;
-                        wrist_right.rotateAngleX = -0.9F;
-                        head.rotateAngleX = degreeToRadian(30);
-                        head.rotateAngleY = degreeToRadian(19);
-                        head.rotateAngleZ = 0;
-                        break;
-                    case HIDING_FACE_ANGRY:
-                    case HIDING_FACE:
-                        wrist_left.rotateAngleX = -0.52F;
-                        left_arm.rotateAngleX = -1.85F;
-                        left_arm.rotateAngleY = 0.61F;
-                        left_arm.rotateAngleZ = -0.087F;
-                        wrist_right.rotateAngleX = -0.52F;
-                        right_arm.rotateAngleX = -1.85F;
-                        right_arm.rotateAngleY = -0.61F;
-                        right_arm.rotateAngleZ = 0.087F;
-                        head.rotateAngleX = 0.11F;
-                        head.rotateAngleY = 0.0F;
-                        head.rotateAngleZ = 0.0F;
-                        break;
-                    case OPEN_ARMS:
-                        left_arm.rotateAngleX = degreeToRadian(-90);
-                        right_arm.rotateAngleX = degreeToRadian(-90);
-
-                        left_arm.rotateAngleY = degreeToRadian(30);
-                        right_arm.rotateAngleY = degreeToRadian(-30);
-
-                        left_arm.rotateAngleZ = degreeToRadian(-30);
-                        right_arm.rotateAngleZ = degreeToRadian(30);
-
-                        wrist_left.rotateAngleX = degreeToRadian(-45);
-                        wrist_right.rotateAngleX = degreeToRadian(-45);
-                        head.rotateAngleX = degreeToRadian(15);
-                        body.rotateAngleX = degreeToRadian(0);
-                        break;
-                    case IDLE:
-                        right_arm.rotateAngleX = 0;
-                        left_arm.rotateAngleX = 0;
-                        wrist_left.rotateAngleX = 0;
-                        wrist_right.rotateAngleX = 0;
-                        head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected Angel pose: " + pose);
-                }
-
-                if (pose.hasAngryFace()) {
-                    right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-                    left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-                    angry_mouth.isHidden = false;
-                } else {
-                    right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-                    left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-                }
-            }
     }
 
     public float degreeToRadian(float degree) {
@@ -398,6 +250,135 @@ public class ModelAngelEd extends ModelBiped {
         model.rotateAngleX = 0;
         model.rotateAngleY = 0;
         model.rotateAngleY = 0;
+    }
+
+    @Override
+    public void setupAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
+        head.rotateAngleY = netheadYaw * 0.017453292F;
+        head.rotateAngleX = headPitch * 0.017453292F;
+
+        right_arm.rotationPointY = 2.5F;
+        left_arm.rotationPointY = 2.5F;
+        left_arm.rotateAngleX = 0;
+        left_arm.rotateAngleY = 0;
+        left_arm.rotateAngleZ = 0;
+        right_arm.rotateAngleX = 0;
+        right_arm.rotateAngleY = 0;
+        right_arm.rotateAngleZ = 0;
+
+        if (pose != null) {
+            angry_mouth.isHidden = !pose.hasAngryFace();
+
+            switch (pose) {
+                case ANGRY:
+                    float swing = MathHelper.sin(swingProgress * (float) Math.PI);
+                    float f1 = MathHelper.sin((1.0F - (1.0F - swingProgress) * (1.0F - swingProgress)) * (float) Math.PI);
+                    head.rotateAngleX = headPitch * 0.017453292F;
+                    right_arm.rotateAngleZ = 0.0F;
+                    left_arm.rotateAngleZ = 0.0F;
+                    right_arm.rotateAngleY = -(0.1F - swing * 0.6F);
+                    left_arm.rotateAngleY = 0.1F - swing * 0.6F;
+                    right_arm.rotateAngleX = -1.5F;
+                    left_arm.rotateAngleX = -1.5F;
+                    right_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
+                    left_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
+                    right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                    left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                    right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                    left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                    break;
+                case ANGRY_TWO:
+                    wrist_left.rotateAngleX = -0.52F;
+                    left_arm.rotateAngleX = -1.5F;
+                    left_arm.rotateAngleY = 0.31F;
+                    left_arm.rotateAngleZ = -0.087F;
+                    wrist_right.rotateAngleX = -0.52F;
+                    right_arm.rotateAngleX = -1.5F;
+                    right_arm.rotateAngleY = -0.31F;
+                    right_arm.rotateAngleZ = 0.087F;
+                    break;
+                case SHY:
+                    left_arm.rotateAngleX = 0;
+                    left_arm.rotateAngleY = 0.4F;
+                    left_arm.rotateAngleZ = -0.3F;
+                    wrist_left.rotateAngleX = -0.4F;
+                    right_arm.rotateAngleX = -1.3F;
+                    right_arm.rotateAngleY = -0.9F;
+                    wrist_right.rotateAngleX = -0.9F;
+                    head.rotateAngleX = degreeToRadian(30);
+                    head.rotateAngleY = degreeToRadian(19);
+                    head.rotateAngleZ = 0;
+                    break;
+                case HIDING_FACE_ANGRY:
+                case HIDING_FACE:
+                    wrist_left.rotateAngleX = -0.52F;
+                    left_arm.rotateAngleX = -1.85F;
+                    left_arm.rotateAngleY = 0.61F;
+                    left_arm.rotateAngleZ = -0.087F;
+                    wrist_right.rotateAngleX = -0.52F;
+                    right_arm.rotateAngleX = -1.85F;
+                    right_arm.rotateAngleY = -0.61F;
+                    right_arm.rotateAngleZ = 0.087F;
+                    head.rotateAngleX = 0.11F;
+                    head.rotateAngleY = 0.0F;
+                    head.rotateAngleZ = 0.0F;
+                    break;
+                case OPEN_ARMS:
+                    left_arm.rotateAngleX = degreeToRadian(-90);
+                    right_arm.rotateAngleX = degreeToRadian(-90);
+
+                    left_arm.rotateAngleY = degreeToRadian(30);
+                    right_arm.rotateAngleY = degreeToRadian(-30);
+
+                    left_arm.rotateAngleZ = degreeToRadian(-30);
+                    right_arm.rotateAngleZ = degreeToRadian(30);
+
+                    wrist_left.rotateAngleX = degreeToRadian(-45);
+                    wrist_right.rotateAngleX = degreeToRadian(-45);
+                    head.rotateAngleX = degreeToRadian(15);
+                    body.rotateAngleX = degreeToRadian(0);
+                    break;
+                case IDLE:
+                    right_arm.rotateAngleX = 0;
+                    left_arm.rotateAngleX = 0;
+                    wrist_left.rotateAngleX = 0;
+                    wrist_right.rotateAngleX = 0;
+                    head.rotateAngleX = headPitch * 0.017453292F + head.rotateAngleZ * netheadYaw * 0.005F + 0.112F;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected Angel pose: " + pose);
+            }
+
+            if (pose.hasAngryFace()) {
+                right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+                left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+                angry_mouth.isHidden = false;
+            } else {
+                right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+                left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+            }
+        }
+    }
+
+    @Override
+    public void renderQuickly(PoseManager.AngelPoses pose, float scale) {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableCull();
+        cloth_1.render(scale);
+        right_arm.render(scale);
+        head.render(scale);
+        cloth_0.render(scale);
+        back_cloth.render(scale);
+        cloth_2.render(scale);
+        left_wing_1.render(scale);
+        body_2.render(scale);
+        right_wing_1.render(scale);
+        body.render(scale);
+        right_wing_0.render(scale);
+        left_wing_0.render(scale);
+        left_arm.render(scale);
+        GlStateManager.disableCull();
+        GlStateManager.popMatrix();
     }
 }
 

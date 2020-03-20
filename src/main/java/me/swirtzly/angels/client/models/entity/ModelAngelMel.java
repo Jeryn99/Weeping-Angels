@@ -12,7 +12,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelAngelMel extends ModelBase {
+public class ModelAngelMel extends ModelBase implements IAngelModel {
 
     ModelRenderer Eye1;
     ModelRenderer Eye2;
@@ -511,6 +511,24 @@ public class ModelAngelMel extends ModelBase {
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 
+
+        if (entityIn instanceof EntityWeepingAngel) {
+            EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
+            PoseManager.AngelPoses pose = PoseManager.getPoseFromString(angel.getPose());
+            renderQuickly(pose, 0.06125F);
+        } else {
+            armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        }
+
+    }
+
+    @Override
+    public void setupAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
+
+    }
+
+    @Override
+    public void renderQuickly(PoseManager.AngelPoses pose, float scale) {
         Eye1.render(scale);
         Eye2.render(scale);
         EyeBacking.render(scale);
@@ -579,36 +597,26 @@ public class ModelAngelMel extends ModelBase {
         RightWing5.render(scale);
         RightWing6.render(scale);
         RightWing7.render(scale);
-
-        if (entityIn instanceof EntityWeepingAngel) {
-            EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
-            PoseManager.AngelPoses pose = PoseManager.getPoseFromString(angel.getPose());
-
-            switch (pose) {
-                case ANGRY:
-                case ANGRY_TWO:
-                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                    armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                    break;
-                case HIDING_FACE:
-                case HIDING_FACE_ANGRY:
-                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                    armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                    break;
-                case IDLE:
-                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                    armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                    break;
-                case SHY:
-                case OPEN_ARMS:
-                    Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
-                    armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-                    break;
-            }
-            //  armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        } else {
-            armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        switch (pose) {
+            case ANGRY:
+            case ANGRY_TWO:
+                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                armsAngry.render(null, 0, 0, 0, 0, 0, scale);
+                break;
+            case HIDING_FACE:
+            case HIDING_FACE_ANGRY:
+                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                armsCovering.render(null, 0, 0, 0, 0, 0, scale);
+                break;
+            case IDLE:
+                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                armsIdle.render(null, 0, 0, 0, 0, 0, scale);
+                break;
+            case SHY:
+            case OPEN_ARMS:
+                Minecraft.getMinecraft().getTextureManager().bindTexture(RenderWeepingAngel.TEXTURE_FOUR);
+                armsPoint.render(null, 0, 0, 0, 0, 0, scale);
+                break;
         }
-
     }
 }

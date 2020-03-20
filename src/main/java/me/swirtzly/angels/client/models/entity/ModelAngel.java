@@ -7,7 +7,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
-public class ModelAngel extends ModelBase {
+public class ModelAngel extends ModelBase implements IAngelModel {
 
     /**
      * Weeping Angel - Ford Created using Techne
@@ -477,11 +477,27 @@ public class ModelAngel extends ModelBase {
             angel = (EntityWeepingAngel) entity;
         }
 
-        // Head
+        renderQuickly(PoseManager.getPoseFromString(angel.getPose()), 0.06125F);
+
+    }
+
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
+        model.rotateAngleX = x;
+        model.rotateAngleY = y;
+        model.rotateAngleZ = z;
+    }
+
+    @Override
+    public void setupAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
+
+    }
+
+    @Override
+    public void renderQuickly(PoseManager.AngelPoses pose, float scale) {
         GlStateManager.pushMatrix();
 
         GlStateManager.pushMatrix();
-        if (!angel.getPose().equals(PoseManager.AngelPoses.ANGRY.name())) {
+        if (!pose.name().equals(PoseManager.AngelPoses.ANGRY.name())) {
             GlStateManager.rotate(20, 1, 0, 0);
         }
         LeftEyebrow.render(scale);
@@ -510,7 +526,7 @@ public class ModelAngel extends ModelBase {
         Hair12.render(scale);
         GlStateManager.popMatrix();
 
-        if (angel.getPose().equals(PoseManager.AngelPoses.ANGRY.name())) {
+        if (pose.name().equals(PoseManager.AngelPoses.ANGRY.name())) {
             AngryRightArm1.render(scale);
             AngryRightArm2.render(scale);
             AngryLeftArm1.render(scale);
@@ -556,11 +572,5 @@ public class ModelAngel extends ModelBase {
         RightWing8.render(scale);
         RightWing9.render(scale);
         GlStateManager.popMatrix();
-    }
-
-    private void setRotation(ModelRenderer model, float x, float y, float z) {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
     }
 }

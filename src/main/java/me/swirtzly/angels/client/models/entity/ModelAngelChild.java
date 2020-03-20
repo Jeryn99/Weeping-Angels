@@ -1,5 +1,6 @@
 package me.swirtzly.angels.client.models.entity;
 
+import me.swirtzly.angels.client.models.poses.PoseManager;
 import me.swirtzly.angels.common.entities.EntityWeepingAngel;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -7,7 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelAngelChild extends ModelBiped {
+public class ModelAngelChild extends ModelBiped implements IAngelModel {
 
     private ModelRenderer head_2;
     private ModelRenderer head;
@@ -124,22 +125,10 @@ public class ModelAngelChild extends ModelBiped {
         if (entityIn instanceof EntityWeepingAngel) {
             EntityWeepingAngel angel = (EntityWeepingAngel) entityIn;
             if (angel.getSeenTime() == 5) {
-                angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
+                setupAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, PoseManager.getPoseFromString(angel.getPose()));
             }
+            renderQuickly(PoseManager.getPoseFromString(angel.getPose()), 0.06125F);
         }
-
-        head_2.render(scale);
-        head.render(scale);
-        GlStateManager.pushMatrix();
-        GlStateManager.enableCull();
-        GlStateManager.translate(body.offsetX, body.offsetY, body.offsetZ);
-        GlStateManager.translate(body.rotationPointX * scale, body.rotationPointY * scale, body.rotationPointZ * scale);
-        GlStateManager.scale(0.7D, 0.7D, 0.7D);
-        GlStateManager.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
-        GlStateManager.translate(-body.rotationPointX * scale, -body.rotationPointY * scale, -body.rotationPointZ * scale);
-        body.render(scale);
-        GlStateManager.disableCull();
-        GlStateManager.popMatrix();
     }
 
     /**
@@ -151,7 +140,8 @@ public class ModelAngelChild extends ModelBiped {
         modelRenderer.rotateAngleZ = z;
     }
 
-    public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
+    @Override
+    public void setupAngles(float swingProgress, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, PoseManager.AngelPoses pose) {
         right_arm.rotationPointY = 2.5F;
         left_arm.rotationPointY = 2.5F;
 
@@ -165,5 +155,21 @@ public class ModelAngelChild extends ModelBiped {
 
         left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
         right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
+    }
+
+    @Override
+    public void renderQuickly(PoseManager.AngelPoses pose, float scale) {
+        head_2.render(scale);
+        head.render(scale);
+        GlStateManager.pushMatrix();
+        GlStateManager.enableCull();
+        GlStateManager.translate(body.offsetX, body.offsetY, body.offsetZ);
+        GlStateManager.translate(body.rotationPointX * scale, body.rotationPointY * scale, body.rotationPointZ * scale);
+        GlStateManager.scale(0.7D, 0.7D, 0.7D);
+        GlStateManager.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
+        GlStateManager.translate(-body.rotationPointX * scale, -body.rotationPointY * scale, -body.rotationPointZ * scale);
+        body.render(scale);
+        GlStateManager.disableCull();
+        GlStateManager.popMatrix();
     }
 }
