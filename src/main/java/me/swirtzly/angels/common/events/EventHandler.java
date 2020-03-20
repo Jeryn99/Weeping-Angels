@@ -114,20 +114,21 @@ public class EventHandler {
             if (victim instanceof EntityWeepingAngel) {
                 ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
                 boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe") || item.canHarvestBlock(Blocks.OBSIDIAN.getDefaultState());
-                e.setCanceled(!isPic);
                 Item pick = item.getItem();
+                if (attacker instanceof EntityPlayer) {
+                    EntityPlayer player = (EntityPlayer) attacker;
+                    if (!player.getCooldownTracker().hasCooldown(pick)) {
+                        if (WAConfig.angels.pickaxeCooldown) {
+                            player.getCooldownTracker().setCooldown(pick, WAConfig.angels.pickaxeCooldownTicks);
+                        }
+                    }
+                }
+
+                e.setCanceled(!isPic);
                 if (!isPic && !dSource.isProjectile()) {
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-                    if (attacker instanceof EntityPlayer) {
-                        EntityPlayer player = (EntityPlayer) attacker;
-                        if (!player.getCooldownTracker().hasCooldown(pick)) {
-                            if (WAConfig.angels.pickaxeCooldown) {
-                                player.getCooldownTracker().setCooldown(pick, WAConfig.angels.pickaxeCooldownTicks);
-                            }
-                        } 
-                    }
-                } 
+                }
                 else if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
                         e.setCanceled(true);
                 }
@@ -135,7 +136,8 @@ public class EventHandler {
                         e.setCanceled(true);
                     }
                 }
-            }
+
+        }
         }
 
     @SubscribeEvent
