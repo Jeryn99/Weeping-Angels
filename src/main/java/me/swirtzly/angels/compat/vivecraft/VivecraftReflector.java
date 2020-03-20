@@ -11,8 +11,4 @@ public abstract class VivecraftReflector {
     public abstract Vec3d getHMDPos(EntityPlayer player);
 
     public abstract Vec3d getHMDRot(EntityPlayer player);
-
-    public abstract Vec3d getControllerPos(EntityPlayer player, int c);
-
-    public abstract Vec3d getControllerRot(EntityPlayer player, int c);
 }

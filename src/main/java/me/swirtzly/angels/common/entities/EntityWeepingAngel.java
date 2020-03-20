@@ -250,7 +250,7 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
         if (player instanceof EntityPlayerMP && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong()) {
             setPrevPos(getPosition());
             if (WAConfig.angels.playSeenSounds) {
-                ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 0.3F, 1F));
+                ((EntityPlayerMP) player).connection.sendPacket(new SPacketSoundEffect(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 0.2F, 1F));
             }
             if (getType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
                 setPose(PoseManager.randomEnum(PoseManager.AngelPoses.class).name());

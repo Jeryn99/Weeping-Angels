@@ -23,6 +23,7 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
     private ModelBase modelChild = new ModelAngelChild();
     private ModelBase modelClassic = new ModelClassicAngel();
     private ModelBase modelMel = new ModelAngelMel();
+    private ModelBase modelAngela = new ModelAngela();
     private ModelBase modelMain = modelMel;
 
 
@@ -48,6 +49,9 @@ public class LayerCrack implements LayerRenderer<EntityWeepingAngel> {
                 break;
             case 3:
                 modelMain = modelMel;
+                break;
+            case 4:
+                modelMain = modelAngela;
                 break;
         }
 

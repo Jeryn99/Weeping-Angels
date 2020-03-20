@@ -43,11 +43,29 @@ public class ViewUtil {
         return vecFinal.dotProduct(vecLook) < 0.0;
     }
 
+    private static final float headSize = 0.15f;
+
 
     public static boolean viewBlocked(EntityLivingBase viewer, EntityLivingBase angel) {
+        if (viewer.isPlayerSleeping()) return false;
         AxisAlignedBB viewerBoundBox = viewer.getEntityBoundingBox();
         AxisAlignedBB angelBoundingBox = angel.getEntityBoundingBox();
         Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
+        if (viewer instanceof EntityPlayer) {
+            Vec3d pos;
+            if (CommonProxy.reflector.isVRPlayer((EntityPlayer) viewer))
+                pos = CommonProxy.reflector.getHMDPos((EntityPlayer) viewer);
+            else
+                pos = new Vec3d(viewer.posX, viewer.posY + 1.62f, viewer.posZ);
+            viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
+            viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
+            viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
+            viewerPoints[3] = pos.add(-headSize, headSize, headSize);
+            viewerPoints[4] = pos.add(headSize, headSize, -headSize);
+            viewerPoints[5] = pos.add(headSize, headSize, headSize);
+            viewerPoints[6] = pos.add(headSize, -headSize, headSize);
+            viewerPoints[7] = pos.add(headSize, -headSize, -headSize);
+        }
         Vec3d[] angelPoints = {new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
         for (int i = 0; i < viewerPoints.length; i++) {
