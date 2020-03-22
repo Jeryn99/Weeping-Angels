@@ -101,17 +101,22 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void cancelDamage(LivingAttackEvent e) {
-        if (!WAConfig.angels.pickaxeOnly) return;
-        if (WAConfig.angels.hardcoreMode) { e.setCanceled(true); return;}
-        
         Entity source = e.getSource().getTrueSource();
         DamageSource dSource = e.getSource();
-        
+
         if (source instanceof EntityLivingBase) {
             EntityLivingBase attacker = (EntityLivingBase) source;
             EntityLivingBase victim = e.getEntityLiving();
-            
+
             if (victim instanceof EntityWeepingAngel) {
+
+                if (WAConfig.angels.hardcoreMode) {
+                    e.setCanceled(true);
+                    return;
+                }
+
+                if (!WAConfig.angels.pickaxeOnly) return;
+
                 ItemStack item = attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
                 boolean isPic = item.getItem() instanceof ItemPickaxe || item.getItem().getRegistryName().toString().contains("pickaxe") || item.canHarvestBlock(Blocks.OBSIDIAN.getDefaultState());
                 Item pick = item.getItem();
@@ -130,15 +135,14 @@ public class EventHandler {
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
                 }
                 else if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == EnumDifficulty.HARD) {
-                        e.setCanceled(true);
+                    e.setCanceled(true);
                 }
                 else if (!(source instanceof Entity)) {
-                        e.setCanceled(true);
-                    }
+                    e.setCanceled(true);
                 }
-
+            }
         }
-        }
+    }
 
     @SubscribeEvent
     public static void onLootTablesLoaded(LootTableLoadEvent event) {

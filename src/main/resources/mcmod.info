@@ -3,12 +3,12 @@
     "modid": "weeping-angels",
     "name": "Weeping Angels",
     "description": "Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5",
-    "version": "1.12.2-40",
+    "version": "1.12.2-45",
     "mcversion": "1.12.2",
     "url": "https://github.com/Swirtzly/Weeping-Angels-Mod",
     "updateUrl": "https://raw.githubusercontent.com/Swirtzly/Weeping-Angels-Mod/master/update.json",
     "authorList": [
-      "Fril"
+      "Swirtzly"
     ],
     "credits": "Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt",
     "logoFile": "logo.png",
