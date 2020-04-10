@@ -12,10 +12,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import net.tardis.mod.dimensions.DimensionTardis;
+import net.tardis.mod.dimensions.TardisDimension;
 import net.tardis.mod.helper.TardisHelper;
-import net.tardis.mod.misc.EmotionHandler;
-import net.tardis.mod.tileentities.TileEntityConsole;
+import net.tardis.mod.tileentities.ConsoleTile;
 
 /**
  * Created by Swirtzly on 04/03/2020 @ 20:52
@@ -24,17 +23,17 @@ public class Tardis {
 	
 	@SubscribeEvent
 	public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
-		breakBlockEvent.setCanceled(breakBlockEvent.getAngel().world.dimension instanceof DimensionTardis);
+		breakBlockEvent.setCanceled(breakBlockEvent.getAngel().world.dimension instanceof TardisDimension);
 	}
 	
 	@SubscribeEvent
 	public void onAngelJoinWorld(EntityJoinWorldEvent event) {
-		if (event.getWorld().dimension instanceof DimensionTardis) {
+		if (event.getWorld().dimension instanceof TardisDimension) {
 			if (event.getEntity() instanceof WeepingAngelEntity) {
-				TileEntityConsole console = (TileEntityConsole) event.getWorld().getTileEntity(TardisHelper.TARDIS_POS);
+				ConsoleTile console = (ConsoleTile) event.getWorld().getTileEntity(TardisHelper.TARDIS_POS);
 				if (console != null) {
 					console.getInteriorManager().setAlarmOn(true);
-					console.getEmotionHandler().setMood(EmotionHandler.EnumHappyState.SAD.getTreshold());
+
 				}
 			}
 		}
@@ -44,22 +43,33 @@ public class Tardis {
 	public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
 		if (event.getEntity() instanceof QuantumLockBaseEntity) {
 			QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
-			
+
 			// Tardis Dimension
-			if (angel.world.dimension instanceof DimensionTardis) {
+			if (angel.world.dimension instanceof TardisDimension) {
 				World world = angel.world;
-				TileEntityConsole console = (TileEntityConsole) world.getTileEntity(TardisHelper.TARDIS_POS);
+				ConsoleTile console = (ConsoleTile) world.getTileEntity(TardisHelper.TARDIS_POS);
+
+				//Drain Fuel
+				if(angel.ticksExisted % 100 == 0){
+					boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
+					if (console != null) {
+						console.setArtron(isAngelHealthHalfed ? 5 : 1);
+					}
+				}
+
+				//Mess with the lights
 				if (angel.ticksExisted % 500 == 0) {
 					if (console != null) {
 						console.getInteriorManager().setLight(console.getInteriorManager().getLight() > 0 ? 0 : 15);
 					}
 				}
-				
+
+				// Make Angel Steal Tardis?
 				if (angel.ticksExisted % 6000 == 0 && world.rand.nextInt(10) < 5) {
 					DimensionType Nworld = WATeleporter.getRandomDimension(angel.world.rand);
 					if (console != null) {
-						// console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
-						// console.takeoff();
+						 console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
+						 console.takeoff();
 					}
 				}
 			}
@@ -69,7 +79,7 @@ public class Tardis {
 	
 	@SubscribeEvent
 	public void onPlayerTeleported(EventAngelTeleport teleport) {
-		if (teleport.getTargetDimension().dimension instanceof DimensionTardis) {
+		if (teleport.getTargetDimension().dimension instanceof TardisDimension) {
 			teleport.setTargetDimension(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), DimensionType.OVERWORLD, false, true));
 		}
 	}

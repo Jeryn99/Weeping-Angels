@@ -1,10 +1,54 @@
 {
-  "angel_seen_1": {
+  "angel_seen": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_seen",
     "sounds": [
       {
         "name": "weeping_angels:seen/angel_seen_1",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_2",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_3",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_4",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_5",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_6",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_7",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_8",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_9",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_10",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_11",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:seen/angel_seen_12",
         "stream": false
       }
     ]
@@ -39,76 +83,6 @@
       }
     ]
   },
-  "angel_seen_2": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_2",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_3": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_3",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_4": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_4",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_5": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_5",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_6": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_6",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_7": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_7",
-        "stream": false
-      }
-    ]
-  },
-  "angel_seen_8": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_seen",
-    "sounds": [
-      {
-        "name": "weeping_angels:seen/angel_seen_8",
-        "stream": false
-      }
-    ]
-  },
   "child_run": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.child_run",
@@ -129,7 +103,7 @@
       }
     ]
   },
-  "teleport": {
+  "angel_teleport": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_teleport",
     "sounds": [
