@@ -101,7 +101,7 @@ public class AngelRender extends MobRenderer {
 					bindTexture(TEXTURE_ANGELA);
 					modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					break;
-			}
+			}		
 			GlStateManager.popMatrix();
 			
 		}

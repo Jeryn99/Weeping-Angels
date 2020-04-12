@@ -214,7 +214,6 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	public void quickRender(float scale, String pose) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
-		GlStateManager.enableLighting();
 		tilePosing(pose);
 		cloth_1.render(scale);
 		right_arm.render(scale);
@@ -229,7 +228,6 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 		right_wing_0.render(scale);
 		left_wing_0.render(scale);
 		left_arm.render(scale);
-		GlStateManager.disableLighting();
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
@@ -238,7 +236,6 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
-		GlStateManager.enableLighting();
 		angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 		cloth_1.render(scale);
 		right_arm.render(scale);
@@ -253,7 +250,6 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 		right_wing_0.render(scale);
 		left_wing_0.render(scale);
 		left_arm.render(scale);
-		GlStateManager.disableLighting();
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
