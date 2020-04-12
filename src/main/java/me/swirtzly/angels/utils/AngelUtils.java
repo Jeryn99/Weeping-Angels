@@ -22,6 +22,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -154,6 +155,20 @@ public class AngelUtils {
         int pick = new Random().nextInt(AngelEnums.AngelType.values().length);
         return AngelEnums.AngelType.values()[pick];
     }
+
+    public static boolean isPosOutsideBorder(BlockPos pos, World world) {
+        double d0 = world.getWorldBorder().minX();
+        double d1 = world.getWorldBorder().minZ();
+        double d2 = world.getWorldBorder().maxX();
+        double d3 = world.getWorldBorder().maxZ();
+        --d0;
+        --d1;
+        ++d2;
+        ++d3;
+
+        return pos.getX() > d0 && pos.getX() < d2 && pos.getZ() > d1 && pos.getZ() < d3;
+    }
+    
 
     /**
      * Returns a random between the specified values;

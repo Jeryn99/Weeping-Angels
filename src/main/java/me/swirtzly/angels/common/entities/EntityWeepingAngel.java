@@ -426,6 +426,9 @@ public class EntityWeepingAngel extends EntityQuantumLockBase {
             case RANDOM_PLACE:
                 if (rand.nextBoolean()) {
                     BlockPos pos = new BlockPos(player.posX + rand.nextInt(WAConfig.teleport.teleportRange), 0, player.posZ + rand.nextInt(WAConfig.teleport.teleportRange));
+                    if (AngelUtils.isPosOutsideBorder(pos, player.world)) {
+                        pos = world.getSpawnPoint().add(rand.nextInt(WAConfig.teleport.teleportRange), 0, rand.nextInt(WAConfig.teleport.teleportRange));
+                    }
                     Teleporter.moveSafeAcrossDim(player, pos);
                 } else {
                     Teleporter.handleStructures(player);
