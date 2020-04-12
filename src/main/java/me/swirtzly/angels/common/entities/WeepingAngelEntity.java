@@ -274,8 +274,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	
 	@Override
 	public void moveTowards(LivingEntity entity) {
-		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
+		super.moveTowards(entity);
 	}
 	
 	public boolean isWeak() {

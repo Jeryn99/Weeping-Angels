@@ -23,6 +23,11 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.tardis.mod.cap.Capabilities;
+import net.tardis.mod.dimensions.TDimensions;
+import net.tardis.mod.events.CommonEvents;
+import net.tardis.mod.helper.PlayerHelper;
+import net.tardis.mod.items.PocketWatchItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -97,16 +102,18 @@ public class DetectorItem extends Item {
 	
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+
 		if (!entityIn.world.isRemote) {
-			List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(25, 25, 25));
+
+			List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
 			
 			if (entityIn instanceof PlayerEntity) {
 				if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
 					{
 						if (entityIn.ticksExisted % 20 == 0) {
-							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.5F, 1.0F);
+							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
 						}
-						
+
 						if (worldIn.rand.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
 							for (ChickenEntity chick : entityIn.world.getEntitiesWithinAABB(ChickenEntity.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
 								if (entityIn.world.rand.nextBoolean()) {

@@ -5,13 +5,18 @@ import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.*;
 import me.swirtzly.angels.client.renders.entities.layers.CrackLayer;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nullable;
 
@@ -56,6 +61,21 @@ public class AngelRender extends MobRenderer {
 		if (living instanceof WeepingAngelEntity) {
 			GlStateManager.pushMatrix();
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
+
+			float f1 = MathHelper.sin(living.world.getGameTime() * 0.2F) / 2.0F + 0.5F;
+			BlockPos blockpos = living.getPosition().add(3,1, 3);
+			if (blockpos != null) {
+				this.bindTexture(EnderDragonRenderer.ENDERCRYSTAL_BEAM_TEXTURES);
+				float f2 = (float)blockpos.getX() + 0.5F;
+				float f3 = (float)blockpos.getY() + 0.5F;
+				float f4 = (float)blockpos.getZ() + 0.5F;
+				double d0 = (double)f2 - living.posX;
+				double d1 = (double)f3 - living.posY;
+				double d2 = (double)f4 - living.posZ;
+				EnderDragonRenderer.renderCrystalBeams(angel.posX + d0, angel.posY - 0.3D + (double)(f1 * 0.4F) + d1, angel.posZ + d2, Minecraft.getInstance().getRenderPartialTicks(), (double)f2, (double)f3, (double)f4, (int) f1, living.posX, living.posY, living.posZ);
+			}
+
+
 			switch (angel.getAngelType()) {
 				case -1:
 					bindTexture(TEXTURE_CHILD);
