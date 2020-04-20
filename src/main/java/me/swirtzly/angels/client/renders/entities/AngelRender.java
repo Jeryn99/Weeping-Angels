@@ -11,9 +11,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.minecart.MinecartEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +45,6 @@ public class AngelRender extends MobRenderer {
 	public AngelRender(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
 		addLayer(new CrackLayer(this));
-		addLayer(new HeldItemLayer(this));
 	}
 	
 	@Nullable
@@ -62,19 +64,14 @@ public class AngelRender extends MobRenderer {
 			GlStateManager.pushMatrix();
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
 
-			float f1 = MathHelper.sin(living.world.getGameTime() * 0.2F) / 2.0F + 0.5F;
-			BlockPos blockpos = living.getPosition().add(3,1, 3);
-			if (blockpos != null) {
-				this.bindTexture(EnderDragonRenderer.ENDERCRYSTAL_BEAM_TEXTURES);
-				float f2 = (float)blockpos.getX() + 0.5F;
-				float f3 = (float)blockpos.getY() + 0.5F;
-				float f4 = (float)blockpos.getZ() + 0.5F;
-				double d0 = (double)f2 - living.posX;
-				double d1 = (double)f3 - living.posY;
-				double d2 = (double)f4 - living.posZ;
-				EnderDragonRenderer.renderCrystalBeams(angel.posX + d0, angel.posY - 0.3D + (double)(f1 * 0.4F) + d1, angel.posZ + d2, Minecraft.getInstance().getRenderPartialTicks(), (double)f2, (double)f3, (double)f4, (int) f1, living.posX, living.posY, living.posZ);
-			}
-
+			ItemStack key = angel.getHeldItemMainhand();
+			GlStateManager.pushMatrix();
+			float offset = MathHelper.cos(living.ticksExisted * 0.1F) * -0.09F;
+			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+			GlStateManager.translated(0,-2,0);
+			GlStateManager.translated(0, offset, 0);
+			renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
+			GlStateManager.popMatrix();
 
 			switch (angel.getAngelType()) {
 				case -1:
@@ -104,6 +101,12 @@ public class AngelRender extends MobRenderer {
 			}		
 			GlStateManager.popMatrix();
 			
+		}
+	}
+
+	private void renderItem(LivingEntity p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_) {
+		if (!p_188358_2_.isEmpty()) {
+			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, false);
 		}
 	}
 	

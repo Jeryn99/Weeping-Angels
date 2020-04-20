@@ -3,12 +3,14 @@ package me.swirtzly.angels.compat.tardis;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.angels.common.entities.ai.AIMoveTowardsTardis;
 import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.compat.events.EventAngelTeleport;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.DimensionManager;
@@ -18,12 +20,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.tardis.mod.cap.Capabilities;
-import net.tardis.mod.cap.IWatch;
-import net.tardis.mod.cap.WatchCapability;
+import net.tardis.mod.cap.items.IWatch;
+import net.tardis.mod.cap.items.WatchCapability;
 import net.tardis.mod.dimensions.TardisDimension;
 import net.tardis.mod.helper.PlayerHelper;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.tileentities.ConsoleTile;
+
+import java.lang.annotation.Target;
 
 import static net.tardis.mod.events.CommonEvents.WATCH_CAP;
 
@@ -35,19 +39,6 @@ public class Tardis {
 	@SubscribeEvent
 	public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
 		breakBlockEvent.setCanceled(breakBlockEvent.getAngel().world.dimension instanceof TardisDimension);
-	}
-	
-	@SubscribeEvent
-	public void onAngelJoinWorld(EntityJoinWorldEvent event) {
-		if (event.getWorld().dimension instanceof TardisDimension) {
-			if (event.getEntity() instanceof WeepingAngelEntity) {
-				ConsoleTile console = (ConsoleTile) event.getWorld().getTileEntity(TardisHelper.TARDIS_POS);
-				if (console != null) {
-					console.getInteriorManager().setAlarmOn(true);
-
-				}
-			}
-		}
 	}
 	
 	@SubscribeEvent
@@ -74,10 +65,13 @@ public class Tardis {
 				ConsoleTile console = (ConsoleTile) world.getTileEntity(TardisHelper.TARDIS_POS);
 
 				//Drain Fuel
-				if(angel.ticksExisted % 100 == 0){
+				if(angel.ticksExisted % 400 == 0){
 					boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
 					if (console != null) {
-						console.setArtron(isAngelHealthHalfed ? 5 : 1);
+						if(console.getArtron() > 0) {
+							console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
+							angel.heal(0.5F);
+						}
 					}
 				}
 
@@ -89,7 +83,8 @@ public class Tardis {
 				}
 
 				// Make Angel Steal Tardis?
-				if (angel.ticksExisted % 6000 == 0 && world.rand.nextInt(10) < 5) {
+				BlockPos consolePos = TardisHelper.TARDIS_POS;
+				if (angel.getDistanceSq(consolePos.getX(), consolePos.getY(), consolePos.getZ()) < 7 && angel.ticksExisted % 6000 == 0 && world.rand.nextInt(10) < 5) {
 					DimensionType Nworld = WATeleporter.getRandomDimension(angel.world.rand);
 					if (console != null) {
 						 console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
@@ -112,6 +107,14 @@ public class Tardis {
 	public void attachItemStackCap(AttachCapabilitiesEvent<ItemStack> event) {
 		if (event.getObject().getItem() == WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()) {
 			event.addCapability(WATCH_CAP, new IWatch.Provider(new WatchCapability()));
+		}
+	}
+
+	@SubscribeEvent
+	public void onJoin(EntityJoinWorldEvent entityJoinWorldEvent){
+		if(entityJoinWorldEvent.getEntity() instanceof WeepingAngelEntity){
+			WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityJoinWorldEvent.getEntity();
+			weepingAngelEntity.goalSelector.addGoal(0, new AIMoveTowardsTardis<>(weepingAngelEntity));
 		}
 	}
 

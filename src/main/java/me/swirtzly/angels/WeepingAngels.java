@@ -57,7 +57,7 @@ public class WeepingAngels {
 		Network.init();
 		
 		if (ModList.get().isLoaded("tardis")) {
-			System.out.println("Loading Tardis Compatibility");
+			LOGGER.info("Loading Tardis Compatibility");
 			MinecraftForge.EVENT_BUS.register(new Tardis());
 		}
 	}

@@ -118,9 +118,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		super.isInvulnerableTo(source);
-		boolean shouldTakeDamage = source == DamageSource.OUT_OF_WORLD || source == DamageSource.STARVE;
-		return !shouldTakeDamage;
+		return super.isInvulnerableTo(source);
 	}
 	
 	public boolean isSeen() {

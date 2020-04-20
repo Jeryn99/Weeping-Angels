@@ -20,6 +20,7 @@ public class CrackLayer extends LayerRenderer {
 	private EntityModel modelChild = new ModelAngelChild();
 	private EntityModel modelClassic = new ModelClassicAngel();
 	private EntityModel modelMel = new ModelAngelMel();
+	private EntityModel modelAngela = new ModelAngela();
 	private EntityModel modelMain = modelMel;
 	
 	public CrackLayer(AngelRender angelRendererIn) {
@@ -49,6 +50,8 @@ public class CrackLayer extends LayerRenderer {
 					break;
 				case 3:
 					modelMain = modelMel;
+				case 4:
+					modelMain = modelAngela;
 					break;
 			}
 			

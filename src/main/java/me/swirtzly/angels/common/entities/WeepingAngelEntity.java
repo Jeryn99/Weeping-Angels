@@ -5,8 +5,6 @@ import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.config.WAConfig;
-import me.swirtzly.angels.network.Network;
-import me.swirtzly.angels.network.messages.MessageSFX;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.*;
@@ -138,20 +136,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
 				AngelUtils.removeLightFromHand(playerMP, this);
 			}
-			
-			// Steals keys from the player
-			if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
-				for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
-					ItemStack stack = playerMP.inventory.getStackInSlot(i);
-					for (String regName : WAConstants.KEYS) {
-						if (regName.matches(stack.getItem().getRegistryName().toString())) {
-							setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
-							playerMP.inventory.getStackInSlot(i).setCount(0);
-							playerMP.container.detectAndSendChanges();
-						}
-					}
-				}
-			}
+
 			
 			// Teleporting and damage
 			if (WAConfig.CONFIG.justTeleport.get()) {
@@ -184,6 +169,19 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		} else {
 			playerMP.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
 			heal(2.0F);
+		}
+
+		// Steals keys from the player
+		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
+			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
+				ItemStack stack = playerMP.inventory.getStackInSlot(i);
+				if ((stack.getItem().getRegistryName().toString().contains("key"))) {
+					setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
+					playerMP.inventory.getStackInSlot(i).setCount(0);
+					playerMP.container.detectAndSendChanges();
+					return;
+				}
+			}
 		}
 	}
 	
@@ -377,7 +375,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
-		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 		
 		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
