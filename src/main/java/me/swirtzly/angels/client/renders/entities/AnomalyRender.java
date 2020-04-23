@@ -6,10 +6,14 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.DefaultRenderer;
+import net.minecraft.client.renderer.entity.EnderCrystalRenderer;
+import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -35,7 +39,8 @@ public class AnomalyRender extends DefaultRenderer {
 		GlStateManager.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
 		GlStateManager.scaled(scale, scale, scale);
-		
+
+
 		int timer = ((AnomalyEntity) entity).ticksExisted;
 		
 		if (timer > 0) {

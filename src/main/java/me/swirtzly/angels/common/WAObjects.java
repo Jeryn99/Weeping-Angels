@@ -120,14 +120,7 @@ public class WAObjects {
 	public static class Sounds {
 		public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
 		
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_1 = SOUNDS.register("angel_seen_1", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_2 = SOUNDS.register("angel_seen_2", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_3 = SOUNDS.register("angel_seen_3", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_4 = SOUNDS.register("angel_seen_4", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_5 = SOUNDS.register("angel_seen_5", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_6 = SOUNDS.register("angel_seen_6", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_7 = SOUNDS.register("angel_seen_7", () -> setUpSound("angel_seen_1"));
-		public static final RegistryObject<SoundEvent> ANGEL_SEEN_8 = SOUNDS.register("angel_seen_8", () -> setUpSound("angel_seen_1"));
+		public static final RegistryObject<SoundEvent> ANGEL_SEEN = SOUNDS.register("angel_seen", () -> setUpSound("angel_seen"));
 		public static final RegistryObject<SoundEvent> STONE_SCRAP = SOUNDS.register("stone_scrap", () -> setUpSound("stone_scrap"));
 		public static final RegistryObject<SoundEvent> CHILD_RUN = SOUNDS.register("child_run", () -> setUpSound("child_run"));
 		public static final RegistryObject<SoundEvent> LAUGHING_CHILD = SOUNDS.register("laughing_child", () -> setUpSound("laughing_child"));

@@ -5,103 +5,103 @@
       "predicate": {
         "angle": 0.000000
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_8"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_8"
     },
     {
       "predicate": {
         "angle": 0.046875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_9"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_9"
     },
     {
       "predicate": {
         "angle": 0.109375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_10"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_10"
     },
     {
       "predicate": {
         "angle": 0.171875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_11"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_11"
     },
     {
       "predicate": {
         "angle": 0.234375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_12"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_12"
     },
     {
       "predicate": {
         "angle": 0.296875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_13"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_13"
     },
     {
       "predicate": {
         "angle": 0.359375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_14"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_14"
     },
     {
       "predicate": {
         "angle": 0.421875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_15"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_15"
     },
     {
       "predicate": {
         "angle": 0.484375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_0"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_0"
     },
     {
       "predicate": {
         "angle": 0.546875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_1"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_1"
     },
     {
       "predicate": {
         "angle": 0.609375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_2"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_2"
     },
     {
       "predicate": {
         "angle": 0.671875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_3"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_3"
     },
     {
       "predicate": {
         "angle": 0.734375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_4"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_4"
     },
     {
       "predicate": {
         "angle": 0.796875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_5"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_5"
     },
     {
       "predicate": {
         "angle": 0.859375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_6"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_6"
     },
     {
       "predicate": {
         "angle": 0.921875
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_7"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_7"
     },
     {
       "predicate": {
         "angle": 0.984375
       },
-      "model": "weeping-angels:item/anim/timey_wimey/timeywimeydic_8"
+      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_8"
     }
   ]
 }

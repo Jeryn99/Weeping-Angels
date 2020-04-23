@@ -5,8 +5,6 @@ import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.misc.WAConstants;
 import me.swirtzly.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.angels.config.WAConfig;
-import me.swirtzly.angels.network.Network;
-import me.swirtzly.angels.network.messages.MessageSFX;
 import me.swirtzly.angels.utils.AngelUtils;
 import me.swirtzly.angels.utils.WATeleporter;
 import net.minecraft.block.*;
@@ -51,8 +49,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
-	
-	private SoundEvent[] SEEN_SOUNDS = new SoundEvent[] { WAObjects.Sounds.ANGEL_SEEN_1.get(), WAObjects.Sounds.ANGEL_SEEN_2.get(), WAObjects.Sounds.ANGEL_SEEN_3.get(), WAObjects.Sounds.ANGEL_SEEN_4.get(), WAObjects.Sounds.ANGEL_SEEN_5.get(), WAObjects.Sounds.ANGEL_SEEN_6.get(), WAObjects.Sounds.ANGEL_SEEN_7.get(), WAObjects.Sounds.ANGEL_SEEN_8.get() };
+
 	private SoundEvent[] CHILD_SOUNDS = new SoundEvent[] { SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get() };
 	
 	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
@@ -139,20 +136,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
 				AngelUtils.removeLightFromHand(playerMP, this);
 			}
-			
-			// Steals keys from the player
-			if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
-				for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
-					ItemStack stack = playerMP.inventory.getStackInSlot(i);
-					for (String regName : WAConstants.KEYS) {
-						if (regName.matches(stack.getItem().getRegistryName().toString())) {
-							setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
-							playerMP.inventory.getStackInSlot(i).setCount(0);
-							playerMP.container.detectAndSendChanges();
-						}
-					}
-				}
-			}
+
 			
 			// Teleporting and damage
 			if (WAConfig.CONFIG.justTeleport.get()) {
@@ -185,6 +169,19 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		} else {
 			playerMP.attackEntityFrom(WAObjects.ANGEL_NECK_SNAP, 4.0F);
 			heal(2.0F);
+		}
+
+		// Steals keys from the player
+		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
+			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
+				ItemStack stack = playerMP.inventory.getStackInSlot(i);
+				if ((stack.getItem().getRegistryName().toString().contains("key"))) {
+					setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
+					playerMP.inventory.getStackInSlot(i).setCount(0);
+					playerMP.container.detectAndSendChanges();
+					return;
+				}
+			}
 		}
 	}
 	
@@ -243,8 +240,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		
 		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
 			setPrevPos(getPosition());
-			if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 10) {
-				((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(getSeenSound(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+			if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 25) {
+				((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 0.5F, 1.0F));
 			}
 			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
 				setPose(PoseManager.getRandomPose().getRegistryName());
@@ -252,10 +249,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
 			}
 		}
-	}
-	
-	public SoundEvent getSeenSound() {
-		return SEEN_SOUNDS[rand.nextInt(SEEN_SOUNDS.length)];
 	}
 	
 	@Override
@@ -279,8 +272,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	
 	@Override
 	public void moveTowards(LivingEntity entity) {
-		super.moveTowards(entity);
 		if (isQuantumLocked()) return;
+		super.moveTowards(entity);
 	}
 	
 	public boolean isWeak() {
@@ -382,7 +375,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
-		
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 		
 		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);

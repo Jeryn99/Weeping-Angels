@@ -5,13 +5,21 @@ import me.swirtzly.angels.WeepingAngels;
 import me.swirtzly.angels.client.models.entity.*;
 import me.swirtzly.angels.client.renders.entities.layers.CrackLayer;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +45,6 @@ public class AngelRender extends MobRenderer {
 	public AngelRender(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
 		addLayer(new CrackLayer(this));
-		addLayer(new HeldItemLayer(this));
 	}
 	
 	@Nullable
@@ -56,6 +63,16 @@ public class AngelRender extends MobRenderer {
 		if (living instanceof WeepingAngelEntity) {
 			GlStateManager.pushMatrix();
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
+
+			ItemStack key = angel.getHeldItemMainhand();
+			GlStateManager.pushMatrix();
+			float offset = MathHelper.cos(living.ticksExisted * 0.1F) * -0.09F;
+			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+			GlStateManager.translated(0,-2,0);
+			GlStateManager.translated(0, offset, 0);
+			renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
+			GlStateManager.popMatrix();
+
 			switch (angel.getAngelType()) {
 				case -1:
 					bindTexture(TEXTURE_CHILD);
@@ -81,9 +98,15 @@ public class AngelRender extends MobRenderer {
 					bindTexture(TEXTURE_ANGELA);
 					modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					break;
-			}
+			}		
 			GlStateManager.popMatrix();
 			
+		}
+	}
+
+	private void renderItem(LivingEntity p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_) {
+		if (!p_188358_2_.isEmpty()) {
+			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, false);
 		}
 	}
 	
