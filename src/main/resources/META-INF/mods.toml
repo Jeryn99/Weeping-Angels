@@ -26,7 +26,7 @@ version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="Weeping Angels" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="https://github.com/Swirtzly/Weeping-Angels/blob/master/update.json" #optional
+updateJSONURL="https://github.com/Swirtzly/Weeping-Angels/blob/1.14/update.json" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5

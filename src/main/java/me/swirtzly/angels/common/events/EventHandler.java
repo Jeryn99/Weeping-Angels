@@ -6,6 +6,7 @@ import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,8 +30,8 @@ public class EventHandler {
 		if (source instanceof LivingEntity) {
 			LivingEntity attacker = (LivingEntity) source;
 			LivingEntity victim = e.getEntityLiving();
-			
-			if (victim instanceof WeepingAngelEntity) {
+
+			if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
 				
 				if (WAConfig.CONFIG.hardcoreMode.get()) {
 					e.setCanceled(true);

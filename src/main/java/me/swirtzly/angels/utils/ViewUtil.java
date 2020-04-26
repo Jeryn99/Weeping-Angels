@@ -80,8 +80,6 @@ public class ViewUtil {
 		while (yaw >= 180) {
 			yaw -= 360;
 		}
-		boolean canSeE = yaw < 60 && yaw > -60;
-		System.out.println("I can see: " + canSeE);
 		return yaw < 60 && yaw > -60;
 	}
 	
@@ -100,7 +98,11 @@ public class ViewUtil {
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
-	
+
+    public static boolean viewBlockedBlock(LivingEntity viewer, BlockState angel, BlockPos posi) {
+        return isInSightPos(viewer, posi);
+    }
+
 	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
 		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
 		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();

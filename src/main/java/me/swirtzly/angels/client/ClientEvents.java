@@ -37,5 +37,6 @@ public class ClientEvents {
 			event.setCanceled(!canSee && Minecraft.getInstance().world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
 		}
 	}
-	
+
+
 }

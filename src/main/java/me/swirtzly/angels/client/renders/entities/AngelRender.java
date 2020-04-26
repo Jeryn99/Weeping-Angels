@@ -6,19 +6,14 @@ import me.swirtzly.angels.client.models.entity.*;
 import me.swirtzly.angels.client.renders.entities.layers.CrackLayer;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nullable;
@@ -100,7 +95,6 @@ public class AngelRender extends MobRenderer {
 					break;
 			}		
 			GlStateManager.popMatrix();
-			
 		}
 	}
 
