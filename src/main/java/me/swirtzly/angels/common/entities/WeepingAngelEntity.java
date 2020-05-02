@@ -408,25 +408,22 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				world.getServer().enqueue(new TickDelayedTask(0, runnable));
 				break;
 			case RANDOM_PLACE:
-				if (rand.nextBoolean()) {
 					double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 					world.getServer().enqueue(new TickDelayedTask(0, () -> {
 						ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 						BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
-						if (AngelUtils.isOutsideOfBorder(player)) {
-							blockPos = world.getSpawnPoint().add(rand.nextInt(WAConfig.CONFIG.teleportRange.get()), 0, rand.nextInt(WAConfig.CONFIG.teleportRange.get()));
-							WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border!");
+                        if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
+                            blockPos = world.getSpawnPoint().add(12, 0, 12);
+                            blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
+                            WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
 						}
 
 						if (teleportWorld != null) {
 							WATeleporter.teleportPlayerTo(player, this, blockPos, teleportWorld);
 						}
 					}));
-				} else {
-					world.getServer().enqueue(new TickDelayedTask(0, runnable));
-				}
 				break;
 		}
 	}

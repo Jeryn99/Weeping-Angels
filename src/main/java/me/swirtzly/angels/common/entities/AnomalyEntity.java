@@ -44,7 +44,7 @@ public class AnomalyEntity extends MobEntity {
 		
 		setNoAI(true);
 		if (ticksExisted == 1) {
-			playSound(WAObjects.Sounds.ANGEL_TELEPORT.get(), 1.0F, 1.0F);
+			playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
 		}
 		
 		if (ticksExisted > 100) {

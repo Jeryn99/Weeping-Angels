@@ -103,7 +103,7 @@
       }
     ]
   },
-  "angel_teleport": {
+  "teleport": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_teleport",
     "sounds": [

@@ -7,11 +7,12 @@ import me.swirtzly.angels.compat.events.EventAngelTeleport;
 import me.swirtzly.angels.config.WAConfig;
 import me.swirtzly.angels.network.Network;
 import me.swirtzly.angels.network.messages.MessageSFX;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -21,13 +22,8 @@ import java.util.Random;
 public class WATeleporter {
 	
 	public static int yCoordSanity(World world, BlockPos spawn) {
-		for (int i = 0; i < world.getActualHeight(); i++) {
-			BlockPos pos = spawn.up(i);
-			if (world.getBlockState(pos).getMaterial() != Material.LAVA && !world.getBlockState(pos).causesSuffocation(world, pos) && !world.getBlockState(pos.up()).causesSuffocation(world, pos.up())) {
-				return pos.getY();
-			}
-		}
-		return 65;
+		IChunk chunk = world.getChunk(spawn);
+		return chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING, spawn.getX(), spawn.getZ());
 	}
 	
 	public static DimensionType getRandomDimension(Random rand) {

@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
@@ -22,8 +21,8 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -93,13 +92,8 @@ public class AngelUtils {
 		return false;
 	}
 
-	public static boolean isOutsideOfBorder(PlayerEntity p) {
-		BlockPos loc = p.getPosition();
-		WorldBorder border = p.world.getWorldBorder();
-		double size = border.getSize() / 2;
-		BlockPos center = new BlockPos(border.getCenterX(), 0, border.getCenterZ());
-		double x = loc.getX() - center.getX(), z = loc.getZ() - center.getZ();
-		return ((x > size || (-x) > size) || (z > size || (-z) > size));
+	public static boolean isOutsideOfBorder(World world, BlockPos p) {
+		return !world.getWorldBorder().contains(p);
 	}
 
 	/**
