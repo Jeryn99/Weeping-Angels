@@ -22,7 +22,7 @@ authors="Swirtzly" #optional
 # The modid of the mod
 modId="weeping_angels" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="2.1.2" #mandatory
+version="2.1.3" #mandatory
  # A display name for the mod
 displayName="Weeping Angels" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
