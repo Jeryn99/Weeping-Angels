@@ -59,16 +59,16 @@ public class AngelRender extends MobRenderer {
 			GlStateManager.pushMatrix();
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
 
-			ItemStack key = angel.getHeldItemMainhand();
+            ItemStack key = angel.getHeldItemMainhand();
 			GlStateManager.pushMatrix();
 			float offset = MathHelper.cos(living.ticksExisted * 0.1F) * -0.09F;
 			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-			GlStateManager.translated(0,-2,0);
+            GlStateManager.translated(0, -2, 0);
 			GlStateManager.translated(0, offset, 0);
 			renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
 			GlStateManager.popMatrix();
 
-			switch (angel.getAngelType()) {
+            switch (angel.getAngelType()) {
 				case -1:
 					bindTexture(TEXTURE_CHILD);
 					modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
@@ -93,12 +93,12 @@ public class AngelRender extends MobRenderer {
 					bindTexture(TEXTURE_ANGELA);
 					modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 					break;
-			}		
+            }
 			GlStateManager.popMatrix();
 		}
 	}
 
-	private void renderItem(LivingEntity p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_) {
+    private void renderItem(LivingEntity p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_) {
 		if (!p_188358_2_.isEmpty()) {
 			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, false);
 		}

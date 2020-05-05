@@ -1,49 +1,24 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
-# The overall format is standard TOML format, v0.5.0.
-# Note that there are a couple of TOML lists in this file.
-# Find more information on toml format here:  https://github.com/toml-lang/toml
-# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
-modLoader="javafml" #mandatory
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[24,)" #mandatory (24 is current forge version)
-# A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/Swirtzly/Weeping-Angels/issues" #optional
-# A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod" #optional
-# A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
-# A text field displayed in the mod UI
-credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt" #optional
-# A text field displayed in the mod UI
-authors="Swirtzly" #optional
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]] #mandatory
-# The modid of the mod
-modId="weeping_angels" #mandatory
-# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="2.1.3" #mandatory
- # A display name for the mod
-displayName="Weeping Angels" #mandatory
-# A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="https://github.com/Swirtzly/Weeping-Angels/blob/1.14/update.json" #optional
-# The description text for the mod (multi line!) (#mandatory)
+modLoader="javafml"
+loaderVersion="[24,)"
+issueTrackerURL="https://github.com/Swirtzly/Weeping-Angels/issues"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
+logoFile="logo.png"
+credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
+authors="Swirtzly"
+[[mods]]
+modId="weeping_angels"
+version="2.1.3a"
+displayName="Weeping Angels"
+updateJSONURL="https://raw.githubusercontent.com/Swirtzly/Weeping-Angels/1.14/update.json" #optional
 description='''
 Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5
 '''
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.weeping_angels]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[24,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+[[dependencies.weeping_angels]]
+    modId="forge"
+    mandatory=true
+    versionRange="[24,)"
     ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
-# Here's another dependency
 [[dependencies.weeping_angels]]
     modId="minecraft"
     mandatory=true

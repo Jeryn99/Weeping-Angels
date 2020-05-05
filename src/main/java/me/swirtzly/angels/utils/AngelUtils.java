@@ -37,8 +37,8 @@ public class AngelUtils {
 	public static String[] NETHER_STRUCTURES = new String[] { "Fortress" };
 	public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
 	public static Random RAND = new Random();
-	static BiomeDictionary.Type[] BANNED = new BiomeDictionary.Type[]{BiomeDictionary.Type.VOID, BiomeDictionary.Type.WATER};
-
+    static BiomeDictionary.Type[] BANNED = new BiomeDictionary.Type[]{BiomeDictionary.Type.VOID, BiomeDictionary.Type.WATER};
+	
 	/**
 	 * Method that detects whether a tile is the the view sight of viewer
 	 *
@@ -49,7 +49,7 @@ public class AngelUtils {
 		return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
 	}
 
-	public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
+    public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
 		if (!entity.world.isRemote) {
 			entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
 			InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
@@ -65,8 +65,7 @@ public class AngelUtils {
 		}
 	}
 
-
-	/**
+    /**
 	 * Method that puts all ItemBlocks of blocks that emite light WARNING: ONLY CALLED ONCE AND CACHED INTO AngelUtils::LIGHT_ITEMS
 	 */
 	public static void setupLightItems() {
@@ -92,11 +91,11 @@ public class AngelUtils {
 		return false;
 	}
 
-	public static boolean isOutsideOfBorder(World world, BlockPos p) {
+    public static boolean isOutsideOfBorder(World world, BlockPos p) {
 		return !world.getWorldBorder().contains(p);
 	}
 
-	/**
+    /**
 	 * Sets up weeping angel spawns
 	 */
 	public static void setUpSpawns() {
@@ -111,7 +110,7 @@ public class AngelUtils {
 		}
 	}
 
-	public static boolean isABannedBiomeType(Biome biome) {
+    public static boolean isABannedBiomeType(Biome biome) {
 		for (BiomeDictionary.Type check : BANNED) {
 			if (BiomeDictionary.hasType(biome, check)) {
 				WeepingAngels.LOGGER.info("[" + biome.getRegistryName() + "] has the banned Biome Type [" + check.getName() + "], Weeping Angels will not spawn here, ever.");

@@ -97,7 +97,7 @@ public class WAConfig {
 		builder.pop();
 	}
 
-	public ArrayList<String> genBiomesForSpawn() {
+    public ArrayList<String> genBiomesForSpawn() {
 		ArrayList<String> BIOMES = new ArrayList<>();
 		BIOMES.add(Biomes.TAIGA_HILLS.getRegistryName().toString());
 		BIOMES.add(Biomes.TAIGA.getRegistryName().toString());

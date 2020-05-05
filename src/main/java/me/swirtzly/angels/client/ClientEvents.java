@@ -3,8 +3,9 @@ package me.swirtzly.angels.client;
 import me.swirtzly.angels.common.WAObjects;
 import me.swirtzly.angels.common.items.DetectorItem;
 import me.swirtzly.angels.utils.ClientUtil;
-import me.swirtzly.angels.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -31,12 +32,13 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public static void onblockHighlight(DrawBlockHighlightEvent event) {
-		if (event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
-			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) event.getTarget();
-			boolean canSee = PlayerUtils.isInEitherHand(Minecraft.getInstance().player, WAObjects.Blocks.STATUE.get().asItem());
-			event.setCanceled(!canSee && Minecraft.getInstance().world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
+		if (Minecraft.getInstance().objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
+			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) Minecraft.getInstance().objectMouseOver;
+			ClientPlayerEntity playerEntity = Minecraft.getInstance().player;
+			ClientWorld world = Minecraft.getInstance().world;
+			boolean canSee = playerEntity.getHeldItemMainhand().getItem() == WAObjects.Blocks.STATUE.get().asItem() || playerEntity.getHeldItemOffhand().getItem() == WAObjects.Blocks.STATUE.get().asItem();
+			event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
 		}
 	}
-
 
 }

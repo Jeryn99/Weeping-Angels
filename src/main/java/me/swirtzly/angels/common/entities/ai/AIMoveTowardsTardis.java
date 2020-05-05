@@ -1,7 +1,6 @@
 package me.swirtzly.angels.common.entities.ai;
 
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.angels.config.WAConfig;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;

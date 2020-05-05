@@ -99,10 +99,10 @@ public class ViewUtil {
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
 
-    public static boolean viewBlockedBlock(LivingEntity viewer, BlockState angel, BlockPos posi) {
-        return isInSightPos(viewer, posi);
-    }
-
+	public static boolean viewBlockedBlock(LivingEntity viewer, BlockState angel, BlockPos posi) {
+		return isInSightPos(viewer, posi);
+	}
+	
 	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
 		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
 		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();

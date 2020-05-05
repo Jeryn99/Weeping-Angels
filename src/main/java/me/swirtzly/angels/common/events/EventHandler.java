@@ -31,7 +31,7 @@ public class EventHandler {
 			LivingEntity attacker = (LivingEntity) source;
 			LivingEntity victim = e.getEntityLiving();
 
-			if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
+            if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
 				
 				if (WAConfig.CONFIG.hardcoreMode.get()) {
 					e.setCanceled(true);

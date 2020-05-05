@@ -177,5 +177,4 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		return false;
 	}
 
-
 }

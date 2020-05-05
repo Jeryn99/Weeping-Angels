@@ -23,11 +23,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.tardis.mod.cap.Capabilities;
-import net.tardis.mod.dimensions.TDimensions;
-import net.tardis.mod.events.CommonEvents;
-import net.tardis.mod.helper.PlayerHelper;
-import net.tardis.mod.items.PocketWatchItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
