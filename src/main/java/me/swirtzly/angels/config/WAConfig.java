@@ -86,27 +86,27 @@ public class WAConfig {
 		blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
 		disAllowedBlocks = builder.translation("config.weeping_angels.disallowed_blocks").comment("List of blocks that Angels CANNOT break").defineList("disAllowedBlocks", Lists.newArrayList("minecraft:magma_block", "minecraft:glowstone", "minecraft:sea_lantern", "tardis:exterior_steampunk", "tardis:exterior_clock", "minecraft:air"), String.class::isInstance);
 		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, Integer.MAX_VALUE);
-		transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);
-		builder.pop();
-		builder.push("teleport");
-		teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));
-		notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList("minecraft:the_end"), String.class::isInstance);
-		justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
-		teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
-		angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
-		builder.pop();
-	}
+        transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);
+        builder.pop();
+        builder.push("teleport");
+        teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));
+        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList("minecraft:the_end"), String.class::isInstance);
+        justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
+        teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
+        angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
+        builder.pop();
+    }
 
     public ArrayList<String> genBiomesForSpawn() {
-		ArrayList<String> BIOMES = new ArrayList<>();
-		BIOMES.add(Biomes.TAIGA_HILLS.getRegistryName().toString());
-		BIOMES.add(Biomes.TAIGA.getRegistryName().toString());
-		BIOMES.add(Biomes.DESERT.getRegistryName().toString());
-		BIOMES.add(Biomes.DESERT_HILLS.getRegistryName().toString());
-		BIOMES.add(Biomes.PLAINS.getRegistryName().toString());
-		BIOMES.add(Biomes.SWAMP.getRegistryName().toString());
-		BIOMES.add(Biomes.BEACH.getRegistryName().toString());
-		BIOMES.add(Biomes.SNOWY_TAIGA.getRegistryName().toString());
-		return BIOMES;
+        ArrayList<String> BIOMES = new ArrayList<>();
+        BIOMES.add(Biomes.TAIGA_HILLS.getRegistryName().toString());
+        BIOMES.add(Biomes.TAIGA.getRegistryName().toString());
+        BIOMES.add(Biomes.DESERT.getRegistryName().toString());
+        BIOMES.add(Biomes.DESERT_HILLS.getRegistryName().toString());
+        BIOMES.add(Biomes.PLAINS.getRegistryName().toString());
+        BIOMES.add(Biomes.SWAMP.getRegistryName().toString());
+        BIOMES.add(Biomes.BEACH.getRegistryName().toString());
+        BIOMES.add(Biomes.SNOWY_TAIGA.getRegistryName().toString());
+        return BIOMES;
 	}
 }

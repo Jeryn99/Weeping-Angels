@@ -42,7 +42,7 @@ public class Tardis {
 	@SubscribeEvent
 	public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
 
-        if (event.getEntityLiving() instanceof PlayerEntity) {
+		if (event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity playerEntity = (PlayerEntity) event.getEntityLiving();
 			for (Hand value : Hand.values()) {
 				if (PlayerHelper.isInHand(value, playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get())) {
@@ -54,46 +54,46 @@ public class Tardis {
 			}
 		}
 
-        if (event.getEntity() instanceof QuantumLockBaseEntity) {
+		if (event.getEntity() instanceof QuantumLockBaseEntity) {
 			QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
 
-            // Tardis Dimension
+			// Tardis Dimension
 			if (angel.world.dimension instanceof TardisDimension) {
 				World world = angel.world;
 				ConsoleTile console = (ConsoleTile) world.getTileEntity(TardisHelper.TARDIS_POS);
 
-                // Drain Fuel
-                if (angel.ticksExisted % 400 == 0) {
+				// Drain Fuel
+				if (angel.ticksExisted % 400 == 0) {
 					boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
 					if (console != null) {
-                        if (console.getArtron() > 0) {
+						if (console.getArtron() > 0) {
 							console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
 							angel.heal(0.5F);
 						}
 					}
 				}
 
-                // Mess with the lights
+				// Mess with the lights
 				if (angel.ticksExisted % 500 == 0) {
 					if (console != null) {
 						console.getInteriorManager().setLight(console.getInteriorManager().getLight() > 0 ? 0 : 15);
 					}
 				}
 
-                // Make Angel Steal Tardis?
+				// Make Angel Steal Tardis?
 				BlockPos consolePos = TardisHelper.TARDIS_POS;
 				if (angel.getDistanceSq(consolePos.getX(), consolePos.getY(), consolePos.getZ()) < 7 && angel.ticksExisted % 6000 == 0 && world.rand.nextInt(10) < 5) {
 					DimensionType Nworld = WATeleporter.getRandomDimension(angel.world.rand);
 					if (console != null) {
-                        console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
-                        console.takeoff();
+						console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
+						console.takeoff();
 					}
 				}
 			}
-			
+
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerTeleported(EventAngelTeleport teleport) {
 		if (teleport.getTargetDimension().dimension instanceof TardisDimension) {
@@ -101,16 +101,16 @@ public class Tardis {
 		}
 	}
 
-    @SubscribeEvent
+	@SubscribeEvent
 	public void attachItemStackCap(AttachCapabilitiesEvent<ItemStack> event) {
 		if (event.getObject().getItem() == WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()) {
 			event.addCapability(WATCH_CAP, new IWatch.Provider(new WatchCapability()));
 		}
 	}
 
-    @SubscribeEvent
-    public void onJoin(EntityJoinWorldEvent entityJoinWorldEvent) {
-        if (entityJoinWorldEvent.getEntity() instanceof WeepingAngelEntity) {
+	@SubscribeEvent
+	public void onJoin(EntityJoinWorldEvent entityJoinWorldEvent) {
+		if (entityJoinWorldEvent.getEntity() instanceof WeepingAngelEntity) {
 			WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityJoinWorldEvent.getEntity();
 			weepingAngelEntity.goalSelector.addGoal(0, new AIMoveTowardsTardis<>(weepingAngelEntity));
 		}

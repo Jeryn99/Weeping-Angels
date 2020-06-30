@@ -84,7 +84,7 @@ public class DetectorItem extends Item {
 			
 			@OnlyIn(Dist.CLIENT)
 			private double getFrameRotation(ItemFrameEntity p_185094_1_) {
-				return (double) MathHelper.wrapDegrees(180 + p_185094_1_.getHorizontalFacing().getHorizontalIndex() * 90);
+				return MathHelper.wrapDegrees(180 + p_185094_1_.getHorizontalFacing().getHorizontalIndex() * 90);
 			}
 			
 			@OnlyIn(Dist.CLIENT)

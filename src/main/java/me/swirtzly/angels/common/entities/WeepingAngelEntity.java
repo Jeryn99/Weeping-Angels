@@ -46,21 +46,21 @@ import java.util.function.Predicate;
 import static me.swirtzly.angels.utils.WATeleporter.yCoordSanity;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
-	
+
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 	public long timeSincePlayedSound = 0;
 
-    private SoundEvent[] CHILD_SOUNDS = new SoundEvent[] { SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get() };
-	
+	private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
+
 	private static final Predicate<Difficulty> DIFFICULTY = (p_213697_0_) -> p_213697_0_ == Difficulty.EASY;
-	
+
 	public WeepingAngelEntity(EntityType<? extends QuantumLockBaseEntity> type, World world) {
 		this(world);
 	}
-	
+
 	public WeepingAngelEntity(World world) {
 		super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
 		goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
@@ -173,7 +173,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			heal(2.0F);
 		}
 
-        // Steals keys from the player
+		// Steals keys from the player
 		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
 			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
 				ItemStack stack = playerMP.inventory.getStackInSlot(i);
@@ -187,23 +187,23 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 	}
 
-    public long getTimeSincePlayedSound() {
+	public long getTimeSincePlayedSound() {
 		return timeSincePlayedSound;
 	}
 
-    public void setTimeSincePlayedSound(long timeSincePlayedSound) {
+	public void setTimeSincePlayedSound(long timeSincePlayedSound) {
 		this.timeSincePlayedSound = timeSincePlayedSound;
 	}
 
-    @Override
+	@Override
 	protected boolean canDropLoot() {
 		return true;
 	}
-	
+
 	/*
 	 * Drops Tardis Keys on Death + uses loot table drops Used to allow for config value defined tardis keys to be dropped Used instead of adding loot table functions N.B.There is a loot table function that does the same thing, but it requires: -Hardcoded item registry names -New entry for each tardis key (There could be many Tardis keys/items the player wants the angel to steal and drop on death
 	 */
-	
+
 	@Override
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
@@ -224,12 +224,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 
-        if (compound.contains(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
-		
+		if (compound.contains(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
+
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
-		
+
 		if (compound.contains(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
-		
+
 		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
 	
@@ -250,8 +250,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
 			setPrevPos(getPosition());
 
-            boolean canPlaySound = getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
-            // Play Sound
+			boolean canPlaySound = getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
+			// Play Sound
 			if (canPlaySound) {
 				if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
 					setTimeSincePlayedSound(System.currentTimeMillis());
@@ -259,7 +259,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				}
 			}
 
-            if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
+			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
 				setPose(PoseManager.getRandomPose().getRegistryName());
 			} else {
 				setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
@@ -299,16 +299,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		
+
 		if (getSeenTime() == 0 || world.getLight(getPosition()) == 0 || world.isAirBlock(getPosition().down())) {
 			setNoAI(false);
 		}
-		
+
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
 			setPose(PoseManager.POSE_HIDING_FACE.toString());
 		}
 
-        if (WAConfig.CONFIG.blockBreaking.get()) {
+		if (WAConfig.CONFIG.blockBreaking.get()) {
 			replaceBlocks(getBoundingBox().grow(WAConfig.CONFIG.blockBreakRange.get()));
 		}
 	}
@@ -343,21 +343,21 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 
-                if (ViewUtil.viewBlockedBlock(this, blockState, pos)) continue;
+				if (ViewUtil.viewBlockedBlock(this, blockState, pos)) continue;
 
-                EventAngelBreakEvent event = new EventAngelBreakEvent(this, blockState, pos);
+				EventAngelBreakEvent event = new EventAngelBreakEvent(this, blockState, pos);
 				MinecraftForge.EVENT_BUS.post(event);
 				if (!event.isCanceled()) {
 
-                    if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
+					if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 						continue;
 					}
-					
+
 					if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
 						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 						return;
 					}
-					
+
 					if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
 						if (blockState.get(RedstoneLampBlock.LIT)) {
 							world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
@@ -406,32 +406,32 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				world.getServer().enqueue(new TickDelayedTask(0, runnable));
 				break;
 			case RANDOM_PLACE:
-                double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-                double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-                world.getServer().enqueue(new TickDelayedTask(0, () -> {
-                    ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
-                    BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
+				double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+				double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+				world.getServer().enqueue(new TickDelayedTask(0, () -> {
+					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
+					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
-                    if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
-                        blockPos = world.getSpawnPoint().add(12, 0, 12);
-                        blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
-                        WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
-                    }
+					if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
+						blockPos = world.getSpawnPoint().add(12, 0, 12);
+						blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
+						WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
+					}
 
-                    if (teleportWorld != null) {
-                        WATeleporter.teleportPlayerTo(player, this, blockPos, teleportWorld);
-                    }
-                }));
+					if (teleportWorld != null) {
+						WATeleporter.teleportPlayerTo(player, this, blockPos, teleportWorld);
+					}
+				}));
 				break;
 		}
 	}
 
-    @Override
+	@Override
 	public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
 		return worldIn.getDifficulty() != Difficulty.PEACEFUL && this.isValidLightLevel() && super.canSpawn(worldIn, spawnReasonIn);
 	}
 
-    protected boolean isValidLightLevel() {
+	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
 		if (this.world.getLightFor(LightType.SKY, blockpos) > this.rand.nextInt(32)) {
 			return false;
@@ -441,14 +441,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 	}
 
-    /*
+	/*
 	 * Getters and Setters
 	 */
-	
+
 	public String getAngelPose() {
 		return getDataManager().get(CURRENT_POSE);
 	}
-	
+
 	public void setPose(String newPose) {
 		getDataManager().set(CURRENT_POSE, newPose);
 	}

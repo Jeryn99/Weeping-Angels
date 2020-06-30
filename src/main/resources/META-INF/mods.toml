@@ -7,7 +7,7 @@ credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
 authors="Swirtzly"
 [[mods]]
 modId="weeping_angels"
-version="2.1.3a"
+version="2.1.5"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/Swirtzly/Weeping-Angels/1.14/update.json" #optional
 description='''
@@ -24,4 +24,10 @@ Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally m
     mandatory=true
     versionRange="[1.14.4]"
     ordering="NONE"
+    side="BOTH"
+[[dependencies.weeping_angels]]
+    modId="tardis"
+    mandatory=false
+    versionRange="[1.2.0,)"
+    ordering="AFTER"
     side="BOTH"

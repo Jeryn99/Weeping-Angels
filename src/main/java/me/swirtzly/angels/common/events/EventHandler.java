@@ -28,19 +28,19 @@ public class EventHandler {
 		
 		Entity source = e.getSource().getTrueSource();
 		if (source instanceof LivingEntity) {
-			LivingEntity attacker = (LivingEntity) source;
-			LivingEntity victim = e.getEntityLiving();
+            LivingEntity attacker = (LivingEntity) source;
+            LivingEntity victim = e.getEntityLiving();
 
             if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
-				
-				if (WAConfig.CONFIG.hardcoreMode.get()) {
-					e.setCanceled(true);
-					return;
-				}
-				
-				ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-				boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
-				e.setCanceled(!isPic);
+
+                if (WAConfig.CONFIG.hardcoreMode.get()) {
+                    e.setCanceled(true);
+                    return;
+                }
+
+                ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+                boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
+                e.setCanceled(!isPic);
 				
 				if (!isPic) {
 					attacker.attackEntityFrom(WAObjects.STONE, 2F);
