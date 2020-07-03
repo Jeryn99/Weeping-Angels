@@ -3,7 +3,6 @@ package me.swirtzly.angels.client.models.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.angels.client.models.poses.PoseBase;
 import me.swirtzly.angels.client.models.poses.PoseManager;
-import me.swirtzly.angels.client.models.poses.PoseThinking;
 import me.swirtzly.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -306,7 +305,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
 				pose.setWingAngles(left_wing_0, right_wing_0);
 				pose.setHeadAngles(head);
-				
+
 				if (pose.angryFace()) {
 					right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 					left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
@@ -316,11 +315,11 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 					left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				}
 				
-				if (pose instanceof PoseThinking) {
+			/*	if (pose instanceof PoseThinking) {
 					right_eyebrow.rotateAngleZ = 0.15F;
 					right_eyebrow.rotationPointY = -4.5F;
 					left_eyebrow.rotationPointY = -4.2F;
-				}
+				}*/
 			}
 		} else {
 			PoseBase pose = PoseManager.POSE_SHY;

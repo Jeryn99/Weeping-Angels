@@ -7,7 +7,7 @@ credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
 authors="Swirtzly"
 [[mods]]
 modId="weeping_angels"
-version="2.1.5"
+version="2.1.6"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/Swirtzly/Weeping-Angels/1.14/update.json" #optional
 description='''
