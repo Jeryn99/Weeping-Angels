@@ -7,7 +7,9 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
-
+/**
+ * Angel Type: Child
+ */
 public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	
 	private RendererModel head_2;
@@ -29,7 +31,9 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	private RendererModel right_wing_2_1;
 	private RendererModel right_wing_3_1;
 	private RendererModel right_wing_4_1;
-	
+	/**
+	 * Angel Type: Child
+	 */
 	public ModelAngelChild() {
 		textureWidth = 64;
 		textureHeight = 64;

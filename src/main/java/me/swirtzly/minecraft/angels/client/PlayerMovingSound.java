@@ -17,6 +17,7 @@ public class PlayerMovingSound extends TickableSound {
 	private final Object entity;
 	private final Supplier<Boolean> stopCondition;
 	private final float backupVolume;
+	@SuppressWarnings("unused")
 	private boolean donePlaying = false;
 	
 	public PlayerMovingSound(Object object, SoundEvent soundIn, SoundCategory categoryIn, boolean repeat, Supplier<Boolean> stopCondition, float volumeSfx) {
@@ -34,7 +35,7 @@ public class PlayerMovingSound extends TickableSound {
 		if (entity instanceof Entity) {
 			Entity entityObject = (Entity) entity;
 			
-			if (entityObject.removed) {
+			if (!entityObject.isAlive()) {
 				setDonePlaying();
 			}
 			

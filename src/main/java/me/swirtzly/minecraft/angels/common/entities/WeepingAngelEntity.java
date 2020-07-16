@@ -31,9 +31,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameterSets;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -71,10 +68,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 	
 	public void dropAngelStuff() {
-		ResourceLocation resourcelocation = this.func_213346_cF();
-		LootTable loottable = this.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-		LootContext.Builder lootcontext$builder = this.func_213363_a(true, DamageSource.STARVE);
-		loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY), this::entityDropItem);
+		AngelUtils.dropEntityLoot(this, this.attackingPlayer);
 		entityDropItem(getHeldItemMainhand());
 		entityDropItem(getHeldItemOffhand());
 	}
@@ -366,7 +360,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 						}
 					}
 					
-					if (blockState.getBlock().getLightValue(blockState) > 0) {
+					if (blockState.getLightValue() > 0) {
 						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
 						return;
 					}

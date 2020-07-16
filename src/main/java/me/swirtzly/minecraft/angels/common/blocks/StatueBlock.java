@@ -54,7 +54,7 @@ public class StatueBlock extends Block {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockState state = super.getStateForPlacement(context);
-		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class StatueBlock extends Block {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		
 		if (world.getTileEntity(pos) instanceof StatueTile) {
-			int rotation = MathHelper.floor(placer.rotationYaw + 180);
+			int rotation = MathHelper.floor(placer.rotationYaw);
 			StatueTile statue = (StatueTile) world.getTileEntity(pos);
 			statue.setRotation(rotation);
 			statue.setPose(PoseManager.getRandomPose().getRegistryName());
