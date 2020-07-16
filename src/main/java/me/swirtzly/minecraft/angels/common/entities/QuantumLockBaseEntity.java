@@ -156,6 +156,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean quantumCheck() {
 		
 		if (WAConfig.CONFIG.freezeOnAngel.get()) {

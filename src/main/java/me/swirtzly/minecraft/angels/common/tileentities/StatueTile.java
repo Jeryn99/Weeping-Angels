@@ -9,6 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 
 /**
  * Created by Swirtzly on 17/02/2020 @ 12:18
@@ -16,7 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 public class StatueTile extends TileEntity implements ITickableTileEntity {
 	private int rotation;
 	private String pose = PoseManager.getRandomPose().getRegistryName();
-	
+	public static final AxisAlignedBB RENDER_BOX = new AxisAlignedBB(-2, -2, -2, 2, 5, 2);
+
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());
 	}
@@ -88,5 +90,10 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 			world.removeBlock(getPos(), false);
 			sendUpdates();
 		}
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return RENDER_BOX.offset(this.getPos());
 	}
 }

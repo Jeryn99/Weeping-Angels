@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.HandSide;
 
 /**
+ * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
@@ -51,7 +52,9 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	private RendererModel right_wing_2;
 	private RendererModel right_wing_3;
 	private RendererModel right_wing_4;
-	
+	/**
+	 * Angel Type: 1
+	 */
 	public ModelAngelEd() {
 		textureWidth = 88;
 		textureHeight = 88;

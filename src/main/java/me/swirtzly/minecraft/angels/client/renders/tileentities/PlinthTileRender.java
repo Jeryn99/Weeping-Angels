@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.client.renders.tileentities;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -10,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 	
-	private ModelAngelEd ed = new ModelAngelEd();
+	private ModelAngelEd<WeepingAngelEntity> ed = new ModelAngelEd<WeepingAngelEntity>();
 	private ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
 	@Override
@@ -23,7 +24,7 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.translatef(0, -1, 0);
 		
-		GlStateManager.rotatef(-tile.getRotation(), 0, 1, 0);
+		GlStateManager.rotatef(tile.getRotation(), 0, 1, 0);
 		
 		if (!tile.getHasSpawned()) {
 			Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);

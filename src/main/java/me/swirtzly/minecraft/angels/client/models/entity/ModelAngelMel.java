@@ -12,7 +12,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
-
+/**
+ * Angel Type: 3
+ */
 public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 	
 	RendererModel Eye1;
@@ -88,7 +90,9 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 	private ModelArmsIdle armsIdle = new ModelArmsIdle();
 	private ModelArmsAngry armsAngry = new ModelArmsAngry();
 	private ModelArmsPointing armsPoint = new ModelArmsPointing();
-	
+	/**
+	 * Angel Type: 3
+	 */
 	public ModelAngelMel() {
 		textureWidth = 128;
 		textureHeight = 128;
@@ -586,27 +590,27 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 			
 			// Covering Face arms render/
 			if (pose == PoseManager.POSE_HIDING_FACE) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_THREE);
 				armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Idle render
 			if (pose == PoseManager.POSE_IDLE) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_THREE);
 				armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Shriek render
 			if (pose.getRegistryName().toLowerCase().contains("angry")) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_THREE);
 				armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			if (pose == PoseManager.POSE_SHY) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_THREE);
 				armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}

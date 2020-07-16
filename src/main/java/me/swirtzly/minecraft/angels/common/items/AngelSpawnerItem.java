@@ -16,6 +16,7 @@ import java.util.function.Function;
 
 public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 	
+	@SuppressWarnings("unused")
 	private Function<World, E> entityCreator;
 	private AngelEnums.AngelType type;
 	

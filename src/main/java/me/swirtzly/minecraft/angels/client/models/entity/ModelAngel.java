@@ -6,12 +6,12 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
-
+/**
+ * Angel Type: 0
+ * Created by Ford Created using Techne
+ */
 public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 	
-	/**
-	 * Weeping Angel - Ford Created using Techne
-	 */
 	private RendererModel AngryLeftArm2;
 	private RendererModel AngryRightArm2;
 	private RendererModel AngryLeftArm1;
@@ -76,7 +76,9 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 	private RendererModel RightWing7;
 	private RendererModel RightWing8;
 	private RendererModel RightWing9;
-	
+	/**
+	 * Angel Type: 0
+	 */
 	public ModelAngel() {
 		textureWidth = 128;
 		textureHeight = 128;
