@@ -9,6 +9,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 //TODO Fix posing, it's a bit random at the moment
+/**
+ * Angel Type: 2 - Classic
+ */
 public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 	
 	private RendererModel leftfoot;
@@ -30,7 +33,9 @@ public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 	private float angleX = 0.3622F;
 	private float angleY;
 	private float angleZ;
-	
+	/**
+	 * Angel Type: 2 - Classic
+	 */
 	public ModelClassicAngel() {
 		textureHeight = 32;
 		textureWidth = 64;
@@ -225,7 +230,7 @@ public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 		return f / 57.29578F;
 	}
 	
-	private float toDegrees(float f) {
-		return f * 57.29578F;
-	}
+//	private float toDegrees(float f) {
+//		return f * 57.29578F;
+//	}
 }

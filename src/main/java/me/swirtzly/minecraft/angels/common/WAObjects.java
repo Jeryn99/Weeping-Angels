@@ -1,6 +1,17 @@
 package me.swirtzly.minecraft.angels.common;
 
+import static me.swirtzly.minecraft.angels.WeepingAngels.MODID;
+import static net.minecraft.world.gen.feature.structure.IStructurePieceType.register;
+
+import java.util.Collection;
+import java.util.function.Supplier;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.common.blocks.ChronodyneGeneratorBlock;
+import me.swirtzly.minecraft.angels.common.blocks.MineableBlock;
+import me.swirtzly.minecraft.angels.common.blocks.PlinthBlock;
+import me.swirtzly.minecraft.angels.common.blocks.SnowArmBlock;
+import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
@@ -18,13 +29,13 @@ import me.swirtzly.minecraft.angels.common.world.GraveStructure;
 import me.swirtzly.minecraft.angels.common.world.GraveyardPieces;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
-import me.swirtzly.minecraft.angels.common.blocks.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
@@ -44,20 +55,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.function.Supplier;
-
-import static me.swirtzly.minecraft.angels.WeepingAngels.MODID;
-import static net.minecraft.world.gen.feature.structure.IStructurePieceType.register;
-
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
 	
 	public static DamageSource ANGEL = new WADamageSource("backintime"), STONE = new WADamageSource("punch_stone"), ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
-	
-	@SubscribeEvent
-	public static void regBlockItems(RegistryEvent.Register<Item> e) {
-		genBlockItems(Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
-	}
 	
 	@SubscribeEvent
 	public static void addSpawns(FMLLoadCompleteEvent e) {
@@ -71,15 +72,34 @@ public class WAObjects {
 	private static Block setUpBlock(Block block) {
 		return block;
 	}
-	
+    /**
+     * Register block items for specific blocks
+     * @param blocks
+     */
 	private static void genBlockItems(Block... blocks) {
 		for (Block block : blocks) {
 			Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB))));
 		}
 	}
-	
+    /**
+     * Register Block Items for all Block entries
+     * @param collection
+     */
+	@SuppressWarnings("unused")
+	private static void genBlockItems(Collection<RegistryObject<Block>> collection) {
+		for (RegistryObject<Block> block : collection) {
+				ItemGroup itemGroup = WATabs.MAIN_TAB;
+				Blocks.BLOCK_ITEMS.register(block.get().getRegistryName().getPath(), () -> setUpItem(new BlockItem(block.get(), new Item.Properties().group(itemGroup))));
+		}
+	}
+
 	private static SoundEvent setUpSound(String soundName) {
 		return new SoundEvent(new ResourceLocation(MODID, soundName));
+	}
+
+	@SubscribeEvent
+	public static void regBlockItems(RegistryEvent.Register<Item> e) {
+		genBlockItems(Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
 	}
 	
 	public static class Tiles {

@@ -50,7 +50,7 @@ public class PlinthBlock extends Block {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockState state = super.getStateForPlacement(context);
-		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 	
 	@Override
@@ -66,7 +66,7 @@ public class PlinthBlock extends Block {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		
 		if (world.getTileEntity(pos) instanceof PlinthTile) {
-			int rotation = MathHelper.floor(placer.rotationYaw + 180);
+			int rotation = MathHelper.floor(placer.rotationYaw);
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			plinth.setRotation(rotation);
 			plinth.setPose(PoseRegistry.getRandomPose().getRegistryName());

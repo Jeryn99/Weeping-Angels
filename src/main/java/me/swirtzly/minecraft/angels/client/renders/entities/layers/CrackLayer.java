@@ -6,22 +6,22 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class CrackLayer extends LayerRenderer {
+public class CrackLayer extends LayerRenderer<MobEntity, EntityModel<MobEntity>> {
 	
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
 	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
 	private final AngelRender angelRenderer;
 	
-	private EntityModel modelOne = new ModelAngel();
-	private EntityModel modelTwo = new ModelAngelEd();
-	private EntityModel modelChild = new ModelAngelChild();
-	private EntityModel modelClassic = new ModelClassicAngel();
-	private EntityModel modelMel = new ModelAngelMel();
-	private EntityModel modelAngela = new ModelAngela();
-	private EntityModel modelMain = modelMel;
+	private EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela<WeepingAngelEntity>();
+	private EntityModel<WeepingAngelEntity> modelMain = modelMel;
 	
 	public CrackLayer(AngelRender angelRendererIn) {
 		super(angelRendererIn);
@@ -29,7 +29,7 @@ public class CrackLayer extends LayerRenderer {
 	}
 	
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(MobEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		if (entityIn instanceof WeepingAngelEntity) {
 			
@@ -50,6 +50,7 @@ public class CrackLayer extends LayerRenderer {
 					break;
 				case 3:
 					modelMain = modelMel;
+					break;
 				case 4:
 					modelMain = modelAngela;
 					break;

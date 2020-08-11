@@ -2,10 +2,9 @@ package me.swirtzly.minecraft.angels.client.models.entity.arms;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelArmsCovering extends EntityModel {
+public class ModelArmsCovering extends EntityModel<Entity> {
 	
 	RendererModel RightFinger2;
 	RendererModel RightArm2;

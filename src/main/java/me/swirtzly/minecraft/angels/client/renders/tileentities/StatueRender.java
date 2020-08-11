@@ -1,8 +1,10 @@
 package me.swirtzly.minecraft.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -13,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class StatueRender extends TileEntityRenderer<StatueTile> {
 	
-	private ModelAngelEd ed = new ModelAngelEd();
+	private ModelAngelEd<WeepingAngelEntity> ed = new ModelAngelEd<WeepingAngelEntity>();
 	private ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 	
 	@Override

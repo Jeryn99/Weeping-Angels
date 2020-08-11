@@ -6,12 +6,14 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
+ * Angel Type: 4
  * Created by Swirtzly on 11/03/2020 @ 20:58
  */
-public class ModelAngela extends EntityModel<WeepingAngelEntity> {
+public class ModelAngela <T extends LivingEntity> extends EntityModel<T> {
 	private final RendererModel Head;
 	private final RendererModel Face;
 	private final RendererModel Eyes;
@@ -57,7 +59,9 @@ public class ModelAngela extends EntityModel<WeepingAngelEntity> {
 	private final RendererModel bone19;
 	private final RendererModel bone20;
 	private final RendererModel bone21;
-	
+	/**
+	 * Angel Type: 4
+	 */
 	public ModelAngela() {
 		textureWidth = 16;
 		textureHeight = 16;
@@ -535,7 +539,7 @@ public class ModelAngela extends EntityModel<WeepingAngelEntity> {
 	}
 	
 	@Override
-	public void render(WeepingAngelEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(LivingEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		setRotationAngles(entity);
 		Head.render(f5);
 		Body.render(f5);

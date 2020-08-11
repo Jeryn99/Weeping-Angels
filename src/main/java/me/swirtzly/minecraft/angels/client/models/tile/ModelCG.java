@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelCG extends EntityModel {
+public class ModelCG extends EntityModel<Entity> {
 	
 	private ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/cg_tex.png");
 	
