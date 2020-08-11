@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
-import me.swirtzly.minecraft.angels.client.models.poses.PoseManager;
+import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -15,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
  */
 public class StatueTile extends TileEntity implements ITickableTileEntity {
 	private int rotation;
-	private String pose = PoseManager.getRandomPose().getRegistryName();
+	private String pose = PoseRegistry.getRandomPose().getRegistryName();
 	
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());

@@ -63,6 +63,20 @@
       }
     ]
   },
+  "teleport": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.teleport",
+    "sounds": [
+      {
+        "name": "weeping_angels:teleport/angel_teleport",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:teleport/angel_teleport_2",
+        "stream": false
+      }
+    ]
+  },
   "projector": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.projector",
@@ -99,20 +113,6 @@
     "sounds": [
       {
         "name": "weeping_angels:child/laughing_child",
-        "stream": false
-      }
-    ]
-  },
-  "teleport": {
-    "category": "hostile",
-    "subtitle": "sound.weeping_angels.angel_teleport",
-    "sounds": [
-      {
-        "name": "weeping_angels:teleport/angel_teleport",
-        "stream": false
-      },
-      {
-        "name": "weeping_angels:teleport/angel_teleport_2",
         "stream": false
       }
     ]

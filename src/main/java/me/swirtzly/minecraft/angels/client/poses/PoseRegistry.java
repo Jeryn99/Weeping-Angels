@@ -1,9 +1,9 @@
-package me.swirtzly.minecraft.angels.client.models.poses;
+package me.swirtzly.minecraft.angels.client.poses;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PoseManager {
+public class PoseRegistry {
 	
 	private static Random RANDOM = new Random();
 	

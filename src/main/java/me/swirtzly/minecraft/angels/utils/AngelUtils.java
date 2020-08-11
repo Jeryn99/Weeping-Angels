@@ -8,6 +8,8 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -162,4 +164,8 @@ public class AngelUtils {
 	public enum EnumTeleportType {
 		STRUCTURES, RANDOM_PLACE, DONT
 	}
+
+    public static int getFortuneModifier(LivingEntity entityIn) {
+        return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
+    }
 }

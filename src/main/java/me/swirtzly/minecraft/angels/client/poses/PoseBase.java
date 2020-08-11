@@ -1,4 +1,4 @@
-package me.swirtzly.minecraft.angels.client.models.poses;
+package me.swirtzly.minecraft.angels.client.poses;
 
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -34,7 +34,7 @@ public abstract class PoseBase {
 	/**
 	 * Used to set the Models arm angles
 	 */
-	public abstract void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right);
+	public abstract void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right, boolean hasWrist);
 	
 	/**
 	 * Used to set the Models head angles

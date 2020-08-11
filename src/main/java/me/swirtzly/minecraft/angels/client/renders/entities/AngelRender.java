@@ -23,11 +23,10 @@ public class AngelRender extends MobRenderer {
     public static ResourceLocation TEXTURE_FOUR = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_4.png");
     private final ResourceLocation TEXTURE_ONE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel.png");
     private final ResourceLocation TEXTURE_TWO = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
-
     private final ResourceLocation TEXTURE_CLASSIC = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_3.png");
-
     private final ResourceLocation TEXTURE_CHILD = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_child.png");
     private final ResourceLocation TEXTURE_ANGELA = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_angela.png");
+    private final ResourceLocation TEXTURE_ANGELA2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_5.png");
 
     private final EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
@@ -35,6 +34,7 @@ public class AngelRender extends MobRenderer {
     private final EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela();
+    private final EntityModel<WeepingAngelEntity> modelAngela2 = new ModelAngelaAngel();
 
     @SuppressWarnings("unchecked")
     public AngelRender(EntityRendererManager manager) {
@@ -92,6 +92,10 @@ public class AngelRender extends MobRenderer {
                 case 4:
                     bindTexture(TEXTURE_ANGELA);
                     modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                    break;
+                case 5:
+                    bindTexture(TEXTURE_ANGELA2);
+                    modelAngela2.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
                     break;
             }
             GlStateManager.popMatrix();

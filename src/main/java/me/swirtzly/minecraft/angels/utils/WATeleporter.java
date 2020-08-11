@@ -22,9 +22,9 @@ import java.util.Random;
 public class WATeleporter {
 	
 	public static int yCoordSanity(World world, BlockPos spawn) {
-		IChunk chunk = world.getChunk(spawn);
-		return chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING, spawn.getX(), spawn.getZ());
-	}
+        IChunk chunk = world.getChunk(spawn);
+        return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, spawn.getX(), spawn.getZ());
+    }
 	
 	public static DimensionType getRandomDimension(Random rand) {
 		Iterable<DimensionType> dimensions = DimensionType.getAll();

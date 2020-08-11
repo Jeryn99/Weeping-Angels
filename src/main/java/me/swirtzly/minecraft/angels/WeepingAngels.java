@@ -5,6 +5,9 @@ import me.swirtzly.minecraft.angels.common.misc.FortuneEnchantBonus;
 import me.swirtzly.minecraft.angels.common.world.WorldGen;
 import me.swirtzly.minecraft.angels.compat.tardis.Tardis;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.data.LangEnglish;
+import me.swirtzly.minecraft.angels.data.WABlockTags;
+import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
@@ -20,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,15 +59,21 @@ public class WeepingAngels {
 		WorldGen.applyFeatures();
 		LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
 		Network.init();
-		
+
 		if (ModList.get().isLoaded("tardis")) {
 			LOGGER.info("Loading Tardis Compatibility");
 			MinecraftForge.EVENT_BUS.register(new Tardis());
 		}
 	}
-	
+
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> ClientUtil::doClientStuff);
 	}
-	
+
+	@SubscribeEvent
+	public void gatherData(GatherDataEvent e) {
+		e.getGenerator().addProvider(new WAItemTags(e.getGenerator()));
+		e.getGenerator().addProvider(new WABlockTags(e.getGenerator()));
+		e.getGenerator().addProvider(new LangEnglish(e.getGenerator()));
+	}
 }

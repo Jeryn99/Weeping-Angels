@@ -1,11 +1,12 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.models.poses.PoseManager;
+import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
@@ -84,7 +85,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		super.registerData();
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, AngelUtils.randomType().getId());
-		getDataManager().register(CURRENT_POSE, PoseManager.getRandomPose().getRegistryName());
+		getDataManager().register(CURRENT_POSE, PoseRegistry.getRandomPose().getRegistryName());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
 	
@@ -177,7 +178,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
 			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
 				ItemStack stack = playerMP.inventory.getStackInSlot(i);
-				if ((stack.getItem().getRegistryName().toString().contains("key"))) {
+				if (stack.getItem().isIn(WAItemTags.KEYS)) {
 					setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
 					playerMP.inventory.getStackInSlot(i).setCount(0);
 					playerMP.container.detectAndSendChanges();
@@ -260,9 +261,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			}
 
 			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
-				setPose(PoseManager.getRandomPose().getRegistryName());
+				setPose(PoseRegistry.getRandomPose().getRegistryName());
 			} else {
-				setPose(rand.nextBoolean() ? PoseManager.POSE_ANGRY.getRegistryName() : PoseManager.POSE_HIDING_FACE.getRegistryName());
+				setPose(rand.nextBoolean() ? PoseRegistry.POSE_ANGRY.getRegistryName() : PoseRegistry.POSE_HIDING_FACE.getRegistryName());
 			}
 		}
 	}
@@ -305,7 +306,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
-			setPose(PoseManager.POSE_HIDING_FACE.toString());
+			setPose(PoseRegistry.POSE_HIDING_FACE.toString());
 		}
 
 		if (WAConfig.CONFIG.blockBreaking.get()) {

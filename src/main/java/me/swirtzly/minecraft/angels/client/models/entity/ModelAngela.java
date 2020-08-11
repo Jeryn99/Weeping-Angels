@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import me.swirtzly.minecraft.angels.client.models.poses.PoseManager;
+import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -554,7 +554,7 @@ public class ModelAngela extends EntityModel<WeepingAngelEntity> {
 	public void setRotationAngles(Entity entity) {
 		if (entity instanceof WeepingAngelEntity) {
 			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
-			if (angel.getAngelPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
+			if (angel.getAngelPose().equals(PoseRegistry.POSE_ANGRY.getRegistryName())) {
 				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
 				rightarm.rotateAngleZ = 0.0F;
 				leftarm.rotateAngleZ = 0.0F;
@@ -564,7 +564,7 @@ public class ModelAngela extends EntityModel<WeepingAngelEntity> {
 				leftarm.rotateAngleX = -1.570796F;
 			}
 			
-			if (angel.getAngelPose().equals(PoseManager.POSE_HIDING_FACE.getRegistryName())) {
+			if (angel.getAngelPose().equals(PoseRegistry.POSE_HIDING_FACE.getRegistryName())) {
 				leftarm.rotateAngleX = toRadians(-100f);
 				leftarm.rotateAngleY = toRadians(20f);
 				leftarm.rotateAngleZ = toRadians(0);

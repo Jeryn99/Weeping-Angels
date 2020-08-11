@@ -54,7 +54,7 @@ public class EventHandler {
 					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
 				}
 				
-				if (!(source instanceof Entity)) {
+				if (!(source instanceof LivingEntity)) {
 					e.setCanceled(true);
 				}
 			}

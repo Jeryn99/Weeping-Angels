@@ -1,8 +1,8 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.swirtzly.minecraft.angels.client.models.poses.PoseBase;
-import me.swirtzly.minecraft.angels.client.models.poses.PoseManager;
+import me.swirtzly.minecraft.angels.client.poses.PoseBase;
+import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -254,7 +254,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	}
 	
 	public void tilePosing(String p) {
-		PoseBase pose = PoseManager.getPoseFromString(p);
+		PoseBase pose = PoseRegistry.getPoseFromString(p);
 		
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
@@ -264,7 +264,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 		right_arm.rotateAngleX = 0;
 		right_arm.rotateAngleY = 0;
 		right_arm.rotateAngleZ = 0;
-		pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+		pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
 		pose.setWingAngles(left_wing_0, right_wing_0);
 		pose.setHeadAngles(head);
 		angry_mouth.isHidden = true;
@@ -280,14 +280,14 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	protected RendererModel getArmForSide(HandSide side) {
 		return side == HandSide.LEFT ? left_arm : right_arm;
 	}
-	
+
 	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		
+
 		if (entity instanceof WeepingAngelEntity) {
-			
+
 			head.rotateAngleY = netheadYaw * 0.017453292F;
 			head.rotateAngleX = headPitch * 0.017453292F;
-			
+
 			right_arm.rotationPointY = 2.5F;
 			left_arm.rotationPointY = 2.5F;
 			left_arm.rotateAngleX = 0;
@@ -297,12 +297,12 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 			right_arm.rotateAngleY = 0;
 			right_arm.rotateAngleZ = 0;
 			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
-			
-			PoseBase pose = PoseManager.getPoseFromString(angel.getAngelPose());
-			
+
+			PoseBase pose = PoseRegistry.getPoseFromString(angel.getAngelPose());
+
 			if (pose != null) {
 				angry_mouth.isHidden = !pose.angryFace();
-				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
 				pose.setWingAngles(left_wing_0, right_wing_0);
 				pose.setHeadAngles(head);
 
@@ -314,19 +314,14 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 					right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 					left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				}
-				
-			/*	if (pose instanceof PoseThinking) {
-					right_eyebrow.rotateAngleZ = 0.15F;
-					right_eyebrow.rotationPointY = -4.5F;
-					left_eyebrow.rotationPointY = -4.2F;
-				}*/
 			}
 		} else {
-			PoseBase pose = PoseManager.POSE_SHY;
-			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1);
+			PoseBase pose = PoseRegistry.POSE_SHY;
+			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
 			pose.setWingAngles(left_wing_0, right_wing_0);
 			pose.setHeadAngles(head);
 			angry_mouth.isHidden = true;
 		}
 	}
+
 }

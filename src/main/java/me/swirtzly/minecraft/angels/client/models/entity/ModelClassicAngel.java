@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import me.swirtzly.minecraft.angels.client.models.poses.PoseManager;
+import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -177,7 +177,7 @@ public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 			angleY = toRadians(30F);
 			angleZ = toRadians(5F);
 			
-			if (angel.getPose().equals(PoseManager.POSE_ANGRY.getRegistryName())) {
+			if (angel.getPose().equals(PoseRegistry.POSE_ANGRY.getRegistryName())) {
 				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
 				rightarm.rotateAngleZ = 0.0F;
 				leftarm.rotateAngleZ = 0.0F;
@@ -191,7 +191,7 @@ public class ModelClassicAngel<T extends LivingEntity> extends BipedModel<T> {
 				angleZ = toRadians(5F);
 			}
 			
-			if (angel.getPose().equals(PoseManager.POSE_HIDING_FACE.getRegistryName())) {
+			if (angel.getPose().equals(PoseRegistry.POSE_HIDING_FACE.getRegistryName())) {
 				rightarm.rotateAngleX = -1.04533F;
 				rightarm.rotateAngleY = -0.55851F;
 				rightarm.rotateAngleZ = 0.0F;

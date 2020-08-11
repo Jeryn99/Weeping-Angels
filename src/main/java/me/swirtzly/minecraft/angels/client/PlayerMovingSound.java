@@ -30,7 +30,6 @@ public class PlayerMovingSound extends TickableSound {
 	
 	@Override
 	public void tick() {
-		
 		if (entity instanceof Entity) {
 			Entity entityObject = (Entity) entity;
 			

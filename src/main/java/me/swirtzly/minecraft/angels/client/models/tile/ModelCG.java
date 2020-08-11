@@ -1,4 +1,4 @@
-package me.swirtzly.minecraft.angels.client.models.entity;
+package me.swirtzly.minecraft.angels.client.models.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.minecraft.angels.WeepingAngels;

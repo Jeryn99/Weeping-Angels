@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.utils.WAEnchantHelper;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -46,7 +46,7 @@ public class FortuneEnchantBonus extends LootFunction {
 	public ItemStack doApply(ItemStack stack, LootContext context) {
 		Entity entity = context.get(LootParameters.KILLER_ENTITY);
 		if (entity instanceof LivingEntity) {
-			int i = WAEnchantHelper.getFortuneModifier((LivingEntity) entity);
+			int i = AngelUtils.getFortuneModifier((LivingEntity) entity);
 			if (i == 0) {
 				return stack;
 			}

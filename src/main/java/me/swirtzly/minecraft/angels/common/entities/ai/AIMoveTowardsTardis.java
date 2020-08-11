@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.entities.ai;
 
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.data.WAItemTags;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -44,7 +45,7 @@ public class AIMoveTowardsTardis<T extends WeepingAngelEntity> extends Goal {
      */
     @Override
     public void tick() {
-        if (!weepingAngel.getHeldItemMainhand().isEmpty() || !weepingAngel.getHeldItemOffhand().isEmpty()) {
+        if (weepingAngel.getHeldItemMainhand().getItem().isIn(WAItemTags.KEYS) || weepingAngel.getHeldItemOffhand().getItem().isIn(WAItemTags.KEYS)) {
             if (tardis == null) {
 
                 AxisAlignedBB box = weepingAngel.getBoundingBox().grow(25);

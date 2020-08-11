@@ -11,8 +11,7 @@ version="2.1.6"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/Swirtzly/Weeping-Angels/1.14/update.json" #optional
 description='''
-Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5
-'''
+Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]
     modId="forge"
     mandatory=true

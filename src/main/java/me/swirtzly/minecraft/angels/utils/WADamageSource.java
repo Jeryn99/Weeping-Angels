@@ -11,7 +11,7 @@ public class WADamageSource extends DamageSource {
 	
 	public WADamageSource(String name) {
 		super(name);
-		this.message = "damagesrc.angels." + name;
+		this.message = "source.weeping_angels." + name;
 	}
 	
 	@Override
