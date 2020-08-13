@@ -1,7 +1,7 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.compat.events.EventAngelBreakEvent;
@@ -79,7 +79,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		super.registerData();
 		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, AngelUtils.randomType().getId());
-		getDataManager().register(CURRENT_POSE, PoseRegistry.getRandomPose().getRegistryName());
+		getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
 	
@@ -219,7 +219,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 
-		if (compound.contains(WAConstants.POSE)) setPose(compound.getString(WAConstants.POSE));
+		if (compound.contains(WAConstants.POSE)) setPose(new ResourceLocation(compound.getString(WAConstants.POSE)));
 
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
 
@@ -255,9 +255,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			}
 
 			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
-				setPose(PoseRegistry.getRandomPose().getRegistryName());
+				setPose(AngelPoses.getRandomPose().getRegistryName());
 			} else {
-				setPose(rand.nextBoolean() ? PoseRegistry.POSE_ANGRY.getRegistryName() : PoseRegistry.POSE_HIDING_FACE.getRegistryName());
+				setPose(rand.nextBoolean() ? AngelPoses.POSE_ANGRY.getRegistryName() : AngelPoses.POSE_HIDING_FACE.getRegistryName());
 			}
 		}
 	}
@@ -300,7 +300,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
-			setPose(PoseRegistry.POSE_HIDING_FACE.toString());
+			setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
 		}
 
 		if (WAConfig.CONFIG.blockBreaking.get()) {
@@ -444,8 +444,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		return getDataManager().get(CURRENT_POSE);
 	}
 
-	public void setPose(String newPose) {
-		getDataManager().set(CURRENT_POSE, newPose);
+	public void setPose(ResourceLocation newPose) {
+		getDataManager().set(CURRENT_POSE, newPose.toString());
 	}
 	
 	public boolean isCherub() {

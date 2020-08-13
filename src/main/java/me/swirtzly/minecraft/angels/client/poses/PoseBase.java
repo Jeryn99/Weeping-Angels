@@ -1,18 +1,27 @@
 package me.swirtzly.minecraft.angels.client.poses;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public abstract class PoseBase {
-	
+import javax.annotation.Nullable;
+
+@OnlyIn(value = Dist.CLIENT, _interface = IPoseAngles.class)
+public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAngles {
+
+	protected String name;
 	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
 	private WeepingAngelEntity angel;
-	private String registryName = "MISSINGNAME";
-	
-	public PoseBase() {}
-	
+	private ResourceLocation location;
+
+	public PoseBase(String name) {
+		this.name = name;
+	}
+
 	public PoseBase(WeepingAngelEntity angel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		this.limbSwing = limbSwing;
 		this.limbSwingAmount = limbSwingAmount;
@@ -23,38 +32,12 @@ public abstract class PoseBase {
 		this.angel = angel;
 	}
 	
-	public String getRegistryName() {
-		return registryName;
-	}
-	
-	public void setRegistryName(String registryName) {
-		this.registryName = registryName;
-	}
-	
-	/**
-	 * Used to set the Models arm angles
-	 */
-	public abstract void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right, boolean hasWrist);
-	
-	/**
-	 * Used to set the Models head angles
-	 */
-	public abstract void setHeadAngles(RendererModel head);
 	
 	/**
 	 * Determines angry face
 	 */
 	public abstract boolean angryFace();
 	
-	/**
-	 * Determines body angles, I wouldn't really reccomend messing with this, it's not pretty
-	 */
-	public abstract void setBodyAngles(RendererModel body);
-	
-	/**
-	 * Basically I never use this, it's there for the sake of it, used to set wing angles
-	 */
-	public abstract void setWingAngles(RendererModel left_wing, RendererModel right_wing);
 	
 	/**
 	 * Returns the entities Limb Swing
@@ -118,5 +101,21 @@ public abstract class PoseBase {
 		model.rotateAngleY = 0;
 		model.rotateAngleY = 0;
 	}
-	
+
+	@Override
+	public PoseBase setRegistryName(ResourceLocation resourceLocation) {
+		this.location = resourceLocation;
+		return this;
+	}
+
+	@Nullable
+	@Override
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(WeepingAngels.MODID, name);
+	}
+
+	@Override
+	public Class<PoseBase> getRegistryType() {
+		return PoseBase.class;
+	}
 }

@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -9,13 +9,14 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	
 	private boolean hasSpawned = false;
 	private int rotation = 0;
-	private String pose = PoseRegistry.getRandomPose().getRegistryName();
+	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 	
 	public PlinthTile() {
 		super(WAObjects.Tiles.PLINTH.get());
@@ -33,7 +34,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		setHasSpawned(compound.getBoolean("hasSpawned"));
-		setPose(compound.getString("pose"));
+		setPose(new ResourceLocation(compound.getString("pose")));
 		rotation = compound.getInt("rotation");
 	}
 	
@@ -42,7 +43,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		super.write(compound);
 		compound.putBoolean("hasSpawned", hasSpawned);
 		compound.putInt("rotation", rotation);
-		compound.putString("pose", pose);
+		compound.putString("pose", pose.toString());
 		return compound;
 	}
 	
@@ -101,11 +102,11 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		}
 	}
 	
-	public String getPose() {
-		return pose;
+	public ResourceLocation getPose() {
+		return new ResourceLocation(pose.toString());
 	}
 	
-	public void setPose(String pose) {
+	public void setPose(ResourceLocation pose) {
 		this.pose = pose;
 	}
 }

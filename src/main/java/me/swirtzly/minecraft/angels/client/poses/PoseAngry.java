@@ -5,13 +5,15 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.util.math.MathHelper;
 
 public class PoseAngry extends PoseBase {
-	
+
+	public PoseAngry(String name){
+		super(name);
+	}
+
 	public PoseAngry(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
 
-	public PoseAngry() {}
-	
 	@Override
 	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right, boolean hasWrists) {
 		float swing = MathHelper.sin(getSwingProgress() * (float) Math.PI);

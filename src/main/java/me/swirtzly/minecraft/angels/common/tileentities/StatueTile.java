@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -9,13 +9,14 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Swirtzly on 17/02/2020 @ 12:18
  */
 public class StatueTile extends TileEntity implements ITickableTileEntity {
 	private int rotation;
-	private String pose = PoseRegistry.getRandomPose().getRegistryName();
+	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 	
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());
@@ -24,23 +25,23 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		setPose(compound.getString("pose"));
+		setPose(new ResourceLocation(compound.getString("pose")));
 		setRotation(compound.getInt("rotation"));
 	}
 	
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString("pose", pose);
+		compound.putString("pose", pose.toString());
 		compound.putInt("rotation", rotation);
 		return compound;
 	}
 	
-	public String getPose() {
+	public ResourceLocation getPose() {
 		return pose;
 	}
 	
-	public void setPose(String pose) {
+	public void setPose(ResourceLocation pose) {
 		this.pose = pose;
 		sendUpdates();
 	}

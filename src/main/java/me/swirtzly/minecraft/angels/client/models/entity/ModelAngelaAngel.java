@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import me.swirtzly.minecraft.angels.client.poses.PoseBase;
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -78,9 +77,9 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
-        PoseBase pose = PoseRegistry.getPoseFromString(weepingAngelEntity.getAngelPose());
+        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
 
-        if (pose == PoseRegistry.POSE_ANGRY || pose == PoseRegistry.POSE_ANGRY_TWO || pose == PoseRegistry.POSE_OPEN_ARMS) {
+        if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
             rightArm.rotateAngleX = (float) Math.toRadians(90);
             rightArm.rotateAngleY = (float) Math.toRadians(-20);
             rightArm.rotateAngleZ = (float) Math.toRadians(30);
@@ -93,7 +92,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
             return;
         }
 
-        if (pose == PoseRegistry.POSE_HIDING_FACE || pose == PoseRegistry.POSE_SHY) {
+        if (pose == AngelPoses.POSE_HIDING_FACE || pose == AngelPoses.POSE_SHY) {
             head.rotateAngleX = (float) Math.toRadians(20);
 
             rightArm.rotateAngleX = (float) Math.toRadians(-105);
@@ -106,7 +105,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
             return;
         }
 
-        if (pose == PoseRegistry.POSE_IDLE) {
+        if (pose == AngelPoses.POSE_IDLE) {
             head.rotateAngleX = (float) Math.toRadians(0);
 
             rightArm.rotateAngleX = (float) Math.toRadians(0);

@@ -1,7 +1,7 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -483,7 +483,7 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 		GlStateManager.pushMatrix(); // PUSH 1
 		
 		GlStateManager.pushMatrix(); // PUSH 2
-		if (!angel.getPose().equals(PoseRegistry.POSE_ANGRY.getRegistryName())) {
+		if (!angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
 			GlStateManager.rotatef(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
@@ -512,7 +512,7 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 		Hair12.render(scale);
 		GlStateManager.popMatrix(); // POP 1
 		
-		if (angel.getPose().equals(PoseRegistry.POSE_ANGRY.getRegistryName())) {
+		if (angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);

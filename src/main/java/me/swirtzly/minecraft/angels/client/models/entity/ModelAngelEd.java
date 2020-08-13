@@ -2,7 +2,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.minecraft.angels.client.poses.PoseBase;
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -257,7 +257,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 	}
 	
 	public void tilePosing(String p) {
-		PoseBase pose = PoseRegistry.getPoseFromString(p);
+		PoseBase pose = AngelPoses.getPoseFromString(p).create();
 		
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
@@ -301,7 +301,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 			right_arm.rotateAngleZ = 0;
 			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 
-			PoseBase pose = PoseRegistry.getPoseFromString(angel.getAngelPose());
+			PoseBase pose = AngelPoses.getPoseFromString(angel.getAngelPose()).create();
 
 			if (pose != null) {
 				angry_mouth.isHidden = !pose.angryFace();
@@ -319,7 +319,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 				}
 			}
 		} else {
-			PoseBase pose = PoseRegistry.POSE_SHY;
+			PoseBase pose = AngelPoses.POSE_SHY.create();
 			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
 			pose.setWingAngles(left_wing_0, right_wing_0);
 			pose.setHeadAngles(head);

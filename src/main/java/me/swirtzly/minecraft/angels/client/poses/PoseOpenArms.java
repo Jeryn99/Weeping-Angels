@@ -5,12 +5,14 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseOpenArms extends PoseBase {
 	
-	public PoseOpenArms() {}
-	
 	public PoseOpenArms(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
 	}
-	
+
+	public PoseOpenArms(String name){
+		super(name);
+	}
+
 	@Override
 	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right, boolean hasWrists) {
 		left_arm.rotateAngleX = degreeToRadian(-90);

@@ -4,11 +4,13 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 
 public class PoseHidingFace extends PoseBase {
-	
-	public PoseHidingFace() {}
-	
+
 	public PoseHidingFace(WeepingAngelEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float swingProgress) {
 		super(entity, limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress);
+	}
+
+	public PoseHidingFace(String name){
+		super(name);
 	}
 
 	@Override
@@ -43,5 +45,5 @@ public class PoseHidingFace extends PoseBase {
 	
 	@Override
 	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {}
-	
+
 }

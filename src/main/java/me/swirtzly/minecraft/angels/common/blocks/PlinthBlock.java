@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -69,7 +69,7 @@ public class PlinthBlock extends Block {
 			int rotation = MathHelper.floor(placer.rotationYaw);
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			plinth.setRotation(rotation);
-			plinth.setPose(PoseRegistry.getRandomPose().getRegistryName());
+			plinth.setPose(AngelPoses.getRandomPose().getRegistryName());
 			plinth.sendUpdates();
 		}
 	}

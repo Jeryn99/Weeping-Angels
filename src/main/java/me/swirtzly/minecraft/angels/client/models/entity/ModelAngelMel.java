@@ -4,8 +4,7 @@ import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsAngry;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsCovering;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsIdle;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsPointing;
-import me.swirtzly.minecraft.angels.client.poses.PoseBase;
-import me.swirtzly.minecraft.angels.client.poses.PoseRegistry;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.Minecraft;
@@ -582,30 +581,30 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 		
 		if (entityIn instanceof WeepingAngelEntity) {
 			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
-			PoseBase pose = PoseRegistry.getPoseFromString(angel.getAngelPose());
+			AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose());
 			
 			// Covering Face arms render/
-			if (pose == PoseRegistry.POSE_HIDING_FACE) {
+			if (pose == AngelPoses.POSE_HIDING_FACE) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Idle render
-			if (pose == PoseRegistry.POSE_IDLE) {
+			if (pose == AngelPoses.POSE_IDLE) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Shriek render
-			if (pose.getRegistryName().toLowerCase().contains("angry")) {
+			if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
-			if (pose == PoseRegistry.POSE_SHY) {
+			if (pose == AngelPoses.POSE_SHY) {
 				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
 				armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;

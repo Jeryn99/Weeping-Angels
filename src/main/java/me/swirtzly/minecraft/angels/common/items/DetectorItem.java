@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.items;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import me.swirtzly.minecraft.angels.config.WAConfig;
@@ -14,6 +15,8 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -94,7 +97,25 @@ public class DetectorItem extends Item {
 			}
 		});
 	}
-	
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
+
+		int offset = 0;
+		for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+			offset++;
+			WeepingAngelEntity weepingAngelEntity = new WeepingAngelEntity(p_77659_1_);
+			weepingAngelEntity.setType(angelType.getId());
+			weepingAngelEntity.setPosition(p_77659_2_.getPosition().getX() + offset, p_77659_2_.getPosition().getY(), p_77659_2_.getPosition().getZ());
+			weepingAngelEntity.setNoAI(true);
+			if (!p_77659_1_.isRemote) {
+				p_77659_1_.addEntity(weepingAngelEntity);
+			}
+		}
+
+		return super.onItemRightClick(p_77659_1_, p_77659_2_, p_77659_3_);
+	}
+
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
