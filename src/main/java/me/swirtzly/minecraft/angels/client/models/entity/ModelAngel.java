@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
  * Angel Type: 0
  * Created by Ford Created using Techne
  */
-public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
+public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<T> {
 	
 	private RendererModel AngryLeftArm2;
 	private RendererModel AngryRightArm2;
@@ -472,18 +472,13 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 	}
 	
 	@Override
-	public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		WeepingAngelEntity angel = null;
-		
-		if (entity instanceof WeepingAngelEntity) {
-			angel = (WeepingAngelEntity) entity;
-		}
-		
+	public void render(WeepingAngelEntity angelEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+
 		// Head
 		GlStateManager.pushMatrix(); // PUSH 1
 		
 		GlStateManager.pushMatrix(); // PUSH 2
-		if (!angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
+		if (!angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
 			GlStateManager.rotatef(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);
@@ -512,7 +507,7 @@ public class ModelAngel<T extends LivingEntity> extends EntityModel<T> {
 		Hair12.render(scale);
 		GlStateManager.popMatrix(); // POP 1
 		
-		if (angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
+		if (angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
 			AngryRightArm1.render(scale);
 			AngryRightArm2.render(scale);
 			AngryLeftArm1.render(scale);

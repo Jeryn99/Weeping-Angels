@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.HandSide;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Angel Type: 1
@@ -213,7 +214,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 		back_cloth.addChild(back_cloth_2);
 	}
 	
-	public void quickRender(float scale, String pose) {
+	public void quickRender(float scale, ResourceLocation pose) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		tilePosing(pose);
@@ -256,8 +257,8 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 		GlStateManager.popMatrix();
 	}
 	
-	public void tilePosing(String p) {
-		PoseBase pose = AngelPoses.getPoseFromString(p).create();
+	public void tilePosing(ResourceLocation p) {
+		PoseBase pose = AngelPoses.getPoseFromString(p.toString()).create();
 		
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
@@ -301,7 +302,7 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 			right_arm.rotateAngleZ = 0;
 			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 
-			PoseBase pose = AngelPoses.getPoseFromString(angel.getAngelPose()).create();
+			PoseBase pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString()).create();
 
 			if (pose != null) {
 				angry_mouth.isHidden = !pose.angryFace();

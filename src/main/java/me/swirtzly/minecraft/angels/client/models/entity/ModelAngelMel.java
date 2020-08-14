@@ -581,7 +581,7 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 		
 		if (entityIn instanceof WeepingAngelEntity) {
 			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
-			AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose());
+			AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString());
 			
 			// Covering Face arms render/
 			if (pose == AngelPoses.POSE_HIDING_FACE) {

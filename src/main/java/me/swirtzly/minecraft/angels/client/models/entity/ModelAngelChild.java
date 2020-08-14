@@ -1,12 +1,16 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+
+import static java.lang.Math.toRadians;
+
 /**
  * Angel Type: Child
  */
@@ -157,18 +161,41 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	}
 	
 	public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		right_arm.rotationPointY = 2.5F;
-		left_arm.rotationPointY = 2.5F;
-		
-		left_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
-		right_arm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / 1.0F;
-		
-		head.rotateAngleY = netheadYaw * 0.017453292F;
-		head.rotateAngleX = headPitch * 0.017453292F;
-		head_2.rotateAngleY = netheadYaw * 0.017453292F;
-		head_2.rotateAngleX = headPitch * 0.017453292F;
-		
-		left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 1.0F;
-		right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 1.0F;
+		if (entity instanceof WeepingAngelEntity) {
+			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
+
+			if (angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
+				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
+				right_arm.rotateAngleZ = 0.0F;
+				left_arm.rotateAngleZ = 0.0F;
+				right_arm.rotateAngleY = -(0.1F - f6 * 0.6F);
+				left_arm.rotateAngleY = 0.1F - f6 * 0.6F;
+				right_arm.rotateAngleX = -1.570796F;
+				left_arm.rotateAngleX = -1.570796F;
+			}
+
+			if (angel.getAngelPose().equals(AngelPoses.POSE_HIDING_FACE.getRegistryName())) {
+				right_arm.rotateAngleX = -1.04533F;
+				right_arm.rotateAngleY = -0.55851F;
+				right_arm.rotateAngleZ = 0.0F;
+				left_arm.rotateAngleX = -1.04533F;
+				left_arm.rotateAngleY = 0.55851F;
+				left_arm.rotateAngleZ = 0.0F;
+			} else {
+				right_arm.rotateAngleX = -1.74533F;
+				right_arm.rotateAngleY = -0.55851F;
+				right_arm.rotateAngleZ = 0.0F;
+				left_arm.rotateAngleX = -1.74533F;
+				left_arm.rotateAngleY = 0.55851F;
+				left_arm.rotateAngleZ = 0.0F;
+			}
+		} else {
+			right_arm.rotateAngleX = -1.74533F;
+			right_arm.rotateAngleY = -0.55851F;
+			right_arm.rotateAngleZ = 0.0F;
+			left_arm.rotateAngleX = -1.74533F;
+			left_arm.rotateAngleY = 0.55851F;
+			left_arm.rotateAngleZ = 0.0F;
+		}
 	}
 }

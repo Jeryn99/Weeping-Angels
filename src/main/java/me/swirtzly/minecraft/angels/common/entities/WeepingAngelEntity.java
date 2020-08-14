@@ -209,7 +209,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
-		compound.putString(WAConstants.POSE, getAngelPose());
+		compound.putString(WAConstants.POSE, getAngelPose().toString());
 		compound.putInt(WAConstants.TYPE, getAngelType());
 		compound.putBoolean(WAConstants.ANGEL_CHILD, isCherub());
 		compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
@@ -219,7 +219,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 
-		if (compound.contains(WAConstants.POSE)) setPose(new ResourceLocation(compound.getString(WAConstants.POSE)));
+		if (compound.contains(WAConstants.POSE)) setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
 
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
 
@@ -440,8 +440,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	 * Getters and Setters
 	 */
 
-	public String getAngelPose() {
-		return getDataManager().get(CURRENT_POSE);
+	public ResourceLocation getAngelPose() {
+		return new ResourceLocation(getDataManager().get(CURRENT_POSE));
 	}
 
 	public void setPose(ResourceLocation newPose) {

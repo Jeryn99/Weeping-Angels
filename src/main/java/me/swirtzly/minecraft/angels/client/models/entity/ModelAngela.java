@@ -13,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
  * Angel Type: 4
  * Created by Swirtzly on 11/03/2020 @ 20:58
  */
-public class ModelAngela <T extends LivingEntity> extends EntityModel<T> {
+public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 	private final RendererModel Head;
 	private final RendererModel Face;
 	private final RendererModel Eyes;
@@ -539,8 +539,8 @@ public class ModelAngela <T extends LivingEntity> extends EntityModel<T> {
 	}
 	
 	@Override
-	public void render(LivingEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		setRotationAngles(entity);
+	public void render(WeepingAngelEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		setRotationAngles(entity, f, f1, f2, f3, f4, f5);
 		Head.render(f5);
 		Body.render(f5);
 		rightarm.render(f5);
@@ -554,47 +554,49 @@ public class ModelAngela <T extends LivingEntity> extends EntityModel<T> {
 		RendererModel.rotateAngleY = y;
 		RendererModel.rotateAngleZ = z;
 	}
-	
-	public void setRotationAngles(Entity entity) {
-		if (entity instanceof WeepingAngelEntity) {
-			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
-			if (angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
-				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
-				rightarm.rotateAngleZ = 0.0F;
-				leftarm.rotateAngleZ = 0.0F;
-				rightarm.rotateAngleY = -(0.1F - f6 * 0.6F);
-				leftarm.rotateAngleY = 0.1F - f6 * 0.6F;
-				rightarm.rotateAngleX = -1.570796F;
-				leftarm.rotateAngleX = -1.570796F;
-			}
-			
-			if (angel.getAngelPose().equals(AngelPoses.POSE_HIDING_FACE.getRegistryName())) {
-				leftarm.rotateAngleX = toRadians(-100f);
-				leftarm.rotateAngleY = toRadians(20f);
-				leftarm.rotateAngleZ = toRadians(0);
-				rightarm.rotateAngleX = toRadians(-100f);
-				rightarm.rotateAngleY = toRadians(-20f);
-				rightarm.rotateAngleZ = toRadians(0);
-				Head.rotateAngleX = toRadians(10f);
-			} else {
-				rightarm.rotateAngleX = -1.74533F;
-				rightarm.rotateAngleY = -0.55851F;
-				rightarm.rotateAngleZ = 0.0F;
-				leftarm.rotateAngleX = -1.74533F;
-				leftarm.rotateAngleY = 0.55851F;
-				leftarm.rotateAngleZ = 0.0F;
-			}
-		} else {
-			rightarm.rotateAngleX = -1.74533F;
-			rightarm.rotateAngleY = -0.55851F;
-			rightarm.rotateAngleZ = 0.0F;
-			leftarm.rotateAngleX = -1.74533F;
-			leftarm.rotateAngleY = 0.55851F;
-			leftarm.rotateAngleZ = 0.0F;
+
+	@Override
+	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
+		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+
+		if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
+			rightarm.rotateAngleX = (float) Math.toRadians(-90);
+			rightarm.rotateAngleY = (float) Math.toRadians(-20);
+			rightarm.rotateAngleZ = (float) Math.toRadians(30);
+
+			leftarm.rotateAngleX = (float) Math.toRadians(-90);
+			leftarm.rotateAngleY = (float) Math.toRadians(25);
+			leftarm.rotateAngleZ = (float) Math.toRadians(-17.5);
+
+			Head.rotateAngleY = (float) Math.toRadians(-12.5);
+			return;
 		}
-	}
-	
-	private float toRadians(float f) {
-		return (float) Math.toRadians(f);
+
+		if (pose == AngelPoses.POSE_HIDING_FACE || pose == AngelPoses.POSE_SHY) {
+			Head.rotateAngleX = (float) Math.toRadians(20);
+
+			rightarm.rotateAngleX = (float) Math.toRadians(-105);
+			rightarm.rotateAngleY = (float) Math.toRadians(20);
+			rightarm.rotateAngleZ = (float) Math.toRadians(12.5);
+
+			leftarm.rotateAngleX = (float) Math.toRadians(-105);
+			leftarm.rotateAngleY = (float) Math.toRadians(-20);
+			leftarm.rotateAngleZ = (float) Math.toRadians(-12.5);
+			return;
+		}
+
+		if (pose == AngelPoses.POSE_IDLE) {
+			Head.rotateAngleX = (float) Math.toRadians(0);
+
+			rightarm.rotateAngleX = (float) Math.toRadians(0);
+			rightarm.rotateAngleY = (float) Math.toRadians(0);
+			rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
+
+			leftarm.rotateAngleX = (float) Math.toRadians(0);
+			leftarm.rotateAngleY = (float) Math.toRadians(0);
+			leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
+			return;
+		}
+
 	}
 }

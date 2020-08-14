@@ -77,10 +77,10 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
-        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
 
         if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
-            rightArm.rotateAngleX = (float) Math.toRadians(90);
+            rightArm.rotateAngleX = (float) Math.toRadians(-90);
             rightArm.rotateAngleY = (float) Math.toRadians(-20);
             rightArm.rotateAngleZ = (float) Math.toRadians(30);
 
@@ -114,7 +114,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
 
             leftArm.rotateAngleX = (float) Math.toRadians(0);
             leftArm.rotateAngleY = (float) Math.toRadians(0);
-            leftArm.rotateAngleZ = (float) Math.toRadians(7.5);
+            leftArm.rotateAngleZ = (float) Math.toRadians(-7.5);
             return;
         }
 

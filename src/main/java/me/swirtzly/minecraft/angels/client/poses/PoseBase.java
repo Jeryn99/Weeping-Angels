@@ -10,6 +10,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 
+/* I'm not going to pretend I like this at all*/
 @OnlyIn(value = Dist.CLIENT, _interface = IPoseAngles.class)
 public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAngles {
 

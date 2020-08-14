@@ -50,8 +50,9 @@ public class AngelPoses extends ForgeRegistryEntry<AngelPoses> {
         return poses.stream().skip((int) (poses.size() * Math.random())).findFirst().get().create();
     }
 
+    /* TODO: Remove in 1.16 versions: It only exists in 1.14.4 to be compatible with older 1.14 builds that used bad handling of the pose system*/
     public static AngelPoses getPoseFromString(String poseName) {
-        return REGISTRY.getValue(poseName.startsWith(WeepingAngels.MODID) ? new ResourceLocation(poseName) : new ResourceLocation(WeepingAngels.MODID, poseName));
+        return REGISTRY.getValue(poseName.startsWith(WeepingAngels.MODID) ? new ResourceLocation(poseName) : new ResourceLocation(WeepingAngels.MODID, poseName.replace("minecraft:", "")));
     }
 
 }
