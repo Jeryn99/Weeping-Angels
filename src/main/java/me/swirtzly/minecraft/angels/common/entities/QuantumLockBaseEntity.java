@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
+import java.util.List;
+
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
@@ -17,8 +19,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	

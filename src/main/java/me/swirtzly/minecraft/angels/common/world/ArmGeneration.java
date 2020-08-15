@@ -1,6 +1,10 @@
 package me.swirtzly.minecraft.angels.common.world;
 
+import java.util.Random;
+import java.util.function.Function;
+
 import com.mojang.datafixers.Dynamic;
+
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.Blocks;
@@ -11,9 +15,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-
-import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Created by Swirtzly on 11/02/2020 @ 21:58

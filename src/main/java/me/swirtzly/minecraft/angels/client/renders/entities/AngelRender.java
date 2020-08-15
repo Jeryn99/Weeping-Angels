@@ -1,8 +1,17 @@
 package me.swirtzly.minecraft.angels.client.renders.entities;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.models.entity.*;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngel;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelChild;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelMel;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngela;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelaAngel;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelClassicAngel;
 import me.swirtzly.minecraft.angels.client.renders.entities.layers.CrackLayer;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.Minecraft;
@@ -15,8 +24,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-
-import javax.annotation.Nullable;
 
 public class AngelRender extends MobRenderer {
 
@@ -33,7 +40,7 @@ public class AngelRender extends MobRenderer {
     private final EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
-    private final EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela();
+    private final EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela<WeepingAngelEntity>();
     private final EntityModel<WeepingAngelEntity> modelAngela2 = new ModelAngelaAngel();
 
     @SuppressWarnings("unchecked")

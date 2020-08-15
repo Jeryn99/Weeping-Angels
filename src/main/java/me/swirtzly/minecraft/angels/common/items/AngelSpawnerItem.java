@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.items;
 
+import java.util.function.Function;
+
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -11,8 +13,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.function.Function;
 
 public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 	

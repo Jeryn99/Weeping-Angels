@@ -1,21 +1,18 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
-
-import static java.lang.Math.toRadians;
 
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
-	
+public class ModelAngelChild<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> {
+
 	private RendererModel head_2;
 	private RendererModel head;
 	private RendererModel body;
@@ -35,6 +32,7 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 	private RendererModel right_wing_2_1;
 	private RendererModel right_wing_3_1;
 	private RendererModel right_wing_4_1;
+
 	/**
 	 * Angel Type: Child
 	 */
@@ -126,23 +124,16 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 		right_wing_2.addChild(right_wing_3);
 		right_wing_1_1.addChild(right_wing_2_1);
 	}
-	
+
 	@Override
-	public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		
-		if (entityIn instanceof WeepingAngelEntity) {
-			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
-			if (angel.getSeenTime() == 5) {
-				angelAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
-			}
-		}
-		
+	public void render(WeepingAngelEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,float netHeadYaw, float headPitch, float scale) {
+		setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, ageInTicks, scale);
 		head_2.render(scale);
 		head.render(scale);
 		GlStateManager.pushMatrix();
 		GlStateManager.enableCull();
 		GlStateManager.translatef(body.offsetX, body.offsetY, body.offsetZ);
-		GlStateManager.translatef(body.rotationPointX * scale, body.rotationPointY * scale, body.rotationPointZ * scale);
+		GlStateManager.translatef(body.rotationPointX * scale, body.rotationPointY * scale,body.rotationPointZ * scale);
 		GlStateManager.scaled(0.7D, 0.7D, 0.7D);
 		GlStateManager.translatef(-body.offsetX, -body.offsetY, -body.offsetZ);
 		GlStateManager.translatef(-body.rotationPointX * scale, -body.rotationPointY * scale, -body.rotationPointZ * scale);
@@ -150,7 +141,7 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 		GlStateManager.disableCull();
 		GlStateManager.popMatrix();
 	}
-	
+
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
@@ -159,43 +150,71 @@ public class ModelAngelChild<T extends LivingEntity> extends BipedModel<T> {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
-	public void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-		if (entity instanceof WeepingAngelEntity) {
-			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
 
-			if (angel.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
-				float f6 = MathHelper.sin(angel.ticksExisted / 50 * 3.141593F);
-				right_arm.rotateAngleZ = 0.0F;
-				left_arm.rotateAngleZ = 0.0F;
-				right_arm.rotateAngleY = -(0.1F - f6 * 0.6F);
-				left_arm.rotateAngleY = 0.1F - f6 * 0.6F;
-				right_arm.rotateAngleX = -1.570796F;
-				left_arm.rotateAngleX = -1.570796F;
-			}
+	@Override
+	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
+		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
 
-			if (angel.getAngelPose().equals(AngelPoses.POSE_HIDING_FACE.getRegistryName())) {
-				right_arm.rotateAngleX = -1.04533F;
-				right_arm.rotateAngleY = -0.55851F;
-				right_arm.rotateAngleZ = 0.0F;
-				left_arm.rotateAngleX = -1.04533F;
-				left_arm.rotateAngleY = 0.55851F;
-				left_arm.rotateAngleZ = 0.0F;
-			} else {
-				right_arm.rotateAngleX = -1.74533F;
-				right_arm.rotateAngleY = -0.55851F;
-				right_arm.rotateAngleZ = 0.0F;
-				left_arm.rotateAngleX = -1.74533F;
-				left_arm.rotateAngleY = 0.55851F;
-				left_arm.rotateAngleZ = 0.0F;
-			}
-		} else {
-			right_arm.rotateAngleX = -1.74533F;
-			right_arm.rotateAngleY = -0.55851F;
-			right_arm.rotateAngleZ = 0.0F;
-			left_arm.rotateAngleX = -1.74533F;
-			left_arm.rotateAngleY = 0.55851F;
-			left_arm.rotateAngleZ = 0.0F;
+        if (pose.create().isAngry()) {
+			right_arm.rotateAngleX = (float) Math.toRadians(-90);
+			right_arm.rotateAngleY = (float) Math.toRadians(-20);
+			right_arm.rotateAngleZ = (float) Math.toRadians(30);
+
+			left_arm.rotateAngleX = (float) Math.toRadians(-90);
+			left_arm.rotateAngleY = (float) Math.toRadians(25);
+			left_arm.rotateAngleZ = (float) Math.toRadians(-17.5);
+
+			head.rotateAngleX = (float) Math.toRadians(0);
+			head.rotateAngleY = (float) Math.toRadians(-12.5);
+			head.rotateAngleZ = (float) Math.toRadians(0);
+			return;
 		}
+
+		if (pose == AngelPoses.POSE_HIDING_FACE) {
+			head.rotateAngleX = (float) Math.toRadians(20);
+			head.rotateAngleY = (float) Math.toRadians(0);
+			head.rotateAngleZ = (float) Math.toRadians(0);
+
+			right_arm.rotateAngleX = (float) Math.toRadians(-105);
+			right_arm.rotateAngleY = (float) Math.toRadians(20);
+			right_arm.rotateAngleZ = (float) Math.toRadians(12.5);
+
+			left_arm.rotateAngleX = (float) Math.toRadians(-105);
+			left_arm.rotateAngleY = (float) Math.toRadians(-20);
+			left_arm.rotateAngleZ = (float) Math.toRadians(-12.5);
+			return;
+		}
+
+		if (pose == AngelPoses.POSE_IDLE) {
+			head.rotateAngleX = (float) Math.toRadians(0);
+			head.rotateAngleY = (float) Math.toRadians(0);
+			head.rotateAngleZ = (float) Math.toRadians(0);
+
+			right_arm.rotateAngleX = (float) Math.toRadians(0);
+			right_arm.rotateAngleY = (float) Math.toRadians(0);
+			right_arm.rotateAngleZ = (float) Math.toRadians(-7.5);
+
+			left_arm.rotateAngleX = (float) Math.toRadians(0);
+			left_arm.rotateAngleY = (float) Math.toRadians(0);
+			left_arm.rotateAngleZ = (float) Math.toRadians(7.5);
+			return;
+		}
+
+		if (pose == AngelPoses.POSE_SHY) {
+			right_arm.rotateAngleX = (float) Math.toRadians(-90);
+			right_arm.rotateAngleY = (float) Math.toRadians(-1.5);
+			right_arm.rotateAngleZ = (float) Math.toRadians(-20);
+
+			left_arm.rotateAngleX = (float) Math.toRadians(-120);
+			left_arm.rotateAngleY = (float) Math.toRadians(-36);
+			left_arm.rotateAngleZ = (float) Math.toRadians(10);
+
+			head.rotateAngleX = (float) Math.toRadians(20);
+			head.rotateAngleY = (float) Math.toRadians(-40);
+			head.rotateAngleZ = (float) Math.toRadians(-20);
+			return;
+		}
+
 	}
+
 }

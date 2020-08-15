@@ -1,6 +1,11 @@
 package me.swirtzly.minecraft.angels.common.world;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import com.google.common.collect.ImmutableMap;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import net.minecraft.block.Blocks;
@@ -19,10 +24,6 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class GraveyardPieces {
 	

@@ -1,13 +1,13 @@
 package me.swirtzly.minecraft.angels.network.messages;
 
+import java.util.function.Supplier;
+
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.function.Supplier;
 
 /**
  * Created by Suffril on 20/01/2019.

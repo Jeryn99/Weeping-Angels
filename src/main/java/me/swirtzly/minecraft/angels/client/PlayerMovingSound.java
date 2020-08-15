@@ -1,13 +1,13 @@
 package me.swirtzly.minecraft.angels.client;
 
+import java.util.function.Supplier;
+
 import net.minecraft.client.audio.TickableSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.function.Supplier;
 
 /**
  * Created by Swirtzly on 11/02/2020 @ 21:17

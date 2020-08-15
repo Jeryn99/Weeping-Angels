@@ -1,14 +1,16 @@
 package me.swirtzly.minecraft.angels.config;
 
-import com.google.common.collect.Lists;
-import net.minecraft.world.biome.Biomes;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
+import net.minecraft.world.biome.Biomes;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 public class WAConfig {
 	public static final WAConfig CONFIG;

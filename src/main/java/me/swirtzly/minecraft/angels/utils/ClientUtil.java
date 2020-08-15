@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.util.function.Supplier;
+
 import me.swirtzly.minecraft.angels.client.PlayerMovingSound;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
@@ -32,8 +34,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-
-import java.util.function.Supplier;
 
 public class ClientUtil {
 	

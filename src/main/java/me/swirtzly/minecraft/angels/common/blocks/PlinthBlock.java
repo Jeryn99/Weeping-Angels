@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import net.minecraft.block.Block;
@@ -17,8 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class PlinthBlock extends Block {
 	

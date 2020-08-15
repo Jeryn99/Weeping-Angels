@@ -1,5 +1,8 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
@@ -36,9 +39,6 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class AngelUtils {
 

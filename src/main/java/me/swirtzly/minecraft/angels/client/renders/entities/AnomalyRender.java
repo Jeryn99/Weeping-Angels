@@ -1,6 +1,12 @@
 package me.swirtzly.minecraft.angels.client.renders.entities;
 
+import java.awt.Color;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
@@ -10,10 +16,6 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nullable;
-import java.awt.*;
-import java.util.Random;
 
 public class AnomalyRender extends DefaultRenderer {
 

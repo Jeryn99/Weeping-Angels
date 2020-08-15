@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -8,8 +10,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-
-import javax.annotation.Nullable;
 
 public class SnowArmBlock extends SnowBlock {
 	

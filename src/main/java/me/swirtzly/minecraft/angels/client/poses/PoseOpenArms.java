@@ -36,7 +36,7 @@ public class PoseOpenArms extends PoseBase {
 	}
 	
 	@Override
-	public boolean angryFace() {
+	public boolean isAngry() {
 		return true;
 	}
 	

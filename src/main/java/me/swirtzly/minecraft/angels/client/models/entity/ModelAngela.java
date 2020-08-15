@@ -5,15 +5,11 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
 
 /**
- * Angel Type: 4
- * Created by Swirtzly on 11/03/2020 @ 20:58
+ * Angel Type: 4 Created by Swirtzly on 11/03/2020 @ 20:58
  */
-public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
+public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<T> {
 	private final RendererModel Head;
 	private final RendererModel Face;
 	private final RendererModel Eyes;
@@ -59,13 +55,14 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 	private final RendererModel bone19;
 	private final RendererModel bone20;
 	private final RendererModel bone21;
+
 	/**
 	 * Angel Type: 4
 	 */
 	public ModelAngela() {
 		textureWidth = 16;
 		textureHeight = 16;
-		
+
 		Head = new RendererModel(this);
 		Head.setRotationPoint(0.0F, -1.0F, 0.0F);
 		Head.cubeList.add(new ModelBox(Head, 0, 0, -4.0F, -8.0F, -3.0F, 8, 8, 7, 0.0F, false));
@@ -73,49 +70,49 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		Head.cubeList.add(new ModelBox(Head, 0, 0, -4.0F, -1.0F, -4.0F, 8, 1, 1, 0.0F, false));
 		Head.cubeList.add(new ModelBox(Head, 0, 0, -4.0F, -5.0F, -4.0F, 1, 4, 1, 0.0F, false));
 		Head.cubeList.add(new ModelBox(Head, 0, 0, 3.0F, -5.0F, -4.0F, 1, 4, 1, 0.0F, false));
-		
+
 		Face = new RendererModel(this);
 		Face.setRotationPoint(0.0F, 25.0F, 0.0F);
 		Head.addChild(Face);
-		
+
 		Eyes = new RendererModel(this);
 		Eyes.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Face.addChild(Eyes);
 		Eyes.cubeList.add(new ModelBox(Eyes, 10, 3, -3.0F, -29.0F, -4.0F, 6, 3, 1, 0.0F, false));
 		Eyes.cubeList.add(new ModelBox(Eyes, 10, 3, -1.0F, -30.0F, -4.0F, 2, 1, 1, 0.0F, false));
 		Eyes.cubeList.add(new ModelBox(Eyes, 10, 3, -3.0F, -30.0F, -3.55F, 6, 1, 1, 0.0F, false));
-		
+
 		Eyebrows = new RendererModel(this);
 		Eyebrows.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Face.addChild(Eyebrows);
-		
+
 		Right = new RendererModel(this);
 		Right.setRotationPoint(-5.0F, -1.0F, 0.0F);
 		setRotationAngle(Right, 0.0F, 0.0F, 0.1745F);
 		Eyebrows.addChild(Right);
 		Right.cubeList.add(new ModelBox(Right, 0, 0, 1.0F, -30.0F, -4.2F, 2, 0, 1, 0.0F, false));
-		
+
 		Left2 = new RendererModel(this);
 		Left2.setRotationPoint(6.0F, -0.2F, 0.0F);
 		setRotationAngle(Left2, 0.0F, 0.0F, -0.1745F);
 		Eyebrows.addChild(Left2);
 		Left2.cubeList.add(new ModelBox(Left2, 0, 0, -4.0F, -31.0F, -4.2F, 2, 0, 1, 0.0F, false));
-		
+
 		Nose = new RendererModel(this);
 		Nose.setRotationPoint(0.0F, 0.0F, -3.0F);
 		setRotationAngle(Nose, -0.1745F, 0.0F, 0.0F);
 		Face.addChild(Nose);
 		Nose.cubeList.add(new ModelBox(Nose, 0, 0, -0.5F, -29.2904F, -6.1994F, 1, 2, 1, 0.0F, false));
-		
+
 		Mouth = new RendererModel(this);
 		Mouth.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Face.addChild(Mouth);
 		Mouth.cubeList.add(new ModelBox(Mouth, 0, 0, -1.5F, -27.0F, -4.05F, 3, 1, 1, 0.0F, false));
-		
+
 		Hair = new RendererModel(this);
 		Hair.setRotationPoint(0.0F, 25.0F, 0.0F);
 		Head.addChild(Hair);
-		
+
 		Hair2 = new RendererModel(this);
 		Hair2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Hair.addChild(Hair2);
@@ -292,18 +289,18 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		Hair2.cubeList.add(new ModelBox(Hair2, 0, 0, -1.5F, -28.334F, 3.5573F, 3, 3, 2, 0.0F, false));
 		Hair2.cubeList.add(new ModelBox(Hair2, 0, 0, -1.025F, -29.234F, 2.8573F, 2, 4, 2, 0.0F, false));
 		Hair2.cubeList.add(new ModelBox(Hair2, 0, 0, -2.0F, -27.934F, 2.8573F, 4, 2, 2, 0.0F, false));
-		
+
 		bone6 = new RendererModel(this);
 		bone6.setRotationPoint(0.0F, -2.6F, -10.0F);
 		setRotationAngle(bone6, -0.7854F, 0.0F, 0.0F);
 		Hair.addChild(bone6);
 		bone6.cubeList.add(new ModelBox(bone6, 0, 0, -4.5F, -27.734F, -16.2427F, 9, 1, 9, 0.0F, false));
-		
+
 		Body = new RendererModel(this);
 		Body.setRotationPoint(0.0F, 24.0F, 0.0F);
 		Body.cubeList.add(new ModelBox(Body, 0, 1, -4.0F, -20.0F, -1.875F, 8, 2, 3, 0.0F, false));
 		Body.cubeList.add(new ModelBox(Body, 0, 1, -4.0F, -25.0F, -1.5F, 8, 12, 3, 0.0F, false));
-		
+
 		Legs = new RendererModel(this);
 		Legs.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Body.addChild(Legs);
@@ -316,81 +313,81 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		Legs.cubeList.add(new ModelBox(Legs, 0, 0, -5.0F, -1.806F, -3.0055F, 10, 2, 6, 0.0F, false));
 		Legs.cubeList.add(new ModelBox(Legs, 0, 0, -5.8716F, -0.806F, -2.0F, 11, 1, 4, 0.0F, false));
 		Legs.cubeList.add(new ModelBox(Legs, 0, 0, -4.0F, -0.806F, -3.8716F, 8, 1, 7, 0.0F, false));
-		
+
 		Skirt = new RendererModel(this);
 		Skirt.setRotationPoint(0.0F, -15.0F, 0.0F);
 		Legs.addChild(Skirt);
-		
+
 		bone2 = new RendererModel(this);
 		bone2.setRotationPoint(-4.0F, 15.0F, 0.0F);
 		setRotationAngle(bone2, 0.0F, 0.0F, 0.5236F);
 		Skirt.addChild(bone2);
 		bone2.cubeList.add(new ModelBox(bone2, 0, 0, -2.2738F, -2.1953F, -2.0F, 2, 2, 4, 0.0F, false));
-		
+
 		bone3 = new RendererModel(this);
 		bone3.setRotationPoint(-4.0F, 15.0F, 0.0F);
 		setRotationAngle(bone3, 0.0F, 0.0F, -0.5236F);
 		Skirt.addChild(bone3);
 		bone3.cubeList.add(new ModelBox(bone3, 0, 0, 7.202F, 1.8047F, -2.0F, 2, 2, 4, 0.0F, false));
-		
+
 		bone4 = new RendererModel(this);
 		bone4.setRotationPoint(10.0F, 15.0F, 0.0F);
 		setRotationAngle(bone4, 0.0F, 0.0F, -0.0873F);
 		Skirt.addChild(bone4);
 		bone4.cubeList.add(new ModelBox(bone4, 0, 0, -8.8441F, -13.4735F, -2.0F, 4, 11, 4, 0.0F, false));
-		
+
 		bone = new RendererModel(this);
 		bone.setRotationPoint(0.0F, 15.0F, 0.0F);
 		setRotationAngle(bone, 0.0F, 0.0F, 0.0873F);
 		Skirt.addChild(bone);
 		bone.cubeList.add(new ModelBox(bone, 0, 0, -5.1178F, -12.6019F, -2.0F, 4, 11, 4, 0.0F, false));
-		
+
 		Front = new RendererModel(this);
 		Front.setRotationPoint(0.0F, 15.0F, 0.0F);
 		setRotationAngle(Front, -0.0873F, 0.0F, 0.0F);
 		Skirt.addChild(Front);
 		Front.cubeList.add(new ModelBox(Front, 0, 0, -4.0F, -14.7762F, -3.1254F, 8, 13, 3, 0.0F, false));
-		
+
 		Front3 = new RendererModel(this);
 		Front3.setRotationPoint(0.0F, 15.0F, 0.0F);
 		setRotationAngle(Front3, -0.5236F, 0.0F, 0.0F);
 		Skirt.addChild(Front3);
 		Front3.cubeList.add(new ModelBox(Front3, 0, 0, -4.0F, -1.1953F, -4.0059F, 8, 2, 2, 0.0F, false));
-		
+
 		Front4 = new RendererModel(this);
 		Front4.setRotationPoint(0.0F, 15.0F, 0.0F);
 		setRotationAngle(Front4, 0.5236F, 0.0F, 0.0F);
 		Skirt.addChild(Front4);
 		Front4.cubeList.add(new ModelBox(Front4, 0, 0, -4.0F, -1.1953F, 2.0059F, 8, 2, 2, 0.0F, false));
-		
+
 		Front2 = new RendererModel(this);
 		Front2.setRotationPoint(0.0F, 15.0F, 0.0F);
 		setRotationAngle(Front2, 0.0873F, 0.0F, 0.0F);
 		Skirt.addChild(Front2);
 		Front2.cubeList.add(new ModelBox(Front2, 0, 1, -4.0F, -12.7762F, -0.8746F, 8, 11, 4, 0.0F, true));
-		
+
 		Wings = new RendererModel(this);
 		Wings.setRotationPoint(0.0F, -1.0F, 0.0F);
 		Body.addChild(Wings);
 		Wings.cubeList.add(new ModelBox(Wings, 0, 0, 0.5F, -23.0F, 2.0F, 1, 2, 1, 0.0F, false));
 		Wings.cubeList.add(new ModelBox(Wings, 0, 0, -1.5F, -23.0F, 2.0F, 1, 2, 1, 0.0F, false));
-		
+
 		rightarm = new RendererModel(this);
 		rightarm.setRotationPoint(-5.5F, -1.0F, 0.0F);
 		rightarm.cubeList.add(new ModelBox(rightarm, 0, 0, -1.5F, 0.0F, -1.3F, 3, 12, 3, 0.0F, false));
-		
+
 		leftarm = new RendererModel(this);
 		leftarm.setRotationPoint(5.5F, -1.0F, 0.0F);
 		leftarm.cubeList.add(new ModelBox(leftarm, 2, 0, -1.5F, 0.0F, -1.3F, 3, 12, 3, 0.0F, false));
-		
+
 		LeftWing = new RendererModel(this);
 		LeftWing.setRotationPoint(1.0F, 1.0F, 3.0F);
-		
+
 		Left = new RendererModel(this);
 		Left.setRotationPoint(-6.0F, 22.3F, -2.8F);
 		setRotationAngle(Left, 0.0F, 1.0472F, 0.0F);
 		LeftWing.addChild(Left);
-		
+
 		bone13 = new RendererModel(this);
 		bone13.setRotationPoint(0.0F, 0.0F, 0.0F);
 		setRotationAngle(bone13, 0.0873F, 0.0F, 0.0F);
@@ -416,7 +413,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone13.cubeList.add(new ModelBox(bone13, 0, 0, 0.8661F, -21.9224F, 8.7008F, 0, 6, 1, 0.0F, false));
 		bone13.cubeList.add(new ModelBox(bone13, 0, 0, 0.6835F, -30.2486F, 19.371F, 0, 17, 1, 0.0F, false));
 		bone13.cubeList.add(new ModelBox(bone13, 0, 0, 0.6835F, -29.9459F, 18.432F, 0, 3, 1, 0.0F, false));
-		
+
 		bone5 = new RendererModel(this);
 		bone5.setRotationPoint(0.0F, 0.0F, 12.0F);
 		setRotationAngle(bone5, 0.4363F, 0.0F, 0.0F);
@@ -424,7 +421,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone5.cubeList.add(new ModelBox(bone5, 0, 0, 0.5F, -21.3659F, 7.9682F, 1, 1, 2, 0.0F, false));
 		bone5.cubeList.add(new ModelBox(bone5, 0, 0, 0.5F, -28.599F, 15.0688F, 1, 2, 1, 0.0F, false));
 		bone5.cubeList.add(new ModelBox(bone5, 0, 0, 0.5F, -25.0782F, 17.3524F, 1, 2, 2, 0.0F, false));
-		
+
 		bone7 = new RendererModel(this);
 		bone7.setRotationPoint(0.0F, 0.0F, 9.0F);
 		setRotationAngle(bone7, 0.8727F, 0.0F, 0.0F);
@@ -432,7 +429,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone7.cubeList.add(new ModelBox(bone7, 0, 0, 0.5F, -12.8002F, 19.8842F, 1, 1, 2, 0.0F, false));
 		bone7.cubeList.add(new ModelBox(bone7, 0, 0, 0.5F, -14.2517F, 28.0661F, 1, 2, 2, 0.0F, false));
 		bone7.cubeList.add(new ModelBox(bone7, 0, 0, 0.5F, -17.253F, 26.6718F, 1, 1, 1, 0.0F, false));
-		
+
 		bone11 = new RendererModel(this);
 		bone11.setRotationPoint(0.0F, -23.0F, 8.0F);
 		setRotationAngle(bone11, 1.309F, 0.0F, 0.0F);
@@ -440,34 +437,34 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone11.cubeList.add(new ModelBox(bone11, 0, 0, 0.5F, 4.7088F, 9.3147F, 1, 2, 2, 0.0F, false));
 		bone11.cubeList.add(new ModelBox(bone11, 0, 0, 0.5F, 4.6347F, 3.2105F, 1, 1, 2, 0.0F, false));
 		bone11.cubeList.add(new ModelBox(bone11, 0, 0, 0.5F, 2.5542F, 7.5068F, 1, 2, 2, 0.0F, false));
-		
+
 		bone12 = new RendererModel(this);
 		bone12.setRotationPoint(0.0F, -25.0F, 13.0F);
 		setRotationAngle(bone12, 1.7453F, 0.0F, 0.0F);
 		Left.addChild(bone12);
 		bone12.cubeList.add(new ModelBox(bone12, 0, 0, 0.5F, 0.2161F, 1.6227F, 1, 2, 3, 0.0F, false));
-		
+
 		bone10 = new RendererModel(this);
 		bone10.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Left.addChild(bone10);
 		bone10.cubeList.add(new ModelBox(bone10, 0, 0, 0.5F, -32.7105F, 14.4768F, 1, 2, 1, 0.0F, false));
-		
+
 		bone9 = new RendererModel(this);
 		bone9.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Left.addChild(bone9);
-		
+
 		bone8 = new RendererModel(this);
 		bone8.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Left.addChild(bone8);
-		
+
 		RightWing = new RendererModel(this);
 		RightWing.setRotationPoint(-1.0F, 1.0F, 3.0F);
-		
+
 		Right2 = new RendererModel(this);
 		Right2.setRotationPoint(5.0F, 22.3F, -4.5F);
 		setRotationAngle(Right2, 0.0F, -1.0472F, 0.0F);
 		RightWing.addChild(Right2);
-		
+
 		bone14 = new RendererModel(this);
 		bone14.setRotationPoint(-0.866F, 0.0F, -0.5F);
 		setRotationAngle(bone14, 0.0873F, 0.0F, 0.0F);
@@ -493,7 +490,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone14.cubeList.add(new ModelBox(bone14, 0, 0, 1.7321F, -21.9224F, 9.2008F, 0, 6, 1, 0.0F, false));
 		bone14.cubeList.add(new ModelBox(bone14, 0, 0, 1.5495F, -30.2486F, 19.871F, 0, 17, 1, 0.0F, false));
 		bone14.cubeList.add(new ModelBox(bone14, 0, 0, 1.5495F, -29.9459F, 18.932F, 0, 3, 1, 0.0F, false));
-		
+
 		bone15 = new RendererModel(this);
 		bone15.setRotationPoint(0.0F, 0.0F, 12.0F);
 		setRotationAngle(bone15, 0.4363F, 0.0F, 0.0F);
@@ -501,7 +498,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone15.cubeList.add(new ModelBox(bone15, 0, 0, 0.5F, -21.3659F, 7.9682F, 1, 1, 2, 0.0F, false));
 		bone15.cubeList.add(new ModelBox(bone15, 0, 0, 0.5F, -28.599F, 15.0688F, 1, 2, 1, 0.0F, false));
 		bone15.cubeList.add(new ModelBox(bone15, 0, 0, 0.5F, -25.0782F, 17.3524F, 1, 2, 2, 0.0F, false));
-		
+
 		bone16 = new RendererModel(this);
 		bone16.setRotationPoint(0.0F, 0.0F, 9.0F);
 		setRotationAngle(bone16, 0.8727F, 0.0F, 0.0F);
@@ -509,7 +506,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone16.cubeList.add(new ModelBox(bone16, 0, 0, 0.5F, -12.8002F, 19.8842F, 1, 1, 2, 0.0F, false));
 		bone16.cubeList.add(new ModelBox(bone16, 0, 0, 0.5F, -14.2517F, 28.0661F, 1, 2, 2, 0.0F, false));
 		bone16.cubeList.add(new ModelBox(bone16, 0, 0, 0.5F, -17.253F, 26.6718F, 1, 1, 1, 0.0F, false));
-		
+
 		bone17 = new RendererModel(this);
 		bone17.setRotationPoint(0.0F, -23.0F, 8.0F);
 		setRotationAngle(bone17, 1.309F, 0.0F, 0.0F);
@@ -517,27 +514,27 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		bone17.cubeList.add(new ModelBox(bone17, 0, 0, 0.5F, 4.7088F, 9.3147F, 1, 2, 2, 0.0F, false));
 		bone17.cubeList.add(new ModelBox(bone17, 0, 0, 0.5F, 4.6347F, 3.2105F, 1, 1, 2, 0.0F, false));
 		bone17.cubeList.add(new ModelBox(bone17, 0, 0, 0.5F, 2.5542F, 7.5068F, 1, 2, 2, 0.0F, false));
-		
+
 		bone18 = new RendererModel(this);
 		bone18.setRotationPoint(0.0F, -25.0F, 13.0F);
 		setRotationAngle(bone18, 1.7453F, 0.0F, 0.0F);
 		Right2.addChild(bone18);
 		bone18.cubeList.add(new ModelBox(bone18, 0, 0, 0.5F, 0.2161F, 1.6227F, 1, 2, 3, 0.0F, false));
-		
+
 		bone19 = new RendererModel(this);
 		bone19.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Right2.addChild(bone19);
 		bone19.cubeList.add(new ModelBox(bone19, 0, 0, 0.5F, -32.7105F, 14.4768F, 1, 2, 1, 0.0F, false));
-		
+
 		bone20 = new RendererModel(this);
 		bone20.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Right2.addChild(bone20);
-		
+
 		bone21 = new RendererModel(this);
 		bone21.setRotationPoint(0.0F, 0.0F, 0.0F);
 		Right2.addChild(bone21);
 	}
-	
+
 	@Override
 	public void render(WeepingAngelEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		setRotationAngles(entity, f, f1, f2, f3, f4, f5);
@@ -548,7 +545,7 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 		LeftWing.render(f5);
 		RightWing.render(f5);
 	}
-	
+
 	public void setRotationAngle(RendererModel RendererModel, float x, float y, float z) {
 		RendererModel.rotateAngleX = x;
 		RendererModel.rotateAngleY = y;
@@ -556,10 +553,11 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
+	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_,
+			float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
 		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
 
-		if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
+        if (pose.create().isAngry()) {
 			rightarm.rotateAngleX = (float) Math.toRadians(-90);
 			rightarm.rotateAngleY = (float) Math.toRadians(-20);
 			rightarm.rotateAngleZ = (float) Math.toRadians(30);
@@ -568,12 +566,16 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 			leftarm.rotateAngleY = (float) Math.toRadians(25);
 			leftarm.rotateAngleZ = (float) Math.toRadians(-17.5);
 
+			Head.rotateAngleX = (float) Math.toRadians(0);
 			Head.rotateAngleY = (float) Math.toRadians(-12.5);
+			Head.rotateAngleZ = (float) Math.toRadians(0);
 			return;
 		}
 
-		if (pose == AngelPoses.POSE_HIDING_FACE || pose == AngelPoses.POSE_SHY) {
+		if (pose == AngelPoses.POSE_HIDING_FACE) {
 			Head.rotateAngleX = (float) Math.toRadians(20);
+			Head.rotateAngleY = (float) Math.toRadians(0);
+			Head.rotateAngleZ = (float) Math.toRadians(0);
 
 			rightarm.rotateAngleX = (float) Math.toRadians(-105);
 			rightarm.rotateAngleY = (float) Math.toRadians(20);
@@ -587,14 +589,31 @@ public class ModelAngela <T extends WeepingAngelEntity> extends EntityModel<T> {
 
 		if (pose == AngelPoses.POSE_IDLE) {
 			Head.rotateAngleX = (float) Math.toRadians(0);
+			Head.rotateAngleY = (float) Math.toRadians(0);
+			Head.rotateAngleZ = (float) Math.toRadians(0);
 
 			rightarm.rotateAngleX = (float) Math.toRadians(0);
 			rightarm.rotateAngleY = (float) Math.toRadians(0);
-			rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
+			rightarm.rotateAngleZ = (float) Math.toRadians(-7.5);
 
 			leftarm.rotateAngleX = (float) Math.toRadians(0);
 			leftarm.rotateAngleY = (float) Math.toRadians(0);
-			leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
+			leftarm.rotateAngleZ = (float) Math.toRadians(7.5);
+			return;
+		}
+
+		if (pose == AngelPoses.POSE_SHY) {
+			rightarm.rotateAngleX = (float) Math.toRadians(-90);
+			rightarm.rotateAngleY = (float) Math.toRadians(-1.5);
+			rightarm.rotateAngleZ = (float) Math.toRadians(-20);
+
+			leftarm.rotateAngleX = (float) Math.toRadians(-120);
+			leftarm.rotateAngleY = (float) Math.toRadians(-36);
+			leftarm.rotateAngleZ = (float) Math.toRadians(10);
+
+			Head.rotateAngleX = (float) Math.toRadians(20);
+			Head.rotateAngleY = (float) Math.toRadians(-40);
+			Head.rotateAngleZ = (float) Math.toRadians(-20);
 			return;
 		}
 

@@ -1,11 +1,11 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.LivingEntity;
 /**
  * Angel Type: 0
  * Created by Ford Created using Techne
@@ -478,7 +478,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<T> {
 		GlStateManager.pushMatrix(); // PUSH 1
 		
 		GlStateManager.pushMatrix(); // PUSH 2
-		if (!angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName().toString())) {
+		if (!angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
 			GlStateManager.rotatef(20, 1, 0, 0);
 		}
 		LeftEyebrow.render(scale);

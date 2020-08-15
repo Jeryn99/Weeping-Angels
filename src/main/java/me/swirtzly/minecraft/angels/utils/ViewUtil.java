@@ -1,5 +1,9 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.Block;
@@ -12,12 +16,14 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.function.Predicate;
 
 public class ViewUtil {
 	

@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.common.tileentities.ChronodyneGeneratorTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -14,8 +16,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-
-import javax.annotation.Nullable;
 
 public class ChronodyneGeneratorBlock extends Block {
 	

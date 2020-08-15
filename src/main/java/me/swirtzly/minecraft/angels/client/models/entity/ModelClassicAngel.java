@@ -4,11 +4,7 @@ import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
 
-//TODO Fix posing, it's a bit random at the moment
 /**
  * Angel Type: 2 - Classic
  */
@@ -173,47 +169,68 @@ public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<
 	}
 
 	@Override
-	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
-		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+    public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
+        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+        
+        if (pose.create().isAngry()) {
+            rightarm.rotateAngleX = (float) Math.toRadians(-90);
+            rightarm.rotateAngleY = (float) Math.toRadians(-20);
+            rightarm.rotateAngleZ = (float) Math.toRadians(30);
 
-		if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
-			rightarm.rotateAngleX = (float) Math.toRadians(-90);
-			rightarm.rotateAngleY = (float) Math.toRadians(-20);
-			rightarm.rotateAngleZ = (float) Math.toRadians(30);
+            leftarm.rotateAngleX = (float) Math.toRadians(-90);
+            leftarm.rotateAngleY = (float) Math.toRadians(25);
+            leftarm.rotateAngleZ = (float) Math.toRadians(-17.5);
 
-			leftarm.rotateAngleX = (float) Math.toRadians(-90);
-			leftarm.rotateAngleY = (float) Math.toRadians(25);
-			leftarm.rotateAngleZ = (float) Math.toRadians(-17.5);
+            head.rotateAngleX = (float) Math.toRadians(0);
+            head.rotateAngleY = (float) Math.toRadians(-12.5);
+            head.rotateAngleZ = (float) Math.toRadians(0);
+            return;
+        }
 
-			head.rotateAngleY = (float) Math.toRadians(-12.5);
-			return;
-		}
+        if (pose == AngelPoses.POSE_HIDING_FACE) {
+            head.rotateAngleX = (float) Math.toRadians(20);
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(0);
+            
+            rightarm.rotateAngleX = (float) Math.toRadians(-105);
+            rightarm.rotateAngleY = (float) Math.toRadians(20);
+            rightarm.rotateAngleZ = (float) Math.toRadians(12.5);
 
-		if (pose == AngelPoses.POSE_HIDING_FACE || pose == AngelPoses.POSE_SHY) {
-			head.rotateAngleX = (float) Math.toRadians(20);
+            leftarm.rotateAngleX = (float) Math.toRadians(-105);
+            leftarm.rotateAngleY = (float) Math.toRadians(-20);
+            leftarm.rotateAngleZ = (float) Math.toRadians(-12.5);
+            return;
+        }
 
-			rightarm.rotateAngleX = (float) Math.toRadians(-105);
-			rightarm.rotateAngleY = (float) Math.toRadians(20);
-			rightarm.rotateAngleZ = (float) Math.toRadians(12.5);
+        if (pose == AngelPoses.POSE_IDLE) {
+            head.rotateAngleX = (float) Math.toRadians(0);
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(0);
 
-			leftarm.rotateAngleX = (float) Math.toRadians(-105);
-			leftarm.rotateAngleY = (float) Math.toRadians(-20);
-			leftarm.rotateAngleZ = (float) Math.toRadians(-12.5);
-			return;
-		}
+            rightarm.rotateAngleX = (float) Math.toRadians(0);
+            rightarm.rotateAngleY = (float) Math.toRadians(0);
+            rightarm.rotateAngleZ = (float) Math.toRadians(-7.5);
 
-		if (pose == AngelPoses.POSE_IDLE) {
-			head.rotateAngleX = (float) Math.toRadians(0);
+            leftarm.rotateAngleX = (float) Math.toRadians(0);
+            leftarm.rotateAngleY = (float) Math.toRadians(0);
+            leftarm.rotateAngleZ = (float) Math.toRadians(7.5);
+            return;
+        }
+        
+        if(pose == AngelPoses.POSE_SHY){
+            rightarm.rotateAngleX = (float) Math.toRadians(-90);
+            rightarm.rotateAngleY = (float) Math.toRadians(-1.5);
+            rightarm.rotateAngleZ = (float) Math.toRadians(-20);
 
-			rightarm.rotateAngleX = (float) Math.toRadians(0);
-			rightarm.rotateAngleY = (float) Math.toRadians(0);
-			rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
+            leftarm.rotateAngleX = (float) Math.toRadians(-120);
+            leftarm.rotateAngleY = (float) Math.toRadians(-36);
+            leftarm.rotateAngleZ = (float) Math.toRadians(10);
 
-			leftarm.rotateAngleX = (float) Math.toRadians(0);
-			leftarm.rotateAngleY = (float) Math.toRadians(0);
-			leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
-			return;
-		}
+            head.rotateAngleX = (float) Math.toRadians(20);
+            head.rotateAngleY = (float) Math.toRadians(-40);
+            head.rotateAngleZ = (float) Math.toRadians(-20);
+            return;
+        }
 
-	}
+    }
 }

@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.client.renders.entities;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.client.models.tile.ModelCG;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
 import net.minecraft.client.renderer.ItemRenderer;

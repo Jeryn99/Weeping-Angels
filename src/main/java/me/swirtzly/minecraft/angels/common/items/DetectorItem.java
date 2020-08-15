@@ -1,5 +1,9 @@
 package me.swirtzly.minecraft.angels.common.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -26,9 +30,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class DetectorItem extends Item {
 	

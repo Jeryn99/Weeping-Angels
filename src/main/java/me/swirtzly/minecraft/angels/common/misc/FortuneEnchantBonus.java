@@ -1,9 +1,12 @@
 package me.swirtzly.minecraft.angels.common.misc;
 
+import java.util.Set;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
@@ -11,11 +14,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootFunction;
+import net.minecraft.world.storage.loot.LootParameter;
+import net.minecraft.world.storage.loot.LootParameters;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraft.world.storage.loot.functions.ILootFunction;
-
-import java.util.Set;
 
 /**
  * Created by 50ap5ud5 on 13 Feb 2020 @ 11:28:06 am

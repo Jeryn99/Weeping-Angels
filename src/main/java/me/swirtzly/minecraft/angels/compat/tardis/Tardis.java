@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.compat.tardis;
 
+import static net.tardis.mod.events.CommonEvents.WATCH_CAP;
+
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -13,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -26,8 +29,6 @@ import net.tardis.mod.dimensions.TardisDimension;
 import net.tardis.mod.helper.PlayerHelper;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.tileentities.ConsoleTile;
-
-import static net.tardis.mod.events.CommonEvents.WATCH_CAP;
 
 /**
  * Created by Swirtzly on 04/03/2020 @ 20:52
@@ -96,7 +97,8 @@ public class Tardis {
 
 	@SubscribeEvent
 	public void onPlayerTeleported(EventAngelTeleport teleport) {
-		if (teleport.getTargetDimension().dimension instanceof TardisDimension) {
+		ServerWorld targetDimension = teleport.getTargetDimension();
+		if (targetDimension.dimension instanceof TardisDimension) {
 			teleport.setTargetDimension(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), DimensionType.OVERWORLD, false, true));
 		}
 	}

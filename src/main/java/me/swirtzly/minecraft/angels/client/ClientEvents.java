@@ -32,10 +32,11 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public static void onblockHighlight(DrawBlockHighlightEvent event) {
-		if (Minecraft.getInstance().objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
-			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) Minecraft.getInstance().objectMouseOver;
-			ClientPlayerEntity playerEntity = Minecraft.getInstance().player;
-			ClientWorld world = Minecraft.getInstance().world;
+		Minecraft minecraft = Minecraft.getInstance();
+		if (minecraft.objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
+			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.objectMouseOver;
+			ClientPlayerEntity playerEntity = minecraft.player;
+			ClientWorld world = minecraft.world;
 			boolean canSee = playerEntity.getHeldItemMainhand().getItem() == WAObjects.Blocks.STATUE.get().asItem() || playerEntity.getHeldItemOffhand().getItem() == WAObjects.Blocks.STATUE.get().asItem();
 			event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
 		}

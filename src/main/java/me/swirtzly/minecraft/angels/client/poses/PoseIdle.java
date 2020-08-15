@@ -29,7 +29,7 @@ public class PoseIdle extends PoseBase {
 	}
 	
 	@Override
-	public boolean angryFace() {
+	public boolean isAngry() {
 		return false;
 	}
 	

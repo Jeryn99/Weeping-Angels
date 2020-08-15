@@ -1,6 +1,12 @@
 package me.swirtzly.minecraft.angels.common.world;
 
+import java.util.Random;
+import java.util.function.Function;
+
+import org.apache.logging.log4j.Level;
+
 import com.mojang.datafixers.Dynamic;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
@@ -14,10 +20,6 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import org.apache.logging.log4j.Level;
-
-import java.util.Random;
-import java.util.function.Function;
 
 public class GraveStructure extends Structure<NoFeatureConfig> {
 	public GraveStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {

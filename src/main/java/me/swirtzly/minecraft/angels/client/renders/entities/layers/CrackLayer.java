@@ -1,9 +1,14 @@
 package me.swirtzly.minecraft.angels.client.renders.entities.layers;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngel;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelChild;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelMel;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelAngela;
+import me.swirtzly.minecraft.angels.client.models.entity.ModelClassicAngel;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.minecraft.angels.client.models.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.MobEntity;
@@ -23,6 +28,7 @@ public class CrackLayer extends LayerRenderer<MobEntity, EntityModel<MobEntity>>
 	private EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela<WeepingAngelEntity>();
 	private EntityModel<WeepingAngelEntity> modelMain = modelMel;
 	
+	@SuppressWarnings("unchecked")
 	public CrackLayer(AngelRender angelRendererIn) {
 		super(angelRendererIn);
 		angelRenderer = angelRendererIn;

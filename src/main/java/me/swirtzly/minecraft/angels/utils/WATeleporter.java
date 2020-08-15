@@ -1,6 +1,10 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.google.common.collect.Lists;
+
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.compat.events.EventAngelTeleport;
@@ -15,9 +19,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class WATeleporter {
 	

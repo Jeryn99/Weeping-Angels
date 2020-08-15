@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
+import javax.annotation.Nullable;
+
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.block.Block;
@@ -18,8 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Swirtzly on 17/02/2020 @ 12:19

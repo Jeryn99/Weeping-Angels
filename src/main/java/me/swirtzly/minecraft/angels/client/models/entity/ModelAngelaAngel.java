@@ -78,8 +78,8 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
         AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
-
-        if (pose == AngelPoses.POSE_ANGRY || pose == AngelPoses.POSE_ANGRY_TWO || pose == AngelPoses.POSE_OPEN_ARMS) {
+        
+        if (pose.create().isAngry()) {
             rightArm.rotateAngleX = (float) Math.toRadians(-90);
             rightArm.rotateAngleY = (float) Math.toRadians(-20);
             rightArm.rotateAngleZ = (float) Math.toRadians(30);
@@ -88,13 +88,17 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
             leftArm.rotateAngleY = (float) Math.toRadians(25);
             leftArm.rotateAngleZ = (float) Math.toRadians(-17.5);
 
+            head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(-12.5);
+            head.rotateAngleZ = (float) Math.toRadians(0);
             return;
         }
 
-        if (pose == AngelPoses.POSE_HIDING_FACE || pose == AngelPoses.POSE_SHY) {
+        if (pose == AngelPoses.POSE_HIDING_FACE) {
             head.rotateAngleX = (float) Math.toRadians(20);
-
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(0);
+            
             rightArm.rotateAngleX = (float) Math.toRadians(-105);
             rightArm.rotateAngleY = (float) Math.toRadians(20);
             rightArm.rotateAngleZ = (float) Math.toRadians(12.5);
@@ -107,14 +111,31 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
 
         if (pose == AngelPoses.POSE_IDLE) {
             head.rotateAngleX = (float) Math.toRadians(0);
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(0);
 
             rightArm.rotateAngleX = (float) Math.toRadians(0);
             rightArm.rotateAngleY = (float) Math.toRadians(0);
-            rightArm.rotateAngleZ = (float) Math.toRadians(7.5);
+            rightArm.rotateAngleZ = (float) Math.toRadians(-7.5);
 
             leftArm.rotateAngleX = (float) Math.toRadians(0);
             leftArm.rotateAngleY = (float) Math.toRadians(0);
-            leftArm.rotateAngleZ = (float) Math.toRadians(-7.5);
+            leftArm.rotateAngleZ = (float) Math.toRadians(7.5);
+            return;
+        }
+        
+        if(pose == AngelPoses.POSE_SHY){
+            rightArm.rotateAngleX = (float) Math.toRadians(-90);
+            rightArm.rotateAngleY = (float) Math.toRadians(-1.5);
+            rightArm.rotateAngleZ = (float) Math.toRadians(-20);
+
+            leftArm.rotateAngleX = (float) Math.toRadians(-120);
+            leftArm.rotateAngleY = (float) Math.toRadians(-36);
+            leftArm.rotateAngleZ = (float) Math.toRadians(10);
+
+            head.rotateAngleX = (float) Math.toRadians(20);
+            head.rotateAngleY = (float) Math.toRadians(-40);
+            head.rotateAngleZ = (float) Math.toRadians(-20);
             return;
         }
 

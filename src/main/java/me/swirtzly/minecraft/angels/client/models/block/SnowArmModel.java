@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.client.models.block;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.RendererModel;

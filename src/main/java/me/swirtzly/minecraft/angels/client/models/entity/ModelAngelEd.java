@@ -1,8 +1,9 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.swirtzly.minecraft.angels.client.poses.PoseBase;
+
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -305,12 +306,12 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 			PoseBase pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString()).create();
 
 			if (pose != null) {
-				angry_mouth.isHidden = !pose.angryFace();
+				angry_mouth.isHidden = !pose.isAngry();
 				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
 				pose.setWingAngles(left_wing_0, right_wing_0);
 				pose.setHeadAngles(head);
 
-				if (pose.angryFace()) {
+				if (pose.isAngry()) {
 					right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
 					left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
 					angry_mouth.isHidden = false;

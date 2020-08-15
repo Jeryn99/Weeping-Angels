@@ -1,5 +1,8 @@
 package me.swirtzly.minecraft.angels.client.poses;
 
+import java.util.Collection;
+import java.util.function.Supplier;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -8,9 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
-
-import java.util.Collection;
-import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AngelPoses extends ForgeRegistryEntry<AngelPoses> {

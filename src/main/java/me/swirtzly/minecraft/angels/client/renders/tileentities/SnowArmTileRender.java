@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import me.swirtzly.minecraft.angels.client.models.block.SnowArmModel;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
