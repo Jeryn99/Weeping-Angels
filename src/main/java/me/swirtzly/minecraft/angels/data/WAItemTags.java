@@ -32,18 +32,9 @@ public class WAItemTags extends ItemTagsProvider {
                   add(HELD_LIGHT_ITEMS, block.asItem());
               }
           });
-    	
-        for (Item item : ForgeRegistries.ITEMS.getValues()) {
-            
-        	if(item instanceof KeyItem){
-                add(KEYS, item);
-            }
-            
-            
-        }
     }
 
     public void add(Tag<Item> branch, Item block) {
-        this.getBuilder(branch).add(block);
+        this.func_240521_a_(branch).add(block);
     }
 }

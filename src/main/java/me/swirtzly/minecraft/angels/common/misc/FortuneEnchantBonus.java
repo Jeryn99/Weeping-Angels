@@ -12,6 +12,9 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.LootFunctionType;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -65,7 +68,17 @@ public class FortuneEnchantBonus extends LootFunction {
 		
 		return stack;
 	}
-	
+
+	@Override
+	protected ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
+		return null;
+	}
+
+	@Override
+	public LootFunctionType func_230425_b_() {
+		return null;
+	}
+
 	public static class Builder extends LootFunction.Builder<FortuneEnchantBonus.Builder> {
 		private final RandomValueRange field_216073_a;
 		private int field_216074_b = 0;

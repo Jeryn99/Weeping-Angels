@@ -1,7 +1,7 @@
 package me.swirtzly.minecraft.angels.client.poses;
 
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class PoseShy extends PoseBase {
 	
@@ -14,7 +14,7 @@ public class PoseShy extends PoseBase {
 	}
 
 	@Override
-	public void setArmAngles(RendererModel left_arm, RendererModel right_arm, RendererModel wrist_left, RendererModel wrist_right, boolean hasWrists) {
+	public void setArmAngles(ModelRenderer left_arm, ModelRenderer right_arm, ModelRenderer wrist_left, ModelRenderer wrist_right, boolean hasWrists) {
 		left_arm.rotateAngleX = 0;
 		left_arm.rotateAngleY = 0.4F;
 		left_arm.rotateAngleZ = -0.3F;
@@ -28,14 +28,14 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setHeadAngles(RendererModel head) {
+	public void setHeadAngles(ModelRenderer head) {
 		head.rotateAngleX = degreeToRadian(30);
 		head.rotateAngleY = degreeToRadian(19);
 		head.rotateAngleZ = 0;
 	}
 	
 	@Override
-	public void setBodyAngles(RendererModel body) {}
+	public void setBodyAngles(ModelRenderer body) {}
 	
 	@Override
 	public boolean isAngry() {
@@ -43,6 +43,6 @@ public class PoseShy extends PoseBase {
 	}
 	
 	@Override
-	public void setWingAngles(RendererModel left_wing, RendererModel right_wing) {}
+	public void setWingAngles(ModelRenderer left_wing, ModelRenderer right_wing) {}
 	
 }

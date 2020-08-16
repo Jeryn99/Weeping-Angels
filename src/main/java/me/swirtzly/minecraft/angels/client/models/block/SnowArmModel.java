@@ -1,44 +1,57 @@
 package me.swirtzly.minecraft.angels.client.models.block;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.matrixStack;
+import com.mojang.blaze3d.platform.matrixStack;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class SnowArmModel extends Model {
+public class SnowArmModel extends EntityModel {
 	
 	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
-	
-	private RendererModel left_arm, left_arm_wrist;
-	
+
+	private final ModelRenderer left_arm;
+	private final ModelRenderer left_arm_wrist;
+
 	public SnowArmModel() {
 		textureWidth = 88;
 		textureHeight = 88;
-		left_arm = new RendererModel(this, 32, 27);
+
+		left_arm = new ModelRenderer(this);
 		left_arm.setRotationPoint(-1.2F, 22.1F, -0.1F);
-		left_arm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
-		setRotation(left_arm, 0.0F, 0.4553564018453205F, 2.9595548126067843F);
-		left_arm_wrist = new RendererModel(this, 34, 52);
+		setRotationAngle(left_arm, 0.0F, 0.4554F, 2.9596F);
+		left_arm.setTextureOffset(32, 27).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 6.0F, 4.0F, 0.0F, false);
+
+		left_arm_wrist = new ModelRenderer(this);
 		left_arm_wrist.setRotationPoint(0.0F, 4.0F, 2.0F);
-		left_arm_wrist.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
-		setRotation(left_arm_wrist, -0.5235987755982988F, 0.0F, 0.0F);
 		left_arm.addChild(left_arm_wrist);
+		setRotationAngle(left_arm_wrist, -0.5236F, 0.0F, 0.0F);
+		left_arm_wrist.setTextureOffset(34, 52).addBox(-1.0F, 0.0F, -4.0F, 3.0F, 6.0F, 4.0F, 0.0F, false);
 	}
-	
-	public void render(float scale) {
-		GlStateManager.pushMatrix();
+
+	@Override
+	public void setRotationAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){}
+
+	@Override
+	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+		matrixStack.push();
 		Minecraft.getInstance().getTextureManager().bindTexture(ANGEL_TEXTURE);
-		left_arm.render(scale);
-		GlStateManager.popMatrix();
+		left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
+		left_arm_wrist.render(matrixStack, buffer, packedLight, packedOverlay);
+		matrixStack.pop();
 	}
-	
-	private void setRotation(RendererModel model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+		modelRenderer.rotateAngleX = x;
+		modelRenderer.rotateAngleY = y;
+		modelRenderer.rotateAngleZ = z;
 	}
-	
+
+
 }

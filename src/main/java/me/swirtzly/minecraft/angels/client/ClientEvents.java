@@ -11,7 +11,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -31,7 +31,7 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public static void onblockHighlight(DrawBlockHighlightEvent event) {
+	public static void onblockHighlight(DrawHighlightEvent.HighlightBlock event) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.objectMouseOver;

@@ -25,8 +25,6 @@ import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
-import me.swirtzly.minecraft.angels.common.world.GraveStructure;
-import me.swirtzly.minecraft.angels.common.world.GraveyardPieces;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -165,7 +163,6 @@ public class WAObjects {
 		
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
 		public static final RegistryObject<Structure<NoFeatureConfig>> GRAVES = FEATURES.register("graves", () -> registerFeatures(new GraveStructure(NoFeatureConfig::deserialize)));
-		public static final IStructurePieceType GRAVE_ONE = register(GraveyardPieces.Piece::new, "GRVY"); // Lol it nearly spells Gravy
 	}
 	
 	// Tile Creation

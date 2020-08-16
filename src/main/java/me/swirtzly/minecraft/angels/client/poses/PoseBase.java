@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -98,7 +98,7 @@ public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAn
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void resetAngles(RendererModel model) {
+	public void resetAngles(ModelRenderer model) {
 		model.rotateAngleX = 0;
 		model.rotateAngleY = 0;
 		model.rotateAngleY = 0;

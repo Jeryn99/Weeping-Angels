@@ -76,7 +76,7 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
+        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.func_230236_b_()) {
             if (PlayerUtils.isInEitherHand(player, item)) {
                 return true;
             }

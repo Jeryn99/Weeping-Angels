@@ -54,12 +54,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -104,14 +99,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
-	
+
 	@Nullable
 	@Override
-	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+	public ILivingEntityData onInitialSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
 		playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 		return super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 	}
-	
+
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.BLOCK_STONE_HIT;
@@ -260,7 +255,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			}
 		}
 	}
-	
+
 	@Override
 	public void invokeSeen(PlayerEntity player) {
 		super.invokeSeen(player);
@@ -329,7 +324,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			replaceBlocks(getBoundingBox().grow(WAConfig.CONFIG.blockBreakRange.get()));
 		}
 	}
-	
+
 	@Override
 	public void onKillEntity(LivingEntity entityLivingIn) {
 		super.onKillEntity(entityLivingIn);
@@ -361,11 +356,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 
 				if (ViewUtil.viewBlockedBlock(this, blockState, pos)) continue;
-
-				EventAngelBreakEvent event = new EventAngelBreakEvent(this, blockState, pos);
-				MinecraftForge.EVENT_BUS.post(event);
-				if (!event.isCanceled()) {
-
 					if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 						continue;
 					}
@@ -397,7 +387,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 						continue;
 					
 					return;
-				}
 			}
 		}
 	}
@@ -423,8 +412,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				world.getServer().enqueue(new TickDelayedTask(0, runnable));
 				break;
 			case RANDOM_PLACE:
-				double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
-				double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+				double x = player.getPosX() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+				double z = player.getPosZ() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 				world.getServer().enqueue(new TickDelayedTask(0, () -> {
 					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
@@ -449,7 +438,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 
 	protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
+		BlockPos blockpos = new BlockPos(this.getPosX(), this.getBoundingBox().minY, this.getPosZ());
 		if (this.world.getLightFor(LightType.SKY, blockpos) > this.rand.nextInt(32)) {
 			return false;
 		} else {

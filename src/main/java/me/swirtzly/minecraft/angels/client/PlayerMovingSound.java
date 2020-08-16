@@ -38,9 +38,9 @@ public class PlayerMovingSound extends TickableSound {
 				setDonePlaying();
 			}
 			
-			super.x = (float) entityObject.posX;
-			super.y = (float) entityObject.posY;
-			super.z = (float) entityObject.posZ;
+			super.x = (float) entityObject.getPosX();
+			super.y = (float) entityObject.getPosY();
+			super.z = (float) entityObject.getPosZ();
 		}
 		
 		if (entity instanceof TileEntity) {

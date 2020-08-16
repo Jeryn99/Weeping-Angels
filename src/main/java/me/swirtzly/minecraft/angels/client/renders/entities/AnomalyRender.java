@@ -5,7 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.matrixStack;
 
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -33,10 +33,10 @@ public class AnomalyRender extends DefaultRenderer {
 
 		AnomalyEntity anom = (AnomalyEntity) entity;
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
+		matrixStack.push();
+		matrixStack.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
-		GlStateManager.scaled(scale, scale, scale);
+		matrixStack.scaled(scale, scale, scale);
 
 		int timer = ((AnomalyEntity) entity).ticksExisted;
 
@@ -51,23 +51,23 @@ public class AnomalyRender extends DefaultRenderer {
 				f1 = (f - 0.8F) / 0.2F;
 			}
 			
-			GlStateManager.disableTexture();
-			GlStateManager.shadeModel(7425);
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			GlStateManager.disableAlphaTest();
-			GlStateManager.enableCull();
-			GlStateManager.depthMask(false);
-			GlStateManager.pushMatrix();
-			GlStateManager.translatef(0.0F, -1.0F, -2.0F);
+			matrixStack.disableTexture();
+			matrixStack.shadeModel(7425);
+			matrixStack.enableBlend();
+			matrixStack.blendFunc(matrixStack.SourceFactor.SRC_ALPHA, matrixStack.DestFactor.ONE);
+			matrixStack.disableAlphaTest();
+			matrixStack.enableCull();
+			matrixStack.depthMask(false);
+			matrixStack.push();
+			matrixStack.translate(0.0F, -1.0F, -2.0F);
 			
 			for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
-				GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-				GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+				matrixStack.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
 				float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
 				float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
 				bufferbuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
@@ -90,18 +90,18 @@ public class AnomalyRender extends DefaultRenderer {
 				tessellator.draw();
 			}
 			
-			GlStateManager.popMatrix();
-			GlStateManager.depthMask(true);
-			GlStateManager.disableCull();
-			GlStateManager.disableBlend();
-			GlStateManager.shadeModel(7424);
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.enableTexture();
-			GlStateManager.enableAlphaTest();
+			matrixStack.pop();
+			matrixStack.depthMask(true);
+			matrixStack.disableCull();
+			matrixStack.disableBlend();
+			matrixStack.shadeModel(7424);
+			matrixStack.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			matrixStack.enableTexture();
+			matrixStack.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
 		}
 		
-		GlStateManager.popMatrix();
+		matrixStack.pop();
 	}
 	
 	private Color getRandomColor() {

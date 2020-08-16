@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.client.renders.tileentities;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.matrixStack;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
@@ -20,18 +20,18 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 	
 	@Override
 	public void render(StatueTile tile, double x, double y, double z, float partialTicks, int destroyStage) {
-		GlStateManager.pushMatrix();
+		matrixStack.push();
 		
-		GlStateManager.translatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		GlStateManager.rotatef(180, 0.0F, 0.0F, 1.0F);
+		matrixStack.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+		matrixStack.rotatef(180, 0.0F, 0.0F, 1.0F);
 		
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		matrixStack.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
-		GlStateManager.rotatef(tile.getRotation(), 0, 1, 0);
+		matrixStack.rotatef(tile.getRotation(), 0, 1, 0);
 		
 		Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
 		ed.quickRender(0.0625f, tile.getPose());
 		
-		GlStateManager.popMatrix();
+		matrixStack.pop();
 	}
 }

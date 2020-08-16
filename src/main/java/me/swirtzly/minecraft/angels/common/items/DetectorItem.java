@@ -15,10 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -94,7 +91,7 @@ public class DetectorItem extends Item {
 			@OnlyIn(Dist.CLIENT)
 			private double getSpawnToAngle(IWorld p_185092_1_, Entity p_185092_2_) {
 				BlockPos lvt_3_1_ = p_185092_1_.getSpawnPoint();
-				return Math.atan2((double) lvt_3_1_.getZ() - p_185092_2_.posZ, (double) lvt_3_1_.getX() - p_185092_2_.posX);
+				return Math.atan2((double) lvt_3_1_.getZ() - p_185092_2_.getPosZ(), (double) lvt_3_1_.getX() - p_185092_2_.getPosZ());
 			}
 		});
 	}
@@ -128,13 +125,13 @@ public class DetectorItem extends Item {
 				if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
 					{
 						if (entityIn.ticksExisted % 20 == 0) {
-							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+							worldIn.playSound(null, entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ(), WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
 						}
 
 						if (worldIn.rand.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
 							for (ChickenEntity chick : entityIn.world.getEntitiesWithinAABB(ChickenEntity.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
 								if (entityIn.world.rand.nextBoolean()) {
-									chick.getEntityWorld().createExplosion(chick, chick.getPosition().getX(), chick.getPosition().getY(), chick.getPosition().getZ(), 0.5F, Explosion.Mode.NONE);
+									chick.getEntityWorld().createExplosion(chick, chick.getPosX(), chick.getPosY(), chick.getPosZ(), 0.5F, Explosion.Mode.NONE);
 									chick.entityDropItem(Items.EGG, 1);
 									chick.remove();
 								}

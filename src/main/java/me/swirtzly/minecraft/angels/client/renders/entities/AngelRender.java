@@ -2,7 +2,7 @@ package me.swirtzly.minecraft.angels.client.renders.entities;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.matrixStack;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
@@ -62,16 +62,16 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 			WeepingAngelEntity angel = (WeepingAngelEntity) living;
 			ItemStack key = angel.getHeldItemMainhand();
 
-			GlStateManager.pushMatrix();
+			matrixStack.push();
 
 			// Render key
-			GlStateManager.pushMatrix();
+			matrixStack.push();
 			float offset = MathHelper.cos(living.ticksExisted * 0.1F) * -0.09F;
-			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-			GlStateManager.translated(0, -2, 0);
-			GlStateManager.translated(0, offset, 0);
+			matrixStack.scalef(0.5F, 0.5F, 0.5F);
+			matrixStack.translated(0, -2, 0);
+			matrixStack.translated(0, offset, 0);
 			renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
-			GlStateManager.popMatrix();
+			matrixStack.pop();
 
 			switch (angel.getAngelType()) {
 			case -1:
@@ -103,7 +103,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 				modelAngela2.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 				break;
 			}
-			GlStateManager.popMatrix();
+			matrixStack.pop();
 		}
 	}
 

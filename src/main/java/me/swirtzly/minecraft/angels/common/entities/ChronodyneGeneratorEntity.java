@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -45,7 +45,7 @@ public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRende
 	
 	@Override
 	public void tick() {
-		double speed = new Vec3d(posX, posY, posZ).distanceTo(new Vec3d(prevPosX, prevPosY, prevPosZ));
+		double speed = new Vector3d(getPosX(), getPosY(), getPosZ()).distanceTo(new Vector3d(prevPosX, prevPosY, prevPosZ));
 		if (!this.world.isRemote && (ticksExisted > 30 * 20 || speed < 0.01)) {
 			this.remove();
 		}
@@ -84,9 +84,9 @@ public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRende
 				world.setBlockState(pos, WAObjects.Blocks.CG.get().getDefaultState());
 				if (world.getTileEntity(pos) != null) {
 					CompoundNBT tileData = world.getTileEntity(pos).getTileData();
-					tileData.putDouble(WAConstants.ABS_X, posX);
-					tileData.putDouble(WAConstants.ABS_Y, posY);
-					tileData.putDouble(WAConstants.ABS_Z, posZ);
+					tileData.putDouble(WAConstants.ABS_X, getPosX());
+					tileData.putDouble(WAConstants.ABS_Y, getPosY());
+					tileData.putDouble(WAConstants.ABS_Z, getPosZ());
 					remove();
 				}
 			}
