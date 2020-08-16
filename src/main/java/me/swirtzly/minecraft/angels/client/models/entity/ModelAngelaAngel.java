@@ -1,13 +1,20 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.ModelBox;
+import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
-    private final RendererModel head;
+public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+  
+    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_idle.png");
+    private final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_angry.png");
+    private final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_scream.png");
+	
+	private final RendererModel head;
     private final RendererModel body;
     private final RendererModel leftArm;
     private final RendererModel rightArm;
@@ -77,7 +84,25 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
-        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+       AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+
+       // AngelPoses pose = AngelPoses.POSE_ANGRY_TWO;
+
+        if(pose == AngelPoses.POSE_ANGRY_TWO) {
+            rightArm.rotateAngleX = (float) Math.toRadians(-115);
+            rightArm.rotateAngleY = (float) Math.toRadians(0);
+            rightArm.rotateAngleZ = (float) Math.toRadians(0);
+
+            leftArm.rotateAngleX = (float) Math.toRadians(-55);
+            leftArm.rotateAngleY = (float) Math.toRadians(0);
+            leftArm.rotateAngleZ = (float) Math.toRadians(0);
+
+            head.rotateAngleX = (float) Math.toRadians(17.5);
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(-10);
+            return;
+        }
+
         
         if (pose.create().isAngry()) {
             rightArm.rotateAngleX = (float) Math.toRadians(-90);
@@ -91,9 +116,10 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
             head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(-12.5);
             head.rotateAngleZ = (float) Math.toRadians(0);
-            return;
+           return;
         }
-
+        
+     
         if (pose == AngelPoses.POSE_HIDING_FACE) {
             head.rotateAngleX = (float) Math.toRadians(20);
             head.rotateAngleY = (float) Math.toRadians(0);
@@ -146,4 +172,19 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> {
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString());
+		
+		if(pose.create().isAngry()) {
+			return ANGRY;
+		}
+		
+		if(pose == AngelPoses.POSE_OPEN_ARMS) {
+			return SCREAM;
+		}
+		
+		return TEXTURE;
+	}
 }

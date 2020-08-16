@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class CrackLayer extends LayerRenderer<MobEntity, EntityModel<MobEntity>> {
+public class CrackLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
 	
 	private static final ResourceLocation CRACK_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_crack.png");
 	private static final ResourceLocation CRACK_TEX_2 = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2_cracked.png");
@@ -35,7 +35,7 @@ public class CrackLayer extends LayerRenderer<MobEntity, EntityModel<MobEntity>>
 	}
 	
 	@Override
-	public void render(MobEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(WeepingAngelEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		
 		if (entityIn instanceof WeepingAngelEntity) {
 			

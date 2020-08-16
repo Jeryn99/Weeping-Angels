@@ -39,6 +39,7 @@ public class PlayerUtils {
 		return mainHand || offHand;
 	}
 	
+	
 	public static void sendMessageToPlayer(PlayerEntity player, TranslationTextComponent textComponent, boolean isHotBar) {
 		if (player.world.isRemote) return;
 		player.sendStatusMessage(textComponent, isHotBar);

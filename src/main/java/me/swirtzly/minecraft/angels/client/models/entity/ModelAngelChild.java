@@ -2,17 +2,22 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> {
+public class ModelAngelChild<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
+	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+			"textures/entities/angel_child.png");
+	
 	private RendererModel head_2;
 	private RendererModel head;
 	private RendererModel body;
@@ -155,20 +160,36 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
 		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
 
-        if (pose.create().isAngry()) {
-			right_arm.rotateAngleX = (float) Math.toRadians(-90);
-			right_arm.rotateAngleY = (float) Math.toRadians(-20);
-			right_arm.rotateAngleZ = (float) Math.toRadians(30);
+		 if(pose == AngelPoses.POSE_ANGRY_TWO) {
+	            right_arm.rotateAngleX = (float) Math.toRadians(-115);
+	            right_arm.rotateAngleY = (float) Math.toRadians(0);
+	            right_arm.rotateAngleZ = (float) Math.toRadians(0);
 
-			left_arm.rotateAngleX = (float) Math.toRadians(-90);
-			left_arm.rotateAngleY = (float) Math.toRadians(25);
-			left_arm.rotateAngleZ = (float) Math.toRadians(-17.5);
+	            left_arm.rotateAngleX = (float) Math.toRadians(-55);
+	            left_arm.rotateAngleY = (float) Math.toRadians(0);
+	            left_arm.rotateAngleZ = (float) Math.toRadians(0);
 
-			head.rotateAngleX = (float) Math.toRadians(0);
-			head.rotateAngleY = (float) Math.toRadians(-12.5);
-			head.rotateAngleZ = (float) Math.toRadians(0);
-			return;
-		}
+	            head.rotateAngleX = (float) Math.toRadians(17.5);
+	            head.rotateAngleY = (float) Math.toRadians(0);
+	            head.rotateAngleZ = (float) Math.toRadians(-10);
+	            return;
+	        }
+
+	        
+	        if (pose.create().isAngry()) {
+	            right_arm.rotateAngleX = (float) Math.toRadians(-90);
+	            right_arm.rotateAngleY = (float) Math.toRadians(-20);
+	            right_arm.rotateAngleZ = (float) Math.toRadians(30);
+
+	            left_arm.rotateAngleX = (float) Math.toRadians(-90);
+	            left_arm.rotateAngleY = (float) Math.toRadians(25);
+	            left_arm.rotateAngleZ = (float) Math.toRadians(-17.5);
+
+	            head.rotateAngleX = (float) Math.toRadians(0);
+	            head.rotateAngleY = (float) Math.toRadians(-12.5);
+	            head.rotateAngleZ = (float) Math.toRadians(0);
+	           return;
+	        }
 
 		if (pose == AngelPoses.POSE_HIDING_FACE) {
 			head.rotateAngleX = (float) Math.toRadians(20);
@@ -215,6 +236,11 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			return;
 		}
 
+	}
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		return TEXTURE;
 	}
 
 }

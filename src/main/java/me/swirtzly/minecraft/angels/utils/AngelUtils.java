@@ -1,6 +1,5 @@
 package me.swirtzly.minecraft.angels.utils;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
@@ -9,8 +8,8 @@ import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.data.WAItemTags;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -21,7 +20,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
@@ -45,7 +43,6 @@ public class AngelUtils {
     public static String[] END_STRUCTURES = new String[]{"EndCity",};
     public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
     public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};
-    public static ArrayList<Item> LIGHT_ITEMS = new ArrayList<Item>();
     public static Random RAND = new Random();
     static BiomeDictionary.Type[] BANNED = new BiomeDictionary.Type[]{BiomeDictionary.Type.VOID, BiomeDictionary.Type.WATER};
 
@@ -61,7 +58,7 @@ public class AngelUtils {
 
     public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
         if (!entity.world.isRemote) {
-            entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
+            entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
             InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
             entity.world.setBlockState(pos, blockState.getDefaultState());
             entity.world.getPlayers().forEach(player -> {
@@ -76,24 +73,10 @@ public class AngelUtils {
     }
 
     /**
-     * Method that puts all ItemBlocks of blocks that emite light WARNING: ONLY CALLED ONCE AND CACHED INTO AngelUtils::LIGHT_ITEMS
-     */
-    public static void setupLightItems() {
-        ForgeRegistries.BLOCKS.getValues().forEach(block -> {
-            if (AngelUtils.getLightValue(block) > 7) {
-                LIGHT_ITEMS.add(block.asItem());
-            }
-        });
-        LIGHT_ITEMS.add(Blocks.REDSTONE_TORCH.asItem());
-        LIGHT_ITEMS.add(Blocks.TORCH.asItem());
-		LIGHT_ITEMS.removeIf(item -> item == Items.AIR);
-    }
-
-    /**
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : LIGHT_ITEMS) {
+        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
             if (PlayerUtils.isInEitherHand(player, item)) {
                 return true;
             }
@@ -155,7 +138,7 @@ public class AngelUtils {
 	}
 	
 	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-		if (LIGHT_ITEMS.contains(stack.getItem())) {
+		if (stack.getItem().isIn(WAItemTags.HELD_LIGHT_ITEMS)) {
 			angel.entityDropItem(stack);
 			stack.shrink(1);
 			return true;

@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:air",
+    "minecraft:torch",
+    "minecraft:furnace",
+    "minecraft:redstone_ore",
+    "minecraft:glowstone",
+    "minecraft:jack_o_lantern",
+    "minecraft:redstone_lamp",
+    "minecraft:beacon",
+    "minecraft:sea_lantern",
+    "minecraft:end_rod",
+    "minecraft:conduit",
+    "minecraft:smoker",
+    "minecraft:blast_furnace",
+    "minecraft:lantern",
+    "minecraft:campfire",
+    "tardis:three_point_lamp",
+    "tardis:xion_crystal"
+  ]
+}

@@ -2,6 +2,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -16,7 +17,10 @@ import net.minecraft.util.ResourceLocation;
  * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
+public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> implements IAngelModel {
+	
+	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+			"textures/entities/angel_2.png");
 	
 	private RendererModel right_wing_0;
 	private RendererModel left_wing_0;
@@ -327,6 +331,11 @@ public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> {
 			pose.setHeadAngles(head);
 			angry_mouth.isHidden = true;
 		}
+	}
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		return TEXTURE;
 	}
 
 }

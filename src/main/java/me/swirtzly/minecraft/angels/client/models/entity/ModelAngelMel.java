@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsAngry;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsCovering;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsIdle;
@@ -11,8 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
+public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> implements IAngelModel{
+	
+	public static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+			"textures/entities/angel_4.png");
 	
 	RendererModel Eye1;
 	RendererModel Eye2;
@@ -585,27 +590,27 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 			
 			// Covering Face arms render/
 			if (pose == AngelPoses.POSE_HIDING_FACE) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
 				armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Idle render
 			if (pose == AngelPoses.POSE_IDLE) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
 				armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			// Shriek render
 			if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
 				armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
 			
 			if (pose == AngelPoses.POSE_SHY) {
-				Minecraft.getInstance().getTextureManager().bindTexture(AngelRender.TEXTURE_FOUR);
+				Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
 				armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 				return;
 			}
@@ -615,5 +620,10 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<T> {
 			armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 		}
 		
+	}
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		return TEXTURE;
 	}
 }

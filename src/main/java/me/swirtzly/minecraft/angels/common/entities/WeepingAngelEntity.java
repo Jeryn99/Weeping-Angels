@@ -378,7 +378,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
 						if (blockState.get(RedstoneLampBlock.LIT)) {
 							world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
-							playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1.0F, 1.0F);
+							playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
 							return;
 						}
 					}

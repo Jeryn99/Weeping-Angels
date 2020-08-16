@@ -1,14 +1,19 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Angel Type: 2 - Classic
  */
-public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<T> {
+public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<T> implements IAngelModel {
+	
+	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+			"textures/entities/angel_3.png");
 	
 	private RendererModel leftfoot;
 	private RendererModel rightfoot;
@@ -172,6 +177,22 @@ public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
         AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
         
+        if(pose == AngelPoses.POSE_ANGRY_TWO) {
+            rightarm.rotateAngleX = (float) Math.toRadians(-115);
+            rightarm.rotateAngleY = (float) Math.toRadians(0);
+            rightarm.rotateAngleZ = (float) Math.toRadians(0);
+
+            leftarm.rotateAngleX = (float) Math.toRadians(-55);
+            leftarm.rotateAngleY = (float) Math.toRadians(0);
+            leftarm.rotateAngleZ = (float) Math.toRadians(0);
+
+            head.rotateAngleX = (float) Math.toRadians(17.5);
+            head.rotateAngleY = (float) Math.toRadians(0);
+            head.rotateAngleZ = (float) Math.toRadians(-10);
+            return;
+        }
+
+        
         if (pose.create().isAngry()) {
             rightarm.rotateAngleX = (float) Math.toRadians(-90);
             rightarm.rotateAngleY = (float) Math.toRadians(-20);
@@ -184,7 +205,7 @@ public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<
             head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(-12.5);
             head.rotateAngleZ = (float) Math.toRadians(0);
-            return;
+           return;
         }
 
         if (pose == AngelPoses.POSE_HIDING_FACE) {
@@ -233,4 +254,9 @@ public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<
         }
 
     }
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		return TEXTURE;
+	}
 }

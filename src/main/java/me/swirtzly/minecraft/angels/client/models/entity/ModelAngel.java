@@ -2,15 +2,20 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: 0
  * Created by Ford Created using Techne
  */
-public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<T> {
+public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<T> implements IAngelModel {
+	
+	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+			"textures/entities/angel.png");
 	
 	private RendererModel AngryLeftArm2;
 	private RendererModel AngryRightArm2;
@@ -560,5 +565,10 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<T> {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
+	}
+
+	@Override
+	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+		return TEXTURE;
 	}
 }

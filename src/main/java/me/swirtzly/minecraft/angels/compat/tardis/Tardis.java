@@ -42,7 +42,7 @@ public class Tardis {
 	
 	@SubscribeEvent
 	public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
-
+		
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity playerEntity = (PlayerEntity) event.getEntityLiving();
 			for (Hand value : Hand.values()) {

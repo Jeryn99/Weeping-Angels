@@ -17,6 +17,7 @@ public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAn
 	protected String name;
 	private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
 	private WeepingAngelEntity angel;
+	@SuppressWarnings("unused")
 	private ResourceLocation location;
 
 	public PoseBase(String name) {

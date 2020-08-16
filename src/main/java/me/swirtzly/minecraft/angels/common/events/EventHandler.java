@@ -3,7 +3,6 @@ package me.swirtzly.minecraft.angels.common.events;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +16,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -60,10 +58,5 @@ public class EventHandler {
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public static void serverStartingEvent(FMLServerStartingEvent event) {
-		AngelUtils.LIGHT_ITEMS.clear();
-		AngelUtils.setupLightItems();
-	}
 }
+	
