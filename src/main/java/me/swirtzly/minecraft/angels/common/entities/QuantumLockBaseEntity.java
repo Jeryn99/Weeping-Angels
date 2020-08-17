@@ -160,13 +160,13 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	private boolean quantumCheck() {
 		
 		if (WAConfig.CONFIG.freezeOnAngel.get()) {
-			List<QuantumLockBaseEntity> quantumLockBases = world.getEntitiesWithinAABB(QuantumLockBaseEntity.class, getBoundingBox().grow(25));
+			List<QuantumLockBaseEntity> quantumLockBases = world.getEntitiesWithinAABB(QuantumLockBaseEntity.class, getBoundingBox().grow(15));
 			boolean flag = quantumLockBases.isEmpty();
 			if (flag) {
 				setSeenTime(0);
 			} else {
 				for (QuantumLockBaseEntity base : quantumLockBases) {
-					if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 25) {
+					if (base.getUniqueID() != getUniqueID() && world.isBlockLoaded(getPosition()) && base.getDistance(this) < 15) {
 						if (ViewUtil.canEntitySee(base, this)) return true;
 					}
 				}

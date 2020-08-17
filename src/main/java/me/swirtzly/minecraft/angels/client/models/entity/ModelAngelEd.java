@@ -18,8 +18,8 @@ import net.minecraft.util.ResourceLocation;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd<T extends LivingEntity> extends BipedModel<T> implements IAngelModel {
-	
-	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+
+	private final static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_2.png");
 	
 	private RendererModel right_wing_0;

@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
  * Angel Type: 2 - Classic
  */
 public class ModelClassicAngel<T extends WeepingAngelEntity> extends BipedModel<T> implements IAngelModel {
-	
-	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+
+	private final static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_3.png");
 	
 	private RendererModel leftfoot;

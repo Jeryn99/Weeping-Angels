@@ -10,9 +10,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
   
-    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_idle.png");
-    private final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_angry.png");
-    private final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_scream.png");
+    private final static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_idle.png");
+    private final static  ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_angry.png");
+    private final static  ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_scream.png");
 	
 	private final RendererModel head;
     private final RendererModel body;
@@ -85,8 +85,6 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float p_212844_2_, float p_212844_3_, float p_212844_4_, float p_212844_5_, float p_212844_6_, float p_212844_7_) {
        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
-
-       // AngelPoses pose = AngelPoses.POSE_ANGRY_TWO;
 
         if(pose == AngelPoses.POSE_ANGRY_TWO) {
             rightArm.rotateAngleX = (float) Math.toRadians(-115);

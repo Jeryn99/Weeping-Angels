@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<T> implements IAngelModel{
 	
-	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
+	private final static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_angela.png");
 	
 	private final RendererModel Head;

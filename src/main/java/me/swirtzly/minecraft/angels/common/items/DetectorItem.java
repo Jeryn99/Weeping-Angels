@@ -102,7 +102,7 @@ public class DetectorItem extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
 
-		int offset = 0;
+		/*int offset = 0;
 		for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
 			offset++;
 			WeepingAngelEntity weepingAngelEntity = new WeepingAngelEntity(p_77659_1_);
@@ -112,7 +112,7 @@ public class DetectorItem extends Item {
 			if (!p_77659_1_.isRemote) {
 				p_77659_1_.addEntity(weepingAngelEntity);
 			}
-		}
+		}*/
 
 		return super.onItemRightClick(p_77659_1_, p_77659_2_, p_77659_3_);
 	}
