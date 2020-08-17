@@ -1,0 +1,4 @@
+- Fixed Classic Angel models IDLE pose arms being inverted 
+- Fixed texturing issue on angels
+- Fixed Timey Wimey Dectector Exploit 
+- Fixed bug where angels poses wouldn't change in Creative 

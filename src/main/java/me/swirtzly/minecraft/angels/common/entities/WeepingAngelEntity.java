@@ -264,10 +264,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	public void invokeSeen(PlayerEntity player) {
 		super.invokeSeen(player);
-		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
+		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong()) {
 			setPrevPos(getPosition());
 
-			boolean canPlaySound = getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
+			boolean canPlaySound = getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000 && !player.isCreative();
 			// Play Sound
 			if (canPlaySound) {
 				if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
@@ -347,10 +347,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		navigator.setAvoidSun(false);
 		return navigator;
 	}
-	
+
 	private void replaceBlocks(AxisAlignedBB box) {
 		if (world.isRemote || ticksExisted % 100 != 0 || isQuantumLocked()) return;
-		
 		if (world.getLight(getPosition()) == 0) {
 			return;
 		}

@@ -5,11 +5,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.utils.PlayerUtils;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -19,8 +18,6 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -99,23 +96,6 @@ public class DetectorItem extends Item {
 		});
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
-
-		/*int offset = 0;
-		for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
-			offset++;
-			WeepingAngelEntity weepingAngelEntity = new WeepingAngelEntity(p_77659_1_);
-			weepingAngelEntity.setType(angelType.getId());
-			weepingAngelEntity.setPosition(p_77659_2_.getPosition().getX() + offset, p_77659_2_.getPosition().getY(), p_77659_2_.getPosition().getZ());
-			weepingAngelEntity.setNoAI(true);
-			if (!p_77659_1_.isRemote) {
-				p_77659_1_.addEntity(weepingAngelEntity);
-			}
-		}*/
-
-		return super.onItemRightClick(p_77659_1_, p_77659_2_, p_77659_3_);
-	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -125,7 +105,7 @@ public class DetectorItem extends Item {
 			List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
 			
 			if (entityIn instanceof PlayerEntity) {
-				if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
+				if (!angels.isEmpty() && AngelUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
 					{
 						if (entityIn.ticksExisted % 20 == 0) {
 							worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);

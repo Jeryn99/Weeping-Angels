@@ -77,7 +77,7 @@ public class AngelUtils {
      */
     public static boolean handLightCheck(LivingEntity player) {
         for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
-            if (PlayerUtils.isInEitherHand(player, item)) {
+            if (isInEitherHand(player, item)) {
                 return true;
             }
         }
@@ -177,5 +177,28 @@ public class AngelUtils {
             lootcontext$builder = lootcontext$builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
         }
         return lootcontext$builder;
+    }
+
+    public static boolean isInHand(Hand hand, LivingEntity holder, Item item) {
+        ItemStack heldItem = holder.getHeldItem(hand);
+        return heldItem.getItem() == item;
+    }
+
+    public static boolean isInMainHand(LivingEntity holder, Item item) {
+        return isInHand(Hand.MAIN_HAND, holder, item);
+    }
+
+    /**
+     * Checks if player has item in offhand
+     */
+    public static boolean isInOffHand(LivingEntity holder, Item item) {
+        return isInHand(Hand.OFF_HAND, holder, item);
+    }
+
+    /**
+     * Checks if player has item in either hand
+     */
+    public static boolean isInEitherHand(LivingEntity holder, Item item) {
+        return isInMainHand(holder, item) || isInOffHand(holder, item);
     }
 }
