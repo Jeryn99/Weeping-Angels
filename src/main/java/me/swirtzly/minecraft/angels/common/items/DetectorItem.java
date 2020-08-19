@@ -1,9 +1,5 @@
 package me.swirtzly.minecraft.angels.common.items;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
@@ -27,6 +23,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class DetectorItem extends Item {
 	
@@ -101,6 +100,12 @@ public class DetectorItem extends Item {
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		if (!entityIn.world.isRemote) {
+
+			if(AngelUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
+				if (entityIn.ticksExisted % 160 == 0) {
+					worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+				}
+			}
 
 			List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
 			

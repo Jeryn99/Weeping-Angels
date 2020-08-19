@@ -1,14 +1,13 @@
 package me.swirtzly.minecraft.angels.client.poses;
 
-import javax.annotation.Nullable;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import javax.annotation.Nullable;
 
 /* I'm not going to pretend I like this at all*/
 @OnlyIn(value = Dist.CLIENT, _interface = IPoseAngles.class)
@@ -95,13 +94,6 @@ public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAn
 	 */
 	public float degreeToRadian(float degree) {
 		return (float) (degree * Math.PI / 180);
-	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public void resetAngles(RendererModel model) {
-		model.rotateAngleX = 0;
-		model.rotateAngleY = 0;
-		model.rotateAngleY = 0;
 	}
 
 	@Override

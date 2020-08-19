@@ -1,36 +1,16 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
-import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
-
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.EndPortalBlock;
-import net.minecraft.block.NetherPortalBlock;
-import net.minecraft.block.RedstoneLampBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.block.*;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
@@ -45,25 +25,22 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.function.Predicate;
+
+import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
@@ -194,7 +171,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
 			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
 				ItemStack stack = playerMP.inventory.getStackInSlot(i);
-				if (stack.getItem().isIn(WAItemTags.KEYS)) {
+				if (stack.getItem().isIn(AngelUtils.KEYS)) {
 					setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
 					playerMP.inventory.getStackInSlot(i).setCount(0);
 					playerMP.container.detectAndSendChanges();

@@ -1,10 +1,7 @@
 package me.swirtzly.minecraft.angels.common.entities.ai;
 
-import java.util.EnumSet;
-import java.util.Iterator;
-
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -13,6 +10,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
+
+import java.util.EnumSet;
+import java.util.Iterator;
 
 public class AIMoveTowardsTardis<T extends WeepingAngelEntity> extends Goal {
 
@@ -45,7 +45,7 @@ public class AIMoveTowardsTardis<T extends WeepingAngelEntity> extends Goal {
      */
     @Override
     public void tick() {
-        if (weepingAngel.getHeldItemMainhand().getItem().isIn(WAItemTags.KEYS) || weepingAngel.getHeldItemOffhand().getItem().isIn(WAItemTags.KEYS)) {
+        if (weepingAngel.getHeldItemMainhand().getItem().isIn(AngelUtils.KEYS) || weepingAngel.getHeldItemOffhand().getItem().isIn(AngelUtils.KEYS)) {
             if (tardis == null) {
 
                 AxisAlignedBB box = weepingAngel.getBoundingBox().grow(25);

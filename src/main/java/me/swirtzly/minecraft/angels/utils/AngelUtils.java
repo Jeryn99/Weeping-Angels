@@ -1,14 +1,11 @@
 package me.swirtzly.minecraft.angels.utils;
 
-import java.util.Random;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -23,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -38,7 +37,12 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Random;
+
 public class AngelUtils {
+
+    public static final Tag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static final Tag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
 
     public static String[] END_STRUCTURES = new String[]{"EndCity",};
     public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
@@ -54,6 +58,10 @@ public class AngelUtils {
      */
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
         return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
+    }
+
+    public static Tag<Item> makeItem(String domain, String path) {
+        return new ItemTags.Wrapper(new ResourceLocation(domain, path));
     }
 
     public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
@@ -76,7 +84,7 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
+        for (Item item : HELD_LIGHT_ITEMS.getAllElements()) {
             if (isInEitherHand(player, item)) {
                 return true;
             }
@@ -138,14 +146,14 @@ public class AngelUtils {
 	}
 	
 	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-		if (stack.getItem().isIn(WAItemTags.HELD_LIGHT_ITEMS)) {
-			angel.entityDropItem(stack);
-			stack.shrink(1);
-			return true;
-		}
-		
-		return false;
-	}
+        if (stack.getItem().isIn(HELD_LIGHT_ITEMS)) {
+            angel.entityDropItem(stack);
+            stack.shrink(1);
+            return true;
+        }
+
+        return false;
+    }
 	
 	public static AngelEnums.AngelType randomType() {
 		int pick = RAND.nextInt(AngelEnums.AngelType.values().length);

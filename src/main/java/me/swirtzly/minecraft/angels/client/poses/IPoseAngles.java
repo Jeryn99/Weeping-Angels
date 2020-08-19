@@ -22,4 +22,10 @@ public interface IPoseAngles {
      * Used to set the Models head angles
      */
     void setHeadAngles(RendererModel head);
+
+    default void resetAngles(RendererModel model) {
+        model.rotateAngleX = 0;
+        model.rotateAngleY = 0;
+        model.rotateAngleY = 0;
+    }
 }

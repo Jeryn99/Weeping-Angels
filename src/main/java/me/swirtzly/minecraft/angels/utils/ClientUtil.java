@@ -1,8 +1,5 @@
 package me.swirtzly.minecraft.angels.utils;
 
-import java.util.function.Supplier;
-
-import me.swirtzly.minecraft.angels.client.PlayerMovingSound;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
@@ -19,16 +16,11 @@ import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -46,20 +38,11 @@ public class ClientUtil {
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public static void playSound(Object object, SoundEvent soundIn, SoundCategory categoryIn, boolean repeat, Supplier<Boolean> stopCondition, float volumeSfx) {
-		Minecraft.getInstance().getSoundHandler().play(new PlayerMovingSound(object, soundIn, categoryIn, repeat, stopCondition, volumeSfx));
-	}
-	
-	@OnlyIn(Dist.CLIENT)
 	public static void playSound(SoundEvent soundIn, float volumeSfx) {
+		if(Minecraft.getInstance().world == null) return;
 		Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
 	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public static void playSound(PlayerMovingSound playerMovingSound) {
-		Minecraft.getInstance().getSoundHandler().play(playerMovingSound);
-	}
-	
+
 	public static void doClientStuff() {
 		ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
 		ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());

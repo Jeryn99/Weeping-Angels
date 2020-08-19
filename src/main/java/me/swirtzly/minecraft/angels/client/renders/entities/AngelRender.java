@@ -38,7 +38,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 
 	@SuppressWarnings("unchecked")
 	public AngelRender(EntityRendererManager manager) {
-		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
+		super(manager, new ModelAngelEd<>(), 0.0F);
 		addLayer(new CrackLayer(this));
 	}
 

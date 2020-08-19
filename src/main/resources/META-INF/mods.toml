@@ -1,13 +1,13 @@
 modLoader="javafml"
 loaderVersion="[24,)"
-issueTrackerURL="https://github.com/Swirtzly/Weeping-Angels/issues"
+issueTrackerURL="https://github.com/Whocraft/Weeping-Angels/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
 logoFile="logo.png"
 credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
 authors="Swirtzly"
 [[mods]]
 modId="weeping_angels"
-version="3.0.1"
+version="3.0.2"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.14/update.json" #optional
 description='''
