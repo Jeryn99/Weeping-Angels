@@ -24,8 +24,6 @@ public class WAConfig {
 	
 	// WorldGen
 	public final ForgeConfigSpec.BooleanValue arms;
-	public final ForgeConfigSpec.BooleanValue catacombs;
-	public final ForgeConfigSpec.IntValue chanceCatacombs;
 	public final ForgeConfigSpec.BooleanValue genOres;
 	// Spawn
 	public final ForgeConfigSpec.IntValue maxSpawn;
@@ -61,8 +59,6 @@ public class WAConfig {
 	public WAConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("world_gen");
 		arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
-		catacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Generate catacombs?").define("genCatacombs", false);
-		chanceCatacombs = builder.translation("config.weeping_angels.chanceGenCatacombs").comment("Chance to generate catacombs? 1 chance of ... (default :25)").defineInRange("chanceCatacombs", 25, 1, Integer.MAX_VALUE);
 		genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
 		builder.pop();
 		builder.push("spawn");
