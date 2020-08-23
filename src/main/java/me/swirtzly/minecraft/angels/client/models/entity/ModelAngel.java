@@ -10,6 +10,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 
 /**
  * Angel Type: 0
@@ -84,6 +85,10 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 	private ModelRenderer RightWing7;
 	private ModelRenderer RightWing8;
 	private ModelRenderer RightWing9;
+
+	//TODO Until I make this better, we're going to ignore this model and pretend theres nothing wrong
+	private WeepingAngelEntity angelEntity;
+
 	/**
 	 * Angel Type: 0
 	 */
@@ -481,7 +486,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-		
+		angelEntity = weepingAngelEntity;
 	}
 	
 	
@@ -503,7 +508,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 
 		matrixStack.push(); // PUSH 2
 		if (!angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
-			matrixStack.rotatef(20, 1, 0, 0);
+			matrixStack.rotate(Vector3f.XP.rotation(20));
 		}
 		LeftEyebrow.render(matrixStack, buffer, packedLight, packedOverlay);
 		RightEyebrow.render(matrixStack, buffer, packedLight, packedOverlay);

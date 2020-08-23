@@ -16,12 +16,14 @@ public class WABlockTags extends BlockTagsProvider {
 
     @Override
     protected void registerTags() {
-        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.ARM.get());
-        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.STATUE.get());
-        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.PLINTH.get());
+        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.ARM.get(), WAObjects.Blocks.STATUE.get(),WAObjects.Blocks.PLINTH.get());
     }
 
     public void add(ITag.INamedTag<Block> branch, Block block) {
-        this.func_240522_a_(branch).func_240534_a_(block);
+        this.getOrCreateBuilder(branch).add(block);
+    }
+
+    public void add(ITag.INamedTag<Block> branch, Block... block) {
+        this.getOrCreateBuilder(branch).add(block);
     }
 }

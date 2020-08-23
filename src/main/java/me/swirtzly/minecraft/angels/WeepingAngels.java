@@ -1,18 +1,12 @@
 package me.swirtzly.minecraft.angels;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.misc.FortuneEnchantBonus;
-import me.swirtzly.minecraft.angels.compat.tardis.Tardis;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.data.LangEnglish;
 import me.swirtzly.minecraft.angels.data.WABlockTags;
 import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -26,6 +20,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod("weeping_angels")
 public class WeepingAngels {
@@ -55,8 +51,9 @@ public class WeepingAngels {
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
-		WorldGen.applyFeatures();
-		LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
+		//TODO Fix Below
+		//	WorldGen.applyFeatures();
+		//	LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
 		Network.init();
 	}
 
@@ -66,7 +63,7 @@ public class WeepingAngels {
 
 	@SubscribeEvent
 	public void gatherData(GatherDataEvent e) {
-		e.getGenerator().addProvider(new WAItemTags(e.getGenerator()));
+		e.getGenerator().addProvider(new WAItemTags(e.getGenerator(), new WABlockTags(e.getGenerator())));
 		e.getGenerator().addProvider(new WABlockTags(e.getGenerator()));
 		e.getGenerator().addProvider(new LangEnglish(e.getGenerator()));
 	}

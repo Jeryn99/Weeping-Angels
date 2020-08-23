@@ -110,7 +110,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 	}
 
 	private void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemCameraTransforms.TransformType transformType) {
-		if (!p_188358_2_.isEmpty()) {
+		if (!itemStack.isEmpty()) {
 			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(livingEntity, itemStack, transformType, false);
 		}
 	}

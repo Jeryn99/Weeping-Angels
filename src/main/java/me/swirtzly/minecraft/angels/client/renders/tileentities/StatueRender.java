@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
@@ -30,7 +31,7 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 		matrixStack.rotate(Vector3f.ZP.rotation(180));
 		matrixStack.rotate(Vector3f.YP.rotation(statueTile.getRotation()));
 		Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
-		ed.quickRender(0.0625f, statueTile.getPose());
+		ed.quickRender(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getSolid()), i, i1, statueTile.getPose());
 		matrixStack.pop();
 	}
 }

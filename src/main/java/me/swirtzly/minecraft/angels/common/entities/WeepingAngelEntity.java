@@ -118,11 +118,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
 		//ATTACK_DAMAGE, MAX_HEALTH, KNOCKBACK_RESISTANCE, MOVEMENT_SPEED, ARMOR
 		return MonsterEntity.func_234295_eP_().
-				func_233815_a_(Attributes.field_233823_f_, WAConfig.CONFIG.damage.get()).
-				func_233815_a_(Attributes.field_233818_a_, 50D).
-				func_233815_a_(Attributes.field_233820_c_, 9999999.0D).
-				func_233815_a_(Attributes.field_233821_d_, 0.23000000417232513D).
-				func_233815_a_(Attributes.field_233826_i_, 2.0D);
+				createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
+				createMutableAttribute(Attributes.MAX_HEALTH, 50D).
+				createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
+				createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23000000417232513D).
+				createMutableAttribute(Attributes.ARMOR, 2.0D);
 	}
 
 
@@ -412,7 +412,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					}
 
 					if (teleportWorld != null) {
-						WATeleporter.teleportPlayerTo(player, this, blockPos, teleportWorld);
+						WATeleporter.teleportPlayerTo(player, blockPos, teleportWorld);
 					}
 				}));
 				break;

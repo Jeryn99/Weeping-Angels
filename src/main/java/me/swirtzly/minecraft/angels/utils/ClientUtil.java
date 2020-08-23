@@ -22,6 +22,8 @@ import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -74,61 +76,11 @@ public class ClientUtil {
 		ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
 		ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);
 		ClientUtil.bindEntityRender(ChronodyneGeneratorEntity.class, (EntityRendererManager p_i50956_1_) -> new CGRender(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
+
+		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.ARM.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
 	}
-	
-	public static void drawSelectionBoxMask(AxisAlignedBB box, float red, float green, float blue, float alpha) {
-		drawMask(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, red, green, blue, alpha);
-	}
-	
-	public static void drawMask(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		drawMask(bufferbuilder, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
-		tessellator.draw();
-	}
-	
-	public static void drawMask(BufferBuilder b, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
-		// up
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		
-		// down
-		b.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		
-		// north
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		
-		// south
-		b.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		
-		// east
-		b.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		
-		// west
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
-		b.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
-	}
+
 }

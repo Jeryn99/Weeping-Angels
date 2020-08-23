@@ -1,14 +1,11 @@
 package me.swirtzly.minecraft.angels.client.models.tile;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.matrix.matrixStack;
-import com.mojang.blaze3d.platform.matrixStack;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -623,10 +620,10 @@ public class ModelCG extends EntityModel<Entity> {
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
 		Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
-		matrixStack.translate(MAIN.offsetX, MAIN.offsetY, MAIN.offsetZ);
-		matrixStack.translate(MAIN.rotationPointX * scale, MAIN.rotationPointY, MAIN.rotationPointZ);
+	//	matrixStack.translate(MAIN.offsetX, MAIN.offsetY, MAIN.offsetZ);
+		matrixStack.translate(MAIN.rotationPointX, MAIN.rotationPointY, MAIN.rotationPointZ);
 		matrixStack.scale(0.5F, 0.5F, 0.5F);
-		matrixStack.translate(-MAIN.offsetX, -MAIN.offsetY, -MAIN.offsetZ);
+		//matrixStack.translate(-MAIN.offsetX, -MAIN.offsetY, -MAIN.offsetZ);
 		matrixStack.translate(-MAIN.rotationPointX, -MAIN.rotationPointY, -MAIN.rotationPointZ);
 		MAIN.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.pop();

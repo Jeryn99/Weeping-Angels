@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.client.renders.entities.layers;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngel;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelChild;
@@ -9,6 +10,7 @@ import me.swirtzly.minecraft.angels.client.models.entity.ModelAngela;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelClassicAngel;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.MobEntity;
@@ -33,50 +35,39 @@ public class CrackLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<We
 		super(angelRendererIn);
 		angelRenderer = angelRendererIn;
 	}
-	
+
 	@Override
-	public void render(WeepingAngelEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		
-		if (entityIn instanceof WeepingAngelEntity) {
-			
-			WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
-			
-			switch (angel.getAngelType()) {
-				case -1:
-					modelMain = modelChild;
-					break;
-				case 0:
-					modelMain = modelOne;
-					break;
-				case 1:
-					modelMain = modelTwo;
-					break;
-				case 2:
-					modelMain = modelClassic;
-					break;
-				case 3:
-					modelMain = modelMel;
-					break;
-				case 4:
-					modelMain = modelAngela;
-					break;
-			}
-			
-			if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
-				if (!angel.isChild()) {
-					if (angel.getAngelType() == 1) {
-						angelRenderer.bindTexture(CRACK_TEX_2);
-					} else {
-						angelRenderer.bindTexture(CRACK_TEX);
-					}
-					modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+	public void render(MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4, float v5) {
+		switch (angel.getAngelType()) {
+			case -1:
+				modelMain = modelChild;
+				break;
+			case 0:
+				modelMain = modelOne;
+				break;
+			case 1:
+				modelMain = modelTwo;
+				break;
+			case 2:
+				modelMain = modelClassic;
+				break;
+			case 3:
+				modelMain = modelMel;
+				break;
+			case 4:
+				modelMain = modelAngela;
+				break;
+		}
+
+		if (angel.getHealth() <= 5 && angel.getHealth() > 0 || angel.hurtTime > 0) {
+			if (!angel.isChild()) {
+				if (angel.getAngelType() == 1) {
+					angelRenderer.bindTexture(CRACK_TEX_2);
+				} else {
+					angelRenderer.bindTexture(CRACK_TEX);
 				}
+				modelMain.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 			}
 		}
-	}
-	
-	@Override
-	public boolean shouldCombineTextures() {
-		return false;
 	}
 }

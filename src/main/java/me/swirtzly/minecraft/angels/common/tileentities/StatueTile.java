@@ -21,7 +21,9 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());
 	}
-	
+
+
+
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
@@ -63,7 +65,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		super.onDataPacket(net, pkt);
-		handleUpdateTag(pkt.getNbtCompound());
+		handleUpdateTag(world.getBlockState(getPos()), pkt.getNbtCompound());
 	}
 	
 	public int getRotation() {

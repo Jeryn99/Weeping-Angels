@@ -1,7 +1,5 @@
 package me.swirtzly.minecraft.angels.utils;
 
-import java.util.Random;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
@@ -20,6 +18,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.*;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
@@ -29,6 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
@@ -38,11 +38,30 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Random;
+
 public class AngelUtils {
 
-    public static String[] END_STRUCTURES = new String[]{"EndCity",};
-    public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
-    public static String[] NETHER_STRUCTURES = new String[]{"Fortress"};
+    public static Structure[] END_STRUCTURES = new Structure[]{Structure.field_236379_o_};
+    public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
+
+            Structure.field_236366_b_,
+            Structure.field_236367_c_,
+            Structure.field_236368_d_,
+            Structure.field_236369_e_,
+            Structure.field_236370_f_,
+            Structure.field_236371_g_,
+            Structure.field_236372_h_,
+            Structure.field_236373_i_,
+            Structure.field_236374_j_,
+            Structure.field_236375_k_,
+            Structure.field_236376_l_,
+            Structure.field_236377_m_,
+            Structure.field_236380_p_,
+            Structure.field_236381_q_
+    };
+
+    public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.field_236383_s_, Structure.field_236382_r_, Structure.field_236378_n_};
     public static Random RAND = new Random();
     static BiomeDictionary.Type[] BANNED = new BiomeDictionary.Type[]{BiomeDictionary.Type.VOID, BiomeDictionary.Type.WATER};
 
@@ -76,7 +95,7 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.func_230236_b_()) {
+        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
             if (PlayerUtils.isInEitherHand(player, item)) {
                 return true;
             }
@@ -163,7 +182,7 @@ public class AngelUtils {
 
     public static void dropEntityLoot(Entity target, PlayerEntity attacker) {
         LivingEntity targeted = (LivingEntity) target;
-        ResourceLocation resourcelocation = targeted.func_213346_cF();
+        ResourceLocation resourcelocation = targeted.getLootTableResourceLocation();
         LootTable loot_table = target.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
         LootContext.Builder lootcontext$builder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootcontext$builder.build(LootParameterSets.ENTITY);

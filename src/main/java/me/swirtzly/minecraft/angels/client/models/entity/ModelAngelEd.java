@@ -221,8 +221,6 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-			head.rotateAngleY = netheadYaw * 0.017453292F;
-			head.rotateAngleX = headPitch * 0.017453292F;
 
 			right_arm.rotationPointY = 2.5F;
 			left_arm.rotationPointY = 2.5F;
@@ -252,31 +250,31 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 			}
 	}
 
-	public void quickRender(float scale, ResourceLocation pose) {
+	public void quickRender(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, ResourceLocation pose) {
 		matrixStack.push();
-		matrixStack.enableCull();
+	//	matrixStack.enableCull();
 		tilePosing(pose);
-		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay);
-		right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		cloth_0.render(matrixStack, buffer, packedLight, packedOverlay);
-		back_cloth.render(matrixStack, buffer, packedLight, packedOverlay);
-		cloth_2.render(matrixStack, buffer, packedLight, packedOverlay);
-		left_wing_1.render(matrixStack, buffer, packedLight, packedOverlay);
-		body_2.render(matrixStack, buffer, packedLight, packedOverlay);
-		right_wing_1.render(matrixStack, buffer, packedLight, packedOverlay);
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
-		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
-		left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-		matrixStack.disableCull();
+		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		right_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		head.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		cloth_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		back_cloth.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		cloth_2.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		left_wing_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		body_2.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		right_wing_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		body.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+		left_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+	//	matrixStack.disableCull();
 		matrixStack.pop();
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
-		matrixStack.enableCull();
+		//matrixStack.enableCull();
 		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay);
 		right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -290,7 +288,7 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
 		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
 		left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-		matrixStack.disableCull();
+		//matrixStack.disableCull();
 		matrixStack.pop();
 	}
 
@@ -316,11 +314,6 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-
-	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
-
-	}
-
 	@Override
 	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
 		return TEXTURE;

@@ -57,9 +57,5 @@ public class ChronodyneGeneratorBlock extends Block {
 	public boolean isVariableOpacity() {
 		return false;
 	}
-	
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
-	}
+
 }

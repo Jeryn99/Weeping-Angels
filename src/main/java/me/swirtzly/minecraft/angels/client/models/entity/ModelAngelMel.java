@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.matrix.matrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsAngry;
@@ -94,6 +93,7 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
     private ModelArmsIdle armsIdle = new ModelArmsIdle();
     private ModelArmsAngry armsAngry = new ModelArmsAngry();
     private ModelArmsPointing armsPoint = new ModelArmsPointing();
+    private WeepingAngelEntity angel;
 
     public ModelAngelMel() {
         textureWidth = 128;
@@ -510,7 +510,7 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-
+        angel = weepingAngelEntity;
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z) {
@@ -590,43 +590,38 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
         RightWing6.render(matrixStack, buffer, packedLight, packedOverlay);
         RightWing7.render(matrixStack, buffer, packedLight, packedOverlay);
 
-        if (entityIn instanceof WeepingAngelEntity) {
-            WeepingAngelEntity angel = (WeepingAngelEntity) entityIn;
             AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString());
 
             // Covering Face arms render/
             if (pose == AngelPoses.POSE_HIDING_FACE) {
                 Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
             // Idle render
             if (pose == AngelPoses.POSE_IDLE) {
                 Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsIdle.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
             // Shriek render
             if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
                 Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsAngry.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
             if (pose == AngelPoses.POSE_SHY) {
                 Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsPoint.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
-            armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        } else {
-            armsCovering.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
         }
 
-    }
 
     @Override
     public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {

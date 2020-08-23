@@ -1,42 +1,38 @@
 package me.swirtzly.minecraft.angels.client.renders.entities;
 
-import java.awt.Color;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
-import com.mojang.blaze3d.platform.matrixStack;
-
+import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.DefaultRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class AnomalyRender extends DefaultRenderer {
+import java.awt.*;
+import java.util.Random;
+
+public class AnomalyRender extends MobRenderer {
 
 	private final Random random;
 
-	public AnomalyRender(EntityRendererManager manager) {
-		super(manager);
+	public AnomalyRender(EntityRendererManager p_i50961_1_, EntityModel p_i50961_2_, float p_i50961_3_) {
+		super(p_i50961_1_, p_i50961_2_, p_i50961_3_);
 		random = new Random(432L);
 	}
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-
-		if (!(entity instanceof AnomalyEntity)) return;
-
-		AnomalyEntity anom = (AnomalyEntity) entity;
+	public void render(Entity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
 
 		matrixStack.push();
-		matrixStack.translated(x, y + anom.getEntityEyeHeight(), z + 0.2F);
+		matrixStack.translate(x, y + entity.getEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
-		matrixStack.scaled(scale, scale, scale);
+		matrixStack.scale(scale, scale, scale);
 
 		int timer = ((AnomalyEntity) entity).ticksExisted;
 
@@ -44,13 +40,13 @@ public class AnomalyRender extends DefaultRenderer {
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder bufferbuilder = tessellator.getBuffer();
 			RenderHelper.disableStandardItemLighting();
-			float f = ((float) timer + partialTicks) / 100.0F;
+			float f = ((float) timer + Minecraft.getInstance().getRenderPartialTicks()) / 100.0F;
 			float f1 = 0.0F;
 
 			if (f > 0.8F) {
 				f1 = (f - 0.8F) / 0.2F;
 			}
-			
+
 			matrixStack.disableTexture();
 			matrixStack.shadeModel(7425);
 			matrixStack.enableBlend();
@@ -60,7 +56,7 @@ public class AnomalyRender extends DefaultRenderer {
 			matrixStack.depthMask(false);
 			matrixStack.push();
 			matrixStack.translate(0.0F, -1.0F, -2.0F);
-			
+
 			for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
 				matrixStack.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
 				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
@@ -89,7 +85,7 @@ public class AnomalyRender extends DefaultRenderer {
 				bufferbuilder.pos(-0.866D * (double) f3, f2, -0.5F * f3).color(color_4.getRed(), color_4.getBlue(), color_4.getGreen(), color_4.getAlpha()).endVertex();
 				tessellator.draw();
 			}
-			
+
 			matrixStack.pop();
 			matrixStack.depthMask(true);
 			matrixStack.disableCull();
@@ -100,10 +96,17 @@ public class AnomalyRender extends DefaultRenderer {
 			matrixStack.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
 		}
-		
+
 		matrixStack.pop();
+
 	}
-	
+
+	@Override
+	public ResourceLocation getEntityTexture(Entity entity) {
+		return null;
+	}
+
+
 	private Color getRandomColor() {
 		int r = (int) (Math.random() * 256);
 		int g = (int) (Math.random() * 256);
@@ -114,11 +117,5 @@ public class AnomalyRender extends DefaultRenderer {
 		final float luminance = 1.0f; // 1.0 for brighter, 0.0 for black
 		color = Color.getHSBColor(hue, saturation, luminance);
 		return color;
-	}
-	
-	@Nullable
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
-		return null;
 	}
 }
