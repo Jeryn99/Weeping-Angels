@@ -1,12 +1,10 @@
 package me.swirtzly.minecraft.angels.client.models.entity.arms;
 
-import com.mojang.blaze3d.matrix.matrixStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelArmsCovering extends EntityModel<WeepingAngelEntity> {
 	
@@ -159,4 +157,5 @@ public class ModelArmsCovering extends EntityModel<WeepingAngelEntity> {
 		LeftArmMain.render(matrixStack, buffer, packedLight, packedOverlay);
 		LeftArmBottom.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
+
 }

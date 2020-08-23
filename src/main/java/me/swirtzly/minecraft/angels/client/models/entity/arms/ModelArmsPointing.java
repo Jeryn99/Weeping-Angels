@@ -1,5 +1,7 @@
 package me.swirtzly.minecraft.angels.client.models.entity.arms;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -117,7 +119,12 @@ public class ModelArmsPointing extends EntityModel<Entity> {
 		LeftArm1.mirror = true;
 		setRotation(LeftArm1, -0.4363323F, 0F, 0F);
 	}
-	
+
+	@Override
+	public void setRotationAngles(Entity entity, float v, float v1, float v2, float v3, float v4) {
+		
+	}
+
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
@@ -125,21 +132,22 @@ public class ModelArmsPointing extends EntityModel<Entity> {
 	}
 	
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		RightArm2.render(scale);
-		RightFinger1.render(scale);
-		LeftFinger2.render(scale);
-		LeftHand.render(scale);
-		LeftFinger1.render(scale);
-		RightFinger2.render(scale);
-		RightThumb.render(scale);
-		LeftThumb.render(scale);
-		LeftPalm.render(scale);
-		RightHand.render(scale);
-		RightArm1.render(scale);
-		RightArm3.render(scale);
-		LeftArm3.render(scale);
-		LeftArm2.render(scale);
-		LeftArm1.render(scale);
+	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+		RightArm2.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightFinger1.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftFinger2.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftHand.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftFinger1.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightFinger2.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightThumb.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftThumb.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftPalm.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightHand.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightArm1.render(matrixStack, buffer, packedLight, packedOverlay);
+		RightArm3.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftArm3.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftArm2.render(matrixStack, buffer, packedLight, packedOverlay);
+		LeftArm1.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
+
 }

@@ -60,7 +60,7 @@ public class ChronodyneGeneratorEntity extends ThrowableEntity implements IRende
 		// Entity Hit
 		if (result.getType() == RayTraceResult.Type.ENTITY) {
 			EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
-			if (entityHitResult.getEntity() == this.getThrower() || entityHitResult == null) return;
+			if (entityHitResult == null) return;
 			Entity hitEntity = entityHitResult.getEntity();
 			if (hitEntity instanceof WeepingAngelEntity) {
 				if (!world.isRemote) {

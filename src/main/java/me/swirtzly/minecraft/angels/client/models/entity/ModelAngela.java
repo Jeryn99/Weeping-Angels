@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import com.mojang.blaze3d.matrix.matrixStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
@@ -655,4 +655,5 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 		LeftWing.render(matrixStack, buffer, packedLight, packedOverlay);
 		RightWing.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
+
 }

@@ -12,18 +12,11 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootFunctionType;
+import net.minecraft.loot.*;
+import net.minecraft.loot.conditions.ILootCondition;
+import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootFunction;
-import net.minecraft.world.storage.loot.LootParameter;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.ILootCondition;
-import net.minecraft.world.storage.loot.functions.ILootFunction;
 
 /**
  * Created by 50ap5ud5 on 13 Feb 2020 @ 11:28:06 am
@@ -67,11 +60,6 @@ public class FortuneEnchantBonus extends LootFunction {
 		}
 		
 		return stack;
-	}
-
-	@Override
-	protected ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
-		return null;
 	}
 
 	@Override

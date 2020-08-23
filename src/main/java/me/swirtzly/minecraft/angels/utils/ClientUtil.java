@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import me.swirtzly.minecraft.angels.client.PlayerMovingSound;
@@ -10,6 +11,7 @@ import me.swirtzly.minecraft.angels.client.renders.tileentities.CGTileRender;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.PlinthTileRender;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.SnowArmTileRender;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.StatueRender;
+import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -23,9 +25,12 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,11 +42,11 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientUtil {
 	
-	public static <T extends TileEntity> void bindTESR(Class<T> tileEntityClass, TileEntityRenderer<? super T> specialRenderer) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
+	public static <T extends TileEntity> void bindTESR(TileEntityType<T> tileEntityType, Function<? super TileEntityRendererDispatcher, ? extends TileEntityRenderer<? super T>> rendererFactory) {
+		ClientRegistry.bindTileEntityRenderer(tileEntityType, rendererFactory);
 	}
 	
-	public static <T extends Entity> void bindEntityRender(Class<T> entityClass, IRenderFactory<? super T> renderFactory) {
+	public static <T extends Entity> void bindEntityRender(EntityType<T> entityClass, IRenderFactory<? super T> renderFactory) {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
 	}
 	
@@ -61,10 +66,10 @@ public class ClientUtil {
 	}
 	
 	public static void doClientStuff() {
-		ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
-		ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());
-		ClientUtil.bindTESR(PlinthTile.class, new PlinthTileRender());
-		ClientUtil.bindTESR(StatueTile.class, new StatueRender());
+		ClientUtil.bindTESR(WAObjects.Tiles.ARM.get(), new SnowArmTileRender());
+		ClientUtil.bindTESR(WAObjects.Tiles.CG.get(), new CGTileRender());
+		ClientUtil.bindTESR(WAObjects.Tiles.PLINTH.get(), new PlinthTileRender());
+		ClientUtil.bindTESR(WAObjects.Tiles.STATUE.get(), new StatueRender());
 		
 		ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
 		ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);

@@ -41,6 +41,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
@@ -101,7 +102,7 @@ public class WAObjects {
 	}
 	
 	public static class Tiles {
-		public static final DeferredRegister<TileEntityType<?>> TILES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
+		public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
 		
 		public static RegistryObject<TileEntityType<?>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
 		public static RegistryObject<TileEntityType<?>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
@@ -110,8 +111,8 @@ public class WAObjects {
 	}
 	
 	public static class Blocks {
-		public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
-		public static final DeferredRegister<Item> BLOCK_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WeepingAngels.MODID);
+		public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
+		public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 		
 		public static final RegistryObject<Block> ARM = BLOCKS.register("snow_arm", () -> setUpBlock(new SnowArmBlock()));
 		public static final RegistryObject<Block> CG = BLOCKS.register("cg", () -> setUpBlock(new ChronodyneGeneratorBlock()));
@@ -121,7 +122,7 @@ public class WAObjects {
 	}
 	
 	public static class Items {
-		public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WeepingAngels.MODID);
+		public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 		
 		public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
 		public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
@@ -137,7 +138,7 @@ public class WAObjects {
 	
 	// Sounds
 	public static class Sounds {
-		public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
+		public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
 		
 		public static final RegistryObject<SoundEvent> ANGEL_SEEN = SOUNDS.register("angel_seen", () -> setUpSound("angel_seen"));
 		public static final RegistryObject<SoundEvent> STONE_SCRAP = SOUNDS.register("stone_scrap", () -> setUpSound("stone_scrap"));
@@ -159,10 +160,8 @@ public class WAObjects {
 	}
 	
 	public static class WorldGenEntries {
-		public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-		
+		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
-		public static final RegistryObject<Structure<NoFeatureConfig>> GRAVES = FEATURES.register("graves", () -> registerFeatures(new GraveStructure(NoFeatureConfig::deserialize)));
 	}
 	
 	// Tile Creation
@@ -211,7 +210,7 @@ public class WAObjects {
 	
 	// Entities
 	public static class EntityEntries {
-		public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
+		public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
 		
 		public static final RegistryObject<EntityType<WeepingAngelEntity>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngelEntity::new, WeepingAngelEntity::new, EntityClassification.MONSTER, 1F, 1.75F, "weeping_angel", false));
 		public static final RegistryObject<EntityType<AnomalyEntity>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(AnomalyEntity::new, AnomalyEntity::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));

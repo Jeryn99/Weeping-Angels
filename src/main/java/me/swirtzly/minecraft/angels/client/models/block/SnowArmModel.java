@@ -1,13 +1,10 @@
 package me.swirtzly.minecraft.angels.client.models.block;
 
-import com.mojang.blaze3d.matrix.matrixStack;
-import com.mojang.blaze3d.platform.matrixStack;
-
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

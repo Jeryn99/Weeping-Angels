@@ -2,6 +2,7 @@ package me.swirtzly.minecraft.angels.data;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
@@ -16,9 +17,8 @@ public class WAItemTags extends ItemTagsProvider {
     public static final Tag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
     public static final Tag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
 
-
-    public WAItemTags(DataGenerator dataGenerator) {
-        super(dataGenerator);
+    public WAItemTags(DataGenerator p_i232552_1_, BlockTagsProvider p_i232552_2_) {
+        super(p_i232552_1_, p_i232552_2_);
     }
 
     public static Tag<Item> makeItem(String domain, String path) {

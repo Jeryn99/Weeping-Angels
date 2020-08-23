@@ -7,18 +7,18 @@ import com.google.common.collect.Lists;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import me.swirtzly.minecraft.angels.compat.events.EventAngelTeleport;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 public class WATeleporter {
 	
@@ -28,10 +28,10 @@ public class WATeleporter {
     }
 	
 	public static DimensionType getRandomDimension(Random rand) {
-		Iterable<DimensionType> dimensions = DimensionType.getAll();
-		ArrayList<DimensionType> allowedDimensions = Lists.newArrayList(DimensionType.getAll());
+		Iterable<ServerWorld> dimensions = ServerLifecycleHooks.getCurrentServer().getWorlds();
+		ArrayList<ServerWorld> allowedDimensions = Lists.newArrayList(dimensions);
 		
-		for (DimensionType dimension : dimensions) {
+		for (ServerWorld dimension : dimensions) {
 			for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
 				if (dimension.getRegistryName().toString().equalsIgnoreCase(dimName) || dimension.getRegistryName().toString().contains("tardis")) {
 					allowedDimensions.remove(dimension);
@@ -68,12 +68,9 @@ public class WATeleporter {
 		}
 	}
 	
-	public static void teleportPlayerTo(ServerPlayerEntity player, WeepingAngelEntity angel, BlockPos destinationPos, ServerWorld targetDimension) {
-		EventAngelTeleport event = new EventAngelTeleport(player, angel, destinationPos, targetDimension);
-		MinecraftForge.EVENT_BUS.post(event);
-		if (!event.isCanceled()) {
+	public static void teleportPlayerTo(ServerPlayerEntity player, BlockPos destinationPos, ServerWorld targetDimension) {
 			Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-			player.teleport(event.getTargetDimension(), event.getDestination().getX(), event.getDestination().getY(), event.getDestination().getZ(), player.rotationYaw, player.rotationPitch);
+			player.teleport(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.rotationYaw, player.rotationPitch);
 		}
 	}
 	

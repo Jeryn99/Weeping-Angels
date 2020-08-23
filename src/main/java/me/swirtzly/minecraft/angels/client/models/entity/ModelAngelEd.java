@@ -1,20 +1,16 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.matrix.matrixStack;
-import com.mojang.blaze3d.platform.matrixStack;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -22,10 +18,10 @@ import net.minecraft.util.ResourceLocation;
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
 public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> implements IAngelModel {
-	
+
 	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_2.png");
-	
+
 	private ModelRenderer right_wing_0;
 	private ModelRenderer left_wing_0;
 	private ModelRenderer back_cloth_2;
@@ -202,7 +198,7 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		left_wing_3.addChild(left_wing_4);
 		angry_mouth.addChild(teeth_3);
 		angry_mouth.addChild(teeth_2);
-		
+
 		head.addChild(nose);
 		head.addChild(coverup);
 		head.addChild(face);
@@ -225,7 +221,35 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+			head.rotateAngleY = netheadYaw * 0.017453292F;
+			head.rotateAngleX = headPitch * 0.017453292F;
 
+			right_arm.rotationPointY = 2.5F;
+			left_arm.rotationPointY = 2.5F;
+			left_arm.rotateAngleX = 0;
+			left_arm.rotateAngleY = 0;
+			left_arm.rotateAngleZ = 0;
+			right_arm.rotateAngleX = 0;
+			right_arm.rotateAngleY = 0;
+			right_arm.rotateAngleZ = 0;
+
+			PoseBase pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString()).create();
+
+			if (pose != null) {
+				angry_mouth.showModel = pose.isAngry();
+				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
+				pose.setWingAngles(left_wing_0, right_wing_0);
+				pose.setHeadAngles(head);
+
+				if (pose.isAngry()) {
+					right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+					left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+					angry_mouth.showModel = true;
+				} else {
+					right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+					left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
+				}
+			}
 	}
 
 	public void quickRender(float scale, ResourceLocation pose) {
@@ -248,7 +272,7 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		matrixStack.disableCull();
 		matrixStack.pop();
 	}
-	
+
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
@@ -269,10 +293,10 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		matrixStack.disableCull();
 		matrixStack.pop();
 	}
-	
+
 	public void tilePosing(ResourceLocation p) {
 		PoseBase pose = AngelPoses.getPoseFromString(p.toString()).create();
-		
+
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;
 		left_arm.rotateAngleX = 0;
@@ -286,7 +310,7 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		pose.setHeadAngles(head);
 		angry_mouth.showModel = false;
 	}
-	
+
 	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
@@ -295,45 +319,6 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 
 	private void angelAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch, float scaleFactor, Entity entity) {
 
-		if (entity instanceof WeepingAngelEntity) {
-
-			head.rotateAngleY = netheadYaw * 0.017453292F;
-			head.rotateAngleX = headPitch * 0.017453292F;
-
-			right_arm.rotationPointY = 2.5F;
-			left_arm.rotationPointY = 2.5F;
-			left_arm.rotateAngleX = 0;
-			left_arm.rotateAngleY = 0;
-			left_arm.rotateAngleZ = 0;
-			right_arm.rotateAngleX = 0;
-			right_arm.rotateAngleY = 0;
-			right_arm.rotateAngleZ = 0;
-			WeepingAngelEntity angel = (WeepingAngelEntity) entity;
-
-			PoseBase pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString()).create();
-
-			if (pose != null) {
-				angry_mouth.showModel = pose.isAngry();
-				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
-				pose.setWingAngles(left_wing_0, right_wing_0);
-				pose.setHeadAngles(head);
-
-				if (pose.isAngry()) {
-					right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-					left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-					angry_mouth.showModel = true;
-				} else {
-					right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-					left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-				}
-			}
-		} else {
-			PoseBase pose = AngelPoses.POSE_SHY.create();
-			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
-			pose.setWingAngles(left_wing_0, right_wing_0);
-			pose.setHeadAngles(head);
-			angry_mouth.showModel = false;
-		}
 	}
 
 	@Override

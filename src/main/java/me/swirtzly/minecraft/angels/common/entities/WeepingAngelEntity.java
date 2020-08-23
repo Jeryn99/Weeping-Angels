@@ -1,40 +1,23 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
-import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
-
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
-import me.swirtzly.minecraft.angels.compat.events.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.EndPortalBlock;
-import net.minecraft.block.NetherPortalBlock;
-import net.minecraft.block.RedstoneLampBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.block.*;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -45,20 +28,21 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.world.storage.IWorldInfo;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.function.Predicate;
+
+import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
@@ -124,27 +108,29 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public float getEyeHeight(Pose p_213307_1_) {
 		return isCherub() ? getHeight() : 1.3F;
 	}
-	
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.CONFIG.damage.get());
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
-		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(9999999.0D);
-		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-		getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
+
+
+	public static AttributeModifierMap.MutableAttribute createAttributes() {
+		//ATTACK_DAMAGE, MAX_HEALTH, KNOCKBACK_RESISTANCE, MOVEMENT_SPEED, ARMOR
+		return MonsterEntity.func_234295_eP_().
+				func_233815_a_(Attributes.field_233823_f_, WAConfig.CONFIG.damage.get()).
+				func_233815_a_(Attributes.field_233818_a_, 50D).
+				func_233815_a_(Attributes.field_233820_c_, 9999999.0D).
+				func_233815_a_(Attributes.field_233821_d_, 0.23000000417232513D).
+				func_233815_a_(Attributes.field_233826_i_, 2.0D);
 	}
-	
+
+
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		
+
 		if (entity instanceof ServerPlayerEntity) {
-			
+
 			ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
 			
 			// Blowing out light items from the players hand
@@ -267,7 +253,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			if (canPlaySound) {
 				if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
 					setTimeSincePlayedSound(System.currentTimeMillis());
-					((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.posX, player.posY, player.posZ, 0.2F, 1.0F));
+					((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.getPosX(), player.getPosY(), player.getPosZ(), 0.2F, 1.0F));
 				}
 			}
 
@@ -324,6 +310,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			replaceBlocks(getBoundingBox().grow(WAConfig.CONFIG.blockBreakRange.get()));
 		}
 	}
+
 
 	@Override
 	public void onKillEntity(LivingEntity entityLivingIn) {
@@ -403,7 +390,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
-		
 		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
 		switch (type) {
 			case DONT:
@@ -419,7 +405,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
 					if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
-						blockPos = world.getSpawnPoint().add(12, 0, 12);
+						IWorldInfo worldInfo = world.getWorldInfo();
+						blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12)
 						blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
 						WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
 					}

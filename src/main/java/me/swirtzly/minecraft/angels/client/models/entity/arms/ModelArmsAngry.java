@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity.arms;
 
-import com.mojang.blaze3d.matrix.matrixStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -157,5 +157,4 @@ public class ModelArmsAngry extends EntityModel<WeepingAngelEntity> {
 		LeftHand.render(matrixStack, buffer, packedLight, packedOverlay);
 		LeftThumb.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
-
 }

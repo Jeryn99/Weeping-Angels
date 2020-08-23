@@ -2,9 +2,8 @@ package me.swirtzly.minecraft.angels.client.renders.entities;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.platform.matrixStack;
-
-import me.swirtzly.minecraft.angels.WeepingAngels;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngel;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelChild;
@@ -16,11 +15,12 @@ import me.swirtzly.minecraft.angels.client.models.entity.ModelClassicAngel;
 import me.swirtzly.minecraft.angels.client.renders.entities.layers.CrackLayer;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -42,81 +42,76 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 		addLayer(new CrackLayer(this));
 	}
 
-	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(WeepingAngelEntity entity) {
+	public void render(WeepingAngelEntity angel, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int p_225623_6_) {
+		ItemStack key = angel.getHeldItemMainhand();
+
+		matrixStack.push();
+
+		// Render key
+		matrixStack.push();
+		float offset = MathHelper.cos(angel.ticksExisted * 0.1F) * -0.09F;
+		matrixStack.scale(0.5F, 0.5F, 0.5F);
+		matrixStack.translate(0, -2, 0);
+		matrixStack.translate(0, offset, 0);
+		renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
+		matrixStack.pop();
+
+		Minecraft minecraft = Minecraft.getInstance();
+		boolean flag = this.isVisible(angel);
+		boolean flag1 = !flag && !angel.isInvisibleToPlayer(minecraft.player);
+		boolean flag2 = Minecraft.getInstance().func_238206_b_(angel);
+		RenderType rendertype = this.func_230496_a_(angel, flag, flag1, flag2);
+		if (rendertype != null) {
+			IVertexBuilder ivertexbuilder = iRenderTypeBuffer.getBuffer(rendertype);
+			switch (angel.getAngelType()) {
+				case -1:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelChild, angel));
+					modelChild.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 0:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelOne, angel));
+					modelOne.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 1:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelTwo, angel));
+					modelTwo.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 2:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelClassic, angel));
+					modelClassic.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 3:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelMel, angel));
+					modelMel.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 4:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelAngela, angel));
+					modelAngela.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+				case 5:
+					Minecraft.getInstance().getTextureManager().bindTexture(getTexture(modelAngela2, angel));
+					modelAngela2.render(matrixStack, ivertexbuilder, p_225623_6_, 0, 1.0F, 1.0F, 1.0F, 1.0F);
+					break;
+			}
+		}
+		matrixStack.pop();
+	}
+
+	@Override
+	public ResourceLocation getEntityTexture(WeepingAngelEntity weepingAngelEntity) {
 		return null;
 	}
 
-	@Override
-	protected boolean setBrightness(WeepingAngelEntity entitylivingbaseIn, float partialTicks,
-			boolean combineTextures) {
-		return true;
-	}
-
-	@Override
-	protected void renderModel(WeepingAngelEntity living, float limbSwing, float limbSwingAmount, float ageInTicks,
-			float netHeadYaw, float headPitch, float scaleFactor) {
-		if (living instanceof WeepingAngelEntity) {
-
-			WeepingAngelEntity angel = (WeepingAngelEntity) living;
-			ItemStack key = angel.getHeldItemMainhand();
-
-			matrixStack.push();
-
-			// Render key
-			matrixStack.push();
-			float offset = MathHelper.cos(living.ticksExisted * 0.1F) * -0.09F;
-			matrixStack.scalef(0.5F, 0.5F, 0.5F);
-			matrixStack.translated(0, -2, 0);
-			matrixStack.translated(0, offset, 0);
-			renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED);
-			matrixStack.pop();
-
-			switch (angel.getAngelType()) {
-			case -1:
-				bindTexture(getTexture(modelChild, angel));
-				modelChild.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 0:
-				bindTexture(getTexture(modelOne, angel));
-				modelOne.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 1:
-				bindTexture(getTexture(modelTwo, angel));
-				modelTwo.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 2:
-				bindTexture(getTexture(modelClassic, angel));
-				modelClassic.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 3:
-				bindTexture(getTexture(modelMel, angel));
-				modelMel.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 4:
-				bindTexture(getTexture(modelAngela, angel));
-				modelAngela.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			case 5:
-				bindTexture(getTexture(modelAngela2, angel));
-				modelAngela2.render(angel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-				break;
-			}
-			matrixStack.pop();
-		}
-	}
 
 	public ResourceLocation getTexture(EntityModel<WeepingAngelEntity> model, WeepingAngelEntity entity) {
 		IAngelModel iAngelModel = (IAngelModel) model;
 		return iAngelModel.getTextureForPose(entity);
 	}
 
-	private void renderItem(LivingEntity p_188358_1_, ItemStack p_188358_2_,
-			ItemCameraTransforms.TransformType p_188358_3_) {
+	private void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemCameraTransforms.TransformType transformType) {
 		if (!p_188358_2_.isEmpty()) {
-			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_,
-					false);
+			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(livingEntity, itemStack, transformType, false);
 		}
 	}
 

@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import com.mojang.blaze3d.matrix.matrixStack;
-import com.mojang.blaze3d.platform.matrixStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
@@ -234,10 +233,10 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.push();
 	//	matrixStack.enableCull();
-		matrixStack.translate(body.offsetX, body.offsetY, body.offsetZ);
+	//	matrixStack.translate(body.offsetX, body.offsetY, body.offsetZ);
 		matrixStack.translate(body.rotationPointX, body.rotationPointY,body.rotationPointZ);
 		matrixStack.scale(0.7F, 0.7F, 0.7F);
-		matrixStack.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
+	//	matrixStack.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
 		matrixStack.translate(-body.rotationPointX, -body.rotationPointY, -body.rotationPointZ);
 		body.render(matrixStack, buffer, packedLight, packedOverlay);
 		//matrixStack.disableCull();

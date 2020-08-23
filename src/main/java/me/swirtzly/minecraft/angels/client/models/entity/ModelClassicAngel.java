@@ -1,11 +1,10 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import com.mojang.blaze3d.matrix.matrixStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
