@@ -5,6 +5,7 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
+import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -23,15 +24,12 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 	}
 
 	@Override
-	public void render(PlinthTile plinthTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
+	public void render(PlinthTile plinthTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		matrixStack.push();
-		matrixStack.rotate(Vector3f.ZP.rotation(180));
-		matrixStack.translate(0, -1, 0);
+		matrixStack.translate(0.5F, 2.5F, 0.5F);
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
 		matrixStack.rotate(Vector3f.YP.rotation(plinthTile.getRotation()));
-		if (!plinthTile.getHasSpawned()) {
-			Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
-			ed.quickRender(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getSolid()), i, i1,plinthTile.getPose());
-		}
+		this.ed.quickRender(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(ARM_TEX)), combinedLightIn, combinedOverlayIn, plinthTile.getPose());
 		matrixStack.pop();
 	}
 }

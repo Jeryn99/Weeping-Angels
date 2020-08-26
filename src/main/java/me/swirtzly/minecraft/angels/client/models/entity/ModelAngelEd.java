@@ -231,7 +231,7 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 			right_arm.rotateAngleY = 0;
 			right_arm.rotateAngleZ = 0;
 
-			PoseBase pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString()).create();
+			PoseBase pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()).create();
 
 			if (pose != null) {
 				angry_mouth.showModel = pose.isAngry();
@@ -252,7 +252,6 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 
 	public void quickRender(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, ResourceLocation pose) {
 		matrixStack.push();
-	//	matrixStack.enableCull();
 		tilePosing(pose);
 		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
 		right_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
@@ -267,14 +266,12 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
 		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
 		left_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-	//	matrixStack.disableCull();
 		matrixStack.pop();
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
-		//matrixStack.enableCull();
 		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay);
 		right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -288,12 +285,11 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
 		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
 		left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-		//matrixStack.disableCull();
 		matrixStack.pop();
 	}
 
 	public void tilePosing(ResourceLocation p) {
-		PoseBase pose = AngelPoses.getPoseFromString(p.toString()).create();
+		PoseBase pose = AngelPoses.getPoseFromString(p).create();
 
 		right_arm.rotationPointY = 2.5F;
 		left_arm.rotationPointY = 2.5F;

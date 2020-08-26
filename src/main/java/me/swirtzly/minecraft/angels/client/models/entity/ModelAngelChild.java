@@ -133,7 +133,7 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
 
 		if(pose == AngelPoses.POSE_ANGRY_TWO) {
 			right_arm.rotateAngleX = (float) Math.toRadians(-115);

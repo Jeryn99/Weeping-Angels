@@ -38,9 +38,7 @@ public class SnowArmModel extends EntityModel {
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
-		Minecraft.getInstance().getTextureManager().bindTexture(ANGEL_TEXTURE);
 		left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-		left_arm_wrist.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.pop();
 	}
 

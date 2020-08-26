@@ -73,7 +73,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose().toString());
+        AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
 
         if(pose == AngelPoses.POSE_ANGRY_TWO) {
             rightArm.rotateAngleX = (float) Math.toRadians(-115);
@@ -172,7 +172,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
 
 	@Override
 	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
-		AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString());
+		AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose());
 		
 		if(pose.create().isAngry()) {
 			return ANGRY;

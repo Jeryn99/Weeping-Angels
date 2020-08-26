@@ -26,12 +26,12 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 	}
 
 	@Override
-	public void render(StatueTile statueTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
+	public void render(StatueTile statueTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		matrixStack.push();
-		matrixStack.rotate(Vector3f.ZP.rotation(180));
+		matrixStack.translate(0.5F, 1.5F, 0.5F);
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
 		matrixStack.rotate(Vector3f.YP.rotation(statueTile.getRotation()));
-		Minecraft.getInstance().getTextureManager().bindTexture(ARM_TEX);
-		ed.quickRender(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getSolid()), i, i1, statueTile.getPose());
+		this.ed.quickRender(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(ARM_TEX)), combinedLightIn, combinedOverlayIn, statueTile.getPose());
 		matrixStack.pop();
 	}
 }

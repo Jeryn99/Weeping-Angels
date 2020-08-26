@@ -49,7 +49,7 @@ public class WeepingAngels {
 		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		//WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
@@ -57,6 +57,7 @@ public class WeepingAngels {
 		//	WorldGen.applyFeatures();
 		Network.init();
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
+		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
 
 	}
 

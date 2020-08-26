@@ -6,6 +6,7 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagRegistry;
@@ -29,7 +30,7 @@ public class WAItemTags extends ItemTagsProvider {
     protected void registerTags() {
     	  ForgeRegistries.BLOCKS.getValues().forEach(block -> {
     	      System.out.println("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
-              if (AngelUtils.getLightValue(block) > 7) {
+              if (AngelUtils.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
                   add(HELD_LIGHT_ITEMS, block.asItem());
               }
           });

@@ -590,7 +590,7 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
         RightWing6.render(matrixStack, buffer, packedLight, packedOverlay);
         RightWing7.render(matrixStack, buffer, packedLight, packedOverlay);
 
-            AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose().toString());
+            AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose());
 
             // Covering Face arms render/
             if (pose == AngelPoses.POSE_HIDING_FACE) {

@@ -116,7 +116,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
-		//ATTACK_DAMAGE, MAX_HEALTH, KNOCKBACK_RESISTANCE, MOVEMENT_SPEED, ARMOR
 		return MonsterEntity.func_234295_eP_().
 				createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
 				createMutableAttribute(Attributes.MAX_HEALTH, 50D).

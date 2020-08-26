@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class StatueBlock extends Block {
 	
 	public StatueBlock() {
-		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Nullable
@@ -42,10 +42,10 @@ public class StatueBlock extends Block {
 	
 	@Override
 	public boolean isVariableOpacity() {
-		return false;
+		return true;
 	}
 
-	
+
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockState state = super.getStateForPlacement(context);

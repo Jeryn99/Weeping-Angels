@@ -14,9 +14,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,12 +31,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
+import javax.annotation.Nullable;
+
 public class ClientUtil {
-	
-	public static <T extends Entity> void bindEntityRender(EntityType<T> entityClass, IRenderFactory<? super T> renderFactory) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
-	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	public static void playSound(Object object, SoundEvent soundIn, SoundCategory categoryIn, boolean repeat, Supplier<Boolean> stopCondition, float volumeSfx) {
 		Minecraft.getInstance().getSoundHandler().play(new PlayerMovingSound(object, soundIn, categoryIn, repeat, stopCondition, volumeSfx));
@@ -60,12 +64,17 @@ public class ClientUtil {
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
-		
-	
-	}
 
-	private static void bindTESR(TileEntityType<?> tileEntityType, SnowArmTileRender snowArmTileRender) {
-		
+		ItemModelsProperties.func_239418_a_(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter() {
+			@Override
+			public float call(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity) {
+				if (clientWorld != null) {
+					return clientWorld.rand.nextInt(17);
+				}
+				return 0;
+			}
+		});
+	
 	}
 
 }

@@ -21,7 +21,7 @@ public class ChronodyneGeneratorBlock extends Block {
 	private static final VoxelShape CG_AABB = VoxelShapes.create(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 	
 	public ChronodyneGeneratorBlock() {
-		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	/**

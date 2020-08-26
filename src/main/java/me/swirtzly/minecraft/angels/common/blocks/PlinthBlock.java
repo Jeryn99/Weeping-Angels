@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 public class PlinthBlock extends Block {
 	
 	public PlinthBlock() {
-		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
 	}
 	
 	@Nullable
@@ -38,7 +38,7 @@ public class PlinthBlock extends Block {
 	
 	@Override
 	public boolean isVariableOpacity() {
-		return false;
+		return true;
 	}
 	
 	@Override
