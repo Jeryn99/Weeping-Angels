@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SnowballItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -30,7 +31,8 @@ public class ChronodyneGeneratorItem extends Item {
 		
 		if (!world.isRemote) {
 			ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
-			laser.shoot(playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3.5F, 0F);
+			laser.setItem(laser.getItem());
+			laser.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.addEntity(laser);
 		}
 		return new ActionResult<>(ActionResultType.SUCCESS, itemstack);

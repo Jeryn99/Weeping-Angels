@@ -1,20 +1,19 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
-import me.swirtzly.minecraft.angels.common.tileentities.ChronodyneGeneratorTile;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 
 public class ChronodyneGeneratorBlock extends Block {
 	
@@ -29,15 +28,9 @@ public class ChronodyneGeneratorBlock extends Block {
 	 */
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+		return BlockRenderType.MODEL;
 	}
-	
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new ChronodyneGeneratorTile();
-	}
-	
+
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return CG_AABB;
@@ -49,13 +42,19 @@ public class ChronodyneGeneratorBlock extends Block {
 	}
 	
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-	
-	@Override
 	public boolean isVariableOpacity() {
 		return false;
 	}
 
+	@Override
+	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
+		super.onEntityWalk(worldIn, pos, entityIn);
+
+		if(entityIn instanceof WeepingAngelEntity){
+			WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
+			weepingAngelEntity.dropAngelStuff();
+			weepingAngelEntity.remove();
+			worldIn.removeBlock(pos, false);
+		}
+	}
 }

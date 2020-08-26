@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
@@ -26,7 +27,12 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 
 	public AngelRender(EntityRendererManager manager) {
 		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
-		//TODO	addLayer(new CrackLayer(this));
+		addLayer(new CrackLayer(this));
+	}
+
+	@Override
+	protected float getOverlayProgress(WeepingAngelEntity livingEntityIn, float partialTicks) {
+		return 0;
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 		matrixStack.push();
 		float offset = MathHelper.cos(angel.ticksExisted * 0.1F) * -0.09F;
 		matrixStack.scale(0.5F, 0.5F, 0.5F);
-		matrixStack.translate(0, -2, 0);
+		matrixStack.translate(0, 4.5, 0);
 		matrixStack.translate(0, offset, 0);
 		renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, iRenderTypeBuffer, p_225623_6_);
 		matrixStack.pop();

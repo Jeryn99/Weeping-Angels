@@ -5,7 +5,6 @@ import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
@@ -32,14 +31,13 @@ import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
@@ -47,7 +45,7 @@ import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
-	private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> IS_CHERUB = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 	public long timeSincePlayedSound = 0;
@@ -78,7 +76,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		getDataManager().register(IS_CHILD, rand.nextInt(10) == 4);
+		getDataManager().register(IS_CHERUB, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, AngelUtils.randomType().getId());
 		getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
 		getDataManager().register(HUNGER_LEVEL, 50);
@@ -170,11 +168,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			heal(2.0F);
 		}
 
+
 		// Steals keys from the player
 		if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
 			for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
 				ItemStack stack = playerMP.inventory.getStackInSlot(i);
-				if (stack.getItem().isIn(WAItemTags.KEYS)) {
+				if (stack.getItem().isIn(AngelUtils.KEYS)) {
 					setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
 					playerMP.inventory.getStackInSlot(i).setCount(0);
 					playerMP.container.detectAndSendChanges();
@@ -200,7 +199,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	/*
 	 * Drops Tardis Keys on Death + uses loot table drops Used to allow for config value defined tardis keys to be dropped Used instead of adding loot table functions N.B.There is a loot table function that does the same thing, but it requires: -Hardcoded item registry names -New entry for each tardis key (There could be many Tardis keys/items the player wants the angel to steal and drop on death
 	 */
-
 	@Override
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
@@ -399,8 +397,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				double x = player.getPosX() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 				double z = player.getPosZ() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 
-				world.getServer().enqueue(new TickDelayedTask(0, () -> {
-					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? (ServerWorld) player.world : WATeleporter.getRandomDimension(rand);
+				ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? (ServerWorld) player.world : WATeleporter.getRandomDimension(rand);
+				ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
+				teleportWorld.forceChunk(chunkPos.x, chunkPos.z, true);
+
+				teleportWorld.getServer().enqueue(new TickDelayedTask(0, () -> {
 					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
 					if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
@@ -412,6 +413,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
 					if (teleportWorld != null) {
 						WATeleporter.teleportPlayerTo(player, blockPos, teleportWorld);
+						teleportWorld.forceChunk(chunkPos.x, chunkPos.z, false);
 					}
 				}));
 				break;
@@ -446,11 +448,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 	
 	public boolean isCherub() {
-		return getDataManager().get(IS_CHILD);
+		return getDataManager().get(IS_CHERUB);
 	}
 	
-	public void setChild(boolean child) {
-		getDataManager().set(IS_CHILD, child);
+	public void setCherub(boolean child) {
+		getDataManager().set(IS_CHERUB, child);
 	}
 	
 	public int getAngelType() {

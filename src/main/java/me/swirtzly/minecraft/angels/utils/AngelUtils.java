@@ -2,6 +2,7 @@ package me.swirtzly.minecraft.angels.utils;
 
 import java.util.Random;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
@@ -26,6 +27,8 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -38,6 +41,14 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class AngelUtils {
+
+    public static final ITag.INamedTag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+
+    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
+        return ItemTags.createOptional(new ResourceLocation(domain, path));
+    }
+
 
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.field_236379_o_};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
@@ -60,7 +71,6 @@ public class AngelUtils {
 
     public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.field_236383_s_, Structure.field_236382_r_, Structure.field_236378_n_};
     public static Random RAND = new Random();
-   // static BiomeDictionary.Type[] BANNED = new BiomeDictionary.Type[]{BiomeDictionary.Type.VOID, BiomeDictionary.Type.WATER};
 
     /**
      * Method that detects whether a tile is the the view sight of viewer
@@ -92,7 +102,7 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : WAItemTags.HELD_LIGHT_ITEMS.getAllElements()) {
+        for (Item item : AngelUtils.HELD_LIGHT_ITEMS.getAllElements()) {
             if (PlayerUtils.isInEitherHand(player, item)) {
                 return true;
             }
@@ -104,32 +114,6 @@ public class AngelUtils {
         return !world.getWorldBorder().contains(p);
     }
 
-    /**
-     * Sets up weeping angel spawns
-     */
-    public static void setUpSpawns() {
-		/*
-		 * for (String s : WAConfig.CONFIG.allowedBiomes.get()) { Biome biome =
-		 * ForgeRegistries.BIOMES.getValue(new ResourceLocation(s)); if (biome != null)
-		 * { if (!isABannedBiomeType(biome)) {
-		 * WeepingAngels.LOGGER.info("Weeping angels will now spawn in [" +
-		 * biome.getRegistryName() + "]");
-		 * biome.getSpawns(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get())
-		 * ).add((new Biome.SpawnListEntry(WAObjects.EntityEntries.WEEPING_ANGEL.get(),
-		 * WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(),
-		 * WAConfig.CONFIG.maxSpawn.get()))); } } }
-		 */
-    }
-
-	/*
-	 * public static boolean isABannedBiomeType(Biome biome) { for
-	 * (BiomeDictionary.Type check : BANNED) { if (BiomeDictionary.hasType(biome,
-	 * check)) { WeepingAngels.LOGGER.info("[" + biome.getRegistryName() +
-	 * "] has the banned Biome Type [" + check.getName() +
-	 * "], Weeping Angels will not spawn here, ever."); return true; } } return
-	 * false; }
-	 */
-	
 	/**
 	 * Converts seconds into ticks
 	 */
@@ -155,7 +139,7 @@ public class AngelUtils {
 	}
 	
 	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-		if (stack.getItem().isIn(WAItemTags.HELD_LIGHT_ITEMS)) {
+		if (stack.getItem().isIn(AngelUtils.HELD_LIGHT_ITEMS)) {
 			angel.entityDropItem(stack);
 			stack.shrink(1);
 			return true;

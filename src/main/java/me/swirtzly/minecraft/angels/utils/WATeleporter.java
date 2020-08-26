@@ -2,17 +2,14 @@ package me.swirtzly.minecraft.angels.utils;
 
 import com.google.common.collect.Lists;
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
-import net.minecraft.command.impl.LocateCommand;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -22,10 +19,18 @@ import java.util.Random;
 
 public class WATeleporter {
 	
-	public static int yCoordSanity(World world, BlockPos spawn) {
-        IChunk chunk = world.getChunk(spawn);
-        return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, spawn.getX(), spawn.getZ());
-    }
+	public static int yCoordSanity(World world, BlockPos pos) {
+		for (int y = world.getHeight(); y > 0; --y) {
+			BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
+			BlockState state = world.getBlockState(newPos);
+			BlockState underState = world.getBlockState(newPos.down());
+
+			if (!state.causesSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+				return newPos.getY();
+			}
+		}
+		return pos.getY();
+	}
 	
 	public static ServerWorld getRandomDimension(Random rand) {
 		Iterable<ServerWorld> dimensions = ServerLifecycleHooks.getCurrentServer().getWorlds();
@@ -33,12 +38,11 @@ public class WATeleporter {
 		
 		for (ServerWorld dimension : dimensions) {
 			for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-				if (dimension.getDimensionKey().getRegistryName().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().getRegistryName().toString().contains("tardis")) {
+				if (dimension.getDimensionKey().func_240901_a_().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().func_240901_a_().toString().contains("tardis")) {
 					allowedDimensions.remove(dimension);
 				}
 			}
 		}
-		
 		return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
 	}
 	
@@ -68,9 +72,18 @@ public class WATeleporter {
 			}
 		}
 	}
-	
+
 	public static void teleportPlayerTo(ServerPlayerEntity player, BlockPos destinationPos, ServerWorld targetDimension) {
-			Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-			player.teleport(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.rotationYaw, player.rotationPitch);
+		Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
+		player.teleport(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.rotationYaw, player.rotationPitch);
+	}
+
+
+	public static boolean isPosBelowOrAboveWorld(World dim, int y) {
+		if (dim.getDimensionKey().func_240901_a_().equals(DimensionType.THE_NETHER.getRegistryName())) {
+			return y <= 0 || y >= 126;
 		}
+		return y <= 0 || y >= 256;
+	}
+
 }

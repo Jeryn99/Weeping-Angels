@@ -15,15 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class WAItemTags extends ItemTagsProvider {
 
-    public static final ITag.INamedTag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-
     public WAItemTags(DataGenerator p_i232552_1_, BlockTagsProvider p_i232552_2_) {
         super(p_i232552_1_, p_i232552_2_);
-    }
-
-    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
-        return ItemTags.createOptional(new ResourceLocation(domain, path));
     }
 
     @Override
@@ -31,7 +24,7 @@ public class WAItemTags extends ItemTagsProvider {
     	  ForgeRegistries.BLOCKS.getValues().forEach(block -> {
     	      System.out.println("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
               if (AngelUtils.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
-                  add(HELD_LIGHT_ITEMS, block.asItem());
+                  add(AngelUtils.HELD_LIGHT_ITEMS, block.asItem());
               }
           });
     }

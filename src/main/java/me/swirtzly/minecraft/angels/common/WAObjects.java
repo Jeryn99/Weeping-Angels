@@ -1,13 +1,11 @@
 package me.swirtzly.minecraft.angels.common;
 
 import static me.swirtzly.minecraft.angels.WeepingAngels.MODID;
-import static net.minecraft.world.gen.feature.structure.IStructurePieceType.register;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.renders.tileentities.CGTileRender;
 import me.swirtzly.minecraft.angels.common.blocks.ChronodyneGeneratorBlock;
 import me.swirtzly.minecraft.angels.common.blocks.MineableBlock;
 import me.swirtzly.minecraft.angels.common.blocks.PlinthBlock;
@@ -21,17 +19,16 @@ import me.swirtzly.minecraft.angels.common.items.AngelSpawnerItem;
 import me.swirtzly.minecraft.angels.common.items.ChronodyneGeneratorItem;
 import me.swirtzly.minecraft.angels.common.items.DetectorItem;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
-import me.swirtzly.minecraft.angels.common.tileentities.ChronodyneGeneratorTile;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
-import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
-import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import me.swirtzly.minecraft.angels.utils.EntitySpawn;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -42,11 +39,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.IStructurePieceType;
-import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -62,7 +55,7 @@ public class WAObjects {
 	
 	@SubscribeEvent
 	public static void addSpawns(FMLLoadCompleteEvent e) {
-		AngelUtils.setUpSpawns();
+		EntitySpawn.addSpawnEntries();
 	}
 	
 	private static Item setUpItem(Item item) {
@@ -106,7 +99,6 @@ public class WAObjects {
 		public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
 		
 		public static RegistryObject<TileEntityType<SnowArmTile>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
-		public static RegistryObject<TileEntityType<ChronodyneGeneratorTile>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
 		public static RegistryObject<TileEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
 		public static RegistryObject<TileEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
 	}
