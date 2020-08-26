@@ -1,12 +1,14 @@
 package me.swirtzly.minecraft.angels;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.data.LangEnglish;
 import me.swirtzly.minecraft.angels.data.WABlockTags;
 import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -47,14 +49,15 @@ public class WeepingAngels {
 		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		//WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
 		//TODO Fix Below
 		//	WorldGen.applyFeatures();
-		//	LootFunctionManager.registerFunction(new FortuneEnchantBonus.Serializer());
 		Network.init();
+		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
+
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {

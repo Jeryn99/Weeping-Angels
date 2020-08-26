@@ -1,4 +1,3 @@
-e2f69197b46a5369ad19e1a5854bfa0026ffc22e assets\weeping_angels\lang\en_us.json
-7f51ca29621fb8d02ea9ee43ecf83f8782815dd4 data\minecraft\tags\blocks\stone_bricks.json
-619f45c12a0eee2870c491c4b4e386da68277470 data\weeping_angels\tags\items\angel_theft.json
-f97b57ca6201bed7049d78229db3ea270e3d13f8 data\weeping_angels\tags\items\held_light_items.json
+e2f69197b46a5369ad19e1a5854bfa0026ffc22e assets/weeping_angels/lang/en_us.json
+7f51ca29621fb8d02ea9ee43ecf83f8782815dd4 data/minecraft/tags/blocks/stone_bricks.json
+086be4485912f24c890ba1ac8039aa59fc666167 data/weeping_angels/tags/items/held_light_items.json

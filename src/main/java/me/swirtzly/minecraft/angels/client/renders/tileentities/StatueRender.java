@@ -21,8 +21,8 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 	private ModelAngelEd<WeepingAngelEntity> ed = new ModelAngelEd<WeepingAngelEntity>();
 	private ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 
-	public StatueRender() {
-		super(TileEntityRendererDispatcher.instance);
+	public StatueRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
+		super(tileEntityRendererDispatcher);
 	}
 
 	@Override

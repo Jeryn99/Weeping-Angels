@@ -8,6 +8,7 @@ import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -21,12 +22,13 @@ public class WAItemTags extends ItemTagsProvider {
     }
 
     public static ITag.INamedTag<Item> makeItem(String domain, String path) {
-        return new ItemTags.Wrapper(new ResourceLocation(domain, path));
+        return ItemTags.createOptional(new ResourceLocation(domain, path));
     }
 
     @Override
     protected void registerTags() {
     	  ForgeRegistries.BLOCKS.getValues().forEach(block -> {
+    	      System.out.println("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
               if (AngelUtils.getLightValue(block) > 7) {
                   add(HELD_LIGHT_ITEMS, block.asItem());
               }

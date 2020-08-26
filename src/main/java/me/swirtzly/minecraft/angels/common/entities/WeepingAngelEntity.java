@@ -312,14 +312,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 
 
-	@Override
-	public void onKillEntity(LivingEntity entityLivingIn) {
-		super.onKillEntity(entityLivingIn);
-		
-		if (entityLivingIn instanceof PlayerEntity) {
-			playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
-		}
-	}
+	/*
+	 * @Override public void onKillEntity(LivingEntity entityLivingIn) {
+	 * super.onKillEntity(entityLivingIn);
+	 * 
+	 * if (entityLivingIn instanceof PlayerEntity) {
+	 * playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1); } }
+	 */
 	
 	@Override
 	protected PathNavigator createNavigator(World worldIn) {
@@ -390,7 +389,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
-		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
+		final Runnable runnable = () -> WATeleporter.handleStructures(player);
 		switch (type) {
 			case DONT:
 				break;
@@ -400,13 +399,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			case RANDOM_PLACE:
 				double x = player.getPosX() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 				double z = player.getPosZ() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+
 				world.getServer().enqueue(new TickDelayedTask(0, () -> {
-					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
+					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? (ServerWorld) player.world : WATeleporter.getRandomDimension(rand);
 					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
 					if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
 						IWorldInfo worldInfo = world.getWorldInfo();
-						blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12)
+						blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12);
 						blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
 						WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
 					}

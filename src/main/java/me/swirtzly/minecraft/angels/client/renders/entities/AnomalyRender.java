@@ -7,34 +7,35 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 
 import java.awt.*;
 import java.util.Random;
 
-public class AnomalyRender extends MobRenderer {
+public class AnomalyRender extends EntityRenderer<AnomalyEntity> {
 
 	private final Random random;
 
-	public AnomalyRender(EntityRendererManager p_i50961_1_, EntityModel p_i50961_2_, float p_i50961_3_) {
-		super(p_i50961_1_, p_i50961_2_, p_i50961_3_);
+	public AnomalyRender(EntityRendererManager renderManager) {
+		super(renderManager);
 		random = new Random(432L);
 	}
 
 	@Override
-	public void render(Entity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
+	public void render(AnomalyEntity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
 
 		matrixStack.push();
-		matrixStack.translate(x, y + entity.getEyeHeight(), z + 0.2F);
 		float scale = 0.1F;
 		matrixStack.scale(scale, scale, scale);
 
-		int timer = ((AnomalyEntity) entity).ticksExisted;
+		int timer = entity.ticksExisted;
 
 		if (timer > 0) {
 			Tessellator tessellator = Tessellator.getInstance();
@@ -46,24 +47,17 @@ public class AnomalyRender extends MobRenderer {
 			if (f > 0.8F) {
 				f1 = (f - 0.8F) / 0.2F;
 			}
-
-			matrixStack.disableTexture();
-			matrixStack.shadeModel(7425);
-			matrixStack.enableBlend();
-			matrixStack.blendFunc(matrixStack.SourceFactor.SRC_ALPHA, matrixStack.DestFactor.ONE);
-			matrixStack.disableAlphaTest();
-			matrixStack.enableCull();
-			matrixStack.depthMask(false);
 			matrixStack.push();
 			matrixStack.translate(0.0F, -1.0F, -2.0F);
 
 			for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
-				matrixStack.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-				matrixStack.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				matrixStack.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				matrixStack.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
+
+				matrixStack.rotate(Vector3f.XP.rotation(random.nextFloat() * 360.0F));
+				matrixStack.rotate(Vector3f.YP.rotation(random.nextFloat() * 360.0F));
+				matrixStack.rotate(Vector3f.ZP.rotation(random.nextFloat() * 360.0F));
+				matrixStack.rotate(Vector3f.XP.rotation(random.nextFloat() * 360.0F));
+				matrixStack.rotate(Vector3f.YP.rotation(random.nextFloat() * 360.0F));
+				matrixStack.rotate(Vector3f.ZP.rotation(random.nextFloat() * 360.0F + f * 90.0F));
 				float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
 				float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
 				bufferbuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
@@ -87,13 +81,6 @@ public class AnomalyRender extends MobRenderer {
 			}
 
 			matrixStack.pop();
-			matrixStack.depthMask(true);
-			matrixStack.disableCull();
-			matrixStack.disableBlend();
-			matrixStack.shadeModel(7424);
-			matrixStack.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			matrixStack.enableTexture();
-			matrixStack.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
 		}
 
@@ -102,7 +89,7 @@ public class AnomalyRender extends MobRenderer {
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(Entity entity) {
+	public ResourceLocation getEntityTexture(AnomalyEntity entity) {
 		return null;
 	}
 

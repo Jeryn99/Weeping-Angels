@@ -3,20 +3,25 @@
   "values": [
     "minecraft:air",
     "minecraft:torch",
-    "minecraft:furnace",
-    "minecraft:redstone_ore",
+    "minecraft:torch",
+    "minecraft:air",
+    "minecraft:air",
+    "minecraft:soul_torch",
+    "minecraft:soul_torch",
     "minecraft:glowstone",
+    "minecraft:air",
     "minecraft:jack_o_lantern",
-    "minecraft:redstone_lamp",
+    "minecraft:air",
     "minecraft:beacon",
     "minecraft:sea_lantern",
     "minecraft:end_rod",
+    "minecraft:air",
     "minecraft:conduit",
-    "minecraft:smoker",
-    "minecraft:blast_furnace",
     "minecraft:lantern",
+    "minecraft:soul_lantern",
     "minecraft:campfire",
-    "tardis:three_point_lamp",
-    "tardis:xion_crystal"
+    "minecraft:soul_campfire",
+    "minecraft:shroomlight",
+    "minecraft:crying_obsidian"
   ]
 }

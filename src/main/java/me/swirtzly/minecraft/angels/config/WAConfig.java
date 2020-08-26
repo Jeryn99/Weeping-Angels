@@ -35,7 +35,6 @@ public class WAConfig {
 	public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
 	// Angel
 	public final ForgeConfigSpec.BooleanValue hardcoreMode;
-	public final ForgeConfigSpec.BooleanValue updateChecker;
 	public final ForgeConfigSpec.BooleanValue playScrapeSounds;
 	public final ForgeConfigSpec.BooleanValue playSeenSounds;
 	public final ForgeConfigSpec.DoubleValue damage;
@@ -74,7 +73,6 @@ public class WAConfig {
 		builder.pop();
 		builder.push("angel");
 		hardcoreMode = builder.translation("config.weeping_angels.hardcore").comment("if enabled, No way to attack/kill angels. Just running.").define("hardcoreMode", false);
-		updateChecker = builder.translation("config.weeping_angels.update_checker").comment("Config to toggle the update available checker").define("enableUpdateChecker", true);
 		playScrapeSounds = builder.translation("config.weeping_angels.angel_move_sound").comment("Non-child angels play scraping sounds when moving, this toggles that").define("playScrapeSound", true);
 		playSeenSounds = builder.translation("config.weeping_angels.angel_seen_sound").comment("Toggle seen sounds").define("playSeenSounds", true);
 		damage = builder.translation("config.weeping_angels.angel_damage").comment("The damage dealt by an angel").defineInRange("damage", 8.0D, 1.0D, Double.MAX_VALUE);

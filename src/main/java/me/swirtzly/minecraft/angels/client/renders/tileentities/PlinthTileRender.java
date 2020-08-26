@@ -18,8 +18,8 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 	private ModelAngelEd<WeepingAngelEntity> ed = new ModelAngelEd<WeepingAngelEntity>();
 	private ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
 
-	public PlinthTileRender() {
-		super(TileEntityRendererDispatcher.instance);
+	public PlinthTileRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
+		super(tileEntityRendererDispatcher);
 	}
 
 	@Override

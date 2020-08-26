@@ -14,8 +14,8 @@ public class CGTileRender extends TileEntityRenderer<ChronodyneGeneratorTile> {
 
     private ModelCG model = new ModelCG();
 
-    public CGTileRender() {
-        super(TileEntityRendererDispatcher.instance);
+    public CGTileRender(TileEntityRendererDispatcher rendererDispatcher) {
+        super(rendererDispatcher);
     }
 
 

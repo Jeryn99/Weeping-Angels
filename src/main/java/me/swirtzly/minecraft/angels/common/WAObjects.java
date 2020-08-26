@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.function.Supplier;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.client.renders.tileentities.CGTileRender;
 import me.swirtzly.minecraft.angels.common.blocks.ChronodyneGeneratorBlock;
 import me.swirtzly.minecraft.angels.common.blocks.MineableBlock;
 import me.swirtzly.minecraft.angels.common.blocks.PlinthBlock;
@@ -104,10 +105,10 @@ public class WAObjects {
 	public static class Tiles {
 		public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
 		
-		public static RegistryObject<TileEntityType<?>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
-		public static RegistryObject<TileEntityType<?>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
-		public static RegistryObject<TileEntityType<?>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
-		public static RegistryObject<TileEntityType<?>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
+		public static RegistryObject<TileEntityType<SnowArmTile>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
+		public static RegistryObject<TileEntityType<ChronodyneGeneratorTile>> CG = TILES.register("cg", () -> registerTiles(ChronodyneGeneratorTile::new, Blocks.CG.get()));
+		public static RegistryObject<TileEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
+		public static RegistryObject<TileEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
 	}
 	
 	public static class Blocks {
@@ -160,8 +161,8 @@ public class WAObjects {
 	}
 	
 	public static class WorldGenEntries {
-		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
+	//	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
+	//	public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
 	}
 	
 	// Tile Creation

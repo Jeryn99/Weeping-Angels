@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: 2 - Classic
  */
-public class ModelClassicAngel<T extends WeepingAngelEntity> extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 	
 	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_3.png");
