@@ -6,9 +6,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.PoseIdle;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Pose;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -507,7 +509,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 		matrixStack.push(); // PUSH 1
 
 		matrixStack.push(); // PUSH 2
-		if (!angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
+		if (!AngelPoses.getPoseFromString(angelEntity.getAngelPose()).create().isAngry()) {
 			matrixStack.rotate(Vector3f.XP.rotation(20));
 		}
 		LeftEyebrow.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -536,7 +538,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 		Hair12.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.pop();
 
-		if (angelEntity.getAngelPose().equals(AngelPoses.POSE_ANGRY.getRegistryName())) {
+		if (AngelPoses.getPoseFromString(angelEntity.getAngelPose()).create().isAngry()) {
 			AngryRightArm1.render(matrixStack, buffer, packedLight, packedOverlay);
 			AngryRightArm2.render(matrixStack, buffer, packedLight, packedOverlay);
 			AngryLeftArm1.render(matrixStack, buffer, packedLight, packedOverlay);

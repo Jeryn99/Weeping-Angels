@@ -31,22 +31,12 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import javax.annotation.Nullable;
 
 public class ClientUtil {
-
-	@OnlyIn(Dist.CLIENT)
-	public static void playSound(Object object, SoundEvent soundIn, SoundCategory categoryIn, boolean repeat, Supplier<Boolean> stopCondition, float volumeSfx) {
-		Minecraft.getInstance().getSoundHandler().play(new PlayerMovingSound(object, soundIn, categoryIn, repeat, stopCondition, volumeSfx));
-	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public static void playSound(SoundEvent soundIn, float volumeSfx) {
 		Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
 	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public static void playSound(PlayerMovingSound playerMovingSound) {
-		Minecraft.getInstance().getSoundHandler().play(playerMovingSound);
-	}
-	
+
 	public static void doClientStuff() {
 		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.ARM.get(), SnowArmTileRender::new);
 		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.PLINTH.get(), PlinthTileRender::new);
@@ -61,14 +51,11 @@ public class ClientUtil {
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
 
-		ItemModelsProperties.func_239418_a_(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter() {
-			@Override
-			public float call(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity) {
-				if (clientWorld != null) {
-					return clientWorld.rand.nextInt(17);
-				}
-				return 0;
+		ItemModelsProperties.func_239418_a_(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
+			if (clientWorld != null) {
+				return clientWorld.rand.nextInt(17);
 			}
+			return 0;
 		});
 	
 	}

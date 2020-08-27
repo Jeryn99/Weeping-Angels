@@ -2,11 +2,14 @@ package me.swirtzly.minecraft.angels.common.tileentities;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+
+import static net.minecraft.block.SnowBlock.LAYERS;
 
 public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 	
@@ -24,7 +27,8 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 			BlockPos newPos = getPos();
 			angel.setPosition(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
 			world.addEntity(angel);
-			world.removeBlock(getPos(), true);
+			Integer layers = world.getBlockState(pos).get(LAYERS);
+			world.setBlockState(pos, Blocks.SNOW.getDefaultState().with(LAYERS, layers));
 		}
 	}
 }

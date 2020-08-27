@@ -611,11 +611,11 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 
 			rightarm.rotateAngleX = (float) Math.toRadians(0);
 			rightarm.rotateAngleY = (float) Math.toRadians(0);
-			rightarm.rotateAngleZ = (float) Math.toRadians(-7.5);
+			rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
 
 			leftarm.rotateAngleX = (float) Math.toRadians(0);
 			leftarm.rotateAngleY = (float) Math.toRadians(0);
-			leftarm.rotateAngleZ = (float) Math.toRadians(7.5);
+			leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
 			return;
 		}
 

@@ -9,6 +9,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -147,6 +148,8 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			head.rotateAngleX = (float) Math.toRadians(17.5);
 			head.rotateAngleY = (float) Math.toRadians(0);
 			head.rotateAngleZ = (float) Math.toRadians(-10);
+			head_2.copyModelAngles(head);
+
 			return;
 		}
 
@@ -163,6 +166,7 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			head.rotateAngleX = (float) Math.toRadians(0);
 			head.rotateAngleY = (float) Math.toRadians(-12.5);
 			head.rotateAngleZ = (float) Math.toRadians(0);
+			head_2.copyModelAngles(head);
 			return;
 		}
 
@@ -170,6 +174,8 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			head.rotateAngleX = (float) Math.toRadians(20);
 			head.rotateAngleY = (float) Math.toRadians(0);
 			head.rotateAngleZ = (float) Math.toRadians(0);
+
+			head_2.copyModelAngles(head);
 
 			right_arm.rotateAngleX = (float) Math.toRadians(-105);
 			right_arm.rotateAngleY = (float) Math.toRadians(20);
@@ -186,13 +192,15 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			head.rotateAngleY = (float) Math.toRadians(0);
 			head.rotateAngleZ = (float) Math.toRadians(0);
 
+			head_2.copyModelAngles(head);
+
 			right_arm.rotateAngleX = (float) Math.toRadians(0);
 			right_arm.rotateAngleY = (float) Math.toRadians(0);
-			right_arm.rotateAngleZ = (float) Math.toRadians(-7.5);
+			right_arm.rotateAngleZ = (float) Math.toRadians(7.5);
 
 			left_arm.rotateAngleX = (float) Math.toRadians(0);
 			left_arm.rotateAngleY = (float) Math.toRadians(0);
-			left_arm.rotateAngleZ = (float) Math.toRadians(7.5);
+			left_arm.rotateAngleZ = (float) Math.toRadians(-7.5);
 			return;
 		}
 
@@ -208,6 +216,8 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 			head.rotateAngleX = (float) Math.toRadians(20);
 			head.rotateAngleY = (float) Math.toRadians(-40);
 			head.rotateAngleZ = (float) Math.toRadians(-20);
+			head_2.copyModelAngles(head);
+
 			return;
 		}
 	}
@@ -232,14 +242,10 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 		head_2.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.push();
-	//	matrixStack.enableCull();
-	//	matrixStack.translate(body.offsetX, body.offsetY, body.offsetZ);
-		matrixStack.translate(body.rotationPointX, body.rotationPointY,body.rotationPointZ);
+		matrixStack.translate(body.rotationPointX * 0.06125, body.rotationPointY * 0.06125,body.rotationPointZ * 0.06125);
 		matrixStack.scale(0.7F, 0.7F, 0.7F);
-	//	matrixStack.translate(-body.offsetX, -body.offsetY, -body.offsetZ);
-		matrixStack.translate(-body.rotationPointX, -body.rotationPointY, -body.rotationPointZ);
+		matrixStack.translate(-body.rotationPointX * 0.06125, -body.rotationPointY * 0.06125, -body.rotationPointZ * 0.06125);
 		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		//matrixStack.disableCull();
 		matrixStack.pop();
 	}
 }

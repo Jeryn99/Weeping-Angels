@@ -22,6 +22,7 @@ import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
 import me.swirtzly.minecraft.angels.utils.EntitySpawn;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
 import net.minecraft.block.Block;
@@ -40,6 +41,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -154,7 +156,7 @@ public class WAObjects {
 	
 	public static class WorldGenEntries {
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-	//	public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig::deserialize)));
+		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig.field_236558_a_)));
 	}
 	
 	// Tile Creation

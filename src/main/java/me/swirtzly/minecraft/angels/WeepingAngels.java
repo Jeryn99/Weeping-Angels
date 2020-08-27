@@ -57,8 +57,6 @@ public class WeepingAngels {
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
-		//TODO Fix Below
-		//	WorldGen.applyFeatures();
 		Network.init();
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());

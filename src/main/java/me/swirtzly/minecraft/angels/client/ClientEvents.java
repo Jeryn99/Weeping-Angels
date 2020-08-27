@@ -21,15 +21,7 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientEvents {
-	
-	@SubscribeEvent
-	public static void onPlayerJoin(EntityJoinWorldEvent event) {
-		if (event.getEntity() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntity();
-			ClientUtil.playSound(player, WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, true, () -> !(player.getHeldItemMainhand().getItem() instanceof DetectorItem) && !(player.getHeldItemOffhand().getItem() instanceof DetectorItem), 0.1f);
-		}
-	}
-	
+
 	@SubscribeEvent
 	public static void onblockHighlight(DrawHighlightEvent.HighlightBlock event) {
 		Minecraft minecraft = Minecraft.getInstance();

@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.IPacket;
@@ -54,13 +55,10 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
 			Entity hitEntity = entityHitResult.getEntity();
 			if (hitEntity instanceof WeepingAngelEntity) {
 				if (!world.isRemote) {
-					WeepingAngelEntity angel = (WeepingAngelEntity) hitEntity;
 					AnomalyEntity a = new AnomalyEntity(world);
 					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
 					world.addEntity(a);
-					angel.dropAngelStuff();
-					angel.remove();
 					remove();
 				}
 			}
@@ -71,10 +69,11 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
 			if (!world.isRemote) {
 				BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
 				BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
-				if (world.isAirBlock(pos) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
+				if (world.isAirBlock(pos) && !world.isAirBlock(pos.down()) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
 					world.setBlockState(pos, WAObjects.Blocks.CG.get().getDefaultState());
+				} else {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CG.get()));
 				}
-
 				world.setEntityState(this, (byte) 3);
 				remove();
 			}

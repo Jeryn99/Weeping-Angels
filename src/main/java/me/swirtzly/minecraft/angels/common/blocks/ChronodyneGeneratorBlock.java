@@ -1,14 +1,16 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
+import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -22,10 +24,7 @@ public class ChronodyneGeneratorBlock extends Block {
 	public ChronodyneGeneratorBlock() {
 		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
 	}
-	
-	/**
-	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids, INVISIBLE to skip all rendering
-	 */
+
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.MODEL;
@@ -51,10 +50,31 @@ public class ChronodyneGeneratorBlock extends Block {
 		super.onEntityWalk(worldIn, pos, entityIn);
 
 		if(entityIn instanceof WeepingAngelEntity){
-			WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
-			weepingAngelEntity.dropAngelStuff();
-			weepingAngelEntity.remove();
+			AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
+			anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
+			worldIn.addEntity(anomalyEntity);
 			worldIn.removeBlock(pos, false);
 		}
+	}
+
+	@Override
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+		if (worldIn.isBlockPowered(pos)) {
+			AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
+			anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
+			worldIn.addEntity(anomalyEntity);
+			worldIn.removeBlock(pos, false);
+		}
+	}
+
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if(!worldIn.isRemote){
+			AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
+			anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
+			worldIn.addEntity(anomalyEntity);
+			worldIn.removeBlock(pos, false);
+		}
+		return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
 	}
 }
