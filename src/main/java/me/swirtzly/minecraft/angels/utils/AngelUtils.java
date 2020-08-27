@@ -20,10 +20,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.ILootSerializer;
 import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
@@ -35,6 +38,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
@@ -161,7 +165,10 @@ public class AngelUtils {
         return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
     }
 
-
+    public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer<? extends ILootFunction> serialiser) {
+        return Registry.register(Registry.LOOT_FUNCTION_TYPE, resourceLocation, new LootFunctionType(serialiser));
+     }
+    
     public static void dropEntityLoot(Entity target, PlayerEntity attacker) {
         LivingEntity targeted = (LivingEntity) target;
         ResourceLocation resourcelocation = targeted.getLootTableResourceLocation();
