@@ -15,7 +15,7 @@ apply plugin: 'maven-publish'
 
 version = "${mod_version}"
 group = 'me.swirtzly.minecraft.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "${project.jar_name}"
+archivesBaseName = "${project.jar_name}-1.16.2"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 

@@ -1,17 +1,13 @@
 package me.swirtzly.minecraft.angels.utils;
 
 import com.google.common.collect.ImmutableMap;
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.Dimension;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.WoodlandMansionPieces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +19,15 @@ public class EntitySpawn {
     //Iterate through all registered biomes in the WorldGenRegistries.
     public static void addSpawnEntries() {
         for (Biome biome : WorldGenRegistries.field_243657_i) {
-            if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NONE && biome.getCategory() != Biome.Category.OCEAN) {
-                addMobSpawnToBiome(biome, EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+            for (String resourceLocation : WAConfig.CONFIG.allowedBiomes.get()) {
+                if(resourceLocation.equalsIgnoreCase(biome.getRegistryName().toString())){
+                    if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NONE && biome.getCategory() != Biome.Category.OCEAN) {
+                        WeepingAngels.LOGGER.info("Weeping Angels spawns added to : ["+biome.getRegistryName()+"]");
+                        addMobSpawnToBiome(biome, EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                    }
+                }
             }
         }
-
     }
 
     //Add the normal info along with a list of "Spawners"

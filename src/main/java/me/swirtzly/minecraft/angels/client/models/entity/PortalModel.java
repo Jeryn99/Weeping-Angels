@@ -34,6 +34,7 @@ public class PortalModel extends EntityModel<AnomalyEntity> {
 
     @Override
     public void setRotationAngles(AnomalyEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        PortalMain.rotateAngleZ = -entityIn.ticksExisted * 2;
         PortalFrontage.rotateAngleZ = entityIn.ticksExisted / 2F;
         PortalFrontage2.rotateAngleZ = -entityIn.ticksExisted / 2F;
     }
