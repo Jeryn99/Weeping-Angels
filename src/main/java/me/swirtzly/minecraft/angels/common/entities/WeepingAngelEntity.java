@@ -29,11 +29,13 @@ import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -389,6 +391,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
+
+		ServerWorld serverWorld = (ServerWorld) player.world;
+
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
 		
 		final Runnable runnable = () -> WATeleporter.handleStructures(player, this);
@@ -401,6 +406,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			case RANDOM_PLACE:
 				double x = player.posX + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 				double z = player.posZ + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
+
+				ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
+				serverWorld.forceChunk(chunkPos.x, chunkPos.z, true);
+
 				world.getServer().enqueue(new TickDelayedTask(0, () -> {
 					ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? Objects.requireNonNull(DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), WATeleporter.getRandomDimension(world.rand), true, true)) : DimensionManager.getWorld(ServerLifecycleHooks.getCurrentServer(), player.dimension, true, true);
 					BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
@@ -414,6 +423,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 					if (teleportWorld != null) {
 						WATeleporter.teleportPlayerTo(player, this, blockPos, teleportWorld);
 					}
+					serverWorld.forceChunk(chunkPos.x, chunkPos.z, false);
 				}));
 				break;
 		}

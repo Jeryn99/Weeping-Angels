@@ -11,6 +11,7 @@ import me.swirtzly.minecraft.angels.compat.events.EventAngelTeleport;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,10 +22,18 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 
 public class WATeleporter {
-	
-	public static int yCoordSanity(World world, BlockPos spawn) {
-        IChunk chunk = world.getChunk(spawn);
-        return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, spawn.getX(), spawn.getZ());
+
+    public static int yCoordSanity(World world, BlockPos pos) {
+        for (int y = world.getHeight(); y > 0; --y) {
+            BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
+            BlockState state = world.getBlockState(newPos);
+            BlockState underState = world.getBlockState(newPos.down());
+
+            if (!state.causesSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+                return newPos.getY();
+            }
+        }
+        return pos.getY();
     }
 	
 	public static DimensionType getRandomDimension(Random rand) {
@@ -76,5 +85,12 @@ public class WATeleporter {
 			player.teleport(event.getTargetDimension(), event.getDestination().getX(), event.getDestination().getY(), event.getDestination().getZ(), player.rotationYaw, player.rotationPitch);
 		}
 	}
-	
+
+
+    public static boolean isPosBelowOrAboveWorld(World dim, int y) {
+        if (dim.dimension.isNether()) {
+            return y <= 0 || y >= 126;
+        }
+        return y <= 0 || y >= 256;
+    }
 }
