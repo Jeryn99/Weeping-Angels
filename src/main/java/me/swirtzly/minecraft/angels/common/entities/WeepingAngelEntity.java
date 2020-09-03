@@ -386,12 +386,19 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	private void teleportInteraction(ServerPlayerEntity player) {
 		if (world.isRemote) return;
 		AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
-		final Runnable runnable = () -> WATeleporter.handleStructures(player);
 		switch (type) {
 			case DONT:
+				attackEntityAsMob(player);
 				break;
 			case STRUCTURES:
-				world.getServer().enqueue(new TickDelayedTask(0, runnable));
+				world.getServer().enqueue(new TickDelayedTask(0, new Runnable() {
+					@Override
+					public void run() {
+						if(!WATeleporter.handleStructures(player)){
+							dealDamage(player);
+						}
+					}
+				}));
 				break;
 			case RANDOM_PLACE:
 				double x = player.getPosX() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());

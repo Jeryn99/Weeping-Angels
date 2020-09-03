@@ -37,8 +37,8 @@ public class LangEnglish extends LanguageProvider {
         add(WAObjects.EntityEntries.ANOMALY.get(), "Anomaly");
 
         /* Damage Sources */
-        add("source.weeping_angels.angel", "%s was sent back in time by a Angel!");
-        add("source.weeping_angels.angel_neck_snap", "%s had their neck snapped by a Angel!");
+        add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");
+        add("source.weeping_angels.neck_snap", "%s had their neck snapped by a Angel!");
         add("source.weeping_angels.punch_stone", "%s broke their bones by punching stone...");
 
         /* Item Groups */

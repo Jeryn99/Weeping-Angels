@@ -46,7 +46,7 @@ public class WATeleporter {
 		return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
 	}
 	
-	public static void handleStructures(ServerPlayerEntity player) {
+	public static boolean handleStructures(ServerPlayerEntity player) {
 
 		Structure[] targetStructure = null;
 
@@ -69,8 +69,10 @@ public class WATeleporter {
 			BlockPos bPos = serverWorld.func_241117_a_(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
 			if (bPos != null) {
 				teleportPlayerTo(player, bPos, player.getServerWorld());
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public static void teleportPlayerTo(ServerPlayerEntity player, BlockPos destinationPos, ServerWorld targetDimension) {
