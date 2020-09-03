@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels;
 
+import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +37,10 @@ public class WeepingAngels {
 	public static final String NAME = "Weeping Angels";
 	
 	public static Logger LOGGER = LogManager.getLogger(NAME);
-	
+
+	public static final ServerReflector reflector = new ServerReflector();
+
+
 	public WeepingAngels() {
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -61,6 +65,9 @@ public class WeepingAngels {
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
 		AngelUtils.registerFunction(new ResourceLocation(MODID,"fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
+
+		reflector.init();
+
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {

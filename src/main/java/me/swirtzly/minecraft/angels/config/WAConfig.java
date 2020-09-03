@@ -100,14 +100,14 @@ public class WAConfig {
 
     public ArrayList<String> genBiomesForSpawn() {
         ArrayList<String> BIOMES = new ArrayList<>();
-        BIOMES.add(Biomes.TAIGA_HILLS.getRegistryName().toString());
-        BIOMES.add(Biomes.TAIGA.getRegistryName().toString());
-        BIOMES.add(Biomes.DESERT.getRegistryName().toString());
-        BIOMES.add(Biomes.DESERT_HILLS.getRegistryName().toString());
-        BIOMES.add(Biomes.PLAINS.getRegistryName().toString());
-        BIOMES.add(Biomes.SWAMP.getRegistryName().toString());
-        BIOMES.add(Biomes.BEACH.getRegistryName().toString());
-        BIOMES.add(Biomes.SNOWY_TAIGA.getRegistryName().toString());
+        BIOMES.add(Biomes.TAIGA_HILLS.func_240901_a_().toString());
+        BIOMES.add(Biomes.TAIGA.func_240901_a_().toString());
+        BIOMES.add(Biomes.DESERT.func_240901_a_().toString());
+        BIOMES.add(Biomes.DESERT_HILLS.func_240901_a_().toString());
+        BIOMES.add(Biomes.PLAINS.func_240901_a_().toString());
+        BIOMES.add(Biomes.SWAMP.func_240901_a_().toString());
+        BIOMES.add(Biomes.BEACH.func_240901_a_().toString());
+        BIOMES.add(Biomes.SNOWY_TAIGA.func_240901_a_().toString());
         return BIOMES;
 	}
 }

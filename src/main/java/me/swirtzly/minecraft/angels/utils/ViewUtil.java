@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.Block;
@@ -30,7 +31,16 @@ public class ViewUtil {
 	public static boolean isInFrontOfEntity(LivingEntity entity, Entity target, boolean vr) {
 		Vector3d vecTargetsPos = target.getPositionVec();
 		Vector3d vecLook;
-		vecLook = entity.getLookVec();
+
+		if (vr) {
+			if (entity instanceof PlayerEntity) {
+				vecLook = WeepingAngels.reflector.getHMDRot((PlayerEntity) entity);
+			} else {
+				throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
+			}
+		} else {
+			vecLook = entity.getLookVec();
+		}
 		Vector3d vecFinal = vecTargetsPos.subtractReverse(new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ())).normalize();
 		vecFinal = new Vector3d(vecFinal.x, 0.0D, vecFinal.z);
 		return vecFinal.dotProduct(vecLook) < 0.0;
@@ -43,7 +53,7 @@ public class ViewUtil {
 	 * @param beingViewed The entity being watched by viewer
 	 */
 	public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
-		double dx = beingViewed.getPosX() - viewer.getPosX();;
+		double dx = beingViewed.getPosX() - viewer.getPosX();
 		double dz;
 		for (dz = beingViewed.getPosX() - viewer.getPosZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
 			dx = (Math.random() - Math.random()) * 0.01D;
@@ -100,7 +110,7 @@ public class ViewUtil {
 			return false;
 		}
 		if (livingBase instanceof PlayerEntity) {
-			return isInFrontOfEntity(livingBase, angel, false);
+			return isInFrontOfEntity(livingBase, angel, WeepingAngels.reflector.isVRPlayer((PlayerEntity) livingBase));
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
@@ -108,11 +118,31 @@ public class ViewUtil {
 	public static boolean viewBlockedBlock(LivingEntity viewer, BlockState angel, BlockPos posi) {
 		return isInSightPos(viewer, posi);
 	}
-	
+
+	private static final float headSize = 0.15f;
+
 	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
 		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
 		AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
 		Vector3d[] viewerPoints = { new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ), };
+
+		if (viewer instanceof PlayerEntity) {
+			Vector3d pos;
+			if (WeepingAngels.reflector.isVRPlayer((PlayerEntity) viewer))
+				pos = WeepingAngels.reflector.getHMDPos((PlayerEntity) viewer);
+			else
+				pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
+			viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
+			viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
+			viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
+			viewerPoints[3] = pos.add(-headSize, headSize, headSize);
+			viewerPoints[4] = pos.add(headSize, headSize, -headSize);
+			viewerPoints[5] = pos.add(headSize, headSize, headSize);
+			viewerPoints[6] = pos.add(headSize, -headSize, headSize);
+			viewerPoints[7] = pos.add(headSize, -headSize, -headSize);
+		}
+
+
 		Vector3d[] angelPoints = { new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ), };
 		
 		for (int i = 0; i < viewerPoints.length; i++) {

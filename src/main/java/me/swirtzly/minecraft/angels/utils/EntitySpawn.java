@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public class EntitySpawn {
 
     //Iterate through all registered biomes in the WorldGenRegistries.
     public static void addSpawnEntries() {
-        for (Biome biome : WorldGenRegistries.field_243657_i) {
+        for (Biome biome : ForgeRegistries.BIOMES) {
             for (String resourceLocation : WAConfig.CONFIG.allowedBiomes.get()) {
                 if(resourceLocation.equalsIgnoreCase(biome.getRegistryName().toString())){
                     if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NONE && biome.getCategory() != Biome.Category.OCEAN) {
