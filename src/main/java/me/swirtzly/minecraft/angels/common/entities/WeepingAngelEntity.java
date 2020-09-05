@@ -6,7 +6,6 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
-import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -219,11 +218,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 
-		if (compound.contains(WAConstants.POSE)) setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
+		if (compound.contains(WAConstants.POSE))
+			setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
 
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
 
-		if (compound.contains(WAConstants.ANGEL_CHILD)) setChild(compound.getBoolean(WAConstants.ANGEL_CHILD));
+		if (compound.contains(WAConstants.ANGEL_CHILD)) setCherub(compound.getBoolean(WAConstants.ANGEL_CHILD));
 
 		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
@@ -242,10 +242,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	public void invokeSeen(PlayerEntity player) {
 		super.invokeSeen(player);
-		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong() && !player.isCreative()) {
+		if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong()) {
 			setPrevPos(getPosition());
 
-			boolean canPlaySound = getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
+			boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
 			// Play Sound
 			if (canPlaySound) {
 				if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
@@ -281,12 +281,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 	}
 	
-	@Override
-	public void moveTowards(LivingEntity entity) {
-		if (isQuantumLocked()) return;
-		super.moveTowards(entity);
-	}
-	
 	public boolean isWeak() {
 		return getHungerLevel() < 15;
 	}
@@ -299,7 +293,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			setNoAI(false);
 		}
 
-		if (ticksExisted % 500 == 0 && getAttackTarget() == null && !isQuantumLocked() && getSeenTime() == 0) {
+		if (ticksExisted % 500 == 0 && getAttackTarget() == null && getSeenTime() == 0) {
 			setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
 		}
 
@@ -327,19 +321,18 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 	
 	private void replaceBlocks(AxisAlignedBB box) {
-		if (world.isRemote || ticksExisted % 100 != 0 || isQuantumLocked()) return;
-		
+		if (world.isRemote || ticksExisted % 100 != 0) return;
+
 		if (world.getLight(getPosition()) == 0) {
 			return;
 		}
-		
-		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext();) {
+
+		for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
 			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 
-				if (ViewUtil.viewBlockedBlock(this, blockState, pos)) continue;
-					if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
+				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
 						continue;
 					}
 

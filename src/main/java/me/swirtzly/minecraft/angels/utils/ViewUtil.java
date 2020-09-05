@@ -115,10 +115,6 @@ public class ViewUtil {
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
 
-	public static boolean viewBlockedBlock(LivingEntity viewer, BlockState angel, BlockPos posi) {
-		return isInSightPos(viewer, posi);
-	}
-
 	private static final float headSize = 0.15f;
 
 	public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
@@ -144,7 +140,7 @@ public class ViewUtil {
 
 
 		Vector3d[] angelPoints = { new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ), };
-		
+
 		for (int i = 0; i < viewerPoints.length; i++) {
 			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
 				return false;
@@ -154,16 +150,17 @@ public class ViewUtil {
 				return !canSeeThrough(state, viewer.world, pos);
 			}) == null) return false;
 		}
-		
+
 		if (angel.ticksExisted % 1200 == 0) {
 			if (angel.getDistance(viewer) < 15) {
 				viewer.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 15));
 			}
 		}
-		
+
 		return true;
 	}
-	
+
+
 	@Nullable
 	private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vector3d vec31, Vector3d vec32, Predicate<BlockPos> stopOn) {
 		if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {

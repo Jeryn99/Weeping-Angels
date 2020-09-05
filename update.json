@@ -1,0 +1,10 @@
+{
+  "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
+  "promos": {
+    "1.16.2-latest": "1.0.1",
+    "1.16.2-recommended": "1.0.1"
+  },
+  "1.16.2": {
+    "1.0.1": "I am a update"
+  }
+}
