@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -62,6 +63,8 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 	private final ModelRenderer bone19;
 	private final ModelRenderer bone20;
 	private final ModelRenderer bone21;
+
+	private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
 
 	/**
 	 * Angel Type: 4
@@ -556,7 +559,10 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		AngelPoses pose = angelPoses;
+		if (weepingAngelEntity != null) {
+			pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		}
 
 		if(pose == AngelPoses.POSE_ANGRY_TWO) {
 			rightarm.rotateAngleX = (float) Math.toRadians(-115);
@@ -635,6 +641,16 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 		}
 	}
 
+	@Override
+	public AngelPoses getAngelPose() {
+		return angelPoses;
+	}
+
+	@Override
+	public void setAngelPose(AngelPoses angelPose) {
+		this.angelPoses = angelPose;
+	}
+
 	public void setRotationAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
 		ModelRenderer.rotateAngleX = x;
 		ModelRenderer.rotateAngleY = y;
@@ -642,7 +658,7 @@ public class ModelAngela<T extends WeepingAngelEntity> extends EntityModel<Weepi
 	}
 
 	@Override
-	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+	public ResourceLocation getTextureForPose(AngelPoses pose) {
 		return TEXTURE;
 	}
 

@@ -91,6 +91,8 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 	//TODO Until I make this better, we're going to ignore this model and pretend theres nothing wrong
 	private WeepingAngelEntity angelEntity;
 
+	private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+
 	/**
 	 * Angel Type: 0
 	 */
@@ -499,17 +501,33 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 	}
 
 	@Override
-	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+	public ResourceLocation getTextureForPose(AngelPoses pose) {
 		return TEXTURE;
 	}
 
 	@Override
+	public AngelPoses getAngelPose() {
+		return angelPoses;
+	}
+
+	@Override
+	public void setAngelPose(AngelPoses angelPose) {
+		this.angelPoses = angelPose;
+	}
+
+	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-// Head
+
+		AngelPoses pose = angelPoses;
+		if (angelEntity != null) {
+			pose = AngelPoses.getPoseFromString(angelEntity.getAngelPose());
+		}
+
+		// Head
 		matrixStack.push(); // PUSH 1
 
 		matrixStack.push(); // PUSH 2
-		if (!AngelPoses.getPoseFromString(angelEntity.getAngelPose()).create().isAngry()) {
+		if (!pose.create().isAngry()) {
 			matrixStack.rotate(Vector3f.XP.rotation(20));
 		}
 		LeftEyebrow.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -538,7 +556,7 @@ public class ModelAngel<T extends WeepingAngelEntity> extends EntityModel<Weepin
 		Hair12.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.pop();
 
-		if (AngelPoses.getPoseFromString(angelEntity.getAngelPose()).create().isAngry()) {
+		if (pose.create().isAngry()) {
 			AngryRightArm1.render(matrixStack, buffer, packedLight, packedOverlay);
 			AngryRightArm2.render(matrixStack, buffer, packedLight, packedOverlay);
 			AngryLeftArm1.render(matrixStack, buffer, packedLight, packedOverlay);

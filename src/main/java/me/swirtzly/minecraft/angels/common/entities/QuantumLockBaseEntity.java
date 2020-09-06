@@ -34,9 +34,6 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	public void livingTick() {
 		super.livingTick();
 
-		setGlowing(isSeen());
-
-
 		rotationYawHead = rotationYaw;
 		if (!world.isRemote && ticksExisted % 5 == 0) {
 			List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));

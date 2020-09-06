@@ -34,6 +34,18 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
 	private ModelRenderer rightleg;
 	private ModelRenderer leftleg;
 
+	private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+
+	@Override
+	public AngelPoses getAngelPose() {
+		return angelPoses;
+	}
+
+	@Override
+	public void setAngelPose(AngelPoses angelPose) {
+		this.angelPoses = angelPose;
+	}
+
 	/**
 	 * Angel Type: 2 - Classic
 	 */
@@ -156,9 +168,12 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
 
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		AngelPoses pose = angelPoses;
+		if (weepingAngelEntity != null) {
+			pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		}
 
-		if(pose == AngelPoses.POSE_ANGRY_TWO) {
+		if (pose == AngelPoses.POSE_ANGRY_TWO) {
 			rightarm.rotateAngleX = (float) Math.toRadians(-115);
 			rightarm.rotateAngleY = (float) Math.toRadians(0);
 			rightarm.rotateAngleZ = (float) Math.toRadians(0);
@@ -211,11 +226,11 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
 
 			rightarm.rotateAngleX = (float) Math.toRadians(0);
 			rightarm.rotateAngleY = (float) Math.toRadians(0);
-			rightarm.rotateAngleZ = (float) Math.toRadians(-7.5);
+			rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
 
 			leftarm.rotateAngleX = (float) Math.toRadians(0);
 			leftarm.rotateAngleY = (float) Math.toRadians(0);
-			leftarm.rotateAngleZ = (float) Math.toRadians(7.5);
+			leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
 			return;
 		}
 
@@ -258,7 +273,7 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
 
 
 	@Override
-	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+	public ResourceLocation getTextureForPose(AngelPoses pose) {
 		return TEXTURE;
 	}
 

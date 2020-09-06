@@ -3,18 +3,25 @@ package me.swirtzly.minecraft.angels.common.blocks;
 import javax.annotation.Nullable;
 
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
+import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -62,10 +69,20 @@ public class PlinthBlock extends Block {
 		if (world.getTileEntity(pos) instanceof PlinthTile) {
 			int rotation = MathHelper.floor(placer.rotationYaw);
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
-			plinth.setRotation(rotation);
+			//plinth.setRotation(rotation);
 			plinth.setPose(AngelPoses.getRandomPose().getRegistryName());
+			plinth.setAngelType(world.rand.nextInt(6));
 			plinth.sendUpdates();
 		}
 	}
-	
+
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if(!worldIn.isRemote){
+			PlinthTile statue = (PlinthTile) worldIn.getTileEntity(pos);
+			statue.setPose(AngelPoses.getRandomPose().getRegistryName());
+			statue.sendUpdates();
+		}
+		return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+	}
 }

@@ -2,12 +2,14 @@ package me.swirtzly.minecraft.angels.client.renders.entities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
@@ -17,16 +19,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
 
-	private final EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<>();
-	private final EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd<WeepingAngelEntity>();
-	private final EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
-	private final EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel();
-	private final EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
-	private final EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela<WeepingAngelEntity>();
-	private final EntityModel<WeepingAngelEntity> modelAngela2 = new ModelAngelaAngel();
-
 	public AngelRender(EntityRendererManager manager) {
-		super(manager, new ModelAngelEd<WeepingAngelEntity>(), 0.0F);
+		super(manager, new ModelAngelEd(), 0.0F);
 		addLayer(new CrackLayer(this));
 	}
 
@@ -47,29 +41,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 		renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, iRenderTypeBuffer, p_225623_6_);
 		matrixStack.pop();
 
-		switch (angel.getAngelType()) {
-			case -1:
-				entityModel = modelChild;
-				break;
-			case 0:
-				entityModel = modelOne;
-				break;
-			case 1:
-				entityModel = modelTwo;
-				break;
-			case 2:
-				entityModel = modelClassic;
-				break;
-			case 3:
-				entityModel = modelMel;
-				break;
-			case 4:
-				entityModel = modelAngela;
-				break;
-			case 5:
-				entityModel = modelAngela2;
-				break;
-		}
+		entityModel = ClientUtil.getModelForAngel(angel.getAngelType());
 
 		super.render(angel, p_225623_2_, p_225623_3_, matrixStack, iRenderTypeBuffer, p_225623_6_);
 	}
@@ -77,7 +49,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 	@Override
 	public ResourceLocation getEntityTexture(WeepingAngelEntity weepingAngelEntity) {
 		IAngelModel iAngelModel = (IAngelModel) entityModel;
-		return iAngelModel.getTextureForPose(weepingAngelEntity);
+		return iAngelModel.getTextureForPose(AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()));
 	}
 
 	private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemCameraTransforms.TransformType transformTypeIn, boolean leftHand, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn) {

@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -157,6 +158,42 @@ public class ViewUtil {
 			}
 		}
 
+		return true;
+	}
+
+	public static boolean viewBlocked(LivingEntity viewer, BlockState blockState, BlockPos blockPos) {
+		AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
+		AxisAlignedBB angelBoundingBox = blockState.getShape(viewer.world, blockPos).getBoundingBox();
+		Vector3d[] viewerPoints = { new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ), };
+
+		if (viewer instanceof PlayerEntity) {
+			Vector3d pos;
+			if (WeepingAngels.reflector.isVRPlayer((PlayerEntity) viewer))
+				pos = WeepingAngels.reflector.getHMDPos((PlayerEntity) viewer);
+			else
+				pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
+			viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
+			viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
+			viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
+			viewerPoints[3] = pos.add(-headSize, headSize, headSize);
+			viewerPoints[4] = pos.add(headSize, headSize, -headSize);
+			viewerPoints[5] = pos.add(headSize, headSize, headSize);
+			viewerPoints[6] = pos.add(headSize, -headSize, headSize);
+			viewerPoints[7] = pos.add(headSize, -headSize, -headSize);
+		}
+
+
+		Vector3d[] angelPoints = { new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ), };
+
+		for (int i = 0; i < viewerPoints.length; i++) {
+			if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
+				return false;
+			}
+			if (rayTraceBlocks(viewer, viewer.world, viewerPoints[i], angelPoints[i], pos -> {
+				BlockState state = viewer.world.getBlockState(pos);
+				return !canSeeThrough(state, viewer.world, pos);
+			}) == null) return false;
+		}
 		return true;
 	}
 

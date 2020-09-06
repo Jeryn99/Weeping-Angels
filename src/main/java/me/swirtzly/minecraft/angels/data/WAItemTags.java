@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.data;
 
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import net.minecraft.block.TorchBlock;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;

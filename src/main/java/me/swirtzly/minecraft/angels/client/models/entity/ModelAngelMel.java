@@ -95,6 +95,9 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
     private ModelArmsPointing armsPoint = new ModelArmsPointing();
     private WeepingAngelEntity angel;
 
+    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+
+
     public ModelAngelMel() {
         textureWidth = 128;
         textureHeight = 128;
@@ -590,31 +593,34 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
         RightWing6.render(matrixStack, buffer, packedLight, packedOverlay);
         RightWing7.render(matrixStack, buffer, packedLight, packedOverlay);
 
-            AngelPoses pose = AngelPoses.getPoseFromString(angel.getAngelPose());
+        AngelPoses pose = angelPoses;
+        if (angel != null) {
+            pose = AngelPoses.getPoseFromString(angel.getAngelPose());
+        }
 
-            // Covering Face arms render/
-            if (pose == AngelPoses.POSE_HIDING_FACE) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-                return;
-            }
+        // Covering Face arms render/
+        if (pose == AngelPoses.POSE_HIDING_FACE) {
+            Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
+            armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            return;
+        }
 
-            // Idle render
-            if (pose == AngelPoses.POSE_IDLE) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
-                armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+        // Idle render
+        if (pose == AngelPoses.POSE_IDLE) {
+            Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
+            armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
             // Shriek render
             if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
+                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
                 armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
 
             if (pose == AngelPoses.POSE_SHY) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(angel));
+                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
                 armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
                 return;
             }
@@ -624,8 +630,18 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
 
 
     @Override
-    public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+    public ResourceLocation getTextureForPose(AngelPoses pose) {
         return TEXTURE;
+    }
+
+    @Override
+    public AngelPoses getAngelPose() {
+        return angelPoses;
+    }
+
+    @Override
+    public void setAngelPose(AngelPoses angelPose) {
+        this.angelPoses = angelPose;
     }
 
 }

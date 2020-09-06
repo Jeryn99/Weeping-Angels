@@ -16,7 +16,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	
 	private boolean hasSpawned = false;
-	private int rotation = 0;
+	private int rotation = 0, type = 0;
 	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 	
 	public PlinthTile() {
@@ -37,6 +37,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		setHasSpawned(compound.getBoolean("hasSpawned"));
 		setPose(new ResourceLocation(compound.getString("pose")));
 		rotation = compound.getInt("rotation");
+		type = compound.getInt("type");
 	}
 	
 	@Override
@@ -44,10 +45,19 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		super.write(compound);
 		compound.putBoolean("hasSpawned", hasSpawned);
 		compound.putInt("rotation", rotation);
+		compound.putInt("type", type);
 		compound.putString("pose", pose.toString());
 		return compound;
 	}
-	
+
+	public int getAngelType() {
+		return type;
+	}
+
+	public void setAngelType(int type) {
+		this.type = type;
+	}
+
 	public int getRotation() {
 		return rotation;
 	}
@@ -92,7 +102,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
 				WeepingAngelEntity angel = new WeepingAngelEntity(world);
-				angel.setType(AngelEnums.AngelType.ANGEL_SIX.getId());
+				angel.setType(type);
 				angel.setChild(false);
 				angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 0, 0);
 				angel.setPose(getPose());

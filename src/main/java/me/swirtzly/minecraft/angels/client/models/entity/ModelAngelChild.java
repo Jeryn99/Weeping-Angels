@@ -40,6 +40,8 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 	private ModelRenderer right_wing_3_1;
 	private ModelRenderer right_wing_4_1;
 
+	private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+
 	/**
 	 * Angel Type: Child
 	 */
@@ -133,8 +135,21 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 	}
 
 	@Override
+	public AngelPoses getAngelPose() {
+		return angelPoses;
+	}
+
+	@Override
+	public void setAngelPose(AngelPoses angelPose) {
+		this.angelPoses = angelPose;
+	}
+
+	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-		AngelPoses pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		AngelPoses pose = angelPoses;
+		if (weepingAngelEntity != null) {
+			pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+		}
 
 		if(pose == AngelPoses.POSE_ANGRY_TWO) {
 			right_arm.rotateAngleX = (float) Math.toRadians(-115);
@@ -233,7 +248,7 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 	}
 
 	@Override
-	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+	public ResourceLocation getTextureForPose(AngelPoses pose) {
 		return TEXTURE;
 	}
 

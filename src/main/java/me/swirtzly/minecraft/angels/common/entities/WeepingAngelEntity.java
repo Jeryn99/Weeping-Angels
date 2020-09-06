@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -31,6 +32,8 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
@@ -331,27 +334,41 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			BlockPos pos = iterator.next();
 			BlockState blockState = world.getBlockState(pos);
 			if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
+/*
+
+				if(blockState.getShape(world, pos) == VoxelShapes.empty()){
+					continue;
+				}
+
+				if (ViewUtil.viewBlocked(this, blockState, pos)) {
+					System.out.println("Cannot See: " + blockState);
+					world.setBlockState(pos, Blocks.RED_WOOL.getDefaultState());
+					continue;
+				} else {
+					world.setBlockState(pos, Blocks.GREEN_WOOL.getDefaultState());
+				}
+*/
 
 				if (!canBreak(blockState) || blockState.getBlock() == Blocks.LAVA || blockState.getBlock() == Blocks.AIR) {
-						continue;
-					}
+					continue;
+				}
 
-					if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+				if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+					return;
+				}
+
+				if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
+					if (blockState.get(RedstoneLampBlock.LIT)) {
+						world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
+						playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
 						return;
 					}
+				}
 
-					if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
-						if (blockState.get(RedstoneLampBlock.LIT)) {
-							world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
-							playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
-							return;
-						}
-					}
-					
-					if (blockState.getLightValue() > 0) {
-						AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
-						return;
+				if (blockState.getLightValue() > 0) {
+					AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+					return;
 					}
 					
 					if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {

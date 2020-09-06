@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
@@ -9,7 +8,6 @@ import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
  * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelEd extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
 	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
 			"textures/entities/angel_2.png");
@@ -58,6 +56,17 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 	private ModelRenderer right_wing_2;
 	private ModelRenderer right_wing_3;
 	private ModelRenderer right_wing_4;
+
+	private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+
+	public void setPose(AngelPoses angelPoses) {
+		this.angelPoses = angelPoses;
+	}
+
+	public AngelPoses getAngelPoses() {
+		return angelPoses;
+	}
+
 	/**
 	 * Angel Type: 1
 	 */
@@ -222,51 +231,35 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 	@Override
 	public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
 
-			right_arm.rotationPointY = 2.5F;
-			left_arm.rotationPointY = 2.5F;
-			left_arm.rotateAngleX = 0;
-			left_arm.rotateAngleY = 0;
-			left_arm.rotateAngleZ = 0;
-			right_arm.rotateAngleX = 0;
-			right_arm.rotateAngleY = 0;
-			right_arm.rotateAngleZ = 0;
+		right_arm.rotationPointY = 2.5F;
+		left_arm.rotationPointY = 2.5F;
+		left_arm.rotateAngleX = 0;
+		left_arm.rotateAngleY = 0;
+		left_arm.rotateAngleZ = 0;
+		right_arm.rotateAngleX = 0;
+		right_arm.rotateAngleY = 0;
+		right_arm.rotateAngleZ = 0;
 
-			PoseBase pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()).create();
+		PoseBase pose = angelPoses.create();
+		if (weepingAngelEntity != null) {
+			pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()).create();
+		}
 
-			if (pose != null) {
-				angry_mouth.showModel = pose.isAngry();
-				pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
-				pose.setWingAngles(left_wing_0, right_wing_0);
-				pose.setHeadAngles(head);
+		if (pose != null) {
+			angry_mouth.showModel = pose.isAngry();
+			pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
+			pose.setWingAngles(left_wing_0, right_wing_0);
+			pose.setHeadAngles(head);
 
-				if (pose.isAngry()) {
-					right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
-					left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-					angry_mouth.showModel = true;
+			if (pose.isAngry()) {
+				right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
+				left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
+				angry_mouth.showModel = true;
 				} else {
 					right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 					left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
 				}
 			}
-	}
-
-	public void quickRender(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, ResourceLocation pose) {
-		matrixStack.push();
-		tilePosing(pose);
-		cloth_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		right_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		head.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		cloth_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		back_cloth.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		cloth_2.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		left_wing_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		body_2.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		right_wing_1.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		body.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		left_arm.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-		matrixStack.pop();
 	}
 
 	@Override
@@ -288,30 +281,24 @@ public class ModelAngelEd<T extends LivingEntity> extends EntityModel<WeepingAng
 		matrixStack.pop();
 	}
 
-	public void tilePosing(ResourceLocation p) {
-		PoseBase pose = AngelPoses.getPoseFromString(p).create();
-
-		right_arm.rotationPointY = 2.5F;
-		left_arm.rotationPointY = 2.5F;
-		left_arm.rotateAngleX = 0;
-		left_arm.rotateAngleY = 0;
-		left_arm.rotateAngleZ = 0;
-		right_arm.rotateAngleX = 0;
-		right_arm.rotateAngleY = 0;
-		right_arm.rotateAngleZ = 0;
-		pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
-		pose.setWingAngles(left_wing_0, right_wing_0);
-		pose.setHeadAngles(head);
-		angry_mouth.showModel = false;
-	}
-
 	private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
+
 	@Override
-	public ResourceLocation getTextureForPose(WeepingAngelEntity angel) {
+	public AngelPoses getAngelPose() {
+		return angelPoses;
+	}
+
+	@Override
+	public void setAngelPose(AngelPoses angelPose) {
+		this.angelPoses = angelPose;
+	}
+
+	@Override
+	public ResourceLocation getTextureForPose(AngelPoses pose) {
 		return TEXTURE;
 	}
 
