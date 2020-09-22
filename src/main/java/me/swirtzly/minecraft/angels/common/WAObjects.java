@@ -38,10 +38,10 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -149,16 +149,25 @@ public class WAObjects {
 		public static final RegistryObject<SoundEvent> TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
 	}
 	
-	// World Gen-Features Creation
-	private static <C extends IFeatureConfig, F extends Feature<C>> F registerFeatures(F value) {
-		return value;
-	}
-	
 	public static class WorldGenEntries {
-		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_GEN = FEATURES.register("snow_arm", () -> registerFeatures(new ArmGeneration(NoFeatureConfig.field_236558_a_)));
+		public static Feature<NoFeatureConfig> ARM_SNOW_FEATURE = null;
+		public static ConfiguredFeature<?, ?> ARM_SNOW_FEATURE_CONFIGURED = null;
+
+		public static void setup(){
+			ARM_SNOW_FEATURE = register("weeping_angels:snow_arm", new ArmGeneration(NoFeatureConfig.field_236558_a_));
+			ARM_SNOW_FEATURE_CONFIGURED = register("weeping_angels:snow_arm", WorldGenEntries.ARM_SNOW_FEATURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242732_c(4));
+		}
 	}
-	
+
+	// World Gen-Features Creation
+	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> configuredFeature) {
+		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, key, configuredFeature);
+	}
+
+	private static <C extends IFeatureConfig, F extends Feature<C>> F register(String key, F value) {
+		return Registry.register(Registry.FEATURE, key, value);
+	}
+
 	// Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
 		return TileEntityType.Builder.create(tile, validBlock).build(null);

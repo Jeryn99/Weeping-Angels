@@ -30,6 +30,7 @@ import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
@@ -48,9 +49,14 @@ public class AngelUtils {
 
     public static final ITag.INamedTag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
     public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static final ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
 
     public static ITag.INamedTag<Item> makeItem(String domain, String path) {
         return ItemTags.createOptional(new ResourceLocation(domain, path));
+    }
+
+    public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
+        return BlockTags.createOptional(new ResourceLocation(domain, path));
     }
 
 

@@ -57,7 +57,7 @@ public class WeepingAngels {
 		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WAObjects.WorldGenEntries.setup();
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
@@ -67,7 +67,6 @@ public class WeepingAngels {
 		AngelUtils.registerFunction(new ResourceLocation(MODID,"fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
 
 		reflector.init();
-
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
