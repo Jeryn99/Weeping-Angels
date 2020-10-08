@@ -40,9 +40,11 @@ public class EventHandler {
 	@SubscribeEvent
 	public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
 		Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
-		if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
-			WeepingAngels.LOGGER.info("Added Arms to: " + biomeLoadingEvent.getName());
-			biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WAObjects.WorldGenEntries.ARM_SNOW_FEATURE_CONFIGURED).build();
+		if(WAConfig.CONFIG.arms.get()) {
+			if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
+				WeepingAngels.LOGGER.info("Added Arms to: " + biomeLoadingEvent.getName());
+				biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WAObjects.WorldGenEntries.ARM_SNOW_FEATURE_CONFIGURED).build();
+			}
 		}
 	}
 
