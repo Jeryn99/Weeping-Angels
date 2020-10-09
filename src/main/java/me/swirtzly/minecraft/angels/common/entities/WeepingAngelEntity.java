@@ -118,7 +118,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
 				createMutableAttribute(Attributes.MAX_HEALTH, 50D).
 				createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
-				createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.hashCode()).
+				createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
 				createMutableAttribute(Attributes.ARMOR, 2.0D);
 	}
 
