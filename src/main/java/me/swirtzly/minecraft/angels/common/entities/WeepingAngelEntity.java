@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
@@ -42,6 +43,7 @@ import java.util.function.Predicate;
 
 import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
+@SuppressWarnings("NullableProblems")
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
 	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
@@ -119,6 +121,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				createMutableAttribute(Attributes.MAX_HEALTH, 50D).
 				createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
 				createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
+				createMutableAttribute(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
 				createMutableAttribute(Attributes.ARMOR, 2.0D);
 	}
 
@@ -245,6 +248,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				setPose(Objects.requireNonNull(rand.nextBoolean() ? AngelPoses.POSE_ANGRY.getRegistryName() : AngelPoses.POSE_HIDING_FACE.getRegistryName()));
 			}
 		}
+
 	}
 	
 	@Override
@@ -254,7 +258,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			SoundType soundtype = blockstate.getBlock() == Blocks.SNOW ? blockstate.getSoundType(world, pos, this) : blockIn.getSoundType(world, pos, this);
 
 			if (isCherub()) {
-				if (world.rand.nextInt(5) == 5) {
+				if (world.rand.nextInt(5) == 4) {
 					playSound(WAObjects.Sounds.CHILD_RUN.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
 				}
 			} else if (WAConfig.CONFIG.playScrapeSounds.get()) {
@@ -276,11 +280,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		}
 
 		if (ticksExisted % 500 == 0 && getAttackTarget() == null && getSeenTime() == 0) {
-			setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
+			setPose(Objects.requireNonNull(AngelPoses.POSE_HIDING_FACE.getRegistryName()));
 		}
 
 		if (WAConfig.CONFIG.blockBreaking.get()) {
-			replaceBlocks(getBoundingBox().grow(WAConfig.CONFIG.blockBreakRange.get()));
+			replaceBlocks(getBoundingBox().grow(getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get())));
 		}
 	}
 	
@@ -348,7 +352,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				attackEntityAsMob(player);
 				break;
 			case STRUCTURES:
-				world.getServer().enqueue(new TickDelayedTask(0, () -> {
+				Objects.requireNonNull(world.getServer()).enqueue(new TickDelayedTask(0, () -> {
 					if (!WATeleporter.handleStructures(player)) {
 						dealDamage(player);
 					}
