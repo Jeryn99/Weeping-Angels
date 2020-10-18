@@ -66,7 +66,12 @@ public class FortuneEnchantBonus extends LootFunction {
 		
 		return stack;
 	}
-	
+
+	@Override
+	public LootFunctionType getFunctionType() {
+		return null;
+	}
+
 	public static class Builder extends LootFunction.Builder<FortuneEnchantBonus.Builder> {
 		private final RandomValueRange field_216073_a;
 		private int field_216074_b = 0;
@@ -93,9 +98,11 @@ public class FortuneEnchantBonus extends LootFunction {
 		public Serializer() {
 			super();
 		}
+
 		//serialize
-		public void func_230424_a_(JsonObject object, FortuneEnchantBonus functionClazz, JsonSerializationContext serializationContext) {
-			super.func_230424_a_(object, functionClazz, serializationContext);
+		@Override
+		public void serialize(JsonObject object, FortuneEnchantBonus functionClazz, JsonSerializationContext serializationContext) {
+			super.serialize(object, functionClazz, serializationContext);
 			object.add("count", serializationContext.serialize(functionClazz.count));
 			if (functionClazz.func_215917_b()) {
 				object.add("limit", serializationContext.serialize(functionClazz.limit));
@@ -107,11 +114,6 @@ public class FortuneEnchantBonus extends LootFunction {
 			int i = JSONUtils.getInt(object, "limit", 0);
 			return new FortuneEnchantBonus(conditionsIn, JSONUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class), i);
 		}
-	}
-
-	@Override
-	public LootFunctionType func_230425_b_() {
-		return null;
 	}
 	
 }

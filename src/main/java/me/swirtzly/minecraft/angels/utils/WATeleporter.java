@@ -38,7 +38,7 @@ public class WATeleporter {
 		
 		for (ServerWorld dimension : dimensions) {
 			for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-				if (dimension.getDimensionKey().func_240901_a_().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().func_240901_a_().toString().contains("tardis")) {
+				if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().getLocation().toString().contains("tardis")) {
 					allowedDimensions.remove(dimension);
 				}
 			}
@@ -82,7 +82,7 @@ public class WATeleporter {
 
 
 	public static boolean isPosBelowOrAboveWorld(World dim, int y) {
-		if (dim.getDimensionKey().func_240901_a_().equals(DimensionType.THE_NETHER.getRegistryName())) {
+		if (dim.getDimensionKey().getLocation().equals(DimensionType.THE_NETHER.getRegistryName())) {
 			return y <= 0 || y >= 126;
 		}
 		return y <= 0 || y >= 256;

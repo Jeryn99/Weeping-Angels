@@ -34,17 +34,17 @@ public class EntitySpawn {
     public static void addMobSpawnToBiome(Biome biome, EntityClassification classification, MobSpawnInfo.Spawners... spawners) {
         convertImmutableSpawners(biome);
         //Copy the list of spawners that already exist for the given biome.
-        List<MobSpawnInfo.Spawners> spawnersList = new ArrayList<>(biome.func_242433_b().field_242554_e.get(classification));
+        List<MobSpawnInfo.Spawners> spawnersList = new ArrayList<>(biome.getMobSpawnInfo().spawners.get(classification));
         //Add all the spawners within our list.
         spawnersList.addAll(Arrays.asList(spawners));
         //Overwrite the list for the given classification with the old list and our new entries.
-        biome.func_242433_b().field_242554_e.put(classification, spawnersList);
+        biome.getMobSpawnInfo().spawners.put(classification, spawnersList);
     }
 
     //Convert the immutable map to a mutable HashMap in order for us to change the data stored in these maps
     private static void convertImmutableSpawners(Biome biome) {
-        if (biome.func_242433_b().field_242554_e instanceof ImmutableMap) {
-            biome.func_242433_b().field_242554_e = new HashMap<>(biome.func_242433_b().field_242554_e);
+        if (biome.getMobSpawnInfo().spawners instanceof ImmutableMap) {
+            biome.getMobSpawnInfo().spawners = new HashMap<>(biome.getMobSpawnInfo().spawners);
         }
     }
 }

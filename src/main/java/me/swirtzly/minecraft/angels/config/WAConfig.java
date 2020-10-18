@@ -25,8 +25,6 @@ public class WAConfig {
 	
 	// WorldGen
 	public final ForgeConfigSpec.BooleanValue arms;
-	public final ForgeConfigSpec.BooleanValue catacombs;
-	public final ForgeConfigSpec.IntValue chanceCatacombs;
 	public final ForgeConfigSpec.BooleanValue genOres;
 	// Spawn
 	public final ForgeConfigSpec.IntValue maxSpawn;
@@ -44,7 +42,6 @@ public class WAConfig {
 	public final ForgeConfigSpec.IntValue blockBreakRange;
 	public final ForgeConfigSpec.BooleanValue chickenGoboom;
 	public final ForgeConfigSpec.BooleanValue torchBlowOut;
-	public final ForgeConfigSpec.ConfigValue<List<? extends String>> disAllowedBlocks;
 	public final ForgeConfigSpec.BooleanValue freezeOnAngel;
 	public final ForgeConfigSpec.BooleanValue pickaxeOnly;
 	public final ForgeConfigSpec.IntValue stalkRange;
@@ -61,8 +58,6 @@ public class WAConfig {
 	public WAConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("world_gen");
 		arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
-		catacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Generate catacombs?").define("genCatacombs", false);
-		chanceCatacombs = builder.translation("config.weeping_angels.chanceGenCatacombs").comment("Chance to generate catacombs? 1 chance of ... (default :25)").defineInRange("chanceCatacombs", 25, 1, Integer.MAX_VALUE);
 		genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
 		builder.pop();
 		builder.push("spawn");
@@ -80,18 +75,17 @@ public class WAConfig {
 		xpGained = builder.translation("config.weeping_angels.angel_xp_value").comment("XP gained from angels").defineInRange("xpGained", 25, 1, Integer.MAX_VALUE);
 		chickenGoboom = builder.translation("config.weeping_angels.chicken_go_boom").comment("If this is enabled, the timey wimey detector can blow up chickens when in use randomly").define("chickenGoboom", true);
 		torchBlowOut = builder.translation("config.weeping_angels.blowout_torch").comment("If this is enabled, baby angels will blow out light items from the players hand").define("torchBlowOut", true);
-		freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another.").define("freezeOnAngel", false);
+		freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another. (Impacts performance a bit)").define("freezeOnAngel", false);
 		pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
 		stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
 		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("moveSpeed", 1.5, 1.0, Double.MAX_VALUE);
 		blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
-		disAllowedBlocks = builder.translation("config.weeping_angels.disallowed_blocks").comment("List of blocks that Angels CANNOT break").defineList("disAllowedBlocks", Lists.newArrayList("minecraft:magma_block", "minecraft:glowstone", "minecraft:sea_lantern", "tardis:exterior_steampunk", "tardis:exterior_clock", "minecraft:air"), String.class::isInstance);
-		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, Integer.MAX_VALUE);
+		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));
-        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.field_242712_c.toString()), String.class::isInstance);
+        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.THE_END_ID.toString()), String.class::isInstance);
         justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
         teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
         angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
@@ -100,14 +94,14 @@ public class WAConfig {
 
     public ArrayList<String> genBiomesForSpawn() {
         ArrayList<String> BIOMES = new ArrayList<>();
-        BIOMES.add(Biomes.TAIGA_HILLS.func_240901_a_().toString());
-        BIOMES.add(Biomes.TAIGA.func_240901_a_().toString());
-        BIOMES.add(Biomes.DESERT.func_240901_a_().toString());
-        BIOMES.add(Biomes.DESERT_HILLS.func_240901_a_().toString());
-        BIOMES.add(Biomes.PLAINS.func_240901_a_().toString());
-        BIOMES.add(Biomes.SWAMP.func_240901_a_().toString());
-        BIOMES.add(Biomes.BEACH.func_240901_a_().toString());
-        BIOMES.add(Biomes.SNOWY_TAIGA.func_240901_a_().toString());
+        BIOMES.add(Biomes.TAIGA_HILLS.getLocation().toString());
+        BIOMES.add(Biomes.TAIGA.getLocation().toString());
+        BIOMES.add(Biomes.DESERT.getLocation().toString());
+        BIOMES.add(Biomes.DESERT_HILLS.getLocation().toString());
+        BIOMES.add(Biomes.PLAINS.getLocation().toString());
+        BIOMES.add(Biomes.SWAMP.getLocation().toString());
+        BIOMES.add(Biomes.BEACH.getLocation().toString());
+        BIOMES.add(Biomes.SNOWY_TAIGA.getLocation().toString());
         return BIOMES;
 	}
 }

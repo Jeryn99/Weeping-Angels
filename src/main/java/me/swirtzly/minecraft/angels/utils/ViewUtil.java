@@ -35,7 +35,7 @@ public class ViewUtil {
 
 		if (vr) {
 			if (entity instanceof PlayerEntity) {
-				vecLook = WeepingAngels.reflector.getHMDRot((PlayerEntity) entity);
+				vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((PlayerEntity) entity);
 			} else {
 				throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
 			}
@@ -111,7 +111,7 @@ public class ViewUtil {
 			return false;
 		}
 		if (livingBase instanceof PlayerEntity) {
-			return isInFrontOfEntity(livingBase, angel, WeepingAngels.reflector.isVRPlayer((PlayerEntity) livingBase));
+			return isInFrontOfEntity(livingBase, angel, WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) livingBase));
 		}
 		return isInFrontOfEntity(livingBase, angel, false);
 	}
@@ -125,8 +125,8 @@ public class ViewUtil {
 
 		if (viewer instanceof PlayerEntity) {
 			Vector3d pos;
-			if (WeepingAngels.reflector.isVRPlayer((PlayerEntity) viewer))
-				pos = WeepingAngels.reflector.getHMDPos((PlayerEntity) viewer);
+			if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
+				pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
 			else
 				pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
 			viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
@@ -168,8 +168,8 @@ public class ViewUtil {
 
 		if (viewer instanceof PlayerEntity) {
 			Vector3d pos;
-			if (WeepingAngels.reflector.isVRPlayer((PlayerEntity) viewer))
-				pos = WeepingAngels.reflector.getHMDPos((PlayerEntity) viewer);
+			if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
+				pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
 			else
 				pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
 			viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);

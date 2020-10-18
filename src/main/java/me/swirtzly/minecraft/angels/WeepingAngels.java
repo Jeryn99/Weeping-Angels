@@ -1,6 +1,9 @@
 package me.swirtzly.minecraft.angels;
 
+import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
+import net.minecraft.data.DataGenerator;
+import net.minecraftforge.eventbus.api.IEventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,26 +41,29 @@ public class WeepingAngels {
 	
 	public static Logger LOGGER = LogManager.getLogger(NAME);
 
-	public static final ServerReflector reflector = new ServerReflector();
+	public static final ServerReflector VR_REFLECTOR = new ServerReflector();
 
 
 	public WeepingAngels() {
-		FMLJavaModLoadingContext.get().getModEventBus().register(this);
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		bus.register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff));
+		bus.addListener(this::setup);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::doClientStuff));
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onNewRegistries(RegistryEvent.NewRegistry e) {
-		WAObjects.Sounds.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.Items.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.Blocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.Blocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.EntityEntries.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.Tiles.TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WAObjects.WorldGenEntries.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		WAObjects.Sounds.SOUNDS.register(bus);
+		WAObjects.Items.ITEMS.register(bus);
+		WAObjects.Blocks.BLOCKS.register(bus);
+		WAObjects.Blocks.BLOCK_ITEMS.register(bus);
+		WAObjects.EntityEntries.ENTITIES.register(bus);
+		WAObjects.Tiles.TILES.register(bus);
+		WAAttributes.ATTRIBUTES.register(bus);
+		WAObjects.WorldGenEntries.setup();
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
@@ -66,8 +72,7 @@ public class WeepingAngels {
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
 		AngelUtils.registerFunction(new ResourceLocation(MODID,"fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
 
-		reflector.init();
-
+		VR_REFLECTOR.init();
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
@@ -76,8 +81,9 @@ public class WeepingAngels {
 
 	@SubscribeEvent
 	public void gatherData(GatherDataEvent e) {
-		e.getGenerator().addProvider(new WAItemTags(e.getGenerator(), new WABlockTags(e.getGenerator())));
-		e.getGenerator().addProvider(new WABlockTags(e.getGenerator()));
-		e.getGenerator().addProvider(new LangEnglish(e.getGenerator()));
+		DataGenerator generator = e.getGenerator();
+		generator.addProvider(new WAItemTags(generator, new WABlockTags(generator)));
+		generator.addProvider(new WABlockTags(generator));
+		generator.addProvider(new LangEnglish(generator));
 	}
 }

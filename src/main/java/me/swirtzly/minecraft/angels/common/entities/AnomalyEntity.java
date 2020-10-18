@@ -1,31 +1,24 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-
-import java.util.Iterator;
 
 public class AnomalyEntity extends MobEntity {
 	
-	private static final DataParameter<Float> EYE_HEIGHT = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.FLOAT);
-	
+	private static final DataParameter<Integer> TIME_ALIVE = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.VARINT);
+
 	public AnomalyEntity(World worldIn) {
 		super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
 	}
@@ -43,12 +36,20 @@ public class AnomalyEntity extends MobEntity {
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_PLAYER_ATTACK_WEAK;
 	}
-	
+
 	@Override
 	protected boolean isMovementBlocked() {
 		return true;
 	}
-	
+
+	public void setTimeAlive(int timeAlive){
+		getDataManager().set(TIME_ALIVE, timeAlive);
+	}
+
+	public int getTimeAlive() {
+		return getDataManager().get(TIME_ALIVE);
+	}
+
 	@Override
 	public void tick() {
 		super.tick();
@@ -58,7 +59,7 @@ public class AnomalyEntity extends MobEntity {
 			playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
 		}
 		
-		if (ticksExisted > 100) {
+		if (ticksExisted > getTimeAlive()) {
 			remove();
 		}
 
@@ -67,10 +68,11 @@ public class AnomalyEntity extends MobEntity {
 				BlockPos pos = getPosition().subtract(weepingAngelEntity.getPosition());
 				Vector3d vec = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
 				weepingAngelEntity.setNoAI(false);
-				weepingAngelEntity.setMotion(vec.scale(0.25D));
+				weepingAngelEntity.setMotion(vec.scale(0.15D));
 			}
 		}
 	}
+
 
 	@Override
 	protected void collideWithEntity(Entity entityIn) {
@@ -86,14 +88,6 @@ public class AnomalyEntity extends MobEntity {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		getDataManager().register(EYE_HEIGHT, getEyeHeight());
-	}
-	
-	public float getEntityEyeHeight() {
-		return getDataManager().get(EYE_HEIGHT);
-	}
-	
-	public void setEntityEyeHeight(float eyeHeight) {
-		getDataManager().set(EYE_HEIGHT, eyeHeight);
+		getDataManager().register(TIME_ALIVE, 100);
 	}
 }

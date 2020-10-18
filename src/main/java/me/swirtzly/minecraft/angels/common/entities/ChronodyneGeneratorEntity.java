@@ -26,7 +26,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 @OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements IRendersAsItem {
 
-
 	public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
@@ -56,13 +55,11 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
 			if (hitEntity instanceof WeepingAngelEntity) {
 				if (!world.isRemote) {
 					AnomalyEntity a = new AnomalyEntity(world);
-					a.setEntityEyeHeight(hitEntity.getEyeHeight());
 					a.copyLocationAndAnglesFrom(hitEntity);
 					world.addEntity(a);
 					remove();
 				}
 			}
-			
 		}
 
 		if (result.getType() == RayTraceResult.Type.BLOCK) {

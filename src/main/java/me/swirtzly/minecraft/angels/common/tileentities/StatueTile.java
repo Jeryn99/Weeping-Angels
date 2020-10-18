@@ -54,7 +54,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	
 	public void setPose(ResourceLocation pose) {
 		this.pose = pose;
-		sendUpdates();
 	}
 
 	public void sendUpdates() {
@@ -81,7 +80,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
-		sendUpdates();
 	}
 
 	@Override
@@ -99,11 +97,10 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 			WeepingAngelEntity angel = new WeepingAngelEntity(world);
 			angel.setType(type);
 			angel.setCherub(false);
-			angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+			angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, rotation, rotation);
 			angel.setPose(getPose());
 			world.addEntity(angel);
 			world.removeBlock(getPos(), false);
-			sendUpdates();
 		}
 	}
 }

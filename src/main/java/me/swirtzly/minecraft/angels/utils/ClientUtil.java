@@ -74,7 +74,7 @@ public class ClientUtil {
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
 
-		ItemModelsProperties.func_239418_a_(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
+		ItemModelsProperties.registerProperty(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
 			if (clientWorld != null) {
 				return clientWorld.rand.nextInt(17);
 			}
@@ -82,5 +82,8 @@ public class ClientUtil {
 		});
 	
 	}
+
+
+
 
 }
