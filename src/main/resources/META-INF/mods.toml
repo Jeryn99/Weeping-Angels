@@ -8,7 +8,7 @@ authors="Swirtzly"
 license="https://github.com/WhoCraft/Weeping-Angels/blob/1.14/LICENSE"
 [[mods]]
 modId="weeping_angels"
-version="1.0.2"
+version="1.0.3"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16.2/update.json" #optional
 description='''
