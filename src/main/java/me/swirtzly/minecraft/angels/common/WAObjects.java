@@ -157,11 +157,6 @@ public class WAObjects {
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
 	}
 
-	// World Gen-Features Creation
-	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> configuredFeature) {
-		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, key, configuredFeature);
-	}
-
 	// Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
 		return TileEntityType.Builder.create(tile, validBlock).build(null);

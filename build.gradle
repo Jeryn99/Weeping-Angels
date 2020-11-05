@@ -1,17 +1,22 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = "https://plugins.gradle.org/m2/"}
         jcenter()
         mavenCentral()
+
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: "com.matthewprenger.cursegradle"
+
 
 version = "${mod_version}"
 group = 'me.swirtzly.minecraft.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -81,6 +86,18 @@ minecraft {
     }
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
+}
+
+curseforge {
+    apiKey = rootProject.curseforge
+    project {
+        id = rootProject.weeping_angels
+        changelog = 'Some changes'
+        releaseType = 'release'
+        mainArtifact(jar) {
+            displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
+        }
+    }
 }
 
 repositories {
