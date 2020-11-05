@@ -62,8 +62,9 @@ public class WeepingAngels {
 		WAObjects.Blocks.BLOCK_ITEMS.register(bus);
 		WAObjects.EntityEntries.ENTITIES.register(bus);
 		WAObjects.Tiles.TILES.register(bus);
+		WAObjects.WorldGenEntries.FEATURES.register(bus);
 		WAAttributes.ATTRIBUTES.register(bus);
-		WAObjects.WorldGenEntries.setup();
+		//WAObjects.WorldGenEntries.setup();
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {

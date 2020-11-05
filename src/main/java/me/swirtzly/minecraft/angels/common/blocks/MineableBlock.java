@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class MineableBlock extends Block {
 
 	public MineableBlock(ResourceLocation lootLocation) {
-		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
 		this.lootTable = lootLocation;
 	}
 

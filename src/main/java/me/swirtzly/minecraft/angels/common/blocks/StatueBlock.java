@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 public class StatueBlock extends Block {
 	
 	public StatueBlock() {
-		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
 	}
 	
 	@Nullable

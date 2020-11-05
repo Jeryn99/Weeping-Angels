@@ -14,7 +14,7 @@ import net.minecraft.world.IBlockReader;
 public class SnowArmBlock extends SnowBlock {
 	
 	public SnowArmBlock() {
-		super(Block.Properties.create(Material.SNOW).notSolid().hardnessAndResistance(3).sound(SoundType.SNOW));
+		super(Block.Properties.create(Material.SNOW).notSolid().hardnessAndResistance(3).sound(SoundType.SNOW).setRequiresTool());
 	}
 	
 	@Nullable

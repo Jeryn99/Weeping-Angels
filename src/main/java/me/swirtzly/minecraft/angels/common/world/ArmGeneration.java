@@ -21,7 +21,7 @@ public class ArmGeneration extends Feature<NoFeatureConfig> {
 	}
 
 	@Override
-	public boolean func_241855_a(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
+	public boolean generate(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
 		for (int y = 45; y < 70; ++y) {
 			BlockPos test = new BlockPos(blockPos.getX(), y, blockPos.getZ());
 			if(random.nextInt(100) < 20) {

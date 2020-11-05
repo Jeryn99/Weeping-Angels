@@ -60,26 +60,25 @@ public class AngelUtils {
     }
 
 
-    public static Structure[] END_STRUCTURES = new Structure[]{Structure.field_236379_o_};
+    public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
-            Structure.field_236366_b_,
-            Structure.field_236367_c_,
-            Structure.field_236368_d_,
-            Structure.field_236369_e_,
-            Structure.field_236370_f_,
-            Structure.field_236371_g_,
-            Structure.field_236372_h_,
-            Structure.field_236373_i_,
-            Structure.field_236374_j_,
-            Structure.field_236375_k_,
-            Structure.field_236376_l_,
-            Structure.field_236377_m_,
-            Structure.field_236380_p_,
-            Structure.field_236381_q_
+            Structure.PILLAGER_OUTPOST,
+            Structure.MINESHAFT,
+            Structure.WOODLAND_MANSION,
+            Structure.JUNGLE_PYRAMID,
+            Structure.DESERT_PYRAMID,
+            Structure.IGLOO,
+            Structure.RUINED_PORTAL,
+            Structure.SHIPWRECK,
+            Structure.SWAMP_HUT,
+            Structure.STRONGHOLD,
+            Structure.MONUMENT,
+            Structure.BURIED_TREASURE,
+            Structure.VILLAGE
     };
 
-    public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.field_236383_s_, Structure.field_236382_r_, Structure.field_236378_n_};
+    public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.FORTRESS};
     public static Random RAND = new Random();
 
     /**

@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 public class PlinthBlock extends Block {
 	
 	public PlinthBlock() {
-		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE));
+		super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
 	}
 	
 	@Nullable
