@@ -53,7 +53,7 @@ public class EventHandler {
         }
 
 		if (biomeCategory != Biome.Category.NETHER && biomeCategory != Biome.Category.THEEND) {
-			biomeLoadingEvent.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5));
+			biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5));
         }
     }
 
