@@ -182,27 +182,27 @@ public class WAObjects {
 	/** Configure the structure so it can be placed in the world. <br> Register Configured Structures in Common Setup. There is currently no Forge Registry for configured structures because configure structures are a dynamic registry and can cause issues if it were a Forge registry.*/
 	public static class ConfiguredStructures{
 		/** Static instance of our configured structure feature so we can reference it for registration*/
-	   public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = WorldGenEntries.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(10));
+	   public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = WorldGenEntries.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
 	   
 	   public static void registerConfiguredStructures() {
 	        registerConfiguredStructure("configured_graveyard", WorldGenEntries.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
 	   }
 	}
 	
-	/** Ok so, this part may be hard to grasp but basically, just add your structure to FlatGenerationSettings to
-	 * prevent any sort of crash or issue with other mod's custom ChunkGenerators. 
-	 * <br> If they use FlatGenerationSettings.STRUCTURES in it and you don't add your structure to it, the game
-     * could crash later when you attempt to add the StructureSeparationSettings to the dimension.
-
-     * <br> (It would also crash with superflat worldtype if you omit the below line
-     * and attempt to add the structure's StructureSeparationSettings to the world)
-     * <br> <br> Note: If you want your structure to spawn in superflat, remove the FlatChunkGenerator check
-     * in EventHandler.addDimensionalSpacing and then create a superflat world, exit it,
-     * and re-enter it and your structures will be spawning. 
-     * <br> <br> I could not figure out why it needs the restart but honestly, superflat is really buggy and shouldn't be your main focus in my opinion. */
-    private static <T extends Structure<?>> void registerConfiguredStructure(String registryName, Supplier<T> structure, StructureFeature<?, ?> configuredStructure) {
+	private static <T extends Structure<?>> void registerConfiguredStructure(String registryName, Supplier<T> structure, StructureFeature<?, ?> configuredStructure) {
     	Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
     	Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredStructure);
+    	/** Ok so, this part may be hard to grasp but basically, just add your structure to FlatGenerationSettings to
+    	 * prevent any sort of crash or issue with other mod's custom ChunkGenerators. 
+    	 * <br> If they use FlatGenerationSettings.STRUCTURES in it and you don't add your structure to it, the game
+         * could crash later when you attempt to add the StructureSeparationSettings to the dimension.
+
+         * <br> (It would also crash with superflat worldtype if you omit the below line
+         * and attempt to add the structure's StructureSeparationSettings to the world)
+         * <br> <br> Note: If you want your structure to spawn in superflat, remove the FlatChunkGenerator check
+         * in EventHandler.addDimensionalSpacing and then create a superflat world, exit it,
+         * and re-enter it and your structures will be spawning. 
+         * <br> <br> I could not figure out why it needs the restart but honestly, superflat is really buggy and shouldn't be your main focus in my opinion. */
     	FlatGenerationSettings.STRUCTURES.put(structure.get(), configuredStructure);
     }
 	
@@ -213,7 +213,7 @@ public class WAObjects {
 	 /** Setup the structure and add the rarity settings. This is set to very high for dev testing purposes. 
 	  * <br> Call this in CommonSetup */
     public static void setupStructures() { 
-        setupStructure(WorldGenEntries.GRAVEYARD.get(), new StructureSeparationSettings(10, 5, 1234567890), true); //10 maximum distance apart, 5 minimum distance apart, chunk seed
+        setupStructure(WorldGenEntries.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
     
     /** Add Structure to the structure registry map and setup the seperation settings.*/
@@ -247,6 +247,10 @@ public class WAObjects {
                         .build();
     }
     
+    /** Register the pieces of your structure if this has not been done by a jigsaw pool.
+     * <br> You MUST call this method to allow the chunk to save. 
+     * <br> Otherwise the chunk won't save and complain it's missing a registry id for the structure piece. Darn vanilla...
+     * */
     public static IStructurePieceType registerStructurePiece(IStructurePieceType type, String key) {
     	return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(WeepingAngels.MODID, key), type);
     }
