@@ -42,7 +42,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 			if (WAConfig.CONFIG.freezeOnAngel.get()) {
 				List<WeepingAngelEntity> angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
 				for (WeepingAngelEntity angel : angels) {
-					if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this)) {
+					if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
 						setSeenTime(getSeenTime() + 1);
 						setNoAI(true);
 						return;
@@ -55,7 +55,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 			} else {
 				PlayerEntity targetPlayer = null;
 				for (PlayerEntity player : players) {
-					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
+					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player) && isOnGround()) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
 						return;
@@ -144,6 +144,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		setNoAI(true);
 		getLookController().setLookPositionWithEntity(player, 30, 30);
 		getNavigator().setPath(null, 0);
+		//setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
 		setMotion(0,0,0);
 	}
 

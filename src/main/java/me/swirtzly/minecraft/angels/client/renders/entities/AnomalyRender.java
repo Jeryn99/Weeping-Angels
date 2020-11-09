@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class AnomalyRender extends MobRenderer<AnomalyEntity, EntityModel<AnomalyEntity>> {
 
-	private static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/anomaly.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/anomaly.png");
 
 	public AnomalyRender(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn, new PortalModel(), 0);
