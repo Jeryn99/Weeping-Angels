@@ -92,7 +92,7 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = 'Some changes'
+        changelog = 'Added Graveyards! They have cool loot, but you can never be too careful about who is guarding it...'
         releaseType = 'release'
         addGameVersion '1.16.3'
         addGameVersion '1.16.4'
