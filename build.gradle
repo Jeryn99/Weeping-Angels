@@ -88,17 +88,17 @@ minecraft {
 
 }
 
-curseforge {
-    apiKey = rootProject.curseforge
-    project {
-        id = rootProject.weeping_angels
-        changelog = 'Some changes'
-        releaseType = 'release'
-        mainArtifact(jar) {
-            displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
-        }
-    }
-}
+//curseforge {
+    //apiKey = rootProject.curseforge
+    //project {
+        //id = rootProject.weeping_angels
+        //changelog = 'Some changes'
+        //releaseType = 'release'
+        //mainArtifact(jar) {
+          //  displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
+        //}
+    //}
+//}
 
 repositories {
     maven {
