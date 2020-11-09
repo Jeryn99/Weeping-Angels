@@ -47,7 +47,6 @@ import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.FlatGenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
@@ -165,34 +164,41 @@ public class WAObjects {
 	public static class WorldGenEntries {
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
+	
+	}
+	
+	/**===Structure Registration Start===*/
+	
+	public static class Structures{
+        public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
 	    
-		public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
-	    
-		/**====Graveyard Structure Start====*/
-		/** The Structure registry object. This isn't actually setup yet, see setUpStructure */
+		/** The Structure registry object. This isn't actually setup yet, see {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)} */
 		public static final RegistryObject<Structure<ProbabilityConfig>> GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.CODEC)));
-		
 		/** Static instance of our structure so we can reference it before registry stuff happens and use it to make configured structures in ConfiguredStructures */
 		public static IStructurePieceType GRAVEYARD_PIECE = registerStructurePiece(GraveyardStructurePieces.Piece::new, "graveyard_piece");
 		
-		/**====Graveyard Structure End====*/
-	
 	}
 	
 	/** Configure the structure so it can be placed in the world. <br> Register Configured Structures in Common Setup. There is currently no Forge Registry for configured structures because configure structures are a dynamic registry and can cause issues if it were a Forge registry.*/
 	public static class ConfiguredStructures{
 		/** Static instance of our configured structure feature so we can reference it for registration*/
-	   public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = WorldGenEntries.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
+	   public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
 	   
 	   public static void registerConfiguredStructures() {
-	        registerConfiguredStructure("configured_graveyard", WorldGenEntries.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
+	        registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
 	   }
 	}
+	
+	 /** Setup the structure and add the rarity settings.
+	  * <br> Call this in CommonSetup in a deferred work task to reduce concurrent modification issues as we are modifying multiple maps we ATed*/
+   public static void setupStructures() { 
+       setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+   }
 	
 	private static <T extends Structure<?>> void registerConfiguredStructure(String registryName, Supplier<T> structure, StructureFeature<?, ?> configuredStructure) {
     	Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
     	Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredStructure);
-    	/** Ok so, this part may be hard to grasp but basically, just add your structure to FlatGenerationSettings to
+    	/** Add your structure to FlatGenerationSettings to
     	 * prevent any sort of crash or issue with other mod's custom ChunkGenerators. 
     	 * <br> If they use FlatGenerationSettings.STRUCTURES in it and you don't add your structure to it, the game
          * could crash later when you attempt to add the StructureSeparationSettings to the dimension.
@@ -207,13 +213,7 @@ public class WAObjects {
     }
 	
 	private static <T extends Structure<?>> RegistryObject<T> setupStructure(String name, Supplier<T> structure) {
-        return WorldGenEntries.STRUCTURES.register(name, structure);
-    }
-	
-	 /** Setup the structure and add the rarity settings. This is set to very high for dev testing purposes. 
-	  * <br> Call this in CommonSetup */
-    public static void setupStructures() { 
-        setupStructure(WorldGenEntries.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        return Structures.STRUCTURES.register(name, structure);
     }
     
     /** Add Structure to the structure registry map and setup the seperation settings.*/
@@ -254,6 +254,9 @@ public class WAObjects {
     public static IStructurePieceType registerStructurePiece(IStructurePieceType type, String key) {
     	return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(WeepingAngels.MODID, key), type);
     }
+    
+    
+    /**===Structure Registration End===*/
 
 	// Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {

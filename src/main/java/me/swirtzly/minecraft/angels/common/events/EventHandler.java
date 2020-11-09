@@ -64,7 +64,7 @@ public class EventHandler {
 
 		if (biomeCategory != Biome.Category.NETHER && biomeCategory != Biome.Category.THEEND) {
 		    biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5));
-			//Graveyard Spawning
+			//Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
 		    if (WAConfig.CONFIG.genGraveyard.get()) {
 			    if (biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT) {
 				    biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
@@ -74,6 +74,11 @@ public class EventHandler {
         }
     }
     
+    /**Adds the structure's spacing for modded code made dimensions so that the structure's spacing remains
+     * correct in any dimension or worldtype instead of not spawning.
+     * In {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)} we call {@link DimensionStructuresSettings#field_236191_b_}
+     * but this sometimes does not work in code made dimensions.
+     * */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void addDimensionalSpacing(final WorldEvent.Load event) {
 	    if(event.getWorld() instanceof ServerWorld){
@@ -81,7 +86,7 @@ public class EventHandler {
 
             /* Prevent spawning our structure in Vanilla's superflat world as
              * people seem to want their superflat worlds free of modded structures.
-             * Also, vanilla superflat is really tricky and buggy to work with. 
+             * Also, vanilla superflat is really tricky and buggy to work with as mentioned in WAObjects#registerConfiguredStructure
              * BiomeModificationEvent does not seem to fire for superflat biomes...you can't add structures to superflat without mixin it seems. 
              * */
              if(serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator &&
@@ -91,7 +96,7 @@ public class EventHandler {
             //Only spawn Graveyards in the Overworld structure list
             if(serverWorld.getDimensionKey().equals(World.OVERWORLD)) {
             	 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
-                 tempMap.put(WAObjects.WorldGenEntries.GRAVEYARD.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.WorldGenEntries.GRAVEYARD.get()));
+                 tempMap.put(WAObjects.Structures.GRAVEYARD.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.Structures.GRAVEYARD.get()));
                  serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
         }

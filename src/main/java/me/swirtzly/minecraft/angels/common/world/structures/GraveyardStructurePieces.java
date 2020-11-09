@@ -53,7 +53,7 @@ public class GraveyardStructurePieces {
         private Rotation rotation;
 
         public Piece(TemplateManager templateManagerIn, ResourceLocation resourceLocationIn, BlockPos pos, Rotation rotationIn) {
-            super(WAObjects.WorldGenEntries.GRAVEYARD_PIECE, 0);
+            super(WAObjects.Structures.GRAVEYARD_PIECE, 0);
             this.resourceLocation = resourceLocationIn;
             BlockPos blockpos = GraveyardStructurePieces.OFFSET.get(resourceLocation);
             this.templatePosition = pos.add(blockpos.getX(), blockpos.getY(), blockpos.getZ());
@@ -62,7 +62,7 @@ public class GraveyardStructurePieces {
         }
 
         public Piece(TemplateManager templateManagerIn, CompoundNBT tagCompound) {
-            super(WAObjects.WorldGenEntries.GRAVEYARD_PIECE, tagCompound);
+            super(WAObjects.Structures.GRAVEYARD_PIECE, tagCompound);
             this.resourceLocation = new ResourceLocation(tagCompound.getString("Template"));
             this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
             this.setupPiece(templateManagerIn);

@@ -63,7 +63,7 @@ public class WeepingAngels {
 		WAObjects.EntityEntries.ENTITIES.register(bus);
 		WAObjects.Tiles.TILES.register(bus);
 		WAObjects.WorldGenEntries.FEATURES.register(bus);
-		WAObjects.WorldGenEntries.STRUCTURES.register(bus);
+		WAObjects.Structures.STRUCTURES.register(bus);
 		WAAttributes.ATTRIBUTES.register(bus);
 	}
 	

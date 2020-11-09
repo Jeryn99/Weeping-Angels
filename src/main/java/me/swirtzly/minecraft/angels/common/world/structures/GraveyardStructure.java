@@ -36,16 +36,18 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
 	/**
      * || ONLY WORKS IN FORGE 34.1.12+ ||
      *
-     * This method allows us to have mobs that spawn naturally over time in our structure.
+     * <br>This method allows us to have mobs that spawn naturally over time in our structure.
      * No other mobs will spawn in the structure of the same entity classification.
-     * The reason you want to match the classifications is so that your structure's mob
+     * <br> The reason you want to match the classifications is so that your structure's mob
      * will contribute to that classification's cap. Otherwise, it may cause a runaway
      * spawning of the mob that will never stop.
      *
-     * NOTE: getDefaultSpawnList is for monsters only and getDefaultCreatureSpawnList is
-     *       for creatures only. If you want to add entities of another classification,
+     * <br> NOTE: getDefaultSpawnList is for monsters only and getDefaultCreatureSpawnList is
+     *       for creatures only. 
+     *       <br> If you want to add entities of another classification,
      *       use the StructureSpawnListGatherEvent to add water_creatures, water_ambient,
-     *       ambient, or misc mobs. Use that event to add/remove mobs from structures
+     *       ambient, or misc mobs. 
+     *       <br> Use that event to add/remove mobs from structures
      *       that are not your own.
      */
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
@@ -67,6 +69,7 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
         return STRUCTURE_CREATURES;
     }
 	
+    //Required, sets the Structure Start settings
 	@Override
 	public IStartFactory<ProbabilityConfig> getStartFactory() {
 		return GraveyardStructure.Start::new;
