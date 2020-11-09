@@ -1,5 +1,8 @@
 package me.swirtzly.minecraft.angels.common.events;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -15,18 +18,25 @@ import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -42,7 +52,7 @@ public class EventHandler {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
         Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
@@ -54,6 +64,34 @@ public class EventHandler {
 
 		if (biomeCategory != Biome.Category.NETHER && biomeCategory != Biome.Category.THEEND) {
 			biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5));
+			//Graveyard Spawning
+			if (biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT) {
+				biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
+				WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
+			}
+        }
+    }
+    
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void addDimensionalSpacing(final WorldEvent.Load event) {
+	    if(event.getWorld() instanceof ServerWorld){
+             ServerWorld serverWorld = (ServerWorld)event.getWorld();
+
+            /* Prevent spawning our structure in Vanilla's superflat world as
+             * people seem to want their superflat worlds free of modded structures.
+             * Also, vanilla superflat is really tricky and buggy to work with. 
+             * BiomeModificationEvent does not seem to fire for superflat biomes...you can't add structures to superflat without mixin it seems. 
+             * */
+             if(serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator &&
+                 serverWorld.getDimensionKey().equals(World.OVERWORLD)){
+                 return;
+            }
+            //Only spawn Graveyards in the Overworld structure list
+            if(serverWorld.getDimensionKey().equals(World.OVERWORLD)) {
+            	 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
+                 tempMap.put(WAObjects.WorldGenEntries.GRAVEYARD.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.WorldGenEntries.GRAVEYARD.get()));
+                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
+            }
         }
     }
 

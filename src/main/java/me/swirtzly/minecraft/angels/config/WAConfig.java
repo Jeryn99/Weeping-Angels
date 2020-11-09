@@ -26,6 +26,7 @@ public class WAConfig {
 	// WorldGen
 	public final ForgeConfigSpec.BooleanValue arms;
 	public final ForgeConfigSpec.BooleanValue genOres;
+	public final ForgeConfigSpec.BooleanValue genGraveyard;
 	// Spawn
 	public final ForgeConfigSpec.IntValue maxSpawn;
 	public final ForgeConfigSpec.IntValue spawnWeight;
@@ -59,6 +60,7 @@ public class WAConfig {
 		builder.push("world_gen");
 		arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
 		genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
+		genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
 		builder.pop();
 		builder.push("spawn");
 		minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
