@@ -66,7 +66,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class WAObjects {
 	
 	public static DamageSource ANGEL = new WADamageSource("backintime"), STONE = new WADamageSource("punch_stone"), ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
-	
+
+	public static ResourceLocation CRYPT_LOOT = new ResourceLocation(MODID, "chests/crypt");
+
 	@SubscribeEvent
 	public static void addSpawns(FMLLoadCompleteEvent e) {
 		EntitySpawn.addSpawnEntries();

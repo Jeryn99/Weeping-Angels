@@ -55,7 +55,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 			} else {
 				PlayerEntity targetPlayer = null;
 				for (PlayerEntity player : players) {
-					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player)) {
+					if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player) && isOnGround()) {
 						setSeenTime(getSeenTime() + 1);
 						invokeSeen(player);
 						return;
@@ -79,7 +79,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	}
 	
 	public void moveTowards(LivingEntity targetPlayer) {
-		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.CONFIG.moveSpeed.get());
+		getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
 	}
 	
 	@Override
@@ -144,7 +144,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		setNoAI(true);
 		getLookController().setLookPositionWithEntity(player, 30, 30);
 		getNavigator().setPath(null, 0);
-		setMotion(0,0,0);
+		//setMotion(0,0,0);
 	}
 
 }

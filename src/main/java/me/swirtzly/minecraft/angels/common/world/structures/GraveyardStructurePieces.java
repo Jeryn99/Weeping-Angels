@@ -2,7 +2,11 @@ package me.swirtzly.minecraft.angels.common.world.structures;
 
 import com.google.common.collect.ImmutableMap;
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
@@ -19,7 +23,12 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoader;
+import net.minecraftforge.fml.client.gui.screen.ModListScreen;
+import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +42,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class GraveyardStructurePieces {
 
-    private static String[] USERNAMES = new String[]{"Swirtzly", "50ap5ud5", "a_dizzle", "dhi", "ConnorDawn"};
+    private static String[] USERNAMES = new String[]{"WizeWizzard", "Magicmaan", "Icebrin", "Swirtzly", "Cadiboo", "Chell", "UsualTundra1994", "50ap5ud5", "a_dizzle", "dhi", "ConnorDawn", "Spectre0987", "Nictogen"};
 
     private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
     private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
@@ -43,19 +52,9 @@ public class GraveyardStructurePieces {
     public static void start(TemplateManager templateManager, BlockPos pos, Rotation rotation, List<StructurePiece> pieceList, Random random) {
         int x = pos.getX();
         int z = pos.getZ();
-
-        // This is how we factor in rotation for multi-piece structures.
-        //
-        // I would recommend using the OFFSET map above to have each piece at correct height relative of each other
-        // and keep the X and Z equal to 0. And then in rotations, have the centermost piece have a rotation
-        // of 0, 0, 0 and then have all other pieces' rotation be based off of the bottommost left corner of
-        // that piece (the corner that is smallest in X and Z).
-        //
-        // Lots of trial and error may be needed to get this right for your structure.
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
         pieceList.add(new GraveyardStructurePieces.Piece(templateManager, random.nextBoolean() ? GRAVEYARD_1 : GRAVEYARD_2, blockpos, rotation));
-
     }
 
     public static class Piece extends TemplateStructurePiece {
@@ -109,11 +108,25 @@ public class GraveyardStructurePieces {
         protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 
             if(ServerLifecycleHooks.getCurrentServer().isDedicatedServer()){
-                USERNAMES = ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames();
+                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());;
             }
 
-            if ("crypt_chest".equals(function)) {
-                LockableLootTileEntity.setLootTable(worldIn, rand, pos.down(), LootTables.CHESTS_JUNGLE_TEMPLE);
+            if("angel".equals(function)){
+                StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());
+                statueTile.setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
+                statueTile.setAngelType(5);
+                statueTile.markDirty();
+                worldIn.removeBlock(pos, false);
+            }
+
+
+            if("cobweb".equals(function)){
+                Block block = rand.nextBoolean() ? Blocks.COBWEB : Blocks.AIR;
+                worldIn.setBlockState(pos, block.getDefaultState(), 2);
+            }
+
+            if ("crypt_chest".equals(function) || "chest".equals(function)) {
+                LockableLootTileEntity.setLootTable(worldIn, rand, pos.down(), WAObjects.CRYPT_LOOT);
                 worldIn.removeBlock(pos, false);
             }
 

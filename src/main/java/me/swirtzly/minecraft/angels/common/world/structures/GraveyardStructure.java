@@ -31,25 +31,8 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
 	public GraveyardStructure(Codec<ProbabilityConfig> codec) {
 		super(codec);
 	}
-   
-	
-	/**
-     * || ONLY WORKS IN FORGE 34.1.12+ ||
-     *
-     * <br>This method allows us to have mobs that spawn naturally over time in our structure.
-     * No other mobs will spawn in the structure of the same entity classification.
-     * <br> The reason you want to match the classifications is so that your structure's mob
-     * will contribute to that classification's cap. Otherwise, it may cause a runaway
-     * spawning of the mob that will never stop.
-     *
-     * <br> NOTE: getDefaultSpawnList is for monsters only and getDefaultCreatureSpawnList is
-     *       for creatures only. 
-     *       <br> If you want to add entities of another classification,
-     *       use the StructureSpawnListGatherEvent to add water_creatures, water_ambient,
-     *       ambient, or misc mobs. 
-     *       <br> Use that event to add/remove mobs from structures
-     *       that are not your own.
-     */
+
+
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
             new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 4, 9)
     );
@@ -90,7 +73,8 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
         @Override
         public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
         	
-        	Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+        	//Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+        	Rotation rotation = Rotation.NONE; //TODO This has to be like this until I figure out how to rotate the angel statues along with the rotations
         	// Turns the chunk coordinates into actual coordinates we can use. (Gets center of that chunk)
         	int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;

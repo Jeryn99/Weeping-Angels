@@ -80,7 +80,7 @@ public class WAConfig {
 		freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another. (Impacts performance a bit)").define("freezeOnAngel", false);
 		pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
 		stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
-		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("moveSpeed", 1.5, 1.0, Double.MAX_VALUE);
+		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.5, 0.1, Double.MAX_VALUE);
 		blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
 		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);

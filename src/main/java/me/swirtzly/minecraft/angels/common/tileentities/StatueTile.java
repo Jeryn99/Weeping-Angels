@@ -57,8 +57,10 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	}
 
 	public void sendUpdates() {
-		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+		if (world != null && getBlockState() != null && getBlockState().getBlock() != null) {
+			world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+		}
 		markDirty();
 	}
 
