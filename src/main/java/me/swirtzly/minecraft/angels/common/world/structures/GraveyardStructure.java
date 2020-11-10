@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.world.structures;
 
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -31,15 +32,10 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
 	public GraveyardStructure(Codec<ProbabilityConfig> codec) {
 		super(codec);
 	}
-
-
-    private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
-            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 4, 9)
-    );
     
     @Override
     public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {
-        return STRUCTURE_MONSTERS;
+        return Collections.emptyList();
     }
 
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(

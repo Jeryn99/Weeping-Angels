@@ -67,6 +67,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
 		experienceValue = WAConfig.CONFIG.xpGained.get();
+		enablePersistence();
 	}
 	
 	public void dropAngelStuff() {

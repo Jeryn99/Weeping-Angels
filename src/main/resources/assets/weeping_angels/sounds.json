@@ -133,7 +133,7 @@
     "sounds": [
       {
         "name": "weeping_angels:angel_ambient",
-        "stream": false
+        "stream": true
       }
     ]
   },

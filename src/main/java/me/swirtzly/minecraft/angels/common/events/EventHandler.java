@@ -17,9 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -67,26 +69,29 @@ public class EventHandler {
         BlockPos pos = event.getPos();
         PlayerEntity player = event.getPlayer();
 
-
         boolean isGraveYard = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).isValid();
-
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
             if (isGraveYard) {
-                AxisAlignedBB box = player.getBoundingBox().grow(55);
+                MutableBoundingBox box = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).getBoundingBox();
+                boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
                     BlockState blockState = world.getBlockState(blockPos);
                     if (blockState.getBlock() == WAObjects.Blocks.STATUE.get()) {
+                        canPlaySound = true;
                         StatueTile statueTile = (StatueTile) world.getTileEntity(blockPos);
-                            WeepingAngelEntity angel = new WeepingAngelEntity(world);
-                            angel.setType(5);
-                            angel.setCherub(false);
-                            angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, statueTile.getRotation(), statueTile.getRotation());
-                            angel.setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
-                            world.addEntity(angel);
-                            world.removeBlock(blockPos, false);
+                        WeepingAngelEntity angel = new WeepingAngelEntity(world);
+                        angel.setType(statueTile.getAngelType());
+                        angel.setCherub(false);
+                        angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, statueTile.getRotation(), statueTile.getRotation());
+                        angel.setPose(statueTile.getPose());
+                        world.addEntity(angel);
+                        world.removeBlock(blockPos, false);
                     }
+                }
+                if (canPlaySound) {
+                    world.playSound(null, pos, WAObjects.Sounds.ANGEL_AMBIENT.get(), SoundCategory.BLOCKS, 0.2F, 1);
                 }
             }
         }
