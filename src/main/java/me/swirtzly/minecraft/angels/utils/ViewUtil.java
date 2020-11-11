@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.LookAtCustomerGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -99,7 +100,31 @@ public class ViewUtil {
 		}
 		return yaw < 60 && yaw > -60;
 	}
-	
+
+	public static void lookAt(LivingEntity looker, LivingEntity target)
+	{
+		double dirx = looker.getPosition().getX() - target.getPosition().getX();
+		double diry = looker.getPosition().getX() - target.getPosition().getY();
+		double dirz = looker.getPosition().getX() - target.getPosition().getZ();
+
+		double len = Math.sqrt(dirx*dirx + diry*diry + dirz*dirz);
+
+		dirx /= len;
+		diry /= len;
+		dirz /= len;
+
+		double pitch = Math.asin(diry);
+		double yaw = Math.atan2(dirz, dirx);
+
+		//to degree
+		pitch = pitch * 180.0 / Math.PI;
+		yaw = yaw * 180.0 / Math.PI;
+
+		yaw += 90f;
+		looker.rotationPitch = (float)pitch;
+		looker.rotationYaw = (float)yaw;
+	}
+
 	/**
 	 * Method that detects whether a tile is the the view sight of viewer
 	 *

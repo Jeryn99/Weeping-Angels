@@ -5,12 +5,16 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.loot.LootTables;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.BedPart;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -23,10 +27,6 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.client.gui.screen.ModListScreen;
-import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -46,20 +46,23 @@ public class GraveyardStructurePieces {
 
     private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
     private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
+    private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_3");
 
-    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, new BlockPos(0, 0, 0), GRAVEYARD_2, new BlockPos(0, 0, 0));
+    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3};
+
+    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
 
     public static void start(TemplateManager templateManager, BlockPos pos, Rotation rotation, List<StructurePiece> pieceList, Random random) {
         int x = pos.getX();
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
-        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, random.nextBoolean() ? GRAVEYARD_1 : GRAVEYARD_2, blockpos, rotation));
+        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[2], blockpos, rotation));
     }
 
     public static class Piece extends TemplateStructurePiece {
-        private ResourceLocation resourceLocation;
-        private Rotation rotation;
+        private final ResourceLocation resourceLocation;
+        private final Rotation rotation;
 
         public Piece(TemplateManager templateManagerIn, ResourceLocation resourceLocationIn, BlockPos pos, Rotation rotationIn) {
             super(WAObjects.Structures.GRAVEYARD_PIECE, 0);
@@ -93,25 +96,15 @@ public class GraveyardStructurePieces {
             tagCompound.putString("Rot", this.rotation.name());
         }
 
-        /*
-         * If you added any data marker structure blocks to your structure, you can access and modify them here.
-         * In this case, our structure has a data maker with the string "chest" put into it. So we check to see
-         * if the incoming function is "chest" and if it is, we now have that exact position.
-         *
-         * So what is done here is we replace the structure block with
-         * a chest and we can then set the loottable for it.
-         *
-         * You can set other data markers to do other behaviors such as spawn a random mob in a certain spot,
-         * randomize what rare block spawns under the floor, or what item an Item Frame will have.
-         */
         @Override
         protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 
-            if(ServerLifecycleHooks.getCurrentServer().isDedicatedServer()){
-                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());;
+            if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
+                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());
+                ;
             }
 
-            if("angel".equals(function)){
+            if ("angel".equals(function)) {
                 StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());
                 statueTile.setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
                 statueTile.setAngelType(5);
@@ -120,7 +113,7 @@ public class GraveyardStructurePieces {
             }
 
 
-            if("cobweb".equals(function)){
+            if ("cobweb".equals(function)) {
                 Block block = rand.nextBoolean() ? Blocks.COBWEB : Blocks.AIR;
                 worldIn.setBlockState(pos, block.getDefaultState(), 2);
             }
@@ -130,6 +123,26 @@ public class GraveyardStructurePieces {
                 worldIn.removeBlock(pos, false);
             }
 
+            if ("chest_2down".equals(function)) {
+                LockableLootTileEntity.setLootTable(worldIn, rand, pos.down(2), WAObjects.CRYPT_LOOT);
+                worldIn.removeBlock(pos.down(2), false);
+                worldIn.removeBlock(pos, false);
+            }
+
+            if ("path".equals(function)) {
+                worldIn.setBlockState(pos, rand.nextBoolean() ? Blocks.AIR.getDefaultState() : getRandomPottedPlant(rand).getDefaultState(), 2);
+                worldIn.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+            }
+
+            if ("bed_end".equals(function)) {
+                worldIn.setBlockState(pos.north(), Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.HEAD).with(BedBlock.HORIZONTAL_FACING, Direction.NORTH), 2);
+                worldIn.setBlockState(pos, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT).with(BedBlock.HORIZONTAL_FACING, Direction.NORTH), 2);
+                worldIn.setBlockState(pos.south(), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.NORTH), 2);
+                LockableLootTileEntity.setLootTable(worldIn, rand, pos.south(), WAObjects.CRYPT_LOOT);
+            }
+
+
+
             if ("sign".equals(function)) {
                 SignTileEntity signTileEntity = (SignTileEntity) worldIn.getTileEntity(pos.down());
                 if (signTileEntity != null) {
@@ -138,6 +151,7 @@ public class GraveyardStructurePieces {
                     signTileEntity.setText(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_DATE)));
                     signTileEntity.setText(3, new TranslationTextComponent("========"));
                     worldIn.removeBlock(pos, false);
+                    worldIn.setBlockState(pos.down(2), Blocks.PODZOL.getDefaultState(), 2);
                 }
             }
         }
@@ -148,6 +162,11 @@ public class GraveyardStructurePieces {
         long endEpochDay = LocalDate.now().toEpochDay();
         long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
         return LocalDate.ofEpochDay(randomDay);
+    }
+
+    public static Block getRandomPottedPlant(Random random) {
+        List<Block> plants = AngelUtils.POTTED_PLANTS.getAllElements();
+        return plants.get(random.nextInt(plants.size()));
     }
 
 

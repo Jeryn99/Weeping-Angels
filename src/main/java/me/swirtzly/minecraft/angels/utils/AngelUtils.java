@@ -50,6 +50,7 @@ public class AngelUtils {
     public static final ITag.INamedTag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
     public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
     public static final ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static final ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
 
     public static ITag.INamedTag<Item> makeItem(String domain, String path) {
         return ItemTags.createOptional(new ResourceLocation(domain, path));

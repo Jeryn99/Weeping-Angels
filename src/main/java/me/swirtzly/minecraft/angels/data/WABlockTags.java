@@ -4,6 +4,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -26,6 +27,10 @@ public class WABlockTags extends BlockTagsProvider {
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if(block.getDefaultState().getMaterial() == Material.AIR){
                 add(AngelUtils.BANNED_BLOCKS, block);
+            }
+
+            if(block instanceof FlowerPotBlock){
+                add(AngelUtils.POTTED_PLANTS, block);
             }
         }
     }

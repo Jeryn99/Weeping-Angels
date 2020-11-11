@@ -142,7 +142,8 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	
 	public void invokeSeen(PlayerEntity player) {
 		setNoAI(true);
-		getLookController().setLookPositionWithEntity(player, 30, 30);
+	//	getLookController().setLookPositionWithEntity(player, 30, 30);
+		ViewUtil.lookAt(this, player);
 		getNavigator().setPath(null, 0);
 		//setMotion(0,0,0);
 	}

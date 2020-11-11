@@ -4,6 +4,7 @@ package me.swirtzly.minecraft.angels.common.world.structures;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.world.gen.feature.structure.MineshaftStructure;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.ImmutableList;
@@ -47,7 +48,6 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
     public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {
         return STRUCTURE_CREATURES;
     }
-	
     //Required, sets the Structure Start settings
 	@Override
 	public IStartFactory<ProbabilityConfig> getStartFactory() {
@@ -71,18 +71,11 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
         	
         	//Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
         	Rotation rotation = Rotation.NONE; //TODO This has to be like this until I figure out how to rotate the angel statues along with the rotations
-        	// Turns the chunk coordinates into actual coordinates we can use. (Gets center of that chunk)
         	int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
-            // Finds the y value of the terrain at location.
             int surfaceY = chunkGenerator.getHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);
-            BlockPos blockpos = new BlockPos(x, surfaceY, z); 
-            
-            
-            // Now adds the structure pieces to this.components with all details such as where each part goes
-            // so that the structure can be added to the world by worldgen.
+            BlockPos blockpos = new BlockPos(x, surfaceY, z);
             GraveyardStructurePieces.start(templateManagerIn, blockpos, rotation, this.components, this.rand);
-            // Sets the bounds of the structure.
             this.recalculateStructureSize();
             WeepingAngels.LOGGER.log(Level.INFO, "Graveyard at " + (blockpos.getX()) + " " + blockpos.getY() + " " + (blockpos.getZ()));
         }

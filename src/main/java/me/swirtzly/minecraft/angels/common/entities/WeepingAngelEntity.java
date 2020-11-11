@@ -266,7 +266,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				playSound(WAObjects.Sounds.STONE_SCRAP.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
 			}
 		}
-			}
+	}
 	
 	public boolean isWeak() {
 		return getHungerLevel() < 15;
