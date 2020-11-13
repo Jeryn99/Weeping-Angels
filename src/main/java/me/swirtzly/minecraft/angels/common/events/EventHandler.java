@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.events;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
@@ -84,7 +85,8 @@ public class EventHandler {
                         WeepingAngelEntity angel = new WeepingAngelEntity(world);
                         angel.setType(statueTile.getAngelType());
                         angel.setCherub(false);
-                        angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, statueTile.getRotation(), statueTile.getRotation());
+                        float rotation = world.getBlockState(blockPos).get(StatueBlock.ROTATION);
+                        angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, rotation, rotation);
                         angel.setPose(statueTile.getPose());
                         world.addEntity(angel);
                         world.removeBlock(blockPos, false);

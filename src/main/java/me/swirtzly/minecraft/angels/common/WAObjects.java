@@ -9,11 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.common.blocks.ChronodyneGeneratorBlock;
-import me.swirtzly.minecraft.angels.common.blocks.MineableBlock;
-import me.swirtzly.minecraft.angels.common.blocks.PlinthBlock;
-import me.swirtzly.minecraft.angels.common.blocks.SnowArmBlock;
-import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
+import me.swirtzly.minecraft.angels.common.blocks.*;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
@@ -22,6 +18,7 @@ import me.swirtzly.minecraft.angels.common.items.AngelSpawnerItem;
 import me.swirtzly.minecraft.angels.common.items.ChronodyneGeneratorItem;
 import me.swirtzly.minecraft.angels.common.items.DetectorItem;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
+import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
@@ -30,7 +27,9 @@ import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructure;
 import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructurePieces;
 import me.swirtzly.minecraft.angels.utils.EntitySpawn;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -108,7 +107,7 @@ public class WAObjects {
 
 	@SubscribeEvent
 	public static void regBlockItems(RegistryEvent.Register<Item> e) {
-		genBlockItems(Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
+		genBlockItems(Blocks.COFFIN.get(), Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
 	}
 	
 	public static class Tiles {
@@ -117,6 +116,7 @@ public class WAObjects {
 		public static RegistryObject<TileEntityType<SnowArmTile>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
 		public static RegistryObject<TileEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
 		public static RegistryObject<TileEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
+		public static RegistryObject<TileEntityType<CoffinTile>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinTile::new, Blocks.COFFIN.get()));
 	}
 	
 	public static class Blocks {
@@ -128,6 +128,7 @@ public class WAObjects {
 		public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
 		public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
 		public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
+		public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid())));
 	}
 	
 	public static class Items {

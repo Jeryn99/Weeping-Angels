@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.data.WAItemTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -157,11 +158,16 @@ public class AngelUtils {
 		
 		return false;
 	}
-	
-	public static AngelEnums.AngelType randomType() {
-		int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
-		return AngelEnums.AngelType.values()[pick];
-	}
+
+    public static AngelEnums.AngelType randomType() {
+        int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
+        return AngelEnums.AngelType.values()[pick];
+    }
+
+    public static CoffinTile.Coffin randomCoffin() {
+        int pick = RAND.nextInt(CoffinTile.Coffin.values().length);
+        return CoffinTile.Coffin.values()[pick];
+    }
 	
 	public enum EnumTeleportType {
 		STRUCTURES, RANDOM_PLACE, DONT

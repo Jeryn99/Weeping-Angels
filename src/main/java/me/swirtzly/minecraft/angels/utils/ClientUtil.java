@@ -4,12 +4,14 @@ import me.swirtzly.minecraft.angels.client.models.entity.*;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
+import me.swirtzly.minecraft.angels.client.renders.tileentities.CoffinRenderer;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.PlinthTileRender;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.SnowArmTileRender;
 import me.swirtzly.minecraft.angels.client.renders.tileentities.StatueRender;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;
@@ -64,6 +66,7 @@ public class ClientUtil {
 		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.ARM.get(), SnowArmTileRender::new);
 		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.PLINTH.get(), PlinthTileRender::new);
 		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.STATUE.get(), StatueRender::new);
+		ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
 
 		RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.WEEPING_ANGEL.get(), AngelRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);

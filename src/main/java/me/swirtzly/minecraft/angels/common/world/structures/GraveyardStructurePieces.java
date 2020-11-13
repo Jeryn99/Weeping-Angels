@@ -37,9 +37,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * Non-Jigsaw method of getting structure pieces based on IglooPieces. Temple and JungleTemple pieces are hardcoded and don't actually use the structure nbt system to load in structures
- */
 public class GraveyardStructurePieces {
 
     private static String[] USERNAMES = new String[]{"WizeWizzard", "Magicmaan", "Icebrin", "Swirtzly", "Cadiboo", "Chell", "UsualTundra1994", "50ap5ud5", "a_dizzle", "dhi", "ConnorDawn", "Spectre0987", "Nictogen"};
@@ -57,7 +54,7 @@ public class GraveyardStructurePieces {
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
-        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[2], blockpos, rotation));
+        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length - 1)], blockpos, rotation));
     }
 
     public static class Piece extends TemplateStructurePiece {
@@ -101,7 +98,6 @@ public class GraveyardStructurePieces {
 
             if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
                 USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());
-                ;
             }
 
             if ("angel".equals(function)) {
