@@ -1,12 +1,13 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
-import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -19,8 +20,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-
-import java.util.Objects;
 
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
@@ -41,7 +40,7 @@ public class CoffinBlock extends DirectionalBlock {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if(!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
+        if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
             CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos);
             coffinTile.setOpen(!coffinTile.isOpen());
             coffinTile.sendUpdates();

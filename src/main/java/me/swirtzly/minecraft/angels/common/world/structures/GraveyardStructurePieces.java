@@ -4,17 +4,20 @@ import com.google.common.collect.ImmutableMap;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
+import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
-import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.BedPart;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -27,6 +30,7 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -108,6 +112,15 @@ public class GraveyardStructurePieces {
                 worldIn.removeBlock(pos, false);
             }
 
+            if ("coffin".equals(function)) {
+                CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos.down());
+                if (coffinTile != null) {
+                    coffinTile.setOpen(rand.nextBoolean());
+                    coffinTile.setCoffin(AngelUtils.randomCoffin());
+                    worldIn.removeBlock(pos, false);
+                    //TODO Skeletons
+                }
+            }
 
             if ("cobweb".equals(function)) {
                 Block block = rand.nextBoolean() ? Blocks.COBWEB : Blocks.AIR;
@@ -129,15 +142,6 @@ public class GraveyardStructurePieces {
                 worldIn.setBlockState(pos, rand.nextBoolean() ? Blocks.AIR.getDefaultState() : getRandomPottedPlant(rand).getDefaultState(), 2);
                 worldIn.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
             }
-
-            if ("bed_end".equals(function)) {
-                worldIn.setBlockState(pos.north(), Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.HEAD).with(BedBlock.HORIZONTAL_FACING, Direction.NORTH), 2);
-                worldIn.setBlockState(pos, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT).with(BedBlock.HORIZONTAL_FACING, Direction.NORTH), 2);
-                worldIn.setBlockState(pos.south(), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.NORTH), 2);
-                LockableLootTileEntity.setLootTable(worldIn, rand, pos.south(), WAObjects.CRYPT_LOOT);
-            }
-
-
 
             if ("sign".equals(function)) {
                 SignTileEntity signTileEntity = (SignTileEntity) worldIn.getTileEntity(pos.down());
