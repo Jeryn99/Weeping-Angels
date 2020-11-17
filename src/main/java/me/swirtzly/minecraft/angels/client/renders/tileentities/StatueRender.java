@@ -36,8 +36,8 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 		matrixStack.push();
 		matrixStack.translate(0.5F, 1.5F, 0.5F);
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
-		float rotation = Minecraft.getInstance().world.getBlockState(statueTile.getPos()).get(StatueBlock.ROTATION);
-		matrixStack.rotate(Vector3f.YP.rotation(-rotation));
+		matrixStack.rotate(Vector3f.YP.rotation(-statueTile.getRotation()));
+
 		angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
 		ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
 

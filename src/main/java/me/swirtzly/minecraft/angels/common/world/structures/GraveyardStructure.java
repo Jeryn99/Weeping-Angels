@@ -70,7 +70,7 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
         public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
         	
         	//Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
-        	Rotation rotation = Rotation.NONE; //TODO This has to be like this until I figure out how to rotate the angel statues along with the rotations
+        	Rotation rotation = Rotation.NONE;
         	int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
             int surfaceY = chunkGenerator.getHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);

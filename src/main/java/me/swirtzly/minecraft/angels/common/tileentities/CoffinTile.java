@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
     private Coffin coffin = null;
-    private boolean isOpen = false;
+    private boolean isOpen, hasSkeleton = false;
     private float openAmount = 0.0F;
 
     public Coffin getCoffin() {
@@ -37,6 +37,14 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
     public CoffinTile() {
         super(WAObjects.Tiles.COFFIN.get());
+    }
+
+    public void setHasSkeleton(boolean hasSkeleton) {
+        this.hasSkeleton = hasSkeleton;
+    }
+
+    public boolean hasSkeleton() {
+        return hasSkeleton;
     }
 
     @Override
@@ -93,6 +101,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     public void read(BlockState state, CompoundNBT nbt) {
         coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         isOpen = nbt.getBoolean("isOpen");
+        hasSkeleton = nbt.getBoolean("hasSkeleton");
         openAmount = nbt.getFloat("openAmount");
         super.read(state, nbt);
     }
@@ -104,6 +113,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         }
         compound.putString("coffin_type", coffin.name());
         compound.putBoolean("isOpen", isOpen);
+        compound.putBoolean("hasSkeleton", hasSkeleton);
         compound.putFloat("openAmount", openAmount);
         return super.write(compound);
     }

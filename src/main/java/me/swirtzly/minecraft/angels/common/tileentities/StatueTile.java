@@ -2,7 +2,6 @@ package me.swirtzly.minecraft.angels.common.tileentities;
 
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.BlockState;
@@ -17,9 +16,9 @@ import net.minecraft.util.ResourceLocation;
  * Created by Swirtzly on 17/02/2020 @ 12:18
  */
 public class StatueTile extends TileEntity implements ITickableTileEntity {
-	private int type = 0;
+	private int rotation =0, type = 0;
 	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
-	
+
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());
 	}
@@ -36,30 +35,30 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
 		setPose(new ResourceLocation(compound.getString("pose")));
+		setRotation(compound.getInt("rotation"));
 		type = compound.getInt("type");
 	}
-	
+
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putString("pose", pose.toString());
+		compound.putInt("rotation", rotation);
 		compound.putInt("type", type);
 		return compound;
 	}
-	
+
 	public ResourceLocation getPose() {
 		return pose;
 	}
-	
+
 	public void setPose(ResourceLocation pose) {
 		this.pose = pose;
 	}
 
 	public void sendUpdates() {
-		if (world != null && getBlockState() != null && getBlockState().getBlock() != null) {
-			world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		}
+		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
 		markDirty();
 	}
 
@@ -75,6 +74,14 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 		return write(new CompoundNBT());
 	}
 
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		super.onDataPacket(net, pkt);
@@ -85,12 +92,11 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
-		
+
 		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof StatueTile) {
 			WeepingAngelEntity angel = new WeepingAngelEntity(world);
 			angel.setType(type);
 			angel.setCherub(false);
-			float rotation = world.getBlockState(pos).get(StatueBlock.ROTATION);
 			angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, rotation, rotation);
 			angel.setPose(getPose());
 			world.addEntity(angel);

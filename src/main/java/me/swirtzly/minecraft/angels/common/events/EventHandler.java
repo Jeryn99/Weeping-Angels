@@ -85,7 +85,7 @@ public class EventHandler {
                         WeepingAngelEntity angel = new WeepingAngelEntity(world);
                         angel.setType(statueTile.getAngelType());
                         angel.setCherub(false);
-                        float rotation = world.getBlockState(blockPos).get(StatueBlock.ROTATION);
+                        float rotation = statueTile.getRotation();
                         angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, rotation, rotation);
                         angel.setPose(statueTile.getPose());
                         world.addEntity(angel);
