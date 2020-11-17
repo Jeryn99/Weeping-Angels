@@ -88,7 +88,7 @@ minecraft {
 
 }
 
-curseforge {
+/*curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
@@ -101,7 +101,7 @@ curseforge {
             displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
         }
     }
-}
+}*/
 
 repositories {
     maven {
