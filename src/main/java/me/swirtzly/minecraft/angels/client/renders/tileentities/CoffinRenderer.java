@@ -25,10 +25,15 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
     }
 
     private static final CoffinModel coffinModel = new CoffinModel();
-    private static final SkeletonEntity skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().world);
+    private static SkeletonEntity skeletonEntity = null;
 
     @Override
     public void render(CoffinTile tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+
+        if(skeletonEntity == null){
+            skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().world);
+        }
+
         matrixStack.push();
         matrixStack.translate(0.5F, 0.5F, 0.5F); //Translate to blockpos
         Direction face = tileEntityIn.getBlockState().get(BlockStateProperties.HORIZONTAL_FACING); //Get facing direction

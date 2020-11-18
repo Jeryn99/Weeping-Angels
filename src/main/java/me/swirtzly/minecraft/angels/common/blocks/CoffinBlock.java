@@ -43,6 +43,7 @@ public class CoffinBlock extends DirectionalBlock {
         if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
             CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos);
             coffinTile.setOpen(!coffinTile.isOpen());
+            coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
             coffinTile.sendUpdates();
         }
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
