@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "weeping_angels:item/spawn_items/vio_1"
+  }
+}

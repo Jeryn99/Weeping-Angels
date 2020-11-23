@@ -28,7 +28,7 @@ public class CrackLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<We
 
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, WeepingAngelEntity angelEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (angelEntity.hurtTime > 0 || angelEntity.getHealth() <= 10 && angelEntity.getHealth() > 0)  {
+        if (angelEntity.hurtTime > 0 || angelEntity.getHealth() <= 10 && angelEntity.getHealth() > 0) {
             EntityModel<WeepingAngelEntity> entitymodel = this.getEntityModel();
             entitymodel.setLivingAnimations(angelEntity, limbSwing, limbSwingAmount, partialTicks);
             this.getEntityModel().copyModelAttributesTo(entitymodel);
@@ -39,12 +39,12 @@ public class CrackLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<We
     }
 
     public static ResourceLocation getCrackTex(WeepingAngelEntity weepingAngelEntity) {
-
-        if(weepingAngelEntity.getAngelType() == 1){
+        AngelEnums.AngelType angelType = weepingAngelEntity.getAngelType();
+        if (angelType == AngelEnums.AngelType.ED) {
             return CRACK_TEX;
         }
 
-        if(weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGEL_SIX.getId()){
+        if (angelType == AngelEnums.AngelType.ANGELA) {
             return CRACK_ANGELA;
         }
 

@@ -16,7 +16,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	
 	private boolean hasSpawned = false;
-	private int rotation = 0, type = 0;
+	private int rotation = 0;
+	private String type = AngelEnums.AngelType.ANGELA_MC.name();
 	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 	
 	public PlinthTile() {
@@ -37,7 +38,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		setHasSpawned(compound.getBoolean("hasSpawned"));
 		setPose(new ResourceLocation(compound.getString("pose")));
 		rotation = compound.getInt("rotation");
-		type = compound.getInt("type");
+		type = compound.getString("model");
 	}
 	
 	@Override
@@ -45,17 +46,21 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		super.write(compound);
 		compound.putBoolean("hasSpawned", hasSpawned);
 		compound.putInt("rotation", rotation);
-		compound.putInt("type", type);
+		compound.putString("model", type);
 		compound.putString("pose", pose.toString());
 		return compound;
 	}
 
-	public int getAngelType() {
-		return type;
+	public AngelEnums.AngelType getAngelType() {
+		return AngelEnums.AngelType.valueOf(type);
 	}
 
-	public void setAngelType(int type) {
+	public void setAngelType(String type) {
 		this.type = type;
+	}
+
+	public void setAngelType(AngelEnums.AngelType type) {
+		this.type = type.name();
 	}
 
 	public int getRotation() {

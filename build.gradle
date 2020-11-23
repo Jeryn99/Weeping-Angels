@@ -92,8 +92,11 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = 'Some changes'
+        changelog = 'Fixed launch crash and added Coffins'
         releaseType = 'release'
+        addGameVersion '1.16.3'
+        addGameVersion '1.16.4'
+
         mainArtifact(jar) {
             displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
         }

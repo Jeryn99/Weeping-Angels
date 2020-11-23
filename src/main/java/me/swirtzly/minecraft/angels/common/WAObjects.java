@@ -5,12 +5,11 @@ import static me.swirtzly.minecraft.angels.WeepingAngels.MODID;
 import java.util.Collection;
 import java.util.function.Supplier;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.common.blocks.ChronodyneGeneratorBlock;
-import me.swirtzly.minecraft.angels.common.blocks.MineableBlock;
-import me.swirtzly.minecraft.angels.common.blocks.PlinthBlock;
-import me.swirtzly.minecraft.angels.common.blocks.SnowArmBlock;
-import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
+import me.swirtzly.minecraft.angels.common.blocks.*;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
@@ -19,17 +18,21 @@ import me.swirtzly.minecraft.angels.common.items.AngelSpawnerItem;
 import me.swirtzly.minecraft.angels.common.items.ChronodyneGeneratorItem;
 import me.swirtzly.minecraft.angels.common.items.DetectorItem;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
+import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
+import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructure;
+import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructurePieces;
 import me.swirtzly.minecraft.angels.utils.EntitySpawn;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -41,8 +44,15 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.gen.FlatGenerationSettings;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.ProbabilityConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -55,7 +65,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class WAObjects {
 	
 	public static DamageSource ANGEL = new WADamageSource("backintime"), STONE = new WADamageSource("punch_stone"), ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
-	
+
+	public static ResourceLocation CRYPT_LOOT = new ResourceLocation(MODID, "chests/crypt");
+
 	@SubscribeEvent
 	public static void addSpawns(FMLLoadCompleteEvent e) {
 		EntitySpawn.addSpawnEntries();
@@ -95,7 +107,7 @@ public class WAObjects {
 
 	@SubscribeEvent
 	public static void regBlockItems(RegistryEvent.Register<Item> e) {
-		genBlockItems(Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
+		genBlockItems(Blocks.COFFIN.get(), Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
 	}
 	
 	public static class Tiles {
@@ -104,6 +116,7 @@ public class WAObjects {
 		public static RegistryObject<TileEntityType<SnowArmTile>> ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
 		public static RegistryObject<TileEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
 		public static RegistryObject<TileEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
+		public static RegistryObject<TileEntityType<CoffinTile>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinTile::new, Blocks.COFFIN.get()));
 	}
 	
 	public static class Blocks {
@@ -115,6 +128,7 @@ public class WAObjects {
 		public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
 		public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
 		public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
+		public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid())));
 	}
 	
 	public static class Items {
@@ -122,13 +136,7 @@ public class WAObjects {
 		
 		public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
 		public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
-		public static final RegistryObject<Item> ANGEL_0 = ITEMS.register("angel_0", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_ONE, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_1 = ITEMS.register("angel_1", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_TWO, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_2 = ITEMS.register("angel_2", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_THREE, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_3 = ITEMS.register("angel_3", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_FOUR, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_4 = ITEMS.register("angel_4", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_FIVE, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_5 = ITEMS.register("angel_5", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_SIX, WeepingAngelEntity::new)));
-		public static final RegistryObject<Item> ANGEL_CHILD = ITEMS.register("angel_child", () -> setUpItem(new AngelSpawnerItem<>(AngelEnums.AngelType.ANGEL_CHILD, WeepingAngelEntity::new)));
+		public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>(WeepingAngelEntity::new)));
 		public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
 	}
 	
@@ -150,12 +158,102 @@ public class WAObjects {
 		public static final RegistryObject<SoundEvent> TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
 	}
 
-
-
 	public static class WorldGenEntries {
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
+	
 	}
+	
+	/**===Structure Registration Start===*/
+	
+	public static class Structures{
+        public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
+	    
+		/** The Structure registry object. This isn't actually setup yet, see {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)} */
+		public static final RegistryObject<Structure<ProbabilityConfig>> GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.CODEC)));
+		/** Static instance of our structure so we can reference it before registry stuff happens and use it to make configured structures in ConfiguredStructures */
+		public static IStructurePieceType GRAVEYARD_PIECE = registerStructurePiece(GraveyardStructurePieces.Piece::new, "graveyard_piece");
+		
+	}
+	
+	/** Configure the structure so it can be placed in the world. <br> Register Configured Structures in Common Setup. There is currently no Forge Registry for configured structures because configure structures are a dynamic registry and can cause issues if it were a Forge registry.*/
+	public static class ConfiguredStructures{
+		/** Static instance of our configured structure feature so we can reference it for registration*/
+	   public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
+	   
+	   public static void registerConfiguredStructures() {
+	        registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
+	   }
+	}
+	
+	 /** Setup the structure and add the rarity settings.
+	  * <br> Call this in CommonSetup in a deferred work task to reduce concurrent modification issues as we are modifying multiple maps we ATed*/
+   public static void setupStructures() { 
+       setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+   }
+	
+	private static <T extends Structure<?>> void registerConfiguredStructure(String registryName, Supplier<T> structure, StructureFeature<?, ?> configuredStructure) {
+    	Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
+    	Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredStructure);
+    	/** Add your structure to FlatGenerationSettings to
+    	 * prevent any sort of crash or issue with other mod's custom ChunkGenerators. 
+    	 * <br> If they use FlatGenerationSettings.STRUCTURES in it and you don't add your structure to it, the game
+         * could crash later when you attempt to add the StructureSeparationSettings to the dimension.
+
+         * <br> (It would also crash with superflat worldtype if you omit the below line
+         * and attempt to add the structure's StructureSeparationSettings to the world)
+         * <br> <br> Note: If you want your structure to spawn in superflat, remove the FlatChunkGenerator check
+         * in EventHandler.addDimensionalSpacing and then create a superflat world, exit it,
+         * and re-enter it and your structures will be spawning. 
+         * <br> <br> I could not figure out why it needs the restart but honestly, superflat is really buggy and shouldn't be your main focus in my opinion. */
+    	FlatGenerationSettings.STRUCTURES.put(structure.get(), configuredStructure);
+    }
+	
+	private static <T extends Structure<?>> RegistryObject<T> setupStructure(String name, Supplier<T> structure) {
+        return Structures.STRUCTURES.register(name, structure);
+    }
+    
+    /** Add Structure to the structure registry map and setup the seperation settings.*/
+    public static <F extends Structure<?>> void setupStructure(F structure, StructureSeparationSettings structureSeparationSettings, boolean transformSurroundingLand){
+        /*
+        * We need to add our structures into the map in Structure alongside vanilla
+        * structures or else it will cause errors. Called by registerStructure.
+        *
+        * If the registration is setup properly for the structure, getRegistryName() should never return null.
+        */
+        Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
+        /*
+         * Will add land at the base of the structure like it does for Villages and Outposts.
+         * Doesn't work well on structures that have pieces stacked vertically or change in heights.
+         */
+        if(transformSurroundingLand){ 
+            Structure.field_236384_t_ = ImmutableList.<Structure<?>>builder().addAll(Structure.field_236384_t_).add(structure).build();
+        }
+        /*
+         * Adds the structure's spacing into several places so that the structure's spacing remains
+         * correct in any dimension or worldtype instead of not spawning.
+         *
+         * However, it seems it doesn't always work for code made dimensions as they read from
+         * this list beforehand. Use the WorldEvent.Load event to add
+         * the structure spacing from this list into that dimension.
+         */
+        DimensionStructuresSettings.field_236191_b_ =
+                ImmutableMap.<Structure<?>, StructureSeparationSettings>builder()
+                        .putAll(DimensionStructuresSettings.field_236191_b_)
+                        .put(structure, structureSeparationSettings)
+                        .build();
+    }
+    
+    /** Register the pieces of your structure if this has not been done by a jigsaw pool.
+     * <br> You MUST call this method to allow the chunk to save. 
+     * <br> Otherwise the chunk won't save and complain it's missing a registry id for the structure piece. Darn vanilla...
+     * */
+    public static IStructurePieceType registerStructurePiece(IStructurePieceType type, String key) {
+    	return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(WeepingAngels.MODID, key), type);
+    }
+    
+    
+    /**===Structure Registration End===*/
 
 	// Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
