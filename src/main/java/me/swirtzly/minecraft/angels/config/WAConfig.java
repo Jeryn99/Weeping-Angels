@@ -47,8 +47,7 @@ public class WAConfig {
 	public final ForgeConfigSpec.BooleanValue pickaxeOnly;
 	public final ForgeConfigSpec.IntValue stalkRange;
 	public final ForgeConfigSpec.DoubleValue moveSpeed;
-	public final ConfigValue<List<? extends String>> transparent_blocks;
-	
+
 	// Teleport
 	public final ForgeConfigSpec.ConfigValue<String> teleportType;
 	public final ForgeConfigSpec.ConfigValue<List<? extends String>> notAllowedDimensions;
@@ -83,7 +82,6 @@ public class WAConfig {
 		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.5, 0.1, Double.MAX_VALUE);
 		blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
 		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
-        transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));

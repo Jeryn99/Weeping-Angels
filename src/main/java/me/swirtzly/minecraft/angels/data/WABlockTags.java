@@ -5,6 +5,7 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.GlassBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -31,6 +32,10 @@ public class WABlockTags extends BlockTagsProvider {
 
             if(block instanceof FlowerPotBlock){
                 add(AngelUtils.POTTED_PLANTS, block);
+            }
+
+            if(block instanceof GlassBlock){
+                add(AngelUtils.ANGEL_IGNORE, block);
             }
         }
     }

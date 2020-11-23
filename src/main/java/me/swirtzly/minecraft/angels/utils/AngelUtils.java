@@ -1,7 +1,11 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import java.io.*;
 import java.util.Random;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
@@ -12,6 +16,7 @@ import me.swirtzly.minecraft.angels.data.WAItemTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -52,6 +57,7 @@ public class AngelUtils {
     public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
     public static final ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
     public static final ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static final ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
 
     public static ITag.INamedTag<Item> makeItem(String domain, String path) {
         return ItemTags.createOptional(new ResourceLocation(domain, path));

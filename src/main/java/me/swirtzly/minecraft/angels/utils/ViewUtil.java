@@ -361,8 +361,8 @@ public class ViewUtil {
 		}
 		
 		// Config
-		for (String transparent_block : WAConfig.CONFIG.transparent_blocks.get()) {
-			if (blockState.getBlock().getRegistryName().toString().equals(transparent_block)) return true;
+		if(block.isIn(AngelUtils.ANGEL_IGNORE)){
+			return true;
 		}
 		
 		return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();

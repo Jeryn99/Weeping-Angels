@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels;
 
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
 import net.minecraft.data.DataGenerator;
@@ -85,7 +86,7 @@ public class WeepingAngels {
 	}
 
 	@SubscribeEvent
-	public void gatherData(GatherDataEvent e) {
+	public void onGatherData(GatherDataEvent e) {
 		DataGenerator generator = e.getGenerator();
 		generator.addProvider(new WAItemTags(generator, new WABlockTags(generator)));
 		generator.addProvider(new WABlockTags(generator));

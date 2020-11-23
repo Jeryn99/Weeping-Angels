@@ -3,7 +3,9 @@ package me.swirtzly.minecraft.angels.common.blocks;
 import javax.annotation.Nullable;
 
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -72,7 +74,7 @@ public class StatueBlock extends Block {
             int rotation = MathHelper.floor(placer.rotationYaw + 180);
             StatueTile statue = (StatueTile) world.getTileEntity(pos);
             statue.setRotation(rotation);
-            statue.setAngelType(world.rand.nextInt(6));
+            statue.setAngelType(AngelUtils.randomType().name());
             statue.setPose(AngelPoses.getRandomPose().getRegistryName());
             statue.sendUpdates();
         }

@@ -46,7 +46,7 @@ import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 @SuppressWarnings("NullableProblems")
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
-	private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
+	private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Boolean> IS_CHERUB = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
@@ -80,7 +80,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	protected void registerData() {
 		super.registerData();
 		getDataManager().register(IS_CHERUB, rand.nextInt(10) == 4);
-		getDataManager().register(TYPE, AngelUtils.randomType().getId());
+		getDataManager().register(TYPE, AngelUtils.randomType().name());
 		getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
 		getDataManager().register(HUNGER_LEVEL, 50);
 	}
@@ -199,7 +199,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
 		compound.putString(WAConstants.POSE, getAngelPose().toString());
-		compound.putInt(WAConstants.TYPE, getAngelType());
+		compound.putString(WAConstants.TYPE, getAngelType().name());
 		compound.putBoolean(WAConstants.ANGEL_CHILD, isCherub());
 		compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
@@ -211,7 +211,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		if (compound.contains(WAConstants.POSE))
 			setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
 
-		if (compound.contains(WAConstants.TYPE)) setType(compound.getInt(WAConstants.TYPE));
+		if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
 		if (compound.contains(WAConstants.ANGEL_CHILD)) setCherub(compound.getBoolean(WAConstants.ANGEL_CHILD));
 
@@ -243,7 +243,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				}
 			}
 
-			if (getAngelType() != AngelEnums.AngelType.ANGEL_THREE.getId()) {
+			if (getAngelType() != AngelEnums.AngelType.VIO_1) {
 				setPose(Objects.requireNonNull(AngelPoses.getRandomPose().getRegistryName()));
 			} else {
 				setPose(Objects.requireNonNull(rand.nextBoolean() ? AngelPoses.POSE_ANGRY.getRegistryName() : AngelPoses.POSE_HIDING_FACE.getRegistryName()));
@@ -421,12 +421,17 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		getDataManager().set(IS_CHERUB, child);
 	}
 	
-	public int getAngelType() {
-		return getDataManager().get(TYPE);
+	public AngelEnums.AngelType getAngelType() {
+		String type = getDataManager().get(TYPE);
+		return type.isEmpty() ? AngelEnums.AngelType.ANGELA_MC : AngelEnums.AngelType.valueOf(type);
 	}
-	
-	public void setType(int angelType) {
+
+	public void setType(String angelType) {
 		getDataManager().set(TYPE, angelType);
+	}
+
+	public void setType(AngelEnums.AngelType angelType) {
+		setType(angelType.name());
 	}
 	
 	public int getHungerLevel() {

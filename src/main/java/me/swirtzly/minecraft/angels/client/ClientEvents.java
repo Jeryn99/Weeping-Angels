@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEvents {
 
 	@SubscribeEvent
-	public static void onblockHighlight(DrawHighlightEvent.HighlightBlock event) {
+	public static void onBlockHighlight(DrawHighlightEvent.HighlightBlock event) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.objectMouseOver;
