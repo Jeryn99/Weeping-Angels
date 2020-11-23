@@ -26,6 +26,7 @@ public class WAConfig {
 	// WorldGen
 	public final ForgeConfigSpec.BooleanValue arms;
 	public final ForgeConfigSpec.BooleanValue genOres;
+	public final ForgeConfigSpec.BooleanValue genGraveyard;
 	// Spawn
 	public final ForgeConfigSpec.IntValue maxSpawn;
 	public final ForgeConfigSpec.IntValue spawnWeight;
@@ -46,8 +47,7 @@ public class WAConfig {
 	public final ForgeConfigSpec.BooleanValue pickaxeOnly;
 	public final ForgeConfigSpec.IntValue stalkRange;
 	public final ForgeConfigSpec.DoubleValue moveSpeed;
-	public final ConfigValue<List<? extends String>> transparent_blocks;
-	
+
 	// Teleport
 	public final ForgeConfigSpec.ConfigValue<String> teleportType;
 	public final ForgeConfigSpec.ConfigValue<List<? extends String>> notAllowedDimensions;
@@ -59,6 +59,7 @@ public class WAConfig {
 		builder.push("world_gen");
 		arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
 		genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
+		genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
 		builder.pop();
 		builder.push("spawn");
 		minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
@@ -78,10 +79,9 @@ public class WAConfig {
 		freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another. (Impacts performance a bit)").define("freezeOnAngel", false);
 		pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
 		stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
-		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("moveSpeed", 1.5, 1.0, Double.MAX_VALUE);
+		moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.5, 0.1, Double.MAX_VALUE);
 		blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
 		blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
-        transparent_blocks = builder.translation("config.weeping_angels.transparent_blocks").comment("List of blocks that you should be able to see angels through.", "Format for entries: ModID:BlockRegistryName").defineList("transparentBlocks", Lists::newArrayList, String.class::isInstance);
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));

@@ -11,75 +11,65 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 
-/**
- * Created by Swirtzly on 17/02/2020 @ 12:18
- */
 public class StatueTile extends TileEntity implements ITickableTileEntity {
-	private int rotation =0, type = 0;
+
+	private int rotation = 0;
+	private String type = AngelEnums.AngelType.ANGELA_MC.name();
 	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
-	
+
 	public StatueTile() {
 		super(WAObjects.Tiles.STATUE.get());
 	}
 
-	public int getAngelType() {
-		return type;
-	}
-
-	public void setAngelType(int type) {
-		this.type = type;
-	}
 
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
 		setPose(new ResourceLocation(compound.getString("pose")));
-		setRotation(compound.getInt("rotation"));
-		type = compound.getInt("type");
+		rotation = compound.getInt("rotation");
+		type = compound.getString("model");
 	}
-	
+
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString("pose", pose.toString());
 		compound.putInt("rotation", rotation);
-		compound.putInt("type", type);
+		compound.putString("model", type);
+		compound.putString("pose", pose.toString());
 		return compound;
 	}
-	
-	public ResourceLocation getPose() {
-		return pose;
-	}
-	
-	public void setPose(ResourceLocation pose) {
-		this.pose = pose;
+
+	public AngelEnums.AngelType getAngelType() {
+		return AngelEnums.AngelType.valueOf(type);
 	}
 
-	public void sendUpdates() {
-		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		markDirty();
+	public void setAngelType(String type) {
+		this.type = type;
 	}
 
+	public void setAngelType(AngelEnums.AngelType type) {
+		this.type = type.name();
+	}
+
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+		sendUpdates();
+	}
 
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
 	}
 
-
 	@Override
 	public CompoundNBT getUpdateTag() {
 		return write(new CompoundNBT());
-	}
-
-	public int getRotation() {
-		return rotation;
-	}
-	
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
 	}
 
 	@Override
@@ -88,19 +78,41 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 		handleUpdateTag(getBlockState(), pkt.getNbtCompound());
 	}
 
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return super.getRenderBoundingBox().grow(8, 8, 8);
+	}
+
+	public void sendUpdates() {
+		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+		markDirty();
+	}
 
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
-		
-		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof StatueTile) {
-			WeepingAngelEntity angel = new WeepingAngelEntity(world);
-			angel.setType(type);
-			angel.setCherub(false);
-			angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, rotation, rotation);
-			angel.setPose(getPose());
-			world.addEntity(angel);
-			world.removeBlock(getPos(), false);
+
+		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
+			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
+			if (!plinth.getHasSpawned()) {
+				WeepingAngelEntity angel = new WeepingAngelEntity(world);
+				angel.setType(type);
+				angel.setChild(false);
+				angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+				angel.setPose(getPose());
+				world.addEntity(angel);
+				plinth.setHasSpawned(true);
+				sendUpdates();
+			}
 		}
+	}
+
+	public ResourceLocation getPose() {
+		return new ResourceLocation(pose.toString());
+	}
+
+	public void setPose(ResourceLocation pose) {
+		this.pose = pose;
 	}
 }

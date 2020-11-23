@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -69,9 +70,9 @@ public class PlinthBlock extends Block {
 		if (world.getTileEntity(pos) instanceof PlinthTile) {
 			int rotation = MathHelper.floor(placer.rotationYaw);
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
-			//plinth.setRotation(rotation);
+			plinth.setRotation(rotation);
 			plinth.setPose(AngelPoses.getRandomPose().getRegistryName());
-			plinth.setAngelType(world.rand.nextInt(6));
+			plinth.setAngelType(AngelUtils.randomType().name());
 			plinth.sendUpdates();
 		}
 	}

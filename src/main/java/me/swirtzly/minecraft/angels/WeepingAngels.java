@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels;
 
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
 import net.minecraft.data.DataGenerator;
@@ -45,12 +46,12 @@ public class WeepingAngels {
 
 
 	public WeepingAngels() {
-		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-		bus.register(this);
+		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		modBus.register(this);
+		modBus.addListener(this::setup);
 		MinecraftForge.EVENT_BUS.register(this);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
-		bus.addListener(this::setup);
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::doClientStuff));
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -63,8 +64,8 @@ public class WeepingAngels {
 		WAObjects.EntityEntries.ENTITIES.register(bus);
 		WAObjects.Tiles.TILES.register(bus);
 		WAObjects.WorldGenEntries.FEATURES.register(bus);
+		WAObjects.Structures.STRUCTURES.register(bus);
 		WAAttributes.ATTRIBUTES.register(bus);
-		//WAObjects.WorldGenEntries.setup();
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
@@ -72,7 +73,11 @@ public class WeepingAngels {
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
 		GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
 		AngelUtils.registerFunction(new ResourceLocation(MODID,"fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
-
+		event.enqueueWork(() ->
+		{
+			WAObjects.setupStructures();
+			WAObjects.ConfiguredStructures.registerConfiguredStructures();
+		});
 		VR_REFLECTOR.init();
 	}
 
@@ -81,7 +86,7 @@ public class WeepingAngels {
 	}
 
 	@SubscribeEvent
-	public void gatherData(GatherDataEvent e) {
+	public void onGatherData(GatherDataEvent e) {
 		DataGenerator generator = e.getGenerator();
 		generator.addProvider(new WAItemTags(generator, new WABlockTags(generator)));
 		generator.addProvider(new WABlockTags(generator));

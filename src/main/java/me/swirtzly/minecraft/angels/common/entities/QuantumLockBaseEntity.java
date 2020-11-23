@@ -4,6 +4,7 @@ import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
+import net.minecraft.client.renderer.model.ItemModelGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;
@@ -79,7 +80,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	}
 	
 	public void moveTowards(LivingEntity targetPlayer) {
-		getNavigator().tryMoveToEntityLiving(targetPlayer, WAConfig.CONFIG.moveSpeed.get());
+		getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
 	}
 	
 	@Override
@@ -117,7 +118,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		return super.isInvulnerableTo(source);
+		return super.isInvulnerableTo(source) || source.getTrueSource() == null; //Prevents damage from things like suffocation etc.
 	}
 	
 	public boolean isSeen() {
@@ -145,7 +146,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		getLookController().setLookPositionWithEntity(player, 30, 30);
 		getNavigator().setPath(null, 0);
 		//setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
-		setMotion(0,0,0);
+		//setMotion(0,0,0);
 	}
 
 }
