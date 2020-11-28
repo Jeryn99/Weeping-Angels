@@ -22,10 +22,10 @@ public class WATeleporter {
 	public static int yCoordSanity(World world, BlockPos pos) {
 		for (int y = world.getHeight(); y > 0; --y) {
 			BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
-			BlockState state = world.getBlockState(newPos);
+			//BlockState state = world.getBlockState(newPos);
 			BlockState underState = world.getBlockState(newPos.down());
 
-			if (!state.causesSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+			if (!willBlockStateCauseSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
 				return newPos.getY();
 			}
 		}
@@ -87,5 +87,18 @@ public class WATeleporter {
 		}
 		return y <= 0 || y >= 256;
 	}
+	
+	/**
+	 * Checks if the blockstate will cause entity to suffocate in it.
+	 * <br> This attempts to reproduce behaviour shown in the private AbstractBlock suffocates predicate
+	 * <br> Do not use AbstractBlock#causesSuffocation because that does not actually relate to suffocation at all, it is a rendering related method misnamed in 1.16 mappings 
+	 * @param world
+	 * @param pos
+	 * @return true if causes suffocating, false if it doesn't
+	 */
+    public static boolean willBlockStateCauseSuffocation(World world, BlockPos pos) {
+    	BlockState state = world.getBlockState(pos);
+    	return state.getMaterial().blocksMovement() && state.hasOpaqueCollisionShape(world, pos);
+    }
 
 }
