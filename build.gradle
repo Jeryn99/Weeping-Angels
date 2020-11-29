@@ -28,6 +28,25 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+// Process resources on build
+processResources {
+    // This will ensure that this task is redone when the versions change.
+    inputs.property 'version', project.version
+
+    // Replace stuff in mods.toml, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+
+        // Replace version
+        expand 'version':project.version
+    }
+
+    // Copy everything else except the mods.toml
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
+    }
+}
+
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
@@ -92,7 +111,7 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = 'Fixed launch crash and added Coffins'
+        changelog = 'Fixed server crash when Angels teleport entities, Fixed inverted configs options for Angel teleporation, Fixed Angels not moving towards target, Fixed server crash with Statue and Plinth blocks, Statue and Plinth blocks are now water-loggable'
         releaseType = 'release'
         addGameVersion '1.16.3'
         addGameVersion '1.16.4'

@@ -5,10 +5,10 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
 logoFile="logo.png"
 credits="Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
 authors="Swirtzly"
-license="https://github.com/WhoCraft/Weeping-Angels/blob/1.14/LICENSE"
+license="https://github.com/WhoCraft/Weeping-Angels/blob/1.16/LICENSE"
 [[mods]]
 modId="weeping_angels"
-version="1.0.4"
+version="${version}"
 displayName="Weeping Angels"
 updateJSONURL="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16/update.json" #optional
 description='''
