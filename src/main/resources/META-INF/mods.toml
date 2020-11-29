@@ -10,7 +10,7 @@ license="https://github.com/WhoCraft/Weeping-Angels/blob/1.14/LICENSE"
 modId="weeping_angels"
 version="1.0.4"
 displayName="Weeping Angels"
-updateJSONURL="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16.2/update.json" #optional
+updateJSONURL="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16/update.json" #optional
 description='''
 Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]

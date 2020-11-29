@@ -191,17 +191,17 @@ public class AngelUtils {
         LivingEntity targeted = (LivingEntity) target;
         ResourceLocation resourcelocation = targeted.getLootTableResourceLocation();
         LootTable loot_table = target.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-        LootContext.Builder lootcontext$builder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
-        LootContext ctx = lootcontext$builder.build(LootParameterSets.ENTITY);
+        LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
+        LootContext ctx = lootContextBuilder.build(LootParameterSets.ENTITY);
         loot_table.generate(ctx).forEach(target::entityDropItem);
     }
 
     public static LootContext.Builder getLootContextBuilder(boolean p_213363_1_, DamageSource damageSourceIn, LivingEntity entity, PlayerEntity attacker) {
-        LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) entity.world)).withRandom(entity.world.rand).withParameter(LootParameters.THIS_ENTITY, entity).withParameter(LootParameters.field_237457_g_, entity.getPositionVec()).withParameter(LootParameters.DAMAGE_SOURCE, damageSourceIn).withNullableParameter(LootParameters.KILLER_ENTITY, damageSourceIn.getTrueSource()).withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, damageSourceIn.getImmediateSource());
+        LootContext.Builder builder = (new LootContext.Builder((ServerWorld) entity.world)).withRandom(entity.world.rand).withParameter(LootParameters.THIS_ENTITY, entity).withParameter(LootParameters.field_237457_g_, entity.getPositionVec()).withParameter(LootParameters.DAMAGE_SOURCE, damageSourceIn).withNullableParameter(LootParameters.KILLER_ENTITY, damageSourceIn.getTrueSource()).withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, damageSourceIn.getImmediateSource());
         if (p_213363_1_ && entity.getAttackingEntity() != null) {
             attacker = (PlayerEntity) entity.getAttackingEntity();
-            lootcontext$builder = lootcontext$builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
+            builder = builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
         }
-        return lootcontext$builder;
+        return builder;
     }
 }

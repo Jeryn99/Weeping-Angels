@@ -22,7 +22,6 @@ public class WATeleporter {
 	public static int yCoordSanity(World world, BlockPos pos) {
 		for (int y = world.getHeight(); y > 0; --y) {
 			BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
-			//BlockState state = world.getBlockState(newPos);
 			BlockState underState = world.getBlockState(newPos.down());
 
 			if (!willBlockStateCauseSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {

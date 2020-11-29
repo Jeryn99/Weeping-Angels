@@ -385,7 +385,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 				double x = player.getPosX() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 				double z = player.getPosZ() + rand.nextInt(WAConfig.CONFIG.teleportRange.get());
 
-				ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? (ServerWorld) player.world : WATeleporter.getRandomDimension(rand);
+				ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(rand) : (ServerWorld) player.world;
 				ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
 				teleportWorld.forceChunk(chunkPos.x, chunkPos.z, true);
 

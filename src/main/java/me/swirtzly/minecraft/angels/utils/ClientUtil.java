@@ -29,33 +29,33 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientUtil {
 
-    private static final EntityModel<WeepingAngelEntity> modelOne = new ModelAngel<>();
-    private static final EntityModel<WeepingAngelEntity> modelTwo = new ModelAngelEd();
-    private static final EntityModel<WeepingAngelEntity> modelChild = new ModelAngelChild<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> modelClassic = new ModelClassicAngel();
-    private static final EntityModel<WeepingAngelEntity> modelMel = new ModelAngelMel<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> modelAngela = new ModelAngela<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> modelAngela2 = new ModelAngelaAngel();
+    private static final EntityModel<WeepingAngelEntity> VIO_1 = new ModelAngel<>();
+    private static final EntityModel<WeepingAngelEntity> ED = new ModelAngelEd();
+    private static final EntityModel<WeepingAngelEntity> ED_ANGEL_CHILD = new ModelAngelChild<WeepingAngelEntity>();
+    private static final EntityModel<WeepingAngelEntity> A_DIZZLE = new ModelClassicAngel();
+    private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel<WeepingAngelEntity>();
+    private static final EntityModel<WeepingAngelEntity> ANGELA = new ModelAngela<WeepingAngelEntity>();
+    private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
 
 
     public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
         switch (angelType) {
             case ED_ANGEL_CHILD:
-                return modelChild;
+                return ED_ANGEL_CHILD;
             case ED:
-                return modelTwo;
+                return ED;
             case ANGELA_MC:
-                return modelAngela2;
+                return ANGELA_MC;
             case A_DIZZLE:
-                return modelClassic;
+                return A_DIZZLE;
             case ANGELA:
-                return modelAngela;
+                return ANGELA;
             case VIO_1:
-                return modelOne;
+                return VIO_1;
             case VIO_2:
-                return modelMel;
+                return VIO_2;
         }
-        return modelAngela2;
+        return ANGELA_MC;
     }
 
     @OnlyIn(Dist.CLIENT)
