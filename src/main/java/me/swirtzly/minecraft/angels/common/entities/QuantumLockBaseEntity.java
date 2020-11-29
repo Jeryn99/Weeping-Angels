@@ -80,6 +80,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 	}
 	
 	public void moveTowards(LivingEntity targetPlayer) {
+		this.setAIMoveSpeed(0.9F);
 		getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
 	}
 	
@@ -145,8 +146,8 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 		setNoAI(true);
 		getLookController().setLookPositionWithEntity(player, 30, 30);
 		getNavigator().setPath(null, 0);
-		//setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
-		//setMotion(0,0,0);
+//		setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
+//		setMotion(0,0,0);
 	}
 
 }

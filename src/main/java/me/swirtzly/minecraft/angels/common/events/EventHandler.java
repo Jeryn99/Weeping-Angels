@@ -73,7 +73,7 @@ public class EventHandler {
         boolean isGraveYard = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).isValid();
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
-            if (isGraveYard) {
+            if (isGraveYard && !player.abilities.isCreativeMode) {
                 MutableBoundingBox box = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).getBoundingBox();
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {

@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.utils;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
@@ -54,7 +55,7 @@ public class ClientUtil {
             case VIO_2:
                 return modelMel;
         }
-        return null;
+        return modelAngela2;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -84,7 +85,7 @@ public class ClientUtil {
             return 0;
         });
 
-        ItemModelsProperties.registerProperty(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation("angel_type"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.registerProperty(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
             if (itemStack == null || itemStack.isEmpty()) {
                 return 0;
             }

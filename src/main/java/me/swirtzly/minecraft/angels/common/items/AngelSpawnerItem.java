@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,6 +48,7 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 	public static AngelEnums.AngelType getType(ItemStack stack) {
 		CompoundNBT tag = stack.getOrCreateTag();
 		String angelType = tag.getString("type");
+		angelType = angelType.isEmpty() ? AngelType.ANGELA_MC.name() : angelType;
 		return AngelEnums.AngelType.valueOf(angelType);
 	}
 

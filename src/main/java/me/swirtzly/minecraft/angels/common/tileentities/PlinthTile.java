@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.tileentities;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -52,7 +53,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 	}
 
 	public AngelEnums.AngelType getAngelType() {
-		return AngelEnums.AngelType.valueOf(type);
+		return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
 	}
 
 	public void setAngelType(String type) {
@@ -88,6 +89,11 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 		handleUpdateTag(getBlockState(), pkt.getNbtCompound());
 	}
 	
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.read(state, tag);
+	}
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return super.getRenderBoundingBox().grow(8, 8, 8);

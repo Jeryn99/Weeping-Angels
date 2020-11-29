@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.tileentities;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -42,7 +43,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	}
 
 	public AngelEnums.AngelType getAngelType() {
-		return AngelEnums.AngelType.valueOf(type);
+		return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
 	}
 
 	public void setAngelType(String type) {
@@ -71,6 +72,12 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	public CompoundNBT getUpdateTag() {
 		return write(new CompoundNBT());
 	}
+	
+
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.read(state, tag);
+	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
@@ -92,7 +99,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
-
+        
 		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
 			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
 			if (!plinth.getHasSpawned()) {
@@ -115,4 +122,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 	public void setPose(ResourceLocation pose) {
 		this.pose = pose;
 	}
+	
+	
 }
