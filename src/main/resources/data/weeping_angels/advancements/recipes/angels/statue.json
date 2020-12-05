@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "weeping_angels:statue"
+    ]
+  },
+  "criteria": {
+    "has_crafting_table": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:crafting_table"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "weeping_angels:statue"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_crafting_table",
+      "has_the_recipe"
+    ]
+  ]
+}

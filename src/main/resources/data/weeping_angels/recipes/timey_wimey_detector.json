@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "#R#",
@@ -22,12 +22,10 @@
       "item": "minecraft:redstone"
     },
     "B": {
-      "item": "minecraft:brick"
+      "item": "minecraft:bricks"
     }
   },
   "result": {
-    "item": "weeping_angels:timey_wimey_detector",
-    "count": 1
-  },
-  "group": "angels"
+    "item": "weeping_angels:timey_wimey_detector"
+  }
 }

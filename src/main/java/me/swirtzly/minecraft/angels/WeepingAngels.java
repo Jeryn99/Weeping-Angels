@@ -1,8 +1,8 @@
 package me.swirtzly.minecraft.angels;
 
-import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
+import me.swirtzly.minecraft.angels.data.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.IEventBus;
 import org.apache.logging.log4j.LogManager;
@@ -11,9 +11,6 @@ import org.apache.logging.log4j.Logger;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.data.LangEnglish;
-import me.swirtzly.minecraft.angels.data.WABlockTags;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
@@ -90,6 +87,8 @@ public class WeepingAngels {
 		DataGenerator generator = e.getGenerator();
 		generator.addProvider(new WAItemTags(generator, new WABlockTags(generator)));
 		generator.addProvider(new WABlockTags(generator));
-		generator.addProvider(new LangEnglish(generator));
+		generator.addProvider(new WALangEnglish(generator));
+		generator.addProvider(new WARecipeGen(generator));
+		generator.addProvider(new WALootTables(generator));
 	}
 }

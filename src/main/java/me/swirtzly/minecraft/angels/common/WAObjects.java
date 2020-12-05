@@ -124,7 +124,7 @@ public class WAObjects {
 		public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 		
 		public static final RegistryObject<Block> ARM = BLOCKS.register("snow_arm", () -> setUpBlock(new SnowArmBlock()));
-		public static final RegistryObject<Block> CG = BLOCKS.register("cg", () -> setUpBlock(new ChronodyneGeneratorBlock()));
+		public static final RegistryObject<Block> CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
 		public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
 		public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
 		public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));

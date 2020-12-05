@@ -1,9 +1,8 @@
-
-   {
+{
   "type": "minecraft:block",
   "pools": [
     {
-    "name":"weeping_angels:plinth",
+      "name": "weeping_angels:plinth",
       "rolls": 1,
       "entries": [
         {
@@ -14,4 +13,3 @@
     }
   ]
 }
-    

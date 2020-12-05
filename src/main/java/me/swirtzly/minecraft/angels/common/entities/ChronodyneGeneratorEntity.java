@@ -67,9 +67,9 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
 				BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
 				BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
 				if (world.isAirBlock(pos) && !world.isAirBlock(pos.down()) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
-					world.setBlockState(pos, WAObjects.Blocks.CG.get().getDefaultState());
+					world.setBlockState(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().getDefaultState());
 				} else {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CG.get()));
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
 				}
 				world.setEntityState(this, (byte) 3);
 				remove();

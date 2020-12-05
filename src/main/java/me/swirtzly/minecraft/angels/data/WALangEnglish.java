@@ -5,9 +5,9 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
-public class LangEnglish extends LanguageProvider {
+public class WALangEnglish extends LanguageProvider {
 
-    public LangEnglish(DataGenerator gen) {
+    public WALangEnglish(DataGenerator gen) {
         super(gen, WeepingAngels.MODID, "en_us");
     }
 
