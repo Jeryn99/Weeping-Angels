@@ -22,11 +22,7 @@ import net.minecraft.block.EndPortalBlock;
 import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.block.RedstoneLampBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
@@ -34,6 +30,7 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -68,7 +65,6 @@ import net.minecraft.world.storage.IWorldInfo;
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
 	private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
-	private static final DataParameter<Boolean> IS_CHERUB = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
 	public long timeSincePlayedSound = 0;
@@ -100,7 +96,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		getDataManager().register(IS_CHERUB, rand.nextInt(10) == 4);
 		getDataManager().register(TYPE, AngelUtils.randomType().name());
 		getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
 		getDataManager().register(HUNGER_LEVEL, 50);
@@ -136,6 +131,15 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		return isCherub() ? getHeight() : 1.3F;
 	}
 
+	@Override
+	public EntitySize getSize(Pose poseIn) {
+		return super.getSize(poseIn);
+	}
+
+	@Override
+	public boolean isChild() {
+		return isCherub();
+	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
 		return MonsterEntity.func_234295_eP_().
@@ -221,7 +225,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		super.writeAdditional(compound);
 		compound.putString(WAConstants.POSE, getAngelPose().toString());
 		compound.putString(WAConstants.TYPE, getAngelType().name());
-		compound.putBoolean(WAConstants.ANGEL_CHILD, isCherub());
 		compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
 	}
 	
@@ -233,8 +236,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 			setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
 
 		if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
-
-		if (compound.contains(WAConstants.ANGEL_CHILD)) setCherub(compound.getBoolean(WAConstants.ANGEL_CHILD));
 
 		if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
 	}
@@ -436,12 +437,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 	}
 	
 	public boolean isCherub() {
-		return getDataManager().get(IS_CHERUB);
+		return getAngelType() == AngelEnums.AngelType.ED_ANGEL_CHILD;
 	}
-	
-	public void setCherub(boolean child) {
-		getDataManager().set(IS_CHERUB, child);
-	}
+
 	
 	public AngelEnums.AngelType getAngelType() {
 		String type = getDataManager().get(TYPE);

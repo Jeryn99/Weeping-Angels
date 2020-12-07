@@ -20,13 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
-	
-	@SuppressWarnings("unused")
-	private final Function<World, E> entityCreator;
 
-	public AngelSpawnerItem(Function<World, E> angel) {
+	public AngelSpawnerItem() {
 		super(new Properties().group(WATabs.MAIN_TAB));
-		entityCreator = angel;
 	}
 
 	@Override
@@ -64,11 +60,14 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 		if (!worldIn.isRemote) {
 			WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
 			angel.setType(getType(context.getItem()));
-			angel.setChild(getType(context.getItem()).isChild());
 			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 			angel.faceEntity(player, 10.0F, 10.0F);
 			player.getHeldItem(hand).shrink(1);
 			worldIn.addEntity(angel);
+
+			if (!player.isCreative()) {
+				context.getItem().shrink(1);
+			}
 		}
 		return super.onItemUse(context);
 	}

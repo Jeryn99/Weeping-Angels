@@ -10,7 +10,6 @@ public class WAConstants {
 	public static final String IS_SEEN = "isSeen";
 	public static final String TIME_SEEN = "timeSeen";
 	public static final String TYPE = "type";
-	public static final String ANGEL_CHILD = "angelChild";
 	public static final String PREVPOS = "prevPos";
 	public static final String HUNGER_LEVEL = "hungerLevel";
 	public static final String QAUNTUM_LOCKED = "qauntumLocked";

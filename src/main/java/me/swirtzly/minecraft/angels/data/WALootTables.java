@@ -52,7 +52,7 @@ public class WALootTables implements IDataProvider {
         IDataProvider.save(GSON, cache, element.get(), path);
     }
 
-    public JsonElement createBlockDropGuarenteed(Block block, ResourceLocation drop) {
+    public JsonElement createBlockDropGuarantied(Block block, ResourceLocation drop) {
         JsonObject root = new JsonObject();
         root.add("type", new JsonPrimitive("minecraft:block"));
 
@@ -82,7 +82,7 @@ public class WALootTables implements IDataProvider {
     }
 
     public JsonElement createBlockDropSelf(Block block) {
-        return this.createBlockDropGuarenteed(block, block.getRegistryName());
+        return this.createBlockDropGuarantied(block, block.getRegistryName());
     }
 
 }

@@ -36,8 +36,8 @@ public class FortuneEnchantBonus extends LootFunction {
 		this.count = countIn;
 		this.limit = limitIn;
 	}
-	
-	public static FortuneEnchantBonus.Builder func_215915_a(RandomValueRange p_215915_0_) {
+
+	public FortuneEnchantBonus.Builder builder(RandomValueRange p_215915_0_) {
 		return new FortuneEnchantBonus.Builder(p_215915_0_);
 	}
 	

@@ -53,17 +53,18 @@ public class AnomalyEntity extends MobEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		
-		setNoAI(true);
-		if (ticksExisted == 1) {
-			playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
-		}
-		
-		if (ticksExisted > getTimeAlive()) {
-			remove();
-		}
 
 		if(!world.isRemote) {
+
+			setNoAI(true);
+			if (ticksExisted == 1) {
+				playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
+			}
+
+			if (ticksExisted > getTimeAlive()) {
+				remove();
+			}
+
 			for (WeepingAngelEntity weepingAngelEntity : world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(10))) {
 				BlockPos pos = getPosition().subtract(weepingAngelEntity.getPosition());
 				Vector3d vec = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).normalize();

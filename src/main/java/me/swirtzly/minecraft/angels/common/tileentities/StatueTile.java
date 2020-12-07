@@ -105,7 +105,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
 			if (!plinth.getHasSpawned()) {
 				WeepingAngelEntity angel = new WeepingAngelEntity(world);
 				angel.setType(type);
-				angel.setChild(false);
 				angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
 				angel.setPose(getPose());
 				world.addEntity(angel);

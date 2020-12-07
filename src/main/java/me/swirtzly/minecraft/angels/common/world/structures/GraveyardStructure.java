@@ -77,7 +77,7 @@ public class GraveyardStructure extends Structure<ProbabilityConfig>{
             BlockPos blockpos = new BlockPos(x, surfaceY, z);
             GraveyardStructurePieces.start(templateManagerIn, blockpos, rotation, this.components, this.rand);
             this.recalculateStructureSize();
-            WeepingAngels.LOGGER.log(Level.INFO, "Graveyard at " + (blockpos.getX()) + " " + blockpos.getY() + " " + (blockpos.getZ()));
+            WeepingAngels.LOGGER.info("Graveyard at " + (blockpos.getX()) + " " + blockpos.getY() + " " + (blockpos.getZ()));
         }
 		
 	}

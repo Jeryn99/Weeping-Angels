@@ -136,7 +136,7 @@ public class WAObjects {
 		
 		public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
 		public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
-		public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>(WeepingAngelEntity::new)));
+		public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>()));
 		public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
 	}
 	
@@ -269,8 +269,7 @@ public class WAObjects {
 		builder.setUpdateInterval(updateFreq);
 		builder.size(width, height);
 		builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
-		EntityType<T> type = builder.build(loc.toString());
-		return type;
+		return builder.build(loc.toString());
 	}
 	
 	// Fire Resistant Entity Creation
@@ -283,8 +282,7 @@ public class WAObjects {
 		builder.immuneToFire();
 		builder.size(width, height);
 		builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
-		EntityType<T> type = builder.build(loc.toString());
-		return type;
+		return builder.build(loc.toString());
 	}
 	
 	private static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.IFactory<T> factory, IClientSpawner<T> client, EntityClassification classification, float width, float height, String name, boolean velocity) {
