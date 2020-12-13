@@ -2,9 +2,14 @@
   "homepage": "https://minecraft.curseforge.com/projects/weeping-angels-mod",
   "promos": {
     "1.16.2-latest": "1.0.1",
-    "1.16.2-recommended": "1.0.1"
+    "1.16.2-recommended": "1.0.1",
+    "1.16.4-latest": "1.0.7",
+    "1.16.4-recommended": "1.0.7"
   },
   "1.16.2": {
     "1.0.1": "I am a update"
+  },
+  "1.16.4": {
+    "1.0.7": "Fixed server crash when Angels teleport entities, Fixed inverted configs options for Angel teleporation, Fixed Angels not moving towards target, Fixed server crash with Statue and Plinth blocks, Statue and Plinth blocks are now water-loggable"
   }
 }

@@ -74,6 +74,7 @@ public class WeepingAngels {
 		{
 			WAObjects.setupStructures();
 			WAObjects.ConfiguredStructures.registerConfiguredStructures();
+			WAObjects.ConfiguredFeatures.registerConfiguredFeatures();
 		});
 		VR_REFLECTOR.init();
 	}

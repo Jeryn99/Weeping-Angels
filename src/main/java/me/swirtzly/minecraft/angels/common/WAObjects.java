@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableMap;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.blocks.*;
-import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -45,12 +44,19 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.FlatGenerationSettings;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraftforge.event.RegistryEvent;
@@ -161,7 +167,17 @@ public class WAObjects {
 	public static class WorldGenEntries {
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
 		public static final RegistryObject<Feature<NoFeatureConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
+	    public static final RegistryObject<Feature<OreFeatureConfig>> KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig.CODEC));
+	}
 	
+	public static class ConfiguredFeatures{
+		public static final ConfiguredFeature<?, ?> ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242732_c(4);
+		public static final ConfiguredFeature<?, ?> KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5);
+	
+	    public static void registerConfiguredFeatures() {
+	    	registerConfiguredFeature("arm_snow_feature", ARM_SNOW_FEATURE);
+	    	registerConfiguredFeature("kontron_ore", KONTRON_ORE);
+	    }
 	}
 	
 	/**===Structure Registration Start===*/
@@ -254,6 +270,11 @@ public class WAObjects {
     
     
     /**===Structure Registration End===*/
+    
+    private static <T extends Feature<?>> void registerConfiguredFeature(String registryName, ConfiguredFeature<?,?> configuredFeature) {
+    	Registry<ConfiguredFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_FEATURE;
+    	Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredFeature);
+    }
 
 	// Tile Creation
 	private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
