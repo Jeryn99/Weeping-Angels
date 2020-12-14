@@ -8,7 +8,6 @@ import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
@@ -81,7 +80,7 @@ public class WATeleporter {
 
 
 	public static boolean isPosBelowOrAboveWorld(World dim, int y) {
-		if (dim.getDimensionKey().getLocation().equals(DimensionType.THE_NETHER.getRegistryName())) {
+		if (dim.getDimensionKey() == World.THE_NETHER) {
 			return y <= 0 || y >= 126;
 		}
 		return y <= 0 || y >= 256;
