@@ -30,7 +30,6 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -83,7 +82,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 		goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
 		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
-		experienceValue = WAConfig.CONFIG.xpGained.get();
+		this.experienceValue = WAConfig.CONFIG.xpGained.get();
 		enablePersistence();
 	}
 	
