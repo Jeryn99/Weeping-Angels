@@ -74,10 +74,11 @@ public class WAObjects {
 
 	public static ResourceLocation CRYPT_LOOT = new ResourceLocation(MODID, "chests/crypt");
 
+	/* See BiomeLoadingEvent
 	@SubscribeEvent
 	public static void addSpawns(FMLLoadCompleteEvent e) {
 		EntitySpawn.addSpawnEntries();
-	}
+	}*/
 	
 	private static Item setUpItem(Item item) {
 		return item;
