@@ -10,6 +10,7 @@ import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
@@ -25,6 +26,8 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraftforge.fml.ModLoader;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -5044,8 +5047,6 @@ public class GraveyardStructurePieces {
         /*    if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
                 USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());
             }*/
-
-
 
             if ("angel".equals(function)) {
                 StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());

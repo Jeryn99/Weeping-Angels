@@ -48,7 +48,7 @@ public class WATeleporter {
 
 		Structure[] targetStructure = null;
 
-		switch (player.world.getDimensionKey().getRegistryName().toString()) {
+		switch (player.world.getDimensionKey().getLocation().toString()) {
 			case "minecraft:overworld":
 				targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
 				break;
