@@ -27,6 +27,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientUtil {
 
     private static final EntityModel<WeepingAngelEntity> VIO_1 = new ModelAngel<>();
@@ -37,25 +40,21 @@ public class ClientUtil {
     private static final EntityModel<WeepingAngelEntity> ANGELA = new ModelAngela<WeepingAngelEntity>();
     private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
 
+    private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
+
+    static {
+        MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, ED_ANGEL_CHILD);
+        MODEL_MAP.put(AngelEnums.AngelType.ED, ED);
+        MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, ANGELA_MC);
+        MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, A_DIZZLE);
+        MODEL_MAP.put(AngelEnums.AngelType.ANGELA, ANGELA);
+        MODEL_MAP.put(AngelEnums.AngelType.VIO_1, VIO_1);
+        MODEL_MAP.put(AngelEnums.AngelType.VIO_2, VIO_2);
+    }
+
 
     public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
-        switch (angelType) {
-            case ED_ANGEL_CHILD:
-                return ED_ANGEL_CHILD;
-            case ED:
-                return ED;
-            case ANGELA_MC:
-                return ANGELA_MC;
-            case A_DIZZLE:
-                return A_DIZZLE;
-            case ANGELA:
-                return ANGELA;
-            case VIO_1:
-                return VIO_1;
-            case VIO_2:
-                return VIO_2;
-        }
-        return ANGELA_MC;
+        return MODEL_MAP.get(angelType);
     }
 
     @OnlyIn(Dist.CLIENT)

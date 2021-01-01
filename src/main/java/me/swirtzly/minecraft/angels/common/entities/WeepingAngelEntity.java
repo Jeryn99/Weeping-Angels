@@ -444,28 +444,26 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().set(HUNGER_LEVEL, hunger);
     }
 
-    public WeepingAngelEntity.Cracks calc() {return WeepingAngelEntity.Cracks.func_226515_a_(this.getHealth() / this.getMaxHealth()); }
+    public WeepingAngelEntity.Cracks calc() {return WeepingAngelEntity.Cracks.getCrackValue(this.getHealth() / this.getMaxHealth()); }
 
 
-    public static enum Cracks {
+    public enum Cracks {
         NONE(1.0F),
         LOW(0.75F),
         MEDIUM(0.5F),
         HIGH(0.25F);
 
-        private static final List<WeepingAngelEntity.Cracks> field_226513_e_ = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> {
-            return (double) p_226516_0_.field_226514_f_;
-        })).collect(ImmutableList.toImmutableList());
-        private final float field_226514_f_;
+        private static final List<WeepingAngelEntity.Cracks> cracks = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> p_226516_0_.health)).collect(ImmutableList.toImmutableList());
+        private final float health;
 
-        private Cracks(float p_i225732_3_) {
-            this.field_226514_f_ = p_i225732_3_;
+        Cracks(float health) {
+            this.health = health;
         }
 
-        public static WeepingAngelEntity.Cracks func_226515_a_(float p_226515_0_) {
-            for (WeepingAngelEntity.Cracks irongolementity$cracks : field_226513_e_) {
-                if (p_226515_0_ < irongolementity$cracks.field_226514_f_) {
-                    return irongolementity$cracks;
+        public static WeepingAngelEntity.Cracks getCrackValue(float health) {
+            for (WeepingAngelEntity.Cracks cracks : cracks) {
+                if (health < cracks.health) {
+                    return cracks;
                 }
             }
 

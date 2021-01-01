@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class SnowArmModel extends EntityModel {
 	
-	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
+	private ResourceLocation ANGEL_TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_ed.png");
 
 	private final ModelRenderer left_arm;
 	private final ModelRenderer left_arm_wrist;

@@ -24,8 +24,6 @@ import net.minecraft.util.math.vector.Vector3f;
  * Created by Swirtzly on 17/02/2020 @ 12:18
  */
 public class StatueRender extends TileEntityRenderer<StatueTile> {
-	
-	private EntityModel<WeepingAngelEntity> angel = new ModelAngelaAngel();
 
 	public StatueRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
 		super(tileEntityRendererDispatcher);
@@ -38,7 +36,7 @@ public class StatueRender extends TileEntityRenderer<StatueTile> {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
 		matrixStack.rotate(Vector3f.YP.rotation(-statueTile.getRotation()));
 
-		angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
+		EntityModel<WeepingAngelEntity> angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
 		ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
 
 		AngelPoses pose = AngelPoses.getPoseFromString(statueTile.getPose());

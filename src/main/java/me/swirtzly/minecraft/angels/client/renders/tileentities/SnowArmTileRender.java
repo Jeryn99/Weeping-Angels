@@ -15,8 +15,8 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
 
-	private ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_2.png");
-	private SnowArmModel arm = new SnowArmModel();
+	private final ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_ed.png");
+	private final SnowArmModel arm = new SnowArmModel();
 
 	public SnowArmTileRender(TileEntityRendererDispatcher renderer) {
 		super(renderer);

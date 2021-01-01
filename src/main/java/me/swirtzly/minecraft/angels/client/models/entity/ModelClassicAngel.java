@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 	
 	private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
-			"textures/entities/angel_3.png");
+			"textures/entities/angel_classic.png");
 	
 	private ModelRenderer leftfoot;
 	private ModelRenderer rightfoot;
