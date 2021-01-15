@@ -111,13 +111,13 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = 'Fixed Arms in Snow and Kontron Ore ConfiguredFeature not being registered causing mod compatibility issues, Kontron Ore can now be smelted in Furnaces and Blast Furnaces, Fixed Angels being able to teleport players above the Nether Roof'
+        changelog = 'Fixes issues where you could get teleported to the nether roof'
         releaseType = 'release'
         addGameVersion '1.16.3'
         addGameVersion '1.16.4'
-
+        addGameVersion '1.16.5'
         mainArtifact(jar) {
-            displayName = "Weeping Angels - ${minecraft_version} -  $project.version"
+            displayName = "[1.16.X] Weeping Angels - $project.version"
         }
     }
 }
