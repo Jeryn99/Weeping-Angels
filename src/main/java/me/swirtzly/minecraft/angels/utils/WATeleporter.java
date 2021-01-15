@@ -24,10 +24,10 @@ public class WATeleporter {
 			BlockState underState = world.getBlockState(newPos.down());
 
 			if (!willBlockStateCauseSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
-				return newPos.getY();
+				return world.getHeight();
 			}
 		}
-		return pos.getY();
+		return world.getHeight();
 	}
 	
 	public static ServerWorld getRandomDimension(Random rand) {

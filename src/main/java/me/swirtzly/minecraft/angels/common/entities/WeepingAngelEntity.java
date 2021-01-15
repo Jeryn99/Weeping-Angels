@@ -379,10 +379,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 teleportWorld.getServer().enqueue(new TickDelayedTask(0, () -> {
                     BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
-                    if (AngelUtils.isOutsideOfBorder(world, blockPos)) {
-                        IWorldInfo worldInfo = world.getWorldInfo();
+                    if (AngelUtils.isOutsideOfBorder(teleportWorld, blockPos)) {
+                        IWorldInfo worldInfo = teleportWorld.getWorldInfo();
                         blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12);
-                        blockPos = new BlockPos(blockPos.getX(), yCoordSanity(world, blockPos), blockPos.getZ());
+                        blockPos = new BlockPos(blockPos.getX(), yCoordSanity(teleportWorld, blockPos), blockPos.getZ());
                         WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
                     }
 

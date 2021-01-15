@@ -89,14 +89,8 @@ public class AngelUtils {
     public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.FORTRESS};
     public static Random RAND = new Random();
 
-    /**
-     * Method that detects whether a tile is the the view sight of viewer
-     *
-     * @param angel Angel involved (Used for checking if there is light around the angel)
-     * @param angel The entity being watched by viewer
-     */
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
-        return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0;// && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
+        return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionType().hasSkyLight() && !AngelUtils.handLightCheck(living);
     }
 
     public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
