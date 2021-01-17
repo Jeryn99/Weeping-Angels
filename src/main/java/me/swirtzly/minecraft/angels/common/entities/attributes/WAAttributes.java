@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.common.entities.attributes;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.fml.RegistryObject;

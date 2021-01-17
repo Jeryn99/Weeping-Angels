@@ -4,14 +4,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
-import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
-  
+
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_idle.png");
     private final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_angry.png");
     private final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_scream.png");
@@ -25,14 +24,6 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
     private final ModelRenderer rightWing;
 
     private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
-
-    public void setPose(AngelPoses angelPoses) {
-        this.angelPoses = angelPoses;
-    }
-
-    public AngelPoses getAngelPoses() {
-        return angelPoses;
-    }
 
     public ModelAngelaAngel() {
         textureWidth = 128;
@@ -80,6 +71,14 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
         rightWing.setTextureOffset(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
         rightWing.setTextureOffset(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
         rightWing.setTextureOffset(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+    }
+
+    public void setPose(AngelPoses angelPoses) {
+        this.angelPoses = angelPoses;
+    }
+
+    public AngelPoses getAngelPoses() {
+        return angelPoses;
     }
 
     @Override
@@ -151,7 +150,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
             return;
         }
 
-        if(pose == AngelPoses.POSE_SHY){
+        if (pose == AngelPoses.POSE_SHY) {
             rightArm.rotateAngleX = (float) Math.toRadians(-90);
             rightArm.rotateAngleY = (float) Math.toRadians(-1.5);
             rightArm.rotateAngleZ = (float) Math.toRadians(-20);
@@ -168,7 +167,7 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, packedOverlay);
         body.render(matrixStack, buffer, packedLight, packedOverlay);
         leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -184,18 +183,42 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
         modelRenderer.rotateAngleZ = z;
     }
 
-	@Override
-	public ResourceLocation getTextureForPose(AngelPoses pose) {
-		if(pose.create().isAngry()) {
-			return ANGRY;
-		}
-		
-		if(pose == AngelPoses.POSE_OPEN_ARMS) {
-			return SCREAM;
-		}
-		
-		return TEXTURE;
-	}
+    @Override
+    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+
+        if (angel instanceof WeepingAngelEntity) {
+            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
+            String location = "textures/entities/angela_two/";
+            String varient = weepingAngelEntity.getVarient().toLowerCase() + "_angel_";
+            location = location + weepingAngelEntity.getVarient().toLowerCase() + "/";
+
+            String suffix = "idle";
+
+            if (pose.create().isAngry()) {
+                suffix = "angry";
+            }
+
+            if (pose == AngelPoses.POSE_OPEN_ARMS) {
+                suffix = "scream";
+            }
+
+            if(weepingAngelEntity.getVarient().toLowerCase().contains("headless")){
+                suffix = "headless";
+            }
+
+            return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix+".png");
+        }
+
+        if (pose.create().isAngry()) {
+            return ANGRY;
+        }
+
+        if (pose == AngelPoses.POSE_OPEN_ARMS) {
+            return SCREAM;
+        }
+
+        return TEXTURE;
+    }
 
     @Override
     public AngelPoses getAngelPose() {

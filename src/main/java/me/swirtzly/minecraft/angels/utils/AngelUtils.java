@@ -1,22 +1,12 @@
 package me.swirtzly.minecraft.angels.utils;
 
-import java.io.*;
-import java.util.Random;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonWriter;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
-import me.swirtzly.minecraft.angels.data.WAItemTags;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -26,12 +16,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.ILootSerializer;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.LootParameterSets;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.loot.LootTable;
+import net.minecraft.loot.*;
 import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
@@ -43,13 +28,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+
+import java.util.Random;
 
 public class AngelUtils {
 
@@ -58,16 +42,6 @@ public class AngelUtils {
     public static final ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
     public static final ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
     public static final ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
-
-    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
-        return ItemTags.createOptional(new ResourceLocation(domain, path));
-    }
-
-    public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
-        return BlockTags.createOptional(new ResourceLocation(domain, path));
-    }
-
-
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
@@ -85,9 +59,16 @@ public class AngelUtils {
             Structure.BURIED_TREASURE,
             Structure.VILLAGE
     };
-
     public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.FORTRESS};
     public static Random RAND = new Random();
+
+    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
+        return ItemTags.createOptional(new ResourceLocation(domain, path));
+    }
+
+    public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
+        return BlockTags.createOptional(new ResourceLocation(domain, path));
+    }
 
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
         return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionType().hasSkyLight() && !AngelUtils.handLightCheck(living);
@@ -125,53 +106,54 @@ public class AngelUtils {
         return !world.getWorldBorder().contains(p);
     }
 
-	/**
-	 * Converts seconds into ticks
-	 */
-	public static int secondsToTicks(int seconds) {
-		return 20 * seconds;
-	}
-	
-	public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
-		if (playerMP.getDistanceSq(angel) < 1) {
-			for (Hand enumHand : Hand.values()) {
-				ItemStack stack = playerMP.getHeldItem(enumHand);
-				if (lightCheck(stack, angel)) {
-					stack.shrink(1);
-					angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
-					return;
-				}
-			}
-		}
-	}
-	
-	public static int getLightValue(Block block) {
-		return block.getDefaultState().getLightValue();
-	}
-	
-	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-		if (stack.getItem().isIn(AngelUtils.HELD_LIGHT_ITEMS)) {
-			angel.entityDropItem(stack);
-			stack.shrink(1);
-			return true;
-		}
-		
-		return false;
-	}
+    /**
+     * Converts seconds into ticks
+     */
+    public static int secondsToTicks(int seconds) {
+        return 20 * seconds;
+    }
+
+    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
+        if (playerMP.getDistanceSq(angel) < 1) {
+            for (Hand enumHand : Hand.values()) {
+                ItemStack stack = playerMP.getHeldItem(enumHand);
+                if (lightCheck(stack, angel)) {
+                    stack.shrink(1);
+                    angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
+                    return;
+                }
+            }
+        }
+    }
+
+    public static int getLightValue(Block block) {
+        return block.getDefaultState().getLightValue();
+    }
+
+    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
+        if (stack.getItem().isIn(AngelUtils.HELD_LIGHT_ITEMS)) {
+            angel.entityDropItem(stack);
+            stack.shrink(1);
+            return true;
+        }
+
+        return false;
+    }
 
     public static AngelEnums.AngelType randomType() {
         int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
         return AngelEnums.AngelType.values()[pick];
     }
 
+    public static WeepingAngelEntity.AngelVarients randomVarient() {
+        int pick = RAND.nextInt(WeepingAngelEntity.AngelVarients.values().length);
+        return WeepingAngelEntity.AngelVarients.values()[pick];
+    }
+
     public static CoffinTile.Coffin randomCoffin() {
         int pick = RAND.nextInt(CoffinTile.Coffin.values().length);
         return CoffinTile.Coffin.values()[pick];
     }
-	
-	public enum EnumTeleportType {
-		STRUCTURES, RANDOM_PLACE, DONT
-	}
 
     public static int getFortuneModifier(LivingEntity entityIn) {
         return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
@@ -179,8 +161,8 @@ public class AngelUtils {
 
     public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer<? extends ILootFunction> serialiser) {
         return Registry.register(Registry.LOOT_FUNCTION_TYPE, resourceLocation, new LootFunctionType(serialiser));
-     }
-    
+    }
+
     public static void dropEntityLoot(Entity target, PlayerEntity attacker) {
         LivingEntity targeted = (LivingEntity) target;
         ResourceLocation resourcelocation = targeted.getLootTableResourceLocation();
@@ -197,5 +179,9 @@ public class AngelUtils {
             builder = builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
         }
         return builder;
+    }
+
+    public enum EnumTeleportType {
+        STRUCTURES, RANDOM_PLACE, DONT
     }
 }

@@ -53,11 +53,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
-    public long timeSincePlayedSound = 0;
-
-    private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
-
+    private static final DataParameter<String> VARIENT = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
+    private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
+    public long timeSincePlayedSound = 0;
 
     public WeepingAngelEntity(EntityType<? extends QuantumLockBaseEntity> type, World world) {
         this(world);
@@ -73,6 +72,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         enablePersistence();
     }
 
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MonsterEntity.func_234295_eP_().
+                createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
+                createMutableAttribute(Attributes.MAX_HEALTH, 50D).
+                createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
+                createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
+                createMutableAttribute(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
+                createMutableAttribute(Attributes.ARMOR, 2.0D);
+    }
+
     public void dropAngelStuff() {
         AngelUtils.dropEntityLoot(this, this.attackingPlayer);
         entityDropItem(getHeldItemMainhand());
@@ -85,6 +94,33 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().register(TYPE, AngelUtils.randomType().name());
         getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
         getDataManager().register(HUNGER_LEVEL, 50);
+        getDataManager().register(VARIENT, AngelVarients.RUSTED_HEADLESS.name());
+    }
+
+    public String getVarient() {
+        return getDataManager().get(VARIENT);
+    }
+
+    public void setVarient(AngelVarients varient) {
+        getDataManager().set(VARIENT, varient.name());
+    }
+
+    public enum AngelVarients {
+        MOSSY, NORMAL, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_HEADLESS(true);
+
+        private boolean headless = false;
+
+        AngelVarients() {
+            this(false);
+        }
+
+        AngelVarients(boolean b) {
+            headless = b;
+        }
+
+        public boolean isHeadless() {
+            return headless;
+        }
     }
 
     @Nullable
@@ -126,17 +162,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean isChild() {
         return isCherub();
     }
-
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.func_234295_eP_().
-                createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
-                createMutableAttribute(Attributes.MAX_HEALTH, 50D).
-                createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
-                createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
-                createMutableAttribute(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
-                createMutableAttribute(Attributes.ARMOR, 2.0D);
-    }
-
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
@@ -247,7 +272,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             if (canPlaySound) {
                 if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
                     setTimeSincePlayedSound(System.currentTimeMillis());
-                    ((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.getPosX(), player.getPosY(), player.getPosZ(), 0.2F, 1.0F));
+                    ((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.getPosX(), player.getPosY(), player.getPosZ(), 0.1F, 1.0F));
                 }
             }
 
@@ -444,7 +469,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().set(HUNGER_LEVEL, hunger);
     }
 
-    public WeepingAngelEntity.Cracks calc() {return WeepingAngelEntity.Cracks.getCrackValue(this.getHealth() / this.getMaxHealth()); }
+    public WeepingAngelEntity.Cracks calc() {
+        return WeepingAngelEntity.Cracks.getCrackValue(this.getHealth() / this.getMaxHealth());
+    }
 
 
     public enum Cracks {

@@ -20,17 +20,16 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
 
+    private static final CoffinModel coffinModel = new CoffinModel();
+    private static SkeletonEntity skeletonEntity = null;
     public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
     }
 
-    private static final CoffinModel coffinModel = new CoffinModel();
-    private static SkeletonEntity skeletonEntity = null;
-
     @Override
     public void render(CoffinTile tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
-        if(skeletonEntity == null){
+        if (skeletonEntity == null) {
             skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().world);
         }
 

@@ -1,15 +1,9 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,10 +23,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 /**
- * Created by Swirtzly on 17/02/2020 @ 12:19
+ * Created by Craig on 17/02/2020 @ 12:19
  */
-public class StatueBlock extends Block implements IWaterLoggable{
+public class StatueBlock extends Block implements IWaterLoggable {
 
     public StatueBlock() {
         super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
@@ -68,11 +64,11 @@ public class StatueBlock extends Block implements IWaterLoggable{
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
         builder.add(BlockStateProperties.WATERLOGGED);
     }
-    
-	@Override
-	public FluidState getFluidState(BlockState state) {
-		return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
-	}
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+    }
 
 
     /**
@@ -83,7 +79,7 @@ public class StatueBlock extends Block implements IWaterLoggable{
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
         if (world.getTileEntity(pos) instanceof StatueTile) {
-            int rotation = MathHelper.floor(placer.rotationYaw + 180);
+            int rotation = MathHelper.floor(placer.rotationYaw);
             StatueTile statue = (StatueTile) world.getTileEntity(pos);
             statue.setRotation(rotation);
             statue.setAngelType(AngelUtils.randomType().name());
@@ -94,10 +90,11 @@ public class StatueBlock extends Block implements IWaterLoggable{
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if(!worldIn.isRemote){
+        if (!worldIn.isRemote) {
             StatueTile statue = (StatueTile) worldIn.getTileEntity(pos);
             statue.setPose(AngelPoses.getRandomPose().getRegistryName());
             statue.sendUpdates();
+            return ActionResultType.PASS;
         }
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }

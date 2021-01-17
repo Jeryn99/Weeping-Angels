@@ -73,15 +73,14 @@ public class ServerReflector extends VivecraftReflector {
 
             WeepingAngels.LOGGER.info("Vivecraft Client detected! Enabling compatibility features.");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             enabled = -1;
         }
 
-        if(enabled<0)
-        {
+        if (enabled < 0) {
             //Vivecraft Forge Extensions
             enabled = 1;
-            try{
+            try {
                 Class<?> cVRPlayerData = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData");
                 Class<?> cObjectInfo = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData$ObjectInfo");
 
@@ -107,20 +106,19 @@ public class ServerReflector extends VivecraftReflector {
 
                 Class<?> cQuaternion = Class.forName("com.techjar.vivecraftforge.util.Quaternion");
 
-                conQuaternion = cQuaternion.getConstructor(float.class,float.class,float.class,float.class);
+                conQuaternion = cQuaternion.getConstructor(float.class, float.class, float.class, float.class);
                 mVecMultiply = cQuaternion.getMethod("multiply", Vector3d.class);
 
                 WeepingAngels.LOGGER.info("Vivecraft Forge Extensions detected! Enabling compatability features.");
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 enabled = -1;
             }
         }
 
-        if(enabled<0)
+        if (enabled < 0)
             WeepingAngels.LOGGER.info("Vivecraft not detected!");
 
-        return enabled>=0;
+        return enabled >= 0;
     }
 
     /**
@@ -131,17 +129,16 @@ public class ServerReflector extends VivecraftReflector {
      */
     @Override
     public boolean isVRPlayer(PlayerEntity player) {
-        if(enabled<0)return false;
+        if (enabled < 0) return false;
         try {
             UUID uuid = player.getUniqueID();
-            if(enabled==0) {
-                Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
+            if (enabled == 0) {
+                Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
                     return (boolean) isVR.invoke(vivePlayer);
                 }
-            }
-            else if(enabled==1) {
+            } else if (enabled == 1) {
                 return (boolean) mHasPlayerData.invoke(null, player);
             }
 
@@ -161,15 +158,13 @@ public class ServerReflector extends VivecraftReflector {
     @Override
     public Vector3d getHMDPos(PlayerEntity player) {
         try {
-            if(enabled==0) {
+            if (enabled == 0) {
                 UUID uuid = player.getUniqueID();
                 //Network Character - attempt to get from NetworkHelper
-                Map<UUID,?> vivePlayers = (Map<UUID,? extends Object>)fVivePlayers.get(null);
+                Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
                 return (Vector3d) mGetHMDPos.invoke(vivePlayer);
-            }
-            else if(enabled==1)
-            {
+            } else if (enabled == 1) {
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null, player));
 
                 float X = fPosX.getFloat(playerHead);

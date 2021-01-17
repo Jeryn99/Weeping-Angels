@@ -1,7 +1,4 @@
 {
-  
-
-  
   "item.weeping_angels.unlit_torch": "No Brite Torc",
   "item.weeping_angels.timey_wimey_detector": "It Goes Dingeh!",
   "item.weeping_angels.chronodyne_generator": "Crayonide Generat",
@@ -12,16 +9,12 @@
   "item.weeping_angels.angel_3": "Angel (2)",
   "item.weeping_angels.angel_child": "Angel (Child)",
   "item.weeping_angels.kontron_ingot": "Kontron Shinies",
-  
   "block.weeping_angels.weeping_angels.arm": "Cold arme",
   "block.weeping_angels.weeping_angels.plinth": "Spooky Statooz",
   "block.weeping_angels.kontron_ore": "Kontron Aww",
-  
   "entity.weepingangel.name": "Spooky Statooz",
   "entity.angel.name": "Spooky Statooz",
   "entity.anomaly.name": "Anomaly",
-
-
   "sound.weeping_angels.angel_seen": "Statooz saw",
   "sound.weeping_angels.child_run": "Childer Runz",
   "sound.weeping_angels.laughing_child": "Hue Childer",
@@ -31,17 +24,13 @@
   "sound.weeping_angels.ding": "Dingeh!",
   "sound.weeping_angels.blow": "*trying to wistle*",
   "sound.weeping_angels.angel_death": "Statooz breakz",
-
   "source.weeping_angels.angel": "back to da furtua!",
   "source.weeping_angels.angel_neck_snap": "RKO out of noweher!",
   "source.weeping_angels.punch_stone": "Falcon Punched rock",
-
   "damagesrc.angels.backintime": "back to da furtua!",
   "damagesrc.angels.punch_stone": "Falcon Punched rock",
   "damagesrc.angels.neck_snap": "RKO out of noweher!",
-
   "itemGroup.angels": "Spooky Statooz",
-
   "config.weeping_angels.teleportRange": "Telepart rang",
   "config.weeping_angels.teleport_entities": "Telepart Maubs",
   "config.weeping_angels.angel_locking": "Statooz watchin Statooz, stopping emulation",
@@ -60,7 +49,6 @@
   "config.weeping_angels.disallowed_blocks": "Troll blockz for Statooz",
   "config.weeping_angels.disallowed_dimensions": "No go here",
   "config.weeping_angels.angel_move_sound": "Toggle movement sounds for the angels",
-
   "category.weeping_angels.angels": "Statooz",
   "category.weeping_angels.spawn": "Spahn Rats",
   "config.weeping_angels.teleport_type": "The Teleport type",

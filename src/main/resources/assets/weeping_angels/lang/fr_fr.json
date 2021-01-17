@@ -1,5 +1,4 @@
 {
-
   "item.weeping_angels.unlit_torch": "Torche éteinte",
   "item.weeping_angels.timey_wimey_detector": "Détecteur Timey Wimey",
   "item.weeping_angels.chronodyne_generator": "Générateur de Chronodyne",
@@ -8,17 +7,13 @@
   "item.weeping_angels.angel_2": "Ange pleureur (a_dizzle)",
   "item.weeping_angels.angel_3": "Ange pleureur (2)",
   "item.weeping_angels.angel_child": "Ange pleureur(Enfant)",
-  "item.weeping_angels.kontron_ingot": "Kontron Ingot",	
-	
+  "item.weeping_angels.kontron_ingot": "Kontron Ingot",
   "block.weeping_angels.snow_arm": "Bras dans la neige",
   "block.weeping_angels.plinth": "Statue d'Ange",
-  "block.weeping_angels.kontron_ore": "Kontron Ore",	
-  
+  "block.weeping_angels.kontron_ore": "Kontron Ore",
   "entity.weepingangel.name": "Ange pleureur",
   "entity.angel.name": "Ange pleureur",
   "entity.anomaly.name": "Anomalie",
-
-
   "sound.weeping_angels.angel_seen": "Ange vu",
   "sound.weeping_angels.child_run": "Enfant qui court",
   "sound.weeping_angels.laughing_child": "Enfant qui rit",
@@ -28,17 +23,13 @@
   "sound.weeping_angels.ding": "Ding!",
   "sound.weeping_angels.blow": "Souffle",
   "sound.weeping_angels.angel_death": "L'Ange meurt",
-
   "source.weeping_angels.angel": "est renvoyé dans le temps par un Ange!",
   "source.weeping_angels.angel_neck_snap": "a eu le cou brisé par un ange!",
   "source.weeping_angels.punch_stone": "a cassé ses os en frappant la pierre...",
-
   "damagesrc.angels.backintime": "a été renvoyé dans le temps par un ange!",
   "damagesrc.angels.punch_stone": "a cassé ses os en frappant la pierre...",
   "damagesrc.angels.neck_snap": "a eu le cou brisé par un ange !",
-
   "itemGroup.angels": "Anges pleureurs",
-
   "config.weeping_angels.teleportRange": "Distance de téléportation",
   "config.weeping_angels.teleport_entities": "Téléportation d'entité ?",
   "config.weeping_angels.angel_locking": "Ange sur Ange, Verrouillage quantique",
@@ -58,7 +49,6 @@
   "config.weeping_angels.disallowed_blocks": "Une liste de blocs que les anges NE pourront PAS casser.",
   "config.weeping_angels.disallowed_dimensions": "Une liste de dimension où les anges NE pourront PAS aller.",
   "config.weeping_angels.angel_move_sound": "Basculer les sons de mouvement pour les anges",
-
   "category.weeping_angels.angels": "Ange",
   "category.weeping_angels.spawn": "Taux d'apparition",
   "config.weeping_angels.teleport_type": "The Teleport type",

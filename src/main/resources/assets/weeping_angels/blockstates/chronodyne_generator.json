@@ -1,7 +1,7 @@
 {
   "variants": {
-  	"":{
-  	"model": "weeping_angels:block/chronodyne_generator"
-  	}
+    "": {
+      "model": "weeping_angels:block/chronodyne_generator"
+    }
   }
 }

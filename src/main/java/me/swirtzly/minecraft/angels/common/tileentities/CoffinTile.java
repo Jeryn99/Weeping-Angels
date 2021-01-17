@@ -15,6 +15,10 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     private boolean isOpen, hasSkeleton = false;
     private float openAmount = 0.0F;
 
+    public CoffinTile() {
+        super(WAObjects.Tiles.COFFIN.get());
+    }
+
     public Coffin getCoffin() {
         return coffin;
     }
@@ -23,20 +27,16 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         this.coffin = coffin;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
     public boolean isOpen() {
         return isOpen;
     }
 
-    public float getOpenAmount() {
-        return openAmount;
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
-    public CoffinTile() {
-        super(WAObjects.Tiles.COFFIN.get());
+    public float getOpenAmount() {
+        return openAmount;
     }
 
     public void setHasSkeleton(boolean hasSkeleton) {

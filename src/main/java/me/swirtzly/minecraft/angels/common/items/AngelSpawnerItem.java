@@ -1,7 +1,5 @@
 package me.swirtzly.minecraft.angels.common.items;
 
-import java.util.function.Function;
-
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
@@ -21,55 +19,54 @@ import net.minecraft.world.World;
 
 public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 
-	public AngelSpawnerItem() {
-		super(new Properties().group(WATabs.MAIN_TAB));
-	}
+    public AngelSpawnerItem() {
+        super(new Properties().group(WATabs.MAIN_TAB));
+    }
 
-	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(isInGroup(group)){
-			for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
-				ItemStack itemstack = new ItemStack(this);
-				setType(itemstack, angelType);
-				items.add(itemstack);
-			}
-		}
-	}
+    public static void setType(ItemStack stack, AngelEnums.AngelType type) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        tag.putString("type", type.name());
+    }
 
-	public static void setType(ItemStack stack, AngelEnums.AngelType type) {
-		CompoundNBT tag = stack.getOrCreateTag();
-		tag.putString("type", type.name());
-	}
+    public static AngelEnums.AngelType getType(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        String angelType = tag.getString("type");
+        angelType = angelType.isEmpty() ? AngelType.ANGELA_MC.name() : angelType;
+        return AngelEnums.AngelType.valueOf(angelType);
+    }
 
-	public static AngelEnums.AngelType getType(ItemStack stack) {
-		CompoundNBT tag = stack.getOrCreateTag();
-		String angelType = tag.getString("type");
-		angelType = angelType.isEmpty() ? AngelType.ANGELA_MC.name() : angelType;
-		return AngelEnums.AngelType.valueOf(angelType);
-	}
+    @Override
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+        if (isInGroup(group)) {
+            for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+                ItemStack itemstack = new ItemStack(this);
+                setType(itemstack, angelType);
+                items.add(itemstack);
+            }
+        }
 
+    }
 
+    @Override
+    public ActionResultType onItemUse(ItemUseContext context) {
+        World worldIn = context.getWorld();
+        BlockPos pos = context.getPos();
+        PlayerEntity player = context.getPlayer();
+        Hand hand = player.getActiveHand();
 
-	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World worldIn = context.getWorld();
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
-		Hand hand = player.getActiveHand();
+        if (!worldIn.isRemote) {
+            WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
+            angel.setType(getType(context.getItem()));
+            angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+            angel.faceEntity(player, 10.0F, 10.0F);
+            player.getHeldItem(hand).shrink(1);
+            worldIn.addEntity(angel);
 
-		if (!worldIn.isRemote) {
-			WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
-			angel.setType(getType(context.getItem()));
-			angel.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-			angel.faceEntity(player, 10.0F, 10.0F);
-			player.getHeldItem(hand).shrink(1);
-			worldIn.addEntity(angel);
+            if (!player.isCreative()) {
+                context.getItem().shrink(1);
+            }
+        }
+        return super.onItemUse(context);
+    }
 
-			if (!player.isCreative()) {
-				context.getItem().shrink(1);
-			}
-		}
-		return super.onItemUse(context);
-	}
-	
 }

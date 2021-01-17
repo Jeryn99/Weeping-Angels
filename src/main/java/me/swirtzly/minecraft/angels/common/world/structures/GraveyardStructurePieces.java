@@ -10,7 +10,6 @@ import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
@@ -26,10 +25,6 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +35,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GraveyardStructurePieces {
 
-    private static String[] USERNAMES = new String[]{"WizeWizzard", "Magicmaan", "Icebrin", "Swirtzly", "Cadiboo", "Chell", "UsualTundra1994", "50ap5ud5", "a_dizzle", "dhi", "ConnorDawn", "Spectre0987", "Nictogen",
+    private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
+    private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
+    private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_3");
+    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3};
+    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
+    private static String[] USERNAMES = new String[]{"WizeWizzard", "Magicmaan", "Icebrin", "Craig", "Cadiboo", "Chell", "UsualTundra1994", "50ap5ud5", "a_dizzle", "dhi", "ConnorDawn", "Spectre0987", "Nictogen",
             "Aaren",
             "Aarika",
             "Abagael",
@@ -4989,20 +4989,24 @@ public class GraveyardStructurePieces {
             "Zuzana"
     };
 
-    private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
-    private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
-    private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_3");
-
-    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3};
-
-    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
-
     public static void start(TemplateManager templateManager, BlockPos pos, Rotation rotation, List<StructurePiece> pieceList, Random random) {
         int x = pos.getX();
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
         pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length - 1)], blockpos, rotation));
+    }
+
+    public static LocalDate createRandomDate() {
+        long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
+        long endEpochDay = LocalDate.now().toEpochDay();
+        long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
+        return LocalDate.ofEpochDay(randomDay);
+    }
+
+    public static Block getRandomPottedPlant(Random random) {
+        List<Block> plants = AngelUtils.POTTED_PLANTS.getAllElements();
+        return plants.get(random.nextInt(plants.size()));
     }
 
     public static class Piece extends TemplateStructurePiece {
@@ -5099,18 +5103,6 @@ public class GraveyardStructurePieces {
                 }
             }
         }
-    }
-
-    public static LocalDate createRandomDate() {
-        long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
-        long endEpochDay = LocalDate.now().toEpochDay();
-        long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
-        return LocalDate.ofEpochDay(randomDay);
-    }
-
-    public static Block getRandomPottedPlant(Random random) {
-        List<Block> plants = AngelUtils.POTTED_PLANTS.getAllElements();
-        return plants.get(random.nextInt(plants.size()));
     }
 
 

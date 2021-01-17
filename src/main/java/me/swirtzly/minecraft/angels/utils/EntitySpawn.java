@@ -20,9 +20,9 @@ public class EntitySpawn {
     public static void addSpawnEntries() {
         for (Biome biome : ForgeRegistries.BIOMES) {
             for (String resourceLocation : WAConfig.CONFIG.allowedBiomes.get()) {
-                if(resourceLocation.equalsIgnoreCase(biome.getRegistryName().toString())){
+                if (resourceLocation.equalsIgnoreCase(biome.getRegistryName().toString())) {
                     if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NONE && biome.getCategory() != Biome.Category.OCEAN) {
-                        WeepingAngels.LOGGER.info("Weeping Angels spawns added to : ["+biome.getRegistryName()+"]");
+                        WeepingAngels.LOGGER.info("Weeping Angels spawns added to : [" + biome.getRegistryName() + "]");
                         addMobSpawnToBiome(biome, EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
                     }
                 }

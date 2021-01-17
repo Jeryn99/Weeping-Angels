@@ -10,7 +10,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight" : 15,
+          "weight": 15,
           "name": "weeping_angels:timey_wimey_detector"
         },
         {
@@ -19,7 +19,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight" : 10,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:enchant_randomly"
@@ -57,7 +57,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight" : 7,
+          "weight": 7,
           "functions": [
             {
               "function": "minecraft:set_count",

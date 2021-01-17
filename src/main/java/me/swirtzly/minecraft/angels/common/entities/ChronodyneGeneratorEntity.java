@@ -21,82 +21,82 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
- * Created by Swirtzly on 06/10/2019 @ 12:17
+ * Created by Craig on 06/10/2019 @ 12:17
  */
 @OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements IRendersAsItem {
 
-	public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, World worldIn) {
-		super(type, worldIn);
-	}
+    ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
 
-	public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, double x, double y, double z, World worldIn) {
-		super(type, x, y, z, worldIn);
-	}
+    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, World worldIn) {
+        super(type, worldIn);
+    }
 
-	public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, LivingEntity livingEntityIn, World worldIn) {
-		super(type, livingEntityIn, worldIn);
-	}
+    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, double x, double y, double z, World worldIn) {
+        super(type, x, y, z, worldIn);
+    }
 
-	public ChronodyneGeneratorEntity(World world) {
-		this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
-	}
+    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, LivingEntity livingEntityIn, World worldIn) {
+        super(type, livingEntityIn, worldIn);
+    }
 
-	@Override
-	protected void onImpact(RayTraceResult result) {
+    public ChronodyneGeneratorEntity(World world) {
+        this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
+    }
 
-		if (result == null || !isAlive()) return;
-		
-		// Entity Hit
-		if (result.getType() == RayTraceResult.Type.ENTITY) {
-			EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
-			if (entityHitResult == null) return;
-			Entity hitEntity = entityHitResult.getEntity();
-			if (hitEntity instanceof WeepingAngelEntity) {
-				if (!world.isRemote) {
-					AnomalyEntity a = new AnomalyEntity(world);
-					a.copyLocationAndAnglesFrom(hitEntity);
-					world.addEntity(a);
-					remove();
-				}
-			}
-		}
+    @Override
+    protected void onImpact(RayTraceResult result) {
 
-		if (result.getType() == RayTraceResult.Type.BLOCK) {
-			if (!world.isRemote) {
-				BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
-				BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
-				if (world.isAirBlock(pos) && !world.isAirBlock(pos.down()) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
-					world.setBlockState(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().getDefaultState());
-				} else {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
-				}
-				world.setEntityState(this, (byte) 3);
-				remove();
-			}
-		}
-		
-	}
+        if (result == null || !isAlive()) return;
 
-	@Override
-	public boolean isInWater() {
-		return false;
-	}
+        // Entity Hit
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
+            if (entityHitResult == null) return;
+            Entity hitEntity = entityHitResult.getEntity();
+            if (hitEntity instanceof WeepingAngelEntity) {
+                if (!world.isRemote) {
+                    AnomalyEntity a = new AnomalyEntity(world);
+                    a.copyLocationAndAnglesFrom(hitEntity);
+                    world.addEntity(a);
+                    remove();
+                }
+            }
+        }
 
-	@Override
-	public IPacket<?> createSpawnPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
+        if (result.getType() == RayTraceResult.Type.BLOCK) {
+            if (!world.isRemote) {
+                BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
+                BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
+                if (world.isAirBlock(pos) && !world.isAirBlock(pos.down()) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
+                    world.setBlockState(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().getDefaultState());
+                } else {
+                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
+                }
+                world.setEntityState(this, (byte) 3);
+                remove();
+            }
+        }
 
-	ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
+    }
 
-	@Override
-	protected Item getDefaultItem() {
-		return stack.getItem();
-	}
+    @Override
+    public boolean isInWater() {
+        return false;
+    }
 
-	@Override
-	public ItemStack getItem() {
-		return stack;
-	}
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return stack.getItem();
+    }
+
+    @Override
+    public ItemStack getItem() {
+        return stack;
+    }
 }

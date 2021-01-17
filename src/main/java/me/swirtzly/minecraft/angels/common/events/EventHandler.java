@@ -1,9 +1,5 @@
 package me.swirtzly.minecraft.angels.common.events;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -45,6 +41,10 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -95,8 +95,8 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-    	RegistryKey<Biome> biomeRegistryKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biomeLoadingEvent.getName());
-    	Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
+        RegistryKey<Biome> biomeRegistryKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biomeLoadingEvent.getName());
+        Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
                 WeepingAngels.LOGGER.info("Added Arms to: " + biomeLoadingEvent.getName());
@@ -109,7 +109,7 @@ public class EventHandler {
                 biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WAObjects.ConfiguredFeatures.KONTRON_ORE);
             }
             if (biomeCategory != Biome.Category.NONE && biomeCategory != Biome.Category.OCEAN) {
-            	//Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
+                //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
                 if (WAConfig.CONFIG.genGraveyard.get()) {
                     if (biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
@@ -118,10 +118,10 @@ public class EventHandler {
                 }
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
-                	if(rl.equalsIgnoreCase(biomeRegistryKey.getLocation().toString())){
-                		biomeLoadingEvent.getSpawns().withSpawner(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
-                		WeepingAngels.LOGGER.info("Added Weeping Angels Spawns to: ["+biomeRegistryKey.getLocation()+"]" + "\nEntity Classification: " + WAConfig.CONFIG.spawnType.get() + "\nSpawn Weight: " + WAConfig.CONFIG.spawnWeight.get() + "\nMin Spawn: " + WAConfig.CONFIG.minSpawn.get() + "\nMax Spawn: " + WAConfig.CONFIG.maxSpawn.get());
-                	}
+                    if (rl.equalsIgnoreCase(biomeRegistryKey.getLocation().toString())) {
+                        biomeLoadingEvent.getSpawns().withSpawner(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                        WeepingAngels.LOGGER.info("Added Weeping Angels Spawns to: [" + biomeRegistryKey.getLocation() + "]" + "\nEntity Classification: " + WAConfig.CONFIG.spawnType.get() + "\nSpawn Weight: " + WAConfig.CONFIG.spawnWeight.get() + "\nMin Spawn: " + WAConfig.CONFIG.minSpawn.get() + "\nMax Spawn: " + WAConfig.CONFIG.maxSpawn.get());
+                    }
                 });
             }
         }

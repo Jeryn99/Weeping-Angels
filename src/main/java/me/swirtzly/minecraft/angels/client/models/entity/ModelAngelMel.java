@@ -600,37 +600,33 @@ public class ModelAngelMel<T extends LivingEntity> extends EntityModel<WeepingAn
 
         // Covering Face arms render/
         if (pose == AngelPoses.POSE_HIDING_FACE) {
-            Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
             armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             return;
         }
 
         // Idle render
         if (pose == AngelPoses.POSE_IDLE) {
-            Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
             armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-                return;
-            }
-
-            // Shriek render
-            if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
-                armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-                return;
-            }
-
-            if (pose == AngelPoses.POSE_SHY) {
-                Minecraft.getInstance().getTextureManager().bindTexture(getTextureForPose(pose));
-                armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-                return;
-            }
-
-            armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            return;
         }
+
+        // Shriek render
+        if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
+            armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            return;
+        }
+
+        if (pose == AngelPoses.POSE_SHY) {
+            armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            return;
+        }
+
+        armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+    }
 
 
     @Override
-    public ResourceLocation getTextureForPose(AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
         return TEXTURE;
     }
 

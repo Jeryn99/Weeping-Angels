@@ -12,7 +12,7 @@ public class PortalModel extends EntityModel<AnomalyEntity> {
     private final ModelRenderer PortalFrontage;
     private final ModelRenderer PortalFrontage2;
 
-    public PortalModel(){
+    public PortalModel() {
         textureWidth = 64;
         textureHeight = 64;
 

@@ -16,111 +16,111 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 public class StatueTile extends TileEntity implements ITickableTileEntity {
 
-	private int rotation = 0;
-	private String type = AngelEnums.AngelType.ANGELA_MC.name();
-	private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
+    private int rotation = 0;
+    private String type = AngelEnums.AngelType.ANGELA_MC.name();
+    private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 
-	public StatueTile() {
-		super(WAObjects.Tiles.STATUE.get());
-	}
+    public StatueTile() {
+        super(WAObjects.Tiles.STATUE.get());
+    }
 
 
-	@Override
-	public void read(BlockState state, CompoundNBT compound) {
-		super.read(state, compound);
-		setPose(new ResourceLocation(compound.getString("pose")));
-		rotation = compound.getInt("rotation");
-		type = compound.getString("model");
-	}
+    @Override
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
+        setPose(new ResourceLocation(compound.getString("pose")));
+        rotation = compound.getInt("rotation");
+        type = compound.getString("model");
+    }
 
-	@Override
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		compound.putInt("rotation", rotation);
-		compound.putString("model", type);
-		compound.putString("pose", pose.toString());
-		return compound;
-	}
+    @Override
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
+        compound.putInt("rotation", rotation);
+        compound.putString("model", type);
+        compound.putString("pose", pose.toString());
+        return compound;
+    }
 
-	public AngelEnums.AngelType getAngelType() {
-		return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
-	}
+    public AngelEnums.AngelType getAngelType() {
+        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
+    }
 
-	public void setAngelType(String type) {
-		this.type = type;
-	}
+    public void setAngelType(String type) {
+        this.type = type;
+    }
 
-	public void setAngelType(AngelEnums.AngelType type) {
-		this.type = type.name();
-	}
+    public void setAngelType(AngelEnums.AngelType type) {
+        this.type = type.name();
+    }
 
-	public int getRotation() {
-		return rotation;
-	}
+    public int getRotation() {
+        return rotation;
+    }
 
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
-		sendUpdates();
-	}
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+        sendUpdates();
+    }
 
-	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
-	}
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
+    }
 
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return write(new CompoundNBT());
-	}
-	
+    @Override
+    public CompoundNBT getUpdateTag() {
+        return write(new CompoundNBT());
+    }
 
-	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
-	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		super.onDataPacket(net, pkt);
-		handleUpdateTag(getBlockState(), pkt.getNbtCompound());
-	}
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        this.read(state, tag);
+    }
 
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return super.getRenderBoundingBox().grow(8, 8, 8);
-	}
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        super.onDataPacket(net, pkt);
+        handleUpdateTag(getBlockState(), pkt.getNbtCompound());
+    }
 
-	public void sendUpdates() {
-		world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		markDirty();
-	}
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return super.getRenderBoundingBox().grow(8, 8, 8);
+    }
 
-	@Override
-	public void tick() {
-		if (world.isRemote) return;
-        
-		if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
-			PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
-			if (!plinth.getHasSpawned()) {
-				WeepingAngelEntity angel = new WeepingAngelEntity(world);
-				angel.setType(type);
-				angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
-				angel.setPose(getPose());
-				world.addEntity(angel);
-				plinth.setHasSpawned(true);
-				sendUpdates();
-			}
-		}
-	}
+    public void sendUpdates() {
+        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        markDirty();
+    }
 
-	public ResourceLocation getPose() {
-		return new ResourceLocation(pose.toString());
-	}
+    @Override
+    public void tick() {
+        if (world.isRemote) return;
 
-	public void setPose(ResourceLocation pose) {
-		this.pose = pose;
-	}
-	
-	
+        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
+            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
+            if (!plinth.getHasSpawned()) {
+                WeepingAngelEntity angel = new WeepingAngelEntity(world);
+                angel.setType(type);
+                angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+                angel.setPose(getPose());
+                world.addEntity(angel);
+                plinth.setHasSpawned(true);
+                sendUpdates();
+            }
+        }
+    }
+
+    public ResourceLocation getPose() {
+        return new ResourceLocation(pose.toString());
+    }
+
+    public void setPose(ResourceLocation pose) {
+        this.pose = pose;
+    }
+
+
 }

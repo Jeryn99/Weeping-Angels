@@ -11,7 +11,6 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.Tag;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class WABlockTags extends BlockTagsProvider {
@@ -22,19 +21,19 @@ public class WABlockTags extends BlockTagsProvider {
 
     @Override
     protected void registerTags() {
-        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.ARM.get(), WAObjects.Blocks.STATUE.get(),WAObjects.Blocks.PLINTH.get());
+        add(BlockTags.STONE_BRICKS, WAObjects.Blocks.ARM.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
         add(AngelUtils.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if(block.getDefaultState().getMaterial() == Material.AIR){
+            if (block.getDefaultState().getMaterial() == Material.AIR) {
                 add(AngelUtils.BANNED_BLOCKS, block);
             }
 
-            if(block instanceof FlowerPotBlock){
+            if (block instanceof FlowerPotBlock) {
                 add(AngelUtils.POTTED_PLANTS, block);
             }
 
-            if(block instanceof GlassBlock){
+            if (block instanceof GlassBlock) {
                 add(AngelUtils.ANGEL_IGNORE, block);
             }
         }
