@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#R#",
+    "COV",
+    "BBB"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:repeater"
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "O": {
+      "item": "minecraft:spruce_planks"
+    },
+    "V": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:bricks"
+    }
+  },
+  "result": {
+    "item": "weeping_angels:timey_wimey_detector"
+  }
+}

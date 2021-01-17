@@ -14,7 +14,7 @@ public class WALangEnglish extends LanguageProvider {
     @Override
     protected void addTranslations() {
         /* Blocks */
-        add(WAObjects.Blocks.ARM.get(), "Arm in Snow");
+        add(WAObjects.Blocks.ARM.get(), "Angel trapped in Snow");
         add(WAObjects.Blocks.STATUE.get(), "Angel Statue");
         add(WAObjects.Blocks.PLINTH.get(), "Angel Plinth");
         add(WAObjects.Blocks.KONTRON_ORE.get(), "Kontron Ore");

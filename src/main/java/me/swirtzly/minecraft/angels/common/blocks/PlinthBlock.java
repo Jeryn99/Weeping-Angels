@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
-import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -86,6 +85,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
             plinth.setRotation(rotation);
             plinth.setPose(AngelPoses.getRandomPose().getRegistryName());
             plinth.setAngelType(AngelUtils.randomType().name());
+            plinth.setAngelVarients(AngelUtils.randomVarient());
             plinth.sendUpdates();
         }
     }

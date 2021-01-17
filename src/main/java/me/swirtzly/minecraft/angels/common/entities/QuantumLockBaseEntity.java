@@ -55,7 +55,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
             } else {
                 PlayerEntity targetPlayer = null;
                 for (PlayerEntity player : players) {
-                    if (ViewUtil.isInSight(player, this) && !AngelUtils.isDarkForPlayer(this, player) && isOnGround()) {
+                    if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
                         return;

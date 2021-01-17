@@ -94,7 +94,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().register(TYPE, AngelUtils.randomType().name());
         getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
         getDataManager().register(HUNGER_LEVEL, 50);
-        getDataManager().register(VARIENT, AngelVarients.RUSTED_HEADLESS.name());
+        getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
     }
 
     public String getVarient() {
@@ -236,6 +236,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super.writeAdditional(compound);
         compound.putString(WAConstants.POSE, getAngelPose().toString());
         compound.putString(WAConstants.TYPE, getAngelType().name());
+        compound.putString(WAConstants.VARIENT, getVarient());
         compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
     }
 
@@ -249,6 +250,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
         if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
+        if (compound.contains(WAConstants.VARIENT)) setVarient(AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
     }
 
     @Override

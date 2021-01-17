@@ -1,19 +1,24 @@
 package me.swirtzly.minecraft.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.block.SnowArmModel;
+import me.swirtzly.minecraft.angels.client.models.block.SnowBodyModel;
+import me.swirtzly.minecraft.angels.client.models.block.SnowHeadModel;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
+import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
 
-    private final ResourceLocation ARM_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angel_ed.png");
-    private final SnowArmModel arm = new SnowArmModel();
+    private final SnowArmModel armModel = new SnowArmModel();
+    private final SnowBodyModel bodyModel = new SnowBodyModel();
+    private final SnowHeadModel headModel = new SnowHeadModel();
 
     public SnowArmTileRender(TileEntityRendererDispatcher renderer) {
         super(renderer);
@@ -22,8 +27,30 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     @Override
     public void render(SnowArmTile snowArmTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         matrixStack.push();
-        matrixStack.translate(0.5F, -0.7F, 0.5F);
-        this.arm.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityCutout(ARM_TEX)), i, i1, 1F, 1F, 1F, 1F);
+        switch (snowArmTile.getSnowAngelStage()) {
+            case ARM:
+                matrixStack.translate(0.5F, -0.7F, 0.5F);
+                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                this.armModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                break;
+            case HEAD:
+                matrixStack.translate(0.5F, 1.6F, 0.5F);
+                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+                this.headModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                break;
+            case BODY:
+                matrixStack.translate(0.5F, 1.5F, 0.5F);
+                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+                this.bodyModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                break;
+        }
+
         matrixStack.pop();
+    }
+
+    public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
+        return ClientUtil.build(snowArmTile.getAngelVarients().name(), AngelPoses.POSE_OPEN_ARMS);
     }
 }

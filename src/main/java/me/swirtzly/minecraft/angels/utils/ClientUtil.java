@@ -2,6 +2,8 @@ package me.swirtzly.minecraft.angels.utils;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
+import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
@@ -43,13 +45,13 @@ public class ClientUtil {
     private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
 
     static {
-        MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, ED_ANGEL_CHILD);
-        MODEL_MAP.put(AngelEnums.AngelType.ED, ED);
-        MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, ANGELA_MC);
-        MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, A_DIZZLE);
-        MODEL_MAP.put(AngelEnums.AngelType.ANGELA, ANGELA);
-        MODEL_MAP.put(AngelEnums.AngelType.VIO_1, VIO_1);
-        MODEL_MAP.put(AngelEnums.AngelType.VIO_2, VIO_2);
+        MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, ED_ANGEL_CHILD); // ED
+        MODEL_MAP.put(AngelEnums.AngelType.ED, ED);// ED
+        MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, ANGELA_MC); //ANGELA
+        MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, A_DIZZLE); //A_DIZZLE
+        MODEL_MAP.put(AngelEnums.AngelType.ANGELA, ANGELA); //ANGELA
+        MODEL_MAP.put(AngelEnums.AngelType.VIO_1, VIO_1); //VIOLET
+        MODEL_MAP.put(AngelEnums.AngelType.VIO_2, VIO_2);//VIOLET
     }
 
 
@@ -92,6 +94,28 @@ public class ClientUtil {
             return type.ordinal();
         });
 
+    }
+
+    public static ResourceLocation build(String angelVarients, AngelPoses pose){
+        String location = "textures/entities/angela_two/";
+        String varient = angelVarients.toLowerCase() + "_angel_";
+        location = location + angelVarients.toLowerCase() + "/";
+
+        String suffix = "idle";
+
+        if (pose.create().isAngry()) {
+            suffix = "angry";
+        }
+
+        if (pose == AngelPoses.POSE_OPEN_ARMS) {
+            suffix = "scream";
+        }
+
+        if(angelVarients.toLowerCase().contains("headless")){
+            suffix = "headless";
+        }
+
+        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix+".png");
     }
 
 

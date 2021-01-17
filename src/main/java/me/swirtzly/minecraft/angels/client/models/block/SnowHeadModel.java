@@ -9,17 +9,18 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class SnowArmModel extends EntityModel<Entity> {
-    private final ModelRenderer rightArm;
+public class SnowHeadModel extends EntityModel<Entity> {
+    private final ModelRenderer head;
 
-    public SnowArmModel() {
+    public SnowHeadModel() {
         textureWidth = 128;
         textureHeight = 128;
 
-        rightArm = new ModelRenderer(this);
-        rightArm.setRotationPoint(0.0F, 16.0F, -4.0F);
-        setRotationAngle(rightArm, 0.3927F, 0.0F, 0.0F);
-        rightArm.setTextureOffset(10, 59).addBox(-2.0F, -3.0F, 0.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+        head = new ModelRenderer(this);
+        head.setRotationPoint(0.0F, 25.0F, 0.0F);
+        setRotationAngle(head, -0.2618F, 0.0F, 0.0F);
+        head.setTextureOffset(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+        head.setTextureOffset(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class SnowArmModel extends EntityModel<Entity> {
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
+        head.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

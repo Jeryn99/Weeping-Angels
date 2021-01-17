@@ -5,6 +5,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -20,6 +21,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
 
+
     public StatueTile() {
         super(WAObjects.Tiles.STATUE.get());
     }
@@ -31,6 +33,9 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         setPose(new ResourceLocation(compound.getString("pose")));
         rotation = compound.getInt("rotation");
         type = compound.getString("model");
+        if (compound.contains(WAConstants.VARIENT)) {
+            setAngelVarients(WeepingAngelEntity.AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
+        }
     }
 
     @Override
@@ -39,6 +44,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         compound.putInt("rotation", rotation);
         compound.putString("model", type);
         compound.putString("pose", pose.toString());
+        compound.putString(WAConstants.VARIENT, angelVarients.name());
         return compound;
     }
 
@@ -114,6 +120,8 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         }
     }
 
+    private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
+
     public ResourceLocation getPose() {
         return new ResourceLocation(pose.toString());
     }
@@ -122,5 +130,12 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         this.pose = pose;
     }
 
+    public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
+        this.angelVarients = angelVarients;
+    }
+
+    public WeepingAngelEntity.AngelVarients getAngelVarients() {
+        return angelVarients;
+    }
 
 }

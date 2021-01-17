@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
+import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -71,7 +72,7 @@ public class AngelUtils {
     }
 
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
-        return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionType().hasSkyLight() && !AngelUtils.handLightCheck(living);
+        return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionKey().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
     }
 
     public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
@@ -148,6 +149,10 @@ public class AngelUtils {
     public static WeepingAngelEntity.AngelVarients randomVarient() {
         int pick = RAND.nextInt(WeepingAngelEntity.AngelVarients.values().length);
         return WeepingAngelEntity.AngelVarients.values()[pick];
+    }
+    public static SnowArmTile.SnowAngelStages randowSnowStage() {
+        int pick = RAND.nextInt(SnowArmTile.SnowAngelStages.values().length);
+        return SnowArmTile.SnowAngelStages.values()[pick];
     }
 
     public static CoffinTile.Coffin randomCoffin() {

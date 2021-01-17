@@ -10,12 +10,7 @@ public class WAConstants {
     public static final String PREVPOS = "prevPos";
     public static final String HUNGER_LEVEL = "hungerLevel";
     public static final String QAUNTUM_LOCKED = "qauntumLocked";
+    public static final String VARIENT = "varient";
 
-    // Angel Painting
-    public static final String MOTIVE = "Motive";
-
-    // Projectiles
-    public static final String ABS_X = "abs_x";
-    public static final String ABS_Y = "abs_y";
-    public static final String ABS_Z = "abs_z";
+    public static final String SNOW_STAGE = "snow_stage";
 }

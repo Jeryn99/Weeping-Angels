@@ -5,15 +5,18 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
+import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
+import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
+import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
-    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_idle.png");
-    private final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_angry.png");
-    private final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/angela_2_scream.png");
+    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/normal/normal_angel_angry.png");
+
 
     private final ModelRenderer head;
     private final ModelRenderer body;
@@ -188,36 +191,19 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
 
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            String location = "textures/entities/angela_two/";
-            String varient = weepingAngelEntity.getVarient().toLowerCase() + "_angel_";
-            location = location + weepingAngelEntity.getVarient().toLowerCase() + "/";
-
-            String suffix = "idle";
-
-            if (pose.create().isAngry()) {
-                suffix = "angry";
-            }
-
-            if (pose == AngelPoses.POSE_OPEN_ARMS) {
-                suffix = "scream";
-            }
-
-            if(weepingAngelEntity.getVarient().toLowerCase().contains("headless")){
-                suffix = "headless";
-            }
-
-            return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix+".png");
+            return ClientUtil.build(weepingAngelEntity.getVarient(), AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()));
         }
 
-        if (pose.create().isAngry()) {
-            return ANGRY;
+        if (angel instanceof StatueTile) {
+            StatueTile weepingAngelEntity = (StatueTile) angel;
+            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), AngelPoses.getPoseFromString(weepingAngelEntity.getPose()));
         }
 
-        if (pose == AngelPoses.POSE_OPEN_ARMS) {
-            return SCREAM;
+        if (angel instanceof PlinthTile) {
+            PlinthTile weepingAngelEntity = (PlinthTile) angel;
+            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), AngelPoses.getPoseFromString(weepingAngelEntity.getPose()));
         }
-
-        return TEXTURE;
+        return ANGRY;
     }
 
     @Override
