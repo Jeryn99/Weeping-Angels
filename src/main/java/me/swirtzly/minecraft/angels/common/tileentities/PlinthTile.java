@@ -121,6 +121,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
                 angel.setType(type);
                 angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 0, 0);
                 angel.setPose(getPose());
+                angel.setVarient(angelVarients);
                 world.addEntity(angel);
                 plinth.setHasSpawned(true);
                 sendUpdates();

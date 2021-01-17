@@ -30,8 +30,6 @@ public class SnowArmBlock extends SnowBlock {
     }
 
 
-    //TODO Add Rotation
-
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);

@@ -24,6 +24,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
     private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
+    private boolean hasSetup = false;
 
     public void setSnowAngelStage(SnowAngelStages snowAngelStages) {
         this.snowAngelStages = snowAngelStages;
@@ -57,6 +58,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         }
 
         rotation = nbt.getInt("rotation");
+        hasSetup = nbt.getBoolean("setup");
 
     }
 
@@ -65,6 +67,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
         compound.putString(WAConstants.VARIENT, angelVarients.name());
         compound.putInt("rotation", rotation);
+        compound.putBoolean("setup", hasSetup);
         return super.write(compound);
     }
 
@@ -107,7 +110,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         if (!world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
             WeepingAngelEntity angel = new WeepingAngelEntity(world);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
-            angel.setVarient(WeepingAngelEntity.AngelVarients.NORMAL);
+            angel.setVarient(angelVarients);
             BlockPos newPos = getPos();
             angel.setPosition(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
             world.addEntity(angel);
