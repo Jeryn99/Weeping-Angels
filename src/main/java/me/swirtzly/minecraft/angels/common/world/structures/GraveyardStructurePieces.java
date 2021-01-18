@@ -5056,6 +5056,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());
                 statueTile.setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
+                statueTile.setAngelVarients(AngelUtils.randomVarient());
                 statueTile.markDirty();
                 worldIn.removeBlock(pos, false);
             }

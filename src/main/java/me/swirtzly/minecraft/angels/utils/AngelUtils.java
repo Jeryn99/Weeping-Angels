@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -19,7 +20,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.functions.ILootFunction;
-import net.minecraft.network.play.server.SSpawnParticlePacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
@@ -75,19 +75,13 @@ public class AngelUtils {
         return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionKey().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
     }
 
-    public static void playBreakEvent(LivingEntity entity, BlockPos pos, Block blockState) {
+    public static void playBreakEvent(LivingEntity entity, BlockPos pos, BlockState blockState) {
         if (!entity.world.isRemote) {
+            ServerWorld serverWorld = (ServerWorld) entity.world;
+            serverWorld.spawnParticle(ParticleTypes.DAMAGE_INDICATOR, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0, 0, 0);
             entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
             InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
-            entity.world.setBlockState(pos, blockState.getDefaultState());
-            entity.world.getPlayers().forEach(player -> {
-                if (player instanceof ServerPlayerEntity) {
-                    ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
-                    if (playerMP.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 45) {
-                        playerMP.connection.sendPacket(new SSpawnParticlePacket(ParticleTypes.CRIT, false, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 1.0F, 11));
-                    }
-                }
-            });
+            entity.world.setBlockState(pos, blockState);
         }
     }
 
@@ -150,6 +144,7 @@ public class AngelUtils {
         int pick = RAND.nextInt(WeepingAngelEntity.AngelVarients.values().length);
         return WeepingAngelEntity.AngelVarients.values()[pick];
     }
+
     public static SnowArmTile.SnowAngelStages randowSnowStage() {
         int pick = RAND.nextInt(SnowArmTile.SnowAngelStages.values().length);
         return SnowArmTile.SnowAngelStages.values()[pick];

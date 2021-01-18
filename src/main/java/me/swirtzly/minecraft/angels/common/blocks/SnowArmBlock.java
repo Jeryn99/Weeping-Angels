@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 public class SnowArmBlock extends SnowBlock {
 
     public SnowArmBlock() {
-        super(Block.Properties.create(Material.SNOW).notSolid().hardnessAndResistance(3).sound(SoundType.SNOW).setRequiresTool());
+        super(Block.Properties.create(Material.CORAL).notSolid().hardnessAndResistance(3).sound(SoundType.SNOW).setRequiresTool());
     }
 
     @Nullable

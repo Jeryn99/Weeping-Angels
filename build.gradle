@@ -111,7 +111,15 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = 'Fixes issues where you could get teleported to the nether roof'
+        changelog = '- Added Weeping Angel texture Varients </br>' +
+                '- Changed Cherub (Child) Model </br>' +
+                '- Arm in Snow now has different model varients </br>' +
+                '- Fixed a bug where angels could sometimes teleport people onto the ceiling of the nether </br>' +
+                '- Weeping Angels Statues and Plinths now actually rotate properly when placed, instead of it being broken logic that placed it randomly </br>' +
+                '- Fixed a bug where sometimes the angels would move in the nether because it\'s considered "Dark there" </br>' +
+                '- Nerfed Angels seen sound volume </br>' +
+                '- Fixed a graphical bug where a Angel model had it\'s head buried too deep into its arms </br>'
+        changelogType = 'html'
         releaseType = 'release'
         addGameVersion '1.16.3'
         addGameVersion '1.16.4'

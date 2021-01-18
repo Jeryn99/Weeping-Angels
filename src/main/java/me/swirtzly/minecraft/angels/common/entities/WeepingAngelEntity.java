@@ -18,8 +18,6 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -28,6 +26,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
@@ -258,7 +257,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void notifyDataManagerChange(DataParameter<?> key) {
         super.notifyDataManagerChange(key);
-        if(TYPE.equals(key)){
+        if (TYPE.equals(key)) {
             recalculateSize();
         }
     }
@@ -336,7 +335,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
 
         if (WAConfig.CONFIG.blockBreaking.get()) {
-            replaceBlocks(getBoundingBox().grow(getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get())));
+            double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
+            replaceBlocks(getBoundingBox().grow(range, 1, range));
         }
     }
 
@@ -359,35 +359,35 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
         for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
-            BlockState blockState = world.getBlockState(pos);
-            if (world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            BlockState blockState = serverWorld.getBlockState(pos);
+            if (serverWorld.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
 
                 if (blockState.getBlock().isIn(AngelUtils.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
                     continue;
                 }
 
                 if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }
 
                 if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
                     if (blockState.get(RedstoneLampBlock.LIT)) {
-                        world.setBlockState(pos, blockState.with(RedstoneLampBlock.LIT, false));
-                        playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
+                        AngelUtils.playBreakEvent(this, pos, blockState.with(RedstoneLampBlock.LIT, false));
                         return;
                     }
                 }
 
                 if (blockState.getLightValue() > 0) {
-                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR);
+                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }
 
                 if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
                     if (getHealth() < getMaxHealth()) {
                         heal(1.5F);
-                        world.removeBlock(pos, true);
+                        AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                     }
                 } else
                     continue;
