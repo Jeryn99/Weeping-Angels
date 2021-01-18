@@ -20,6 +20,7 @@ public class ArmGeneration extends Feature<NoFeatureConfig> {
         super(noFeatureConfigCodec);
     }
 
+
     @Override
     public boolean generate(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
         for (int y = 45; y < 70; ++y) {

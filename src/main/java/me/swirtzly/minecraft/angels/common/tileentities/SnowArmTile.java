@@ -15,7 +15,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 
@@ -104,6 +103,13 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         markDirty();
     }
 
+    public void setHasSetup(boolean hasSetup) {
+        this.hasSetup = hasSetup;
+    }
+
+    public boolean isHasSetup() {
+        return hasSetup;
+    }
 
     @Override
     public void tick() {
@@ -118,8 +124,18 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
             world.setBlockState(pos, Blocks.SNOW.getDefaultState().with(LAYERS, layers));
         }
 
-        if(angelVarients.isHeadless() && snowAngelStages == SnowAngelStages.HEAD){
+        if (angelVarients.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
             setSnowAngelStage(AngelUtils.randowSnowStage());
+            hasSetup = true;
+            sendUpdates();
+        }
+
+        //Randomness for worldgen
+        if (!hasSetup) {
+            setRotation(world.rand.nextInt(360));
+            setSnowAngelStage(AngelUtils.randowSnowStage());
+            hasSetup = true;
+            sendUpdates();
         }
     }
 
@@ -138,7 +154,6 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     public enum SnowAngelStages {
         ARM, HEAD, BODY
     }
-
 
 
 }

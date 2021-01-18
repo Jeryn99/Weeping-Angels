@@ -18,6 +18,8 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.SpiderEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -47,7 +49,6 @@ import java.util.stream.Stream;
 
 import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
-//@SuppressWarnings("NullableProblems")
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
@@ -150,12 +151,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     @Override
     public float getEyeHeight(Pose p_213307_1_) {
-        return isCherub() ? getHeight() : 1.3F;
+        return isCherub() ? 0.5F : 1.3F;
     }
 
     @Override
     public EntitySize getSize(Pose poseIn) {
-        return super.getSize(poseIn);
+        return isCherub() ? new EntitySize(0.8F, 0.8F, true) : super.getSize(poseIn);
     }
 
     @Override
@@ -250,18 +251,33 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
         if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
-        if (compound.contains(WAConstants.VARIENT)) setVarient(AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
+        if (compound.contains(WAConstants.VARIENT))
+            setVarient(AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
+    }
+
+    @Override
+    public void notifyDataManagerChange(DataParameter<?> key) {
+        super.notifyDataManagerChange(key);
+        if(TYPE.equals(key)){
+            recalculateSize();
+        }
     }
 
     @Override
     public void livingTick() {
         super.livingTick();
+
         if (ticksExisted % 2400 == 0 && !world.isRemote) {
             setHungerLevel(getHungerLevel() - 1);
             if (isWeak()) {
                 attackEntityFrom(DamageSource.STARVE, 2);
             }
         }
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox() {
+        return super.getBoundingBox();
     }
 
     @Override
