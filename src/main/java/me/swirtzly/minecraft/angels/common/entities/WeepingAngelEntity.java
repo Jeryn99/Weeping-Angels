@@ -26,7 +26,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
@@ -52,7 +51,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter<Integer> HUNGER_LEVEL = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.VARINT);
     private static final DataParameter<String> VARIENT = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
@@ -93,7 +91,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super.registerData();
         getDataManager().register(TYPE, AngelUtils.randomType().name());
         getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
-        getDataManager().register(HUNGER_LEVEL, 50);
         getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
     }
 
@@ -106,16 +103,22 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     public enum AngelVarients {
-        MOSSY, NORMAL, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_HEADLESS(true);
+        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
 
-        private boolean headless = false;
+        private final boolean headless;
+        private final ItemStack dropStack;
 
-        AngelVarients() {
-            this(false);
+        AngelVarients(ItemStack stack) {
+            this(false, stack);
         }
 
-        AngelVarients(boolean b) {
+        AngelVarients(boolean b, ItemStack stack) {
             headless = b;
+            this.dropStack = stack;
+        }
+
+        public ItemStack getDropStack() {
+            return dropStack;
         }
 
         public boolean isHeadless() {
@@ -167,24 +170,30 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean attackEntityAsMob(Entity entity) {
         if (entity instanceof ServerPlayerEntity) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
-            // Blowing out light items from the players hand
-            if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
-                AngelUtils.removeLightFromHand(serverPlayerEntity, this);
-            }
-            if (WAConfig.CONFIG.justTeleport.get()) {
-                teleportInteraction(serverPlayerEntity);
-                return false;
-            }
-            boolean shouldTeleport = rand.nextInt(10) < 5 && !isWeak() && !isCherub();
-            if (shouldTeleport) {
-                teleportInteraction(serverPlayerEntity);
-                return false;
-            } else {
-                dealDamage(serverPlayerEntity);
+            if(!isCherub()){
+                // Teleport Only
+                if (WAConfig.CONFIG.justTeleport.get()) {
+                    teleportInteraction(serverPlayerEntity);
+                    return true;
+                }
+
+                // Chance to teleport/deal damage
+                boolean shouldTeleport = rand.nextInt(10) < 5 && getHealth() > 5;
+                if (shouldTeleport) {
+                    teleportInteraction(serverPlayerEntity);
+                } else {
+                    dealDamage(serverPlayerEntity);
+                }
                 return true;
+            } else {
+                //Child Behaviour
+                if (WAConfig.CONFIG.torchBlowOut.get() ) {
+                    AngelUtils.removeLightFromHand(serverPlayerEntity, this);
+                    return true;
+                }
             }
         }
-        return true;
+        return false;
     }
 
     public void dealDamage(PlayerEntity playerMP) {
@@ -229,6 +238,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super.onDeath(cause);
         entityDropItem(getHeldItemMainhand());
         entityDropItem(getHeldItemOffhand());
+
+        if (getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+            WeepingAngelEntity.AngelVarients angelVarient = WeepingAngelEntity.AngelVarients.valueOf(getVarient());
+            entityDropItem(angelVarient.getDropStack());
+        }
+
     }
 
     @Override
@@ -237,7 +252,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         compound.putString(WAConstants.POSE, getAngelPose().toString());
         compound.putString(WAConstants.TYPE, getAngelType().name());
         compound.putString(WAConstants.VARIENT, getVarient());
-        compound.putInt(WAConstants.HUNGER_LEVEL, getHungerLevel());
     }
 
     @Override
@@ -249,7 +263,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
-        if (compound.contains(WAConstants.HUNGER_LEVEL)) setHungerLevel(compound.getInt(WAConstants.HUNGER_LEVEL));
         if (compound.contains(WAConstants.VARIENT))
             setVarient(AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
     }
@@ -259,18 +272,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super.notifyDataManagerChange(key);
         if (TYPE.equals(key)) {
             recalculateSize();
-        }
-    }
-
-    @Override
-    public void livingTick() {
-        super.livingTick();
-
-        if (ticksExisted % 2400 == 0 && !world.isRemote) {
-            setHungerLevel(getHungerLevel() - 1);
-            if (isWeak()) {
-                attackEntityFrom(DamageSource.STARVE, 2);
-            }
         }
     }
 
@@ -316,10 +317,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 playSound(WAObjects.Sounds.STONE_SCRAP.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
             }
         }
-    }
-
-    public boolean isWeak() {
-        return getHungerLevel() < 15;
     }
 
     @Override
@@ -432,6 +429,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                     if (teleportWorld != null) {
                         WATeleporter.teleportPlayerTo(player, blockPos, teleportWorld);
                         teleportWorld.forceChunk(chunkPos.x, chunkPos.z, false);
+                        heal(10);
                     }
                 }));
                 break;
@@ -477,14 +475,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     public void setType(AngelEnums.AngelType angelType) {
         setType(angelType.name());
-    }
-
-    public int getHungerLevel() {
-        return getDataManager().get(HUNGER_LEVEL);
-    }
-
-    public void setHungerLevel(int hunger) {
-        getDataManager().set(HUNGER_LEVEL, hunger);
     }
 
     public WeepingAngelEntity.Cracks calc() {

@@ -34,6 +34,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 
+import java.util.List;
 import java.util.Random;
 
 public class AngelUtils {
@@ -131,7 +132,6 @@ public class AngelUtils {
             stack.shrink(1);
             return true;
         }
-
         return false;
     }
 
@@ -169,7 +169,16 @@ public class AngelUtils {
         LootTable loot_table = target.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.build(LootParameterSets.ENTITY);
-        loot_table.generate(ctx).forEach(target::entityDropItem);
+        List<ItemStack> generatedTable = loot_table.generate(ctx);
+        if (target instanceof WeepingAngelEntity) {
+            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
+            if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+                WeepingAngelEntity.AngelVarients angelVarient = WeepingAngelEntity.AngelVarients.valueOf(weepingAngelEntity.getVarient());
+                generatedTable.add(angelVarient.getDropStack());
+            }
+        }
+
+        generatedTable.forEach(target::entityDropItem);
     }
 
     public static LootContext.Builder getLootContextBuilder(boolean p_213363_1_, DamageSource damageSourceIn, LivingEntity entity, PlayerEntity attacker) {
