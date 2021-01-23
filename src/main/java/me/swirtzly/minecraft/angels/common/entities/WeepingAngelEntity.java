@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
@@ -33,6 +34,7 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
@@ -102,30 +104,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().set(VARIENT, varient.name());
     }
 
-    public enum AngelVarients {
-        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
-
-        private final boolean headless;
-        private final ItemStack dropStack;
-
-        AngelVarients(ItemStack stack) {
-            this(false, stack);
-        }
-
-        AngelVarients(boolean b, ItemStack stack) {
-            headless = b;
-            this.dropStack = stack;
-        }
-
-        public ItemStack getDropStack() {
-            return dropStack;
-        }
-
-        public boolean isHeadless() {
-            return headless;
-        }
-    }
-
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IServerWorld serverWorld, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT compoundNBT) {
@@ -170,7 +148,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean attackEntityAsMob(Entity entity) {
         if (entity instanceof ServerPlayerEntity) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
-            if(!isCherub()){
+            if (!isCherub()) {
                 // Teleport Only
                 if (WAConfig.CONFIG.justTeleport.get()) {
                     teleportInteraction(serverPlayerEntity);
@@ -187,7 +165,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 return true;
             } else {
                 //Child Behaviour
-                if (WAConfig.CONFIG.torchBlowOut.get() ) {
+                if (WAConfig.CONFIG.torchBlowOut.get()) {
                     AngelUtils.removeLightFromHand(serverPlayerEntity, this);
                     return true;
                 }
@@ -247,6 +225,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
+    public void setMotionMultiplier(BlockState state, Vector3d motionMultiplierIn) {
+        if (!state.isIn(Blocks.COBWEB)) {
+            super.setMotionMultiplier(state, motionMultiplierIn);
+        }
+    }
+
+    @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putString(WAConstants.POSE, getAngelPose().toString());
@@ -257,6 +242,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void read(CompoundNBT compound) {
         super.read(compound);
+
+        NBTPatcher.angelaToVillager(compound, WAConstants.TYPE);
 
         if (compound.contains(WAConstants.POSE))
             setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
@@ -463,7 +450,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         return getAngelType() == AngelEnums.AngelType.ED_ANGEL_CHILD;
     }
 
-
     public AngelEnums.AngelType getAngelType() {
         String type = getDataManager().get(TYPE);
         return type.isEmpty() ? AngelEnums.AngelType.ANGELA_MC : AngelEnums.AngelType.valueOf(type);
@@ -479,6 +465,30 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     public WeepingAngelEntity.Cracks calc() {
         return WeepingAngelEntity.Cracks.getCrackValue(this.getHealth() / this.getMaxHealth());
+    }
+
+    public enum AngelVarients {
+        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
+
+        private final boolean headless;
+        private final ItemStack dropStack;
+
+        AngelVarients(ItemStack stack) {
+            this(false, stack);
+        }
+
+        AngelVarients(boolean b, ItemStack stack) {
+            headless = b;
+            this.dropStack = stack;
+        }
+
+        public ItemStack getDropStack() {
+            return dropStack;
+        }
+
+        public boolean isHeadless() {
+            return headless;
+        }
     }
 
 

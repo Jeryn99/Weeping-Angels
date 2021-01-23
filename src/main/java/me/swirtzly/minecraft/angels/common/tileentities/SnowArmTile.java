@@ -24,30 +24,32 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
     private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
     private boolean hasSetup = false;
+    private int rotation = 0;
 
-    public void setSnowAngelStage(SnowAngelStages snowAngelStages) {
-        this.snowAngelStages = snowAngelStages;
+    public SnowArmTile() {
+        super(WAObjects.Tiles.ARM.get());
     }
 
     public SnowAngelStages getSnowAngelStage() {
         return snowAngelStages;
     }
 
-    public SnowArmTile() {
-        super(WAObjects.Tiles.ARM.get());
-    }
-
-    public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
-        this.angelVarients = angelVarients;
+    public void setSnowAngelStage(SnowAngelStages snowAngelStages) {
+        this.snowAngelStages = snowAngelStages;
     }
 
     public WeepingAngelEntity.AngelVarients getAngelVarients() {
         return angelVarients;
     }
 
+    public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
+        this.angelVarients = angelVarients;
+    }
+
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
+
         if (nbt.contains(WAConstants.VARIENT)) {
             setAngelVarients(WeepingAngelEntity.AngelVarients.valueOf(nbt.getString(WAConstants.VARIENT)));
         }
@@ -69,7 +71,6 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         compound.putBoolean("setup", hasSetup);
         return super.write(compound);
     }
-
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
@@ -103,12 +104,12 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         markDirty();
     }
 
-    public void setHasSetup(boolean hasSetup) {
-        this.hasSetup = hasSetup;
-    }
-
     public boolean isHasSetup() {
         return hasSetup;
+    }
+
+    public void setHasSetup(boolean hasSetup) {
+        this.hasSetup = hasSetup;
     }
 
     @Override
@@ -138,8 +139,6 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
             sendUpdates();
         }
     }
-
-    private int rotation = 0;
 
     public int getRotation() {
         return rotation;

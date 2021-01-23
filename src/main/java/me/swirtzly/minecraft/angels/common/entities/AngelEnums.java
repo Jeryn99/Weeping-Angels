@@ -6,7 +6,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 public class AngelEnums {
 
     public enum AngelType {
-        ANGELA, ANGELA_MC, ED, ED_ANGEL_CHILD(true), VIO_1, VIO_2, A_DIZZLE;
+        VILLAGER, ANGELA_MC, ED, ED_ANGEL_CHILD(true), VIO_1, VIO_2, A_DIZZLE;
         private final boolean isChild;
 
         AngelType() {

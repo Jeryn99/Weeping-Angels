@@ -9,7 +9,6 @@ import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsIdle;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsPointing;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;

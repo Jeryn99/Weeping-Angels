@@ -22,6 +22,7 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
 
     private static final CoffinModel coffinModel = new CoffinModel();
     private static SkeletonEntity skeletonEntity = null;
+
     public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
     }

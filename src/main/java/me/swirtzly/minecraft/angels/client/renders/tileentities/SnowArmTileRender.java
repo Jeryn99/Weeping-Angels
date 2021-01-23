@@ -24,6 +24,10 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
         super(renderer);
     }
 
+    public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
+        return ClientUtil.build(snowArmTile.getAngelVarients().name(), AngelPoses.POSE_OPEN_ARMS);
+    }
+
     @Override
     public void render(SnowArmTile snowArmTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         matrixStack.push();
@@ -48,9 +52,5 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
         }
 
         matrixStack.pop();
-    }
-
-    public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
-        return ClientUtil.build(snowArmTile.getAngelVarients().name(), AngelPoses.POSE_OPEN_ARMS);
     }
 }

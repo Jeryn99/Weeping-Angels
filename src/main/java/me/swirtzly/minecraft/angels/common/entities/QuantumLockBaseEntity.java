@@ -2,7 +2,6 @@ package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

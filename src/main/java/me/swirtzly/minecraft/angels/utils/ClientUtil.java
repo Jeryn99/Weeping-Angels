@@ -3,7 +3,6 @@ package me.swirtzly.minecraft.angels.utils;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
-import me.swirtzly.minecraft.angels.client.poses.PoseBase;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
@@ -39,7 +38,7 @@ public class ClientUtil {
     private static final EntityModel<WeepingAngelEntity> ED_ANGEL_CHILD = new ModelAngelChild<WeepingAngelEntity>();
     private static final EntityModel<WeepingAngelEntity> A_DIZZLE = new ModelClassicAngel();
     private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> ANGELA = new ModelAngela<WeepingAngelEntity>();
+    private static final EntityModel<WeepingAngelEntity> ANGELA = new ModelWeepingVillager<WeepingAngelEntity>();
     private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
 
     private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
@@ -49,7 +48,7 @@ public class ClientUtil {
         MODEL_MAP.put(AngelEnums.AngelType.ED, ED);// ED
         MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, ANGELA_MC); //ANGELA
         MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, A_DIZZLE); //A_DIZZLE
-        MODEL_MAP.put(AngelEnums.AngelType.ANGELA, ANGELA); //ANGELA
+        MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, ANGELA); //ANGELA
         MODEL_MAP.put(AngelEnums.AngelType.VIO_1, VIO_1); //VIOLET
         MODEL_MAP.put(AngelEnums.AngelType.VIO_2, VIO_2);//VIOLET
     }
@@ -96,7 +95,7 @@ public class ClientUtil {
 
     }
 
-    public static ResourceLocation build(String angelVarients, AngelPoses pose){
+    public static ResourceLocation build(String angelVarients, AngelPoses pose) {
         String location = "textures/entities/angela_two/";
         String varient = angelVarients.toLowerCase() + "_angel_";
         location = location + angelVarients.toLowerCase() + "/";
@@ -111,11 +110,11 @@ public class ClientUtil {
             suffix = "scream";
         }
 
-        if(angelVarients.toLowerCase().contains("headless")){
+        if (angelVarients.toLowerCase().contains("headless")) {
             suffix = "headless";
         }
 
-        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix+".png");
+        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix + ".png");
     }
 
 

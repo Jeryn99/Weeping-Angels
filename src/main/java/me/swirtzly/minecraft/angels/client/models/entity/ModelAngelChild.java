@@ -185,10 +185,10 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         matrixStack.push();
-        matrixStack.scale(0.5F,0.5F,0.5F);
-        matrixStack.translate(0,1.5,0);
+        matrixStack.scale(0.5F, 0.5F, 0.5F);
+        matrixStack.translate(0, 1.5, 0);
         WeepingCherubFix.render(matrixStack, buffer, packedLight, packedOverlay);
         matrixStack.pop();
     }
@@ -201,7 +201,40 @@ public class ModelAngelChild<T extends LivingEntity> extends EntityModel<Weeping
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+
         return TEXTURE;
+   /*     String angelVarients = null;
+
+        if (angel instanceof WeepingAngelEntity) {
+            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
+            angelVarients = weepingAngelEntity.getVarient();
+        }
+
+        if (angel instanceof StatueTile) {
+            StatueTile weepingAngelEntity = (StatueTile) angel;
+            angelVarients = weepingAngelEntity.getAngelVarients().name().toLowerCase();
+        }
+
+        if (angel instanceof PlinthTile) {
+            PlinthTile weepingAngelEntity = (PlinthTile) angel;
+            angelVarients = weepingAngelEntity.getAngelVarients().name().toLowerCase();
+        }
+
+        String location = "textures/entities/cherub/";
+        String varient = "normal_angel_";
+        location = location + angelVarients.toLowerCase() + "/";
+
+        String suffix = "idle";
+
+        if (pose.create().isAngry()) {
+            suffix = "angry";
+        }
+
+        if (pose == AngelPoses.POSE_OPEN_ARMS) {
+            suffix = "scream";
+        }
+
+        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix + ".png");*/
     }
 
 }

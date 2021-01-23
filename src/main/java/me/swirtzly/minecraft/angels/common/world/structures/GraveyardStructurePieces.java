@@ -12,7 +12,6 @@ import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
@@ -28,7 +27,6 @@ import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.io.BufferedReader;
@@ -41,8 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static net.minecraft.util.datafix.fixes.SignStrictJSON.GSON;
 
 public class GraveyardStructurePieces {
 
@@ -118,7 +114,7 @@ public class GraveyardStructurePieces {
                 USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());
             }*/
 
-            if(USERNAMES.length == 0){
+            if (USERNAMES.length == 0) {
                 try {
 
                     ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");

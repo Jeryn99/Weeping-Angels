@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
+import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -21,6 +22,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
+    private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
 
     public PlinthTile() {
         super(WAObjects.Tiles.PLINTH.get());
@@ -49,6 +51,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
+        NBTPatcher.angelaToVillager(compound, "model");
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putInt("rotation", rotation);
         compound.putString("model", type);
@@ -137,13 +140,11 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         this.pose = pose;
     }
 
-    private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
+    public WeepingAngelEntity.AngelVarients getAngelVarients() {
+        return angelVarients;
+    }
 
     public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
         this.angelVarients = angelVarients;
-    }
-
-    public WeepingAngelEntity.AngelVarients getAngelVarients() {
-        return angelVarients;
     }
 }
