@@ -27,6 +27,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
+import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
@@ -372,21 +373,15 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                         Vector3d start = getPositionVec();
                         Vector3d end = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
                         Vector3d path = start.subtract(end);
-
-                        Vector3d speed = path.normalize().scale(0.1);
-
                         for(int i = 0; i < 10; ++i) {
-
                             double percent = i / 10.0;
-
                             ((ServerWorld) world).spawnParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0,0,0,0);
-
                         }
                         return;
                     }
                 }
 
-                if (blockState.getLightValue() > 0) {
+                if (blockState.getLightValue() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
                     AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }

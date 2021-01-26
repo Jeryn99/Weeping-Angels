@@ -19,10 +19,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
@@ -48,6 +45,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -170,7 +168,7 @@ public class EventHandler {
             LivingEntity victim = e.getEntityLiving();
 
             if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
-
+                WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) victim;
                 if (WAConfig.CONFIG.hardcoreMode.get()) {
                     e.setCanceled(true);
                     return;
@@ -195,7 +193,11 @@ public class EventHandler {
                     ServerWorld serverWorld = (ServerWorld) attacker.world;
                     serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), victim.getPosX(), victim.getPosYHeight(0.5D), victim.getPosZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-                    item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+                    item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> {
+                        boolean isCherub = weepingAngelEntity.isCherub();
+                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1,1);
+                        attacker.sendBreakAnimation(Hand.MAIN_HAND);
+                    });
                 }
 
                 if (!(source instanceof LivingEntity)) {

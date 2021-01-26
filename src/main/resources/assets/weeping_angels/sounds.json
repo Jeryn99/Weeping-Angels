@@ -77,6 +77,16 @@
       }
     ]
   },
+  "angel_mocking": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.angel_mocking",
+    "sounds": [
+      {
+        "name": "weeping_angels:angel_mocking",
+        "stream": false
+      }
+    ]
+  },
   "projector": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.projector",
