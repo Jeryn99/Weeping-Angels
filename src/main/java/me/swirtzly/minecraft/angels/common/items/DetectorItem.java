@@ -9,19 +9,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class DetectorItem extends Item {
 
     public DetectorItem() {
         super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
+    }
+
+    @Override
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+        super.fillItemGroup(group, items);
     }
 
     @Override

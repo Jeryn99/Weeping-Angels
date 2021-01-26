@@ -27,6 +27,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
@@ -35,6 +36,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
@@ -298,10 +300,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
             if (isCherub()) {
                 if (world.rand.nextInt(5) == 4) {
-                    playSound(WAObjects.Sounds.CHILD_RUN.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
+                    playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
                 }
             } else if (WAConfig.CONFIG.playScrapeSounds.get()) {
-                playSound(WAObjects.Sounds.STONE_SCRAP.get(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
+                playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.1F, soundtype.getPitch());
             }
         }
     }
@@ -363,20 +365,31 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                     }
                 }
 
+
+                if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
+                    if (getHealth() < getMaxHealth()) {
+                        heal(0.5F);
+                        Vector3d start = getPositionVec();
+                        Vector3d end = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+                        Vector3d path = start.subtract(end);
+
+                        Vector3d speed = path.normalize().scale(0.1);
+
+                        for(int i = 0; i < 10; ++i) {
+
+                            double percent = i / 10.0;
+
+                            ((ServerWorld) world).spawnParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0,0,0,0);
+
+                        }
+                        return;
+                    }
+                }
+
                 if (blockState.getLightValue() > 0) {
                     AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }
-
-                if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
-                    if (getHealth() < getMaxHealth()) {
-                        heal(1.5F);
-                        AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
-                    }
-                } else
-                    continue;
-
-                return;
             }
         }
     }

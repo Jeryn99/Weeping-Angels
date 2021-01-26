@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -16,6 +17,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
@@ -159,7 +162,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onAngelDamage(LivingAttackEvent e) {
-        if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
+        if (!WAConfig.CONFIG.pickaxeOnly.get() || e.getEntityLiving().world.isRemote) return;
 
         Entity source = e.getSource().getTrueSource();
         if (source instanceof LivingEntity) {
@@ -174,19 +177,25 @@ public class EventHandler {
                 }
 
                 ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-                boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
+                boolean isPic = item.getItem() instanceof PickaxeItem;
                 e.setCanceled(!isPic);
 
                 if (!isPic) {
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
                 } else {
-                    Item pick = item.getItem();
+                    PickaxeItem pick = (PickaxeItem) item.getItem();
 
-                    if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
+                    if (pick.getTier().getHarvestLevel() < 3 && victim.world.getDifficulty() == Difficulty.HARD) {
                         e.setCanceled(true);
+                        return;
                     }
 
+                    e.setCanceled(true);
+                    victim.setHealth(victim.getHealth() - e.getAmount());
+                    ServerWorld serverWorld = (ServerWorld) attacker.world;
+                    serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), victim.getPosX(), victim.getPosYHeight(0.5D), victim.getPosZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                    item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
                 }
 
                 if (!(source instanceof LivingEntity)) {
