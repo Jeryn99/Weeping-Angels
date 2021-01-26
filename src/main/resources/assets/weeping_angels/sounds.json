@@ -84,6 +84,10 @@
       {
         "name": "weeping_angels:angel_mocking",
         "stream": false
+      },
+      {
+        "name": "weeping_angels:angel_mocking_2",
+        "stream": false
       }
     ]
   },

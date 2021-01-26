@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -39,9 +40,12 @@ public class WATeleporter {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
                 if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().getLocation().toString().contains("tardis")) {
                     allowedDimensions.remove(dimension);
+                    //TODO Tardis Mod Support soon
                 }
             }
         }
+
+
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 

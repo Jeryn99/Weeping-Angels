@@ -13,9 +13,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
@@ -45,7 +43,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -72,7 +69,7 @@ public class EventHandler {
             if (isGraveYard && !player.abilities.isCreativeMode) {
                 MutableBoundingBox box = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).getBoundingBox();
                 boolean canPlaySound = false;
-                for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
+                for (Iterator< BlockPos > iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
                     BlockState blockState = world.getBlockState(blockPos);
                     if (blockState.getBlock() == WAObjects.Blocks.STATUE.get()) {
@@ -97,7 +94,7 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        RegistryKey<Biome> biomeRegistryKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biomeLoadingEvent.getName());
+        RegistryKey< Biome > biomeRegistryKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biomeLoadingEvent.getName());
         Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
@@ -151,7 +148,7 @@ public class EventHandler {
             }
             //Only spawn Graveyards in the Overworld structure list
             if (serverWorld.getDimensionKey().equals(World.OVERWORLD)) {
-                Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
+                Map< Structure< ? >, StructureSeparationSettings > tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
                 tempMap.put(WAObjects.Structures.GRAVEYARD.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.Structures.GRAVEYARD.get()));
                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
@@ -179,6 +176,9 @@ public class EventHandler {
                 e.setCanceled(!isPic);
 
                 if (!isPic) {
+                    if (victim.world.rand.nextInt(100) <= 20) {
+                        weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
+                    }
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
                 } else {
                     PickaxeItem pick = (PickaxeItem) item.getItem();
@@ -195,7 +195,7 @@ public class EventHandler {
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
                     item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> {
                         boolean isCherub = weepingAngelEntity.isCherub();
-                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1,1);
+                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
                         attacker.sendBreakAnimation(Hand.MAIN_HAND);
                     });
                 }
