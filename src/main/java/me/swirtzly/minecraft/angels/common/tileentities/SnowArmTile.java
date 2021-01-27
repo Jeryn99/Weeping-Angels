@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 
+
 public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
@@ -114,7 +115,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-        if (!world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
+        if (world != null && !world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
             WeepingAngelEntity angel = new WeepingAngelEntity(world);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
             angel.setVarient(angelVarients);
@@ -151,7 +152,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
 
     public enum SnowAngelStages {
-        ARM, HEAD, BODY
+        ARM, HEAD, BODY, WINGS
     }
 
 

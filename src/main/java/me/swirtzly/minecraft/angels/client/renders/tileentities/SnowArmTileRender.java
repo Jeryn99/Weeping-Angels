@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.client.models.block.SnowArmModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowBodyModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowHeadModel;
+import me.swirtzly.minecraft.angels.client.models.block.SnowWingsModels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
@@ -19,6 +20,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     private final SnowArmModel armModel = new SnowArmModel();
     private final SnowBodyModel bodyModel = new SnowBodyModel();
     private final SnowHeadModel headModel = new SnowHeadModel();
+    private final SnowWingsModels wingsModel = new SnowWingsModels();
 
     public SnowArmTileRender(TileEntityRendererDispatcher renderer) {
         super(renderer);
@@ -48,6 +50,12 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
                 matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
                 matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
                 this.bodyModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                break;
+            case WINGS:
+                matrixStack.translate(0.5F, 1.5F, 0.5F);
+                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+                this.wingsModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
                 break;
         }
 

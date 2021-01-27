@@ -6,6 +6,7 @@ import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
+import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.NBTPatcher;
@@ -393,6 +394,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (world.isRemote) return;
         AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
         switch (type) {
+
             case DONT:
                 attackEntityAsMob(player);
                 break;
