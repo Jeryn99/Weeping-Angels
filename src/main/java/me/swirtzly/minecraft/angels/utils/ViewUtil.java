@@ -216,7 +216,7 @@ public class ViewUtil {
 
 
     @Nullable
-    private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vector3d vec31, Vector3d vec32, Predicate<BlockPos> stopOn) {
+    private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vector3d vec31, Vector3d vec32, Predicate< BlockPos > stopOn) {
         if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
             if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
                 int i = MathHelper.floor(vec32.x);

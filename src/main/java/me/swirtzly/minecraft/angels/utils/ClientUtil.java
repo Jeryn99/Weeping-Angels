@@ -33,15 +33,15 @@ import java.util.Map;
 
 public class ClientUtil {
 
-    private static final EntityModel<WeepingAngelEntity> VIO_1 = new ModelAngel<>();
-    private static final EntityModel<WeepingAngelEntity> ED = new ModelAngelEd();
-    private static final EntityModel<WeepingAngelEntity> ED_ANGEL_CHILD = new ModelAngelChild<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> A_DIZZLE = new ModelClassicAngel();
-    private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> VILLAGER = new ModelWeepingVillager<WeepingAngelEntity>();
-    private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
+    private static final EntityModel< WeepingAngelEntity > VIO_1 = new ModelAngel<>();
+    private static final EntityModel< WeepingAngelEntity > ED = new ModelAngelEd();
+    private static final EntityModel< WeepingAngelEntity > ED_ANGEL_CHILD = new ModelAngelChild< WeepingAngelEntity >();
+    private static final EntityModel< WeepingAngelEntity > A_DIZZLE = new ModelClassicAngel();
+    private static final EntityModel< WeepingAngelEntity > VIO_2 = new ModelAngelMel< WeepingAngelEntity >();
+    private static final EntityModel< WeepingAngelEntity > VILLAGER = new ModelWeepingVillager< WeepingAngelEntity >();
+    private static final EntityModel< WeepingAngelEntity > ANGELA_MC = new ModelAngelaAngel();
 
-    private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
+    private static final Map< AngelEnums.AngelType, EntityModel< WeepingAngelEntity > > MODEL_MAP = new HashMap<>();
 
     static {
         MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, ED_ANGEL_CHILD); // ED
@@ -54,7 +54,7 @@ public class ClientUtil {
     }
 
 
-    public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
+    public static EntityModel< WeepingAngelEntity > getModelForAngel(AngelEnums.AngelType angelType) {
         return MODEL_MAP.get(angelType);
     }
 

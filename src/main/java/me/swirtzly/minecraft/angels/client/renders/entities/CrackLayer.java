@@ -15,10 +15,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class CrackLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
-    private static final Map<WeepingAngelEntity.Cracks, ResourceLocation> CRACKS_RESOURCE_LOCATION_MAP = ImmutableMap.of(WeepingAngelEntity.Cracks.LOW, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_low.png"), WeepingAngelEntity.Cracks.MEDIUM, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_medium.png"), WeepingAngelEntity.Cracks.HIGH, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_high.png"));
+public class CrackLayer extends LayerRenderer< WeepingAngelEntity, EntityModel< WeepingAngelEntity > > {
+    private static final Map< WeepingAngelEntity.Cracks, ResourceLocation > CRACKS_RESOURCE_LOCATION_MAP = ImmutableMap.of(WeepingAngelEntity.Cracks.LOW, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_low.png"), WeepingAngelEntity.Cracks.MEDIUM, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_medium.png"), WeepingAngelEntity.Cracks.HIGH, new ResourceLocation(WeepingAngels.MODID, "textures/entities/cracks/crackiness_high.png"));
 
-    public CrackLayer(IEntityRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> iEntityRenderer) {
+    public CrackLayer(IEntityRenderer< WeepingAngelEntity, EntityModel< WeepingAngelEntity > > iEntityRenderer) {
         super(iEntityRenderer);
     }
 

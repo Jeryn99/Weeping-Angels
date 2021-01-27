@@ -25,7 +25,7 @@ public class ServerReflector extends VivecraftReflector {
     private Method isVR;
 
     // *** Vivecraft Forge Extensions methods and fields ***
-    private Constructor<?> conQuaternion;
+    private Constructor< ? > conQuaternion;
 
     private Field fHead;
     private Field fController0;
@@ -62,8 +62,8 @@ public class ServerReflector extends VivecraftReflector {
 
             //Detect classes and fields from the Vivecraft Client/Non-VR Companion
             //Vivecraft Client/Non-VR
-            Class<?> cNetworkHelper = Class.forName("org.vivecraft.api.NetworkHelper");
-            Class<?> cVivePlayer = Class.forName("org.vivecraft.api.ServerVivePlayer");
+            Class< ? > cNetworkHelper = Class.forName("org.vivecraft.api.NetworkHelper");
+            Class< ? > cVivePlayer = Class.forName("org.vivecraft.api.ServerVivePlayer");
 
             fVivePlayers = cNetworkHelper.getDeclaredField("vivePlayers");
 
@@ -81,8 +81,8 @@ public class ServerReflector extends VivecraftReflector {
             //Vivecraft Forge Extensions
             enabled = 1;
             try {
-                Class<?> cVRPlayerData = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData");
-                Class<?> cObjectInfo = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData$ObjectInfo");
+                Class< ? > cVRPlayerData = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData");
+                Class< ? > cObjectInfo = Class.forName("com.techjar.vivecraftforge.util.VRPlayerData$ObjectInfo");
 
                 fHead = cVRPlayerData.getDeclaredField("head");
                 fController0 = cVRPlayerData.getDeclaredField("controller0");
@@ -99,12 +99,12 @@ public class ServerReflector extends VivecraftReflector {
                 fRotY = cObjectInfo.getDeclaredField("rotY");
                 fRotZ = cObjectInfo.getDeclaredField("rotZ");
 
-                Class<?> cPlayerTracker = Class.forName("com.techjar.vivecraftforge.util.PlayerTracker");
+                Class< ? > cPlayerTracker = Class.forName("com.techjar.vivecraftforge.util.PlayerTracker");
 
                 mGetPlayerData = cPlayerTracker.getMethod("getPlayerData", PlayerEntity.class);
                 mHasPlayerData = cPlayerTracker.getMethod("hasPlayerData", PlayerEntity.class);
 
-                Class<?> cQuaternion = Class.forName("com.techjar.vivecraftforge.util.Quaternion");
+                Class< ? > cQuaternion = Class.forName("com.techjar.vivecraftforge.util.Quaternion");
 
                 conQuaternion = cQuaternion.getConstructor(float.class, float.class, float.class, float.class);
                 mVecMultiply = cQuaternion.getMethod("multiply", Vector3d.class);
@@ -133,7 +133,7 @@ public class ServerReflector extends VivecraftReflector {
         try {
             UUID uuid = player.getUniqueID();
             if (enabled == 0) {
-                Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
+                Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
                     Object vivePlayer = vivePlayers.get(uuid);
                     return (boolean) isVR.invoke(vivePlayer);
@@ -161,7 +161,7 @@ public class ServerReflector extends VivecraftReflector {
             if (enabled == 0) {
                 UUID uuid = player.getUniqueID();
                 //Network Character - attempt to get from NetworkHelper
-                Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
+                Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
                 return (Vector3d) mGetHMDPos.invoke(vivePlayer);
             } else if (enabled == 1) {
@@ -193,7 +193,7 @@ public class ServerReflector extends VivecraftReflector {
             UUID uuid = player.getUniqueID();
             if (enabled == 0) {
                 //Network Character - attempt to get from NetworkHelper
-                Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
+                Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
                 return (Vector3d) mGetHMDDir.invoke(vivePlayer);
             } else if (enabled == 1) {

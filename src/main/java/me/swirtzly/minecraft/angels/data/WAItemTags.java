@@ -25,7 +25,7 @@ public class WAItemTags extends ItemTagsProvider {
         });
     }
 
-    public void add(ITag.INamedTag<Item> branch, Item block) {
+    public void add(ITag.INamedTag< Item > branch, Item block) {
         this.getOrCreateBuilder(branch).add(block);
     }
 }

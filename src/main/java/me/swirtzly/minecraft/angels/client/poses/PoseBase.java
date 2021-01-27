@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 /* I'm not going to pretend I like this at all*/
 @OnlyIn(value = Dist.CLIENT, _interface = IPoseAngles.class)
-public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAngles {
+public abstract class PoseBase implements IForgeRegistryEntry< PoseBase >, IPoseAngles {
 
     protected String name;
     private float limbSwing, limbSwingAmount, ageInTicks, netheadYaw, headPitch, swingProgress;
@@ -117,7 +117,7 @@ public abstract class PoseBase implements IForgeRegistryEntry<PoseBase>, IPoseAn
     }
 
     @Override
-    public Class<PoseBase> getRegistryType() {
+    public Class< PoseBase > getRegistryType() {
         return PoseBase.class;
     }
 }

@@ -39,11 +39,11 @@ import java.util.Random;
 
 public class AngelUtils {
 
-    public static final ITag.INamedTag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static final ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static final ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
-    public static final ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static final ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static final ITag.INamedTag< Item > KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static final ITag.INamedTag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static final ITag.INamedTag< Block > BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static final ITag.INamedTag< Block > POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static final ITag.INamedTag< Block > ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
@@ -64,11 +64,11 @@ public class AngelUtils {
     public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.FORTRESS};
     public static Random RAND = new Random();
 
-    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
+    public static ITag.INamedTag< Item > makeItem(String domain, String path) {
         return ItemTags.createOptional(new ResourceLocation(domain, path));
     }
 
-    public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
+    public static ITag.INamedTag< Block > makeBlock(String domain, String path) {
         return BlockTags.createOptional(new ResourceLocation(domain, path));
     }
 
@@ -159,7 +159,7 @@ public class AngelUtils {
         return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
     }
 
-    public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer<? extends ILootFunction> serialiser) {
+    public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer< ? extends ILootFunction > serialiser) {
         return Registry.register(Registry.LOOT_FUNCTION_TYPE, resourceLocation, new LootFunctionType(serialiser));
     }
 
@@ -169,7 +169,7 @@ public class AngelUtils {
         LootTable loot_table = target.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.build(LootParameterSets.ENTITY);
-        List<ItemStack> generatedTable = loot_table.generate(ctx);
+        List< ItemStack > generatedTable = loot_table.generate(ctx);
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
             if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {

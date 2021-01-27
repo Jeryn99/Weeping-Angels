@@ -30,7 +30,7 @@ public class MessageSFX {
 
     public static class Handler {
 
-        public static void handle(MessageSFX message, Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(MessageSFX message, Supplier< NetworkEvent.Context > ctx) {
             Minecraft.getInstance().deferTask(() -> ClientUtil.playSound(ForgeRegistries.SOUND_EVENTS.getValue(message.sound), 1));
             ctx.get().setPacketHandled(true);
         }

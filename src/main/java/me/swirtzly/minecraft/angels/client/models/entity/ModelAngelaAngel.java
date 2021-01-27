@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/normal/normal_angel_angry.png");
 

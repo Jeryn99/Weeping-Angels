@@ -32,7 +32,7 @@ public class FortuneEnchantBonus extends LootFunction {
         return new FortuneEnchantBonus.Builder(p_215915_0_);
     }
 
-    public Set<LootParameter<?>> getRequiredParameters() {
+    public Set< LootParameter< ? > > getRequiredParameters() {
         return ImmutableSet.of(LootParameters.KILLER_ENTITY);
     }
 
@@ -63,7 +63,7 @@ public class FortuneEnchantBonus extends LootFunction {
         return null;
     }
 
-    public static class Builder extends LootFunction.Builder<FortuneEnchantBonus.Builder> {
+    public static class Builder extends LootFunction.Builder< FortuneEnchantBonus.Builder > {
         private final RandomValueRange field_216073_a;
         private int field_216074_b = 0;
 
@@ -85,7 +85,7 @@ public class FortuneEnchantBonus extends LootFunction {
         }
     }
 
-    public static class Serializer extends LootFunction.Serializer<FortuneEnchantBonus> {
+    public static class Serializer extends LootFunction.Serializer< FortuneEnchantBonus > {
         public Serializer() {
             super();
         }

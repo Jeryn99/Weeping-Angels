@@ -21,11 +21,11 @@ import java.util.List;
 
 public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
-    private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
+    private static final DataParameter< Boolean > IS_SEEN = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter< Integer > TIME_VIEWED = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.VARINT);
+    private static final DataParameter< BlockPos > PREVBLOCKPOS = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
 
-    public QuantumLockBaseEntity(World worldIn, EntityType<? extends MonsterEntity> entityType) {
+    public QuantumLockBaseEntity(World worldIn, EntityType< ? extends MonsterEntity > entityType) {
         super(entityType, worldIn);
     }
 
@@ -35,11 +35,11 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
         rotationYawHead = rotationYaw;
         if (!world.isRemote && ticksExisted % 5 == 0) {
-            List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
+            List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List<WeepingAngelEntity> angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
+                List< WeepingAngelEntity > angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
                 for (WeepingAngelEntity angel : angels) {
                     if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);

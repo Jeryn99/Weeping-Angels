@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild<T extends LivingEntity> extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelChild< T extends LivingEntity > extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_child.png");

@@ -9,13 +9,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class DetectorItem extends Item {
@@ -25,7 +27,7 @@ public class DetectorItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemGroup(ItemGroup group, NonNullList< ItemStack > items) {
         super.fillItemGroup(group, items);
     }
 
@@ -34,7 +36,7 @@ public class DetectorItem extends Item {
 
         if (!entityIn.world.isRemote) {
 
-            List<WeepingAngelEntity> angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
+            List< WeepingAngelEntity > angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
 
             if (entityIn instanceof PlayerEntity) {
 

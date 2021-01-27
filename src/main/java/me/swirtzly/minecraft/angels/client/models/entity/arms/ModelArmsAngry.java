@@ -6,7 +6,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelArmsAngry extends EntityModel<WeepingAngelEntity> {
+public class ModelArmsAngry extends EntityModel< WeepingAngelEntity > {
 
     ModelRenderer RightArm2;
     ModelRenderer RightFinger1;

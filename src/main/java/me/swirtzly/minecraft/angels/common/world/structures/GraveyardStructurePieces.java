@@ -46,11 +46,11 @@ public class GraveyardStructurePieces {
     private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
     private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_3");
     private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3};
-    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
+    private static final Map< ResourceLocation, BlockPos > OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
     private static String[] USERNAMES = new String[]{};
 
 
-    public static void start(TemplateManager templateManager, BlockPos pos, Rotation rotation, List<StructurePiece> pieceList, Random random) {
+    public static void start(TemplateManager templateManager, BlockPos pos, Rotation rotation, List< StructurePiece > pieceList, Random random) {
         int x = pos.getX();
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
@@ -66,7 +66,7 @@ public class GraveyardStructurePieces {
     }
 
     public static Block getRandomPottedPlant(Random random) {
-        List<Block> plants = AngelUtils.POTTED_PLANTS.getAllElements();
+        List< Block > plants = AngelUtils.POTTED_PLANTS.getAllElements();
         return plants.get(random.nextInt(plants.size()));
     }
 

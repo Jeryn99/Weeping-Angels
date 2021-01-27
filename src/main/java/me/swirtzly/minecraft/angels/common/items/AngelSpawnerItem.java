@@ -17,7 +17,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
+public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
 
     public AngelSpawnerItem() {
         super(new Properties().group(WATabs.MAIN_TAB));
@@ -36,7 +36,7 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemGroup(ItemGroup group, NonNullList< ItemStack > items) {
         if (isInGroup(group)) {
             for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);

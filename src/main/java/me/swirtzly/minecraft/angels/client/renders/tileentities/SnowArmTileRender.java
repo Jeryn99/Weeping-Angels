@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
+public class SnowArmTileRender extends TileEntityRenderer< SnowArmTile > {
 
     private final SnowArmModel armModel = new SnowArmModel();
     private final SnowBodyModel bodyModel = new SnowBodyModel();
@@ -27,7 +27,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     }
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
-        return ClientUtil.build(snowArmTile.getAngelVarients().name(), AngelPoses.POSE_OPEN_ARMS);
+        return ClientUtil.build(snowArmTile.getAngelVariants().name(), AngelPoses.POSE_OPEN_ARMS);
     }
 
     @Override

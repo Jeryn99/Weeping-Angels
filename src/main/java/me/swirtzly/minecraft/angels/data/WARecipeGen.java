@@ -16,7 +16,7 @@ public class WARecipeGen extends RecipeProvider {
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void registerRecipes(Consumer< IFinishedRecipe > consumer) {
         ShapedRecipeBuilder.shapedRecipe(WAObjects.Blocks.PLINTH.get().asItem()).patternLine("#").patternLine("S").patternLine("Q").key('#', Blocks.STONE.asItem()).key('S', Blocks.SMOOTH_STONE.asItem()).key('Q', Blocks.QUARTZ_PILLAR).addCriterion("has_crafting_table", hasItem(Blocks.CRAFTING_TABLE)).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()).patternLine("#R#").patternLine("COV").patternLine("BBB").key('#', Blocks.REPEATER.asItem()).key('R', Blocks.REDSTONE_TORCH.asItem()).key('C', Items.CLOCK).key('O', Blocks.SPRUCE_PLANKS).key('V', Items.REDSTONE).key('B', Blocks.BRICKS).addCriterion("has_crafting_table", hasItem(Blocks.CRAFTING_TABLE)).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(WAObjects.Blocks.STATUE.get()).patternLine("#").patternLine("S").key('#', Blocks.STONE.asItem()).key('S', Blocks.SMOOTH_STONE.asItem()).addCriterion("has_crafting_table", hasItem(Blocks.CRAFTING_TABLE)).build(consumer);

@@ -67,7 +67,7 @@ public class CoffinBlock extends DirectionalBlock {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder< Block, BlockState > builder) {
         super.fillStateContainer(builder);
         builder.add(HORIZONTAL_FACING, UPRIGHT);
     }

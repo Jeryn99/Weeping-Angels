@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
+public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< WeepingAngelEntity > > {
 
     public AngelRender(EntityRendererManager manager) {
         super(manager, new ModelAngelEd(), 0.0F);

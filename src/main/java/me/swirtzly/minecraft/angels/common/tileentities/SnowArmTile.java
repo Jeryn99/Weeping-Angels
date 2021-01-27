@@ -23,7 +23,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
+    private WeepingAngelEntity.AngelVarients angelVariants = WeepingAngelEntity.AngelVarients.NORMAL;
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -39,12 +39,12 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.snowAngelStages = snowAngelStages;
     }
 
-    public WeepingAngelEntity.AngelVarients getAngelVarients() {
-        return angelVarients;
+    public WeepingAngelEntity.AngelVarients getAngelVariants() {
+        return angelVariants;
     }
 
-    public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
-        this.angelVarients = angelVarients;
+    public void setAngelVariants(WeepingAngelEntity.AngelVarients angelVariants) {
+        this.angelVariants = angelVariants;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         super.read(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setAngelVarients(WeepingAngelEntity.AngelVarients.valueOf(nbt.getString(WAConstants.VARIENT)));
+            setAngelVariants(WeepingAngelEntity.AngelVarients.valueOf(nbt.getString(WAConstants.VARIENT)));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {
@@ -67,7 +67,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
-        compound.putString(WAConstants.VARIENT, angelVarients.name());
+        compound.putString(WAConstants.VARIENT, angelVariants.name());
         compound.putInt("rotation", rotation);
         compound.putBoolean("setup", hasSetup);
         return super.write(compound);
@@ -118,7 +118,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         if (world != null && !world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
             WeepingAngelEntity angel = new WeepingAngelEntity(world);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
-            angel.setVarient(angelVarients);
+            angel.setVarient(angelVariants);
             BlockPos newPos = getPos();
             angel.setPosition(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
             world.addEntity(angel);
@@ -126,13 +126,13 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
             world.setBlockState(pos, Blocks.SNOW.getDefaultState().with(LAYERS, layers));
         }
 
-        if (angelVarients.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
+        if (angelVariants.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
             setSnowAngelStage(AngelUtils.randowSnowStage());
             hasSetup = true;
             sendUpdates();
         }
 
-        //Randomness for worldgen
+        //Randomness for world generatiopn
         if (!hasSetup) {
             setRotation(world.rand.nextInt(360));
             setSnowAngelStage(AngelUtils.randowSnowStage());

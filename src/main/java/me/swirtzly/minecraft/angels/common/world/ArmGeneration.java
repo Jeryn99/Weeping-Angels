@@ -14,9 +14,9 @@ import java.util.Random;
 /**
  * Created by Craig on 11/02/2020 @ 21:58
  */
-public class ArmGeneration extends Feature<NoFeatureConfig> {
+public class ArmGeneration extends Feature< NoFeatureConfig > {
 
-    public ArmGeneration(Codec<NoFeatureConfig> noFeatureConfigCodec) {
+    public ArmGeneration(Codec< NoFeatureConfig > noFeatureConfigCodec) {
         super(noFeatureConfigCodec);
     }
 

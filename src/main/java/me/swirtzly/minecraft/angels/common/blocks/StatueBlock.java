@@ -60,7 +60,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder< Block, BlockState > builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
         builder.add(BlockStateProperties.WATERLOGGED);
     }

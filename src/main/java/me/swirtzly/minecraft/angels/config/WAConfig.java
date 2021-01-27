@@ -15,7 +15,7 @@ public class WAConfig {
     public static final ForgeConfigSpec CONFIG_SPEC;
 
     static {
-        final Pair<WAConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfig::new);
+        final Pair< WAConfig, ForgeConfigSpec > specPair = new ForgeConfigSpec.Builder().configure(WAConfig::new);
         CONFIG = specPair.getLeft();
         CONFIG_SPEC = specPair.getRight();
     }
@@ -28,8 +28,8 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue maxSpawn;
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minSpawn;
-    public final ForgeConfigSpec.ConfigValue<String> spawnType;
-    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
+    public final ForgeConfigSpec.ConfigValue< String > spawnType;
+    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedBiomes;
     // Angel
     public final ForgeConfigSpec.BooleanValue hardcoreMode;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
@@ -46,8 +46,8 @@ public class WAConfig {
     public final ForgeConfigSpec.DoubleValue moveSpeed;
 
     // Teleport
-    public final ForgeConfigSpec.ConfigValue<String> teleportType;
-    public final ForgeConfigSpec.ConfigValue<List<? extends String>> notAllowedDimensions;
+    public final ForgeConfigSpec.ConfigValue< String > teleportType;
+    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > notAllowedDimensions;
     public final ForgeConfigSpec.BooleanValue justTeleport;
     public final ForgeConfigSpec.IntValue teleportRange;
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
@@ -89,8 +89,8 @@ public class WAConfig {
         builder.pop();
     }
 
-    public ArrayList<String> genBiomesForSpawn() {
-        ArrayList<String> spawnBiomes = new ArrayList<>();
+    public ArrayList< String > genBiomesForSpawn() {
+        ArrayList< String > spawnBiomes = new ArrayList<>();
         spawnBiomes.add(Biomes.TAIGA_HILLS.getLocation().toString());
         spawnBiomes.add(Biomes.TAIGA.getLocation().toString());
         spawnBiomes.add(Biomes.DESERT.getLocation().toString());

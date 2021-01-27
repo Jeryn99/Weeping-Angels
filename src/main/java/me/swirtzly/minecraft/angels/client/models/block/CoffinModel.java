@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CoffinModel extends EntityModel<Entity> {
+public class CoffinModel extends EntityModel< Entity > {
     public final ModelRenderer Body;
     public final ModelRenderer Door;
 

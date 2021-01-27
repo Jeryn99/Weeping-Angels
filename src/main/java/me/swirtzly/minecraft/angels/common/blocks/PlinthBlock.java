@@ -60,7 +60,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(Builder< Block, BlockState > builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
         builder.add(BlockStateProperties.WATERLOGGED);
 

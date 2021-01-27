@@ -18,7 +18,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
+public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
     private static final CoffinModel coffinModel = new CoffinModel();
     private static SkeletonEntity skeletonEntity = null;
@@ -50,7 +50,7 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
                 matrixStack.push();
                 matrixStack.rotate(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
                 matrixStack.translate(0F, 1.5F, 0F);
-                EntityRenderer<? super SkeletonEntity> renderer = Minecraft.getInstance().getRenderManager().getRenderer(skeletonEntity);
+                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getRenderManager().getRenderer(skeletonEntity);
                 matrixStack.rotate(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
                 renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
                 matrixStack.pop();

@@ -6,7 +6,6 @@ import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -42,11 +41,11 @@ public class SnowArmBlock extends SnowBlock {
         if (tile instanceof SnowArmTile) {
             int rotation = MathHelper.floor(placer.rotationYaw);
             SnowArmTile snowArmTile = (SnowArmTile) tile;
-            if(!snowArmTile.isHasSetup()) {
+            if (!snowArmTile.isHasSetup()) {
                 snowArmTile.setSnowAngelStage(AngelUtils.randowSnowStage());
                 snowArmTile.setRotation(rotation);
                 snowArmTile.setHasSetup(true);
-                snowArmTile.setAngelVarients(AngelUtils.randomVarient());
+                snowArmTile.setAngelVariants(AngelUtils.randomVarient());
                 snowArmTile.sendUpdates();
             }
         }
@@ -73,7 +72,7 @@ public class SnowArmBlock extends SnowBlock {
                 SnowArmTile snowArmTile = (SnowArmTile) tile;
                 WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
                 angel.setType(AngelEnums.AngelType.ANGELA_MC);
-                angel.setVarient(snowArmTile.getAngelVarients());
+                angel.setVarient(snowArmTile.getAngelVariants());
                 angel.setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addEntity(angel);
                 worldIn.removeBlock(pos, false);

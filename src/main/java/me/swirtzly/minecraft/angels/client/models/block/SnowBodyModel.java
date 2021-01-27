@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class SnowBodyModel extends EntityModel<Entity> {
+public class SnowBodyModel extends EntityModel< Entity > {
     private final ModelRenderer All;
     private final ModelRenderer head;
     private final ModelRenderer body;

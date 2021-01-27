@@ -39,11 +39,11 @@ public class WABlockTags extends BlockTagsProvider {
         }
     }
 
-    public void add(ITag.INamedTag<Block> branch, Block block) {
+    public void add(ITag.INamedTag< Block > branch, Block block) {
         this.getOrCreateBuilder(branch).add(block);
     }
 
-    public void add(ITag.INamedTag<Block> branch, Block... block) {
+    public void add(ITag.INamedTag< Block > branch, Block... block) {
         this.getOrCreateBuilder(branch).add(block);
     }
 }

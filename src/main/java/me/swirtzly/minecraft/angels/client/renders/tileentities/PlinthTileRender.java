@@ -15,7 +15,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
+public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
 
     public PlinthTileRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
         super(tileEntityRendererDispatcher);
@@ -28,7 +28,7 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
         matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
         matrixStack.rotate(Vector3f.YP.rotationDegrees(plinthTile.getRotation()));
 
-        EntityModel<WeepingAngelEntity> angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
+        EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
 
         AngelPoses pose = AngelPoses.getPoseFromString(plinthTile.getPose());

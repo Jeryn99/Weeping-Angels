@@ -16,13 +16,13 @@ import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
 
-    private static final DataParameter<Integer> TIME_ALIVE = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.VARINT);
+    private static final DataParameter< Integer > TIME_ALIVE = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.VARINT);
 
     public AnomalyEntity(World worldIn) {
         super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
     }
 
-    public AnomalyEntity(EntityType<?> type, World world) {
+    public AnomalyEntity(EntityType< ? > type, World world) {
         this(world);
     }
 

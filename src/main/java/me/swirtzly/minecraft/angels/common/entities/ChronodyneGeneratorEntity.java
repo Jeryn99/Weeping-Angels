@@ -28,15 +28,15 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
 
     ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType< ? extends ProjectileItemEntity > type, World worldIn) {
         super(type, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, double x, double y, double z, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType< ? extends ProjectileItemEntity > type, double x, double y, double z, World worldIn) {
         super(type, x, y, z, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, LivingEntity livingEntityIn, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType< ? extends ProjectileItemEntity > type, LivingEntity livingEntityIn, World worldIn) {
         super(type, livingEntityIn, worldIn);
     }
 
@@ -86,7 +86,7 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket< ? > createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

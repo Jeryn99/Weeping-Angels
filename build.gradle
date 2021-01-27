@@ -111,14 +111,17 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = '- Added Weeping Angel texture Varients </br>' +
-                '- Changed Cherub (Child) Model </br>' +
-                '- Arm in Snow now has different model varients </br>' +
-                '- Fixed a bug where angels could sometimes teleport people onto the ceiling of the nether </br>' +
-                '- Weeping Angels Statues and Plinths now actually rotate properly when placed, instead of it being broken logic that placed it randomly </br>' +
-                '- Fixed a bug where sometimes the angels would move in the nether because it\'s considered "Dark there" </br>' +
-                '- Nerfed Angels seen sound volume </br>' +
-                '- Fixed a graphical bug where a Angel model had it\'s head buried too deep into its arms </br>'
+        changelog = '<b> Version 2.0.1 </b> </br>' +
+                '- Fixed Hidden Angels acting weird when right clicked with snow </br>' +
+                '- Hidden Angels now melt like normal snow! (And Spawn a angel when melted)  </br>' +
+                '- Angels now visually heal visually from portals  </br>' +
+                '- Made Hard Difficulty use Tool Tier System  </br>' +
+                '- Weeping Angels now spawn stone particles when hurt instead of Damage Indicator </br>' +
+                '- Weeping Angels will no longer be slowed down by CobWebs </br>' +
+                '- Weeping Angels will now drop blocks based on their looks (Main Varient Only) </br>' +
+                '- Replaced a Angel varient with Weeping Villager (Thanks to DocArcane) </br>' +
+                '- Angels now laugh at you if your pickaxe breaks </br>' +
+                '- Added Wings to Snow block! </br>'
         changelogType = 'html'
         releaseType = 'release'
         addGameVersion '1.16.3'

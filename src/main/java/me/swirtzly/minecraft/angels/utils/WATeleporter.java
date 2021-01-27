@@ -8,7 +8,6 @@ import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -33,8 +32,8 @@ public class WATeleporter {
     }
 
     public static ServerWorld getRandomDimension(Random rand) {
-        Iterable<ServerWorld> dimensions = ServerLifecycleHooks.getCurrentServer().getWorlds();
-        ArrayList<ServerWorld> allowedDimensions = Lists.newArrayList(dimensions);
+        Iterable< ServerWorld > dimensions = ServerLifecycleHooks.getCurrentServer().getWorlds();
+        ArrayList< ServerWorld > allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerWorld dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {

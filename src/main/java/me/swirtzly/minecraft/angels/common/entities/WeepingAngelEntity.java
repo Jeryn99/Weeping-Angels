@@ -6,7 +6,6 @@ import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
-import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.NBTPatcher;
@@ -28,7 +27,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
-import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
@@ -38,7 +36,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
@@ -55,14 +52,14 @@ import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
-    private static final DataParameter<String> TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter<String> CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter<String> VARIENT = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
+    private static final DataParameter< String > TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter< String > CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter< String > VARIENT = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final Predicate< Difficulty > DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
 
-    public WeepingAngelEntity(EntityType<? extends QuantumLockBaseEntity> type, World world) {
+    public WeepingAngelEntity(EntityType< ? extends QuantumLockBaseEntity > type, World world) {
         this(world);
     }
 
@@ -259,7 +256,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
-    public void notifyDataManagerChange(DataParameter<?> key) {
+    public void notifyDataManagerChange(DataParameter< ? > key) {
         super.notifyDataManagerChange(key);
         if (TYPE.equals(key)) {
             recalculateSize();
@@ -345,7 +342,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             return;
         }
 
-        for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
+        for (Iterator< BlockPos > iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             ServerWorld serverWorld = (ServerWorld) world;
             BlockState blockState = serverWorld.getBlockState(pos);
@@ -374,9 +371,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                         Vector3d start = getPositionVec();
                         Vector3d end = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
                         Vector3d path = start.subtract(end);
-                        for(int i = 0; i < 10; ++i) {
+                        for (int i = 0; i < 10; ++i) {
                             double percent = i / 10.0;
-                            ((ServerWorld) world).spawnParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0,0,0,0);
+                            ((ServerWorld) world).spawnParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0, 0, 0, 0);
                         }
                         return;
                     }
@@ -508,7 +505,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         MEDIUM(0.5F),
         HIGH(0.25F);
 
-        private static final List<WeepingAngelEntity.Cracks> cracks = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> p_226516_0_.health)).collect(ImmutableList.toImmutableList());
+        private static final List< WeepingAngelEntity.Cracks > cracks = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> p_226516_0_.health)).collect(ImmutableList.toImmutableList());
         private final float health;
 
         Cracks(float health) {

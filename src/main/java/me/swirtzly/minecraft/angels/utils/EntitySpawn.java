@@ -34,7 +34,7 @@ public class EntitySpawn {
     public static void addMobSpawnToBiome(Biome biome, EntityClassification classification, MobSpawnInfo.Spawners... spawners) {
         convertImmutableSpawners(biome);
         //Copy the list of spawners that already exist for the given biome.
-        List<MobSpawnInfo.Spawners> spawnersList = new ArrayList<>(biome.getMobSpawnInfo().spawners.get(classification));
+        List< MobSpawnInfo.Spawners > spawnersList = new ArrayList<>(biome.getMobSpawnInfo().spawners.get(classification));
         //Add all the spawners within our list.
         spawnersList.addAll(Arrays.asList(spawners));
         //Overwrite the list for the given classification with the old list and our new entries.
