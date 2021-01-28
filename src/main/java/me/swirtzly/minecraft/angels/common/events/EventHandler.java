@@ -187,7 +187,10 @@ public class EventHandler {
                         e.setCanceled(true);
                         return;
                     }
-
+                    if(e.getEntityLiving() instanceof PlayerEntity) {
+                        PlayerEntity playerEntity = (PlayerEntity) e.getEntityLiving();
+                        weepingAngelEntity.setPlayer(playerEntity);
+                    }
                     e.setCanceled(true);
                     victim.setHealth(victim.getHealth() - e.getAmount());
                     ServerWorld serverWorld = (ServerWorld) attacker.world;

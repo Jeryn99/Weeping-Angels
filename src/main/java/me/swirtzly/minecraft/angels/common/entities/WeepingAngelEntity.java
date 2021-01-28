@@ -1,6 +1,5 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
-import com.google.common.collect.ImmutableList;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
@@ -27,6 +26,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
+import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
@@ -41,12 +41,9 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
 
 import javax.annotation.Nullable;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
 
@@ -87,6 +84,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         AngelUtils.dropEntityLoot(this, this.attackingPlayer);
         entityDropItem(getHeldItemMainhand());
         entityDropItem(getHeldItemOffhand());
+    }
+
+    public void setPlayer(PlayerEntity player){
+        this.attackingPlayer = player;
     }
 
     @Override
@@ -346,7 +347,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             BlockPos pos = iterator.next();
             ServerWorld serverWorld = (ServerWorld) world;
             BlockState blockState = serverWorld.getBlockState(pos);
-            if (serverWorld.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && getHealth() > 5) {
+            if (serverWorld.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
 
                 if (blockState.getBlock().isIn(AngelUtils.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
                     continue;
@@ -470,8 +471,20 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         setType(angelType.name());
     }
 
-    public WeepingAngelEntity.Cracks calc() {
-        return WeepingAngelEntity.Cracks.getCrackValue(this.getHealth() / this.getMaxHealth());
+    @Override
+    protected void onDeathUpdate() {
+        ++this.deathTime;
+        if (this.deathTime == 20) {
+            hurtTime = 0;
+            this.remove();
+            playSound(getDeathSound(), 1, 1);
+        }
+        for (int i = 0; i < 20; ++i) {
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), this.getPosXRandom(1.0D), this.getPosYRandom(), this.getPosZRandom(1.0D), d0, d1, d2);
+        }
     }
 
     public enum AngelVarients {
@@ -497,31 +510,4 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             return headless;
         }
     }
-
-
-    public enum Cracks {
-        NONE(1.0F),
-        LOW(0.75F),
-        MEDIUM(0.5F),
-        HIGH(0.25F);
-
-        private static final List< WeepingAngelEntity.Cracks > cracks = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> p_226516_0_.health)).collect(ImmutableList.toImmutableList());
-        private final float health;
-
-        Cracks(float health) {
-            this.health = health;
-        }
-
-        public static WeepingAngelEntity.Cracks getCrackValue(float health) {
-            for (WeepingAngelEntity.Cracks cracks : cracks) {
-                if (health < cracks.health) {
-                    return cracks;
-                }
-            }
-
-            return NONE;
-        }
-    }
-
-
 }

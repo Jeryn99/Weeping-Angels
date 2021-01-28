@@ -15,7 +15,6 @@ public class SnowHeadModel extends EntityModel< Entity > {
     public SnowHeadModel() {
         textureWidth = 128;
         textureHeight = 128;
-
         head = new ModelRenderer(this);
         head.setRotationPoint(0.0F, 25.0F, 0.0F);
         setRotationAngle(head, -0.2618F, 0.0F, 0.0F);
@@ -31,6 +30,7 @@ public class SnowHeadModel extends EntityModel< Entity > {
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, packedOverlay);
+
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
