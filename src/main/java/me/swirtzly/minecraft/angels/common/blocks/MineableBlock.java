@@ -11,5 +11,4 @@ public class MineableBlock extends Block {
         super(Properties.create(Material.ROCK).hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
         this.lootTable = lootLocation;
     }
-
 }

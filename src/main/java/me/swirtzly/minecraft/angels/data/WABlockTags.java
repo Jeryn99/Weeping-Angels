@@ -4,8 +4,8 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
 import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -25,7 +25,7 @@ public class WABlockTags extends BlockTagsProvider {
         add(AngelUtils.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (block.getDefaultState().getMaterial() == Material.AIR) {
+            if (block.getDefaultState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtils.BANNED_BLOCKS, block);
             }
 
@@ -33,7 +33,7 @@ public class WABlockTags extends BlockTagsProvider {
                 add(AngelUtils.POTTED_PLANTS, block);
             }
 
-            if (block instanceof GlassBlock) {
+            if (!block.getDefaultState().isSolid()) {
                 add(AngelUtils.ANGEL_IGNORE, block);
             }
         }

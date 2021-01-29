@@ -64,10 +64,6 @@ public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< W
 
     @Override
     protected void applyRotations(WeepingAngelEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        if (this.func_230495_a_(entityLiving)) {
-            rotationYaw += (float) (Math.cos((double) entityLiving.ticksExisted * 3.25D) * Math.PI * (double) 0.4F);
-        }
-
         if (entityLiving.deathTime > 0) {
             float f = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
             f = MathHelper.sqrt(f);

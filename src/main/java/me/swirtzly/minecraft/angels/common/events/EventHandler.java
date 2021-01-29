@@ -187,7 +187,7 @@ public class EventHandler {
                         e.setCanceled(true);
                         return;
                     }
-                    if(e.getEntityLiving() instanceof PlayerEntity) {
+                    if (e.getEntityLiving() instanceof PlayerEntity) {
                         PlayerEntity playerEntity = (PlayerEntity) e.getEntityLiving();
                         weepingAngelEntity.setPlayer(playerEntity);
                     }

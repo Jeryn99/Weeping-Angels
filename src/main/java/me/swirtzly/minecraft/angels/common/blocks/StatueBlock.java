@@ -78,19 +78,30 @@ public class StatueBlock extends Block implements IWaterLoggable {
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
+
         if (world.getTileEntity(pos) instanceof StatueTile) {
             int rotation = MathHelper.floor(placer.rotationYaw);
             StatueTile statue = (StatueTile) world.getTileEntity(pos);
-            statue.setRotation(rotation);
-            statue.setAngelType(AngelUtils.randomType().name());
-            statue.setPose(AngelPoses.getRandomPose().getRegistryName());
-            statue.setAngelVarients(AngelUtils.randomVarient());
-            statue.sendUpdates();
+
+            if (!world.isRemote) {
+                BlockPos position = statue.getPos();
+                if (stack.getChildTag("BlockEntityTag") != null) {
+                    statue.read(state, stack.getChildTag("BlockEntityTag"));
+                    statue.setPos(position);
+                } else {
+                    statue.setRotation(rotation);
+                    statue.setAngelType(AngelUtils.randomType().name());
+                    statue.setPose(AngelPoses.getRandomPose().getRegistryName());
+                    statue.setAngelVarients(AngelUtils.randomVarient());
+                    statue.sendUpdates();
+                }
+            }
         }
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity
+            player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             StatueTile statue = (StatueTile) worldIn.getTileEntity(pos);
             statue.setPose(AngelPoses.getRandomPose().getRegistryName());

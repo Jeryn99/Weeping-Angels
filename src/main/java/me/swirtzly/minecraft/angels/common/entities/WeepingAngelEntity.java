@@ -81,12 +81,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     public void dropAngelStuff() {
+        if (world.isRemote()) return;
         AngelUtils.dropEntityLoot(this, this.attackingPlayer);
         entityDropItem(getHeldItemMainhand());
         entityDropItem(getHeldItemOffhand());
     }
 
-    public void setPlayer(PlayerEntity player){
+    public void setPlayer(PlayerEntity player) {
         this.attackingPlayer = player;
     }
 
@@ -292,6 +293,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     }
 
+
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
         if (!blockIn.getMaterial().isLiquid()) {
@@ -471,12 +473,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         setType(angelType.name());
     }
 
+
     @Override
     protected void onDeathUpdate() {
         ++this.deathTime;
         if (this.deathTime == 20) {
             hurtTime = 0;
-            this.remove();
+            dropAngelStuff();
+            this.setDead();
             playSound(getDeathSound(), 1, 1);
         }
         for (int i = 0; i < 20; ++i) {
@@ -510,4 +514,5 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             return headless;
         }
     }
+
 }
