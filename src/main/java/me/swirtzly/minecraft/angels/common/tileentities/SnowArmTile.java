@@ -23,7 +23,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private WeepingAngelEntity.AngelVarients angelVariants = WeepingAngelEntity.AngelVarients.NORMAL;
+    private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -39,11 +39,11 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.snowAngelStages = snowAngelStages;
     }
 
-    public WeepingAngelEntity.AngelVarients getAngelVariants() {
+    public WeepingAngelEntity.AngelVariants getAngelVariants() {
         return angelVariants;
     }
 
-    public void setAngelVariants(WeepingAngelEntity.AngelVarients angelVariants) {
+    public void setAngelVariants(WeepingAngelEntity.AngelVariants angelVariants) {
         this.angelVariants = angelVariants;
     }
 
@@ -52,7 +52,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         super.read(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setAngelVariants(WeepingAngelEntity.AngelVarients.valueOf(nbt.getString(WAConstants.VARIENT)));
+            setAngelVariants(WeepingAngelEntity.AngelVariants.valueOf(nbt.getString(WAConstants.VARIENT)));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {

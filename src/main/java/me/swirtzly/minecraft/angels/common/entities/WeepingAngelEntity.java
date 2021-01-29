@@ -103,7 +103,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         return getDataManager().get(VARIENT);
     }
 
-    public void setVarient(AngelVarients varient) {
+    public void setVarient(AngelVariants varient) {
         getDataManager().set(VARIENT, varient.name());
     }
 
@@ -221,7 +221,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         entityDropItem(getHeldItemOffhand());
 
         if (getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
-            WeepingAngelEntity.AngelVarients angelVarient = WeepingAngelEntity.AngelVarients.valueOf(getVarient());
+            AngelVariants angelVarient = AngelVariants.valueOf(getVarient());
             entityDropItem(angelVarient.getDropStack());
         }
 
@@ -254,7 +254,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
         if (compound.contains(WAConstants.VARIENT))
-            setVarient(AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
+            setVarient(AngelVariants.valueOf(compound.getString(WAConstants.VARIENT)));
     }
 
     @Override
@@ -491,17 +491,17 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
-    public enum AngelVarients {
+    public enum AngelVariants {
         MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
 
         private final boolean headless;
         private final ItemStack dropStack;
 
-        AngelVarients(ItemStack stack) {
+        AngelVariants(ItemStack stack) {
             this(false, stack);
         }
 
-        AngelVarients(boolean b, ItemStack stack) {
+        AngelVariants(boolean b, ItemStack stack) {
             headless = b;
             this.dropStack = stack;
         }

@@ -22,7 +22,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
-    private WeepingAngelEntity.AngelVarients angelVarients = WeepingAngelEntity.AngelVarients.NORMAL;
+    private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
     public PlinthTile() {
         super(WAObjects.Tiles.PLINTH.get());
@@ -44,7 +44,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         rotation = compound.getInt("rotation");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(WeepingAngelEntity.AngelVarients.valueOf(compound.getString(WAConstants.VARIENT)));
+            setAngelVarients(WeepingAngelEntity.AngelVariants.valueOf(compound.getString(WAConstants.VARIENT)));
         }
     }
 
@@ -56,7 +56,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         compound.putInt("rotation", rotation);
         compound.putString("model", type);
         compound.putString("pose", pose.toString());
-        compound.putString(WAConstants.VARIENT, angelVarients.name());
+        compound.putString(WAConstants.VARIENT, angelVariants.name());
         return compound;
     }
 
@@ -124,7 +124,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
                 angel.setType(type);
                 angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, 0, 0);
                 angel.setPose(getPose());
-                angel.setVarient(angelVarients);
+                angel.setVarient(angelVariants);
                 world.addEntity(angel);
                 plinth.setHasSpawned(true);
                 sendUpdates();
@@ -140,11 +140,11 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         this.pose = pose;
     }
 
-    public WeepingAngelEntity.AngelVarients getAngelVarients() {
-        return angelVarients;
+    public WeepingAngelEntity.AngelVariants getAngelVarients() {
+        return angelVariants;
     }
 
-    public void setAngelVarients(WeepingAngelEntity.AngelVarients angelVarients) {
-        this.angelVarients = angelVarients;
+    public void setAngelVarients(WeepingAngelEntity.AngelVariants angelVariants) {
+        this.angelVariants = angelVariants;
     }
 }

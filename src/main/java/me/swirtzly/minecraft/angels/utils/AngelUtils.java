@@ -140,9 +140,9 @@ public class AngelUtils {
         return AngelEnums.AngelType.values()[pick];
     }
 
-    public static WeepingAngelEntity.AngelVarients randomVarient() {
-        int pick = RAND.nextInt(WeepingAngelEntity.AngelVarients.values().length);
-        return WeepingAngelEntity.AngelVarients.values()[pick];
+    public static WeepingAngelEntity.AngelVariants randomVarient() {
+        int pick = RAND.nextInt(WeepingAngelEntity.AngelVariants.values().length);
+        return WeepingAngelEntity.AngelVariants.values()[pick];
     }
 
     public static SnowArmTile.SnowAngelStages randowSnowStage() {
@@ -173,7 +173,7 @@ public class AngelUtils {
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
             if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
-                WeepingAngelEntity.AngelVarients angelVarient = WeepingAngelEntity.AngelVarients.valueOf(weepingAngelEntity.getVarient());
+                WeepingAngelEntity.AngelVariants angelVarient = WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient());
                 generatedTable.add(angelVarient.getDropStack());
             }
         }
