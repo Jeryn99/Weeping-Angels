@@ -6,7 +6,9 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -16,6 +18,9 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_classic.png");
+
+    private final ResourceLocation TEXTURE_ANGRY = new ResourceLocation(WeepingAngels.MODID,
+            "textures/entities/angel_classic_angry.png");
 
     private ModelRenderer leftfoot;
     private ModelRenderer rightfoot;
@@ -166,6 +171,7 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
         this.angelPoses = angelPose;
     }
 
+
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
         AngelPoses pose = angelPoses;
@@ -274,7 +280,7 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
-        return TEXTURE;
+        return pose.create().isAngry() ? TEXTURE_ANGRY : TEXTURE;
     }
 
 }
