@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels;
 
+import me.swirtzly.minecraft.angels.common.PaintingStuff;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
@@ -59,6 +60,7 @@ public class WeepingAngels {
         WAObjects.Tiles.TILES.register(bus);
         WAObjects.WorldGenEntries.FEATURES.register(bus);
         WAObjects.Structures.STRUCTURES.register(bus);
+        PaintingStuff.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
     }
 
