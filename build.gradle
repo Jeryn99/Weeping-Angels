@@ -111,17 +111,11 @@ curseforge {
     apiKey = rootProject.curseforge
     project {
         id = rootProject.weeping_angels
-        changelog = '<b> Version 2.0.1 </b> </br>' +
-                '- Fixed Hidden Angels acting weird when right clicked with snow </br>' +
-                '- Hidden Angels now melt like normal snow! (And Spawn a angel when melted)  </br>' +
-                '- Angels now visually heal visually from portals  </br>' +
-                '- Made Hard Difficulty use Tool Tier System  </br>' +
-                '- Weeping Angels now spawn stone particles when hurt instead of Damage Indicator </br>' +
-                '- Weeping Angels will no longer be slowed down by CobWebs </br>' +
-                '- Weeping Angels will now drop blocks based on their looks (Main Varient Only) </br>' +
-                '- Replaced a Angel varient with Weeping Villager (Thanks to DocArcane) </br>' +
-                '- Angels now laugh at you if your pickaxe breaks </br>' +
-                '- Added Wings to Snow block! </br>'
+        changelog = '<b> Version 2.0.2 </b> </br>' +
+                '- Added two angel paintings for fun </br>' +
+                '- Added Classic Angry </br>' +
+                '- Angels now fall backwards on death and spawn stone particles </br>' +
+                '- Changed cracks on angels to look more like Vanilla'
         changelogType = 'html'
         releaseType = 'release'
         addGameVersion '1.16.3'
