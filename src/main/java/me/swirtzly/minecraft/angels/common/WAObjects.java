@@ -16,6 +16,7 @@ import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
+import me.swirtzly.minecraft.angels.common.world.structures.CatacombStructure;
 import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructure;
 import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructurePieces;
 import me.swirtzly.minecraft.angels.utils.WADamageSource;
@@ -110,6 +111,7 @@ public class WAObjects {
      */
     public static void setupStructures() {
         setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
 
     private static < T extends Structure< ? > > void registerConfiguredStructure(String registryName, Supplier< T > structure, StructureFeature< ?, ? > configuredStructure) {
@@ -305,6 +307,7 @@ public class WAObjects {
          * The Structure registry object. This isn't actually setup yet, see {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)}
          */
         public static final RegistryObject< Structure< ProbabilityConfig > > GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.CODEC)));
+        public static final RegistryObject< Structure< NoFeatureConfig > > CATACOMBS = setupStructure("catacombs", () -> (new CatacombStructure(NoFeatureConfig.field_236558_a_)));
         /**
          * Static instance of our structure so we can reference it before registry stuff happens and use it to make configured structures in ConfiguredStructures
          */
@@ -320,9 +323,11 @@ public class WAObjects {
          * Static instance of our configured structure feature so we can reference it for registration
          */
         public static StructureFeature< ?, ? > CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
+        public static StructureFeature< ?, ? > CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().withConfiguration(NoFeatureConfig.field_236559_b_);
 
         public static void registerConfiguredStructures() {
             registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
+            registerConfiguredStructure("configured_catacombs", Structures.CATACOMBS, CONFIGURED_CATACOMBS); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
         }
     }
 

@@ -112,6 +112,7 @@ public class EventHandler {
                 if (WAConfig.CONFIG.genGraveyard.get()) {
                     if (biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
+                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_CATACOMBS);
                         WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
                     }
                 }
@@ -150,6 +151,7 @@ public class EventHandler {
             if (serverWorld.getDimensionKey().equals(World.OVERWORLD)) {
                 Map< Structure< ? >, StructureSeparationSettings > tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
                 tempMap.put(WAObjects.Structures.GRAVEYARD.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.Structures.GRAVEYARD.get()));
+                tempMap.put(WAObjects.Structures.CATACOMBS.get(), DimensionStructuresSettings.field_236191_b_.get(WAObjects.Structures.CATACOMBS.get()));
                 serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
             }
         }

@@ -107,18 +107,15 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
     public void tick() {
         if (world.isRemote) return;
 
-        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
-            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
-            if (!plinth.getHasSpawned()) {
-                WeepingAngelEntity angel = new WeepingAngelEntity(world);
-                angel.setVarient(angelVariants);
-                angel.setType(type);
-                angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
-                angel.setPose(getPose());
-                world.addEntity(angel);
-                plinth.setHasSpawned(true);
-                sendUpdates();
-            }
+        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof StatueTile) {
+            WeepingAngelEntity angel = new WeepingAngelEntity(world);
+            angel.setVarient(angelVariants);
+            angel.setType(type);
+            angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+            angel.setPose(getPose());
+            world.addEntity(angel);
+            world.removeBlock(pos, false);
+            sendUpdates();
         }
     }
 
