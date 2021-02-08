@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.world.structures;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.common.WAObjects;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +47,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
      */
     @Override
     public GenerationStage.Decoration getDecorationStage() {
-        return GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
+        return GenerationStage.Decoration.RAW_GENERATION;
     }
 
 
@@ -71,9 +72,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
      * as it is easier to use that.
      */
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_MONSTERS = ImmutableList.of(
-            new MobSpawnInfo.Spawners(EntityType.ILLUSIONER, 100, 4, 9),
-            new MobSpawnInfo.Spawners(EntityType.VINDICATOR, 100, 4, 9)
-    );
+            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 1, 2));
 
     @Override
     public List< MobSpawnInfo.Spawners > getDefaultSpawnList() {
@@ -81,44 +80,14 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     }
 
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
-            new MobSpawnInfo.Spawners(EntityType.SHEEP, 30, 10, 15),
-            new MobSpawnInfo.Spawners(EntityType.RABBIT, 100, 1, 2)
+            new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 2),
+            new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2)
     );
 
     @Override
     public List< MobSpawnInfo.Spawners > getDefaultCreatureSpawnList() {
         return STRUCTURE_CREATURES;
     }
-
-
-    /*
-     * This is where extra checks can be done to determine if the structure can spawn here.
-     * This only needs to be overridden if you're adding additional spawn conditions.
-     *
-     * Notice how the biome is also passed in. Though, you are not going to
-     * do any biome checking here as you should've added this structure to
-     * the biomes you wanted already with the biome load event.
-     *
-     * Basically, this method is used for determining if the land is at a suitable height,
-     * if certain other structures are too close or not, or some other restrictive condition.
-     *
-     * For example, Pillager Outposts added a check to make sure it cannot spawn within 10 chunk of a Village.
-     * (Bedrock Edition seems to not have the same check)
-     *
-     *
-     * Also, please for the love of god, do not do dimension checking here. If you do and
-     * another mod's dimension is trying to spawn your structure, the locate
-     * command will make minecraft hang forever and break the game.
-     *
-     * Instead, use the addDimensionalSpacing method in StructureTutorialMain class.
-     * If you check for the dimension there and do not add your structure's
-     * spacing into the chunk generator, the structure will not spawn in that dimension!
-     */
-//    @Override
-//    protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-//        int landHeight = chunkGenerator.getNoiseHeight(chunkX << 4, chunkZ << 4, Heightmap.Type.WORLD_SURFACE_WG);
-//        return landHeight > 100;
-//    }
 
 
     /**
@@ -142,16 +111,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
              * structure will spawn at terrain height instead. Set that parameter to false to
              * force the structure to spawn at blockpos's Y value instead. You got options here!
              */
-            BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 25, 55), z);
-
-            /*
-             * If you are doing Nether structures, you'll probably want to spawn your structure on top of ledges.
-             * Best way to do that is to use getColumnSample to grab a column of blocks at the structure's x/z position.
-             * Then loop through it and look for land with air above it and set blockpos's Y value to it.
-             * Make sure to set the final boolean in JigsawManager.func_242837_a to false so
-             * that the structure spawns at blockpos's y value instead of placing the structure on the Bedrock roof!
-             */
-            //IBlockReader blockReader = chunkGenerator.func_230348_a_(blockpos.getX(), blockpos.getZ());
+            BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 30, 55), z);
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
             JigsawManager.func_242837_a(
@@ -170,7 +130,8 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
                             // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
                             // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
                             // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
-                            20),
+                            9),
+
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
@@ -182,7 +143,6 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
                     false);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
 
-
             // Sets the bounds of the structure once you are finished.
             this.recalculateStructureSize();
 
@@ -193,7 +153,6 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
                     this.components.get(0).getBoundingBox().minY + " " +
                     this.components.get(0).getBoundingBox().minZ);
         }
-
     }
 
 

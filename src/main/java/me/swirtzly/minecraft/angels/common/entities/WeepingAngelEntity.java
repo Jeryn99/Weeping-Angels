@@ -324,7 +324,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
         if (WAConfig.CONFIG.blockBreaking.get()) {
             double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
-            replaceBlocks(getBoundingBox().grow(range, 1, range));
+            replaceBlocks(getBoundingBox().grow(range, 3, range));
         }
     }
 
@@ -342,7 +342,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (world.isRemote || ticksExisted % 100 != 0) return;
 
         if (world.getLight(getPosition()) == 0) {
-            return;
+           return;
         }
 
         for (Iterator< BlockPos > iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {

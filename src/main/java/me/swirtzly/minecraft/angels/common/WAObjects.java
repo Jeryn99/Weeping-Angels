@@ -111,7 +111,7 @@ public class WAObjects {
      */
     public static void setupStructures() {
         setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
-        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 1234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
 
     private static < T extends Structure< ? > > void registerConfiguredStructure(String registryName, Supplier< T > structure, StructureFeature< ?, ? > configuredStructure) {
@@ -327,7 +327,7 @@ public class WAObjects {
 
         public static void registerConfiguredStructures() {
             registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
-            registerConfiguredStructure("configured_catacombs", Structures.CATACOMBS, CONFIGURED_CATACOMBS); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
+            registerConfiguredStructure("configured_catacombs", Structures.CATACOMBS, CONFIGURED_CATACOMBS);
         }
     }
 
