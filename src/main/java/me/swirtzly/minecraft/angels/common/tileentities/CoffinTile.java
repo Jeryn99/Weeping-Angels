@@ -1,19 +1,25 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundCategory;
 
 public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
     private Coffin coffin = null;
     private boolean isOpen, hasSkeleton = false;
-    private float openAmount = 0.0F;
+    private float openAmount = 0.0F, alpha = 1;
+    private boolean doingSomething = false;
+    private int ticks, pulses;
 
     public CoffinTile() {
         super(WAObjects.Tiles.COFFIN.get());
@@ -76,6 +82,34 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         if (this.openAmount < 0.0F) {
             this.openAmount = 0.0F;
         }
+
+
+        if(doingSomething && coffin == Coffin.PTB) {
+            if (ticks % 60 < 30) {
+                if (pulses <= 2)
+                    this.alpha -= 0.01;
+                else this.alpha -= 0.02;
+            } else {
+                this.alpha += 0.01;
+            }
+
+            if (ticks % 60 == 0)
+                ++this.pulses;
+
+            ++ticks;
+            if (ticks >= 360) {
+                if(!world.isRemote) {
+                    world.removeBlock(pos, false);
+                    int i = 25;
+                    while (i > 0) {
+                        int j = ExperienceOrbEntity.getXPSplit(i);
+                        i -= j;
+                        this.world.addEntity(new ExperienceOrbEntity(this.world, pos.getX(), pos.getY(), pos.getZ(), j));
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -103,6 +137,8 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         isOpen = nbt.getBoolean("isOpen");
         hasSkeleton = nbt.getBoolean("hasSkeleton");
         openAmount = nbt.getFloat("openAmount");
+        alpha = nbt.getFloat("alpha");
+        doingSomething = nbt.getBoolean("doingSomething");
         super.read(state, nbt);
     }
 
@@ -114,8 +150,25 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         compound.putString("coffin_type", coffin.name());
         compound.putBoolean("isOpen", isOpen);
         compound.putBoolean("hasSkeleton", hasSkeleton);
+        compound.putBoolean("doingSomething", doingSomething);
         compound.putFloat("openAmount", openAmount);
+        compound.putFloat("alpha", alpha);
         return super.write(compound);
+    }
+
+    public void setDoingSomething(boolean doingSomething) {
+        this.doingSomething = doingSomething;
+        if(doingSomething){
+            world.playSound(null, pos, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1,1);
+        }
+    }
+
+    public boolean isDoingSomething() {
+        return doingSomething;
+    }
+
+    public float getAlpha() {
+        return alpha;
     }
 
     public Coffin getCorrectCoffin(String coffin) {
@@ -129,6 +182,6 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     public enum Coffin {
-        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED
+        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB, PTB_2
     }
 }

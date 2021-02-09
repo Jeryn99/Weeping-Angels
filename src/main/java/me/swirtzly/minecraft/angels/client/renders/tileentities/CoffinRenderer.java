@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.client.renders.tileentities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinModel;
+import me.swirtzly.minecraft.angels.client.models.block.CoffinPTB;
 import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
@@ -23,6 +24,7 @@ import net.minecraft.util.math.vector.Vector3f;
 public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
     private static final CoffinModel coffinModel = new CoffinModel();
+    private static final CoffinPTB coffinModelPTB = new CoffinPTB();
     private static SkeletonEntity skeletonEntity = null;
 
     public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -59,8 +61,14 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
-        coffinModel.Door.rotateAngleY = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
-        coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        if(!tileEntityIn.getCoffin().name().contains("PTB")) {
+            coffinModel.Door.rotateAngleY = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        } else {
+            matrixStack.translate(0,0.5,0);
+            matrixStack.scale(0.7F, 0.7F,0.7F);
+            coffinModelPTB.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
+        }
         matrixStack.pop();
     }
 

@@ -25,7 +25,7 @@ import java.util.List;
 public class GraveyardStructure extends Structure< ProbabilityConfig > {
 
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
-            new MobSpawnInfo.Spawners(EntityType.BAT, 30, 10, 15),
+            new MobSpawnInfo.Spawners(EntityType.BAT, 60, 10, 15),
             new MobSpawnInfo.Spawners(EntityType.CAT, 100, 1, 2)
     );
 

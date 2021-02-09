@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.functions.ILootFunction;
+import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
@@ -36,6 +37,8 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 import java.util.Random;
+
+import static me.swirtzly.minecraft.angels.common.tileentities.CoffinTile.Coffin.*;
 
 public class AngelUtils {
 
@@ -79,8 +82,8 @@ public class AngelUtils {
     public static void playBreakEvent(LivingEntity entity, BlockPos pos, BlockState blockState) {
         if (!entity.world.isRemote) {
             ServerWorld serverWorld = (ServerWorld) entity.world;
-            serverWorld.spawnParticle(ParticleTypes.DAMAGE_INDICATOR, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0, 0, 0);
-            entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 0.5F, 1.0F);
+            serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
+            entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1, 1.0F);
             InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
             entity.world.setBlockState(pos, blockState);
         }
@@ -151,8 +154,9 @@ public class AngelUtils {
     }
 
     public static CoffinTile.Coffin randomCoffin() {
-        int pick = RAND.nextInt(CoffinTile.Coffin.values().length);
-        return CoffinTile.Coffin.values()[pick];
+        CoffinTile.Coffin[] coffins = new CoffinTile.Coffin[]{NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED};
+        int pick = RAND.nextInt(coffins.length);
+        return coffins[pick];
     }
 
     public static int getFortuneModifier(LivingEntity entityIn) {

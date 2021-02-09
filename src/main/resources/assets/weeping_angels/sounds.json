@@ -63,6 +63,16 @@
       }
     ]
   },
+  "tardis_takeoff": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.tardis_takeoff",
+    "sounds": [
+      {
+        "name": "weeping_angels:tardis_takeoff",
+        "stream": false
+      }
+    ]
+  },
   "teleport": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.teleport",

@@ -278,6 +278,7 @@ public class WAObjects {
         public static final RegistryObject< SoundEvent > PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
         public static final RegistryObject< SoundEvent > TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
         public static final RegistryObject< SoundEvent > ANGEL_MOCKING = SOUNDS.register("angel_mocking", () -> setUpSound("angel_mocking"));
+        public static final RegistryObject< SoundEvent > TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> setUpSound("tardis_takeoff"));
     }
 
     public static class WorldGenEntries {

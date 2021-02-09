@@ -53,7 +53,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
             new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
             new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
-            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 1, 2));
+            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 1, 3));
 
     @Override
     public List< MobSpawnInfo.Spawners > getDefaultCreatureSpawnList() {
@@ -76,17 +76,13 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
 
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/"+variants[rand.nextInt(variants.length)]+"/catacomb")), 9),
+                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/"+"flat"+"/catacomb")), 9),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
                     blockpos, this.components, this.rand, false, false);
 
             this.recalculateStructureSize();
-            WeepingAngels.LOGGER.log(Level.DEBUG, "Catacombs at " +
-                    this.components.get(0).getBoundingBox().minX + " " +
-                    this.components.get(0).getBoundingBox().minY + " " +
-                    this.components.get(0).getBoundingBox().minZ);
         }
     }
 

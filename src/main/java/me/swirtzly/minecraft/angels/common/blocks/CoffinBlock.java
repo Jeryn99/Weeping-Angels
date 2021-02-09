@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -42,8 +43,17 @@ public class CoffinBlock extends DirectionalBlock {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
             CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos);
-            coffinTile.setOpen(!coffinTile.isOpen());
-            coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
+            if(coffinTile.getCoffin() != CoffinTile.Coffin.PTB) {
+                coffinTile.setOpen(!coffinTile.isOpen());
+                coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
+            } else {
+                if(player.getHeldItemMainhand().getItem() instanceof MusicDiscItem){
+                    coffinTile.setDoingSomething(true);
+                    if(!player.isCreative()){
+                        player.getHeldItemMainhand().shrink(1);
+                    }
+                }
+            }
             coffinTile.sendUpdates();
         }
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
