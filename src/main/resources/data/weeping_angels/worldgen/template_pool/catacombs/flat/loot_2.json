@@ -1,0 +1,33 @@
+{
+  "name": "weeping_angels:catacombs/flat/loot_2",
+  "fallback": "weeping_angels:catacombs/flat/loot_2",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/loot/chest_1",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/loot/chest_1_boom",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/decor/broken_pillar",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

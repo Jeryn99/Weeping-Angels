@@ -159,7 +159,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 }
 
                 // Chance to teleport/deal damage
-                boolean shouldTeleport = rand.nextInt(10) < 5 && getHealth() > 5;
+                boolean shouldTeleport = rand.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb();
                 if (shouldTeleport) {
                     teleportInteraction(serverPlayerEntity);
                 } else {
@@ -174,6 +174,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 }
             }
         }
+        return false;
+    }
+
+    public boolean isInCatacomb() {
+        if (world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            BlockPos cataPos = serverWorld.getWorld().func_241117_a_(WAObjects.Structures.CATACOMBS.get(), getPosition(), 100, false);
+            return getDistanceSq(cataPos.getX(), cataPos.getY(), cataPos.getZ()) < 50;
+        }
+
         return false;
     }
 
@@ -304,7 +314,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 if (world.rand.nextInt(5) == 4) {
                     playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
                 }
-            } else if (WAConfig.CONFIG.playScrapeSounds.get()) {
+            } else if (WAConfig.CONFIG.playScrapeSounds.get() && world.rand.nextInt(5) == 4) {
                 playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.1F, soundtype.getPitch());
             }
         }
@@ -322,7 +332,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             setPose(Objects.requireNonNull(AngelPoses.POSE_HIDING_FACE.getRegistryName()));
         }
 
-        if (WAConfig.CONFIG.blockBreaking.get()) {
+        if (WAConfig.CONFIG.blockBreaking.get() && isSeen()) {
             double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
             replaceBlocks(getBoundingBox().grow(range, 3, range));
         }
@@ -342,7 +352,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (world.isRemote || ticksExisted % 100 != 0) return;
 
         if (world.getLight(getPosition()) == 0) {
-           return;
+            return;
         }
 
         for (Iterator< BlockPos > iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
@@ -437,6 +447,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && this.isValidLightLevel() && super.canSpawn(worldIn, spawnReasonIn);
     }
+
 
     protected boolean isValidLightLevel() {
         BlockPos blockpos = new BlockPos(this.getPosX(), this.getBoundingBox().minY, this.getPosZ());

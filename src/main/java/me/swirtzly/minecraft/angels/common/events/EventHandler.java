@@ -108,14 +108,25 @@ public class EventHandler {
                 biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WAObjects.ConfiguredFeatures.KONTRON_ORE);
             }
             if (biomeCategory != Biome.Category.NONE && biomeCategory != Biome.Category.OCEAN) {
+
                 //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
+                boolean shouldAdd = biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT;
                 if (WAConfig.CONFIG.genGraveyard.get()) {
-                    if (biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT) {
+                    if (shouldAdd) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
-                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_CATACOMBS);
                         WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
                     }
                 }
+
+                //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
+                if (WAConfig.CONFIG.genCatacombs.get()) {
+                    if (shouldAdd) {
+                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_CATACOMBS);
+                        WeepingAngels.LOGGER.info("Added Catacombs to: " + biomeLoadingEvent.getName());
+                    }
+                }
+
+
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
                     if (rl.equalsIgnoreCase(biomeRegistryKey.getLocation().toString())) {

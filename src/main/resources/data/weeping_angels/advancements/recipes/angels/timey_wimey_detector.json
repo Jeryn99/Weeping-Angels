@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_crafting_table": {
+    "has_clock": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:crafting_table"
+            "item": "minecraft:clock"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_crafting_table",
+      "has_clock",
       "has_the_recipe"
     ]
   ]

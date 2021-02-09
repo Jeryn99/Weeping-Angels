@@ -7,7 +7,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/catacomb_hallway_clean_4",
+        "location": "weeping_angels:catacomb/clean/clean/catacomb_hallway_clean_4",
         "processors": "minecraft:empty"
       }
     },
@@ -16,7 +16,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/catacomb_hallway_clean_3",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_3",
         "processors": "minecraft:empty"
       }
     },
@@ -25,7 +25,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/catacomb_hallway_clean_2",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_2",
         "processors": "minecraft:empty"
       }
     },
@@ -34,7 +34,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/catacomb_hallway_clean_1",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_1",
         "processors": "minecraft:empty"
       }
     }

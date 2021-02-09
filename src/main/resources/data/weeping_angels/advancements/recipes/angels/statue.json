@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_crafting_table": {
+    "has_stone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:crafting_table"
+            "tag": "forge:stone"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_crafting_table",
+      "has_stone",
       "has_the_recipe"
     ]
   ]

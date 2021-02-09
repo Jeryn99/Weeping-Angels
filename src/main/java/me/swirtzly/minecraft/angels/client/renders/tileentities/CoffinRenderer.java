@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinModel;
 import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -34,7 +35,6 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
         if (skeletonEntity == null) {
             skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().world);
         }
-
         matrixStack.push();
         matrixStack.translate(0.5F, 0.5F, 0.5F); //Translate to blockpos
         Direction face = tileEntityIn.getBlockState().get(BlockStateProperties.HORIZONTAL_FACING); //Get facing direction
