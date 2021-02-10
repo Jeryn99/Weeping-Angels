@@ -324,7 +324,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public void tick() {
         super.tick();
 
-        if (getSeenTime() == 0 || world.getLight(getPosition()) == 0 || world.isAirBlock(getPosition().down())) {
+        if (getSeenTime() == 0 || world.isAirBlock(getPosition().down())) {
             setNoAI(false);
         }
 

@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
+import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;
@@ -141,11 +142,12 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     public void invokeSeen(PlayerEntity player) {
-        setNoAI(true);
-        getLookController().setLookPositionWithEntity(player, 30, 30);
         getNavigator().setPath(null, 0);
 //		setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
-//		setMotion(0,0,0);
+		setMotion(0,0,0);
+		lookAt(EntityAnchorArgument.Type.EYES, player.getPositionVec());
+        setNoAI(true);
+
     }
 
 }

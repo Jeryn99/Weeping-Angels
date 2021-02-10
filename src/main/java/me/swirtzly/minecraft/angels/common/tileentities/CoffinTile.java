@@ -5,13 +5,18 @@ import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.EnderPearlEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.item.EnderEyeItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
@@ -100,6 +105,11 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
             if (ticks >= 360) {
                 if(!world.isRemote) {
                     world.removeBlock(pos, false);
+
+                    if(ModList.get().isLoaded("tardis")){
+                        world.setBlockState(pos.up(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).getDefaultState());
+                    }
+
                     int i = 25;
                     while (i > 0) {
                         int j = ExperienceOrbEntity.getXPSplit(i);
