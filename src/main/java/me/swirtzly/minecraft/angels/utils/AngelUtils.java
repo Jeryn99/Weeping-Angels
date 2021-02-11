@@ -41,8 +41,8 @@ import java.util.Random;
 
 public class AngelUtils {
 
-    public static final Tag<Item> KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static final Tag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static final Tag< Item > KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static final Tag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
 
     public static String[] END_STRUCTURES = new String[]{"EndCity",};
     public static String[] OVERWORLD_STRUCTURES = new String[]{"Ocean_Ruin", "Pillager_Outpost", "Mineshaft", "Mansion", "Igloo", "Desert_Pyramid", "Jungle_Pyramid", "Swamp_Hut", "Stronghold", "Monument", "Shipwreck", "Village"};
@@ -60,7 +60,7 @@ public class AngelUtils {
         return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimension().hasSkyLight() && !AngelUtils.handLightCheck(living);
     }
 
-    public static Tag<Item> makeItem(String domain, String path) {
+    public static Tag< Item > makeItem(String domain, String path) {
         return new ItemTags.Wrapper(new ResourceLocation(domain, path));
     }
 
@@ -119,33 +119,33 @@ public class AngelUtils {
             }
         }
         return false;
-	}
-	
-	/**
-	 * Converts seconds into ticks
-	 */
-	public static int secondsToTicks(int seconds) {
-		return 20 * seconds;
-	}
-	
-	public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
-		if (playerMP.getDistanceSq(angel) < 1) {
-			for (Hand enumHand : Hand.values()) {
-				ItemStack stack = playerMP.getHeldItem(enumHand);
-				if (lightCheck(stack, angel)) {
-					stack.shrink(1);
-					angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
-					return;
-				}
-			}
-		}
-	}
-	
-	public static int getLightValue(Block block) {
-		return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
-	}
-	
-	private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
+    }
+
+    /**
+     * Converts seconds into ticks
+     */
+    public static int secondsToTicks(int seconds) {
+        return 20 * seconds;
+    }
+
+    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
+        if (playerMP.getDistanceSq(angel) < 1) {
+            for (Hand enumHand : Hand.values()) {
+                ItemStack stack = playerMP.getHeldItem(enumHand);
+                if (lightCheck(stack, angel)) {
+                    stack.shrink(1);
+                    angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
+                    return;
+                }
+            }
+        }
+    }
+
+    public static int getLightValue(Block block) {
+        return ObfuscationReflectionHelper.getPrivateValue(Block.class, block, 6);
+    }
+
+    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
         if (stack.getItem().isIn(HELD_LIGHT_ITEMS)) {
             angel.entityDropItem(stack);
             stack.shrink(1);
@@ -154,20 +154,15 @@ public class AngelUtils {
 
         return false;
     }
-	
-	public static AngelEnums.AngelType randomType() {
-		int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
-		return AngelEnums.AngelType.values()[pick];
-	}
-	
-	public enum EnumTeleportType {
-		STRUCTURES, RANDOM_PLACE, DONT
-	}
+
+    public static AngelEnums.AngelType randomType() {
+        int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
+        return AngelEnums.AngelType.values()[pick];
+    }
 
     public static int getFortuneModifier(LivingEntity entityIn) {
         return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
     }
-
 
     public static void dropEntityLoot(Entity target, PlayerEntity attacker) {
         LivingEntity targeted = (LivingEntity) target;
@@ -208,5 +203,9 @@ public class AngelUtils {
      */
     public static boolean isInEitherHand(LivingEntity holder, Item item) {
         return isInMainHand(holder, item) || isInOffHand(holder, item);
+    }
+
+    public enum EnumTeleportType {
+        STRUCTURES, RANDOM_PLACE, DONT
     }
 }

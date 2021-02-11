@@ -17,16 +17,16 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientEvents {
 
-	@SubscribeEvent
-	public static void onblockHighlight(DrawBlockHighlightEvent event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		if (minecraft.objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
-			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.objectMouseOver;
-			ClientPlayerEntity playerEntity = minecraft.player;
-			ClientWorld world = minecraft.world;
-			boolean canSee = playerEntity.getHeldItemMainhand().getItem() == WAObjects.Blocks.STATUE.get().asItem() || playerEntity.getHeldItemOffhand().getItem() == WAObjects.Blocks.STATUE.get().asItem();
-			event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
-		}
-	}
+    @SubscribeEvent
+    public static void onblockHighlight(DrawBlockHighlightEvent event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
+            BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.objectMouseOver;
+            ClientPlayerEntity playerEntity = minecraft.player;
+            ClientWorld world = minecraft.world;
+            boolean canSee = playerEntity.getHeldItemMainhand().getItem() == WAObjects.Blocks.STATUE.get().asItem() || playerEntity.getHeldItemOffhand().getItem() == WAObjects.Blocks.STATUE.get().asItem();
+            event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
+        }
+    }
 
 }

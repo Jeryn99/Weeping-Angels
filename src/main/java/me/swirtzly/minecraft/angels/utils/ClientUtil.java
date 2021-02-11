@@ -28,30 +28,30 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientUtil {
-	
-	public static <T extends TileEntity> void bindTESR(Class<T> tileEntityClass, TileEntityRenderer<? super T> specialRenderer) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
-	}
-	
-	public static <T extends Entity> void bindEntityRender(Class<T> entityClass, IRenderFactory<? super T> renderFactory) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
-	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public static void playSound(SoundEvent soundIn, float volumeSfx) {
-		if(Minecraft.getInstance().world == null) return;
-		Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
-	}
 
-	public static void doClientStuff() {
-		ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
-		ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());
-		ClientUtil.bindTESR(PlinthTile.class, new PlinthTileRender());
-		ClientUtil.bindTESR(StatueTile.class, new StatueRender());
-		
-		ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
-		ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);
-		ClientUtil.bindEntityRender(ChronodyneGeneratorEntity.class, (EntityRendererManager p_i50956_1_) -> new CGRender(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
-	}
+    public static < T extends TileEntity > void bindTESR(Class< T > tileEntityClass, TileEntityRenderer< ? super T > specialRenderer) {
+        ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, specialRenderer);
+    }
+
+    public static < T extends Entity > void bindEntityRender(Class< T > entityClass, IRenderFactory< ? super T > renderFactory) {
+        RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void playSound(SoundEvent soundIn, float volumeSfx) {
+        if (Minecraft.getInstance().world == null) return;
+        Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
+    }
+
+    public static void doClientStuff() {
+        ClientUtil.bindTESR(SnowArmTile.class, new SnowArmTileRender());
+        ClientUtil.bindTESR(ChronodyneGeneratorTile.class, new CGTileRender());
+        ClientUtil.bindTESR(PlinthTile.class, new PlinthTileRender());
+        ClientUtil.bindTESR(StatueTile.class, new StatueRender());
+
+        ClientUtil.bindEntityRender(WeepingAngelEntity.class, AngelRender::new);
+        ClientUtil.bindEntityRender(AnomalyEntity.class, AnomalyRender::new);
+        ClientUtil.bindEntityRender(ChronodyneGeneratorEntity.class, (EntityRendererManager p_i50956_1_) -> new CGRender(p_i50956_1_, Minecraft.getInstance().getItemRenderer(), 12));
+    }
 
 }

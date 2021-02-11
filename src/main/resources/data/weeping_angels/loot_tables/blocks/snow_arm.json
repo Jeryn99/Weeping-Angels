@@ -1,9 +1,8 @@
-
-   {
+{
   "type": "minecraft:block",
   "pools": [
     {
-    "name":"weeping_angels:snow_arm",
+      "name": "weeping_angels:snow_arm",
       "rolls": 1,
       "entries": [
         {

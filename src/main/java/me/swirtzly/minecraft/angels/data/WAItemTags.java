@@ -17,23 +17,23 @@ public class WAItemTags extends ItemTagsProvider {
 
     @Override
     protected void registerTags() {
-    	  ForgeRegistries.BLOCKS.getValues().forEach(block -> {
-              if (AngelUtils.getLightValue(block) > 7) {
-                  add(AngelUtils.HELD_LIGHT_ITEMS, block.asItem());
-              }
-          });
-    	
+        ForgeRegistries.BLOCKS.getValues().forEach(block -> {
+            if (AngelUtils.getLightValue(block) > 7) {
+                add(AngelUtils.HELD_LIGHT_ITEMS, block.asItem());
+            }
+        });
+
         for (Item item : ForgeRegistries.ITEMS.getValues()) {
-            
-        	if(item instanceof KeyItem){
+
+            if (item instanceof KeyItem) {
                 add(AngelUtils.KEYS, item);
             }
-            
-            
+
+
         }
     }
 
-    public void add(Tag<Item> branch, Item block) {
+    public void add(Tag< Item > branch, Item block) {
         this.getBuilder(branch).add(block);
     }
 }

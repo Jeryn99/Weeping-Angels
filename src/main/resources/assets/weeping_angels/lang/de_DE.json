@@ -1,7 +1,4 @@
 {
-  
-
-  
   "item.weeping_angels.unlit_torch": "Unbeleuchtete Fackel",
   "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detektor",
   "item.weeping_angels.chronodyne_generator": "Chronodyne Generator",
@@ -12,16 +9,12 @@
   "item.weeping_angels.angel_3": "Angel (2)",
   "item.weeping_angels.angel_child": "Angel (Child)",
   "item.weeping_angels.kontron_ingot": "Kontron Ingot",
-  
   "block.weeping_angels.snow_arm": "Arm im Schnee",
   "block.weeping_angels.plinth": "Engel Statue",
   "block.weeping_angels.kontron_ore": "Kontron Ore",
-	
-  "entity.weepingangel.name": "Weinender Engel",	
+  "entity.weepingangel.name": "Weinender Engel",
   "entity.angel.name": "Weinender Engel",
   "entity.anomaly.name": "Anomaly",
-
-
   "sound.weeping_angels.angel_seen": "Engel gesichtet",
   "sound.weeping_angels.child_run": "rennendes Kind",
   "sound.weeping_angels.laughing_child": "lachendes Kind",
@@ -31,17 +24,13 @@
   "sound.weeping_angels.ding": "Ding!",
   "sound.weeping_angels.blow": "Blow",
   "sound.weeping_angels.angel_death": "ein Engel ist gestorben",
-
   "source.weeping_angels.angel": "wurde in der zeit zurückgeschickt von einem Engel!",
   "source.weeping_angels.angel_neck_snap": "wurde von einem Engel am hals geschnappt!",
   "source.weeping_angels.punch_stone": "durch schlagen auf stein sind die Knocken gebrochen",
-
   "damagesrc.angels.backintime": "wurde in der zeit zurückgeschickt von einem Engel!",
   "damagesrc.angels.punch_stone": "'s Knochen sind durchs erschlagen eines Engels  gebrochen..",
   "damagesrc.angels.neck_snap": "'s Nacken wurde von einem Engel durchbrochen!",
-
   "itemGroup.angels": "Weeping Angels",
-
   "config.weeping_angels.teleportRange": "Teleport Entfernung",
   "config.weeping_angels.teleport_entities": "Teleport Entities?",
   "config.weeping_angels.angel_locking": "Angel on Angel, Quantum locking",
@@ -60,7 +49,6 @@
   "config.weeping_angels.disallowed_blocks": "Eine liste von Blöcken die Engel NICHT zerstören können.",
   "config.weeping_angels.disallowed_dimensions": "Eine liste von Dimensionen wo Engel NICHT hin können.",
   "config.weeping_angels.angel_move_sound": "Toggle movement sounds for the angels",
-
   "category.weeping_angels.angels": "Engel",
   "category.weeping_angels.spawn": "Spawn Rate",
   "config.weeping_angels.teleport_type": "The Teleport type",

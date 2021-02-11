@@ -19,13 +19,13 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
-	
-	@SubscribeEvent
-	public static void cancelDamage(LivingAttackEvent e) {
-		if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
-		
-		Entity source = e.getSource().getTrueSource();
-		if (source instanceof LivingEntity) {
+
+    @SubscribeEvent
+    public static void cancelDamage(LivingAttackEvent e) {
+        if (!WAConfig.CONFIG.pickaxeOnly.get()) return;
+
+        Entity source = e.getSource().getTrueSource();
+        if (source instanceof LivingEntity) {
             LivingEntity attacker = (LivingEntity) source;
             LivingEntity victim = e.getEntityLiving();
 
@@ -39,24 +39,24 @@ public class EventHandler {
                 ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
                 boolean isPic = item.getItem() instanceof PickaxeItem || item.getItem().getRegistryName().toString().contains("pickaxe");
                 e.setCanceled(!isPic);
-				
-				if (!isPic) {
-					attacker.attackEntityFrom(WAObjects.STONE, 2F);
-				} else {
-					Item pick = item.getItem();
-					
-					if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
-						e.setCanceled(true);
-					}
-					
-					victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-				}
-				
-				if (!(source instanceof LivingEntity)) {
-					e.setCanceled(true);
-				}
-			}
-		}
-	}
+
+                if (!isPic) {
+                    attacker.attackEntityFrom(WAObjects.STONE, 2F);
+                } else {
+                    Item pick = item.getItem();
+
+                    if (pick != Items.DIAMOND_PICKAXE && victim.world.getDifficulty() == Difficulty.HARD) {
+                        e.setCanceled(true);
+                    }
+
+                    victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                }
+
+                if (!(source instanceof LivingEntity)) {
+                    e.setCanceled(true);
+                }
+            }
+        }
+    }
 }
 	

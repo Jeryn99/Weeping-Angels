@@ -20,7 +20,7 @@ public class WABlockTags extends BlockTagsProvider {
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.PLINTH.get());
     }
 
-    public void add(Tag<Block> branch, Block block) {
+    public void add(Tag< Block > branch, Block block) {
         this.getBuilder(branch).add(block);
     }
 }

@@ -9,7 +9,7 @@
           "name": "minecraft:stone"
         }
       ],
-             "functions": [
+      "functions": [
         {
           "function": "minecraft:set_count",
           "count": {

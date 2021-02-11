@@ -14,7 +14,7 @@ import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-public class AIMoveTowardsTardis<T extends WeepingAngelEntity> extends Goal {
+public class AIMoveTowardsTardis< T extends WeepingAngelEntity > extends Goal {
 
     private final T weepingAngel;
     private ExteriorTile tardis = null;
@@ -49,7 +49,7 @@ public class AIMoveTowardsTardis<T extends WeepingAngelEntity> extends Goal {
             if (tardis == null) {
 
                 AxisAlignedBB box = weepingAngel.getBoundingBox().grow(25);
-                for (Iterator<BlockPos> iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
+                for (Iterator< BlockPos > iterator = BlockPos.getAllInBox(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
                     BlockPos pos = iterator.next();
                     TileEntity tileEntity = weepingAngel.world.getTileEntity(pos);
                     if (tileEntity instanceof ExteriorTile) {

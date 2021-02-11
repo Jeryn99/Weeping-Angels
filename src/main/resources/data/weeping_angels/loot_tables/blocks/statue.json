@@ -1,9 +1,8 @@
-
-   {
+{
   "type": "minecraft:block",
   "pools": [
     {
-    "name":"weeping_angels:statue",
+      "name": "weeping_angels:statue",
       "rolls": 1,
       "entries": [
         {
