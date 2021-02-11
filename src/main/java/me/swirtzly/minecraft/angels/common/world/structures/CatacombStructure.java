@@ -62,6 +62,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
 
 
 
+    //Notes: Anything that uses the mods "Rotation" system for placement gets cooked in the rotations of the structure
     public static class Start extends StructureStart< NoFeatureConfig > {
         public Start(Structure< NoFeatureConfig > structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn) {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
@@ -83,6 +84,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
                     blockpos, this.components, this.rand, false, false);
 
             this.recalculateStructureSize();
+
         }
     }
 

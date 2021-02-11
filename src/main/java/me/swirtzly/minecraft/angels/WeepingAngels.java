@@ -4,6 +4,7 @@ import me.swirtzly.minecraft.angels.common.PaintingStuff;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
+import me.swirtzly.minecraft.angels.compat.tardis.TardisMod;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.data.*;
@@ -21,6 +22,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -76,6 +78,10 @@ public class WeepingAngels {
             WAObjects.ConfiguredFeatures.registerConfiguredFeatures();
         });
         VR_REFLECTOR.init();
+
+        if(ModList.get().isLoaded("tardis")){
+            TardisMod.enableTardis();
+        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

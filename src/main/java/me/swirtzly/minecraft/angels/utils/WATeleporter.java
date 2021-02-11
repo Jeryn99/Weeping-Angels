@@ -1,7 +1,9 @@
 package me.swirtzly.minecraft.angels.utils;
 
 import com.google.common.collect.Lists;
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.compat.tardis.TardisMod;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
@@ -12,7 +14,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.server.command.ForgeCommand;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,13 +41,15 @@ public class WATeleporter {
 
         for (ServerWorld dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-                if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName) || dimension.getDimensionKey().getLocation().toString().contains("tardis")) {
+                if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
-                    //TODO Tardis Mod Support soon
                 }
             }
         }
 
+        if(ModList.get().isLoaded("tardis")){
+            allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
+        }
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }

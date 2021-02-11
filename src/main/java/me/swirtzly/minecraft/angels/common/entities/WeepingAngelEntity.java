@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.api.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
@@ -39,6 +40,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
+import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -180,8 +182,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean isInCatacomb() {
         if (world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
-            BlockPos cataPos = serverWorld.getWorld().func_241117_a_(WAObjects.Structures.CATACOMBS.get(), getPosition(), 100, false);
-            return getDistanceSq(cataPos.getX(), cataPos.getY(), cataPos.getZ()) < 50;
+            BlockPos catacomb = serverWorld.getWorld().func_241117_a_(WAObjects.Structures.CATACOMBS.get(), getPosition(), 100, false);
+
+            if(catacomb == null){
+                return false;
+            }
+
+            return getDistanceSq(catacomb.getX(), catacomb.getY(), catacomb.getZ()) < 50;
         }
 
         return false;
@@ -332,7 +339,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             setPose(Objects.requireNonNull(AngelPoses.POSE_HIDING_FACE.getRegistryName()));
         }
 
-        if (WAConfig.CONFIG.blockBreaking.get() && isSeen()) {
+        if (WAConfig.CONFIG.blockBreaking.get() && isSeen() && world.getGameRules().get(GameRules.MOB_GRIEFING).get()) {
             double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
             replaceBlocks(getBoundingBox().grow(range, 3, range));
         }
@@ -359,7 +366,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             BlockPos pos = iterator.next();
             ServerWorld serverWorld = (ServerWorld) world;
             BlockState blockState = serverWorld.getBlockState(pos);
-            if (serverWorld.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+            if (isAllowed(blockState, pos)) {
 
                 if (blockState.getBlock().isIn(AngelUtils.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
                     continue;
@@ -524,6 +531,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         public boolean isHeadless() {
             return headless;
         }
+    }
+
+    public boolean isAllowed(BlockState blockState, BlockPos blockPos){
+        EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
+        MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
+        return !eventAngelBreakEvent.isCanceled();
     }
 
 }

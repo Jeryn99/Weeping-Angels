@@ -77,8 +77,6 @@ public class StatueBlock extends Block implements IWaterLoggable {
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-
-
         if (world.getTileEntity(pos) instanceof StatueTile) {
             int rotation = MathHelper.floor(placer.rotationYaw);
             StatueTile statue = (StatueTile) world.getTileEntity(pos);

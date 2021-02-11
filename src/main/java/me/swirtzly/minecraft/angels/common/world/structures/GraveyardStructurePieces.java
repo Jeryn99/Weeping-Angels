@@ -55,7 +55,7 @@ public class GraveyardStructurePieces {
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
-        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length - 1)], blockpos, rotation));
+        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length)], blockpos, rotation));
     }
 
     public static LocalDate createRandomDate() {
@@ -118,26 +118,19 @@ public class GraveyardStructurePieces {
                 try {
 
                     ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");
-
                     InputStream stream = ServerLifecycleHooks.getCurrentServer().getDataPackRegistries().getResourceManager().getResource(resourceLocation).getInputStream();
-
                     BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
                     StringBuilder sb = new StringBuilder();
-
                     String line = null;
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
                     reader.close();
                     stream.close();
-
                     String[] splashes = GSON.fromJson(sb.toString(), String[].class);
-
                     if (splashes != null) {
                         USERNAMES = splashes;
                     }
-
                 } catch (IOException e) {
                     WeepingAngels.LOGGER.catching(e);
                 }
