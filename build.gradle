@@ -108,21 +108,23 @@ minecraft {
 }
 
 curseforge {
-    apiKey = rootProject.curseforge
-    project {
-        id = rootProject.weeping_angels
-        changelog = '<b> Version 2.0.2 </b> </br>' +
-                '- Added two angel paintings for fun </br>' +
-                '- Added Classic Angry </br>' +
-                '- Angels now fall backwards on death and spawn stone particles </br>' +
-                '- Changed cracks on angels to look more like Vanilla'
-        changelogType = 'html'
-        releaseType = 'release'
-        addGameVersion '1.16.3'
-        addGameVersion '1.16.4'
-        addGameVersion '1.16.5'
-        mainArtifact(jar) {
-            displayName = "[1.16.X] Weeping Angels - $project.version"
+    if (rootProject.hasProperty('curseforge')) {
+        apiKey = rootProject.curseforge
+        project {
+            id = rootProject.weeping_angels
+            changelog = '<b> Version 2.0.2 </b> </br>' +
+                    '- Added two angel paintings for fun </br>' +
+                    '- Added Classic Angry </br>' +
+                    '- Angels now fall backwards on death and spawn stone particles </br>' +
+                    '- Changed cracks on angels to look more like Vanilla'
+            changelogType = 'html'
+            releaseType = 'release'
+            addGameVersion '1.16.3'
+            addGameVersion '1.16.4'
+            addGameVersion '1.16.5'
+            mainArtifact(jar) {
+                displayName = "[1.16.X] Weeping Angels - $project.version"
+            }
         }
     }
 }
