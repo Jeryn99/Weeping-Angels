@@ -108,7 +108,6 @@ minecraft {
 }
 
 curseforge {
-    if (rootProject.hasProperty('curseforge')) {
         apiKey = rootProject.curseforge
         project {
             id = rootProject.weeping_angels
@@ -126,7 +125,6 @@ curseforge {
                 displayName = "[1.16.X] Weeping Angels - $project.version"
             }
         }
-    }
 }
 
 repositories {
