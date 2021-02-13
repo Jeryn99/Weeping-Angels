@@ -16,7 +16,6 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/normal/normal_angel_angry.png");
 
-
     private final ModelRenderer head;
     private final ModelRenderer body;
     private final ModelRenderer leftArm;
@@ -90,6 +89,28 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
             pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
+        boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY || pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM;
+        float angleX = isAngry ? 20F : 0;
+        float angleY = isAngry ? 60F : 45F;
+        float angleZ = 0;
+
+        if(pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM){
+            angleY += 10F;
+            angleX -= 10F;
+        }
+
+        head.rotateAngleX = (float) Math.toRadians(0);
+        head.rotateAngleY = (float) Math.toRadians(0);
+        head.rotateAngleZ = (float) Math.toRadians(0);
+
+        rightWing.rotateAngleX = (float) Math.toRadians(angleX);
+        rightWing.rotateAngleY = (float) Math.toRadians(angleY);
+        rightWing.rotateAngleZ = (float) Math.toRadians(angleZ);
+        leftWing.rotateAngleX = (float) Math.toRadians(angleX);
+        leftWing.rotateAngleY = (float) Math.toRadians(-angleY);
+        leftWing.rotateAngleZ = (float) Math.toRadians(angleZ);
+
+
         if (pose == WeepingAngelPose.FURIOUS) {
             rightArm.rotateAngleX = (float) Math.toRadians(-115);
             rightArm.rotateAngleY = (float) Math.toRadians(0);
@@ -134,6 +155,16 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
             leftArm.rotateAngleX = (float) Math.toRadians(-105);
             leftArm.rotateAngleY = (float) Math.toRadians(-20);
             leftArm.rotateAngleZ = (float) Math.toRadians(-12.5);
+            return;
+        }
+
+        if (pose == WeepingAngelPose.APPROACH) {
+            rightArm.rotateAngleX = -1.04533F;
+            rightArm.rotateAngleY = -0.55851F;
+            rightArm.rotateAngleZ = 0.0F;
+            leftArm.rotateAngleX = -1.04533F;
+            leftArm.rotateAngleY = 0.55851F;
+            leftArm.rotateAngleZ = 0.0F;
             return;
         }
 
@@ -190,17 +221,17 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
 
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return ClientUtil.build(weepingAngelEntity.getVarient(), WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
+            return generateTex(pose, WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient()));
         }
 
         if (angel instanceof StatueTile) {
             StatueTile weepingAngelEntity = (StatueTile) angel;
-            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), weepingAngelEntity.getPose());
+            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
         if (angel instanceof PlinthTile) {
             PlinthTile weepingAngelEntity = (PlinthTile) angel;
-            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), weepingAngelEntity.getPose());
+            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
         return ANGRY;
     }
@@ -214,4 +245,16 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     public void setAngelPose(WeepingAngelPose angelType) {
         weepingAngelPose = angelType;
     }
+
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        String variant = angelVariants.name().toLowerCase() + "_angel_";
+        String location = "textures/entities/angela_two/";
+        location = location + angelVariants.name().toLowerCase().toLowerCase() + "/";
+        WeepingAngelPose.Emotion emotion = pose.getEmotion();
+        String suffix = emotion.name().toLowerCase();
+        if (angelVariants.isHeadless()) {
+            suffix = "headless";
+        }
+        return new ResourceLocation(WeepingAngels.MODID, location + variant + suffix + ".png");    }
 }

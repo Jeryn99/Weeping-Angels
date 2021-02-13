@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
+import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.util.ResourceLocation;
 
 public interface IAngelModel {
@@ -10,4 +11,6 @@ public interface IAngelModel {
     WeepingAngelPose getAngelPose();
 
     void setAngelPose(WeepingAngelPose angelPose);
+
+    ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants);
 }

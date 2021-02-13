@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.common.entities.AnomalyEntity;
 import me.swirtzly.minecraft.angels.common.entities.ChronodyneGeneratorEntity;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.items.AngelSpawnerItem;
+import me.swirtzly.minecraft.angels.common.items.ChiselItem;
 import me.swirtzly.minecraft.angels.common.items.ChronodyneGeneratorItem;
 import me.swirtzly.minecraft.angels.common.items.DetectorItem;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
@@ -117,16 +118,6 @@ public class WAObjects {
     private static < T extends Structure< ? > > void registerConfiguredStructure(String registryName, Supplier< T > structure, StructureFeature< ?, ? > configuredStructure) {
         Registry< StructureFeature< ?, ? > > registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredStructure);
-        /** Add your structure to FlatGenerationSettings to
-         * prevent any sort of crash or issue with other mod's custom ChunkGenerators.
-         * <br> If they use FlatGenerationSettings.STRUCTURES in it and you don't add your structure to it, the game
-         * could crash later when you attempt to add the StructureSeparationSettings to the dimension.
-         * <br> (It would also crash with superflat worldtype if you omit the below line
-         * and attempt to add the structure's StructureSeparationSettings to the world)
-         * <br> <br> Note: If you want your structure to spawn in superflat, remove the FlatChunkGenerator check
-         * in EventHandler.addDimensionalSpacing and then create a superflat world, exit it,
-         * and re-enter it and your structures will be spawning.
-         * <br> <br> I could not figure out why it needs the restart but honestly, superflat is really buggy and shouldn't be your main focus in my opinion. */
         FlatGenerationSettings.STRUCTURES.put(structure.get(), configuredStructure);
     }
 
@@ -134,51 +125,17 @@ public class WAObjects {
         return Structures.STRUCTURES.register(name, structure);
     }
 
-    /**
-     * Add Structure to the structure registry map and setup the seperation settings.
-     */
     public static < F extends Structure< ? > > void setupStructure(F structure, StructureSeparationSettings structureSeparationSettings, boolean transformSurroundingLand) {
-        /*
-         * We need to add our structures into the map in Structure alongside vanilla
-         * structures or else it will cause errors. Called by registerStructure.
-         *
-         * If the registration is setup properly for the structure, getRegistryName() should never return null.
-         */
         Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
-        /*
-         * Will add land at the base of the structure like it does for Villages and Outposts.
-         * Doesn't work well on structures that have pieces stacked vertically or change in heights.
-         */
         if (transformSurroundingLand) {
             Structure.field_236384_t_ = ImmutableList.< Structure< ? > >builder().addAll(Structure.field_236384_t_).add(structure).build();
         }
-        /*
-         * Adds the structure's spacing into several places so that the structure's spacing remains
-         * correct in any dimension or worldtype instead of not spawning.
-         *
-         * However, it seems it doesn't always work for code made dimensions as they read from
-         * this list beforehand. Use the WorldEvent.Load event to add
-         * the structure spacing from this list into that dimension.
-         */
-        DimensionStructuresSettings.field_236191_b_ =
-                ImmutableMap.< Structure< ? >, StructureSeparationSettings >builder()
-                        .putAll(DimensionStructuresSettings.field_236191_b_)
-                        .put(structure, structureSeparationSettings)
-                        .build();
+        DimensionStructuresSettings.field_236191_b_ = ImmutableMap.< Structure< ? >, StructureSeparationSettings >builder().putAll(DimensionStructuresSettings.field_236191_b_).put(structure, structureSeparationSettings).build();
     }
 
-    /**
-     * Register the pieces of your structure if this has not been done by a jigsaw pool.
-     * <br> You MUST call this method to allow the chunk to save.
-     * <br> Otherwise the chunk won't save and complain it's missing a registry id for the structure piece. Darn vanilla...
-     */
     public static IStructurePieceType registerStructurePiece(IStructurePieceType type, String key) {
         return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(WeepingAngels.MODID, key), type);
     }
-
-    /**
-     * ===Structure Registration End===
-     */
 
     private static < T extends Feature< ? > > void registerConfiguredFeature(String registryName, ConfiguredFeature< ?, ? > configuredFeature) {
         Registry< ConfiguredFeature< ?, ? > > registry = WorldGenRegistries.CONFIGURED_FEATURE;
@@ -259,6 +216,7 @@ public class WAObjects {
         public static final RegistryObject< Item > CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
         public static final RegistryObject< Item > ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>()));
         public static final RegistryObject< Item > KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
+        public static final RegistryObject< Item > CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().maxStackSize(1).group(WATabs.MAIN_TAB))));
     }
 
     // Sounds

@@ -97,7 +97,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     protected void registerData() {
         super.registerData();
         getDataManager().register(TYPE, AngelUtils.randomType().name());
-        getDataManager().register(CURRENT_POSE, WeepingAngelPose.getRandomPose(world.rand).name());
+        getDataManager().register(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtils.RAND).name());
         getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
     }
 
@@ -302,7 +302,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             }
 
             if (getAngelType() != AngelEnums.AngelType.VIO_1) {
-                setPose(WeepingAngelPose.getRandomPose(world.rand));
+                setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             } else {
                 setPose(Objects.requireNonNull(rand.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
             }

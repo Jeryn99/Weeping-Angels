@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.data;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class WALangEnglish extends LanguageProvider {
@@ -25,11 +26,17 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.Items.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAObjects.Items.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
+        add(WAObjects.Items.CHISEL.get(), "Chisel");
 
         /* Entities */
         add(WAObjects.EntityEntries.WEEPING_ANGEL.get(), "Weeping Angel");
         add(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAObjects.EntityEntries.ANOMALY.get(), "Anomaly");
+
+        /* Tooltips */
+        add("tooltip.weeping_angels.chisel", "Used to change appearance of Decorative Angel Blocks");
+        add("tooltip.weeping_angels.chisel_right_click", "- Right click to change angel pose");
+        add("tooltip.weeping_angels.chisel_sneak", "- Sneak + Right click to Change Angel Type");
 
         /* Damage Sources */
         add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");

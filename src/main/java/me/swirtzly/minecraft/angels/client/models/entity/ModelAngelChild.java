@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild< T extends LivingEntity > extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_child.png");
@@ -97,6 +97,11 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
     }
 
     @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        return null;
+    }
+
+    @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
@@ -115,6 +120,16 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
             Head.rotateAngleX = (float) Math.toRadians(17.5);
             Head.rotateAngleY = (float) Math.toRadians(0);
             Head.rotateAngleZ = (float) Math.toRadians(-10);
+            return;
+        }
+
+        if (pose == WeepingAngelPose.APPROACH) {
+            RightArm.rotateAngleX = -1.04533F;
+            RightArm.rotateAngleY = -0.55851F;
+            RightArm.rotateAngleZ = 0.0F;
+            LeftArm.rotateAngleX = -1.04533F;
+            LeftArm.rotateAngleY = 0.55851F;
+            LeftArm.rotateAngleZ = 0.0F;
             return;
         }
 

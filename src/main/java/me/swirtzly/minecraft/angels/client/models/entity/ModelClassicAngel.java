@@ -129,6 +129,11 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
         this.weepingAngelPose = angelPose;
     }
 
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        return null;
+    }
+
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
@@ -142,6 +147,9 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
         float angleY = isAngry ? 60F : 30F;
         float angleZ = 5F;
 
+        head.rotateAngleX = (float) Math.toRadians(0);
+        head.rotateAngleY = (float) Math.toRadians(0);
+        head.rotateAngleZ = (float) Math.toRadians(0);
 
         rightwing2.rotateAngleX = rightwing3.rotateAngleX = rightwing4.rotateAngleX = rightwing1.rotateAngleX = leftwing2.rotateAngleX = leftwing3.rotateAngleX = leftwing4.rotateAngleX = leftwing1.rotateAngleX = (float) Math.toRadians(angleX);
         rightwing2.rotateAngleY = rightwing3.rotateAngleY = rightwing4.rotateAngleY = rightwing1.rotateAngleY = (float) Math.toRadians(-angleY);
@@ -161,7 +169,7 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
         }
 
 
-        if (pose == WeepingAngelPose.ANGRY) {
+        if (pose == WeepingAngelPose.APPROACH) {
             rightarm.rotateAngleX = -1.04533F;
             rightarm.rotateAngleY = -0.55851F;
             rightarm.rotateAngleZ = 0.0F;
@@ -171,10 +179,17 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
             return;
         }
 
+        if (pose == WeepingAngelPose.ANGRY) {
+            rightarm.rotateAngleX = (float) Math.toRadians(-95);
+            rightarm.rotateAngleY = (float) Math.toRadians(37.5);
+            rightarm.rotateAngleZ = (float) Math.toRadians(40);
+            leftarm.rotateAngleX = (float) Math.toRadians(-95);
+            leftarm.rotateAngleY = (float) Math.toRadians(-37.5);
+            leftarm.rotateAngleZ = (float) Math.toRadians(-40);
+            return;
+        }
+
         if (pose == WeepingAngelPose.IDLE || pose == WeepingAngelPose.HIDING) {
-            head.rotateAngleX = (float) Math.toRadians(0);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(0);
             rightarm.rotateAngleX = -1.74533F;
             rightarm.rotateAngleY = -0.55851F;
             rightarm.rotateAngleZ = 0.0F;

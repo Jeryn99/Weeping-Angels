@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: 4 Created by Craig on 11/03/2020 @ 20:58
  */
-public class ModelWeepingVillager< T extends WeepingAngelEntity > extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelWeepingVillager extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/weeping_villager.png");
@@ -155,6 +155,11 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        return null;
     }
 
     public void setRotationAngle(ModelRenderer ModelRenderer, float x, float y, float z) {

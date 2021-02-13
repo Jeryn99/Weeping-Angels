@@ -6,6 +6,8 @@ import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
+import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -21,7 +23,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     private boolean hasSpawned = false;
     private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
-    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(world.rand);
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtils.RAND);
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
     public PlinthTile() {
@@ -117,7 +119,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     public void tick() {
         if (world.isRemote) return;
 
-        if (world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
+        if (WAConfig.CONFIG.spawnFromBlocks.get() && world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
             PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
             if (!plinth.getHasSpawned()) {
                 WeepingAngelEntity angel = new WeepingAngelEntity(world);

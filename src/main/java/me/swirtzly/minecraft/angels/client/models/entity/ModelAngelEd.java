@@ -338,20 +338,17 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
                 head.rotateAngleZ = 0.0F;
                 return;
             }
-            
-         /*   angry_mouth.showModel = pose.isAngry();
-            pose.setArmAngles(left_arm, right_arm, wrist_left, wrist_right, true);
-            pose.setWingAngles(left_wing_0, right_wing_0);
-            pose.setHeadAngles(head);
 
-            if (pose.isAngry()) {
+            boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY;
+            angry_mouth.showModel = isAngry;
+
+            if (isAngry) {
                 right_eyebrow.rotateAngleZ = (float) (20 * Math.PI / 180);
                 left_eyebrow.rotateAngleZ = (float) (-20 * Math.PI / 180);
-                angry_mouth.showModel = true;
             } else {
                 right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
                 left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-            }*/
+            }
         }
     }
 
@@ -388,6 +385,11 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        return null;
     }
 
     @Override

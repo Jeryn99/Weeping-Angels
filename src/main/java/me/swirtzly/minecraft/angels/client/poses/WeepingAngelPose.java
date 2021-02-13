@@ -8,6 +8,7 @@ public enum WeepingAngelPose {
 
     private final Emotion emotion;
 
+
     WeepingAngelPose(Emotion emotion) {
         this.emotion = emotion;
     }
@@ -37,5 +38,7 @@ public enum WeepingAngelPose {
     public enum Emotion {
         SCREAM, IDLE, ANGRY
     }
+
+
 
 }

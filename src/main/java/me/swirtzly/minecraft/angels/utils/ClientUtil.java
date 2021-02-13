@@ -2,7 +2,6 @@ package me.swirtzly.minecraft.angels.utils;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
-import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
@@ -33,12 +32,12 @@ import java.util.Map;
 
 public class ClientUtil {
 
-    private static final EntityModel< WeepingAngelEntity > VIO_1 = new ModelAngel<>();
+    private static final EntityModel< WeepingAngelEntity > VIO_1 = new ModelAngel();
     private static final EntityModel< WeepingAngelEntity > ED = new ModelAngelEd();
-    private static final EntityModel< WeepingAngelEntity > ED_ANGEL_CHILD = new ModelAngelChild< WeepingAngelEntity >();
+    private static final EntityModel< WeepingAngelEntity > ED_ANGEL_CHILD = new ModelAngelChild();
     private static final EntityModel< WeepingAngelEntity > A_DIZZLE = new ModelClassicAngel();
-    private static final EntityModel< WeepingAngelEntity > VIO_2 = new ModelAngelMel< WeepingAngelEntity >();
-    private static final EntityModel< WeepingAngelEntity > VILLAGER = new ModelWeepingVillager< WeepingAngelEntity >();
+    private static final EntityModel< WeepingAngelEntity > VIO_2 = new ModelAngelMel();
+    private static final EntityModel< WeepingAngelEntity > VILLAGER = new ModelWeepingVillager();
     private static final EntityModel< WeepingAngelEntity > ANGELA_MC = new ModelAngelaAngel();
 
     private static final Map< AngelEnums.AngelType, EntityModel< WeepingAngelEntity > > MODEL_MAP = new HashMap<>();
@@ -92,31 +91,6 @@ public class ClientUtil {
             AngelEnums.AngelType type = AngelSpawnerItem.getType(itemStack);
             return type.ordinal();
         });
-
     }
-
-    @Deprecated //TODO Move
-    public static ResourceLocation build(String angelVarients, WeepingAngelPose pose) {
-        String location = "textures/entities/angela_two/";
-        String varient = angelVarients.toLowerCase() + "_angel_";
-        location = location + angelVarients.toLowerCase() + "/";
-
-        String suffix = "idle";
-
-        if (pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY) {
-            suffix = "angry";
-        }
-
-        if (pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM) {
-            suffix = "scream";
-        }
-
-        if (angelVarients.toLowerCase().contains("headless")) {
-            suffix = "headless";
-        }
-
-        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix + ".png");
-    }
-
 
 }

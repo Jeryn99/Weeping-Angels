@@ -1,7 +1,6 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
-import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -56,8 +55,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite())
-                .with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
+        return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite()).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
     }
 
     @Override
@@ -83,21 +81,11 @@ public class PlinthBlock extends Block implements IWaterLoggable {
             int rotation = MathHelper.floor(placer.rotationYaw);
             PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
             plinth.setRotation(rotation);
-            plinth.setPose(WeepingAngelPose.getRandomPose(world.rand));
+            plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             plinth.setAngelType(AngelUtils.randomType().name());
             plinth.setAngelVarients(AngelUtils.randomVarient());
             plinth.sendUpdates();
         }
     }
 
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote) {
-            PlinthTile statue = (PlinthTile) worldIn.getTileEntity(pos);
-            statue.setPose(WeepingAngelPose.getRandomPose(worldIn.rand));
-            statue.sendUpdates();
-            return ActionResultType.PASS;
-        }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
-    }
 }

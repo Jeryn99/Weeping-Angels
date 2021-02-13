@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
+import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.*;
@@ -83,6 +84,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
 
             if (!world.isRemote) {
                 BlockPos position = statue.getPos();
+
                 if (stack.getChildTag("BlockEntityTag") != null) {
                     statue.read(state, stack.getChildTag("BlockEntityTag"));
                     statue.setPos(position);
@@ -93,20 +95,31 @@ public class StatueBlock extends Block implements IWaterLoggable {
                     statue.setAngelVarients(AngelUtils.randomVarient());
                     statue.sendUpdates();
                 }
+
+        /*        int offset = 0;
+                for (AngelEnums.AngelType type : AngelEnums.AngelType.values()) {
+                    for (WeepingAngelEntity.AngelVariants value : WeepingAngelEntity.AngelVariants.values()) {
+                        for (WeepingAngelPose angelPose : WeepingAngelPose.values()) {
+                            if (type == AngelEnums.AngelType.ANGELA_MC) {
+                                world.setBlockState(pos.west(offset), WAObjects.Blocks.STATUE.get().getDefaultState());
+                                StatueTile statueTile = (StatueTile) world.getTileEntity(pos.west(offset));
+                                statueTile.setPose(angelPose);
+                                statueTile.setAngelType(type);
+                                statueTile.setRotation(rotation);
+                                statueTile.setAngelVarients(value);
+                                world.setBlockState(pos.west(offset).north(), Blocks.SPRUCE_WALL_SIGN.getDefaultState());
+                                SignTileEntity signTileEntity = (SignTileEntity) world.getTileEntity(pos.west(offset).north());
+                                signTileEntity.setText(0, new TranslationTextComponent(type.name()));
+                                signTileEntity.setText(1, new TranslationTextComponent(angelPose.name()));
+                                signTileEntity.setText(3, new TranslationTextComponent(value.name()));
+                                signTileEntity.markDirty();
+                                offset++;
+                            }
+                        }
+                    }
+                }*/
             }
         }
-    }
-
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity
-            player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote) {
-            StatueTile statue = (StatueTile) worldIn.getTileEntity(pos);
-            statue.setPose(WeepingAngelPose.getRandomPose(worldIn.rand));
-            statue.sendUpdates();
-            return ActionResultType.PASS;
-        }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override

@@ -5,7 +5,9 @@ import me.swirtzly.minecraft.angels.client.models.block.SnowArmModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowBodyModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowHeadModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowWingsModels;
+import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
+import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -27,11 +29,12 @@ public class SnowArmTileRender extends TileEntityRenderer< SnowArmTile > {
     }
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
-        return ClientUtil.build(snowArmTile.getAngelVariants().name(), WeepingAngelPose.APPROACH);
+        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
+        return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowArmTile.getAngelVariants());
     }
 
     @Override
-    public void render(SnowArmTile snowArmTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
+    public void render(SnowArmTile snowArmTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         matrixStack.push();
         switch (snowArmTile.getSnowAngelStage()) {
             case ARM:
