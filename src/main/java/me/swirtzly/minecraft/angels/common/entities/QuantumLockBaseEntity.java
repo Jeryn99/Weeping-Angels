@@ -15,7 +15,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
                 List< WeepingAngelEntity > angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
                 for (WeepingAngelEntity angel : angels) {
-                    if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
+                    if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this) && onGround) {
                         setSeenTime(getSeenTime() + 1);
                         setNoAI(true);
                         return;
@@ -55,7 +55,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
             } else {
                 PlayerEntity targetPlayer = null;
                 for (PlayerEntity player : players) {
-                    if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && isOnGround()) {
+                    if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && onGround) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
                         return;
@@ -65,8 +65,8 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                     }
                 }
 
-                Vector3d vecPos = getPositionVec();
-                Vector3d vecPlayerPos = targetPlayer.getPositionVec();
+                Vec3d vecPos = getPositionVec();
+                Vec3d vecPlayerPos = targetPlayer.getPositionVec();
                 float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
                 rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
                 if (isSeen()) return;

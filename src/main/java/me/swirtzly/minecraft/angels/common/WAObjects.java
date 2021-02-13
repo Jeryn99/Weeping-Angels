@@ -206,7 +206,7 @@ public class WAObjects {
         public static final RegistryObject< Block > PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
         public static final RegistryObject< Block > KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
         public static final RegistryObject< Block > STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
-        public static final RegistryObject< Block > COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid())));
+        public static final RegistryObject< Block > COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(Block.Properties.create(Material.WOOD).notSolid())));
     }
 
     public static class Items {

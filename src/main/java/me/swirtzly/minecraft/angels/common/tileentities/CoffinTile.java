@@ -57,7 +57,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(pkt.getNbtCompound());
     }
 
     @Override
@@ -138,14 +138,14 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
+    public void read(CompoundNBT nbt) {
         coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         isOpen = nbt.getBoolean("isOpen");
         hasSkeleton = nbt.getBoolean("hasSkeleton");
         openAmount = nbt.getFloat("openAmount");
         alpha = nbt.getFloat("alpha");
         doingSomething = nbt.getBoolean("doingSomething");
-        super.read(state, nbt);
+        super.read(nbt);
     }
 
     @Override

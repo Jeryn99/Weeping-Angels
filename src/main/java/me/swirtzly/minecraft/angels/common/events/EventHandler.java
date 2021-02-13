@@ -63,7 +63,7 @@ public class EventHandler {
         BlockPos pos = event.getPos();
         PlayerEntity player = event.getPlayer();
 
-        boolean isGraveYard = world.func_241112_a_().getStructureStart(pos, true, WAObjects.Structures.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.findNearestStructure(pos, true, WAObjects.Structures.GRAVEYARD.get()).isValid();
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
             if (isGraveYard && !player.abilities.isCreativeMode) {

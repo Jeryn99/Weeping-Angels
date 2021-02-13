@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.common.items;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,6 +23,13 @@ public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
 
     public AngelSpawnerItem() {
         super(new Properties().group(WATabs.MAIN_TAB));
+        addPropertyOverride(new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
+            if (itemStack == null || itemStack.isEmpty()) {
+                return 0;
+            }
+            AngelEnums.AngelType type = AngelSpawnerItem.getType(itemStack);
+            return type.ordinal();
+        });
     }
 
     public static void setType(ItemStack stack, AngelEnums.AngelType type) {

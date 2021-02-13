@@ -14,6 +14,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -24,6 +25,12 @@ public class DetectorItem extends Item {
 
     public DetectorItem() {
         super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
+        addPropertyOverride(new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
+            if (clientWorld != null) {
+                return clientWorld.rand.nextInt(17);
+            }
+            return 0;
+        });
     }
 
     @Override

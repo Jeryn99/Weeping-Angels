@@ -75,21 +75,6 @@ public class ClientUtil {
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
-
-        ItemModelsProperties.registerProperty(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
-            if (clientWorld != null) {
-                return clientWorld.rand.nextInt(17);
-            }
-            return 0;
-        });
-
-        ItemModelsProperties.registerProperty(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
-            if (itemStack == null || itemStack.isEmpty()) {
-                return 0;
-            }
-            AngelEnums.AngelType type = AngelSpawnerItem.getType(itemStack);
-            return type.ordinal();
-        });
     }
 
 }
