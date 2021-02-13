@@ -11,7 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
@@ -66,7 +66,7 @@ public class AnomalyEntity extends MobEntity {
 
             for (WeepingAngelEntity weepingAngelEntity : world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(10))) {
                 BlockPos pos = getPosition().subtract(weepingAngelEntity.getPosition());
-                Vector3d vec = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngelEntity.setNoAI(false);
                 weepingAngelEntity.setMotion(vec.scale(0.15D));
             }

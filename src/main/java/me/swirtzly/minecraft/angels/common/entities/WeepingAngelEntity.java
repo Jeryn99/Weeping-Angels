@@ -12,8 +12,6 @@ import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
@@ -36,13 +34,11 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.IWorldInfo;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
-
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -72,14 +68,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         enablePersistence();
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.func_234295_eP_().
-                createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
-                createMutableAttribute(Attributes.MAX_HEALTH, 50D).
-                createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
-                createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
-                createMutableAttribute(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
-                createMutableAttribute(Attributes.ARMOR, 2.0D);
+    @Override
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(WAConfig.CONFIG.damage.get());
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16.0D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(999D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(WAConfig.CONFIG.moveSpeed.get());
+        this.getAttributes().registerAttribute(WAAttributes.BLOCK_BREAK_RANGE.get()).setBaseValue(WAConfig.CONFIG.blockBreakRange.get());
     }
 
     public void dropAngelStuff() {
@@ -109,11 +105,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().set(VARIENT, varient.name());
     }
 
-    @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld serverWorld, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT compoundNBT) {
+    public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,  ILivingEntityData spawnDataIn,  CompoundNBT dataTag) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
-        return super.onInitialSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -182,7 +177,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean isInCatacomb() {
         if (world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
-            BlockPos catacomb = serverWorld.getWorld().func_241117_a_(WAObjects.Structures.CATACOMBS.get(), getPosition(), 100, false);
+            BlockPos catacomb = serverWorld.getWorldServer().findNearestStructure(WAObjects.Structures.CATACOMBS.get().getStructureName(), getPosition(), 100, false);
 
             if (catacomb == null) {
                 return false;
@@ -245,8 +240,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
-    public void setMotionMultiplier(BlockState state, Vector3d motionMultiplierIn) {
-        if (!state.isIn(Blocks.COBWEB)) {
+    public void setMotionMultiplier(BlockState state, Vec3d motionMultiplierIn) {
+        if (state.getBlock() != Blocks.COBWEB) { 
             super.setMotionMultiplier(state, motionMultiplierIn);
         }
     }
@@ -254,7 +249,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putString(WAConstants.POSE, getAngelPose().toString());
+        compound.putString(WAConstants.POSE, getAngelPose());
         compound.putString(WAConstants.TYPE, getAngelType().name());
         compound.putString(WAConstants.VARIENT, getVarient());
     }
@@ -340,7 +335,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
 
         if (WAConfig.CONFIG.blockBreaking.get() && isSeen() && world.getGameRules().get(GameRules.MOB_GRIEFING).get()) {
-            double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
+            double range = getAttribute(WAAttributes.BLOCK_BREAK_RANGE.get()).getValue();
             replaceBlocks(getBoundingBox().grow(range, 3, range));
         }
     }
@@ -388,9 +383,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
                     if (getHealth() < getMaxHealth()) {
                         heal(0.5F);
-                        Vector3d start = getPositionVec();
-                        Vector3d end = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
-                        Vector3d path = start.subtract(end);
+                        Vec3d start = getPositionVec();
+                        Vec3d end = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+                        Vec3d path = start.subtract(end);
                         for (int i = 0; i < 10; ++i) {
                             double percent = i / 10.0;
                             ((ServerWorld) world).spawnParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0, 0, 0, 0);
@@ -434,7 +429,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                     BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
 
                     if (AngelUtils.isOutsideOfBorder(teleportWorld, blockPos)) {
-                        IWorldInfo worldInfo = teleportWorld.getWorldInfo();
+                        WorldInfo worldInfo = teleportWorld.getWorldInfo();
                         blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12);
                         blockPos = new BlockPos(blockPos.getX(), yCoordSanity(teleportWorld, blockPos), blockPos.getZ());
                         WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
@@ -498,7 +493,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (this.deathTime == 20) {
             hurtTime = 0;
             dropAngelStuff();
-            this.setDead();
+            this.remove();
             playSound(getDeathSound(), 1, 1);
         }
         for (int i = 0; i < 20; ++i) {

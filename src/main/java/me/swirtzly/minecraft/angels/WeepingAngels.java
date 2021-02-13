@@ -2,9 +2,7 @@ package me.swirtzly.minecraft.angels;
 
 import me.swirtzly.minecraft.angels.common.PaintingStuff;
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
-import me.swirtzly.minecraft.angels.compat.tardis.TardisMod;
 import me.swirtzly.minecraft.angels.compat.vr.ServerReflector;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.data.*;
@@ -13,17 +11,14 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import me.swirtzly.minecraft.angels.utils.FortuneEnchantBonus;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -69,8 +64,6 @@ public class WeepingAngels {
 
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
-        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
         AngelUtils.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
         event.enqueueWork(() ->
         {
@@ -79,10 +72,6 @@ public class WeepingAngels {
             WAObjects.ConfiguredFeatures.registerConfiguredFeatures();
         });
         VR_REFLECTOR.init();
-
-        if (ModList.get().isLoaded("tardis")) {
-            TardisMod.enableTardis();
-        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -92,9 +81,8 @@ public class WeepingAngels {
     @SubscribeEvent
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
-        ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper),existingFileHelper));
-        generator.addProvider(new WABlockTags(generator, existingFileHelper));
+        generator.addProvider(new WAItemTags(generator));
+        generator.addProvider(new WABlockTags(generator));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));

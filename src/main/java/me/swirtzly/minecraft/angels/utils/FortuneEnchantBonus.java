@@ -11,6 +11,9 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootFunction;
+import net.minecraft.world.storage.loot.conditions.ILootCondition;
 
 import java.util.Set;
 
@@ -60,6 +63,11 @@ public class FortuneEnchantBonus extends LootFunction {
 
     @Override
     public LootFunctionType getFunctionType() {
+        return null;
+    }
+
+    @Override
+    protected ItemStack doApply(ItemStack stack, LootContext context) {
         return null;
     }
 

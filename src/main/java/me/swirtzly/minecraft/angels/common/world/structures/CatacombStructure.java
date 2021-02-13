@@ -72,7 +72,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
             int z = (chunkZ << 4) + 7;
             BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 30, 55), z);
 
-            JigsawManager.func_242837_a(
+            JigsawManager.addPieces(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + "flat" + "/catacomb")), 9),
                     AbstractVillagePiece::new,

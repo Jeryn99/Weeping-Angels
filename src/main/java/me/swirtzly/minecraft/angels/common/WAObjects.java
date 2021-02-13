@@ -110,7 +110,7 @@ public class WAObjects {
      * Setup the structure and add the rarity settings.
      * <br> Call this in CommonSetup in a deferred work task to reduce concurrent modification issues as we are modifying multiple maps we ATed
      */
-    public static void setupStructures() {
+   /* public static void setupStructures() {
         setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
         setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 1234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
@@ -140,7 +140,7 @@ public class WAObjects {
     private static < T extends Feature< ? > > void registerConfiguredFeature(String registryName, ConfiguredFeature< ?, ? > configuredFeature) {
         Registry< ConfiguredFeature< ?, ? > > registry = WorldGenRegistries.CONFIGURED_FEATURE;
         Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredFeature);
-    }
+    }*/
 
     // Tile Creation
     private static < T extends TileEntity > TileEntityType< T > registerTiles(Supplier< T > tile, Block... validBlock) {
@@ -241,12 +241,12 @@ public class WAObjects {
 
     public static class WorldGenEntries {
         public static final DeferredRegister< Feature< ? > > FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
-        public static final RegistryObject< Feature< OreFeatureConfig > > KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig.CODEC));
+        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig::deserialize));
+        public static final RegistryObject< Feature< OreFeatureConfig > > KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig::deserialize));
     }
 
     public static class ConfiguredFeatures {
-        public static final ConfiguredFeature< ?, ? > ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242732_c(4);
+        public static final ConfiguredFeature< ?, ? > ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.HEIGHTMAP_PLACEMENT).func_242732_c(4);
         public static final ConfiguredFeature< ?, ? > KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5);
 
         public static void registerConfiguredFeatures() {
@@ -259,28 +259,28 @@ public class WAObjects {
      * ===Structure Registration Start===
      */
 
-    public static class Structures {
+   /* public static class Structures {
         public static final DeferredRegister< Structure< ? > > STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
 
-        /**
+        *//**
          * The Structure registry object. This isn't actually setup yet, see {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)}
-         */
-        public static final RegistryObject< Structure< ProbabilityConfig > > GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.CODEC)));
+         *//*
+        public static final RegistryObject< Structure< ProbabilityConfig > > GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.)));
         public static final RegistryObject< Structure< NoFeatureConfig > > CATACOMBS = setupStructure("catacombs", () -> (new CatacombStructure(NoFeatureConfig.field_236558_a_)));
-        /**
+        *//**
          * Static instance of our structure so we can reference it before registry stuff happens and use it to make configured structures in ConfiguredStructures
-         */
+         *//*
         public static IStructurePieceType GRAVEYARD_PIECE = registerStructurePiece(GraveyardStructurePieces.Piece::new, "graveyard_piece");
 
     }
 
-    /**
+    *//**
      * Configure the structure so it can be placed in the world. <br> Register Configured Structures in Common Setup. There is currently no Forge Registry for configured structures because configure structures are a dynamic registry and can cause issues if it were a Forge registry.
-     */
+     *//*
     public static class ConfiguredStructures {
-        /**
+        *//**
          * Static instance of our configured structure feature so we can reference it for registration
-         */
+         *//*
         public static StructureFeature< ?, ? > CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
         public static StructureFeature< ?, ? > CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().withConfiguration(NoFeatureConfig.field_236559_b_);
 
@@ -288,7 +288,7 @@ public class WAObjects {
             registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type
             registerConfiguredStructure("configured_catacombs", Structures.CATACOMBS, CONFIGURED_CATACOMBS);
         }
-    }
+    }*/
 
     // Entities
     public static class EntityEntries {

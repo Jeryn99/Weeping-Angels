@@ -20,7 +20,7 @@ apply plugin: "com.matthewprenger.cursegradle"
 
 version = "${mod_version}"
 group = 'me.swirtzly.minecraft.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "${project.jar_name}-1.16.x"
+archivesBaseName = "${project.jar_name}-1.15.2"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -118,11 +118,8 @@ curseforge {
                     '- Changed cracks on angels to look more like Vanilla'
             changelogType = 'html'
             releaseType = 'release'
-            addGameVersion '1.16.3'
-            addGameVersion '1.16.4'
-            addGameVersion '1.16.5'
             mainArtifact(jar) {
-                displayName = "[1.16.X] Weeping Angels - $project.version"
+                displayName = "[1.15.2] Weeping Angels - $project.version"
             }
         }
 }
@@ -135,7 +132,6 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.16-SNAPSHOT')
 }
 
 jar {

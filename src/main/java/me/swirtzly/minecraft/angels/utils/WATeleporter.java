@@ -2,7 +2,6 @@ package me.swirtzly.minecraft.angels.utils;
 
 import com.google.common.collect.Lists;
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.compat.tardis.TardisMod;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
@@ -10,10 +9,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
@@ -39,14 +38,10 @@ public class WATeleporter {
 
         for (ServerWorld dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-                if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName)) {
+                if (dimension.getDimension().getType().getRegistryName().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
                 }
             }
-        }
-
-        if (ModList.get().isLoaded("tardis")) {
-            allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
         }
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
@@ -56,7 +51,7 @@ public class WATeleporter {
 
         Structure[] targetStructure = null;
 
-        switch (player.world.getDimensionKey().getLocation().toString()) {
+        switch (player.world.getDimension().getType().getRegistryName().toString()) {
             case "minecraft:overworld":
                 targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
                 break;
@@ -72,7 +67,7 @@ public class WATeleporter {
 
         if (targetStructure != null) {
             ServerWorld serverWorld = (ServerWorld) player.world;
-            BlockPos bPos = serverWorld.func_241117_a_(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
+            BlockPos bPos = serverWorld.findNearestStructure(targetStructure[player.world.rand.nextInt(targetStructure.length)].getStructureName(), player.getPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
                 teleportPlayerTo(player, bPos, player.getServerWorld());
                 return true;
@@ -88,7 +83,7 @@ public class WATeleporter {
 
 
     public static boolean isPosBelowOrAboveWorld(World dim, int y) {
-        if (dim.getDimensionKey() == World.THE_NETHER) {
+        if (dim.getDimension().getType() == DimensionType.THE_NETHER) {
             return y <= 0 || y >= 126;
         }
         return y <= 0 || y >= 256;
@@ -105,7 +100,7 @@ public class WATeleporter {
      */
     public static boolean willBlockStateCauseSuffocation(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return state.getMaterial().blocksMovement() && state.hasOpaqueCollisionShape(world, pos);
+        return state.getMaterial().blocksMovement() && state.isCollisionShapeOpaque(world, pos);
     }
 
 }
