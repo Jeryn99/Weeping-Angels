@@ -3,7 +3,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
@@ -25,7 +25,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     private final ModelRenderer leftWing;
     private final ModelRenderer rightWing;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     public ModelAngelaAngel() {
         textureWidth = 128;
@@ -75,22 +75,22 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         rightWing.setTextureOffset(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
     }
 
-    public void setPose(AngelPoses angelPoses) {
-        this.angelPoses = angelPoses;
+    public void setPose(WeepingAngelPose weepingAngelPose) {
+        this.weepingAngelPose = weepingAngelPose;
     }
 
-    public AngelPoses getAngelPoses() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPoses() {
+        return weepingAngelPose;
     }
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
-            pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
-        if (pose == AngelPoses.POSE_ANGRY_TWO) {
+        if (pose == WeepingAngelPose.FURIOUS) {
             rightArm.rotateAngleX = (float) Math.toRadians(-115);
             rightArm.rotateAngleY = (float) Math.toRadians(0);
             rightArm.rotateAngleZ = (float) Math.toRadians(0);
@@ -106,7 +106,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         }
 
 
-        if (pose.create().isAngry()) {
+        if (pose == WeepingAngelPose.ANGRY) {
             rightArm.rotateAngleX = (float) Math.toRadians(-90);
             rightArm.rotateAngleY = (float) Math.toRadians(-20);
             rightArm.rotateAngleZ = (float) Math.toRadians(30);
@@ -122,7 +122,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         }
 
 
-        if (pose == AngelPoses.POSE_HIDING_FACE) {
+        if (pose == WeepingAngelPose.HIDING) {
             head.rotateAngleX = (float) Math.toRadians(20);
             head.rotateAngleY = (float) Math.toRadians(0);
             head.rotateAngleZ = (float) Math.toRadians(0);
@@ -137,7 +137,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
             return;
         }
 
-        if (pose == AngelPoses.POSE_IDLE) {
+        if (pose == WeepingAngelPose.IDLE) {
             head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(0);
             head.rotateAngleZ = (float) Math.toRadians(0);
@@ -152,7 +152,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
             return;
         }
 
-        if (pose == AngelPoses.POSE_SHY) {
+        if (pose == WeepingAngelPose.SHY) {
             rightArm.rotateAngleX = (float) Math.toRadians(-90);
             rightArm.rotateAngleY = (float) Math.toRadians(-1.5);
             rightArm.rotateAngleZ = (float) Math.toRadians(-20);
@@ -186,32 +186,32 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     }
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
 
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return ClientUtil.build(weepingAngelEntity.getVarient(), AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()));
+            return ClientUtil.build(weepingAngelEntity.getVarient(), WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
         }
 
         if (angel instanceof StatueTile) {
             StatueTile weepingAngelEntity = (StatueTile) angel;
-            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), AngelPoses.getPoseFromString(weepingAngelEntity.getPose()));
+            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), weepingAngelEntity.getPose());
         }
 
         if (angel instanceof PlinthTile) {
             PlinthTile weepingAngelEntity = (PlinthTile) angel;
-            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), AngelPoses.getPoseFromString(weepingAngelEntity.getPose()));
+            return ClientUtil.build(weepingAngelEntity.getAngelVarients().name(), weepingAngelEntity.getPose());
         }
         return ANGRY;
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelType) {
-        angelPoses = angelType;
+    public void setAngelPose(WeepingAngelPose angelType) {
+        weepingAngelPose = angelType;
     }
 }

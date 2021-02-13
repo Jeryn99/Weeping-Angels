@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.data;
 
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -11,12 +12,14 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class WABlockTags extends BlockTagsProvider {
 
-    public WABlockTags(DataGenerator dataGenerator) {
-        super(dataGenerator);
+
+    public WABlockTags(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
+        super(generatorIn, WeepingAngels.MODID, existingFileHelper);
     }
 
     @Override
@@ -25,6 +28,7 @@ public class WABlockTags extends BlockTagsProvider {
         add(AngelUtils.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+            if(block.getRegistryName().getNamespace().contains("tardis")) continue;
             if (block.getDefaultState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtils.BANNED_BLOCKS, block);
             }

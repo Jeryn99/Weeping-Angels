@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
@@ -21,7 +21,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     private boolean hasSpawned = false;
     private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
-    private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(world.rand);
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
     public PlinthTile() {
@@ -40,7 +40,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     public void read(BlockState state, CompoundNBT compound) {
         super.read(state, compound);
         setHasSpawned(compound.getBoolean("hasSpawned"));
-        setPose(new ResourceLocation(compound.getString("pose")));
+        setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         rotation = compound.getInt("rotation");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
@@ -55,7 +55,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putInt("rotation", rotation);
         compound.putString("model", type);
-        compound.putString("pose", pose.toString());
+        compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariants.name());
         return compound;
     }
@@ -132,11 +132,11 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         }
     }
 
-    public ResourceLocation getPose() {
-        return new ResourceLocation(pose.toString());
+    public WeepingAngelPose getPose() {
+        return pose;
     }
 
-    public void setPose(ResourceLocation pose) {
+    public void setPose(WeepingAngelPose pose) {
         this.pose = pose;
     }
 
@@ -147,4 +147,12 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     public void setAngelVarients(WeepingAngelEntity.AngelVariants angelVariants) {
         this.angelVariants = angelVariants;
     }
+
+    @Override
+    public void onLoad() {
+        if(getPose() == null){
+            setPose(WeepingAngelPose.HIDING);
+        }
+    }
+
 }

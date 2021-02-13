@@ -3,12 +3,10 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -39,208 +37,154 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
     private ModelRenderer rightleg;
     private ModelRenderer leftleg;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
      * Angel Type: 2 - Classic
      */
     public ModelClassicAngel() {
-        textureHeight = 32;
         textureWidth = 64;
-        leftfoot = new ModelRenderer(this, 32, 0);
-        leftfoot.addBox(-2F, 7F, -4F, 6, 5, 8);
-        leftfoot.setRotationPoint(2.0F, 12F, 0.0F);
-        leftfoot.rotateAngleX = 0.0F;
-        leftfoot.rotateAngleY = 0.0F;
-        leftfoot.rotateAngleZ = 0.0F;
-        leftfoot.mirror = false;
-        rightfoot = new ModelRenderer(this, 32, 0);
-        rightfoot.addBox(-4F, 7F, -4F, 6, 5, 8);
-        rightfoot.setRotationPoint(-2F, 12F, 0.0F);
-        rightfoot.rotateAngleX = 0.0F;
-        rightfoot.rotateAngleY = 0.0F;
-        rightfoot.rotateAngleZ = 0.0F;
-        rightfoot.mirror = false;
-        leftwing1 = new ModelRenderer(this, 40, 25);
-        leftwing1.addBox(-0.5F, -1F, 1.0F, 1, 5, 2);
+        textureHeight = 32;
+
+        leftfoot = new ModelRenderer(this);
+        leftfoot.setRotationPoint(2.0F, 12.0F, 0.0F);
+        leftfoot.setTextureOffset(32, 0).addBox(-2.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
+
+        rightfoot = new ModelRenderer(this);
+        rightfoot.setRotationPoint(-2.0F, 12.0F, 0.0F);
+        rightfoot.setTextureOffset(32, 0).addBox(-4.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
+
+        leftwing1 = new ModelRenderer(this);
         leftwing1.setRotationPoint(1.0F, 1.0F, 1.0F);
-        leftwing1.rotateAngleX = 0.20944F;
-        leftwing1.rotateAngleY = 0.61087F;
-        leftwing1.rotateAngleZ = 0.0F;
-        leftwing1.mirror = false;
-        leftwing2 = new ModelRenderer(this, 46, 19);
-        leftwing2.addBox(-0.5F, -2F, 3F, 1, 11, 2);
+        setRotationAngle(leftwing1, 0.2094F, 0.6109F, 0.0F);
+        leftwing1.setTextureOffset(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
+
+        leftwing2 = new ModelRenderer(this);
         leftwing2.setRotationPoint(1.0F, 1.0F, 1.0F);
-        leftwing2.rotateAngleX = 0.20944F;
-        leftwing2.rotateAngleY = 0.61087F;
-        leftwing2.rotateAngleZ = 0.01745F;
-        leftwing2.mirror = false;
-        leftwing3 = new ModelRenderer(this, 58, 12);
-        leftwing3.addBox(-0.5F, -2F, 5F, 1, 18, 2);
+        setRotationAngle(leftwing2, 0.2094F, 0.6109F, 0.0175F);
+        leftwing2.setTextureOffset(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
+
+        leftwing3 = new ModelRenderer(this);
         leftwing3.setRotationPoint(1.0F, 1.0F, 1.0F);
-        leftwing3.rotateAngleX = 0.20944F;
-        leftwing3.rotateAngleY = 0.61087F;
-        leftwing3.rotateAngleZ = 0.0F;
-        leftwing3.mirror = false;
-        leftwing4 = new ModelRenderer(this, 52, 16);
-        leftwing4.addBox(-0.5F, 0.0F, 7F, 1, 14, 2);
+        setRotationAngle(leftwing3, 0.2094F, 0.6109F, 0.0F);
+        leftwing3.setTextureOffset(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
+
+        leftwing4 = new ModelRenderer(this);
         leftwing4.setRotationPoint(1.0F, 1.0F, 1.0F);
-        leftwing4.rotateAngleX = 0.20944F;
-        leftwing4.rotateAngleY = 0.61087F;
-        leftwing4.rotateAngleZ = 0.0F;
-        leftwing4.mirror = false;
-        rightwing1 = new ModelRenderer(this, 40, 25);
-        rightwing1.addBox(-0.5F, -1F, 1.0F, 1, 5, 2);
-        rightwing1.setRotationPoint(-2F, 1.0F, 1.0F);
-        rightwing1.rotateAngleX = 0.20944F;
-        rightwing1.rotateAngleY = -0.61087F;
-        rightwing1.rotateAngleZ = 0.0F;
-        rightwing1.mirror = false;
-        rightwing2 = new ModelRenderer(this, 46, 19);
-        rightwing2.addBox(-0.5F, -2F, 3F, 1, 11, 2);
-        rightwing2.setRotationPoint(-2F, 1.0F, 1.0F);
-        rightwing2.rotateAngleX = 0.20944F;
-        rightwing2.rotateAngleY = -0.61087F;
-        rightwing2.rotateAngleZ = 0.0F;
-        rightwing2.mirror = false;
-        rightwing3 = new ModelRenderer(this, 58, 12);
-        rightwing3.addBox(-0.5F, -2F, 5F, 1, 18, 2);
-        rightwing3.setRotationPoint(-2F, 1.0F, 1.0F);
-        rightwing3.rotateAngleX = 0.20944F;
-        rightwing3.rotateAngleY = -0.61087F;
-        rightwing3.rotateAngleZ = 0.0F;
-        rightwing3.mirror = false;
-        rightwing4 = new ModelRenderer(this, 52, 16);
-        rightwing4.addBox(-0.5F, 0.0F, 7F, 1, 14, 2);
-        rightwing4.setRotationPoint(-2F, 1.0F, 1.0F);
-        rightwing4.rotateAngleX = 0.20944F;
-        rightwing4.rotateAngleY = -0.61087F;
-        rightwing4.rotateAngleZ = 0.0F;
-        rightwing4.mirror = false;
-        head = new ModelRenderer(this, 0, 0);
-        head.addBox(-4F, -8F, -4F, 8, 8, 8);
+        setRotationAngle(leftwing4, 0.2094F, 0.6109F, 0.0F);
+        leftwing4.setTextureOffset(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
+
+        rightwing1 = new ModelRenderer(this);
+        rightwing1.setRotationPoint(-2.0F, 1.0F, 1.0F);
+        setRotationAngle(rightwing1, 0.2094F, -0.6109F, 0.0F);
+        rightwing1.setTextureOffset(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
+
+        rightwing2 = new ModelRenderer(this);
+        rightwing2.setRotationPoint(-2.0F, 1.0F, 1.0F);
+        setRotationAngle(rightwing2, 0.2094F, -0.6109F, 0.0F);
+        rightwing2.setTextureOffset(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
+
+        rightwing3 = new ModelRenderer(this);
+        rightwing3.setRotationPoint(-2.0F, 1.0F, 1.0F);
+        setRotationAngle(rightwing3, 0.2094F, -0.6109F, 0.0F);
+        rightwing3.setTextureOffset(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
+
+        rightwing4 = new ModelRenderer(this);
+        rightwing4.setRotationPoint(-2.0F, 1.0F, 1.0F);
+        setRotationAngle(rightwing4, 0.2094F, -0.6109F, 0.0F);
+        rightwing4.setTextureOffset(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
+
+        head = new ModelRenderer(this);
         head.setRotationPoint(0.0F, 0.0F, 0.0F);
-        head.rotateAngleX = 0.24435F;
-        head.rotateAngleY = 0.0F;
-        head.rotateAngleZ = 0.0F;
-        head.mirror = false;
-        body = new ModelRenderer(this, 0, 16);
-        body.addBox(-4F, 0.0F, -2F, 8, 12, 4);
+        head.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+
+        body = new ModelRenderer(this);
         body.setRotationPoint(0.0F, 0.0F, 0.0F);
-        body.rotateAngleX = 0.0F;
-        body.rotateAngleY = 0.0F;
-        body.rotateAngleZ = 0.0F;
-        body.mirror = false;
-        rightarm = new ModelRenderer(this, 24, 19);
-        rightarm.addBox(-3F, 0.0F, -2F, 4, 9, 4);
-        rightarm.setRotationPoint(-5F, 0.0F, 0.0F);
-        rightarm.rotateAngleX = -1.74533F;
-        rightarm.rotateAngleY = -0.55851F;
-        rightarm.rotateAngleZ = 0.0F;
-        rightarm.mirror = false;
-        leftarm = new ModelRenderer(this, 24, 19);
-        leftarm.addBox(-1F, 0.0F, -2F, 4, 9, 4);
-        leftarm.setRotationPoint(5F, 0.0F, 0.0F);
-        leftarm.rotateAngleX = -1.74533F;
-        leftarm.rotateAngleY = 0.55851F;
-        leftarm.rotateAngleZ = 0.0F;
-        leftarm.mirror = false;
-        rightleg = new ModelRenderer(this, 24, 19);
-        rightleg.addBox(-2F, 0.0F, -2F, 4, 9, 4);
-        rightleg.setRotationPoint(-2F, 12F, 0.0F);
-        rightleg.rotateAngleX = 0.0F;
-        rightleg.rotateAngleY = 0.0F;
-        rightleg.rotateAngleZ = 0.0F;
-        rightleg.mirror = false;
-        leftleg = new ModelRenderer(this, 24, 19);
-        leftleg.addBox(-2F, 0.0F, -2F, 4, 9, 4);
-        leftleg.setRotationPoint(2.0F, 12F, 0.0F);
-        leftleg.rotateAngleX = 0.0F;
-        leftleg.rotateAngleY = 0.0F;
-        leftleg.rotateAngleZ = 0.0F;
-        leftleg.mirror = false;
+        body.setTextureOffset(0, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
+
+        rightarm = new ModelRenderer(this);
+        rightarm.setRotationPoint(-5.0F, 0.0F, 0.0F);
+        rightarm.setTextureOffset(24, 19).addBox(-3.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
+
+        leftarm = new ModelRenderer(this);
+        leftarm.setRotationPoint(5.0F, 0.0F, 0.0F);
+        leftarm.setTextureOffset(24, 19).addBox(-1.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
+
+        rightleg = new ModelRenderer(this);
+        rightleg.setRotationPoint(-2.0F, 12.0F, 0.0F);
+        rightleg.setTextureOffset(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
+
+        leftleg = new ModelRenderer(this);
+        leftleg.setRotationPoint(2.0F, 12.0F, 0.0F);
+        leftleg.setTextureOffset(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
-            pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
-        if (pose == AngelPoses.POSE_ANGRY_TWO) {
-            rightarm.rotateAngleX = (float) Math.toRadians(-115);
-            rightarm.rotateAngleY = (float) Math.toRadians(0);
-            rightarm.rotateAngleZ = (float) Math.toRadians(0);
+        boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY;
+        float angleX = isAngry ? 20F : 10F;
+        float angleY = isAngry ? 60F : 30F;
+        float angleZ = 5F;
 
-            leftarm.rotateAngleX = (float) Math.toRadians(-55);
-            leftarm.rotateAngleY = (float) Math.toRadians(0);
-            leftarm.rotateAngleZ = (float) Math.toRadians(0);
 
-            head.rotateAngleX = (float) Math.toRadians(17.5);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(-10);
+        rightwing2.rotateAngleX = rightwing3.rotateAngleX = rightwing4.rotateAngleX = rightwing1.rotateAngleX = leftwing2.rotateAngleX = leftwing3.rotateAngleX = leftwing4.rotateAngleX = leftwing1.rotateAngleX = (float) Math.toRadians(angleX);
+        rightwing2.rotateAngleY = rightwing3.rotateAngleY = rightwing4.rotateAngleY = rightwing1.rotateAngleY = (float) Math.toRadians(-angleY);
+        leftwing2.rotateAngleY = leftwing3.rotateAngleY = leftwing4.rotateAngleY = leftwing1.rotateAngleY = (float) Math.toRadians(angleY);
+        rightwing2.rotateAngleZ = rightwing3.rotateAngleZ = rightwing4.rotateAngleZ = rightwing1.rotateAngleZ = (float) Math.toRadians(angleZ);
+        leftwing2.rotateAngleZ = leftwing3.rotateAngleZ = leftwing4.rotateAngleZ = leftwing1.rotateAngleZ = (float) Math.toRadians(-angleZ);
+
+
+        if (pose == WeepingAngelPose.FURIOUS) {
+            rightarm.rotateAngleZ = 0.0F;
+            leftarm.rotateAngleZ = 0.0F;
+            rightarm.rotateAngleY = -(0.1F - 0 * 0.6F);
+            leftarm.rotateAngleY = 0.1F - 0 * 0.6F;
+            rightarm.rotateAngleX = -1.570796F;
+            leftarm.rotateAngleX = -1.570796F;
             return;
         }
 
 
-        if (pose.create().isAngry()) {
-            rightarm.rotateAngleX = (float) Math.toRadians(-90);
-            rightarm.rotateAngleY = (float) Math.toRadians(-20);
-            rightarm.rotateAngleZ = (float) Math.toRadians(30);
-
-            leftarm.rotateAngleX = (float) Math.toRadians(-90);
-            leftarm.rotateAngleY = (float) Math.toRadians(25);
-            leftarm.rotateAngleZ = (float) Math.toRadians(-17.5);
-
-            head.rotateAngleX = (float) Math.toRadians(0);
-            head.rotateAngleY = (float) Math.toRadians(-12.5);
-            head.rotateAngleZ = (float) Math.toRadians(0);
+        if (pose == WeepingAngelPose.ANGRY) {
+            rightarm.rotateAngleX = -1.04533F;
+            rightarm.rotateAngleY = -0.55851F;
+            rightarm.rotateAngleZ = 0.0F;
+            leftarm.rotateAngleX = -1.04533F;
+            leftarm.rotateAngleY = 0.55851F;
+            leftarm.rotateAngleZ = 0.0F;
             return;
         }
 
-        if (pose == AngelPoses.POSE_HIDING_FACE) {
-            head.rotateAngleX = (float) Math.toRadians(20);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(0);
-
-            rightarm.rotateAngleX = (float) Math.toRadians(-105);
-            rightarm.rotateAngleY = (float) Math.toRadians(20);
-            rightarm.rotateAngleZ = (float) Math.toRadians(12.5);
-
-            leftarm.rotateAngleX = (float) Math.toRadians(-105);
-            leftarm.rotateAngleY = (float) Math.toRadians(-20);
-            leftarm.rotateAngleZ = (float) Math.toRadians(-12.5);
-            return;
-        }
-
-        if (pose == AngelPoses.POSE_IDLE) {
+        if (pose == WeepingAngelPose.IDLE || pose == WeepingAngelPose.HIDING) {
             head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(0);
             head.rotateAngleZ = (float) Math.toRadians(0);
-
-            rightarm.rotateAngleX = (float) Math.toRadians(0);
-            rightarm.rotateAngleY = (float) Math.toRadians(0);
-            rightarm.rotateAngleZ = (float) Math.toRadians(7.5);
-
-            leftarm.rotateAngleX = (float) Math.toRadians(0);
-            leftarm.rotateAngleY = (float) Math.toRadians(0);
-            leftarm.rotateAngleZ = (float) Math.toRadians(-7.5);
+            rightarm.rotateAngleX = -1.74533F;
+            rightarm.rotateAngleY = -0.55851F;
+            rightarm.rotateAngleZ = 0.0F;
+            leftarm.rotateAngleX = -1.74533F;
+            leftarm.rotateAngleY = 0.55851F;
+            leftarm.rotateAngleZ = 0.0F;
             return;
         }
 
-        if (pose == AngelPoses.POSE_SHY) {
+        if (pose == WeepingAngelPose.SHY) {
             rightarm.rotateAngleX = (float) Math.toRadians(-90);
             rightarm.rotateAngleY = (float) Math.toRadians(-1.5);
             rightarm.rotateAngleZ = (float) Math.toRadians(-20);
@@ -254,7 +198,6 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
             head.rotateAngleZ = (float) Math.toRadians(-20);
             return;
         }
-
     }
 
     @Override
@@ -279,8 +222,14 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
 
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
-        return pose.create().isAngry() ? TEXTURE_ANGRY : TEXTURE;
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
+        return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
+    }
+
+    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
     }
 
 }

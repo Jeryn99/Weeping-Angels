@@ -34,7 +34,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
-import net.tardis.mod.Tardis;
 
 import java.util.List;
 import java.util.Random;
@@ -43,11 +42,11 @@ import static me.swirtzly.minecraft.angels.common.tileentities.CoffinTile.Coffin
 
 public class AngelUtils {
 
-    public static final ITag.INamedTag< Item > KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static final ITag.INamedTag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static final ITag.INamedTag< Block > BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
-    public static final ITag.INamedTag< Block > POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static final ITag.INamedTag< Block > ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static ITag.INamedTag< Item > KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static ITag.INamedTag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static ITag.INamedTag< Block > BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static ITag.INamedTag< Block > POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static ITag.INamedTag< Block > ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
@@ -69,11 +68,11 @@ public class AngelUtils {
     public static Random RAND = new Random();
 
     public static ITag.INamedTag< Item > makeItem(String domain, String path) {
-        return ItemTags.createOptional(new ResourceLocation(domain, path));
+        return ItemTags.makeWrapperTag(new ResourceLocation(domain, path).toString());
     }
 
     public static ITag.INamedTag< Block > makeBlock(String domain, String path) {
-        return BlockTags.createOptional(new ResourceLocation(domain, path));
+        return BlockTags.makeWrapperTag(new ResourceLocation(domain, path).toString());
     }
 
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
@@ -133,7 +132,6 @@ public class AngelUtils {
     private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
         if (stack.getItem().isIn(AngelUtils.HELD_LIGHT_ITEMS)) {
             angel.entityDropItem(stack);
-            stack.shrink(1);
             return true;
         }
         return false;

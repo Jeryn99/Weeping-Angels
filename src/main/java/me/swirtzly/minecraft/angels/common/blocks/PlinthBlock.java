@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
+import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
@@ -63,7 +64,6 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     protected void fillStateContainer(Builder< Block, BlockState > builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
         builder.add(BlockStateProperties.WATERLOGGED);
-
     }
 
     @Override
@@ -83,7 +83,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
             int rotation = MathHelper.floor(placer.rotationYaw);
             PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
             plinth.setRotation(rotation);
-            plinth.setPose(AngelPoses.getRandomPose().getRegistryName());
+            plinth.setPose(WeepingAngelPose.getRandomPose(world.rand));
             plinth.setAngelType(AngelUtils.randomType().name());
             plinth.setAngelVarients(AngelUtils.randomVarient());
             plinth.sendUpdates();
@@ -94,7 +94,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             PlinthTile statue = (PlinthTile) worldIn.getTileEntity(pos);
-            statue.setPose(AngelPoses.getRandomPose().getRegistryName());
+            statue.setPose(WeepingAngelPose.getRandomPose(worldIn.rand));
             statue.sendUpdates();
             return ActionResultType.PASS;
         }

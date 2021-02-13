@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.blocks;
 
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.*;
@@ -89,7 +89,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
                 } else {
                     statue.setRotation(rotation);
                     statue.setAngelType(AngelUtils.randomType().name());
-                    statue.setPose(AngelPoses.getRandomPose().getRegistryName());
+                    statue.setPose(WeepingAngelPose.getRandomPose(world.rand));
                     statue.setAngelVarients(AngelUtils.randomVarient());
                     statue.sendUpdates();
                 }
@@ -102,7 +102,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
             player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             StatueTile statue = (StatueTile) worldIn.getTileEntity(pos);
-            statue.setPose(AngelPoses.getRandomPose().getRegistryName());
+            statue.setPose(WeepingAngelPose.getRandomPose(worldIn.rand));
             statue.sendUpdates();
             return ActionResultType.PASS;
         }

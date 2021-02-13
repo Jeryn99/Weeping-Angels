@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
@@ -139,7 +139,7 @@ public class GraveyardStructurePieces {
 
             if ("angel".equals(function)) {
                 StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());
-                statueTile.setPose(AngelPoses.POSE_HIDING_FACE.getRegistryName());
+                statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
                 statueTile.setAngelVarients(AngelUtils.randomVarient());
                 statueTile.markDirty();

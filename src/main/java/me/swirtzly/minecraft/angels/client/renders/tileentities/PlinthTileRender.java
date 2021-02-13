@@ -2,7 +2,7 @@ package me.swirtzly.minecraft.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
@@ -31,7 +31,7 @@ public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
         EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
 
-        AngelPoses pose = AngelPoses.getPoseFromString(plinthTile.getPose());
+        WeepingAngelPose pose = plinthTile.getPose();
         if (angel instanceof IAngelModel) {
             IAngelModel angelModel = (IAngelModel) angel;
             angelModel.setAngelPose(pose);

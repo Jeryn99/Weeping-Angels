@@ -1,13 +1,9 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
-import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
-import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.EnderPearlEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.item.EnderEyeItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -89,7 +85,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         }
 
 
-        if(doingSomething && coffin == Coffin.PTB) {
+        if (doingSomething && coffin == Coffin.PTB) {
             if (ticks % 60 < 30) {
                 if (pulses <= 2)
                     this.alpha -= 0.01;
@@ -103,10 +99,10 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
             ++ticks;
             if (ticks >= 360) {
-                if(!world.isRemote) {
+                if (!world.isRemote) {
                     world.removeBlock(pos, false);
 
-                    if(ModList.get().isLoaded("tardis")){
+                    if (ModList.get().isLoaded("tardis")) {
                         world.setBlockState(pos.up(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).getDefaultState());
                     }
 
@@ -166,15 +162,15 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         return super.write(compound);
     }
 
-    public void setDoingSomething(boolean doingSomething) {
-        this.doingSomething = doingSomething;
-        if(doingSomething){
-            world.playSound(null, pos, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1,1);
-        }
-    }
-
     public boolean isDoingSomething() {
         return doingSomething;
+    }
+
+    public void setDoingSomething(boolean doingSomething) {
+        this.doingSomething = doingSomething;
+        if (doingSomething) {
+            world.playSound(null, pos, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1, 1);
+        }
     }
 
     public float getAlpha() {

@@ -3,7 +3,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -87,7 +87,7 @@ public class ModelAngel< T extends WeepingAngelEntity > extends EntityModel< Wee
     //TODO Until I make this better, we're going to ignore this model and pretend theres nothing wrong
     private WeepingAngelEntity angelEntity;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
      * Angel Type: 0
@@ -497,33 +497,34 @@ public class ModelAngel< T extends WeepingAngelEntity > extends EntityModel< Wee
     }
 
     @Override
-    public ResourceLocation getTextureForPose(Object weepingAngelEntity, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object weepingAngelEntity, WeepingAngelPose pose) {
         return TEXTURE;
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (angelEntity != null) {
-            pose = AngelPoses.getPoseFromString(angelEntity.getAngelPose());
+            pose = WeepingAngelPose.getPose(angelEntity.getAngelPose());
         }
+
 
         // Head
         matrixStack.push(); // PUSH 1
 
         matrixStack.push(); // PUSH 2
-        if (!pose.create().isAngry()) {
+        if (pose != WeepingAngelPose.ANGRY) {
             matrixStack.rotate(Vector3f.XP.rotationDegrees(7));
         }
         LeftEyebrow.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -552,7 +553,7 @@ public class ModelAngel< T extends WeepingAngelEntity > extends EntityModel< Wee
         Hair12.render(matrixStack, buffer, packedLight, packedOverlay);
         matrixStack.pop();
 
-        if (pose.create().isAngry()) {
+        if (pose == WeepingAngelPose.ANGRY) {
             AngryRightArm1.render(matrixStack, buffer, packedLight, packedOverlay);
             AngryRightArm2.render(matrixStack, buffer, packedLight, packedOverlay);
             AngryLeftArm1.render(matrixStack, buffer, packedLight, packedOverlay);

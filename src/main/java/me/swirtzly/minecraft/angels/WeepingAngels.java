@@ -17,6 +17,7 @@ import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -79,7 +80,7 @@ public class WeepingAngels {
         });
         VR_REFLECTOR.init();
 
-        if(ModList.get().isLoaded("tardis")){
+        if (ModList.get().isLoaded("tardis")) {
             TardisMod.enableTardis();
         }
     }
@@ -91,8 +92,9 @@ public class WeepingAngels {
     @SubscribeEvent
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
-        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator)));
-        generator.addProvider(new WABlockTags(generator));
+        ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
+        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper),existingFileHelper));
+        generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));

@@ -28,7 +28,7 @@ public class EventAngelBreakEvent extends EntityEvent {
         return blockState;
     }
 
-    public World getWorld(){
+    public World getWorld() {
         return getEntity().world;
     }
 }

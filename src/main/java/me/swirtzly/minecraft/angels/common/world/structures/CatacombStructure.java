@@ -22,7 +22,6 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import org.apache.logging.log4j.Level;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +29,10 @@ import java.util.List;
 public class CatacombStructure extends Structure< NoFeatureConfig > {
 
     protected static final String[] variants = new String[]{"flat", "clean", "broken", "standard"};
+    private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
+            new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
+            new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
+            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 1, 3));
 
     public CatacombStructure(Codec< NoFeatureConfig > codec) {
         super(codec);
@@ -50,16 +53,10 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
         return Collections.emptyList();
     }
 
-    private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
-            new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
-            new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
-            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 1, 3));
-
     @Override
     public List< MobSpawnInfo.Spawners > getDefaultCreatureSpawnList() {
         return STRUCTURE_CREATURES;
     }
-
 
 
     //Notes: Anything that uses the mods "Rotation" system for placement gets cooked in the rotations of the structure
@@ -77,7 +74,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
 
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/"+"flat"+"/catacomb")), 9),
+                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + "flat" + "/catacomb")), 9),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,

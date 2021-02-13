@@ -3,7 +3,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -28,7 +28,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
     private final ModelRenderer LeftWing;
     private final ModelRenderer RightWing;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
      * Angel Type: Child
@@ -87,23 +87,23 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
-            pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
-        if (pose == AngelPoses.POSE_ANGRY_TWO) {
+        if (pose == WeepingAngelPose.FURIOUS) {
             RightArm.rotateAngleX = (float) Math.toRadians(-115);
             RightArm.rotateAngleY = (float) Math.toRadians(0);
             RightArm.rotateAngleZ = (float) Math.toRadians(0);
@@ -119,7 +119,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
         }
 
 
-        if (pose.create().isAngry()) {
+        if (pose == WeepingAngelPose.ANGRY) {
             RightArm.rotateAngleX = (float) Math.toRadians(-90);
             RightArm.rotateAngleY = (float) Math.toRadians(-20);
             RightArm.rotateAngleZ = (float) Math.toRadians(30);
@@ -134,7 +134,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
             return;
         }
 
-        if (pose == AngelPoses.POSE_HIDING_FACE) {
+        if (pose == WeepingAngelPose.HIDING) {
             Head.rotateAngleX = (float) Math.toRadians(20);
             Head.rotateAngleY = (float) Math.toRadians(0);
             Head.rotateAngleZ = (float) Math.toRadians(0);
@@ -150,7 +150,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
             return;
         }
 
-        if (pose == AngelPoses.POSE_IDLE) {
+        if (pose == WeepingAngelPose.IDLE) {
             Head.rotateAngleX = (float) Math.toRadians(0);
             Head.rotateAngleY = (float) Math.toRadians(0);
             Head.rotateAngleZ = (float) Math.toRadians(0);
@@ -166,7 +166,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
             return;
         }
 
-        if (pose == AngelPoses.POSE_SHY) {
+        if (pose == WeepingAngelPose.SHY) {
             RightArm.rotateAngleX = (float) Math.toRadians(-90);
             RightArm.rotateAngleY = (float) Math.toRadians(-1.5);
             RightArm.rotateAngleZ = (float) Math.toRadians(-20);
@@ -200,7 +200,7 @@ public class ModelAngelChild< T extends LivingEntity > extends EntityModel< Weep
     }
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
 
         return TEXTURE;
    /*     String angelVarients = null;

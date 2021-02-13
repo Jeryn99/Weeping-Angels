@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.MatrixApplyingVertexBuilder;
 import com.mojang.blaze3d.vertex.VertexBuilderUtils;
 import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
 import me.swirtzly.minecraft.angels.client.models.entity.ModelAngelEd;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
@@ -77,7 +77,7 @@ public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< W
     @Override
     public ResourceLocation getEntityTexture(WeepingAngelEntity weepingAngelEntity) {
         IAngelModel iAngelModel = (IAngelModel) entityModel;
-        return iAngelModel.getTextureForPose(weepingAngelEntity, AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()));
+        return iAngelModel.getTextureForPose(weepingAngelEntity, WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
     }
 
 

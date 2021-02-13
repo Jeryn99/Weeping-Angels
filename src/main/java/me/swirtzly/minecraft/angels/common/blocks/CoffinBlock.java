@@ -43,14 +43,16 @@ public class CoffinBlock extends DirectionalBlock {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
             CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos);
-            if(coffinTile.getCoffin() != CoffinTile.Coffin.PTB) {
-                coffinTile.setOpen(!coffinTile.isOpen());
-                coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
-            } else {
-                if(player.getHeldItemMainhand().getItem() instanceof MusicDiscItem){
-                    coffinTile.setDoingSomething(true);
-                    if(!player.isCreative()){
-                        player.getHeldItemMainhand().shrink(1);
+            if (coffinTile != null) {
+                if (coffinTile.getCoffin() != CoffinTile.Coffin.PTB) {
+                    coffinTile.setOpen(!coffinTile.isOpen());
+                    coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
+                } else {
+                    if (player.getHeldItemMainhand().getItem() instanceof MusicDiscItem) {
+                        coffinTile.setDoingSomething(true);
+                        if (!player.isCreative()) {
+                            player.getHeldItemMainhand().shrink(1);
+                        }
                     }
                 }
             }

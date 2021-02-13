@@ -61,7 +61,6 @@ public class DetectorItem extends Item {
                                 }
                             }
                         }
-
                     }
                 }
             }

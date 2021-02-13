@@ -5,13 +5,11 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinModel;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinPTB;
 import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
-import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.EntityType;
@@ -61,12 +59,12 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
-        if(!tileEntityIn.getCoffin().name().contains("PTB")) {
+        if (!tileEntityIn.getCoffin().name().contains("PTB")) {
             coffinModel.Door.rotateAngleY = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
-            matrixStack.translate(0,0.5,0);
-            matrixStack.scale(0.7F, 0.7F,0.7F);
+            matrixStack.translate(0, 0.5, 0);
+            matrixStack.scale(0.7F, 0.7F, 0.7F);
             coffinModelPTB.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
         }
         matrixStack.pop();

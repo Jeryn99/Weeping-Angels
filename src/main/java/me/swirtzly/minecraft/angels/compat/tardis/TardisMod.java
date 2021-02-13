@@ -38,6 +38,7 @@ public class TardisMod {
     2. Even if the void wasn't a thing, why would angels canonically send you into a time machine? */
     public static ArrayList< ServerWorld > cleanseDimensions(ArrayList< ServerWorld > serverWorlds) {
         serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE));
+        serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(TDimensions.DimensionTypes.VORTEX_TYPE_INSTANCE));
         return serverWorlds;
     }
 
@@ -95,7 +96,9 @@ public class TardisMod {
                                         world.playSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
                                         world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.rand.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
                                     }
-                                    randomSubsystem.damage(null, world.rand.nextInt(5));
+                                    if (randomSubsystem.getHealth() > 0) {
+                                        randomSubsystem.damage(null, world.rand.nextInt(5));
+                                    }
                                 }
                             }
                         }

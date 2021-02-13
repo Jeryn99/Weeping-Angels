@@ -3,12 +3,12 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
-import me.swirtzly.minecraft.angels.client.poses.PoseBase;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Angel Type: 1
@@ -46,8 +46,8 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
     private ModelRenderer teeth_3;
     private ModelRenderer teeth_4;
     private ModelRenderer teeth_5;
-    private ModelRenderer left_arm_1;
-    private ModelRenderer right_arm_1;
+    private ModelRenderer wrist_left;
+    private ModelRenderer wrist_right;
     private ModelRenderer zeth;
     private ModelRenderer left_wing_2;
     private ModelRenderer left_wing_3;
@@ -56,7 +56,7 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
     private ModelRenderer right_wing_3;
     private ModelRenderer right_wing_4;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
      * Angel Type: 1
@@ -68,9 +68,9 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
         teeth_1.setRotationPoint(0.8F, -3.0F, 0.0F);
         teeth_1.addBox(-1.0F, 0.0F, -0.03F, 1, 1, 1, 0.0F);
         setRotateAngle(teeth_1, 0.0F, 0.0F, -0.7853981633974483F);
-        left_arm_1 = new ModelRenderer(this, 34, 52);
-        left_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
-        left_arm_1.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
+        wrist_left = new ModelRenderer(this, 34, 52);
+        wrist_left.setRotationPoint(0.0F, 4.0F, 2.0F);
+        wrist_left.addBox(-1.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
         cloth_1 = new ModelRenderer(this, 34, 44);
         cloth_1.setRotationPoint(0.0F, 24.0F, 3.3F);
         cloth_1.addBox(-4.0F, -1.0F, -2.5F, 8, 1, 5, 0.0F);
@@ -190,11 +190,11 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
         left_arm.setRotationPoint(5.0F, 2.5F, -0.0F);
         left_arm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, 0.0F);
         setRotateAngle(left_arm, 0.0F, 0.0F, -0.10000736613927509F);
-        right_arm_1 = new ModelRenderer(this, 20, 52);
-        right_arm_1.setRotationPoint(0.0F, 4.0F, 2.0F);
-        right_arm_1.addBox(-2.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
+        wrist_right = new ModelRenderer(this, 20, 52);
+        wrist_right.setRotationPoint(0.0F, 4.0F, 2.0F);
+        wrist_right.addBox(-2.0F, 0.0F, -4.0F, 3, 6, 4, 0.0F);
         angry_mouth.addChild(teeth_1);
-        left_arm.addChild(left_arm_1);
+        left_arm.addChild(wrist_left);
         left_wing_3.addChild(left_wing_4);
         angry_mouth.addChild(teeth_3);
         angry_mouth.addChild(teeth_2);
@@ -214,21 +214,21 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
         left_wing_1.addChild(left_wing_2);
         angry_mouth.addChild(teeth);
         left_wing_2.addChild(left_wing_3);
-        right_arm.addChild(right_arm_1);
+        right_arm.addChild(wrist_right);
         head.addChild(head_2);
         back_cloth.addChild(back_cloth_2);
     }
 
-    public void setPose(AngelPoses angelPoses) {
-        this.angelPoses = angelPoses;
+    public void setPose(WeepingAngelPose weepingAngelPose) {
+        this.weepingAngelPose = weepingAngelPose;
     }
 
-    public AngelPoses getAngelPoses() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPoses() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
         right_arm.rotationPointY = 2.5F;
         left_arm.rotationPointY = 2.5F;
@@ -239,14 +239,108 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
         right_arm.rotateAngleY = 0;
         right_arm.rotateAngleZ = 0;
 
-        PoseBase pose = angelPoses.create();
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
-            pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose()).create();
+            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
         if (pose != null) {
-            angry_mouth.showModel = pose.isAngry();
-            pose.setArmAngles(left_arm, right_arm, left_arm_1, right_arm_1, true);
+
+            if (pose == WeepingAngelPose.FURIOUS) {
+                left_arm.rotateAngleX = -1.5F;
+                left_arm.rotateAngleY = 0.31F;
+                left_arm.rotateAngleZ = -0.087F;
+                right_arm.rotateAngleX = -1.5F;
+                right_arm.rotateAngleY = -0.31F;
+                right_arm.rotateAngleZ = 0.087F;
+                wrist_right.rotateAngleX = -0.52F;
+                wrist_left.rotateAngleX = -0.52F;
+                return;
+            }
+
+            if (pose == WeepingAngelPose.SHY) {
+                left_arm.rotateAngleX = 0;
+                left_arm.rotateAngleY = 0.4F;
+                left_arm.rotateAngleZ = -0.3F;
+                right_arm.rotateAngleX = -1.3F;
+                right_arm.rotateAngleY = -0.9F;
+                wrist_right.rotateAngleX = -0.9F;
+                wrist_left.rotateAngleX = -0.4F;
+                head.rotateAngleX = (float) Math.toRadians(30);
+                head.rotateAngleY = (float) Math.toRadians(19);
+                head.rotateAngleZ = 0;
+                return;
+            }
+
+            if (pose == WeepingAngelPose.ANGRY) {
+                float swing = MathHelper.sin(swingProgress * (float) Math.PI);
+                float f1 = MathHelper.sin((1.0F - (1.0F - swingProgress) * (1.0F - swingProgress)) * (float) Math.PI);
+                right_arm.rotateAngleZ = 0.0F;
+                left_arm.rotateAngleZ = 0.0F;
+                right_arm.rotateAngleY = -(0.1F - swing * 0.6F);
+                left_arm.rotateAngleY = 0.1F - swing * 0.6F;
+                right_arm.rotateAngleX = -1.5F;
+                left_arm.rotateAngleX = -1.5F;
+                right_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
+                left_arm.rotateAngleX += swing * 1.2F - f1 * 0.4F;
+                right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                head.rotateAngleX = headPitch * 0.017453292F;
+                return;
+            }
+
+            if (pose == WeepingAngelPose.APPROACH) {
+                left_arm.rotateAngleX = (float) Math.toRadians(-90);
+                right_arm.rotateAngleX = (float) Math.toRadians(-90);
+
+                left_arm.rotateAngleY = (float) Math.toRadians(30);
+                right_arm.rotateAngleY = (float) Math.toRadians(-30);
+
+                left_arm.rotateAngleZ = (float) Math.toRadians(-30);
+                right_arm.rotateAngleZ = (float) Math.toRadians(30);
+
+                wrist_left.rotateAngleX = (float) Math.toRadians(-45);
+                wrist_right.rotateAngleX = (float) Math.toRadians(-45);
+                head.rotateAngleX = (float) Math.toRadians(15);
+                return;
+            }
+
+            if (pose == WeepingAngelPose.HIDING) {
+                left_arm.rotateAngleX = -1.85F;
+                left_arm.rotateAngleY = 0.61F;
+                left_arm.rotateAngleZ = -0.087F;
+                right_arm.rotateAngleX = -1.85F;
+                right_arm.rotateAngleY = -0.61F;
+                right_arm.rotateAngleZ = 0.087F;
+
+                wrist_right.rotateAngleX = -0.52F;
+                wrist_left.rotateAngleX = -0.52F;
+                head.rotateAngleX = 0.11F;
+                head.rotateAngleY = 0.0F;
+                head.rotateAngleZ = 0.0F;
+                return;
+            }
+
+            if (pose == WeepingAngelPose.IDLE) {
+                left_arm.rotateAngleX = 0F;
+                left_arm.rotateAngleY = 0F;
+                left_arm.rotateAngleZ = 0F;
+                right_arm.rotateAngleX = 0F;
+                right_arm.rotateAngleY = 0F;
+                right_arm.rotateAngleZ = 0F;
+
+                wrist_right.rotateAngleX = 0F;
+                wrist_left.rotateAngleX = 0F;
+                head.rotateAngleX = 0F;
+                head.rotateAngleY = 0.0F;
+                head.rotateAngleZ = 0.0F;
+                return;
+            }
+            
+         /*   angry_mouth.showModel = pose.isAngry();
+            pose.setArmAngles(left_arm, right_arm, wrist_left, wrist_right, true);
             pose.setWingAngles(left_wing_0, right_wing_0);
             pose.setHeadAngles(head);
 
@@ -257,7 +351,7 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
             } else {
                 right_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
                 left_eyebrow.rotateAngleZ = (float) (0 * Math.PI / 180);
-            }
+            }*/
         }
     }
 
@@ -287,17 +381,17 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         return TEXTURE;
     }
 

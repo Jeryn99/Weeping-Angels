@@ -3,7 +3,7 @@ package me.swirtzly.minecraft.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -25,7 +25,7 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
     private final ModelRenderer arms;
     private final ModelRenderer leg0;
     private final ModelRenderer leg1;
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
      * Angel Type: 4
@@ -87,9 +87,9 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
 
     @Override
     public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
-            pose = AngelPoses.getPoseFromString(weepingAngelEntity.getAngelPose());
+            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
         }
 
         nose.rotateAngleX = (float) Math.toRadians(0);
@@ -112,7 +112,7 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
         wing2.rotateAngleY = 1.0472F;
         wing2.rotateAngleZ = (float) Math.toRadians(0);
 
-        if (pose == AngelPoses.POSE_HIDING_FACE) {
+        if (pose == WeepingAngelPose.HIDING) {
             head.rotateAngleX = (float) Math.toRadians(32.5);
             head.rotateAngleY = (float) Math.toRadians(0);
             head.rotateAngleZ = (float) Math.toRadians(0);
@@ -122,7 +122,7 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
             return;
         }
 
-        if (pose == AngelPoses.POSE_IDLE || pose == AngelPoses.POSE_SHY) {
+        if (pose == WeepingAngelPose.IDLE || pose == WeepingAngelPose.SHY) {
             head.rotateAngleX = (float) Math.toRadians(0);
             head.rotateAngleY = (float) Math.toRadians(0);
             head.rotateAngleZ = (float) Math.toRadians(0);
@@ -137,7 +137,7 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
             return;
         }
 
-        if (pose.create().isAngry()) {
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY) {
             head.rotateAngleX = (float) Math.toRadians(-32.5);
             body.rotateAngleX = (float) Math.toRadians(17.5);
             wing2.rotateAngleX = 0.1745F * 2;
@@ -148,13 +148,13 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
     public void setRotationAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
@@ -164,7 +164,7 @@ public class ModelWeepingVillager< T extends WeepingAngelEntity > extends Entity
     }
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         return TEXTURE;
     }
 

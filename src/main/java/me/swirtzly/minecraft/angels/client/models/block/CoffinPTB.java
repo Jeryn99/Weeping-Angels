@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class CoffinPTB extends EntityModel {
+    public final ModelRenderer DoorRight;
     private final ModelRenderer Base;
     private final ModelRenderer Pillars;
     private final ModelRenderer Frame;
@@ -18,7 +19,6 @@ public class CoffinPTB extends EntityModel {
     private final ModelRenderer Roof;
     private final ModelRenderer Lamp;
     private final ModelRenderer DoorLeft;
-    public final ModelRenderer DoorRight;
 
     public CoffinPTB() {
         textureWidth = 256;
@@ -93,7 +93,7 @@ public class CoffinPTB extends EntityModel {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Base.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         Pillars.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         Frame.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

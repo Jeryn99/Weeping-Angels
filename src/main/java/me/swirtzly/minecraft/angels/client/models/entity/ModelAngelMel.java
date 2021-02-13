@@ -7,7 +7,7 @@ import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsAngry;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsCovering;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsIdle;
 import me.swirtzly.minecraft.angels.client.models.entity.arms.ModelArmsPointing;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -94,7 +94,7 @@ public class ModelAngelMel< T extends LivingEntity > extends EntityModel< Weepin
     private ModelArmsPointing armsPoint = new ModelArmsPointing();
     private WeepingAngelEntity angel;
 
-    private AngelPoses angelPoses = AngelPoses.POSE_ANGRY;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
 
     public ModelAngelMel() {
@@ -592,30 +592,30 @@ public class ModelAngelMel< T extends LivingEntity > extends EntityModel< Weepin
         RightWing6.render(matrixStack, buffer, packedLight, packedOverlay);
         RightWing7.render(matrixStack, buffer, packedLight, packedOverlay);
 
-        AngelPoses pose = angelPoses;
+        WeepingAngelPose pose = weepingAngelPose;
         if (angel != null) {
-            pose = AngelPoses.getPoseFromString(angel.getAngelPose());
+            pose = WeepingAngelPose.getPose(angel.getAngelPose());
         }
 
         // Covering Face arms render/
-        if (pose == AngelPoses.POSE_HIDING_FACE) {
+        if (pose == WeepingAngelPose.HIDING) {
             armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             return;
         }
 
         // Idle render
-        if (pose == AngelPoses.POSE_IDLE) {
+        if (pose == WeepingAngelPose.IDLE) {
             armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             return;
         }
 
         // Shriek render
-        if (pose.getRegistryName().toString().toLowerCase().contains("angry")) {
+        if (pose == WeepingAngelPose.ANGRY || pose == WeepingAngelPose.FURIOUS) {
             armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             return;
         }
 
-        if (pose == AngelPoses.POSE_SHY) {
+        if (pose == WeepingAngelPose.SHY) {
             armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             return;
         }
@@ -625,18 +625,18 @@ public class ModelAngelMel< T extends LivingEntity > extends EntityModel< Weepin
 
 
     @Override
-    public ResourceLocation getTextureForPose(Object angel, AngelPoses pose) {
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         return TEXTURE;
     }
 
     @Override
-    public AngelPoses getAngelPose() {
-        return angelPoses;
+    public WeepingAngelPose getAngelPose() {
+        return weepingAngelPose;
     }
 
     @Override
-    public void setAngelPose(AngelPoses angelPose) {
-        this.angelPoses = angelPose;
+    public void setAngelPose(WeepingAngelPose angelPose) {
+        this.weepingAngelPose = angelPose;
     }
 
 }

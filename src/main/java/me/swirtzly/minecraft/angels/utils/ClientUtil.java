@@ -2,7 +2,7 @@ package me.swirtzly.minecraft.angels.utils;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.entity.*;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.client.renders.entities.AngelRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.AnomalyRender;
 import me.swirtzly.minecraft.angels.client.renders.entities.CGRender;
@@ -95,18 +95,19 @@ public class ClientUtil {
 
     }
 
-    public static ResourceLocation build(String angelVarients, AngelPoses pose) {
+    @Deprecated //TODO Move
+    public static ResourceLocation build(String angelVarients, WeepingAngelPose pose) {
         String location = "textures/entities/angela_two/";
         String varient = angelVarients.toLowerCase() + "_angel_";
         location = location + angelVarients.toLowerCase() + "/";
 
         String suffix = "idle";
 
-        if (pose.create().isAngry()) {
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY) {
             suffix = "angry";
         }
 
-        if (pose == AngelPoses.POSE_OPEN_ARMS) {
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM) {
             suffix = "scream";
         }
 

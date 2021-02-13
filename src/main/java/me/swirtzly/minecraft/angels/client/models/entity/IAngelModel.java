@@ -1,13 +1,13 @@
 package me.swirtzly.minecraft.angels.client.models.entity;
 
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import net.minecraft.util.ResourceLocation;
 
 public interface IAngelModel {
 
-    ResourceLocation getTextureForPose(Object weepingAngelEntity, AngelPoses pose);
+    ResourceLocation getTextureForPose(Object weepingAngelEntity, WeepingAngelPose pose);
 
-    AngelPoses getAngelPose();
+    WeepingAngelPose getAngelPose();
 
-    void setAngelPose(AngelPoses angelPose);
+    void setAngelPose(WeepingAngelPose angelPose);
 }

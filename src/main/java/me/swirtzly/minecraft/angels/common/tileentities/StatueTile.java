@@ -1,6 +1,6 @@
 package me.swirtzly.minecraft.angels.common.tileentities;
 
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums.AngelType;
@@ -16,11 +16,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 
+import java.util.Random;
+
 public class StatueTile extends TileEntity implements ITickableTileEntity {
 
     private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
-    private ResourceLocation pose = AngelPoses.getRandomPose().getRegistryName();
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(new Random());
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
 
@@ -32,7 +34,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
     public void read(BlockState state, CompoundNBT compound) {
         super.read(state, compound);
         NBTPatcher.angelaToVillager(compound, "model");
-        setPose(new ResourceLocation(compound.getString("pose")));
+        setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         rotation = compound.getInt("rotation");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
@@ -45,7 +47,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         super.write(compound);
         compound.putInt("rotation", rotation);
         compound.putString("model", type);
-        compound.putString("pose", pose.toString());
+        compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariants.name());
         return compound;
     }
@@ -119,11 +121,11 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         }
     }
 
-    public ResourceLocation getPose() {
-        return new ResourceLocation(pose.toString());
+    public WeepingAngelPose getPose() {
+        return pose;
     }
 
-    public void setPose(ResourceLocation pose) {
+    public void setPose(WeepingAngelPose pose) {
         this.pose = pose;
     }
 
@@ -135,4 +137,11 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
         this.angelVariants = angelVariants;
     }
 
+    @Override
+    public void onLoad() {
+        if(getPose() == null){
+            setPose(WeepingAngelPose.HIDING);
+            markDirty();
+        }
+    }
 }

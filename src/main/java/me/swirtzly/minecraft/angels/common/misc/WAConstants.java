@@ -3,7 +3,7 @@ package me.swirtzly.minecraft.angels.common.misc;
 public class WAConstants {
 
     // Angel
-    public static final String POSE = "pose";
+    public static final String POSE = "wa_pose";
     public static final String IS_SEEN = "isSeen";
     public static final String TIME_SEEN = "timeSeen";
     public static final String TYPE = "type";

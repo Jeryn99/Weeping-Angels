@@ -5,7 +5,7 @@ import me.swirtzly.minecraft.angels.client.models.block.SnowArmModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowBodyModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowHeadModel;
 import me.swirtzly.minecraft.angels.client.models.block.SnowWingsModels;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -27,7 +27,7 @@ public class SnowArmTileRender extends TileEntityRenderer< SnowArmTile > {
     }
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
-        return ClientUtil.build(snowArmTile.getAngelVariants().name(), AngelPoses.POSE_OPEN_ARMS);
+        return ClientUtil.build(snowArmTile.getAngelVariants().name(), WeepingAngelPose.APPROACH);
     }
 
     @Override

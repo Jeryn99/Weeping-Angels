@@ -2,7 +2,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.api.EventAngelBreakEvent;
-import me.swirtzly.minecraft.angels.client.poses.AngelPoses;
+import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.attributes.WAAttributes;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
@@ -97,7 +97,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     protected void registerData() {
         super.registerData();
         getDataManager().register(TYPE, AngelUtils.randomType().name());
-        getDataManager().register(CURRENT_POSE, AngelPoses.getRandomPose().getRegistryName().toString());
+        getDataManager().register(CURRENT_POSE, WeepingAngelPose.getRandomPose(world.rand).name());
         getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
     }
 
@@ -184,7 +184,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             ServerWorld serverWorld = (ServerWorld) world;
             BlockPos catacomb = serverWorld.getWorld().func_241117_a_(WAObjects.Structures.CATACOMBS.get(), getPosition(), 100, false);
 
-            if(catacomb == null){
+            if (catacomb == null) {
                 return false;
             }
 
@@ -266,7 +266,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         NBTPatcher.angelaToVillager(compound, WAConstants.TYPE);
 
         if (compound.contains(WAConstants.POSE))
-            setPose(new ResourceLocation(compound.getString(WAConstants.POSE).toLowerCase()));
+            setPose(WeepingAngelPose.getPose(compound.getString(WAConstants.POSE)));
 
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
@@ -302,9 +302,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             }
 
             if (getAngelType() != AngelEnums.AngelType.VIO_1) {
-                setPose(Objects.requireNonNull(AngelPoses.getRandomPose().getRegistryName()));
+                setPose(WeepingAngelPose.getRandomPose(world.rand));
             } else {
-                setPose(Objects.requireNonNull(rand.nextBoolean() ? AngelPoses.POSE_ANGRY.getRegistryName() : AngelPoses.POSE_HIDING_FACE.getRegistryName()));
+                setPose(Objects.requireNonNull(rand.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
             }
         }
 
@@ -336,7 +336,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
 
         if (ticksExisted % 500 == 0 && getAttackTarget() == null && getSeenTime() == 0) {
-            setPose(Objects.requireNonNull(AngelPoses.POSE_HIDING_FACE.getRegistryName()));
+            setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
 
         if (WAConfig.CONFIG.blockBreaking.get() && isSeen() && world.getGameRules().get(GameRules.MOB_GRIEFING).get()) {
@@ -466,12 +466,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
-    public ResourceLocation getAngelPose() {
-        return new ResourceLocation(getDataManager().get(CURRENT_POSE));
+    public String getAngelPose() {
+        return getDataManager().get(CURRENT_POSE);
     }
 
-    public void setPose(ResourceLocation newPose) {
-        getDataManager().set(CURRENT_POSE, newPose.toString());
+    public void setPose(WeepingAngelPose weepingAngelPose) {
+        getDataManager().set(CURRENT_POSE, weepingAngelPose.name());
     }
 
     public boolean isCherub() {
@@ -509,6 +509,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
+    public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
+        EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
+        MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
+        return !eventAngelBreakEvent.isCanceled();
+    }
+
     public enum AngelVariants {
         MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
 
@@ -531,12 +537,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         public boolean isHeadless() {
             return headless;
         }
-    }
-
-    public boolean isAllowed(BlockState blockState, BlockPos blockPos){
-        EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
-        MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled();
     }
 
 }
