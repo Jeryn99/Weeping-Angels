@@ -63,8 +63,6 @@ public class GraveyardStructure extends Structure< ProbabilityConfig > {
 
         @Override
         public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
-
-            //Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
             Rotation rotation = Rotation.NONE;
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
@@ -72,7 +70,6 @@ public class GraveyardStructure extends Structure< ProbabilityConfig > {
             BlockPos blockpos = new BlockPos(x, surfaceY, z);
             GraveyardStructurePieces.start(templateManagerIn, blockpos, rotation, this.components, this.rand);
             this.recalculateStructureSize();
-            WeepingAngels.LOGGER.info("Graveyard at " + (blockpos.getX()) + " " + blockpos.getY() + " " + (blockpos.getZ()));
         }
 
     }

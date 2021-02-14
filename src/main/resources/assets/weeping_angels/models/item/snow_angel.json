@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "weeping_angels:item/arm"
+    "layer0": "weeping_angels:item/snow_angel"
   }
 }

@@ -28,7 +28,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     private int rotation = 0;
 
     public SnowArmTile() {
-        super(WAObjects.Tiles.ARM.get());
+        super(WAObjects.Tiles.SNOW_ANGEL.get());
     }
 
     public SnowAngelStages getSnowAngelStage() {

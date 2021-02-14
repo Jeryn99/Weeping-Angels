@@ -1,5 +1,5 @@
 {
-  "name": "weeping_angels:catacombs/broken/dead_ends",
+  "name": "weeping_angels:catacombs/normal/dead_ends",
   "fallback": "minecraft:empty",
   "elements": [
     {
@@ -7,7 +7,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_broken_5_boom",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5_boom",
         "processors": "minecraft:empty"
       }
     },
@@ -16,7 +16,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_broken_5_empty",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5_empty",
         "processors": "minecraft:empty"
       }
     },
@@ -25,16 +25,16 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_broken_5",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5",
         "processors": "minecraft:empty"
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_broken_5_dead",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5_dead",
         "processors": "minecraft:empty"
       }
     },

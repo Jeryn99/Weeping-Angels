@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "block/bedrock",
-    "particle": "block/bedrock"
+    "all": "block/stone",
+    "particle": "block/stone"
   }
 }

@@ -54,8 +54,8 @@ public class DetectorItem extends Item {
 
                         if (worldIn.rand.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
                             for (ChickenEntity chick : entityIn.world.getEntitiesWithinAABB(ChickenEntity.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
-                                if (entityIn.world.rand.nextBoolean()) {
-                                    chick.getEntityWorld().createExplosion(chick, chick.getPosX(), chick.getPosY(), chick.getPosZ(), 0.5F, Explosion.Mode.NONE);
+                                if (entityIn.world.rand.nextInt(100) < 5) {
+                                    chick.world.createExplosion(chick, chick.getPosX(), chick.getPosY(), chick.getPosZ(), 0.5F, Explosion.Mode.NONE);
                                     chick.entityDropItem(Items.EGG, 1);
                                     chick.remove();
                                 }

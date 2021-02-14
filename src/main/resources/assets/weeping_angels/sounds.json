@@ -63,6 +63,26 @@
       }
     ]
   },
+  "disc_sally": {
+    "category": "block",
+    "subtitle": "sound.weeping_angels.disc_sally",
+    "sounds": [
+      {
+        "name": "weeping_angels:disc_sally",
+        "stream": true
+      }
+    ]
+  },
+  "disc_time_prevails": {
+    "category": "block",
+    "subtitle": "sound.weeping_angels.disc_time_prevails",
+    "sounds": [
+      {
+        "name": "weeping_angels:disc_time_prevails",
+        "stream": true
+      }
+    ]
+  },
   "tardis_takeoff": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.tardis_takeoff",

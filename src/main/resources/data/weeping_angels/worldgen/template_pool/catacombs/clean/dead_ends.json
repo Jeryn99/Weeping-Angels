@@ -28,6 +28,24 @@
         "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_clean_5",
         "processors": "minecraft:empty"
       }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_clean_5_dead",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/dead_ends/house",
+        "processors": "minecraft:empty"
+      }
     }
   ]
 }

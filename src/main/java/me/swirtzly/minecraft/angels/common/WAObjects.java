@@ -16,7 +16,7 @@ import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.SnowArmTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
-import me.swirtzly.minecraft.angels.common.world.ArmGeneration;
+import me.swirtzly.minecraft.angels.common.world.SnowAngelGeneration;
 import me.swirtzly.minecraft.angels.common.world.structures.CatacombStructure;
 import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructure;
 import me.swirtzly.minecraft.angels.common.world.structures.GraveyardStructurePieces;
@@ -27,14 +27,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
@@ -73,22 +72,12 @@ public class WAObjects {
         return block;
     }
 
-    /**
-     * Register block items for specific blocks
-     *
-     * @param blocks
-     */
     private static void genBlockItems(Block... blocks) {
         for (Block block : blocks) {
             Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB))));
         }
     }
 
-    /**
-     * Register Block Items for all Block entries
-     *
-     * @param collection
-     */
     @SuppressWarnings("unused")
     private static void genBlockItems(Collection< RegistryObject< Block > > collection) {
         for (RegistryObject< Block > block : collection) {
@@ -103,7 +92,7 @@ public class WAObjects {
 
     @SubscribeEvent
     public static void regBlockItems(RegistryEvent.Register< Item > e) {
-        genBlockItems(Blocks.COFFIN.get(), Blocks.ARM.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
+        genBlockItems(Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
     }
 
     /**
@@ -191,7 +180,7 @@ public class WAObjects {
     public static class Tiles {
         public static final DeferredRegister< TileEntityType< ? > > TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
 
-        public static RegistryObject< TileEntityType< SnowArmTile > > ARM = TILES.register("snow_arm", () -> registerTiles(SnowArmTile::new, Blocks.ARM.get()));
+        public static RegistryObject< TileEntityType< SnowArmTile > > SNOW_ANGEL = TILES.register("snow_angel", () -> registerTiles(SnowArmTile::new, Blocks.SNOW_ANGEL.get()));
         public static RegistryObject< TileEntityType< PlinthTile > > PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
         public static RegistryObject< TileEntityType< StatueTile > > STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
         public static RegistryObject< TileEntityType< CoffinTile > > COFFIN = TILES.register("coffin", () -> registerTiles(CoffinTile::new, Blocks.COFFIN.get()));
@@ -201,7 +190,7 @@ public class WAObjects {
         public static final DeferredRegister< Block > BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
         public static final DeferredRegister< Item > BLOCK_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 
-        public static final RegistryObject< Block > ARM = BLOCKS.register("snow_arm", () -> setUpBlock(new SnowArmBlock()));
+        public static final RegistryObject< Block > SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowArmBlock()));
         public static final RegistryObject< Block > CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
         public static final RegistryObject< Block > PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
         public static final RegistryObject< Block > KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
@@ -217,8 +206,9 @@ public class WAObjects {
         public static final RegistryObject< Item > ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>()));
         public static final RegistryObject< Item > KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
         public static final RegistryObject< Item > CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().maxStackSize(1).group(WATabs.MAIN_TAB))));
+        public static final RegistryObject< Item > SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_SALLY::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
+        public static final RegistryObject< Item > TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_TIME_PREVAILS::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
     }
-
     // Sounds
     public static class Sounds {
         public static final DeferredRegister< SoundEvent > SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
@@ -237,11 +227,13 @@ public class WAObjects {
         public static final RegistryObject< SoundEvent > TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
         public static final RegistryObject< SoundEvent > ANGEL_MOCKING = SOUNDS.register("angel_mocking", () -> setUpSound("angel_mocking"));
         public static final RegistryObject< SoundEvent > TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> setUpSound("tardis_takeoff"));
+        public static final RegistryObject< SoundEvent > DISC_SALLY = SOUNDS.register("disc_sally", () -> setUpSound("disc_sally"));
+        public static final RegistryObject< SoundEvent > DISC_TIME_PREVAILS = SOUNDS.register("disc_time_prevails", () -> setUpSound("disc_time_prevails"));
     }
 
     public static class WorldGenEntries {
         public static final DeferredRegister< Feature< ? > > FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new ArmGeneration(NoFeatureConfig.field_236558_a_));
+        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new SnowAngelGeneration(NoFeatureConfig.field_236558_a_));
         public static final RegistryObject< Feature< OreFeatureConfig > > KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig.CODEC));
     }
 
@@ -254,6 +246,7 @@ public class WAObjects {
             registerConfiguredFeature("kontron_ore", KONTRON_ORE);
         }
     }
+
 
     /**
      * ===Structure Registration Start===
@@ -298,5 +291,6 @@ public class WAObjects {
         public static final RegistryObject< EntityType< AnomalyEntity > > ANOMALY = ENTITIES.register("anomaly", () -> registerMob(AnomalyEntity::new, AnomalyEntity::new, EntityClassification.MONSTER, 1F, 1.75F, "anomaly", false));
         public static final RegistryObject< EntityType< ChronodyneGeneratorEntity > > CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorEntity::new, ChronodyneGeneratorEntity::new, EntityClassification.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
     }
+
 
 }

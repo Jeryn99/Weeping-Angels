@@ -1,10 +1,12 @@
 package me.swirtzly.minecraft.angels.common.events;
 
+import com.google.common.collect.ImmutableList;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
@@ -12,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
@@ -31,18 +34,24 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.tardis.mod.events.MissingMappingsLookup;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -91,14 +100,13 @@ public class EventHandler {
         }
     }
 
-
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
         RegistryKey< Biome > biomeRegistryKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biomeLoadingEvent.getName());
         Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
-                WeepingAngels.LOGGER.info("Added Arms to: " + biomeLoadingEvent.getName());
+                WeepingAngels.LOGGER.info("Added Snow Angels to: " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WAObjects.ConfiguredFeatures.ARM_SNOW_FEATURE).build();
             }
         }
@@ -131,7 +139,6 @@ public class EventHandler {
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
                     if (rl.equalsIgnoreCase(biomeRegistryKey.getLocation().toString())) {
                         biomeLoadingEvent.getSpawns().withSpawner(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
-                        WeepingAngels.LOGGER.info("Added Weeping Angels Spawns to: [" + biomeRegistryKey.getLocation() + "]" + "\nEntity Classification: " + WAConfig.CONFIG.spawnType.get() + "\nSpawn Weight: " + WAConfig.CONFIG.spawnWeight.get() + "\nMin Spawn: " + WAConfig.CONFIG.minSpawn.get() + "\nMax Spawn: " + WAConfig.CONFIG.maxSpawn.get());
                     }
                 });
             }
@@ -167,6 +174,8 @@ public class EventHandler {
             }
         }
     }
+
+
 
     @SubscribeEvent
     public static void onAngelDamage(LivingAttackEvent e) {

@@ -14,9 +14,9 @@ import java.util.Random;
 /**
  * Created by Craig on 11/02/2020 @ 21:58
  */
-public class ArmGeneration extends Feature< NoFeatureConfig > {
+public class SnowAngelGeneration extends Feature< NoFeatureConfig > {
 
-    public ArmGeneration(Codec< NoFeatureConfig > noFeatureConfigCodec) {
+    public SnowAngelGeneration(Codec< NoFeatureConfig > noFeatureConfigCodec) {
         super(noFeatureConfigCodec);
     }
 
@@ -27,7 +27,7 @@ public class ArmGeneration extends Feature< NoFeatureConfig > {
             BlockPos test = new BlockPos(blockPos.getX(), y, blockPos.getZ());
             if (random.nextInt(100) < 20) {
                 if (iSeedReader.getBlockState(test).getBlock().getRegistryName().toString().contains("snow") || iSeedReader.getBlockState(test.down()).getBlock() == Blocks.GRASS_BLOCK) {
-                    iSeedReader.setBlockState(test, WAObjects.Blocks.ARM.get().getDefaultState(), 2);
+                    iSeedReader.setBlockState(test, WAObjects.Blocks.SNOW_ANGEL.get().getDefaultState(), 2);
                     return true;
                 }
             }

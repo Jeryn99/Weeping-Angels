@@ -42,7 +42,7 @@ import static me.swirtzly.minecraft.angels.common.tileentities.CoffinTile.Coffin
 
 public class AngelUtils {
 
-    public static ITag.INamedTag< Item > KEYS = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static ITag.INamedTag< Item > THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
     public static ITag.INamedTag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
     public static ITag.INamedTag< Block > BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
     public static ITag.INamedTag< Block > POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");

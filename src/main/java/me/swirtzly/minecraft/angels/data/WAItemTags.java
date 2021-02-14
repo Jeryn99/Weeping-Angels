@@ -29,7 +29,7 @@ public class WAItemTags extends ItemTagsProvider {
             }
         });
 
-        add(AngelUtils.KEYS, Items.CLOCK);
+        add(AngelUtils.THEFT, Items.CLOCK);
 
     }
 

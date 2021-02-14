@@ -74,7 +74,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
 
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + "flat" + "/catacomb")), 9),
+                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + variants[rand.nextInt(variants.length)] + "/catacomb")), 9),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,

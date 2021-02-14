@@ -46,7 +46,6 @@ public class CoffinBlock extends DirectionalBlock {
             if (coffinTile != null) {
                 if (coffinTile.getCoffin() != CoffinTile.Coffin.PTB) {
                     coffinTile.setOpen(!coffinTile.isOpen());
-                    coffinTile.setHasSkeleton(worldIn.rand.nextBoolean());
                 } else {
                     if (player.getHeldItemMainhand().getItem() instanceof MusicDiscItem) {
                         coffinTile.setDoingSomething(true);

@@ -3,15 +3,6 @@
   "fallback": "weeping_angels:catacombs/broken/dead_ends",
   "elements": [
     {
-      "weight": 1,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "weeping_angels:catacomb/broken/catacomb_hallway_broken_4",
-        "processors": "minecraft:empty"
-      }
-    },
-    {
       "weight": 3,
       "element": {
         "element_type": "minecraft:single_pool_element",

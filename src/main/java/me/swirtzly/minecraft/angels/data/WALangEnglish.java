@@ -15,7 +15,7 @@ public class WALangEnglish extends LanguageProvider {
     @Override
     protected void addTranslations() {
         /* Blocks */
-        add(WAObjects.Blocks.ARM.get(), "Angel hiding in Snow");
+        add(WAObjects.Blocks.SNOW_ANGEL.get(), "Angel hiding in Snow");
         add(WAObjects.Blocks.STATUE.get(), "Angel Statue");
         add(WAObjects.Blocks.PLINTH.get(), "Angel Plinth");
         add(WAObjects.Blocks.KONTRON_ORE.get(), "Kontron Ore");
@@ -27,6 +27,11 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.Items.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
         add(WAObjects.Items.CHISEL.get(), "Chisel");
+
+        add(WAObjects.Items.SALLY.get(), "Music Disc");
+        add(WAObjects.Items.TIME_PREVAILS.get(), "Music Disc");
+        add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");
+        add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
 
         /* Entities */
         add(WAObjects.EntityEntries.WEEPING_ANGEL.get(), "Weeping Angel");

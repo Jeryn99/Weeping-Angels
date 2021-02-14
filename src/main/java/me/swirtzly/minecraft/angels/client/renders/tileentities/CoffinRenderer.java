@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.EntityType;
@@ -40,9 +41,21 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
         Direction face = tileEntityIn.getBlockState().get(BlockStateProperties.HORIZONTAL_FACING); //Get facing direction
         matrixStack.rotate(Vector3f.YP.rotationDegrees(-face.getHorizontalAngle())); //Adjust rotation
         matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F)); // Make model not upside down
+
         //Horizontal Placement
         if (!tileEntityIn.getBlockState().get(CoffinBlock.UPRIGHT)) {
             matrixStack.rotate(Vector3f.XP.rotationDegrees(-90F));
+
+            if (tileEntityIn.hasSkeleton()) {
+                matrixStack.push();
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
+                matrixStack.translate(0F, 1.5F, 0F);
+                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getRenderManager().getRenderer(skeletonEntity);
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
+                renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
+                matrixStack.pop();
+            }
+
         } else {
             matrixStack.translate(0F, -1F, 0F);
 

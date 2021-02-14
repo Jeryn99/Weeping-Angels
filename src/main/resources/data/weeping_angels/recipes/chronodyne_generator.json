@@ -10,19 +10,20 @@
       "item": "minecraft:iron_ingot"
     },
     "E": {
-      "item": "minecraft:ender_pearl"
+      "item": "minecraft:clock"
     },
     "R": {
       "item": "minecraft:redstone"
     },
     "P": {
-      "item": "minecraft:stone_pressure_plate"
+      "item": "minecraft:stone_button"
     },
     "K": {
       "item": "weeping_angels:kontron_ingot"
     }
   },
   "result": {
-    "item": "weeping_angels:chronodyne_generator"
+    "item": "weeping_angels:chronodyne_generator",
+    "count": 2
   }
 }

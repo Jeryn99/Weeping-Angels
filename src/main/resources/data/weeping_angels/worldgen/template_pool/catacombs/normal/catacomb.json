@@ -7,7 +7,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/normal/catacomb_hallway_normal_0",
+        "location": "weeping_angels:catacomb/normal/catacomb_hallway_normal_4",
         "processors": "minecraft:empty"
       }
     },

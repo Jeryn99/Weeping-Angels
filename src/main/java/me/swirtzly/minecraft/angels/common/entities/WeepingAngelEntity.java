@@ -208,7 +208,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (getHeldItemMainhand().isEmpty() && rand.nextBoolean()) {
             for (int i = 0; i < playerMP.inventory.getSizeInventory(); i++) {
                 ItemStack stack = playerMP.inventory.getStackInSlot(i);
-                if (stack.getItem().isIn(AngelUtils.KEYS)) {
+                if (stack.getItem().isIn(AngelUtils.THEFT)) {
                     setHeldItem(Hand.MAIN_HAND, playerMP.inventory.getStackInSlot(i).copy());
                     playerMP.inventory.getStackInSlot(i).setCount(0);
                     playerMP.container.detectAndSendChanges();

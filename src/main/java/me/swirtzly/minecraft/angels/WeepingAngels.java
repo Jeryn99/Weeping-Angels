@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels;
 
+import com.google.common.collect.ImmutableList;
 import me.swirtzly.minecraft.angels.common.PaintingStuff;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
@@ -12,9 +13,13 @@ import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import me.swirtzly.minecraft.angels.utils.FortuneEnchantBonus;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -50,6 +55,9 @@ public class WeepingAngels {
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
+        MinecraftForge.EVENT_BUS.addGenericListener(Block.class, this::onMissingMappingsBlock);
+        MinecraftForge.EVENT_BUS.addGenericListener(TileEntityType.class, this::onMissingMappingsTile);
+        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::onMissingMappingsItem);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -93,10 +101,44 @@ public class WeepingAngels {
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper),existingFileHelper));
+        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));
     }
+
+
+    public void onMissingMappingsItem(RegistryEvent.MissingMappings< Item > mappings) {
+        ImmutableList< RegistryEvent.MissingMappings.Mapping< Item > > mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping< Item > itemMapping : mapp) {
+            if (itemMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
+                LOGGER.info("Remapped Item weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().asItem().getRegistryName());
+                itemMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get().asItem());
+            }
+        }
+    }
+
+
+    public void onMissingMappingsBlock(RegistryEvent.MissingMappings< Block > mappings) {
+        ImmutableList< RegistryEvent.MissingMappings.Mapping< Block > > mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping< Block > blockMapping : mapp) {
+            if (blockMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
+                LOGGER.info("Remapped Block weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().getRegistryName());
+                blockMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get());
+            }
+        }
+    }
+
+    public void onMissingMappingsTile(RegistryEvent.MissingMappings< TileEntityType< ? > > mappings) {
+        ImmutableList< RegistryEvent.MissingMappings.Mapping< TileEntityType< ? > > > mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping< TileEntityType< ? > > entityTypeMapping : mapp) {
+            if (entityTypeMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
+                LOGGER.info("Remapped Tile weeping_angels:snow_arm to " + WAObjects.Tiles.SNOW_ANGEL.get().getRegistryName());
+                entityTypeMapping.remap(WAObjects.Tiles.SNOW_ANGEL.get());
+            }
+        }
+    }
+
+
 }
