@@ -28,11 +28,11 @@ import java.util.List;
 
 public class CatacombStructure extends Structure< NoFeatureConfig > {
 
-    protected static final String[] variants = new String[]{"flat", "clean", "broken", "standard"};
+    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
             new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
             new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
-            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 1, 3));
+            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 20, 1, 3));
 
     public CatacombStructure(Codec< NoFeatureConfig > codec) {
         super(codec);
@@ -72,9 +72,12 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
             int z = (chunkZ << 4) + 7;
             BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 30, 55), z);
 
+            String choosen = variants[rand.nextInt(variants.length)];
+            System.out.println(choosen);
+
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + variants[rand.nextInt(variants.length)] + "/catacomb")), 9),
+                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 9),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
