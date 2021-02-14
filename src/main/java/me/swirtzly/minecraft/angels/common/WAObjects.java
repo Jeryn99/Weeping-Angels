@@ -33,7 +33,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.World;
@@ -209,6 +208,7 @@ public class WAObjects {
         public static final RegistryObject< Item > SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_SALLY::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
         public static final RegistryObject< Item > TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_TIME_PREVAILS::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
     }
+
     // Sounds
     public static class Sounds {
         public static final DeferredRegister< SoundEvent > SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);

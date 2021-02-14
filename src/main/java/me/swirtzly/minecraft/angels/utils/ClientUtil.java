@@ -13,6 +13,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.AngelEnums;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.items.AngelSpawnerItem;
+import me.swirtzly.minecraft.angels.common.items.DetectorItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.particle.ParticleManager;
@@ -79,12 +80,7 @@ public class ClientUtil {
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
 
-        ItemModelsProperties.registerProperty(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
-            if (clientWorld != null) {
-                return clientWorld.rand.nextInt(17);
-            }
-            return 0;
-        });
+        ItemModelsProperties.registerProperty(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> DetectorItem.getTime(itemStack));
 
         ItemModelsProperties.registerProperty(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
             if (itemStack == null || itemStack.isEmpty()) {

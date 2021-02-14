@@ -5,6 +5,7 @@ import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.misc.WATabs;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.PlayerUtils;
+import net.minecraft.block.JukeboxBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -13,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
@@ -26,6 +28,22 @@ public class DetectorItem extends Item {
         super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
     }
 
+    public static void setTime(ItemStack itemStack, int time) {
+        CompoundNBT tag = itemStack.getOrCreateTag();
+        if(time > 17){
+            time = 0;
+        }
+        tag.putInt("time", time);
+    }
+
+    public static int getTime(ItemStack itemStack) {
+        CompoundNBT tag = itemStack.getOrCreateTag();
+        if (tag.contains("time")) {
+            return tag.getInt("time");
+        }
+        return 0;
+    }
+
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList< ItemStack > items) {
         super.fillItemGroup(group, items);
@@ -33,8 +51,9 @@ public class DetectorItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-
         if (!entityIn.world.isRemote) {
+
+            setTime(stack, getTime(stack) + 1);
 
             List< WeepingAngelEntity > angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
 
@@ -67,4 +86,10 @@ public class DetectorItem extends Item {
         }
     }
 
+
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
+    }
 }
