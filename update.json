@@ -3,20 +3,20 @@
   "promos": {
     "1.16.2-latest": "1.0.1",
     "1.16.2-recommended": "1.0.1",
-    "1.16.4-latest": "2.0.2",
-    "1.16.4-recommended": "2.0.2",
-    "1.16.3-latest": "2.0.2",
-    "1.16.3-recommended": "2.0.2",
-    "1.16.5-latest": "2.0.2",
-    "1.16.5-recommended": "2.0.2"
+    "1.16.4-latest": "2.0.4",
+    "1.16.4-recommended": "2.0.4",
+    "1.16.3-latest": "2.0.4",
+    "1.16.3-recommended": "2.0.4",
+    "1.16.5-latest": "2.0.4",
+    "1.16.5-recommended": "2.0.4"
   },
   "1.16.2": {
     "2.0.1": "I am a update"
   },
   "1.16.4": {
-    "2.0.2": "I am a update"
+    "2.0.4": "I am a update"
   },
   "1.16.5": {
-    "2.0.2": "I am a update"
+    "2.0.4": "I am a update"
   }
 }
