@@ -5,7 +5,9 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinModel;
 import me.swirtzly.minecraft.angels.client.models.block.CoffinPTB;
 import me.swirtzly.minecraft.angels.common.blocks.CoffinBlock;
+import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
 import me.swirtzly.minecraft.angels.common.tileentities.CoffinTile;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -19,6 +21,8 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+
+import static net.minecraft.state.properties.BlockStateProperties.ROTATION_0_15;
 
 public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
@@ -38,9 +42,11 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
         }
         matrixStack.push();
         matrixStack.translate(0.5F, 0.5F, 0.5F); //Translate to blockpos
-        Direction face = tileEntityIn.getBlockState().get(BlockStateProperties.HORIZONTAL_FACING); //Get facing direction
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(-face.getHorizontalAngle())); //Adjust rotation
+        BlockState blockstate = tileEntityIn.getBlockState();
+        float rotation = 22.5F * (float) blockstate.get(CoffinBlock.ROTATION);
         matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F)); // Make model not upside down
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+
 
         //Horizontal Placement
         if (!tileEntityIn.getBlockState().get(CoffinBlock.UPRIGHT)) {

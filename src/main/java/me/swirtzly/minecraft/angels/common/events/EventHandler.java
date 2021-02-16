@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.config.WAConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.EnderChestBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -77,8 +78,7 @@ public class EventHandler {
                         StatueTile statueTile = (StatueTile) world.getTileEntity(blockPos);
                         WeepingAngelEntity angel = new WeepingAngelEntity(world);
                         angel.setType(statueTile.getAngelType());
-                        float rotation = statueTile.getRotation();
-                        angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, rotation, rotation);
+                        angel.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, 0, 0);
                         angel.setPose(statueTile.getPose());
                         world.addEntity(angel);
                         world.removeBlock(blockPos, false);
@@ -182,8 +182,8 @@ public class EventHandler {
                 ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
                 boolean isPic = item.getItem() instanceof PickaxeItem;
                 e.setCanceled(!isPic);
-
                 if (!isPic) {
+
                     if (victim.world.rand.nextInt(100) <= 20) {
                         weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
                     }

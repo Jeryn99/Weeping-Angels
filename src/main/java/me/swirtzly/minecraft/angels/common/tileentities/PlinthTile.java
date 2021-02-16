@@ -21,7 +21,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class PlinthTile extends TileEntity implements ITickableTileEntity {
 
     private boolean hasSpawned = false;
-    private int rotation = 0;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtils.RAND);
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
@@ -43,7 +42,6 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         super.read(state, compound);
         setHasSpawned(compound.getBoolean("hasSpawned"));
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
-        rotation = compound.getInt("rotation");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
             setAngelVarients(WeepingAngelEntity.AngelVariants.valueOf(compound.getString(WAConstants.VARIENT)));
@@ -55,7 +53,6 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         super.write(compound);
         NBTPatcher.angelaToVillager(compound, "model");
         compound.putBoolean("hasSpawned", hasSpawned);
-        compound.putInt("rotation", rotation);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariants.name());
@@ -72,15 +69,6 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 
     public void setAngelType(AngelEnums.AngelType type) {
         this.type = type.name();
-    }
-
-    public int getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(int rotation) {
-        this.rotation = rotation;
-        sendUpdates();
     }
 
     @Override

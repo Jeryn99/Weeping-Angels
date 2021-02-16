@@ -4,6 +4,7 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -11,6 +12,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -83,7 +85,6 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         if (this.openAmount < 0.0F) {
             this.openAmount = 0.0F;
         }
-
 
         if (doingSomething && coffin == Coffin.PTB) {
             if (ticks % 60 < 30) {

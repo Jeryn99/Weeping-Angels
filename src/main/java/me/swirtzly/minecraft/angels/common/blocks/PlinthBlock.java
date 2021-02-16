@@ -14,12 +14,16 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -29,6 +33,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class PlinthBlock extends Block implements IWaterLoggable {
+
+    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_0_15;
 
     public PlinthBlock() {
         super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
@@ -55,18 +61,28 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite()).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
-    }
-
-    @Override
-    protected void fillStateContainer(Builder< Block, BlockState > builder) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
-        builder.add(BlockStateProperties.WATERLOGGED);
+        return state.with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, Rotation rot) {
+        return state.with(ROTATION, rot.rotate(state.get(ROTATION), 16));
+    }
+
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return state.with(ROTATION, mirrorIn.mirrorRotation(state.get(ROTATION), 16));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(ROTATION);
+        builder.add(BlockStateProperties.WATERLOGGED);
     }
 
 
@@ -78,9 +94,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
         if (world.getTileEntity(pos) instanceof PlinthTile) {
-            int rotation = MathHelper.floor(placer.rotationYaw);
             PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
-            plinth.setRotation(rotation);
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             plinth.setAngelType(AngelUtils.randomType().name());
             plinth.setAngelVarients(AngelUtils.randomVarient());

@@ -10,11 +10,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
-          "name": "weeping_angels:timey_wimey_detector"
-        },
-        {
-          "type": "minecraft:item",
           "name": "minecraft:mushroom_stew"
         },
         {
@@ -40,6 +35,20 @@
             }
           ],
           "name": "minecraft:dirt"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 2.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:weeping_angels:timey_wimey_detector"
         },
         {
           "type": "minecraft:item",

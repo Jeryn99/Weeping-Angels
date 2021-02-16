@@ -3,9 +3,11 @@ package me.swirtzly.minecraft.angels.client.renders.tileentities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.swirtzly.minecraft.angels.client.models.entity.IAngelModel;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
+import me.swirtzly.minecraft.angels.common.blocks.StatueBlock;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -29,8 +31,9 @@ public class StatueRender extends TileEntityRenderer< StatueTile > {
         matrixStack.push();
         matrixStack.translate(0.5F, 1.5F, 0.5F);
         matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(statueTile.getRotation()));
-
+        BlockState blockstate = statueTile.getBlockState();
+        float rotation = 22.5F * (float) blockstate.get(StatueBlock.ROTATION);
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
         EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
 

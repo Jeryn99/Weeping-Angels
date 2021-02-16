@@ -37,8 +37,8 @@ public class ClientEvents {
             event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getPos()).getBlock() == WAObjects.Blocks.STATUE.get());
         }
     }
-/*
-    @SubscribeEvent
+
+ /*   @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getInstance().player == null) return;
         PlayerEntity player = Minecraft.getInstance().player;
@@ -73,7 +73,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onSetupFogColor(EntityViewRenderEvent.RenderFogEvent.FogColors event) {
         if (Minecraft.getInstance().world != null) {
-            *//*event.setRed(105 / 255F);
+*//*            event.setRed(105 / 255F);
             event.setGreen(105 / 255F);
             event.setBlue(105 / 255F);*//*
             event.setRed(0.14F);

@@ -34,11 +34,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static java.time.temporal.ChronoField.*;
 
 public class GraveyardStructurePieces {
 
@@ -182,13 +187,14 @@ public class GraveyardStructurePieces {
                 if (signTileEntity != null) {
                     signTileEntity.setText(0, new TranslationTextComponent("========"));
                     signTileEntity.setText(1, new TranslationTextComponent(USERNAMES[rand.nextInt(USERNAMES.length - 1)]));
-                    signTileEntity.setText(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_DATE)));
+                    signTileEntity.setText(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
                     signTileEntity.setText(3, new TranslationTextComponent("========"));
                     worldIn.removeBlock(pos, false);
                     worldIn.setBlockState(pos.down(2), Blocks.PODZOL.getDefaultState(), 2);
                 }
             }
         }
+
     }
 
 

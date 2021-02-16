@@ -63,7 +63,7 @@ public class GraveyardStructure extends Structure< ProbabilityConfig > {
 
         @Override
         public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
-            Rotation rotation = Rotation.NONE;
+            Rotation rotation = Rotation.values()[rand.nextInt(Rotation.values().length)];
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
             int surfaceY = chunkGenerator.getHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);
