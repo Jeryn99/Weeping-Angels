@@ -111,22 +111,10 @@ curseforge {
         apiKey = rootProject.curseforge
         project {
             id = rootProject.weeping_angels
-            changelog = '<b> Version 2.0.4 </b></br>' +
-                    '- Added Additional Painting</br>' +
-                    '- Added Catacombs</br>' +
-                    '- Adjusted recipe unlocking a little bit</br>' +
-                    '- Fixed bug where sometimes the coffin would render facing the wrong way</br>' +
-                    '- Prepared some Tardis Mod Compatibility</br>' +
-                    '- Fixes un-mirrored texture on Classic Angel Model</br>' +
-                    '- Placed classic animations onto classic angel mode</br>' +
-                    '- Changed how some NBT works on Plinth and Statue for poses (Shouldn\'t affect most people, but worst case, the plinth/statues pose will be set to hiding)</br>' +
-                    '- Added Wing rotations to some animations</br>' +
-                    '- Added Chisel Item to more freely change angel poses/types</br>' +
-                    '- Added Config to toggle statues/plinths spawning angels on redstone</br>' +
-                    '- Changed Recipe for Chronodyne Generator </br>' +
-                    '- Changed Texture for Chronodyne Ingot/Ore </br>' +
-                    '- Made Timey Wimey Detector Animation more fluid </br>' +
-                    '- Refactor: weeping_angels:snow_arm > weeping_angels:snow_angels</br>'
+            changelog = '<b> Version 2.0.5 </b></br>' +
+                    '- LivingDeathEvent properly fires for angels again</br>' +
+                    '- Fixed Vanilla red overlay sometimes showing on Angels</br>' +
+                    '- Changed some Pickaxe damage behaviour</br>'
             changelogType = 'html'
             releaseType = 'release'
             addGameVersion '1.16.3'

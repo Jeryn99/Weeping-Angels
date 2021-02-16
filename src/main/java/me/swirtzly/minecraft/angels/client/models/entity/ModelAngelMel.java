@@ -11,6 +11,7 @@ import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -523,74 +524,74 @@ public class ModelAngelMel extends EntityModel< WeepingAngelEntity > implements 
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Eye1.render(matrixStack, buffer, packedLight, packedOverlay);
-        Eye2.render(matrixStack, buffer, packedLight, packedOverlay);
-        EyeBacking.render(matrixStack, buffer, packedLight, packedOverlay);
-        EyeMiddle.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair1.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair3.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair4.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair5.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair6.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair7.render(matrixStack, buffer, packedLight, packedOverlay);
-        Hair8.render(matrixStack, buffer, packedLight, packedOverlay);
-        EarLeft.render(matrixStack, buffer, packedLight, packedOverlay);
-        EarRight.render(matrixStack, buffer, packedLight, packedOverlay);
-        Nose.render(matrixStack, buffer, packedLight, packedOverlay);
-        HeadBack.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthAngle1.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthAngle2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Chin.render(matrixStack, buffer, packedLight, packedOverlay);
-        Noselower.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthInner.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthUpper.render(matrixStack, buffer, packedLight, packedOverlay);
-        EyeAngle1.render(matrixStack, buffer, packedLight, packedOverlay);
-        EyeAngle2.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthUpper2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Forehead2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Forehead5.render(matrixStack, buffer, packedLight, packedOverlay);
-        MouthUpper3.render(matrixStack, buffer, packedLight, packedOverlay);
-        Tooth3.render(matrixStack, buffer, packedLight, packedOverlay);
-        Tooth1.render(matrixStack, buffer, packedLight, packedOverlay);
-        Tooth2.render(matrixStack, buffer, packedLight, packedOverlay);
-        HeadBand2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Head2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Headband1.render(matrixStack, buffer, packedLight, packedOverlay);
-        HeadBand3.render(matrixStack, buffer, packedLight, packedOverlay);
-        Head3.render(matrixStack, buffer, packedLight, packedOverlay);
-        HeadCap1.render(matrixStack, buffer, packedLight, packedOverlay);
-        HeadCap2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Neck.render(matrixStack, buffer, packedLight, packedOverlay);
-        TorsoMain.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress1.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress2.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress3.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress4.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress5.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress6.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress7.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress8.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress9.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress10.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress11.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress12.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress13.render(matrixStack, buffer, packedLight, packedOverlay);
-        Dress14.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing1.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing2.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing3.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing4.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing5.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing6.render(matrixStack, buffer, packedLight, packedOverlay);
-        LeftWing7.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing1.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing2.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing3.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing4.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing5.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing6.render(matrixStack, buffer, packedLight, packedOverlay);
-        RightWing7.render(matrixStack, buffer, packedLight, packedOverlay);
+        Eye1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Eye2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EyeBacking.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EyeMiddle.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair5.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair6.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair7.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Hair8.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EarLeft.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EarRight.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Nose.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        HeadBack.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthAngle1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthAngle2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Chin.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Noselower.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthInner.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthUpper.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EyeAngle1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        EyeAngle2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthUpper2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Forehead2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Forehead5.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        MouthUpper3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Tooth3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Tooth1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Tooth2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        HeadBand2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Head2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Headband1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        HeadBand3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Head3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        HeadCap1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        HeadCap2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Neck.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        TorsoMain.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress5.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress6.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress7.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress8.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress9.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress10.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress11.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress12.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress13.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Dress14.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing5.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing6.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        LeftWing7.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing5.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing6.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        RightWing7.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
 
         WeepingAngelPose pose = weepingAngelPose;
         if (angel != null) {
@@ -599,28 +600,28 @@ public class ModelAngelMel extends EntityModel< WeepingAngelEntity > implements 
 
         // Covering Face arms render/
         if (pose == WeepingAngelPose.HIDING) {
-            armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            armsCovering.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             return;
         }
 
         // Idle render
         if (pose == WeepingAngelPose.IDLE) {
-            armsIdle.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            armsIdle.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             return;
         }
 
         // Shriek render
         if (pose == WeepingAngelPose.ANGRY || pose == WeepingAngelPose.FURIOUS) {
-            armsAngry.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            armsAngry.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             return;
         }
 
         if (pose == WeepingAngelPose.SHY) {
-            armsPoint.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+            armsPoint.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             return;
         }
 
-        armsCovering.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
+        armsCovering.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }
 
 

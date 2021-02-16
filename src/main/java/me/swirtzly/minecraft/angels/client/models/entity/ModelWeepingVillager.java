@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -175,9 +176,9 @@ public class ModelWeepingVillager extends EntityModel< WeepingAngelEntity > impl
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg0.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg1.render(matrixStack, buffer, packedLight, packedOverlay);
+        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leg0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leg1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
 }

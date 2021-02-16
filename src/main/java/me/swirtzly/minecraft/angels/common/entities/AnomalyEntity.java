@@ -1,18 +1,22 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class AnomalyEntity extends MobEntity {
 
@@ -80,8 +84,8 @@ public class AnomalyEntity extends MobEntity {
 
         if (entityIn instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
-            weepingAngelEntity.dropAngelStuff();
-            weepingAngelEntity.remove();
+            weepingAngelEntity.setSilent(true);
+            weepingAngelEntity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Integer.MAX_VALUE);
         }
     }
 

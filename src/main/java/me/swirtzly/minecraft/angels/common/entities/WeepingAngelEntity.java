@@ -11,6 +11,7 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
+import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -38,6 +39,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.ParticleEffectAmbience;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
 import net.minecraftforge.common.MinecraftForge;
@@ -69,7 +71,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
         experienceValue = WAConfig.CONFIG.xpGained.get();
-        enablePersistence();
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -89,8 +90,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         entityDropItem(getHeldItemOffhand());
     }
 
-    public void setPlayer(PlayerEntity player) {
-        this.attackingPlayer = player;
+    @Override
+    public boolean canRenderOnFire() {
+        return false;
     }
 
     @Override
@@ -497,7 +499,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         ++this.deathTime;
         if (this.deathTime == 20) {
             hurtTime = 0;
-            dropAngelStuff();
             this.setDead();
             playSound(getDeathSound(), 1, 1);
         }

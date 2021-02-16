@@ -10,6 +10,7 @@ import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
@@ -201,13 +202,13 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        Legs.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
+        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Legs.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

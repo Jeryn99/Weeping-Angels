@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
@@ -355,19 +356,19 @@ public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements I
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         matrixStack.push();
-        cloth_1.render(matrixStack, buffer, packedLight, packedOverlay);
-        right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        cloth_0.render(matrixStack, buffer, packedLight, packedOverlay);
-        back_cloth.render(matrixStack, buffer, packedLight, packedOverlay);
-        cloth_2.render(matrixStack, buffer, packedLight, packedOverlay);
-        left_wing_1.render(matrixStack, buffer, packedLight, packedOverlay);
-        body_2.render(matrixStack, buffer, packedLight, packedOverlay);
-        right_wing_1.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        right_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
-        left_wing_0.render(matrixStack, buffer, packedLight, packedOverlay);
-        left_arm.render(matrixStack, buffer, packedLight, packedOverlay);
+        cloth_1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        right_arm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        cloth_0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        back_cloth.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        cloth_2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        left_wing_1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body_2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        right_wing_1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        right_wing_0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        left_wing_0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        left_arm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         matrixStack.pop();
     }
 

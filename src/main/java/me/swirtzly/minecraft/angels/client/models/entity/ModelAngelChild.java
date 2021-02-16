@@ -7,6 +7,7 @@ import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -204,7 +205,7 @@ public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implement
         matrixStack.push();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 1.5, 0);
-        WeepingCherubFix.render(matrixStack, buffer, packedLight, packedOverlay);
+        WeepingCherubFix.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         matrixStack.pop();
     }
 

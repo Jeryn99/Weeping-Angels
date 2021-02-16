@@ -178,10 +178,6 @@ public class EventHandler {
 
             if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
                 WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) victim;
-                if (WAConfig.CONFIG.hardcoreMode.get()) {
-                    e.setCanceled(true);
-                    return;
-                }
 
                 ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
                 boolean isPic = item.getItem() instanceof PickaxeItem;
@@ -194,20 +190,15 @@ public class EventHandler {
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
                 } else {
                     PickaxeItem pick = (PickaxeItem) item.getItem();
-
-                    if (pick.getTier().getHarvestLevel() < 3 && victim.world.getDifficulty() == Difficulty.HARD) {
-                        e.setCanceled(true);
+                    if (pick.getTier().getHarvestLevel() < 3 && WAConfig.CONFIG.hardcoreMode.get()) {
                         return;
                     }
-                    if (e.getEntityLiving() instanceof PlayerEntity) {
-                        PlayerEntity playerEntity = (PlayerEntity) e.getEntityLiving();
-                        weepingAngelEntity.setPlayer(playerEntity);
-                    }
-                    e.setCanceled(true);
-                    victim.setHealth(victim.getHealth() - e.getAmount());
                     ServerWorld serverWorld = (ServerWorld) attacker.world;
+                    //Spawn Stone Particles
                     serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), victim.getPosX(), victim.getPosYHeight(0.5D), victim.getPosZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
+                    //Play hit sound
                     victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                    //Damage Pickaxe
                     item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> {
                         boolean isCherub = weepingAngelEntity.isCherub();
                         weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
@@ -215,9 +206,8 @@ public class EventHandler {
                     });
                 }
 
-                if (!(source instanceof LivingEntity)) {
-                    e.setCanceled(true);
-                }
+
+
             }
         }
     }

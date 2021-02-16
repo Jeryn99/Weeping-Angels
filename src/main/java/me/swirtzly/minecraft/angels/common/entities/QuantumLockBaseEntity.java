@@ -2,6 +2,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
 import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.EntityType;
@@ -34,7 +35,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void livingTick() {
         super.livingTick();
 
-        rotationYawHead = rotationYaw;
+    //   rotationYawHead = rotationYaw;
         if (!world.isRemote && ticksExisted % 5 == 0) {
             List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
@@ -147,7 +148,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
         setMotion(0, 0, 0);
         lookAt(EntityAnchorArgument.Type.EYES, player.getPositionVec());
         setNoAI(true);
-
+        this.faceEntity(player, 90.0F, 90.0F);
     }
 
 }
