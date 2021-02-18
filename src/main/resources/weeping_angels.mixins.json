@@ -6,8 +6,9 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "NoiseChunkGeneratorMixin", "StructuresConfigAccessor"
   ],
+
   "injectors": {
     "defaultRequire": 1
   }
