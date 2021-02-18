@@ -18,16 +18,18 @@ import static me.suff.mc.angels.WeepingAngels.CONFIG;
 public class WAConfig extends Config {
     public static final ConfigItemGroup breakConfig = new BreakConfig();
     public static final ConfigItemGroup angelBehaviour = new AngelBehaviour();
+    public static final ConfigItemGroup spawns = new Spawns();
 
-    public static final List< ConfigItemGroup > configs = of(breakConfig, angelBehaviour);
+    public static final List< ConfigItemGroup > configs = of(breakConfig, angelBehaviour, spawns);
 
     public WAConfig() {
         super(configs, new File(FabricLoader.getInstance().getConfigDir().toFile(), "weeping_angels.json"), "weeping_angels");
     }
 
     public static class AngelBehaviour extends ConfigItemGroup {
-        public static final ConfigItem< Integer > stalkRange = new ConfigItem<>("stalkRange", 25, "stalkRange");
-        public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, "chickenBoom");
+        public static final ConfigItem< Integer > stalkRange = new ConfigItem<>("stalkRange", 25, genConfigString("stalkRange"));
+        public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, genConfigString("chickenBoom"));
+        public static final ConfigItem< Boolean > playSeenSounds = new ConfigItem<>("playSeenSounds", true, genConfigString("playSeenSounds"));
 
         public AngelBehaviour() {
             super(of(stalkRange, chickenBoom), "angel_behaviour");
@@ -35,8 +37,8 @@ public class WAConfig extends Config {
     }
 
     public static class BreakConfig extends ConfigItemGroup {
-        public static final ConfigItem< Double > breakRange = new ConfigItem<>("breakRange", 25D, "breakRange");
-        public static final ConfigItem< Boolean > breakBlocks = new ConfigItem<>("breakBlocks", true, "breakBlocks");
+        public static final ConfigItem< Double > breakRange = new ConfigItem<>("breakRange", 25D, genConfigString("breakRange"));
+        public static final ConfigItem< Boolean > breakBlocks = new ConfigItem<>("breakBlocks", true, genConfigString("breakBlocks"));
 
         public BreakConfig() {
             super(of(breakRange, breakBlocks), "block_breaking");
@@ -47,5 +49,19 @@ public class WAConfig extends Config {
         CommandRegistrationCallback.EVENT.register(new ConfigCommand(CONFIG)::register);
         CONFIG.readConfigFromFile();
         CONFIG.saveConfigToFile();
+    }
+
+    public static String genConfigString(String config){
+        return "config.weeping_angels."+config;
+    }
+
+    private static class Spawns extends ConfigItemGroup {
+        public static final ConfigItem< Integer > spawnWeight = new ConfigItem<>("spawnWeight", 5, genConfigString("spawnWeight"));
+        public static final ConfigItem< Integer > spawnMin = new ConfigItem<>("spawnMin", 1, genConfigString("spawnMin"));
+        public static final ConfigItem< Integer > spawnMax = new ConfigItem<>("spawnMax", 1, genConfigString("spawnMax"));
+
+        public Spawns() {
+            super(of(spawnWeight, spawnMin, spawnMax), "spawns");
+        }
     }
 }

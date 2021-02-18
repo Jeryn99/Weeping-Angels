@@ -34,7 +34,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
 
         //   rotationYawHead = rotationYaw;
         if (!world.isClient && age % 5 == 0) {
-            List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().expand(WAConfig.AngelBehaviour.stalkRange.getValue()), LivingEntity::isAlive);
+            List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().contract(WAConfig.AngelBehaviour.stalkRange.getValue()), LivingEntity::isAlive);
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.world != world);
 
             if (players.isEmpty()) {

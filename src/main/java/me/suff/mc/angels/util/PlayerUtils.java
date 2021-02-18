@@ -44,4 +44,8 @@ public class PlayerUtils {
         if (player.world.isClient) return;
         player.sendMessage(textComponent, isHotBar);
     }
+
+    public static ItemStack getItemFromActive(LivingEntity livingEntity){
+        return livingEntity.getMainHandStack();
+    }
 }

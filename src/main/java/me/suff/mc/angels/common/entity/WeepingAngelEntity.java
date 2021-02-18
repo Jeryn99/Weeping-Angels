@@ -2,37 +2,54 @@ package me.suff.mc.angels.common.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.objects.WASounds;
-import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.enums.WeepingAngelPose;
+import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.AngelUtils;
 import me.suff.mc.angels.util.Constants;
+import me.suff.mc.angels.util.PlayerUtils;
 import me.suff.mc.angels.util.WAConfig;
 import net.minecraft.block.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 /* Created by Craig on 18/02/2021 */
-public class WeepingAngelEntity extends QuantumLockBaseEntity  {
+public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     private static final TrackedData< String > CURRENT_POSE = DataTracker.registerData(WeepingAngelEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData< String > VARIENT = DataTracker.registerData(WeepingAngelEntity.class, TrackedDataHandlerRegistry.STRING);
+    private long timeSincePlayedSound = 0;
 
     public WeepingAngelEntity(World worldIn) {
         super(worldIn, WeepingAngels.WEEPING_ANGEL);
@@ -79,7 +96,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity  {
         if (age % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
-        if(WAConfig.BreakConfig.breakBlocks.getValue() && isSeen()) {
+        if (WAConfig.BreakConfig.breakBlocks.getValue() && isSeen()) {
             replaceBlocks(getBoundingBox().expand(WAConfig.BreakConfig.breakRange.getValue()));
         }
     }
@@ -89,7 +106,26 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity  {
         return WASounds.ANGEL_DEATH;
     }
 
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        // We need to be compatible with the kill command
+        if (source == DamageSource.OUT_OF_WORLD) {
+            return false;
+        }
 
+        //Pickaxe only!
+        if (source.getAttacker() instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) source.getAttacker();
+            ItemStack stack = PlayerUtils.getItemFromActive(living);
+            return stack.getItem() instanceof PickaxeItem ? super.damage(source, amount) : false;
+        }
+        return false;
+    }
+
+    @Override
+    public void takeKnockback(float f, double d, double e) {
+        //No lol
+    }
 
     @Override
     public void writeCustomDataToTag(CompoundTag tag) {
@@ -108,8 +144,42 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity  {
     @Override
     public void invokeSeen(PlayerEntity player) {
         super.invokeSeen(player);
-        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
-        playSound(WASounds.ANGEL_SEEN, 0.2F, 1);
+        if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().asLong() != getBlockPos().asLong()) {
+            setPrevPos(getBlockPos());
+            boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
+            // Play Sound
+            if (canPlaySound) {
+                if (WAConfig.AngelBehaviour.playSeenSounds.getValue() && player.distanceTo(this) < 15) {
+                    setTimeSincePlayedSound(System.currentTimeMillis());
+                    ((ServerPlayerEntity) player).networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.ANGEL_SEEN, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
+                }
+            }
+            setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+        }
+    }
+
+    @Override
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+        playSound(WASounds.ANGEL_AMBIENT, 0.5F, 1.0F);
+        return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+    }
+
+    @Override
+    public boolean shouldRenderName() {
+        return false;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.BLOCK_STONE_HIT;
+    }
+
+    public long getTimeSincePlayedSound() {
+        return timeSincePlayedSound;
+    }
+
+    public void setTimeSincePlayedSound(long timeSincePlayedSound) {
+        this.timeSincePlayedSound = timeSincePlayedSound;
     }
 
     //DESTROY LIGHT BLOCKS

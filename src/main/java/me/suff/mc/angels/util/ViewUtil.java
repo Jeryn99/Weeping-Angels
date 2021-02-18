@@ -316,8 +316,7 @@ public class ViewUtil {
     // This is bloated, I know, but I want to make sure I cover EVERY basis :/
     public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
 
-        // Covers all Block, Material and Tag checks :D
-        if (!blockState.isSolidBlock(world, pos) || blockState.isOpaque()) {
+        if (!blockState.getMaterial().isSolid() || !blockState.isOpaqueFullCube(world, pos)) {
             return true;
         }
 
