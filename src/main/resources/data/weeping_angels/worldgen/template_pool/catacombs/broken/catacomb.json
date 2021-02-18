@@ -1,0 +1,33 @@
+{
+  "name": "weeping_angels:catacombs/broken/catacomb",
+  "fallback": "weeping_angels:catacombs/broken/dead_ends",
+  "elements": [
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/broken/catacomb_hallway_broken_3",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/broken/catacomb_hallway_broken_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/broken/catacomb_hallway_broken_1",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "weeping_angels:catacombs/decor/torch",
+  "fallback": "weeping_angels:catacombs/decor/torch",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/decor/torch_empty",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/decor/torch_wall",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}
