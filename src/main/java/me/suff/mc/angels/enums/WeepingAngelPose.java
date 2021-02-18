@@ -17,10 +17,6 @@ public enum WeepingAngelPose {
         this.emotion = Emotion.IDLE;
     }
 
-    public Emotion getEmotion() {
-        return emotion;
-    }
-
     public static WeepingAngelPose getRandomPose(Random random) {
         int pick = random.nextInt(WeepingAngelPose.values().length);
         return WeepingAngelPose.values()[pick];
@@ -35,10 +31,13 @@ public enum WeepingAngelPose {
         return HIDING;
     }
 
+    public Emotion getEmotion() {
+        return emotion;
+    }
+
     public enum Emotion {
         SCREAM, IDLE, ANGRY
     }
-
 
 
 }

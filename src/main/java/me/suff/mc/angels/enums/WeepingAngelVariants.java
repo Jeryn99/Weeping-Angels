@@ -19,14 +19,6 @@ public enum WeepingAngelVariants {
         this.dropStack = stack;
     }
 
-    public ItemStack getDropStack() {
-        return dropStack;
-    }
-
-    public boolean isHeadless() {
-        return headless;
-    }
-
     public static WeepingAngelVariants getVariant(String name) {
         for (WeepingAngelVariants variants : WeepingAngelVariants.values()) {
             if (variants.name().equalsIgnoreCase(name)) {
@@ -34,5 +26,13 @@ public enum WeepingAngelVariants {
             }
         }
         return MOSSY;
+    }
+
+    public ItemStack getDropStack() {
+        return dropStack;
+    }
+
+    public boolean isHeadless() {
+        return headless;
     }
 }

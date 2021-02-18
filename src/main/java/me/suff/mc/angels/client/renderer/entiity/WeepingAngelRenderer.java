@@ -1,9 +1,9 @@
-package me.suff.mc.angels.client.renderer;
+package me.suff.mc.angels.client.renderer.entiity;
 
 import me.suff.mc.angels.client.models.WeepingAngelModel;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
-import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.enums.WeepingAngelPose;
+import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.Constants;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -41,5 +41,6 @@ public class WeepingAngelRenderer extends LivingEntityRenderer< WeepingAngelEnti
         if (angelVariants.isHeadless()) {
             suffix = "headless";
         }
-        return new Identifier(Constants.MODID, location + variant + suffix + ".png");    }
+        return new Identifier(Constants.MODID, location + variant + suffix + ".png");
+    }
 }

@@ -4,7 +4,6 @@ import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -70,7 +69,7 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
     public void setAngles(WeepingAngelEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         WeepingAngelPose pose = WeepingAngelPose.getPose(entity.getAngelPose());
         if (entity != null) {
-           pose = WeepingAngelPose.getPose(entity.getAngelPose());
+            pose = WeepingAngelPose.getPose(entity.getAngelPose());
         }
 
         boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY || pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM;
@@ -78,106 +77,106 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
         float angleY = isAngry ? 60F : 45F;
         float angleZ = 0;
 
-        if(pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM){
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM) {
             angleY += 10F;
             angleX -= 10F;
         }
 
-        head.pitch  = (float) Math.toRadians(0);
-        head.yaw  = (float) Math.toRadians(0);
+        head.pitch = (float) Math.toRadians(0);
+        head.yaw = (float) Math.toRadians(0);
         head.roll = (float) Math.toRadians(0);
 
-        rightWing.pitch  = (float) Math.toRadians(angleX);
-        rightWing.yaw  = (float) Math.toRadians(angleY);
+        rightWing.pitch = (float) Math.toRadians(angleX);
+        rightWing.yaw = (float) Math.toRadians(angleY);
         rightWing.roll = (float) Math.toRadians(angleZ);
-        leftWing.pitch  = (float) Math.toRadians(angleX);
-        leftWing.yaw  = (float) Math.toRadians(-angleY);
+        leftWing.pitch = (float) Math.toRadians(angleX);
+        leftWing.yaw = (float) Math.toRadians(-angleY);
         leftWing.roll = (float) Math.toRadians(angleZ);
 
 
         if (pose == WeepingAngelPose.FURIOUS) {
-            rightArm.pitch  = (float) Math.toRadians(-115);
-            rightArm.yaw  = (float) Math.toRadians(0);
+            rightArm.pitch = (float) Math.toRadians(-115);
+            rightArm.yaw = (float) Math.toRadians(0);
             rightArm.roll = (float) Math.toRadians(0);
 
-            leftArm.pitch  = (float) Math.toRadians(-55);
-            leftArm.yaw  = (float) Math.toRadians(0);
+            leftArm.pitch = (float) Math.toRadians(-55);
+            leftArm.yaw = (float) Math.toRadians(0);
             leftArm.roll = (float) Math.toRadians(0);
 
-            head.pitch  = (float) Math.toRadians(17.5);
-            head.yaw  = (float) Math.toRadians(0);
+            head.pitch = (float) Math.toRadians(17.5);
+            head.yaw = (float) Math.toRadians(0);
             head.roll = (float) Math.toRadians(-10);
             return;
         }
 
 
         if (pose == WeepingAngelPose.ANGRY) {
-            rightArm.pitch  = (float) Math.toRadians(-90);
-            rightArm.yaw  = (float) Math.toRadians(-20);
+            rightArm.pitch = (float) Math.toRadians(-90);
+            rightArm.yaw = (float) Math.toRadians(-20);
             rightArm.roll = (float) Math.toRadians(30);
 
-            leftArm.pitch  = (float) Math.toRadians(-90);
-            leftArm.yaw  = (float) Math.toRadians(25);
+            leftArm.pitch = (float) Math.toRadians(-90);
+            leftArm.yaw = (float) Math.toRadians(25);
             leftArm.roll = (float) Math.toRadians(-17.5);
 
-            head.pitch  = (float) Math.toRadians(0);
-            head.yaw  = (float) Math.toRadians(-12.5);
+            head.pitch = (float) Math.toRadians(0);
+            head.yaw = (float) Math.toRadians(-12.5);
             head.roll = (float) Math.toRadians(0);
             return;
         }
 
 
         if (pose == WeepingAngelPose.HIDING) {
-            head.pitch  = (float) Math.toRadians(20);
-            head.yaw  = (float) Math.toRadians(0);
+            head.pitch = (float) Math.toRadians(20);
+            head.yaw = (float) Math.toRadians(0);
             head.roll = (float) Math.toRadians(0);
 
-            rightArm.pitch  = (float) Math.toRadians(-105);
-            rightArm.yaw  = (float) Math.toRadians(20);
+            rightArm.pitch = (float) Math.toRadians(-105);
+            rightArm.yaw = (float) Math.toRadians(20);
             rightArm.roll = (float) Math.toRadians(12.5);
 
-            leftArm.pitch  = (float) Math.toRadians(-105);
-            leftArm.yaw  = (float) Math.toRadians(-20);
+            leftArm.pitch = (float) Math.toRadians(-105);
+            leftArm.yaw = (float) Math.toRadians(-20);
             leftArm.roll = (float) Math.toRadians(-12.5);
             return;
         }
 
         if (pose == WeepingAngelPose.APPROACH) {
-            rightArm.pitch  = -1.04533F;
-            rightArm.yaw  = -0.55851F;
+            rightArm.pitch = -1.04533F;
+            rightArm.yaw = -0.55851F;
             rightArm.roll = 0.0F;
-            leftArm.pitch  = -1.04533F;
-            leftArm.yaw  = 0.55851F;
+            leftArm.pitch = -1.04533F;
+            leftArm.yaw = 0.55851F;
             leftArm.roll = 0.0F;
             return;
         }
 
         if (pose == WeepingAngelPose.IDLE) {
-            head.pitch  = (float) Math.toRadians(0);
-            head.yaw  = (float) Math.toRadians(0);
+            head.pitch = (float) Math.toRadians(0);
+            head.yaw = (float) Math.toRadians(0);
             head.roll = (float) Math.toRadians(0);
 
-            rightArm.pitch  = (float) Math.toRadians(0);
-            rightArm.yaw  = (float) Math.toRadians(0);
+            rightArm.pitch = (float) Math.toRadians(0);
+            rightArm.yaw = (float) Math.toRadians(0);
             rightArm.roll = (float) Math.toRadians(-7.5);
 
-            leftArm.pitch  = (float) Math.toRadians(0);
-            leftArm.yaw  = (float) Math.toRadians(0);
+            leftArm.pitch = (float) Math.toRadians(0);
+            leftArm.yaw = (float) Math.toRadians(0);
             leftArm.roll = (float) Math.toRadians(7.5);
             return;
         }
 
         if (pose == WeepingAngelPose.SHY) {
-            rightArm.pitch  = (float) Math.toRadians(-90);
-            rightArm.yaw  = (float) Math.toRadians(-1.5);
+            rightArm.pitch = (float) Math.toRadians(-90);
+            rightArm.yaw = (float) Math.toRadians(-1.5);
             rightArm.roll = (float) Math.toRadians(-20);
 
-            leftArm.pitch  = (float) Math.toRadians(-120);
-            leftArm.yaw  = (float) Math.toRadians(-36);
+            leftArm.pitch = (float) Math.toRadians(-120);
+            leftArm.yaw = (float) Math.toRadians(-36);
             leftArm.roll = (float) Math.toRadians(10);
 
-            head.pitch  = (float) Math.toRadians(20);
-            head.yaw  = (float) Math.toRadians(-40);
+            head.pitch = (float) Math.toRadians(20);
+            head.yaw = (float) Math.toRadians(-40);
             head.roll = (float) Math.toRadians(-20);
             return;
         }

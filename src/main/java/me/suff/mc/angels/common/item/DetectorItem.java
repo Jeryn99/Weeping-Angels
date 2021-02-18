@@ -15,15 +15,29 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import org.lwjgl.system.CallbackI;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /* Created by Craig on 18/02/2021 */
 public class DetectorItem extends Item {
     public DetectorItem(Settings settings) {
         super(settings);
+    }
+
+    public static void setTime(ItemStack itemStack, int time) {
+        CompoundTag tag = itemStack.getOrCreateTag();
+        if (time > 17) {
+            time = 0;
+        }
+        tag.putInt("time", time);
+    }
+
+    public static int getTime(ItemStack itemStack) {
+        CompoundTag tag = itemStack.getOrCreateTag();
+        if (tag.contains("time")) {
+            return tag.getInt("time");
+        }
+        return 0;
     }
 
     @Override
@@ -62,23 +76,6 @@ public class DetectorItem extends Item {
             }
         }
     }
-
-    public static void setTime(ItemStack itemStack, int time) {
-        CompoundTag tag = itemStack.getOrCreateTag();
-        if(time > 17){
-            time = 0;
-        }
-        tag.putInt("time", time);
-    }
-
-    public static int getTime(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getOrCreateTag();
-        if (tag.contains("time")) {
-            return tag.getInt("time");
-        }
-        return 0;
-    }
-
 
 
 }

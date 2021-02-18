@@ -145,13 +145,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public void invokeSeen(PlayerEntity player) {
         super.invokeSeen(player);
         if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().asLong() != getBlockPos().asLong()) {
+            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
             setPrevPos(getBlockPos());
             boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
             // Play Sound
             if (canPlaySound) {
                 if (WAConfig.AngelBehaviour.playSeenSounds.getValue() && player.distanceTo(this) < 15) {
                     setTimeSincePlayedSound(System.currentTimeMillis());
-                    ((ServerPlayerEntity) player).networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.ANGEL_SEEN, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
+                    serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.ANGEL_SEEN, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
                 }
             }
             setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));

@@ -1,12 +1,13 @@
 package me.suff.mc.angels;
 
 import com.oroarmor.config.Config;
-import me.suff.mc.angels.client.renderer.WeepingAngelRenderer;
+import me.suff.mc.angels.client.renderer.entiity.WeepingAngelRenderer;
 import me.suff.mc.angels.common.entity.EntitySpawns;
 import me.suff.mc.angels.common.entity.QuantumLockBaseEntity;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.common.objects.WAItems;
-import me.suff.mc.angels.common.world.WAStructures;
+import me.suff.mc.angels.common.world.features.WAFeatures;
+import me.suff.mc.angels.common.world.structure.WAStructures;
 import me.suff.mc.angels.util.AngelUtils;
 import me.suff.mc.angels.util.Constants;
 import me.suff.mc.angels.util.WAConfig;
@@ -25,19 +26,14 @@ public class WeepingAngels implements ModInitializer {
 
     public static final Config CONFIG = new WAConfig();
 
-
-    public static final EntityType< QuantumLockBaseEntity > WEEPING_ANGEL = Registry.register(
-            Registry.ENTITY_TYPE,
-            new Identifier(Constants.MODID, "weeping_angel"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, (EntityType.EntityFactory< QuantumLockBaseEntity >) (type, world) -> new WeepingAngelEntity(world)).dimensions(EntityDimensions.fixed(0.6F, 1.95F)).build()
-    );
+    public static final EntityType< QuantumLockBaseEntity > WEEPING_ANGEL = Registry.register(Registry.ENTITY_TYPE, new Identifier(Constants.MODID, "weeping_angel"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, (EntityType.EntityFactory< QuantumLockBaseEntity >) (type, world) -> new WeepingAngelEntity(world)).dimensions(EntityDimensions.fixed(0.6F, 1.95F)).build());
 
     @Override
     public void onInitialize() {
         FabricDefaultAttributeRegistry.register(WEEPING_ANGEL, WeepingAngelEntity.createAttributes());
         EntityRendererRegistry.INSTANCE.register(WEEPING_ANGEL, (dispatcher, context) -> new WeepingAngelRenderer(dispatcher));
         WAStructures.init();
-        WAItems.init();
+        WAFeatures.init();
         WAConfig.init();
         EntitySpawns.init();
         FabricModelPredicateProviderRegistry.register(WAItems.DETECTOR, new Identifier("angle"), (stack, world, entity) -> AngelUtils.RAND.nextInt(17));

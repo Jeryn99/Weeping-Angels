@@ -26,6 +26,16 @@ public class WAConfig extends Config {
         super(configs, new File(FabricLoader.getInstance().getConfigDir().toFile(), "weeping_angels.json"), "weeping_angels");
     }
 
+    public static void init() {
+        CommandRegistrationCallback.EVENT.register(new ConfigCommand(CONFIG)::register);
+        CONFIG.readConfigFromFile();
+        CONFIG.saveConfigToFile();
+    }
+
+    public static String genConfigString(String config) {
+        return "config.weeping_angels." + config;
+    }
+
     public static class AngelBehaviour extends ConfigItemGroup {
         public static final ConfigItem< Integer > stalkRange = new ConfigItem<>("stalkRange", 25, genConfigString("stalkRange"));
         public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, genConfigString("chickenBoom"));
@@ -43,16 +53,6 @@ public class WAConfig extends Config {
         public BreakConfig() {
             super(of(breakRange, breakBlocks), "block_breaking");
         }
-    }
-
-    public static void init(){
-        CommandRegistrationCallback.EVENT.register(new ConfigCommand(CONFIG)::register);
-        CONFIG.readConfigFromFile();
-        CONFIG.saveConfigToFile();
-    }
-
-    public static String genConfigString(String config){
-        return "config.weeping_angels."+config;
     }
 
     private static class Spawns extends ConfigItemGroup {

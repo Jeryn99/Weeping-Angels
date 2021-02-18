@@ -45,7 +45,7 @@ public class PlayerUtils {
         player.sendMessage(textComponent, isHotBar);
     }
 
-    public static ItemStack getItemFromActive(LivingEntity livingEntity){
+    public static ItemStack getItemFromActive(LivingEntity livingEntity) {
         return livingEntity.getMainHandStack();
     }
 }

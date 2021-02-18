@@ -44,7 +44,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
                 for (PlayerEntity player : players) {
                     if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
-                        if(getSeenTime() == 1) {
+                        if (getSeenTime() == 1) {
                             invokeSeen(player);
                         }
                         return;
