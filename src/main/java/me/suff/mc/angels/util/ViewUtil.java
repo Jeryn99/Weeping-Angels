@@ -1,7 +1,6 @@
 package me.suff.mc.angels.util;
 
 import me.suff.mc.angels.common.entity.QuantumLockBaseEntity;
-import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
@@ -11,28 +10,110 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
-/* Created by Craig on 16/02/2021 */
 public class ViewUtil {
 
     private static final float headSize = 0.15f;
 
     public static boolean isInFrontOfEntity(LivingEntity entity, Entity target) {
         Vec3d vecTargetsPos = target.getPos();
-        Vec3d vecLook = entity.getCameraPosVec(1);
+        Vec3d vecLook = entity.getRotationVec(1);
         Vec3d vecFinal = vecTargetsPos.reverseSubtract(new Vec3d(entity.getX(), entity.getY(), entity.getZ())).normalize();
         vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
         return vecFinal.dotProduct(vecLook) < 0.0;
     }
 
+    /**
+     * Method that detects whether a entity is the the view sight of another entity
+     *
+     * @param viewer      The viewer entity
+     * @param beingViewed The entity being watched by viewer
+     */
+    public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
+        double dx = beingViewed.getX() - viewer.getX();
+        double dz;
+        for (dz = beingViewed.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+            dx = (Math.random() - Math.random()) * 0.01D;
+        }
+        while (viewer.yaw > 360) {
+            viewer.yaw -= 360;
+        }
+        while (viewer.yaw < -360) {
+            viewer.yaw += 360;
+        }
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yaw;
+        yaw = yaw - 90;
+        while (yaw < -180) {
+            yaw += 360;
+        }
+        while (yaw >= 180) {
+            yaw -= 360;
+        }
+
+        return yaw < 60 && yaw > -60 && viewer.canSee(beingViewed);
+    }
+
+    public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
+        double dx = pos.getX() - viewer.getX();
+        ;
+        double dz;
+        for (dz = pos.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+            dx = (Math.random() - Math.random()) * 0.01D;
+        }
+        while (viewer.yaw > 360) {
+            viewer.yaw -= 360;
+        }
+        while (viewer.yaw < -360) {
+            viewer.yaw += 360;
+        }
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yaw;
+        yaw = yaw - 90;
+        while (yaw < -180) {
+            yaw += 360;
+        }
+        while (yaw >= 180) {
+            yaw -= 360;
+        }
+        return yaw < 60 && yaw > -60;
+    }
+
+    public static void lookAt(LivingEntity looker, LivingEntity target) {
+        double dirx = looker.getBlockPos().getX() - target.getBlockPos().getX();
+        double diry = looker.getBlockPos().getX() - target.getBlockPos().getY();
+        double dirz = looker.getBlockPos().getX() - target.getBlockPos().getZ();
+
+        double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
+
+        dirx /= len;
+        diry /= len;
+        dirz /= len;
+
+        double pitch = Math.asin(diry);
+        double yaw = Math.atan2(dirz, dirx);
+
+        //to degree
+        pitch = pitch * 180.0 / Math.PI;
+        yaw = yaw * 180.0 / Math.PI;
+
+        yaw += 90f;
+        looker.pitch = (float) pitch;
+        looker.yaw = (float) yaw;
+    }
+
+    /**
+     * Method that detects whether a tile is the the view sight of viewer
+     *
+     * @param livingBase The viewer entity
+     * @param angel      The entity being watched by viewer
+     */
     public static boolean isInSight(LivingEntity livingBase, QuantumLockBaseEntity angel) {
         if (viewBlocked(livingBase, angel)) {
             return false;
@@ -46,7 +127,7 @@ public class ViewUtil {
         Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
         if (viewer instanceof PlayerEntity) {
-            Vec3d pos = new Vec3d(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
+            Vec3d pos = new Vec3d(viewer.getX(), viewer.getBlockPos().getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
@@ -72,7 +153,7 @@ public class ViewUtil {
 
         if (angel.age % 1200 == 0) {
             if (angel.distanceTo(viewer) < 15) {
-                viewer.applyStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 15));
+                viewer.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 15));
             }
         }
 
@@ -81,7 +162,7 @@ public class ViewUtil {
 
     public static boolean viewBlocked(LivingEntity viewer, BlockState blockState, BlockPos blockPos) {
         Box viewerBoundBox = viewer.getBoundingBox();
-        Box angelBoundingBox = blockState.getSidesShape(viewer.world, blockPos).getBoundingBox();
+        Box angelBoundingBox = blockState.getRaycastShape(viewer.world, blockPos).getBoundingBox();
         Vec3d[] viewerPoints = {new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
         if (viewer instanceof PlayerEntity) {
@@ -111,9 +192,7 @@ public class ViewUtil {
         return true;
     }
 
-
-    @Nullable
-    private static HitResult rayTraceBlocks(LivingEntity livingEntity, World world, Vec3d vec31, Vec3d vec32, Predicate< BlockPos > stopOn) {
+    private static BlockHitResult rayTraceBlocks(LivingEntity livingEntity, World world, Vec3d vec31, Vec3d vec32, Predicate< BlockPos > stopOn) {
         if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
             if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
                 int i = MathHelper.floor(vec32.x);
@@ -124,9 +203,9 @@ public class ViewUtil {
                 int j1 = MathHelper.floor(vec31.z);
                 BlockPos blockpos = new BlockPos(l, i1, j1);
                 if (stopOn.test(blockpos)) {
-                    HitResult raytraceresult = world.raycast(new RaycastContext(vec31, vec32, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, livingEntity));
-                    if (raytraceresult != null) {
-                        return raytraceresult;
+                    BlockHitResult raycast = world.raycast(new RaycastContext(vec31, vec32, net.minecraft.world.RaycastContext.ShapeType.COLLIDER, net.minecraft.world.RaycastContext.FluidHandling.NONE, livingEntity));
+                    if (raycast != null) {
+                        return raycast;
                     }
                 }
 
@@ -221,10 +300,10 @@ public class ViewUtil {
                     j1 = MathHelper.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
                     blockpos = new BlockPos(l, i1, j1);
                     if (stopOn.test(blockpos)) {
-                        HitResult raytraceresult1 = world.raycast(new RaycastContext(vec31, vec32, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, livingEntity));
+                        BlockHitResult raycast = world.raycast(new RaycastContext(vec31, vec32, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, livingEntity));
 
-                        if (raytraceresult1 != null) {
-                            return raytraceresult1;
+                        if (raycast != null) {
+                            return raycast;
                         }
                     }
                 }
@@ -238,7 +317,7 @@ public class ViewUtil {
     public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
 
         // Covers all Block, Material and Tag checks :D
-        if (!blockState.isSolidBlock(world, pos) || !blockState.isFullCube(world, pos)) {
+        if (!blockState.isSolidBlock(world, pos) || blockState.isOpaque()) {
             return true;
         }
 
@@ -251,6 +330,5 @@ public class ViewUtil {
 
         return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();
     }
-
 
 }

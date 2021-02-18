@@ -1,0 +1,46 @@
+{
+  "overrides": [
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 0
+      },
+      "model": "weeping_angels:item/angel/angela"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 1
+      },
+      "model": "weeping_angels:item/angel/angela_mc"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 2
+      },
+      "model": "weeping_angels:item/angel/ed"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 3
+      },
+      "model": "weeping_angels:item/angel/ed_angel_child"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 4
+      },
+      "model": "weeping_angels:item/angel/vio_1"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 5
+      },
+      "model": "weeping_angels:item/angel/vio_2"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 6
+      },
+      "model": "weeping_angels:item/angel/a_dizzle"
+    }
+  ]
+}

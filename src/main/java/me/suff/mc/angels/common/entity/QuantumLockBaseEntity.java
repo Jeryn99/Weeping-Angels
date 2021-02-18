@@ -34,7 +34,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
 
         //   rotationYawHead = rotationYaw;
         if (!world.isClient && age % 5 == 0) {
-            List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().expand(WAConfig.Common.stalkRange.getValue()), LivingEntity::isAlive);
+            List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().expand(WAConfig.AngelBehaviour.stalkRange.getValue()), LivingEntity::isAlive);
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.world != world);
 
             if (players.isEmpty()) {
@@ -44,7 +44,9 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
                 for (PlayerEntity player : players) {
                     if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
-                        invokeSeen(player);
+                        if(getSeenTime() == 1) {
+                            invokeSeen(player);
+                        }
                         return;
                     } else if (targetPlayer == null) {
                         targetPlayer = player;
@@ -56,6 +58,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
                 Vec3d vecPlayerPos = targetPlayer.getPos();
                 float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
                 headYaw = yaw = angle > 180 ? angle : angle + 90;
+
                 if (isSeen()) return;
                 if (distanceTo(targetPlayer) < 2)
                     attackLivingEntity(targetPlayer);
@@ -63,6 +66,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
                     moveTowards(targetPlayer);
             }
         }
+
     }
 
     public void moveTowards(LivingEntity targetPlayer) {

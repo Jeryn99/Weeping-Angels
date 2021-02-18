@@ -1,11 +1,13 @@
 package me.suff.mc.angels.common.entity;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.common.objects.WASounds;
 import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import me.suff.mc.angels.util.AngelUtils;
+import me.suff.mc.angels.util.Constants;
+import me.suff.mc.angels.util.WAConfig;
 import net.minecraft.block.*;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -17,20 +19,20 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /* Created by Craig on 18/02/2021 */
 public class WeepingAngelEntity extends QuantumLockBaseEntity  {
 
     private static final TrackedData< String > CURRENT_POSE = DataTracker.registerData(WeepingAngelEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData< String > VARIENT = DataTracker.registerData(WeepingAngelEntity.class, TrackedDataHandlerRegistry.STRING);
-
-    public WeepingAngelEntity(World worldIn, EntityType<QuantumLockBaseEntity> entityType) {
-        super(worldIn, entityType);
-    }
 
     public WeepingAngelEntity(World worldIn) {
         super(worldIn, WeepingAngels.WEEPING_ANGEL);
@@ -71,19 +73,46 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity  {
     @Override
     public void tick() {
         super.tick();
-        replaceBlocks(getBoundingBox().expand(24));
+        if (getSeenTime() == 0 || world.isAir(getBlockPos().down())) {
+            setAiDisabled(false);
+        }
+        if (age % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
+            setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
+        }
+        if(WAConfig.BreakConfig.breakBlocks.getValue() && isSeen()) {
+            replaceBlocks(getBoundingBox().expand(WAConfig.BreakConfig.breakRange.getValue()));
+        }
     }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return WASounds.ANGEL_DEATH;
+    }
+
+
 
     @Override
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
+        tag.putString(Constants.CURRENT_POSE, getAngelPose());
+        tag.putString(Constants.VARIANT, getVarient());
     }
 
     @Override
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
+        setVarient(WeepingAngelVariants.getVariant(tag.getString(Constants.VARIANT)));
+        setPose(WeepingAngelPose.getPose(tag.getString(Constants.CURRENT_POSE)));
     }
 
+    @Override
+    public void invokeSeen(PlayerEntity player) {
+        super.invokeSeen(player);
+        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+        playSound(WASounds.ANGEL_SEEN, 0.2F, 1);
+    }
+
+    //DESTROY LIGHT BLOCKS
     private void replaceBlocks(Box box) {
         if (world.isClient() || age % 100 != 0) return;
 
