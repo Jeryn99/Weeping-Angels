@@ -2,6 +2,7 @@ package me.suff.mc.angels.client.renderer.tile;
 
 import me.suff.mc.angels.client.models.CoffinModel;
 import me.suff.mc.angels.client.models.PTBCoffinModel;
+import me.suff.mc.angels.common.block.CoffinBlock;
 import me.suff.mc.angels.common.block.StatueBlock;
 import me.suff.mc.angels.common.blockentity.CoffinTile;
 import me.suff.mc.angels.util.Constants;
@@ -35,6 +36,12 @@ public class CoffinTileRenderer extends BlockEntityRenderer< CoffinTile > {
         BlockState blockstate = coffinTile.getCachedState();
         float rotation = 22.5F * (float) blockstate.get(StatueBlock.ROTATION);
         matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(rotation));
+
+        if (!coffinTile.getCachedState().get(CoffinBlock.UPRIGHT)) {
+            matrices.translate(0F, 1F, 0F);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-90F));
+        }
+
         if (!coffinTile.getCoffin().name().contains("PTB")) {
             coffinModel.Door.yaw = -(coffinTile.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityCutout(getTexture(coffinTile.getCoffin()))), light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);

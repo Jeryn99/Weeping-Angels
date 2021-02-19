@@ -18,6 +18,7 @@ public class WAItems {
     public static final Item DETECTOR = makeItem(new DetectorItem(new FabricItemSettings().group(ITEM_GROUP)), "timey_wimey_detector");
     public static final Item CHISEL = makeItem(new ChiselItem(new FabricItemSettings().group(ITEM_GROUP)), "chisel");
     public static final Item KONTRON_INGOT = makeItem(new Item(new FabricItemSettings().group(ITEM_GROUP)), "kontron_ingot");
+    public static final Item CHRONODYNE_GENERATOR = makeItem(new Item(new FabricItemSettings().group(ITEM_GROUP)), "chronodyne_generator");
 
 
     public static Item makeItem(Item item, String name) {

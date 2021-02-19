@@ -69,7 +69,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     }
 
     public void moveTowards(LivingEntity targetPlayer) {
-        this.setMovementSpeed(0.9F);
+        this.setMovementSpeed(1.2F);
         getNavigation().startMovingTo(targetPlayer, getMovementSpeed());
     }
 

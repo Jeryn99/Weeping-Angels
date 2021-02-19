@@ -45,6 +45,7 @@ public class WeepingAngels implements ModInitializer, ClientModInitializer {
         WATiles.init();
         WAFeatures.init();
         onInitializeClient();
+        Art.init();
     }
 
     @Override

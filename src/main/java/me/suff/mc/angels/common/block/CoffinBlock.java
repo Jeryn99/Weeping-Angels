@@ -1,23 +1,35 @@
 package me.suff.mc.angels.common.block;
 
 import me.suff.mc.angels.common.blockentity.CoffinTile;
+import net.minecraft.advancement.criterion.ItemUsedOnBlockCriterion;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.MusicDiscItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /* Created by Craig on 19/02/2021 */
 public class CoffinBlock extends StatueBlock {
+
+    public static final BooleanProperty UPRIGHT = BooleanProperty.of("upright");
+
+
     public CoffinBlock(Settings settings) {
         super(settings);
     }
@@ -30,6 +42,18 @@ public class CoffinBlock extends StatueBlock {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder< Block, BlockState > builder) {
+        super.appendProperties(builder);
+        builder.add(UPRIGHT);
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext context) {
+        BlockState state = super.getPlacementState(context);
+        return state.with(ROTATION, MathHelper.floor((double) (context.getPlayerYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(UPRIGHT, context.getPlayer().isSneaking());
     }
 
     @Override

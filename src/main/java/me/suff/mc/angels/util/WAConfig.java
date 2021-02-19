@@ -4,6 +4,7 @@ import com.oroarmor.config.Config;
 import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.config.command.ConfigCommand;
+import com.sun.jna.platform.unix.X11;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -14,7 +15,6 @@ import static com.google.common.collect.ImmutableList.of;
 import static me.suff.mc.angels.WeepingAngels.CONFIG;
 
 /* Created by Craig on 18/02/2021 */
-//TODO THIS DOESNT WORK
 public class WAConfig extends Config {
     public static final ConfigItemGroup breakConfig = new BreakConfig();
     public static final ConfigItemGroup angelBehaviour = new AngelBehaviour();
@@ -40,9 +40,11 @@ public class WAConfig extends Config {
         public static final ConfigItem< Integer > stalkRange = new ConfigItem<>("stalkRange", 25, genConfigString("stalkRange"));
         public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, genConfigString("chickenBoom"));
         public static final ConfigItem< Boolean > playSeenSounds = new ConfigItem<>("playSeenSounds", true, genConfigString("playSeenSounds"));
+        public static final ConfigItem< Integer > movementSpeed = new ConfigItem<>("movementSpeed", 1, genConfigString("movementSpeed"));
+        public static final ConfigItem< Integer > attackDamage = new ConfigItem<>("attackDamage", 15, genConfigString("attackDamage"));
 
         public AngelBehaviour() {
-            super(of(stalkRange, chickenBoom), "angel_behaviour");
+            super(of(stalkRange, chickenBoom, playSeenSounds, movementSpeed, attackDamage), "angel_behaviour");
         }
     }
 

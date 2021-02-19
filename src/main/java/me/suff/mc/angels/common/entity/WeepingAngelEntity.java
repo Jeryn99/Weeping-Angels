@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.objects.WASounds;
+import me.suff.mc.angels.common.objects.WASources;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.AngelUtils;
@@ -62,8 +63,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 50.0F));
     }
 
+
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D).add(EntityAttributes.GENERIC_ARMOR, 2.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 9999D);
+        return HostileEntity.createHostileAttributes().
+                add(EntityAttributes.GENERIC_ATTACK_DAMAGE, WAConfig.AngelBehaviour.attackDamage.getValue()).
+                add(EntityAttributes.GENERIC_MAX_HEALTH, 50D).
+                add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 9999999.0D).
+                add(EntityAttributes.GENERIC_MOVEMENT_SPEED, WAConfig.AngelBehaviour.movementSpeed.getValue()).
+                add(EntityAttributes.GENERIC_ARMOR, 2.0D);
     }
 
 
@@ -132,7 +139,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
             } else {
                 if (handEmpty) {
-                    living.damage(DamageSource.ANVIL, 3);
+                    living.damage(WASources.PUNCH_STONE, 3);
                     if (random.nextInt(100) < 20) {
                         playSound(WASounds.ANGEL_MOCKING, 1, random.nextFloat());
                     }
@@ -164,7 +171,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void invokeSeen(PlayerEntity player) {
         super.invokeSeen(player);
-        if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().asLong() != getBlockPos().asLong()) {
+        if (age > 30 && player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().asLong() != getBlockPos().asLong()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
             setPrevPos(getBlockPos());
             boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
@@ -172,7 +179,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             if (canPlaySound) {
                 if (WAConfig.AngelBehaviour.playSeenSounds.getValue() && player.distanceTo(this) < 15) {
                     setTimeSincePlayedSound(System.currentTimeMillis());
-                    serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.ANGEL_SEEN, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
+                    serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.ANGEL_SEEN, SoundCategory.HOSTILE, this, 0.1F, 0.3F));
                 }
             }
             setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
@@ -204,15 +211,30 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
+    public void onKilledOther(ServerWorld serverWorld, LivingEntity livingEntity) {
+        super.onKilledOther(serverWorld, livingEntity);
+        playSound(WASounds.ANGEL_NECK_SNAP, 1, 1);
+    }
+
+    @Override
     public void onPlayerCollision(PlayerEntity player) {
         super.onPlayerCollision(player);
-        if (!isSeen()) {
+        if (!isSeen() && age > 100) {
             if (player instanceof ServerPlayerEntity) {
                 ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
+
+                //Hurt
+                if (random.nextBoolean()) {
+                    serverPlayerEntity.damage(WASources.BREAK_NECK, WAConfig.AngelBehaviour.attackDamage.getValue());
+                    return;
+                }
+
+                //Teleport
                 @Nullable MinecraftServer server = getEntityWorld().getServer();
                 if (server != null) {
                     ServerWorld teleportWorld = AngelUtils.getRandomDimension(server);
                     BlockPos pos = AngelUtils.getGoodY(teleportWorld, getBlockPos().add(random.nextInt(250), 0, random.nextInt(250)));
+                    serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.TELEPORT, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
                     serverPlayerEntity.teleport(teleportWorld, pos.getX(), pos.getY(), pos.getZ(), player.yaw, player.pitch);
                 }
             }
