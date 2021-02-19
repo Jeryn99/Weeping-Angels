@@ -2,8 +2,8 @@ package me.suff.mc.angels.client.renderer.tile;
 
 import me.suff.mc.angels.client.models.WeepingAngelModel;
 import me.suff.mc.angels.client.renderer.entiity.WeepingAngelRenderer;
-import me.suff.mc.angels.common.block.StatueBlock;
-import me.suff.mc.angels.common.blockentity.StatueTile;
+import me.suff.mc.angels.common.block.PlinthBlock;
+import me.suff.mc.angels.common.blockentity.PlinthTile;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.OverlayTexture;
@@ -16,21 +16,21 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 
 /* Created by Craig on 18/02/2021 */
-public class StatueTileRender extends BlockEntityRenderer< StatueTile > {
+public class PlinthTileRenderer extends BlockEntityRenderer< PlinthTile > {
 
     WeepingAngelModel weepingAngelModel = new WeepingAngelModel();
 
-    public StatueTileRender(BlockEntityRenderDispatcher dispatcher) {
+    public PlinthTileRenderer(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
     }
 
     @Override
-    public void render(StatueTile statueTile, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(PlinthTile statueTile, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        matrices.translate(0.5F, 1.5F, 0.5F);
+        matrices.translate(0.5F, 2.5F, 0.5F);
         matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180F));
         BlockState blockstate = statueTile.getCachedState();
-        float rotation = 22.5F * (float) blockstate.get(StatueBlock.ROTATION);
+        float rotation = 22.5F * (float) blockstate.get(PlinthBlock.ROTATION);
         matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(rotation));
         WeepingAngelModel angel = weepingAngelModel;
         Identifier texture;

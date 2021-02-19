@@ -13,7 +13,6 @@ import net.minecraft.util.registry.Registry;
 
 /* Created by Craig on 18/02/2021 */
 public class WAItems {
-
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(Constants.MODID, "main"), () -> new ItemStack(WAItems.DETECTOR));
 
     public static final Item DETECTOR = makeItem(new DetectorItem(new FabricItemSettings().group(ITEM_GROUP)), "timey_wimey_detector");

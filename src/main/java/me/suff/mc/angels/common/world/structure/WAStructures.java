@@ -33,7 +33,7 @@ public class WAStructures {
     }
 
     public static void setupAndRegisterStructureFeatures() {
-        FabricStructureBuilder.create(new Identifier(MODID, "catacombs"), CATACOMBS).step(GenerationStep.Feature.UNDERGROUND_STRUCTURES).defaultConfig(new StructureConfig(10, 5, 399117345 )).superflatFeature(CATACOMBS.configure(FeatureConfig.DEFAULT)).register();
+        FabricStructureBuilder.create(new Identifier(MODID, "catacombs"), CATACOMBS).step(GenerationStep.Feature.UNDERGROUND_STRUCTURES).defaultConfig(new StructureConfig(10, 5, 399117345)).superflatFeature(CATACOMBS.configure(FeatureConfig.DEFAULT)).register();
     }
 
     public static void addToBiomes() {

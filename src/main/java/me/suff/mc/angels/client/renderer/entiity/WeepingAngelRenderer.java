@@ -18,6 +18,18 @@ public class WeepingAngelRenderer extends LivingEntityRenderer< WeepingAngelEnti
         super(dispatcher, new WeepingAngelModel(), 1);
     }
 
+    public static Identifier generateTex(WeepingAngelPose pose, WeepingAngelVariants angelVariants) {
+        String variant = angelVariants.name().toLowerCase() + "_angel_";
+        String location = "textures/entities/angela/";
+        location = location + angelVariants.name().toLowerCase().toLowerCase() + "/";
+        WeepingAngelPose.Emotion emotion = pose.getEmotion();
+        String suffix = emotion.name().toLowerCase();
+        if (angelVariants.isHeadless()) {
+            suffix = "headless";
+        }
+        return new Identifier(Constants.MODID, location + variant + suffix + ".png");
+    }
+
     @Override
     public Identifier getTexture(WeepingAngelEntity entity) {
         return generateTex(WeepingAngelPose.getPose(entity.getAngelPose()), WeepingAngelVariants.getVariant(entity.getVarient()));
@@ -29,18 +41,5 @@ public class WeepingAngelRenderer extends LivingEntityRenderer< WeepingAngelEnti
 
     public void setAngelPose(WeepingAngelPose angelType) {
         weepingAngelPose = angelType;
-    }
-
-
-    public Identifier generateTex(WeepingAngelPose pose, WeepingAngelVariants angelVariants) {
-        String variant = angelVariants.name().toLowerCase() + "_angel_";
-        String location = "textures/entities/angela/";
-        location = location + angelVariants.name().toLowerCase().toLowerCase() + "/";
-        WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = emotion.name().toLowerCase();
-        if (angelVariants.isHeadless()) {
-            suffix = "headless";
-        }
-        return new Identifier(Constants.MODID, location + variant + suffix + ".png");
     }
 }

@@ -5,7 +5,6 @@ import me.suff.mc.angels.util.ViewUtil;
 import me.suff.mc.angels.util.WAConfig;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -32,7 +31,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     public void tick() {
         super.tick();
 
-        //   rotationYawHead = rotationYaw;
+        headYaw = yaw;
         if (!world.isClient && age % 5 == 0) {
             List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().contract(WAConfig.AngelBehaviour.stalkRange.getValue()), LivingEntity::isAlive);
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.world != world);
@@ -105,11 +104,6 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     @Override
     public boolean canBreatheInWater() {
         return true;
-    }
-
-    @Override
-    public boolean isInvulnerableTo(DamageSource source) {
-        return super.isInvulnerableTo(source) || (source.getAttacker() == null && source != DamageSource.OUT_OF_WORLD && !source.isSourceCreativePlayer()); //Prevents damage from things like suffocation etc.
     }
 
     public boolean isSeen() {

@@ -1,5 +1,7 @@
 package me.suff.mc.angels.util;
 
+import me.suff.mc.angels.common.blockentity.CoffinTile;
+import me.suff.mc.angels.common.objects.WASounds;
 import me.suff.mc.angels.enums.WeepingAngelVariants;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
@@ -21,7 +23,7 @@ public class AngelUtils {
         if (!entity.world.isClient) {
             ServerWorld serverWorld = (ServerWorld) entity.world;
             serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
-            //TODO entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1, 1.0F);
+            entity.playSound(WASounds.LIGHT_BREAK, 1, 1.0F);
             ItemStack blockStack = new ItemStack(entity.world.getBlockState(pos).getBlock());
             ItemEntity itemEntity = new ItemEntity(entity.world, pos.getX(), pos.getY(), pos.getZ(), blockStack);
             serverWorld.spawnEntity(itemEntity);
@@ -34,4 +36,8 @@ public class AngelUtils {
         return WeepingAngelVariants.values()[pick];
     }
 
+    public static CoffinTile.Coffin randomCoffin() {
+        int pick = RAND.nextInt(CoffinTile.Coffin.values().length);
+        return CoffinTile.Coffin.values()[pick];
+    }
 }

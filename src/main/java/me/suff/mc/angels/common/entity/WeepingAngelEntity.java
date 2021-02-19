@@ -25,6 +25,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
@@ -34,6 +35,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -117,14 +119,31 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (source.getAttacker() instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) source.getAttacker();
             ItemStack stack = PlayerUtils.getItemFromActive(living);
-            return stack.getItem() instanceof PickaxeItem ? super.damage(source, amount) : false;
+            boolean isPickaxe = stack.getItem() instanceof PickaxeItem;
+            boolean handEmpty = stack.getItem() == Items.AIR;
+            if (isPickaxe) {
+                super.damage(source, amount);
+
+                stack.damage(random.nextInt(25), living, livingEntity -> {
+                    playSound(WASounds.ANGEL_MOCKING, 1, random.nextFloat());
+                    livingEntity.sendToolBreakStatus(Hand.MAIN_HAND);
+                });
+
+            } else {
+                if (handEmpty) {
+                    living.damage(DamageSource.ANVIL, 3);
+                    if (random.nextInt(100) < 20) {
+                        playSound(WASounds.ANGEL_MOCKING, 1, random.nextFloat());
+                    }
+                }
+            }
         }
         return false;
     }
 
     @Override
     public void takeKnockback(float f, double d, double e) {
-        //No lol
+        //No
     }
 
     @Override

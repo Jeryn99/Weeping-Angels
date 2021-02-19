@@ -40,7 +40,7 @@
   "source.weeping_angels.backintime": "%s was sent back in time by a Angel!",
   "source.weeping_angels.neck_snap": "%s had their neck snapped by a Angel!",
   "source.weeping_angels.punch_stone": "%s broke their bones by punching stone...",
-  "tooltip.weeping_angels.chisel": "Used to change appearance of Decorative Angel Blocks",
+  "tooltip.weeping_angels.chisel": "Chisel Angel Blocks",
   "tooltip.weeping_angels.chisel_right_click": "- Right click to change angel pose",
   "tooltip.weeping_angels.chisel_sneak": "- Sneak + Right click to Change Angel Type"
 }

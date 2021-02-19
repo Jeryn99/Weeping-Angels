@@ -17,6 +17,7 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
     private final ModelPart Legs;
     private final ModelPart leftWing;
     private final ModelPart rightWing;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.APPROACH;
 
     public WeepingAngelModel() {
         textureWidth = 128;
@@ -65,9 +66,17 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
         rightWing.setTextureOffset(0, 59).addCuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
     }
 
+    public WeepingAngelPose getWeepingAngelPose() {
+        return weepingAngelPose;
+    }
+
+    public void setWeepingAngelPose(WeepingAngelPose weepingAngelPose) {
+        this.weepingAngelPose = weepingAngelPose;
+    }
+
     @Override
     public void setAngles(WeepingAngelEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        WeepingAngelPose pose = WeepingAngelPose.getPose(entity.getAngelPose());
+        WeepingAngelPose pose = weepingAngelPose;
         if (entity != null) {
             pose = WeepingAngelPose.getPose(entity.getAngelPose());
         }
