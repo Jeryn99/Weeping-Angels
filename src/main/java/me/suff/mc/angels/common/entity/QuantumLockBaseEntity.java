@@ -127,7 +127,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     }
 
     public void invokeSeen(PlayerEntity player) {
-        getNavigation().startMovingAlong(null, 0);
+        getNavigation().stop();
         setAiDisabled(true);
         this.lookAtEntity(player, 90.0F, 90.0F);
     }

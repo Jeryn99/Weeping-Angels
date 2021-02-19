@@ -30,6 +30,7 @@ import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -200,6 +201,22 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     public void setTimeSincePlayedSound(long timeSincePlayedSound) {
         this.timeSincePlayedSound = timeSincePlayedSound;
+    }
+
+    @Override
+    public void onPlayerCollision(PlayerEntity player) {
+        super.onPlayerCollision(player);
+        if (!isSeen()) {
+            if (player instanceof ServerPlayerEntity) {
+                ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
+                @Nullable MinecraftServer server = getEntityWorld().getServer();
+                if (server != null) {
+                    ServerWorld teleportWorld = AngelUtils.getRandomDimension(server);
+                    BlockPos pos = AngelUtils.getGoodY(teleportWorld, getBlockPos().add(random.nextInt(250), 0, random.nextInt(250)));
+                    serverPlayerEntity.teleport(teleportWorld, pos.getX(), pos.getY(), pos.getZ(), player.yaw, player.pitch);
+                }
+            }
+        }
     }
 
     //DESTROY LIGHT BLOCKS

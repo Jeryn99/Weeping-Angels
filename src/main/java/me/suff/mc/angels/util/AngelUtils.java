@@ -9,10 +9,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.TeleportCommand;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
 
 import java.util.Random;
+import java.util.Set;
+
+import static me.suff.mc.angels.common.blockentity.CoffinTile.Coffin.*;
 
 /* Created by Craig on 18/02/2021 */
 public class AngelUtils {
@@ -31,13 +39,48 @@ public class AngelUtils {
         }
     }
 
+
     public static WeepingAngelVariants randomVarient() {
         int pick = RAND.nextInt(WeepingAngelVariants.values().length);
         return WeepingAngelVariants.values()[pick];
     }
 
     public static CoffinTile.Coffin randomCoffin() {
-        int pick = RAND.nextInt(CoffinTile.Coffin.values().length);
-        return CoffinTile.Coffin.values()[pick];
+        CoffinTile.Coffin[] coffins = new CoffinTile.Coffin[]{NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED};
+        int pick = RAND.nextInt(coffins.length);
+        return coffins[pick];
+    }
+
+    public static ServerWorld getRandomDimension(MinecraftServer minecraftServer){
+        Iterable< ServerWorld > keys = minecraftServer.getWorlds();
+        for (ServerWorld key : keys) {
+            if(RAND.nextBoolean()){
+                return key;
+            }
+        }
+        return minecraftServer.getWorld(World.OVERWORLD);
+    }
+
+
+    public static BlockPos getGoodY(ServerWorld world, BlockPos pos) {
+        for (int y = world.getHeight(); y > 0; --y) {
+            BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
+            if (!willBlockStateCauseSuffocation(world, newPos) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+                return newPos;
+            }
+        }
+        return world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
+    }
+
+    public static boolean isPosBelowOrAboveWorld(World dim, int y) {
+        if (dim.getRegistryKey() == World.NETHER) {
+            return y <= 0 || y >= 126;
+        }
+        return y <= 0 || y >= 256;
+    }
+
+    public static boolean willBlockStateCauseSuffocation(World world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        return state.getMaterial().blocksMovement() && !state.shouldSuffocate(world, pos);
     }
 }
