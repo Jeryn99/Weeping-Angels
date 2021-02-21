@@ -1,17 +1,20 @@
 package me.suff.mc.angels.common.blockentity;
 
+import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.common.objects.WATiles;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.Constants;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.Tickable;
+import org.jetbrains.annotations.Nullable;
 
 /* Created by Craig on 19/02/2021 */
-public class StatueTile extends BlockEntity implements IPlaceableStatue, BlockEntityClientSerializable {
+public class StatueTile extends BlockEntity implements Tickable, IPlaceableStatue, BlockEntityClientSerializable {
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.APPROACH;
     private WeepingAngelVariants weepingAngelVariants = WeepingAngelVariants.NORMAL;
@@ -56,6 +59,12 @@ public class StatueTile extends BlockEntity implements IPlaceableStatue, BlockEn
         markDirty();
     }
 
+    @Nullable
+    public BlockEntityUpdateS2CPacket toUpdatePacket() {
+        CompoundTag compoundTag = this.toTag(new CompoundTag());
+        return new BlockEntityUpdateS2CPacket(this.pos, 2, compoundTag);
+    }
+
     @Override
     public void fromClientTag(CompoundTag compoundTag) {
         fromTag(getCachedState(), compoundTag);
@@ -64,5 +73,17 @@ public class StatueTile extends BlockEntity implements IPlaceableStatue, BlockEn
     @Override
     public CompoundTag toClientTag(CompoundTag compoundTag) {
         return toTag(compoundTag);
+    }
+
+    @Override
+    public void tick() {
+        if (world != null && world.isReceivingRedstonePower(getPos()) && !world.isClient()) {
+            WeepingAngelEntity weepingAngelEntity = new WeepingAngelEntity(world);
+            weepingAngelEntity.setPose(getAngelPose());
+            weepingAngelEntity.setVarient(getAngelVariant());
+            weepingAngelEntity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+            world.spawnEntity(weepingAngelEntity);
+            world.removeBlock(getPos(), false);
+        }
     }
 }

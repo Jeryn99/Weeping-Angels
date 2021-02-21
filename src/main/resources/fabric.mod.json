@@ -21,6 +21,9 @@
     ],
     "modmenu": [
       "me.suff.mc.angels.client.screen.ModMenuIntegration"
+    ],
+    "client": [
+      "me.suff.mc.angels.client.ClientAngels"
     ]
   },
   "mixins": [

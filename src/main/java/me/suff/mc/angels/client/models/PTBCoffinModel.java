@@ -20,6 +20,7 @@ public class PTBCoffinModel extends EntityModel< Entity > {
     private final ModelPart Lamp;
     private final ModelPart DoorLeft;
     private final ModelPart DoorRight;
+
     public PTBCoffinModel() {
         textureWidth = 256;
         textureHeight = 256;
@@ -85,22 +86,23 @@ public class PTBCoffinModel extends EntityModel< Entity > {
         DoorRight.setTextureOffset(221, 181).addCuboid(12.0F, -50.0F, -2.0F, 1.0F, 50.0F, 1.0F, 0.0F, false);
         DoorRight.setTextureOffset(0, 30).addCuboid(10.0F, -33.0F, -1.5F, 1.0F, 4.0F, 1.0F, 0.0F, false);
     }
+
     @Override
-    public void setAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         //previously the render function, render code was moved to a method below
     }
 
     @Override
-    public void render(MatrixStack matrixStack, VertexConsumer	buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-        Base.render(matrixStack, buffer, packedLight, packedOverlay);
-        Pillars.render(matrixStack, buffer, packedLight, packedOverlay);
-        Frame.render(matrixStack, buffer, packedLight, packedOverlay);
-        SideDoors.render(matrixStack, buffer, packedLight, packedOverlay);
-        PPCBSign.render(matrixStack, buffer, packedLight, packedOverlay);
-        Roof.render(matrixStack, buffer, packedLight, packedOverlay);
-        Lamp.render(matrixStack, buffer, packedLight, packedOverlay);
-        DoorLeft.render(matrixStack, buffer, packedLight, packedOverlay);
-        DoorRight.render(matrixStack, buffer, packedLight, packedOverlay);
+    public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        Base.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Pillars.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Frame.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        SideDoors.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        PPCBSign.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Roof.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Lamp.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        DoorLeft.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        DoorRight.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
 }

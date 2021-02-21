@@ -1,20 +1,20 @@
 package me.suff.mc.angels.common.block;
 
 import me.suff.mc.angels.common.blockentity.CoffinTile;
-import net.minecraft.advancement.criterion.ItemUsedOnBlockCriterion;
+import me.suff.mc.angels.util.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.MusicDiscItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -63,20 +63,31 @@ public class CoffinBlock extends StatueBlock {
             if (coffinTile != null) {
                 if (!coffinTile.getCoffin().name().contains("PTB")) {
                     coffinTile.setOpen(!coffinTile.isOpen());
-                    world.playSound(null, pos.getX()+0.5D, (double)pos.getY() + 0.5D, pos.getZ()+0.5D, coffinTile.isOpen() ? SoundEvents.BLOCK_ENDER_CHEST_OPEN : SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+                    world.playSound(null, pos.getX() + 0.5D, (double) pos.getY() + 0.5D, pos.getZ() + 0.5D, coffinTile.isOpen() ? SoundEvents.BLOCK_ENDER_CHEST_OPEN : SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+                    coffinTile.sendUpdates();
                 } else {
                     if (player.getMainHandStack().getItem() instanceof MusicDiscItem) {
-                        coffinTile.setDoingSomething(true);
-                        if (!player.isCreative()) {
-                            player.getMainHandStack().decrement(1);
+                        if (!coffinTile.isDoingSomething()) {
+                            coffinTile.setDoingSomething(true);
+                            if (!player.isCreative()) {
+                                player.getMainHandStack().decrement(1);
+                            }
                         }
                     }
                 }
+                coffinTile.sendUpdates();
             }
-            coffinTile.sendUpdates();
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
-
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        if (world.getBlockEntity(pos) instanceof CoffinTile) {
+            CoffinTile blockEntity = (CoffinTile) world.getBlockEntity(pos);
+            blockEntity.setCoffin(AngelUtils.randomCoffin());
+            blockEntity.markDirty();
+        }
+    }
 }

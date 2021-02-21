@@ -54,6 +54,7 @@ public class StatueBlock extends Block implements BlockEntityProvider {
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         super.onPlaced(world, pos, state, placer, itemStack);
+        sync(world, pos);
     }
 
     @Override
@@ -65,4 +66,10 @@ public class StatueBlock extends Block implements BlockEntityProvider {
     protected void appendProperties(StateManager.Builder< Block, BlockState > builder) {
         builder.add(ROTATION);
     }
+
+    public void sync(World world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        blockEntity.markDirty();
+    }
+
 }

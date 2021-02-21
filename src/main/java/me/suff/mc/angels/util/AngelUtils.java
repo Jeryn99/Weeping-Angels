@@ -10,15 +10,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.TeleportCommand;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 
 import java.util.Random;
-import java.util.Set;
 
 import static me.suff.mc.angels.common.blockentity.CoffinTile.Coffin.*;
 
@@ -51,10 +49,10 @@ public class AngelUtils {
         return coffins[pick];
     }
 
-    public static ServerWorld getRandomDimension(MinecraftServer minecraftServer){
+    public static ServerWorld getRandomDimension(MinecraftServer minecraftServer) {
         Iterable< ServerWorld > keys = minecraftServer.getWorlds();
         for (ServerWorld key : keys) {
-            if(RAND.nextBoolean()){
+            if (RAND.nextBoolean() && !key.getRegistryKey().getValue().equals(DimensionType.THE_END_ID)) {
                 return key;
             }
         }
@@ -65,11 +63,11 @@ public class AngelUtils {
     public static BlockPos getGoodY(ServerWorld world, BlockPos pos) {
         for (int y = world.getHeight(); y > 0; --y) {
             BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
-            if (!willBlockStateCauseSuffocation(world, newPos) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
-                return newPos;
+            if (!isSafe(world, newPos) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+                // return newPos;
             }
         }
-        return world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
+        return world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos);
     }
 
     public static boolean isPosBelowOrAboveWorld(World dim, int y) {
@@ -79,8 +77,8 @@ public class AngelUtils {
         return y <= 0 || y >= 256;
     }
 
-    public static boolean willBlockStateCauseSuffocation(World world, BlockPos pos) {
+    public static boolean isSafe(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return state.getMaterial().blocksMovement() && !state.shouldSuffocate(world, pos);
+        return state.shouldSuffocate(world, pos) && !world.getBlockState(pos.down()).isAir();
     }
 }

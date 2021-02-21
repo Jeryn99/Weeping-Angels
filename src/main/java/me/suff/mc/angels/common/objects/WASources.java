@@ -16,9 +16,10 @@ public class WASources {
         protected WASource(String name) {
             super(name);
         }
+
         @Override
         public Text getDeathMessage(LivingEntity entity) {
-            return new TranslatableText("source.weeping_angels."+name, entity.getDisplayName());
+            return new TranslatableText("source.weeping_angels." + name, entity.getDisplayName());
         }
     }
 

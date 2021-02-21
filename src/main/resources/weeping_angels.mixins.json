@@ -3,9 +3,9 @@
   "minVersion": "0.8",
   "package": "me.suff.mc.angels.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
   "client": [
+  ],
+  "mixins": [
     "NoiseChunkGeneratorMixin",
     "StructuresConfigAccessor"
   ],

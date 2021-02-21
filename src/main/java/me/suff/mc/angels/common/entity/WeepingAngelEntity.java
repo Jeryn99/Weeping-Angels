@@ -30,10 +30,12 @@ import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -120,7 +122,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean damage(DamageSource source, float amount) {
         // We need to be compatible with the kill command
         if (source == DamageSource.OUT_OF_WORLD) {
-            return false;
+            return super.damage(source, amount);
         }
 
         //Pickaxe only!
@@ -152,6 +154,15 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void takeKnockback(float f, double d, double e) {
         //No
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!state.getMaterial().isLiquid() && world.random.nextInt(5) == 4) {
+            BlockState blockState = this.world.getBlockState(pos.up());
+            BlockSoundGroup blockSoundGroup = blockState.isOf(Blocks.SNOW) ? blockState.getSoundGroup() : state.getSoundGroup();
+            this.playSound(WASounds.STONE_SCRAP, blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
+        }
     }
 
     @Override
@@ -241,16 +252,32 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
+
+    @Override
+    protected void updatePostDeath() {
+        ++this.deathTime;
+        if (this.deathTime == 20) {
+            hurtTime = 0;
+            this.remove();
+        }
+        for (int i = 0; i < 20; ++i) {
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            this.world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), this.getParticleX(1.0D), this.getBodyY(1.0D), this.getParticleZ(1.0D), d0, d1, d2);
+        }
+    }
+
     //DESTROY LIGHT BLOCKS
     private void replaceBlocks(Box box) {
         if (world.isClient() || age % 100 != 0) return;
+        ServerWorld serverWorld = (ServerWorld) world;
 
         if (world.getLightLevel(getBlockPos()) == 0) {
             return;
         }
 
         for (BlockPos pos : BlockPos.iterate(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ))) {
-            ServerWorld serverWorld = (ServerWorld) world;
             BlockState blockState = serverWorld.getBlockState(pos);
 
             if (blockState.getBlock() == Blocks.LAVA) {
@@ -278,7 +305,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                     Vec3d path = start.subtract(end);
                     for (int i = 0; i < 10; ++i) {
                         double percent = i / 10.0;
-                        ((ServerWorld) world).spawnParticles(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0, 0, 0, 0);
+                        serverWorld.spawnParticles(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.getX() * percent, pos.getY() + 1.3 + path.getY() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0, 0, 0, 0);
                     }
                     return;
                 }

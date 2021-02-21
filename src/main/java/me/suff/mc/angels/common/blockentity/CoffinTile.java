@@ -8,10 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Tickable;
-import org.jetbrains.annotations.Nullable;
 
 public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClientSerializable {
 
@@ -31,7 +29,6 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
 
     public void setCoffin(Coffin coffin) {
         this.coffin = coffin;
-        sendUpdates();
     }
 
     public boolean isOpen() {
@@ -40,7 +37,6 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
 
     public void setOpen(boolean open) {
         isOpen = open;
-        sendUpdates();
     }
 
     public float getOpenAmount() {
@@ -64,7 +60,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
             this.openAmount = 0.0F;
         }
 
-        if (doingSomething && coffin == Coffin.PTB) {
+        if (doingSomething && coffin.name().contains("PTB")) {
             if (ticks % 60 < 30) {
                 if (pulses <= 2)
                     this.alpha -= 0.01;
@@ -91,12 +87,16 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
             }
         }
 
+        if (!world.isClient) {
+            sendUpdates();
+        }
+
     }
 
 
     @Override
     public void fromTag(BlockState state, CompoundTag nbt) {
-        if(nbt.contains("coffin_type")) {
+        if (nbt.contains("coffin_type")) {
             coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         }
         isOpen = nbt.getBoolean("isOpen");
@@ -109,7 +109,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
 
     @Override
     public CompoundTag toTag(CompoundTag compound) {
-        if(coffin != null) {
+        if (coffin != null) {
             compound.putString("coffin_type", coffin.name());
         } else {
             compound.putString("coffin_type", AngelUtils.randomCoffin().name());
@@ -145,21 +145,16 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
                 return value;
             }
         }
-
         return Coffin.HEAVILY_WEATHERED;
-    }
-
-    @Override
-    public @Nullable BlockEntityUpdateS2CPacket toUpdatePacket() {
-        return new BlockEntityUpdateS2CPacket(pos, 3, toTag(new CompoundTag()));
     }
 
     public void sendUpdates() {
         if (world != null && getCachedState() != null && getCachedState().getBlock() != null) {
             world.updateComparators(pos, getCachedState().getBlock());
             world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+            markDirty();
+            sync();
         }
-        markDirty();
     }
 
     @Override
@@ -171,6 +166,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
     public CompoundTag toClientTag(CompoundTag compoundTag) {
         return toTag(compoundTag);
     }
+
 
     public enum Coffin {
         NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB, PTB_2

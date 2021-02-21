@@ -4,7 +4,6 @@ import com.oroarmor.config.Config;
 import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.config.command.ConfigCommand;
-import com.sun.jna.platform.unix.X11;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 
