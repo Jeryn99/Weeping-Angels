@@ -309,7 +309,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 setPose(Objects.requireNonNull(rand.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
             }
         }
-
     }
 
 

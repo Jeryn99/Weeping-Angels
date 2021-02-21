@@ -1,6 +1,7 @@
 package me.swirtzly.minecraft.angels.network;
 
 import me.swirtzly.minecraft.angels.WeepingAngels;
+import me.swirtzly.minecraft.angels.network.messages.MessageCatacomb;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +22,7 @@ public class Network {
     public static void init() {
         int messageID = 0;
         INSTANCE.registerMessage(messageID++, MessageSFX.class, MessageSFX::encode, MessageSFX::decode, MessageSFX.Handler::handle);
+        INSTANCE.registerMessage(messageID++, MessageCatacomb.class, MessageCatacomb::encode, MessageCatacomb::decode, MessageCatacomb.Handler::handle);
     }
 
     /**

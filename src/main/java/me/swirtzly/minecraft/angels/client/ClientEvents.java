@@ -1,14 +1,20 @@
 package me.swirtzly.minecraft.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,6 +32,9 @@ import java.util.Random;
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientEvents {
 
+    public static boolean isInCatacombs = false;
+    private static ISound iSound = null;
+
     @SubscribeEvent
     public static void onBlockHighlight(DrawHighlightEvent.HighlightBlock event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -38,32 +47,30 @@ public class ClientEvents {
         }
     }
 
- /*   @SubscribeEvent
+    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getInstance().player == null) return;
-        PlayerEntity player = Minecraft.getInstance().player;
-        createWorldAmbience(player);
-    }
+        SoundHandler sound = Minecraft.getInstance().getSoundHandler();
+        if(isInCatacombs) {
 
-    private static void createWorldAmbience(PlayerEntity player) {
-        Random random = player.world.rand;
-        double originX = player.getPosX();
-        double originY = player.getPosY();
-        double originZ = player.getPosZ();
-        for (int i = 0; i < 3; i++) {
-            double particleX = originX + (random.nextInt(24) - random.nextInt(24));
-            double particleY = originY + (random.nextInt(24) - random.nextInt(24));
-            double particleZ = originZ + (random.nextInt(24) - random.nextInt(24));
-            double velocityX = (random.nextDouble() - 0.5) * 0.02;
-            double velocityY = (random.nextDouble() - 0.5) * 0.02;
-            double velocityZ = (random.nextDouble() - 0.5) * 0.02;
-            player.world.addParticle(ParticleTypes.END_ROD, particleX, particleY, particleZ, velocityX, velocityY, velocityZ);
+            if(iSound == null){
+                iSound = SimpleSound.master(WAObjects.Sounds.CATACOMB.get(), 1);
+            }
+
+            if(!sound.isPlaying(iSound)){
+                sound.play(iSound);
+                sound.stop(null, SoundCategory.MUSIC);
+            }
+        } else {
+            if(sound.isPlaying(iSound)){
+                sound.stop(iSound);
+            }
         }
     }
 
     @SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
-        if (Minecraft.getInstance().world != null) {
+        if (Minecraft.getInstance().world != null && isInCatacombs) {
             GlStateManager.fogMode(GlStateManager.FogMode.EXP.param);
             event.setCanceled(true);
             event.setDensity(0.07F);
@@ -72,14 +79,14 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onSetupFogColor(EntityViewRenderEvent.RenderFogEvent.FogColors event) {
-        if (Minecraft.getInstance().world != null) {
-*//*            event.setRed(105 / 255F);
+        if (Minecraft.getInstance().world != null && isInCatacombs) {
+/*           event.setRed(105 / 255F);
             event.setGreen(105 / 255F);
-            event.setBlue(105 / 255F);*//*
+            event.setBlue(105 / 255F);*/
             event.setRed(0.14F);
             event.setGreen(0.15F);
             event.setBlue(0.22F);
         }
-    }*/
+    }
 
 }

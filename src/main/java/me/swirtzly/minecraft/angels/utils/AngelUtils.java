@@ -30,6 +30,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -191,6 +193,20 @@ public class AngelUtils {
             builder = builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
         }
         return builder;
+    }
+
+    public static boolean isInCatacomb(LivingEntity playerEntity) {
+        if (playerEntity.world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) playerEntity.world;
+            boolean isCatacomb = serverWorld.func_241112_a_().getStructureStart(playerEntity.getPosition(), true, WAObjects.Structures.CATACOMBS.get()).isValid();
+
+            if(isCatacomb) {
+                MutableBoundingBox box = serverWorld.func_241112_a_().getStructureStart(playerEntity.getPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
+                return playerEntity.getBoundingBox().intersects(new Vector3d(box.minX, box.minY, box.minZ), new Vector3d(box.maxX, box.maxY, box.maxZ));
+            }
+        }
+
+        return false;
     }
 
     public enum EnumTeleportType {

@@ -65,7 +65,6 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                         setSeenTime(0);
                     }
                 }
-
                 Vector3d vecPos = getPositionVec();
                 Vector3d vecPlayerPos = targetPlayer.getPositionVec();
                 float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
@@ -144,11 +143,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
     public void invokeSeen(PlayerEntity player) {
         getNavigator().setPath(null, 0);
-//		setLocationAndAngles(prevPosX, prevPosY, prevPosZ, rotationYaw, rotationPitch);
-        setMotion(0, 0, 0);
-        lookAt(EntityAnchorArgument.Type.EYES, player.getPositionVec());
         setNoAI(true);
-        this.faceEntity(player, 90.0F, 90.0F);
     }
 
 }

@@ -7,7 +7,6 @@ import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
-import me.swirtzly.minecraft.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -15,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
-    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela_two/normal/normal_angel_angry.png");
+    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 
     private final ModelRenderer head;
     private final ModelRenderer body;
@@ -95,7 +94,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         float angleY = isAngry ? 60F : 45F;
         float angleZ = 0;
 
-        if(pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM){
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM) {
             angleY += 10F;
             angleX -= 10F;
         }
@@ -250,12 +249,13 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
         String variant = angelVariants.name().toLowerCase() + "_angel_";
-        String location = "textures/entities/angela_two/";
+        String location = "textures/entities/angela/";
         location = location + angelVariants.name().toLowerCase().toLowerCase() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = emotion.name().toLowerCase();
         if (angelVariants.isHeadless()) {
             suffix = "headless";
         }
-        return new ResourceLocation(WeepingAngels.MODID, location + variant + suffix + ".png");    }
+        return new ResourceLocation(WeepingAngels.MODID, location + variant + suffix + ".png");
+    }
 }

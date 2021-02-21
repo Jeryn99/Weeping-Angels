@@ -73,7 +73,10 @@ public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< W
                 deathRotation = 1.0F;
             }
             matrixStackIn.rotate(Vector3f.XP.rotationDegrees(deathRotation  * this.getDeathMaxRotation(entityLiving)));
+            return;
         }
+
+        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
     }
 
     @Override

@@ -63,6 +63,16 @@
       }
     ]
   },
+  "catacomb": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.catacomb",
+    "sounds": [
+      {
+        "name": "weeping_angels:catacomb",
+        "stream": false
+      }
+    ]
+  },
   "disc_sally": {
     "category": "block",
     "subtitle": "sound.weeping_angels.disc_sally",

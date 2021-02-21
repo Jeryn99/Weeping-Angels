@@ -5,14 +5,19 @@ import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
 import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import me.swirtzly.minecraft.angels.config.WAConfig;
+import me.swirtzly.minecraft.angels.network.Network;
+import me.swirtzly.minecraft.angels.network.messages.MessageCatacomb;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.EnderChestBlock;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
@@ -21,6 +26,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -34,6 +40,7 @@ import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -168,6 +175,18 @@ public class EventHandler {
 
 
     @SubscribeEvent
+    public static void onLive(LivingEvent.LivingUpdateEvent livingUpdateEvent){
+        LivingEntity living = livingUpdateEvent.getEntityLiving();
+        if(living instanceof PlayerEntity && !living.world.isRemote()){
+            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) living;
+            if(serverPlayerEntity.ticksExisted % 40 == 0){
+                Network.sendTo(new MessageCatacomb(AngelUtils.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
+            }
+        }
+    }
+
+
+    @SubscribeEvent
     public static void onAngelDamage(LivingAttackEvent e) {
         if (!WAConfig.CONFIG.pickaxeOnly.get() || e.getEntityLiving().world.isRemote) return;
 
@@ -205,9 +224,6 @@ public class EventHandler {
                         attacker.sendBreakAnimation(Hand.MAIN_HAND);
                     });
                 }
-
-
-
             }
         }
     }

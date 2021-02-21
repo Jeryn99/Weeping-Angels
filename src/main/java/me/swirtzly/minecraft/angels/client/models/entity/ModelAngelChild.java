@@ -5,10 +5,11 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
+import me.swirtzly.minecraft.angels.common.tileentities.StatueTile;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -17,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
-            "textures/entities/angel_child.png");
+            "textures/entities/angel_child_scream.png");
 
     private final ModelRenderer WeepingCherubFix;
     private final ModelRenderer LeftLeg;
@@ -35,8 +36,8 @@ public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implement
      * Angel Type: Child
      */
     public ModelAngelChild() {
-        textureWidth = 128;
-        textureHeight = 128;
+        textureWidth = 67;
+        textureHeight = 69;
 
         WeepingCherubFix = new ModelRenderer(this);
         WeepingCherubFix.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -55,11 +56,13 @@ public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implement
         LeftArm = new ModelRenderer(this);
         LeftArm.setRotationPoint(5.0F, -21.5F, 0.0F);
         WeepingCherubFix.addChild(LeftArm);
+        setRotationAngle(LeftArm, -0.6109F, 0.0F, 0.0F);
         LeftArm.setTextureOffset(53, 53).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
         RightArm = new ModelRenderer(this);
         RightArm.setRotationPoint(-5.0F, -21.5F, 0.0F);
         WeepingCherubFix.addChild(RightArm);
+        setRotationAngle(RightArm, -0.6109F, 0.0F, 0.0F);
         RightArm.setTextureOffset(50, 17).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
         Body = new ModelRenderer(this);
@@ -95,11 +98,6 @@ public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implement
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
-    }
-
-    @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
-        return null;
     }
 
     @Override
@@ -218,39 +216,30 @@ public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implement
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
 
-        return TEXTURE;
-   /*     String angelVarients = null;
-
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            angelVarients = weepingAngelEntity.getVarient();
+            return generateTex(pose, WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient()));
         }
 
         if (angel instanceof StatueTile) {
             StatueTile weepingAngelEntity = (StatueTile) angel;
-            angelVarients = weepingAngelEntity.getAngelVarients().name().toLowerCase();
+            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
         if (angel instanceof PlinthTile) {
             PlinthTile weepingAngelEntity = (PlinthTile) angel;
-            angelVarients = weepingAngelEntity.getAngelVarients().name().toLowerCase();
+            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        String location = "textures/entities/cherub/";
-        String varient = "normal_angel_";
-        location = location + angelVarients.toLowerCase() + "/";
+        return generateTex(WeepingAngelPose.APPROACH, WeepingAngelEntity.AngelVariants.NORMAL);
+    }
 
-        String suffix = "idle";
-
-        if (pose.create().isAngry()) {
-            suffix = "angry";
-        }
-
-        if (pose == AngelPoses.POSE_OPEN_ARMS) {
-            suffix = "scream";
-        }
-
-        return new ResourceLocation(WeepingAngels.MODID, location + varient + suffix + ".png");*/
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+        String location = "textures/entities/cherub/angel_cherub_";
+        WeepingAngelPose.Emotion emotion = pose.getEmotion();
+        String suffix = emotion.name().toLowerCase();
+        return new ResourceLocation(WeepingAngels.MODID, location + suffix + ".png");
     }
 
 }

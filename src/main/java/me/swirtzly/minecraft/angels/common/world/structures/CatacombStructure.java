@@ -59,7 +59,6 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     }
 
 
-    //Notes: Anything that uses the mods "Rotation" system for placement gets cooked in the rotations of the structure
     public static class Start extends StructureStart< NoFeatureConfig > {
         public Start(Structure< NoFeatureConfig > structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn) {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
@@ -73,8 +72,6 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
             BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 30, 55), z);
 
             String choosen = variants[rand.nextInt(variants.length)];
-            System.out.println(choosen);
-
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 9),
@@ -89,4 +86,8 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     }
 
 
+    @Override
+    public String getStructureName() {
+        return super.getStructureName();
+    }
 }

@@ -229,6 +229,7 @@ public class WAObjects {
         public static final RegistryObject< SoundEvent > TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> setUpSound("tardis_takeoff"));
         public static final RegistryObject< SoundEvent > DISC_SALLY = SOUNDS.register("disc_sally", () -> setUpSound("disc_sally"));
         public static final RegistryObject< SoundEvent > DISC_TIME_PREVAILS = SOUNDS.register("disc_time_prevails", () -> setUpSound("disc_time_prevails"));
+        public static final RegistryObject< SoundEvent > CATACOMB = SOUNDS.register("catacomb", () -> setUpSound("catacomb"));
     }
 
     public static class WorldGenEntries {
