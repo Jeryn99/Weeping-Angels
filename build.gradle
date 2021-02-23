@@ -45,8 +45,6 @@ curseforge {
             addGameVersion '1.16.3'
             addGameVersion '1.16.4'
             addGameVersion '1.16.5'
-            addGameVersion "Fabric" //Set Modloader to Fabric
-            addGameVersion "Java 10"
             relations {
                 requiredDependency 'fabric-api'
                 optionalDependency 'modmenu'
