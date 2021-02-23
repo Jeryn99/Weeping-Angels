@@ -2,10 +2,15 @@ package me.suff.mc.angels.client.models;
 
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.enums.WeepingAngelPose;
-import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.PlayerModelPart;
+import net.minecraft.client.render.entity.model.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+
+import java.util.function.Function;
 
 /* Created by Craig on 18/02/2021 */
 public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
@@ -19,52 +24,44 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
     private final ModelPart rightWing;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.APPROACH;
 
-    public WeepingAngelModel() {
-        textureWidth = 128;
-        textureHeight = 128;
-        head = new ModelPart(this);
-        head.setPivot(0.0F, 0.0F, 0.0F);
-        head.setTextureOffset(0, 17).addCuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-        head.setTextureOffset(72, 0).addCuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
-
-        body = new ModelPart(this);
-        body.setPivot(0.0F, 0.0F, 0.0F);
-        body.setTextureOffset(56, 17).addCuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-        body.setTextureOffset(32, 17).addCuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.5F, false);
-
-        leftArm = new ModelPart(this);
-        leftArm.setPivot(-5.0F, 2.0F, 0.0F);
-        leftArm.setTextureOffset(24, 59).addCuboid(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
-
-        rightArm = new ModelPart(this);
-        rightArm.setPivot(5.0F, 2.0F, 0.0F);
-        rightArm.setTextureOffset(10, 59).addCuboid(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
-
-        Legs = new ModelPart(this);
-        Legs.setPivot(0.0F, 9.25F, 0.0F);
-        Legs.setTextureOffset(40, 0).addCuboid(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, 0.0F, false);
-        Legs.setTextureOffset(0, 0).addCuboid(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, 0.0F, false);
-
-        leftWing = new ModelPart(this);
-        leftWing.setPivot(-1.0F, 5.0F, 2.0F);
-        setRotationAngle(leftWing, 0.0F, -0.7854F, 0.0F);
-        leftWing.setTextureOffset(0, 101).addCuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        leftWing.setTextureOffset(6, 83).addCuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        leftWing.setTextureOffset(18, 83).addCuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        leftWing.setTextureOffset(8, 33).addCuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
-        leftWing.setTextureOffset(0, 33).addCuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        leftWing.setTextureOffset(38, 59).addCuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
-
-        rightWing = new ModelPart(this);
-        rightWing.setPivot(1.0F, 5.0F, 2.0F);
-        setRotationAngle(rightWing, 0.0F, 0.7854F, 0.0F);
-        rightWing.setTextureOffset(10, 101).addCuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        rightWing.setTextureOffset(12, 83).addCuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        rightWing.setTextureOffset(26, 83).addCuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        rightWing.setTextureOffset(18, 33).addCuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        rightWing.setTextureOffset(0, 83).addCuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
-        rightWing.setTextureOffset(0, 59).addCuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+    public WeepingAngelModel(ModelPart root) {
+        this.head = root.getChild("head");
+        this.Legs = root.getChild("legs");
+        this.body = root.getChild("body");
+        this.rightArm = root.getChild("right_arm");
+        this.leftArm = root.getChild("left_arm");
+        this.leftWing = root.getChild("leftWing");
+        this.rightWing = root.getChild("rightWing");
     }
+
+    public static TexturedModelData getModelData() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+
+       // head = new ModelRenderer(this);
+
+     String[] names = new String[]{"rightWing","leftWing", "left_arm", "right_arm", "body","legs", "head"};
+        for (String name : names) {
+            modelPartData.addChild(name, ModelPartBuilder.create().uv(24, 0).cuboid(-3.0F, -6.0F, -1.0F, 6.0F, 6.0F, 1.0F, Dilation.NONE), ModelTransform.NONE);
+        }
+        ModelPartData headPart = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 17).cuboid(null, -4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, Dilation.NONE), ModelTransform.NONE);
+        headPart.addChild("hat", ModelPartBuilder.create().uv(72, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, Dilation.NONE.add(0.5F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+        modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(24, 59).cuboid(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, Dilation.NONE), ModelTransform.pivot(5.0F, 2.5F, 0.0F));
+        modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(10, 59).cuboid(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, Dilation.NONE), ModelTransform.pivot(-5.0F, 2.5F, 0.0F));
+        ModelPartData legs = modelPartData.addChild("legs", ModelPartBuilder.create().uv(40, 0).cuboid(-5, 4, -3, 10, 11, 6, Dilation.NONE), ModelTransform.pivot(-5.0F, 2.5F, 0.0F));
+        legs.addChild("legs_2", ModelPartBuilder.create().uv(0, 0).cuboid(-6, 0, -4, 12, 4, 8, Dilation.NONE), ModelTransform.pivot(-5.0F, 2.5F, 0.0F));
+        ModelPartData bodyPart = modelPartData.addChild("body", ModelPartBuilder.create().uv(56, 17).cuboid(-4, 12, -2.0F, 8,12,4, Dilation.NONE), ModelTransform.pivot(-5.0F, 2.5F, 0.0F));
+        bodyPart.addChild("outer_body", ModelPartBuilder.create().uv(56, 17).cuboid(-4, 12, -2.0F, 8,12,4, Dilation.NONE.add(0.5F)), ModelTransform.pivot(-5.0F, 2.5F, 0.0F));
+
+
+       /* String[] names = new String[]{"rightWing","leftWing", "left_arm", "right_arm", "body","legs", "head"};
+        for (String name : names) {
+            modelPartData.addChild(name, ModelPartBuilder.create().uv(24, 0).cuboid(-3.0F, -6.0F, -1.0F, 6.0F, 6.0F, 1.0F, Dilation.NONE), ModelTransform.NONE);
+        }*/
+        return TexturedModelData.of(modelData, 128, 128);
+    }
+
+
 
     public WeepingAngelPose getWeepingAngelPose() {
         return weepingAngelPose;

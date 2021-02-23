@@ -37,8 +37,8 @@ public class StatueBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockView world) {
-        return new StatueTile();
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new StatueTile(pos, state);
     }
 
     @Override

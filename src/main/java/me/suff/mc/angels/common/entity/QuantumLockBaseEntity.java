@@ -82,16 +82,16 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public CompoundTag writeNbt(CompoundTag tag) {
         tag.putBoolean(Constants.IS_SEEN, isSeen());
         tag.putInt(Constants.TIME_SEEN, getSeenTime());
         tag.putLong(Constants.PREVPOS, getPrevPos().asLong());
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readNbt(CompoundTag tag) {
+        super.readNbt(tag);
         if (tag.contains(Constants.TIME_SEEN)) setSeenTime(tag.getInt(Constants.TIME_SEEN));
         if (tag.contains(Constants.PREVPOS)) setPrevPos(getPrevPos());
     }

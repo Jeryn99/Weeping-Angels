@@ -167,15 +167,15 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public CompoundTag writeNbt(CompoundTag tag) {
         tag.putString(Constants.CURRENT_POSE, getAngelPose());
         tag.putString(Constants.VARIANT, getVarient());
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readNbt(CompoundTag tag) {
+        super.readNbt(tag);
         setVarient(WeepingAngelVariants.getVariant(tag.getString(Constants.VARIANT)));
         setPose(WeepingAngelPose.getPose(tag.getString(Constants.CURRENT_POSE)));
     }
@@ -264,7 +264,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         ++this.deathTime;
         if (this.deathTime == 20) {
             hurtTime = 0;
-            this.remove();
+            this.remove(RemovalReason.KILLED);
         }
         for (int i = 0; i < 20; ++i) {
             double d0 = this.random.nextGaussian() * 0.02D;

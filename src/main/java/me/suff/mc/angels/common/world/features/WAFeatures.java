@@ -12,13 +12,14 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 
 /* Created by Craig on 18/02/2021 */
 public class WAFeatures {
 
-    private static final ConfiguredFeature< ?, ? > KONTRON_ORE = Feature.ORE.configure(new OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, WABlocks.KONTRON_ORE.getDefaultState(), 9)).decorate(Decorator.RANGE.configure(new RangeDecoratorConfig(0, 0, 64))).spreadHorizontally().repeat(20);
+    private static final ConfiguredFeature< ?, ? > KONTRON_ORE = Feature.ORE.configure(new OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, WABlocks.KONTRON_ORE.getDefaultState(), 9)).decorate(Decorator.RANGE.configure(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP)).spreadHorizontally().repeat(20);
 
     public static void init() {
         RegistryKey< ConfiguredFeature< ?, ? > > kontron = RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN, new Identifier(Constants.MODID, "kontron"));

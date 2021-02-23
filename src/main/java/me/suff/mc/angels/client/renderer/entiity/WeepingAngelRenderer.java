@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.renderer.entiity;
 
+import me.suff.mc.angels.client.ClientAngels;
 import me.suff.mc.angels.client.models.WeepingAngelModel;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.enums.WeepingAngelPose;
@@ -7,7 +8,9 @@ import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.Constants;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -17,8 +20,8 @@ public class WeepingAngelRenderer extends LivingEntityRenderer< WeepingAngelEnti
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.APPROACH;
 
-    public WeepingAngelRenderer(EntityRenderDispatcher dispatcher) {
-        super(dispatcher, new WeepingAngelModel(), 1);
+    public WeepingAngelRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new WeepingAngelModel(ctx.getPart(ClientAngels.ANGELS)), 1);
     }
 
     public static Identifier generateTex(WeepingAngelPose pose, WeepingAngelVariants angelVariants) {

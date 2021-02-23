@@ -57,7 +57,7 @@ public class PortalEntity extends MobEntity {
             }
 
             if (age > getTimeAlive()) {
-                remove();
+                remove(RemovalReason.DISCARDED);
             }
         }
 

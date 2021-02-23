@@ -84,8 +84,10 @@ public class GraveyardPieces {
             this.setStructureData(structure, this.pos, placementData);
         }
 
-        protected void toNbt(CompoundTag tag) {
-            super.toNbt(tag);
+
+        @Override
+        protected void writeNbt(CompoundTag tag) {
+            super.writeNbt(tag);
             tag.putString("Template", this.template.toString());
             tag.putString("Rot", this.rotation.name());
             tag.putString(Constants.VARIANT, this.angelVariants.name());

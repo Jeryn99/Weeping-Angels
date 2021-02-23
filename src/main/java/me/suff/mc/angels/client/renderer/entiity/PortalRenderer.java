@@ -6,6 +6,7 @@ import me.suff.mc.angels.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -18,10 +19,9 @@ public class PortalRenderer extends LivingEntityRenderer< PortalEntity, PortalMo
     private static final Identifier TEXTURE = new Identifier(Constants.MODID, "textures/entities/anomaly.png");
 
 
-    public PortalRenderer(EntityRenderDispatcher dispatcher) {
-        super(dispatcher, new PortalModel(), 0);
+    public PortalRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new PortalModel(), 0);
     }
-
 
     @Override
     public Identifier getTexture(PortalEntity entity) {

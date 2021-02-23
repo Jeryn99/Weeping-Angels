@@ -71,7 +71,7 @@ public class DetectorItem extends Item {
                                 if (entityIn.world.random.nextInt(100) < 5) {
                                     chick.world.createExplosion(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.DestructionType.NONE);
                                     chick.dropItem(Items.EGG, 1);
-                                    chick.remove();
+                                    chick.remove(Entity.RemovalReason.DISCARDED);
                                 }
                             }
                         }

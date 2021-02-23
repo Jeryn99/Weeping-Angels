@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -61,22 +62,22 @@ public class CatacombStructure extends StructureFeature< DefaultFeatureConfig > 
         }
 
         @Override
-        public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator, StructureManager structureManager, int chunkX, int chunkZ, Biome biome, DefaultFeatureConfig defaultFeatureConfig) {
+        public void init(DynamicRegistryManager registryManager, ChunkGenerator chunkGenerator, StructureManager manager, int chunkX, int chunkZ, Biome biome, DefaultFeatureConfig config, HeightLimitView heightLimitView) {
 
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
             BlockPos.Mutable blockpos = new BlockPos.Mutable(x, MathHelper.clamp(random.nextInt(55), 33, 55), z);
             String choosen = variants[random.nextInt(variants.length)];
-            StructurePoolBasedGenerator.method_30419(dynamicRegistryManager, new StructurePoolFeatureConfig(() -> dynamicRegistryManager.get(Registry.TEMPLATE_POOL_WORLDGEN).get(new Identifier(Constants.MODID, "catacombs/" + choosen + "/catacomb")), 10),
+            StructurePoolBasedGenerator.method_30419(registryManager, new StructurePoolFeatureConfig(() -> registryManager.get(Registry.TEMPLATE_POOL_WORLDGEN).get(new Identifier(Constants.MODID, "catacombs/" + choosen + "/catacomb")), 10),
                     PoolStructurePiece::new,
                     chunkGenerator,
-                    structureManager,
+                    manager,
                     blockpos, // Position of the structure. Y value is ignored if last parameter is set to true.
                     this.children, // The list that will be populated with the jigsaw pieces after this method.
                     this.random,
                     false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
                     // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
-                    false); // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                    false, heightLimitView); // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
             this.setBoundingBoxFromChildren();
         }

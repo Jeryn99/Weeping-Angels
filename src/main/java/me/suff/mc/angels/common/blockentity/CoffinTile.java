@@ -6,12 +6,14 @@ import me.suff.mc.angels.util.AngelUtils;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClientSerializable {
+public class CoffinTile extends BlockEntity implements BlockEntityTicker, BlockEntityClientSerializable {
 
     private Coffin coffin = Coffin.HEAVILY_WEATHERED;
     private boolean isOpen, hasSkeleton = false;
@@ -19,8 +21,9 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
     private boolean doingSomething = false;
     private int ticks, pulses;
 
-    public CoffinTile() {
-        super(WATiles.COFFIN_TILE);
+
+    public CoffinTile(BlockPos pos, BlockState state) {
+        super(WATiles.COFFIN_TILE, pos, state);
     }
 
     public Coffin getCoffin() {
@@ -44,7 +47,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
     }
 
     @Override
-    public void tick() {
+    public void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
 
         if (isOpen) {
             this.openAmount += 0.1F;
@@ -95,7 +98,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
 
 
     @Override
-    public void fromTag(BlockState state, CompoundTag nbt) {
+    public void readNbt(CompoundTag nbt) {
         if (nbt.contains("coffin_type")) {
             coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         }
@@ -104,11 +107,11 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
         openAmount = nbt.getFloat("openAmount");
         alpha = nbt.getFloat("alpha");
         doingSomething = nbt.getBoolean("doingSomething");
-        super.fromTag(state, nbt);
+        super.readNbt(nbt);
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag compound) {
+    public CompoundTag writeNbt(CompoundTag compound) {
         if (coffin != null) {
             compound.putString("coffin_type", coffin.name());
         } else {
@@ -119,7 +122,7 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
         compound.putBoolean("doingSomething", doingSomething);
         compound.putFloat("openAmount", openAmount);
         compound.putFloat("alpha", alpha);
-        return super.toTag(compound);
+        return super.writeNbt(compound);
     }
 
     public boolean isDoingSomething() {
@@ -159,14 +162,13 @@ public class CoffinTile extends BlockEntity implements Tickable, BlockEntityClie
 
     @Override
     public void fromClientTag(CompoundTag compoundTag) {
-        fromTag(getCachedState(), compoundTag);
+        readNbt(compoundTag);
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag compoundTag) {
-        return toTag(compoundTag);
+        return writeNbt(compoundTag);
     }
-
 
     public enum Coffin {
         NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB, PTB_2

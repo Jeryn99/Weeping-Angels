@@ -26,7 +26,7 @@ public class ChronoItem extends Item {
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        if (!user.abilities.creativeMode) {
+        if (!user.isCreative()) {
             itemStack.decrement(1);
         }
 

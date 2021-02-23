@@ -4,7 +4,10 @@ import me.suff.mc.angels.common.blockentity.CoffinTile;
 import me.suff.mc.angels.common.blockentity.PlinthTile;
 import me.suff.mc.angels.common.blockentity.StatueTile;
 import me.suff.mc.angels.util.Constants;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -16,9 +19,9 @@ public class WATiles {
     public static BlockEntityType< CoffinTile > COFFIN_TILE;
 
     public static void init() {
-        STATUE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "statue"), BlockEntityType.Builder.create(StatueTile::new, WABlocks.STATUE).build(null));
-        PLINTH_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "plinth"), BlockEntityType.Builder.create(PlinthTile::new, WABlocks.PLINTH).build(null));
-        COFFIN_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "coffin"), BlockEntityType.Builder.create(CoffinTile::new, WABlocks.COFFIN).build(null));
+        STATUE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "statue"), FabricBlockEntityTypeBuilder.create(StatueTile::new).build());
+        PLINTH_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "plinth"), FabricBlockEntityTypeBuilder.create(PlinthTile::new).build());
+        COFFIN_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "coffin"), FabricBlockEntityTypeBuilder.create(CoffinTile::new).build());
     }
 
 }

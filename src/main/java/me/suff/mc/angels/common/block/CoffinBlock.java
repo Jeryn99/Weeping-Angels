@@ -35,8 +35,8 @@ public class CoffinBlock extends StatueBlock {
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockView world) {
-        return new CoffinTile();
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new CoffinTile(pos, state);
     }
 
     @Override
