@@ -2,9 +2,7 @@ package me.swirtzly.minecraft.angels.common.entities;
 
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
-import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
-import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;
@@ -14,10 +12,13 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void livingTick() {
         super.livingTick();
 
-    //   rotationYawHead = rotationYaw;
+        //   rotationYawHead = rotationYaw;
         if (!world.isRemote && ticksExisted % 5 == 0) {
             List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
@@ -65,10 +66,6 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                         setSeenTime(0);
                     }
                 }
-                Vector3d vecPos = getPositionVec();
-                Vector3d vecPlayerPos = targetPlayer.getPositionVec();
-                float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
-                rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
                 if (isSeen()) return;
                 if (getDistance(targetPlayer) < 2)
                     attackEntityAsMob(targetPlayer);
@@ -80,7 +77,17 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
     public void moveTowards(LivingEntity targetPlayer) {
         this.setAIMoveSpeed(0.9F);
-        getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
+       getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
+      /*  Path path = getNavigator().getPathToEntity(targetPlayer, 3);
+        if (path != null) {
+            for (int i = path.getCurrentPathIndex(); i < path.getCurrentPathLength(); i++) {
+                BlockPos pos = path.getPathPointFromIndex(i).func_224759_a();
+                BlockPos nextPos = (i+1) != path.getCurrentPathLength() ? path.getPathPointFromIndex(i+1).func_224759_a() : pos;
+                if(ticksExisted % 10 == 0){
+                    setLocationAndAngles(nextPos.getX() + 0.5D, nextPos.getY(), nextPos.getZ() + 0.5D, rotationYaw, rotationPitch);
+                }
+            }
+        }*/
     }
 
     @Override
@@ -144,6 +151,13 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void invokeSeen(PlayerEntity player) {
         getNavigator().setPath(null, 0);
         setNoAI(true);
+        if (getSeenTime() == 2) {
+            Vector3d vecPos = getPositionVec();
+            Vector3d vecPlayerPos = player.getPositionVec();
+            float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
+            rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
+            setLocationAndAngles(getPosX() + 0.5D, getPosY(), getPosZ() + 0.5D, rotationYaw, rotationPitch);
+        }
     }
 
 }

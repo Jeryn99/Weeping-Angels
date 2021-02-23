@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -23,6 +24,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -204,7 +207,7 @@ public class EventHandler {
                 if (!isPic) {
 
                     if (victim.world.rand.nextInt(100) <= 20) {
-                        weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
+                        weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
                     }
                     attacker.attackEntityFrom(WAObjects.STONE, 2F);
                 } else {
@@ -220,7 +223,7 @@ public class EventHandler {
                     //Damage Pickaxe
                     item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> {
                         boolean isCherub = weepingAngelEntity.isCherub();
-                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, 1);
+                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
                         attacker.sendBreakAnimation(Hand.MAIN_HAND);
                     });
                 }

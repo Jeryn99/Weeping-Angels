@@ -53,13 +53,15 @@ public class ClientEvents {
         SoundHandler sound = Minecraft.getInstance().getSoundHandler();
         if(isInCatacombs) {
 
+            sound.stop(null, SoundCategory.MUSIC);
+
+
             if(iSound == null){
                 iSound = SimpleSound.master(WAObjects.Sounds.CATACOMB.get(), 1);
             }
 
             if(!sound.isPlaying(iSound)){
                 sound.play(iSound);
-                sound.stop(null, SoundCategory.MUSIC);
             }
         } else {
             if(sound.isPlaying(iSound)){

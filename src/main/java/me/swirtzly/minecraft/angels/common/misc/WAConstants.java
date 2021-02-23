@@ -12,4 +12,5 @@ public class WAConstants {
     public static final String VARIENT = "varient";
 
     public static final String SNOW_STAGE = "snow_stage";
+    public static final String LAUGH = "laugh";
 }

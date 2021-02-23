@@ -8,6 +8,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,8 +38,10 @@ public class TardisMod {
     1. Massive chance of being teleported into just, the void, death, who wants that?
     2. Even if the void wasn't a thing, why would angels canonically send you into a time machine? */
     public static ArrayList< ServerWorld > cleanseDimensions(ArrayList< ServerWorld > serverWorlds) {
-        serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE));
-        serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(TDimensions.DimensionTypes.VORTEX_TYPE_INSTANCE));
+        DimensionType[] dimensionTypes = new DimensionType[]{TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE, TDimensions.DimensionTypes.VORTEX_TYPE_INSTANCE, TDimensions.DimensionTypes.SPACE_TYPE_INSTANCE};
+        for (DimensionType dimensionType : dimensionTypes) {
+            serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(dimensionType));
+        }
         return serverWorlds;
     }
 

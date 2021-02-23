@@ -11,7 +11,6 @@ import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import me.swirtzly.minecraft.angels.utils.NBTPatcher;
 import me.swirtzly.minecraft.angels.utils.WATeleporter;
 import net.minecraft.block.*;
-import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -39,7 +38,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
-import net.minecraft.world.biome.ParticleEffectAmbience;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IWorldInfo;
 import net.minecraftforge.common.MinecraftForge;
@@ -56,6 +54,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     private static final DataParameter< String > TYPE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter< String > CURRENT_POSE = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter< String > VARIENT = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter< Float > LAUGH = EntityDataManager.createKey(WeepingAngelEntity.class, DataSerializers.FLOAT);
     private static final Predicate< Difficulty > DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.ENTITY_VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
@@ -101,6 +100,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().register(TYPE, AngelUtils.randomType().name());
         getDataManager().register(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtils.RAND).name());
         getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
+        getDataManager().register(LAUGH, rand.nextFloat());
+
     }
 
     public String getVarient() {
@@ -256,9 +257,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putString(WAConstants.POSE, getAngelPose().toString());
+        compound.putString(WAConstants.POSE, getAngelPose());
         compound.putString(WAConstants.TYPE, getAngelType().name());
         compound.putString(WAConstants.VARIENT, getVarient());
+        compound.putFloat(WAConstants.LAUGH, getLaugh());
     }
 
     @Override
@@ -269,6 +271,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
         if (compound.contains(WAConstants.POSE))
             setPose(WeepingAngelPose.getPose(compound.getString(WAConstants.POSE)));
+
+        if (compound.contains(WAConstants.LAUGH))
+            setLaugh(serializeNBT().getFloat(WAConstants.LAUGH));
 
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
@@ -282,11 +287,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (TYPE.equals(key)) {
             recalculateSize();
         }
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox() {
-        return super.getBoundingBox();
     }
 
     @Override
@@ -513,6 +513,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
         return !eventAngelBreakEvent.isCanceled();
+    }
+
+    public float getLaugh() {
+        return getDataManager().get(LAUGH);
+    }
+
+    public void setLaugh(float laugh) {
+        getDataManager().set(LAUGH, laugh);
     }
 
     public enum AngelVariants {
