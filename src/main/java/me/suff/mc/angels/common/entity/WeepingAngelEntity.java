@@ -40,6 +40,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -108,8 +109,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (age % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
-        if (WAConfig.BreakConfig.breakBlocks.getValue() && isSeen()) {
-            replaceBlocks(getBoundingBox().expand(WAConfig.BreakConfig.breakRange.getValue()));
+        if (WAConfig.WorldConfig.breakBlocks.getValue() && isSeen()) {
+            replaceBlocks(getBoundingBox().expand(WAConfig.WorldConfig.breakRange.getValue()));
         }
     }
 
@@ -244,7 +245,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 @Nullable MinecraftServer server = getEntityWorld().getServer();
                 if (server != null) {
                     ServerWorld teleportWorld = AngelUtils.getRandomDimension(server);
-                    BlockPos pos = AngelUtils.getGoodY(teleportWorld, getBlockPos().add(random.nextInt(250), 0, random.nextInt(250)));
+                    BlockPos pos = AngelUtils.getGoodY(teleportWorld, getBlockPos().add(random.nextInt(WAConfig.AngelBehaviour.teleportRange.getValue()), 0, random.nextInt(WAConfig.AngelBehaviour.teleportRange.getValue())));
                     serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.TELEPORT, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
                     serverPlayerEntity.teleport(teleportWorld, pos.getX(), pos.getY(), pos.getZ(), player.yaw, player.pitch);
                 }
@@ -252,6 +253,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
+
+    @Override
+    protected Identifier getLootTableId() {
+        return super.getLootTableId();
+    }
 
     @Override
     protected void updatePostDeath() {

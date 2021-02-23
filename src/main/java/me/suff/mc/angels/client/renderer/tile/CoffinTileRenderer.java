@@ -45,7 +45,6 @@ public class CoffinTileRenderer extends BlockEntityRenderer< CoffinTile > {
             coffinModel.Door.yaw = -(coffinTile.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityCutout(getTexture(coffinTile.getCoffin()))), light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);
         } else {
-            System.out.println(coffinTile.getAlpha());
             matrices.translate(0, 0.5, 0);
             matrices.scale(0.7F, 0.7F, 0.7F);
             ptbCoffinModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(getTexture(coffinTile.getCoffin()))), light, OverlayTexture.DEFAULT_UV, 1, 1, 1, coffinTile.getAlpha());

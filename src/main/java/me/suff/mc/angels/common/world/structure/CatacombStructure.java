@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.world.structure;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.util.Constants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.structure.MarginedStructureStart;
@@ -25,12 +26,12 @@ import java.util.List;
 
 public class CatacombStructure extends StructureFeature< DefaultFeatureConfig > {
     private static final List< SpawnSettings.SpawnEntry > STRUCTURE_MONSTERS = ImmutableList.of(
-            new SpawnSettings.SpawnEntry(EntityType.ILLUSIONER, 100, 4, 9),
-            new SpawnSettings.SpawnEntry(EntityType.VINDICATOR, 100, 4, 9)
+            new SpawnSettings.SpawnEntry(EntityType.SKELETON, 100, 4, 9),
+            new SpawnSettings.SpawnEntry(EntityType.ZOMBIE, 100, 4, 9)
     );
     private static final List< SpawnSettings.SpawnEntry > STRUCTURE_CREATURES = ImmutableList.of(
-            new SpawnSettings.SpawnEntry(EntityType.SHEEP, 30, 10, 15),
-            new SpawnSettings.SpawnEntry(EntityType.RABBIT, 100, 1, 2)
+            new SpawnSettings.SpawnEntry(WeepingAngels.WEEPING_ANGEL, 30, 10, 15),
+            new SpawnSettings.SpawnEntry(EntityType.BAT, 100, 1, 2)
     );
 
     public CatacombStructure(Codec< DefaultFeatureConfig > codec) {

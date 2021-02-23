@@ -44,7 +44,11 @@ public class DetectorItem extends Item {
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.world.isClient()) {
 
-            //TODO FIX MODEL BOBBING setTime(stack, getTime(stack) + 1);
+       /*     setTime(stack, getTime(stack) + 1);
+            if(entityIn instanceof PlayerEntity){
+                PlayerEntity playerEntity = (PlayerEntity) entityIn;
+                playerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), 1);
+            }*/
 
             List< WeepingAngelEntity > angels = entityIn.world.getEntitiesByClass(WeepingAngelEntity.class, entityIn.getBoundingBox().expand(15, 15, 15), LivingEntity::isAlive);
 
