@@ -47,7 +47,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static me.swirtzly.minecraft.angels.utils.WATeleporter.yCoordSanity;
+import static me.swirtzly.minecraft.angels.utils.WATeleporter.findSafePlace;
 
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
@@ -432,12 +432,12 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 teleportWorld.forceChunk(chunkPos.x, chunkPos.z, true);
 
                 teleportWorld.getServer().enqueue(new TickDelayedTask(0, () -> {
-                    BlockPos blockPos = new BlockPos(x, yCoordSanity(teleportWorld, new BlockPos(x, 0, z)), z);
+                    BlockPos blockPos = findSafePlace(player, teleportWorld, new BlockPos(x, 0, z));
 
                     if (AngelUtils.isOutsideOfBorder(teleportWorld, blockPos)) {
                         IWorldInfo worldInfo = teleportWorld.getWorldInfo();
                         blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12);
-                        blockPos = new BlockPos(blockPos.getX(), yCoordSanity(teleportWorld, blockPos), blockPos.getZ());
+                        blockPos = findSafePlace(player, teleportWorld, blockPos);
                         WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
                     }
 

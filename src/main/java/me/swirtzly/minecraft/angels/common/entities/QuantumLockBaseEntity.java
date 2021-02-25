@@ -39,7 +39,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
         //   rotationYawHead = rotationYaw;
         if (!world.isRemote && ticksExisted % 5 == 0) {
             List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
-            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || !WAConfig.CONFIG.teleportCreative.get() && player.isCreative() || player.world != world);
+            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
                 List< WeepingAngelEntity > angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
@@ -66,7 +66,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                         setSeenTime(0);
                     }
                 }
-                if (isSeen()) return;
+                if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
                 if (getDistance(targetPlayer) < 2)
                     attackEntityAsMob(targetPlayer);
                 else

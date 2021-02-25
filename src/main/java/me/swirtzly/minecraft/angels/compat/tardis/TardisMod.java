@@ -4,6 +4,7 @@ import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.api.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.common.entities.QuantumLockBaseEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -38,9 +39,9 @@ public class TardisMod {
     1. Massive chance of being teleported into just, the void, death, who wants that?
     2. Even if the void wasn't a thing, why would angels canonically send you into a time machine? */
     public static ArrayList< ServerWorld > cleanseDimensions(ArrayList< ServerWorld > serverWorlds) {
-        DimensionType[] dimensionTypes = new DimensionType[]{TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE, TDimensions.DimensionTypes.VORTEX_TYPE_INSTANCE, TDimensions.DimensionTypes.SPACE_TYPE_INSTANCE};
-        for (DimensionType dimensionType : dimensionTypes) {
-            serverWorlds.removeIf(serverWorld -> serverWorld.getDimensionType().isSame(dimensionType));
+        RegistryKey< DimensionType >[] dimensionTypes = new RegistryKey[]{TDimensions.DimensionTypes.TARDIS_TYPE, TDimensions.DimensionTypes.VORTEX_TYPE, TDimensions.DimensionTypes.SPACE_TYPE};
+        for (RegistryKey< DimensionType > dimensionType : dimensionTypes) {
+            serverWorlds.removeIf(serverWorld -> Helper.areDimensionTypesSame(serverWorld, dimensionType));
         }
         return serverWorlds;
     }
@@ -48,7 +49,7 @@ public class TardisMod {
     /* Before you ask, imagine how many roundels would just be ripped from the walls or a Angel just nuking a Tardis from existence*/
     @SubscribeEvent
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
-        boolean isTardisDim = breakBlockEvent.getEntity().world.getDimensionType().isSame(TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE);
+        boolean isTardisDim = Helper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
         boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
     }
@@ -60,7 +61,7 @@ public class TardisMod {
             QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
 
             // Do stuff within the Tardis Dimension
-            if (angel.world.getDimensionType().isSame(TDimensions.DimensionTypes.TARDIS_TYPE_INSTANCE)) {
+            if (Helper.areDimensionTypesSame(angel.world, TDimensions.DimensionTypes.TARDIS_TYPE)) {
                 World world = angel.world;
                 ConsoleTile console = (ConsoleTile) world.getTileEntity(TardisHelper.TARDIS_POS);
 

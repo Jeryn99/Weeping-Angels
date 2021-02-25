@@ -16,11 +16,13 @@ import me.swirtzly.minecraft.angels.utils.FortuneEnchantBonus;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -36,6 +38,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.progress.StartupMessageManager;
+import net.minecraftforge.versions.forge.ForgeVersion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,6 +62,7 @@ public class WeepingAngels {
         MinecraftForge.EVENT_BUS.addGenericListener(Block.class, this::onMissingMappingsBlock);
         MinecraftForge.EVENT_BUS.addGenericListener(TileEntityType.class, this::onMissingMappingsTile);
         MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::onMissingMappingsItem);
+        StartupMessageManager.addModMessage("Don't Blink!");
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

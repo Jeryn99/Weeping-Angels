@@ -7,7 +7,11 @@ import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageSFX;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.pathfinding.WalkNodeProcessor;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
@@ -21,16 +25,23 @@ import java.util.Random;
 
 public class WATeleporter {
 
-    public static int yCoordSanity(World world, BlockPos pos) {
-        for (int y = world.getHeight(); y > 0; --y) {
-            BlockPos newPos = new BlockPos(pos.getX(), y, pos.getZ());
-            BlockState underState = world.getBlockState(newPos.down());
+    public static BlockPos findSafePlace(PlayerEntity playerEntity, World world, BlockPos pos) {
 
-            if (!willBlockStateCauseSuffocation(world, newPos) && underState.isSolid() && !isPosBelowOrAboveWorld(world, newPos.getY())) {
-                return newPos.getY();
+        for (int i = 5; i > 0; i--) {
+            System.out.println("Attempt: " + i);
+            System.out.println("Offsetting by: " + i * 100);
+
+            for (int y = 0; y < world.getHeight(); y++) {
+                System.out.println("Height: " + y);
+                BlockPos newPos = new BlockPos(pos.getX() + i * 20, y, pos.getZ() + i * 20);
+                if (isTeleportFriendlyBlock(world, pos,playerEntity) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+                    System.out.println("Teleporting player to " + newPos + " || " + world.getBlockState(newPos));
+                    return newPos;
+                }
             }
         }
-        return world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ());
+
+        return world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
     }
 
     public static ServerWorld getRandomDimension(Random rand) {
@@ -94,18 +105,10 @@ public class WATeleporter {
         return y <= 0 || y >= 256;
     }
 
-    /**
-     * Checks if the blockstate will cause entity to suffocate in it.
-     * <br> This attempts to reproduce behaviour shown in the private AbstractBlock suffocates predicate
-     * <br> Do not use AbstractBlock#causesSuffocation because that does not actually relate to suffocation at all, it is a rendering related method misnamed in 1.16 mappings
-     *
-     * @param world
-     * @param pos
-     * @return true if causes suffocating, false if it doesn't
-     */
-    public static boolean willBlockStateCauseSuffocation(World world, BlockPos pos) {
+    private static boolean isTeleportFriendlyBlock(World world, BlockPos pos, PlayerEntity playerEntity) {
         BlockState state = world.getBlockState(pos);
-        return state.getMaterial().blocksMovement() && state.hasOpaqueCollisionShape(world, pos);
+        BlockPos blockpos = pos.subtract(playerEntity.getPosition());
+        return state.getMaterial().blocksMovement() && state.hasOpaqueCollisionShape(world, pos) && world.hasNoCollisions(playerEntity, playerEntity.getBoundingBox().offset(blockpos));
     }
 
 }
