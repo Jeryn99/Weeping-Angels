@@ -1,6 +1,5 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
-import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.api.EventAngelBreakEvent;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.WAObjects;
@@ -39,7 +38,6 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.IWorldInfo;
 import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
@@ -432,13 +430,11 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 teleportWorld.forceChunk(chunkPos.x, chunkPos.z, true);
 
                 teleportWorld.getServer().enqueue(new TickDelayedTask(0, () -> {
-                    BlockPos blockPos = findSafePlace(player, teleportWorld, new BlockPos(x, 0, z));
+                    BlockPos blockPos = findSafePlace(player, teleportWorld, new BlockPos(x, player.getPosY(), z));
 
                     if (AngelUtils.isOutsideOfBorder(teleportWorld, blockPos)) {
-                        IWorldInfo worldInfo = teleportWorld.getWorldInfo();
-                        blockPos = new BlockPos(worldInfo.getSpawnX() + 12, worldInfo.getSpawnY(), worldInfo.getSpawnZ() + 12);
-                        blockPos = findSafePlace(player, teleportWorld, blockPos);
-                        WeepingAngels.LOGGER.error("Weeping Angel Attempted to Teleport [" + player.getName().getUnformattedComponentText() + "] outside the world border! Correcting!");
+                        dealDamage(player);
+                        return;
                     }
 
                     if (teleportWorld != null) {
