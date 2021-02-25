@@ -53,6 +53,7 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue justTeleport;
     public final ForgeConfigSpec.IntValue teleportRange;
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
+    public final ForgeConfigSpec.BooleanValue teleportCreative;
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
@@ -90,6 +91,7 @@ public class WAConfig {
         justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
         teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
         angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
+        teleportCreative = builder.translation("config.weeping_angels.teleportCreative").comment("Should Angels teleport creative players?").define("teleportCreative", true);
         builder.pop();
         builder.push("block");
         spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a redstone signal").define("spawnFromBlocks", true);

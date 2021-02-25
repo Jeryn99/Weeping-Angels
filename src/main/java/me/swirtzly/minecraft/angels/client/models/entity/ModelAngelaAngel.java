@@ -44,6 +44,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         leftArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
         leftArm.setTextureOffset(24, 59).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
+
         rightArm = new ModelRenderer(this);
         rightArm.setRotationPoint(5.0F, 2.0F, 0.0F);
         rightArm.setTextureOffset(10, 59).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
@@ -52,6 +53,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
         Legs.setRotationPoint(0.0F, 9.25F, 0.0F);
         Legs.setTextureOffset(40, 0).addBox(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, 0.0F, false);
         Legs.setTextureOffset(0, 0).addBox(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, 0.0F, false);
+
 
         leftWing = new ModelRenderer(this);
         leftWing.setRotationPoint(-1.0F, 5.0F, 2.0F);
