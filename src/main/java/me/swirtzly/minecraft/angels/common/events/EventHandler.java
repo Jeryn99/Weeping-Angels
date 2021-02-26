@@ -8,6 +8,7 @@ import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageCatacomb;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import me.swirtzly.minecraft.angels.utils.DateChecker;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
@@ -41,6 +42,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -139,7 +141,7 @@ public class EventHandler {
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
                     if (rl.equalsIgnoreCase(biomeRegistryKey.getLocation().toString())) {
-                        biomeLoadingEvent.getSpawns().withSpawner(EntityClassification.valueOf(WAConfig.CONFIG.spawnType.get()), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                        biomeLoadingEvent.getSpawns().withSpawner(WAConfig.CONFIG.spawnType.get(), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
                     }
                 });
             }

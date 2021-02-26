@@ -408,7 +408,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     private void teleportInteraction(ServerPlayerEntity player) {
         if (world.isRemote) return;
-        AngelUtils.EnumTeleportType type = AngelUtils.EnumTeleportType.valueOf(WAConfig.CONFIG.teleportType.get());
+        AngelUtils.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
         switch (type) {
 
             case DONT:

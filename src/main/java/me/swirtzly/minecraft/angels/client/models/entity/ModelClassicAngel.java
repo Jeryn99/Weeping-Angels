@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.entities.WeepingAngelEntity;
+import me.swirtzly.minecraft.angels.utils.DateChecker;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -16,10 +17,16 @@ import net.minecraft.util.ResourceLocation;
 public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
-            "textures/entities/angel_classic.png");
+            "textures/entities/a_dizzle/angel_classic.png");
 
     private final ResourceLocation TEXTURE_ANGRY = new ResourceLocation(WeepingAngels.MODID,
-            "textures/entities/angel_classic_angry.png");
+            "textures/entities/a_dizzle/angel_classic_angry.png");
+
+    private final ResourceLocation TEXTURE_ANGRY_XMAS = new ResourceLocation(WeepingAngels.MODID,
+            "textures/entities/a_dizzle/angel_classic_angry_xmas.png");
+
+    private final ResourceLocation TEXTURE_XMAS = new ResourceLocation(WeepingAngels.MODID,
+            "textures/entities/a_dizzle/angel_classic_xmas.png");
 
     private ModelRenderer leftfoot;
     private ModelRenderer rightfoot;
@@ -239,7 +246,10 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-        return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
+        if (!DateChecker.isXmas()) {
+            return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
+        }
+        return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY_XMAS : TEXTURE_XMAS;
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -247,5 +257,6 @@ public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > impleme
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
+
 
 }

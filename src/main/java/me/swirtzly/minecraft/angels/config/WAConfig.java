@@ -2,6 +2,8 @@ package me.swirtzly.minecraft.angels.config;
 
 import com.electronwill.nightconfig.core.ConfigSpec;
 import com.google.common.collect.Lists;
+import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -30,7 +32,7 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue maxSpawn;
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minSpawn;
-    public final ForgeConfigSpec.ConfigValue< String > spawnType;
+    public final ForgeConfigSpec.EnumValue< EntityClassification > spawnType;
     public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedBiomes;
     // Angel
     public final ForgeConfigSpec.BooleanValue hardcoreMode;
@@ -48,7 +50,7 @@ public class WAConfig {
     public final ForgeConfigSpec.DoubleValue moveSpeed;
 
     // Teleport
-    public final ForgeConfigSpec.ConfigValue< String > teleportType;
+    public final ForgeConfigSpec.EnumValue< AngelUtils.EnumTeleportType > teleportType;
     public final ForgeConfigSpec.ConfigValue< List< ? extends String > > notAllowedDimensions;
     public final ForgeConfigSpec.BooleanValue justTeleport;
     public final ForgeConfigSpec.IntValue teleportRange;
@@ -67,7 +69,7 @@ public class WAConfig {
         minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
         maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 1, 1, 100);
         spawnWeight = builder.translation("config.weeping_angels.spawnWeight").comment("The angel spawn spawn weight").defineInRange("spawnWeight", 5, 1, 100);
-        spawnType = builder.translation("config.weeping_angels.spawntype").comment("This will only accept: MONSTER || CREATURE || AMBIENT || MISC || Anything else WILL crash your game.").worldRestart().define("spawnType", "MONSTER");
+        spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER);
         allowedBiomes = builder.translation("config.weeping_angels.allowedBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("allowedBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");
@@ -86,7 +88,7 @@ public class WAConfig {
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         builder.pop();
         builder.push("teleport");
-        teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport type, Acceptable entries: RANDOM_PLACE, DONT, STRUCTURES").defineInList("teleportType", "RANDOM_PLACE", Arrays.asList("RANDOM_PLACE", "DONT", "STRUCTURES"));
+        teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtils.EnumTeleportType.RANDOM_PLACE);
         notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.THE_END_ID.toString()), String.class::isInstance);
         justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
         teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);

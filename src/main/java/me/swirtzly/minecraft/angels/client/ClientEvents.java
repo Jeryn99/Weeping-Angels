@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.swirtzly.minecraft.angels.WeepingAngels;
 import me.swirtzly.minecraft.angels.common.WAObjects;
+import me.swirtzly.minecraft.angels.utils.DateChecker;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -68,6 +69,11 @@ public class ClientEvents {
                 sound.stop(iSound);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void tickDate(TickEvent.ClientTickEvent event) {
+        DateChecker.tick();
     }
 
     @SubscribeEvent
