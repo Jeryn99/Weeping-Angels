@@ -156,7 +156,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
             Vector3d vecPlayerPos = player.getPositionVec();
             float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
             rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-            setLocationAndAngles(getPosX() + 0.5D, getPosY(), getPosZ() + 0.5D, rotationYaw, rotationPitch);
+        //    setLocationAndAngles(getPosX() + 0.5D, getPosY(), getPosZ() + 0.5D, rotationYaw, rotationPitch);
         }
     }
 

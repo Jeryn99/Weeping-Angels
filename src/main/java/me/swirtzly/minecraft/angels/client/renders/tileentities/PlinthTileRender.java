@@ -18,6 +18,8 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
+import static me.swirtzly.minecraft.angels.common.blocks.PlinthBlock.CLASSIC;
+
 public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
 
     public PlinthTileRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
@@ -34,6 +36,10 @@ public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
         matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
         EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
+
+        if(plinthTile.getBlockState().get(CLASSIC)){
+            matrixStack.translate(0,0.5,0);
+        }
 
         WeepingAngelPose pose = plinthTile.getPose();
         if (angel instanceof IAngelModel) {

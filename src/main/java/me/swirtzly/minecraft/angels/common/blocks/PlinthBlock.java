@@ -3,10 +3,7 @@ package me.swirtzly.minecraft.angels.common.blocks;
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +11,8 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.StateContainer.Builder;
@@ -27,6 +26,9 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -35,10 +37,19 @@ import javax.annotation.Nullable;
 public class PlinthBlock extends Block implements IWaterLoggable {
 
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_0_15;
+    public static final BooleanProperty CLASSIC = BooleanProperty.create("is_old");
+
+    protected static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+
 
     public PlinthBlock() {
         super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
-        this.setDefaultState(this.getDefaultState().with(BlockStateProperties.WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(CLASSIC, false).with(BlockStateProperties.WATERLOGGED, false));
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return state.get(CLASSIC) ? BOTTOM_SHAPE : VoxelShapes.fullCube();
     }
 
     @Nullable
@@ -61,7 +72,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
+        return state.with(CLASSIC, false).with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
     }
 
     @Override
@@ -80,8 +91,9 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder< Block, BlockState > builder) {
         builder.add(ROTATION);
+        builder.add(CLASSIC);
         builder.add(BlockStateProperties.WATERLOGGED);
     }
 
@@ -102,6 +114,10 @@ public class PlinthBlock extends Block implements IWaterLoggable {
         }
     }
 
-
-
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.isIn(newState.getBlock())) {
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+        }
+    }
 }

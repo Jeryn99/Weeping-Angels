@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "is_old=true": {
+      "model": "minecraft:block/stone_slab"
+    },
+    "is_old=false": {
       "model": "weeping_angels:block/plinth"
     }
   }

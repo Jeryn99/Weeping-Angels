@@ -15,8 +15,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+
+import static me.swirtzly.minecraft.angels.common.blocks.PlinthBlock.CLASSIC;
 
 public class PlinthTile extends TileEntity implements ITickableTileEntity {
 
@@ -40,6 +41,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void read(BlockState state, CompoundNBT compound) {
         super.read(state, compound);
+
         setHasSpawned(compound.getBoolean("hasSpawned"));
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
@@ -107,6 +109,17 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     public void tick() {
         if (world.isRemote) return;
 
+
+        boolean isClassic = getAngelType() == AngelType.A_DIZZLE;
+        boolean current = getBlockState().get(CLASSIC);
+
+        if (isClassic && !current) {
+            world.setBlockState(pos, getBlockState().with(CLASSIC, true));
+        } else if (!isClassic && current) {
+            world.setBlockState(pos, getBlockState().with(CLASSIC, false));
+        }
+
+
         if (WAConfig.CONFIG.spawnFromBlocks.get() && world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof PlinthTile) {
             PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
             if (!plinth.getHasSpawned()) {
@@ -140,7 +153,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void onLoad() {
-        if(getPose() == null){
+        if (getPose() == null) {
             setPose(WeepingAngelPose.HIDING);
         }
     }
