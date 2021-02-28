@@ -8,16 +8,12 @@ import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.network.Network;
 import me.swirtzly.minecraft.angels.network.messages.MessageCatacomb;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
-import me.swirtzly.minecraft.angels.utils.DateChecker;
+import me.swirtzly.minecraft.angels.utils.DamageType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.block.EnderChestBlock;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -25,14 +21,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
@@ -42,7 +34,6 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -53,6 +44,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -180,22 +172,118 @@ public class EventHandler {
 
 
     @SubscribeEvent
-    public static void onLive(LivingEvent.LivingUpdateEvent livingUpdateEvent){
+    public static void onLive(LivingEvent.LivingUpdateEvent livingUpdateEvent) {
         LivingEntity living = livingUpdateEvent.getEntityLiving();
-        if(living instanceof PlayerEntity && !living.world.isRemote()){
+        if (living instanceof PlayerEntity && !living.world.isRemote()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) living;
-            if(serverPlayerEntity.ticksExisted % 40 == 0){
+            if (serverPlayerEntity.ticksExisted % 40 == 0) {
                 Network.sendTo(new MessageCatacomb(AngelUtils.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
             }
         }
     }
 
-
     @SubscribeEvent
+    public static void onDamage(LivingAttackEvent event) {
+        if (event.getEntityLiving().world.isRemote) return;
+
+        DamageType configValue = DamageType.DIAMOND_AND_ABOVE_PICKAXE_ONLY;
+        DamageSource source = event.getSource();
+        Entity attacker = event.getSource().getTrueSource();
+        LivingEntity hurt = event.getEntityLiving();
+
+        if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
+            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) hurt;
+
+            switch (configValue) {
+                case NOTHING:
+                    event.setCanceled(true);
+                    break;
+                case GENERATOR_ONLY:
+                    event.setCanceled(source != WAObjects.GENERATOR);
+                    break;
+                case ANY_PICKAXE_ONLY:
+                    if (isAttackerHoldingPickaxe(attacker)) {
+                        LivingEntity livingEntity = (LivingEntity) attacker;
+                        event.setCanceled(false);
+                        doHurt(weepingAngelEntity, attacker, livingEntity.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
+                    } else {
+                        event.setCanceled(true);
+                    }
+                    break;
+                case ANY_PICKAXE_AND_GENERATOR_ONLY:
+
+                    boolean shouldCancel = true;
+
+                    //Pickaxe
+                    if (isAttackerHoldingPickaxe(attacker)) {
+                        LivingEntity livingEntity = (LivingEntity) attacker;
+                        shouldCancel = false;
+                        doHurt(weepingAngelEntity, attacker, livingEntity.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
+                    }
+
+                    //Generator
+                    if(source == WAObjects.GENERATOR){
+                        shouldCancel = false;
+                    }
+
+                    event.setCanceled(shouldCancel);
+
+                    break;
+                case DIAMOND_AND_ABOVE_PICKAXE_ONLY:
+                    if (isAttackerHoldingPickaxe(attacker)) {
+                        LivingEntity livingEntity = (LivingEntity) attacker;
+                        PickaxeItem pickaxe = (PickaxeItem) livingEntity.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem();
+                        boolean isDiamondAndAbove = pickaxe.getTier().getHarvestLevel() >= 3;
+                        if (isDiamondAndAbove) {
+                            doHurt(weepingAngelEntity, attacker, livingEntity.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
+                        }
+                        event.setCanceled(!isDiamondAndAbove);
+                    }
+                    break;
+            }
+
+            if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
+                if (weepingAngelEntity.world.rand.nextInt(100) <= 20) {
+                    weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
+                }
+                if(attacker != null){
+                    attacker.attackEntityFrom(WAObjects.STONE, 2F);
+                }
+            }
+        }
+    }
+
+    public static void doHurt(WeepingAngelEntity weepingAngelEntity, @Nullable Entity attacker, ItemStack stack) {
+        ServerWorld serverWorld = (ServerWorld) weepingAngelEntity.world;
+        weepingAngelEntity.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+        serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), weepingAngelEntity.getPosX(), weepingAngelEntity.getPosYHeight(0.5D), weepingAngelEntity.getPosZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
+
+        if (attacker instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) attacker;
+            stack.damageItem(serverWorld.rand.nextInt(4), livingEntity, living -> {
+                boolean isCherub = weepingAngelEntity.isCherub();
+                weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
+                livingEntity.sendBreakAnimation(Hand.MAIN_HAND);
+            });
+        }
+
+    }
+
+
+    public static boolean isAttackerHoldingPickaxe(Entity entity) {
+        if (entity instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) entity;
+            return livingEntity.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() instanceof PickaxeItem;
+        }
+        return false;
+    }
+
+
+    /*@SubscribeEvent
     public static void onAngelDamage(LivingAttackEvent e) {
         if (!WAConfig.CONFIG.pickaxeOnly.get() || e.getEntityLiving().world.isRemote) return;
 
-        Entity source = e.getSource().getTrueSource();
+      *//*  Entity source = e.getSource().getTrueSource();
         if (source instanceof LivingEntity) {
             LivingEntity attacker = (LivingEntity) source;
             LivingEntity victim = e.getEntityLiving();
@@ -229,8 +317,8 @@ public class EventHandler {
                         attacker.sendBreakAnimation(Hand.MAIN_HAND);
                     });
                 }
-            }
+            }*//*
         }
-    }
+    }*/
 }
 	

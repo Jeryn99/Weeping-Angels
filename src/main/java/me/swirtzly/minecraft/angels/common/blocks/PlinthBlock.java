@@ -2,6 +2,7 @@ package me.swirtzly.minecraft.angels.common.blocks;
 
 import me.swirtzly.minecraft.angels.client.poses.WeepingAngelPose;
 import me.swirtzly.minecraft.angels.common.tileentities.PlinthTile;
+import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;

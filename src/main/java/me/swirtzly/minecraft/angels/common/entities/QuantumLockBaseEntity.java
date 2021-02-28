@@ -1,5 +1,6 @@
 package me.swirtzly.minecraft.angels.common.entities;
 
+import me.swirtzly.minecraft.angels.common.WAObjects;
 import me.swirtzly.minecraft.angels.common.misc.WAConstants;
 import me.swirtzly.minecraft.angels.config.WAConfig;
 import me.swirtzly.minecraft.angels.utils.ViewUtil;
@@ -125,7 +126,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return super.isInvulnerableTo(source) || (source.getTrueSource() == null && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
+        return super.isInvulnerableTo(source) || (source.getTrueSource() == null && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
     }
 
     public boolean isSeen() {

@@ -3,6 +3,7 @@ package me.swirtzly.minecraft.angels.config;
 import com.electronwill.nightconfig.core.ConfigSpec;
 import com.google.common.collect.Lists;
 import me.swirtzly.minecraft.angels.utils.AngelUtils;
+import me.swirtzly.minecraft.angels.utils.DamageType;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.Biomes;
@@ -35,7 +36,7 @@ public class WAConfig {
     public final ForgeConfigSpec.EnumValue< EntityClassification > spawnType;
     public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedBiomes;
     // Angel
-    public final ForgeConfigSpec.BooleanValue hardcoreMode;
+    public final ForgeConfigSpec.EnumValue< DamageType > damageType;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
     public final ForgeConfigSpec.BooleanValue playSeenSounds;
     public final ForgeConfigSpec.DoubleValue damage;
@@ -73,7 +74,7 @@ public class WAConfig {
         allowedBiomes = builder.translation("config.weeping_angels.allowedBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("allowedBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");
-        hardcoreMode = builder.translation("config.weeping_angels.hardcore").comment("if enabled, No way to attack/kill angels. Just running.").define("hardcoreMode", false);
+        damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
         playScrapeSounds = builder.translation("config.weeping_angels.angel_move_sound").comment("Non-child angels play scraping sounds when moving, this toggles that").define("playScrapeSound", true);
         playSeenSounds = builder.translation("config.weeping_angels.angel_seen_sound").comment("Toggle seen sounds").define("playSeenSounds", true);
         damage = builder.translation("config.weeping_angels.angel_damage").comment("The damage dealt by an angel").defineInRange("damage", 8.0D, 1.0D, Double.MAX_VALUE);

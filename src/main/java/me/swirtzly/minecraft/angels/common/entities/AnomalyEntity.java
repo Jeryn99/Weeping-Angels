@@ -85,7 +85,7 @@ public class AnomalyEntity extends MobEntity {
         if (entityIn instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
             weepingAngelEntity.setSilent(true);
-            weepingAngelEntity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Integer.MAX_VALUE);
+            weepingAngelEntity.attackEntityFrom(WAObjects.GENERATOR, Integer.MAX_VALUE);
         }
     }
 
