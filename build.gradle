@@ -111,17 +111,10 @@ curseforge {
         apiKey = rootProject.curseforge
         project {
             id = rootProject.weeping_angels
-            changelog = '<b> Version 2.0.6 </b></br>' +
-                    '- Added Catacomb Atmosphere</br>' +
-                    '- Temp fix for nether roof teleporting</br>' +
-                    '- Animated Kontron Ore and Ingot</br>' +
-                    '- Classic Weeping Angel Models now have santa hats at Xmas</br>' +
-                    '- Made Weeping Angels try a bit harder to look at the player on seen</br>' +
-                    '- Added Config for angels getting aggro at Creative Players</br>' +
-                    '- Changed Teleportation code to find safer places, still slightly work in progress</br>' +
-                    '- Fixed Transparency Issues on Cherub textures</br>' +
-                    '- Made Classic Angels on Plinths look more like the modloader version</br>' +
-                    '- Altered Some Tardis Mod integration code (At time of release, 1.16 Tardis Mod is still awaiting a release)</br>'
+            changelog =
+                    '<b> Version 2.0.7b </b></br>' +
+                    '- Fixed my dumbness (DamageType Config now works as it should, whoops!)</br>' +
+                    '</br>'
             changelogType = 'html'
             releaseType = 'release'
             addGameVersion '1.16.3'

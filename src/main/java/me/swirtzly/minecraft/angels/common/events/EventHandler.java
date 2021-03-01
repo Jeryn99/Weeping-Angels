@@ -186,7 +186,7 @@ public class EventHandler {
     public static void onDamage(LivingAttackEvent event) {
         if (event.getEntityLiving().world.isRemote) return;
 
-        DamageType configValue = DamageType.DIAMOND_AND_ABOVE_PICKAXE_ONLY;
+        DamageType configValue = WAConfig.CONFIG.damageType.get();
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getTrueSource();
         LivingEntity hurt = event.getEntityLiving();
