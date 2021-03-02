@@ -12,7 +12,7 @@
     "sources": "https://github.com/WhoCraft/Weeping-Angels/tree/fabric-1.16",
     "issues": "https://github.com/WhoCraft/Weeping-Angels/issues"
   },
-  "license": "ARR",
+  "license": "AGPLv3",
   "icon": "assets/weeping_angels/icon.png",
   "environment": "*",
   "entrypoints": {
