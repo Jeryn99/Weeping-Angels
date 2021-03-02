@@ -7,7 +7,9 @@
   ],
   "mixins": [
     "NoiseChunkGeneratorMixin",
-    "StructuresConfigAccessor",
+    "StructuresConfigAccessor"
+  ],
+  "server": [
     "ServerMixin"
   ],
   "injectors": {
