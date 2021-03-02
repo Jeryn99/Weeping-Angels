@@ -29,6 +29,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.math.vector.Vector3d;
@@ -202,11 +203,15 @@ public class AngelUtils {
 
             if(isCatacomb) {
                 MutableBoundingBox box = serverWorld.func_241112_a_().getStructureStart(playerEntity.getPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
-                return playerEntity.getBoundingBox().intersects(new Vector3d(box.minX, box.minY, box.minZ), new Vector3d(box.maxX, box.maxY, box.maxZ));
+                return intersects(playerEntity.getBoundingBox(), new Vector3d(box.minX, box.minY, box.minZ), new Vector3d(box.maxX, box.maxY, box.maxZ));
             }
         }
 
         return false;
+    }
+
+    public static boolean intersects(AxisAlignedBB bb, Vector3d min, Vector3d max) {
+        return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
 
     public enum EnumTeleportType {

@@ -112,9 +112,8 @@ curseforge {
         project {
             id = rootProject.weeping_angels
             changelog =
-                    '<b> Version 2.0.7b </b></br>' +
-                    '- Fixed my dumbness (DamageType Config now works as it should, whoops!)</br>' +
-                    '</br>'
+                    '<b> Version 2.0.8 </b></br>' +
+                    '- Fixed a Server Crash.'
             changelogType = 'html'
             releaseType = 'release'
             addGameVersion '1.16.3'
@@ -142,7 +141,7 @@ jar {
         attributes([
             "Specification-Title": "weeping_angels",
             "Specification-Vendor": "swirtzly",
-            "Specification-Version": "1", // We are version 1 of ourselves
+            "Specification-Version": "${version}",
             "Implementation-Title": "Weeping Angels",
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"swirtzly",
