@@ -46,7 +46,7 @@ public class Tardis {
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
         breakBlockEvent.setCanceled(breakBlockEvent.getAngel().world.dimension instanceof TardisDimension);
 
-        if (breakBlockEvent.getState().getBlock() == TBlocks.ARTRON_COLLECTOR) {
+        if (breakBlockEvent.getState().getBlock().getRegistryName().getPath().contentEquals("artron_collector")) {
             World world = breakBlockEvent.getAngel().getEntityWorld();
             TileEntity tile = world.getTileEntity(breakBlockEvent.getPos());
             if (tile instanceof ArtronCollectorTile) {
