@@ -6,6 +6,7 @@ import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +36,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
         super.livingTick();
 
         //   rotationYawHead = rotationYaw;
-        if (!world.isRemote && ticksExisted % 5 == 0) {
+        if (!world.isRemote) {
             List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
 
@@ -52,6 +53,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
             if (players.isEmpty()) {
                 setSeenTime(0);
+                setAIMoveSpeed(0.5F);
             } else {
                 PlayerEntity targetPlayer = null;
                 for (PlayerEntity player : players) {
@@ -62,6 +64,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                     } else if (targetPlayer == null) {
                         targetPlayer = player;
                         setSeenTime(0);
+                        setAIMoveSpeed(0.5F);
                     }
                 }
                 if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
@@ -74,7 +77,6 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     public void moveTowards(LivingEntity targetPlayer) {
-        this.setAIMoveSpeed(0.9F);
        getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
       /*  Path path = getNavigator().getPathToEntity(targetPlayer, 3);
         if (path != null) {
@@ -149,6 +151,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void invokeSeen(PlayerEntity player) {
         getNavigator().setPath(null, 0);
         setNoAI(true);
+        setAIMoveSpeed(-55);
         if (getSeenTime() == 2) {
             Vector3d vecPos = getPositionVec();
             Vector3d vecPlayerPos = player.getPositionVec();
@@ -158,4 +161,8 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
         }
     }
 
+    @Override
+    protected boolean isMovementBlocked() {
+        return getSeenTime() > 0;
+    }
 }

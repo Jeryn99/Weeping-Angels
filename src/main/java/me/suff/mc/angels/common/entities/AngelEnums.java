@@ -6,19 +6,15 @@ package me.suff.mc.angels.common.entities;
 public class AngelEnums {
 
     public enum AngelType {
-        VILLAGER, ANGELA_MC, ED, ED_ANGEL_CHILD(true), VIO_1, VIO_2, A_DIZZLE;
-        private final boolean isChild;
+        VILLAGER("Villager"), ANGELA_MC("Angela"), ED("Ed"), CHERUB("Cherub"), VIO_1("Violet"), VIO_2("Violet (2)"), A_DIZZLE("A_Dizzle");
+        private final String readable;
 
-        AngelType() {
-            this.isChild = false;
+        AngelType(String readable) {
+            this.readable = readable;
         }
 
-        AngelType(boolean isChild) {
-            this.isChild = isChild;
-        }
-
-        public boolean isChild() {
-            return isChild;
+        public String getReadable() {
+            return readable;
         }
     }
 

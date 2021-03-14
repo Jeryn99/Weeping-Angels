@@ -327,6 +327,10 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public void tick() {
         super.tick();
 
+        if(!world.isRemote){
+            System.out.println(isMovementBlocked());
+        }
+
         if (getSeenTime() == 0 || world.isAirBlock(getPosition().down())) {
             setNoAI(false);
         }
@@ -469,7 +473,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     public boolean isCherub() {
-        return getAngelType() == AngelEnums.AngelType.ED_ANGEL_CHILD;
+        return getAngelType() == AngelEnums.AngelType.CHERUB;
     }
 
     public AngelEnums.AngelType getAngelType() {

@@ -35,7 +35,7 @@ public class ClientUtil {
 
     private static final EntityModel< WeepingAngelEntity > VIO_1 = new ModelAngel();
     private static final EntityModel< WeepingAngelEntity > ED = new ModelAngelEd();
-    private static final EntityModel< WeepingAngelEntity > ED_ANGEL_CHILD = new ModelAngelChild();
+    private static final EntityModel< WeepingAngelEntity > CHERUB = new ModelAngelChild();
     private static final EntityModel< WeepingAngelEntity > A_DIZZLE = new ModelClassicAngel();
     private static final EntityModel< WeepingAngelEntity > VIO_2 = new ModelAngelMel();
     private static final EntityModel< WeepingAngelEntity > VILLAGER = new ModelWeepingVillager();
@@ -44,7 +44,7 @@ public class ClientUtil {
     private static final Map< AngelEnums.AngelType, EntityModel< WeepingAngelEntity > > MODEL_MAP = new HashMap<>();
 
     static {
-        MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, ED_ANGEL_CHILD); // ED
+        MODEL_MAP.put(AngelEnums.AngelType.CHERUB, CHERUB); // ED
         MODEL_MAP.put(AngelEnums.AngelType.ED, ED);// ED
         MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, ANGELA_MC); //ANGELA
         MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, A_DIZZLE); //A_DIZZLE

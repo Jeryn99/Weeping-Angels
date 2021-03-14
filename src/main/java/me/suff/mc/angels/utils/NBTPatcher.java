@@ -11,6 +11,10 @@ public class NBTPatcher {
             if (type.equals("ANGELA")) {
                 compoundNBT.putString(replaceValue, AngelEnums.AngelType.VILLAGER.name());
             }
+
+            if (type.equals("ED_ANGEL_CHILD")) {
+                compoundNBT.putString(replaceValue, AngelEnums.AngelType.CHERUB.name());
+            }
         }
     }
 

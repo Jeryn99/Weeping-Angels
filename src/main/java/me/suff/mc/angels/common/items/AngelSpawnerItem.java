@@ -15,6 +15,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
@@ -45,6 +47,11 @@ public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
             }
         }
 
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        return new TranslationTextComponent(this.getTranslationKey(stack), getType(stack).getReadable());
     }
 
     @Override

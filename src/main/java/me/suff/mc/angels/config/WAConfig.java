@@ -1,6 +1,7 @@
 package me.suff.mc.angels.config;
 
 import com.google.common.collect.Lists;
+import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.utils.AngelUtils;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.entity.EntityClassification;
@@ -56,6 +57,8 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
     public final ForgeConfigSpec.BooleanValue aggroCreative;
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
+    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedTypes;
+
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
         builder.push("world_gen");
@@ -82,9 +85,10 @@ public class WAConfig {
         freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another. (Impacts performance a bit)").define("freezeOnAngel", false);
         pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
         stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
-        moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.5, 0.1, Double.MAX_VALUE);
+        moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
         blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
+        allowedTypes = builder.translation("config.weeping_angels.allowedTypes").comment("Note: This a list of Angel Variations that are allowed").defineList("allowedTypes", this::genAngelTypes, String.class::isInstance);
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtils.EnumTeleportType.RANDOM_PLACE);
@@ -112,5 +116,13 @@ public class WAConfig {
         spawnBiomes.add(Biomes.BEACH.getLocation().toString());
         spawnBiomes.add(Biomes.SNOWY_TAIGA.getLocation().toString());
         return spawnBiomes;
+    }
+
+    public ArrayList< String > genAngelTypes() {
+        ArrayList< String > allowedTypes = new ArrayList<>();
+        for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+            allowedTypes.add(angelType.name());
+        }
+        return allowedTypes;
     }
 }

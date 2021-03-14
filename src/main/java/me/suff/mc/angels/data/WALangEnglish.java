@@ -21,7 +21,7 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.Blocks.COFFIN.get(), "Coffin");
 
         /* Items */
-        add(WAObjects.Items.ANGEL_SPAWNER.get(), "Weeping Angel");
+        add(WAObjects.Items.ANGEL_SPAWNER.get(), "Weeping Angel (%s)");
         add(WAObjects.Items.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAObjects.Items.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
