@@ -48,7 +48,7 @@
               }
             }
           ],
-          "name": "minecraft:weeping_angels:timey_wimey_detector"
+          "name": "weeping_angels:timey_wimey_detector"
         },
         {
           "type": "minecraft:item",
