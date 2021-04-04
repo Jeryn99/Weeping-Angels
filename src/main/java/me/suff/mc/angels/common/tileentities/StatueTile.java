@@ -17,7 +17,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
-public class StatueTile extends TileEntity implements ITickableTileEntity {
+public class StatueTile extends TileEntity implements ITickableTileEntity, IPlinth {
 
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtils.RAND);
@@ -71,11 +71,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.read(state, tag);
-    }
-
-    @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
         handleUpdateTag(getBlockState(), pkt.getNbtCompound());
@@ -84,12 +79,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return super.getRenderBoundingBox().grow(8, 8, 8);
-    }
-
-    public void sendUpdates() {
-        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-        markDirty();
     }
 
     @Override
@@ -104,7 +93,6 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
             angel.setPose(getPose());
             world.addEntity(angel);
             world.removeBlock(pos, false);
-            sendUpdates();
         }
     }
 
@@ -130,5 +118,22 @@ public class StatueTile extends TileEntity implements ITickableTileEntity {
             setPose(WeepingAngelPose.HIDING);
             markDirty();
         }
+    }
+
+    @Override
+    public void changeModel() {
+        setAngelType(AngelUtils.randomType());
+    }
+
+    @Override
+    public void changePose() {
+        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+    }
+
+    @Override
+    public void sendUpdatesToClient() {
+        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        markDirty();
     }
 }

@@ -82,7 +82,7 @@ public class AngelUtils {
         return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionKey().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
     }
 
-    public static void playBreakEvent(LivingEntity entity, BlockPos pos, BlockState blockState) {
+    public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
         if (!entity.world.isRemote) {
             ServerWorld serverWorld = (ServerWorld) entity.world;
             serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);

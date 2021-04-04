@@ -6,7 +6,6 @@ import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,8 +33,6 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     @Override
     public void livingTick() {
         super.livingTick();
-
-        //   rotationYawHead = rotationYaw;
         if (!world.isRemote) {
             List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
@@ -57,17 +54,21 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
             } else {
                 PlayerEntity targetPlayer = null;
                 for (PlayerEntity player : players) {
-                    if (ViewUtil.isInSight(player, this)/* && !AngelUtils.isDarkForPlayer(this, player)*/ && isOnGround()) {
+                    if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
                         return;
-                    } else if (targetPlayer == null) {
+                    }
+
+                    if (targetPlayer == null) {
                         targetPlayer = player;
                         setSeenTime(0);
                         setAIMoveSpeed(0.5F);
                     }
                 }
+
                 if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
+                snapLookToPlayer(targetPlayer);
                 if (getDistance(targetPlayer) < 2)
                     attackEntityAsMob(targetPlayer);
                 else
@@ -76,18 +77,15 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
         }
     }
 
+    private void snapLookToPlayer(PlayerEntity targetPlayer) {
+        Vector3d vecPos = getPositionVec();
+        Vector3d vecPlayerPos = targetPlayer.getPositionVec();
+        float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
+        rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
+    }
+
     public void moveTowards(LivingEntity targetPlayer) {
        getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
-      /*  Path path = getNavigator().getPathToEntity(targetPlayer, 3);
-        if (path != null) {
-            for (int i = path.getCurrentPathIndex(); i < path.getCurrentPathLength(); i++) {
-                BlockPos pos = path.getPathPointFromIndex(i).func_224759_a();
-                BlockPos nextPos = (i+1) != path.getCurrentPathLength() ? path.getPathPointFromIndex(i+1).func_224759_a() : pos;
-                if(ticksExisted % 10 == 0){
-                    setLocationAndAngles(nextPos.getX() + 0.5D, nextPos.getY(), nextPos.getZ() + 0.5D, rotationYaw, rotationPitch);
-                }
-            }
-        }*/
     }
 
     @Override
@@ -151,14 +149,14 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void invokeSeen(PlayerEntity player) {
         getNavigator().setPath(null, 0);
         setNoAI(true);
-        setAIMoveSpeed(-55);
+      /*  setAIMoveSpeed(-55);
         if (getSeenTime() == 2) {
             Vector3d vecPos = getPositionVec();
             Vector3d vecPlayerPos = player.getPositionVec();
             float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
             rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
         //    setLocationAndAngles(getPosX() + 0.5D, getPosY(), getPosZ() + 0.5D, rotationYaw, rotationPitch);
-        }
+        }*/
     }
 
     @Override

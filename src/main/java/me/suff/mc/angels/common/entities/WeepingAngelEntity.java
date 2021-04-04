@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.entities;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
@@ -14,9 +15,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -62,19 +61,24 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
         goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-        goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 50.0F));
+        goalSelector.addGoal(7, new GoalWalkWhenNotWatched(this, 1.0D));
         experienceValue = WAConfig.CONFIG.xpGained.get();
     }
+
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return func_234295_eP_().
                 createMutableAttribute(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
                 createMutableAttribute(Attributes.MAX_HEALTH, 50D).
-                createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 9999999.0D).
-                createMutableAttribute(Attributes.MOVEMENT_SPEED, WAConfig.CONFIG.moveSpeed.get()).
+                createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D).
+                createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.8D).
                 createMutableAttribute(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
                 createMutableAttribute(Attributes.ARMOR, 2.0D);
+    }
+
+    @Override
+    public void applyKnockback(float strength, double ratioX, double ratioZ) {
+
     }
 
     public void dropAngelStuff() {
@@ -96,7 +100,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         getDataManager().register(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtils.RAND).name());
         getDataManager().register(VARIENT, AngelUtils.randomVarient().name());
         getDataManager().register(LAUGH, rand.nextFloat());
-
     }
 
     public String getVarient() {
@@ -151,30 +154,23 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     public boolean attackEntityAsMob(Entity entity) {
         if (entity instanceof ServerPlayerEntity) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
-            if (!isCherub()) {
-                // Teleport Only
-                if (WAConfig.CONFIG.justTeleport.get()) {
-                    teleportInteraction(serverPlayerEntity);
-                    return true;
-                }
-
-                // Chance to teleport/deal damage
-                boolean shouldTeleport = rand.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb();
-                if (shouldTeleport) {
-                    teleportInteraction(serverPlayerEntity);
-                } else {
-                    dealDamage(serverPlayerEntity);
-                }
-                return true;
-            } else {
-                //Child Behaviour
+            boolean isCherub = isCherub();
+            if (isCherub) {
+                dealDamage(serverPlayerEntity);
                 if (WAConfig.CONFIG.torchBlowOut.get()) {
                     AngelUtils.removeLightFromHand(serverPlayerEntity, this);
-                    return true;
                 }
+                return true;
             }
+
+            boolean shouldTeleport = rand.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            if (shouldTeleport) {
+                teleportInteraction(serverPlayerEntity);
+                return true;
+            }
+            dealDamage(serverPlayerEntity);
         }
-        return false;
+        return true;
     }
 
     public boolean isInCatacomb() {
@@ -289,19 +285,27 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         super.invokeSeen(player);
         if (player instanceof ServerPlayerEntity && getSeenTime() == 1 && getPrevPos().toLong() != getPosition().toLong()) {
             setPrevPos(getPosition());
-            boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
-            // Play Sound
-            if (canPlaySound) {
-                if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
-                    setTimeSincePlayedSound(System.currentTimeMillis());
-                    ((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.getPosX(), player.getPosY(), player.getPosZ(), 0.1F, 1.0F));
-                }
-            }
+            playSeenSound(player);
+            randomisePose();
+        }
+        this.moveForward = 0.0F;
+    }
 
-            if (getAngelType() != AngelEnums.AngelType.VIO_1) {
-                setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
-            } else {
-                setPose(Objects.requireNonNull(rand.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
+
+    private void randomisePose() {
+        if (getAngelType() != AngelEnums.AngelType.VIO_1) {
+            setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+        } else {
+            setPose(Objects.requireNonNull(rand.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
+        }
+    }
+
+    private void playSeenSound(PlayerEntity player) {
+        boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
+        if (canPlaySound) {
+            if (WAConfig.CONFIG.playSeenSounds.get() && player.getDistance(this) < 15) {
+                setTimeSincePlayedSound(System.currentTimeMillis());
+                ((ServerPlayerEntity) player).connection.sendPacket(new SPlaySoundEffectPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundCategory.HOSTILE, player.getPosX(), player.getPosY(), player.getPosZ(), 0.1F, 1.0F));
             }
         }
     }
@@ -325,12 +329,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
 
     @Override
     public void tick() {
+        modelCheck();
         super.tick();
-
-        if(!world.isRemote){
-            System.out.println(isMovementBlocked());
-        }
-
         if (getSeenTime() == 0 || world.isAirBlock(getPosition().down())) {
             setNoAI(false);
         }
@@ -342,6 +342,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (WAConfig.CONFIG.blockBreaking.get() && isSeen() && world.getGameRules().get(GameRules.MOB_GRIEFING).get()) {
             double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
             replaceBlocks(getBoundingBox().grow(range, 3, range));
+        }
+    }
+
+    private void modelCheck() {
+        for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+            if(!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())){
+                setType(WAConfig.CONFIG.allowedTypes.get().get(0));
+            }
         }
     }
 
@@ -373,13 +381,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 }
 
                 if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
+                    AngelUtils.breakBlock(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }
 
                 if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
                     if (blockState.get(RedstoneLampBlock.LIT)) {
-                        AngelUtils.playBreakEvent(this, pos, blockState.with(RedstoneLampBlock.LIT, false));
+                        AngelUtils.breakBlock(this, pos, blockState.with(RedstoneLampBlock.LIT, false));
                         return;
                     }
                 }
@@ -400,7 +408,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 }
 
                 if (blockState.getLightValue() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
-                    AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
+                    AngelUtils.breakBlock(this, pos, Blocks.AIR.getDefaultState());
                     return;
                 }
             }

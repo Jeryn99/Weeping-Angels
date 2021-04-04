@@ -19,7 +19,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
-public class PlinthTile extends TileEntity implements ITickableTileEntity {
+public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlinth {
 
     private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
@@ -90,11 +90,6 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.read(state, tag);
-    }
-
-    @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return super.getRenderBoundingBox().grow(8, 8, 8);
     }
@@ -158,4 +153,20 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity {
         }
     }
 
+    @Override
+    public void changeModel() {
+        setAngelType(AngelUtils.randomType());
+    }
+
+    @Override
+    public void changePose() {
+        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+    }
+
+    @Override
+    public void sendUpdatesToClient() {
+        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        markDirty();
+    }
 }

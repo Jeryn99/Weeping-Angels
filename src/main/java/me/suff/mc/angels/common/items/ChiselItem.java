@@ -1,10 +1,11 @@
 package me.suff.mc.angels.common.items;
 
+import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.utils.AngelUtils;
-import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,10 +36,23 @@ public class ChiselItem extends Item {
         BlockState blockstate = world.getBlockState(blockpos);
         PlayerEntity player = context.getPlayer();
 
+
+        if (world.getTileEntity(blockpos) instanceof IPlinth) {
+            IPlinth plinth = (IPlinth) world.getTileEntity(blockpos);
+            if (player.isSneaking()) {
+                plinth.changeModel();
+                plinth.sendUpdatesToClient();
+                return ActionResultType.PASS;
+            }
+
+            plinth.changePose();
+            plinth.sendUpdatesToClient();
+        }
+
         //Handle Statue
-        if(blockstate.getBlock() == WAObjects.Blocks.STATUE.get()){
+        if (blockstate.getBlock() == WAObjects.Blocks.STATUE.get()) {
             StatueTile statueTile = (StatueTile) world.getTileEntity(blockpos);
-            if(player.isSneaking()){
+            if (player.isSneaking()) {
                 statueTile.setAngelType(AngelUtils.randomType());
             } else {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
@@ -48,14 +62,14 @@ public class ChiselItem extends Item {
         }
 
         //Handle Plinth
-        if(blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()){
+        if (blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()) {
             PlinthTile statueTile = (PlinthTile) world.getTileEntity(blockpos);
-            if(player.isSneaking()){
+            if (player.isSneaking()) {
                 statueTile.setAngelType(AngelUtils.randomType());
             } else {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             }
-            statueTile.markDirty();
+            statueTile.sendUpdates();
             return ActionResultType.PASS;
         }
 
