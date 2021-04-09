@@ -7,6 +7,7 @@ import me.suff.mc.angels.enums.WeepingAngelPose;
 import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.Constants;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SpawnerBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;

@@ -29,10 +29,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.SummonCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -72,10 +76,14 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 add(EntityAttributes.GENERIC_ATTACK_DAMAGE, WAConfig.AngelBehaviour.attackDamage.getValue()).
                 add(EntityAttributes.GENERIC_MAX_HEALTH, 50D).
                 add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 9999999.0D).
-                add(EntityAttributes.GENERIC_MOVEMENT_SPEED, WAConfig.AngelBehaviour.movementSpeed.getValue()).
+                add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3F).
                 add(EntityAttributes.GENERIC_ARMOR, 2.0D);
     }
 
+    @Override
+    public Packet< ? > createSpawnPacket() {
+        return new EntitySpawnS2CPacket(this);
+    }
 
     @Override
     protected void initDataTracker() {

@@ -43,11 +43,10 @@ public class WAConfig extends Config {
         public static final ConfigItem< Integer > teleportRange = new ConfigItem<>("teleportRange", 250, genConfigString("teleportRange"));
         public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, genConfigString("chickenBoom"));
         public static final ConfigItem< Boolean > playSeenSounds = new ConfigItem<>("playSeenSounds", true, genConfigString("playSeenSounds"));
-        public static final ConfigItem< Float > movementSpeed = new ConfigItem<>("moveSpeed", 0.3F, genConfigString("movementSpeed"));
         public static final ConfigItem< Integer > attackDamage = new ConfigItem<>("attackDamage", 15, genConfigString("attackDamage"));
 
         public AngelBehaviour() {
-            super(of(stalkRange, chickenBoom, playSeenSounds, movementSpeed, attackDamage), "angel_behaviour");
+            super(of(stalkRange, chickenBoom, playSeenSounds, attackDamage), "angel_behaviour");
         }
     }
 

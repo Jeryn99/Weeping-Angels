@@ -12,4 +12,5 @@ public interface IPlaceableStatue {
     WeepingAngelPose getAngelPose();
 
     void setAngelPose(WeepingAngelPose weepingAngelPose);
+
 }

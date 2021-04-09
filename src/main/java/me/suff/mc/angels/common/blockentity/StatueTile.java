@@ -9,8 +9,12 @@ import me.suff.mc.angels.util.Constants;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.command.SummonCommand;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
 import org.jetbrains.annotations.Nullable;
@@ -81,12 +85,16 @@ public class StatueTile extends BlockEntity implements Tickable, IPlaceableStatu
     public void tick() {
         if (world != null && world.isReceivingRedstonePower(getPos()) && !world.isClient()) {
             ServerWorld serverWorld = (ServerWorld) world;
+
             WeepingAngelEntity weepingAngelEntity = WeepingAngels.WEEPING_ANGEL.create(serverWorld);
+            weepingAngelEntity.initialize(serverWorld, serverWorld.getLocalDifficulty(getPos()), SpawnReason.SPAWNER, null, null);
             weepingAngelEntity.setPose(getAngelPose());
             weepingAngelEntity.setVarient(getAngelVariant());
             weepingAngelEntity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-            serverWorld.spawnEntityAndPassengers(weepingAngelEntity);
+            serverWorld.spawnEntity(weepingAngelEntity);
+
             serverWorld.removeBlock(getPos(), false);
+
         }
     }
 }
