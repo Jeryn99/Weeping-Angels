@@ -4,10 +4,14 @@ import com.oroarmor.config.Config;
 import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.config.command.ConfigCommand;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.world.biome.Biome;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableList.of;
@@ -39,7 +43,7 @@ public class WAConfig extends Config {
         public static final ConfigItem< Integer > teleportRange = new ConfigItem<>("teleportRange", 250, genConfigString("teleportRange"));
         public static final ConfigItem< Boolean > chickenBoom = new ConfigItem<>("chickenBoom", true, genConfigString("chickenBoom"));
         public static final ConfigItem< Boolean > playSeenSounds = new ConfigItem<>("playSeenSounds", true, genConfigString("playSeenSounds"));
-        public static final ConfigItem< Integer > movementSpeed = new ConfigItem<>("movementSpeed", 1, genConfigString("movementSpeed"));
+        public static final ConfigItem< Float > movementSpeed = new ConfigItem<>("moveSpeed", 0.3F, genConfigString("movementSpeed"));
         public static final ConfigItem< Integer > attackDamage = new ConfigItem<>("attackDamage", 15, genConfigString("attackDamage"));
 
         public AngelBehaviour() {

@@ -7,10 +7,11 @@
   ],
   "mixins": [
     "NoiseChunkGeneratorMixin",
-    "StructuresConfigAccessor"
+    "StructuresConfigAccessor",
+    "ServerMixin"
   ],
   "server": [
-    "ServerMixin"
+
   ],
   "injectors": {
     "defaultRequire": 1

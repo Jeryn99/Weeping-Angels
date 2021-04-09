@@ -1,11 +1,10 @@
 package me.suff.mc.angels.common.world.structure;
 
-import me.suff.mc.angels.util.Constants;
-import me.suff.mc.angels.util.WAConfig;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -23,8 +22,8 @@ import static me.suff.mc.angels.util.Constants.MODID;
 /* Created by Craig on 18/02/2021 */
 public class WAStructures {
     public static final StructurePieceType GRAVE_PIECE = GraveyardPieces.MyPiece::new;
-    private static final StructureFeature<DefaultFeatureConfig> GRAVEYARD = new GraveyardStructure(DefaultFeatureConfig.CODEC);
-    private static final ConfiguredStructureFeature<?, ?> GRAVEYARD_CONFIGURED = GRAVEYARD.configure(DefaultFeatureConfig.DEFAULT);
+    private static final StructureFeature< DefaultFeatureConfig > GRAVEYARD = new GraveyardStructure(DefaultFeatureConfig.CODEC);
+    private static final ConfiguredStructureFeature< ?, ? > GRAVEYARD_CONFIGURED = GRAVEYARD.configure(DefaultFeatureConfig.DEFAULT);
 
     public static StructureFeature< DefaultFeatureConfig > CATACOMBS = new CatacombStructure(DefaultFeatureConfig.CODEC);
     public static ConfiguredStructureFeature< ?, ? > CONFIGURED_CATACOMBS = CATACOMBS.configure(DefaultFeatureConfig.DEFAULT);
@@ -39,7 +38,6 @@ public class WAStructures {
                 .defaultConfig(32, 8, 12345)
                 .adjustsSurface()
                 .register();
-
     }
 
     public static void registerConfiguredStructures() {
@@ -52,14 +50,10 @@ public class WAStructures {
     }
 
     public static void addToBiomes() {
-        if(WAConfig.WorldConfig.catacombs.getValue()){
-            BiomeModifications.create(new Identifier(MODID, "catacombs")).add(ModificationPhase.ADDITIONS, BiomeSelectors.all(), context -> context.getGenerationSettings().addBuiltInStructure(WAStructures.CONFIGURED_CATACOMBS));
-        }
+        BiomeModifications.create(new Identifier(MODID, "catacombs")).add(ModificationPhase.ADDITIONS, BiomeSelectors.foundInOverworld(), context -> context.getGenerationSettings().addBuiltInStructure(WAStructures.CONFIGURED_CATACOMBS));
 
-        if(WAConfig.WorldConfig.graveyards.getValue()) {
-            RegistryKey< ConfiguredStructureFeature< ?, ? > > myConfigured = RegistryKey.of(Registry.CONFIGURED_STRUCTURE_FEATURE_WORLDGEN, new Identifier(MODID, "graveyard"));
-            BiomeModifications.addStructure(BiomeSelectors.all(), myConfigured);
-            BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, myConfigured.getValue(), GRAVEYARD_CONFIGURED);
-        }
+        RegistryKey< ConfiguredStructureFeature< ?, ? > > myConfigured = RegistryKey.of(Registry.CONFIGURED_STRUCTURE_FEATURE_WORLDGEN, new Identifier(MODID, "graveyard"));
+        BiomeModifications.addStructure(BiomeSelectors.foundInOverworld(), myConfigured);
+        BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, myConfigured.getValue(), GRAVEYARD_CONFIGURED);
     }
 }

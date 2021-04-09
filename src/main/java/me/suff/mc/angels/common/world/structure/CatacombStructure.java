@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.util.Constants;
+import me.suff.mc.angels.util.WAConfig;
 import net.minecraft.entity.EntityType;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
@@ -62,7 +63,7 @@ public class CatacombStructure extends StructureFeature< DefaultFeatureConfig > 
 
         @Override
         public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator, StructureManager structureManager, int chunkX, int chunkZ, Biome biome, DefaultFeatureConfig defaultFeatureConfig) {
-
+            if(!WAConfig.WorldConfig.catacombs.getValue()) return;
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
             BlockPos.Mutable blockpos = new BlockPos.Mutable(x, MathHelper.clamp(random.nextInt(55), 33, 55), z);

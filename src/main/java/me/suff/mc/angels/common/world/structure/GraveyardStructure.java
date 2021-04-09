@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.world.structure;
 
 import com.mojang.serialization.Codec;
+import me.suff.mc.angels.util.WAConfig;
 import net.minecraft.structure.StructureManager;
 import net.minecraft.structure.StructureStart;
 import net.minecraft.util.BlockRotation;
@@ -25,13 +26,13 @@ public class GraveyardStructure extends StructureFeature< DefaultFeatureConfig >
     }
 
     public static class Start extends StructureStart< DefaultFeatureConfig > {
-        public Start(StructureFeature< DefaultFeatureConfig > feature, int chunkX, int chunkZ, BlockBox box, int references,
-                     long seed) {
+        public Start(StructureFeature< DefaultFeatureConfig > feature, int chunkX, int chunkZ, BlockBox box, int references, long seed) {
             super(feature, chunkX, chunkZ, box, references, seed);
         }
 
         // Called when the world attempts to spawn in a new structure, and is the gap between your feature and generator.
         public void init(DynamicRegistryManager registryManager, ChunkGenerator chunkGenerator, StructureManager manager, int chunkX, int chunkZ, Biome biome, DefaultFeatureConfig config) {
+            if(!WAConfig.WorldConfig.graveyards.getValue()) return;
             int x = chunkX * 16;
             int z = chunkZ * 16;
             int y = chunkGenerator.getHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);

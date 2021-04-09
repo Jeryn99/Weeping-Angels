@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.blockentity;
 
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.common.objects.WATiles;
 import me.suff.mc.angels.enums.WeepingAngelPose;
@@ -9,6 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,12 +67,13 @@ public class PlinthTile extends BlockEntity implements Tickable, IPlaceableStatu
     @Override
     public void tick() {
         if (world != null && world.isReceivingRedstonePower(getPos()) && !world.isClient()) {
-            WeepingAngelEntity weepingAngelEntity = new WeepingAngelEntity(world);
+            ServerWorld serverWorld = (ServerWorld) world;
+            WeepingAngelEntity weepingAngelEntity = WeepingAngels.WEEPING_ANGEL.create(serverWorld);
             weepingAngelEntity.setPose(getAngelPose());
             weepingAngelEntity.setVarient(getAngelVariant());
             weepingAngelEntity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-            world.spawnEntity(weepingAngelEntity);
-            world.removeBlock(getPos(), false);
+            serverWorld.spawnEntityAndPassengers(weepingAngelEntity);
+            serverWorld.removeBlock(getPos(), false);
         }
     }
 }
