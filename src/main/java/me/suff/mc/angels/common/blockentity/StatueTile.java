@@ -1,6 +1,8 @@
 package me.suff.mc.angels.common.blockentity;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.common.block.PlinthBlock;
+import me.suff.mc.angels.common.block.StatueBlock;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.common.objects.WATiles;
 import me.suff.mc.angels.enums.WeepingAngelPose;
@@ -8,16 +10,23 @@ import me.suff.mc.angels.enums.WeepingAngelVariants;
 import me.suff.mc.angels.util.Constants;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.command.SummonCommand;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Tickable;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 /* Created by Craig on 19/02/2021 */
 public class StatueTile extends BlockEntity implements Tickable, IPlaceableStatue, BlockEntityClientSerializable {
@@ -85,16 +94,12 @@ public class StatueTile extends BlockEntity implements Tickable, IPlaceableStatu
     public void tick() {
         if (world != null && world.isReceivingRedstonePower(getPos()) && !world.isClient()) {
             ServerWorld serverWorld = (ServerWorld) world;
-
-            WeepingAngelEntity weepingAngelEntity = WeepingAngels.WEEPING_ANGEL.create(serverWorld);
-            weepingAngelEntity.initialize(serverWorld, serverWorld.getLocalDifficulty(getPos()), SpawnReason.SPAWNER, null, null);
+            WeepingAngelEntity weepingAngelEntity = WeepingAngels.WEEPING_ANGEL.spawn(serverWorld, null, null, null, pos, SpawnReason.EVENT, false, false);
             weepingAngelEntity.setPose(getAngelPose());
             weepingAngelEntity.setVarient(getAngelVariant());
-            weepingAngelEntity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-            serverWorld.spawnEntity(weepingAngelEntity);
-
-            serverWorld.removeBlock(getPos(), false);
-
+            BlockState blockState = world.getBlockState(pos);
+            weepingAngelEntity.bodyYaw = 22.5F *  blockState.get(StatueBlock.ROTATION);
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
         }
     }
 }

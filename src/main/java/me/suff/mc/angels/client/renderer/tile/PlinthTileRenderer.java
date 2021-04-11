@@ -26,6 +26,7 @@ public class PlinthTileRenderer extends BlockEntityRenderer< PlinthTile > {
 
     @Override
     public void render(PlinthTile statueTile, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if(statueTile.isSpawned()) return;
         matrices.push();
         matrices.translate(0.5F, 2.5F, 0.5F);
         matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180F));

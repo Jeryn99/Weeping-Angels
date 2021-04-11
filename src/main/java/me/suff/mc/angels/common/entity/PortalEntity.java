@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.objects.WASounds;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -10,6 +11,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,7 +68,10 @@ public class PortalEntity extends MobEntity {
             List< WeepingAngelEntity > list = getAngels();
             for (WeepingAngelEntity quantumLockBaseEntity : list) {
                 quantumLockBaseEntity.setSilent(true);
-                quantumLockBaseEntity.damage(DamageSource.OUT_OF_WORLD, Integer.MAX_VALUE);
+                BlockPos pos = getBlockPos().subtract(quantumLockBaseEntity.getBlockPos());
+                Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                quantumLockBaseEntity.setAiDisabled(false);
+                quantumLockBaseEntity.setVelocity(vec.multiply(0.15D));
             }
         }
     }

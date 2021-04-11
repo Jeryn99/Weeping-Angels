@@ -8,4 +8,5 @@ public class Constants {
     public static final String PREVPOS = "previous_pos";
     public static final String CURRENT_POSE = "current_pose";
     public static final String VARIANT = "variant";
+    public static final String SPAWNED = "spawned";
 }

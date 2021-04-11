@@ -79,12 +79,6 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3F).
                 add(EntityAttributes.GENERIC_ARMOR, 2.0D);
     }
-
-    @Override
-    public Packet< ? > createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this);
-    }
-
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
