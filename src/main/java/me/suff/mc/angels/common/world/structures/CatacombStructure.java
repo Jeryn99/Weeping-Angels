@@ -26,6 +26,8 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
+
 public class CatacombStructure extends Structure< NoFeatureConfig > {
 
     protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
@@ -44,7 +46,7 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     }
 
     @Override
-    public GenerationStage.Decoration getDecorationStage() {
+    public GenerationStage.Decoration step() {
         return GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
     }
 
@@ -65,29 +67,29 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
         }
 
         @Override
-        public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
+        public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
-            BlockPos blockpos = new BlockPos(x, MathHelper.clamp(rand.nextInt(45), 30, 55), z);
+            BlockPos blockpos = new BlockPos(x, MathHelper.clamp(random.nextInt(45), 30, 55), z);
 
-            String choosen = variants[rand.nextInt(variants.length)];
-            JigsawManager.func_242837_a(
+            String choosen = variants[random.nextInt(variants.length)];
+            JigsawManager.addPieces(
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 9),
+                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 9),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
-                    blockpos, this.components, this.rand, false, false);
+                    blockpos, this.pieces, this.random, false, false);
 
-            this.recalculateStructureSize();
+            this.calculateBoundingBox();
 
         }
     }
 
 
     @Override
-    public String getStructureName() {
-        return super.getStructureName();
+    public String getFeatureName() {
+        return super.getFeatureName();
     }
 }

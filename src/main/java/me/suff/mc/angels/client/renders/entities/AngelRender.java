@@ -29,58 +29,58 @@ public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< W
     }
 
     @Override
-    protected float getOverlayProgress(WeepingAngelEntity livingEntityIn, float partialTicks) {
+    protected float getWhiteOverlayProgress(WeepingAngelEntity livingEntityIn, float partialTicks) {
         return 0;
     }
 
     @Override
     public void render(WeepingAngelEntity angel, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int p_225623_6_) {
-        entityModel = ClientUtil.getModelForAngel(angel.getAngelType());
+        model = ClientUtil.getModelForAngel(angel.getAngelType());
 
-        ItemStack key = angel.getHeldItemMainhand();
-        matrixStack.push();
-        float offset = MathHelper.cos(angel.ticksExisted * 0.1F) * -0.09F;
+        ItemStack key = angel.getMainHandItem();
+        matrixStack.pushPose();
+        float offset = MathHelper.cos(angel.tickCount * 0.1F) * -0.09F;
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 4.5, 0);
         matrixStack.translate(0, offset, 0);
         renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, iRenderTypeBuffer, p_225623_6_);
-        matrixStack.pop();
+        matrixStack.popPose();
 
         if (calcOverlay(angel.getHealth()) != -1) {
-            MatrixStack.Entry matrixstack$entry = matrixStack.getLast();
-            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().worldRenderer.renderTypeTextures.getCrumblingBufferSource().getBuffer(ModelBakery.DESTROY_RENDER_TYPES.get(calcOverlay(angel.getHealth()))), matrixstack$entry.getMatrix(), matrixstack$entry.getNormal());
+            MatrixStack.Entry matrixstack$entry = matrixStack.last();
+            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(angel.getHealth()))), matrixstack$entry.pose(), matrixstack$entry.normal());
             IRenderTypeBuffer finalIRenderTypeBuffer = iRenderTypeBuffer;
             iRenderTypeBuffer = (p_230014_2_) -> {
                 IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(p_230014_2_);
-                return p_230014_2_.isUseDelegate() ? VertexBuilderUtils.newDelegate(ivertexbuilder, vertexBuilder) : vertexBuilder;
+                return p_230014_2_.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
             };
         }
         super.render(angel, p_225623_2_, p_225623_3_, matrixStack, iRenderTypeBuffer, p_225623_6_);
     }
 
     @Override
-    protected float getDeathMaxRotation(WeepingAngelEntity entityLivingBaseIn) {
+    protected float getFlipDegrees(WeepingAngelEntity entityLivingBaseIn) {
         return 90;
     }
 
     @Override
-    protected void applyRotations(WeepingAngelEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(WeepingAngelEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         if (entityLiving.deathTime > 0) {
             float deathRotation = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
             deathRotation = MathHelper.sqrt(deathRotation);
             if (deathRotation > 1.0F) {
                 deathRotation = 1.0F;
             }
-            matrixStackIn.rotate(Vector3f.XP.rotationDegrees(deathRotation  * this.getDeathMaxRotation(entityLiving)));
+            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(deathRotation  * this.getFlipDegrees(entityLiving)));
             return;
         }
 
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(WeepingAngelEntity weepingAngelEntity) {
-        IAngelModel iAngelModel = (IAngelModel) entityModel;
+    public ResourceLocation getTextureLocation(WeepingAngelEntity weepingAngelEntity) {
+        IAngelModel iAngelModel = (IAngelModel) model;
         return iAngelModel.getTextureForPose(weepingAngelEntity, WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
     }
 
@@ -94,7 +94,7 @@ public class AngelRender extends MobRenderer< WeepingAngelEntity, EntityModel< W
 
     private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemCameraTransforms.TransformType transformTypeIn, boolean leftHand, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn) {
         if (!itemStackIn.isEmpty()) {
-            Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(livingEntityIn, itemStackIn, transformTypeIn, leftHand, matrixStackIn, bufferIn, combinedLightIn);
+            Minecraft.getInstance().getItemInHandRenderer().renderItem(livingEntityIn, itemStackIn, transformTypeIn, leftHand, matrixStackIn, bufferIn, combinedLightIn);
         }
     }
 

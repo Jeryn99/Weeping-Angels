@@ -29,7 +29,7 @@ public class MessageCatacomb {
     public static class Handler {
 
         public static void handle(MessageCatacomb message, Supplier< NetworkEvent.Context > ctx) {
-            Minecraft.getInstance().deferTask(() -> ClientEvents.isInCatacombs = message.isInCata);
+            Minecraft.getInstance().submitAsync(() -> ClientEvents.isInCatacombs = message.isInCata);
             ctx.get().setPacketHandled(true);
         }
     }

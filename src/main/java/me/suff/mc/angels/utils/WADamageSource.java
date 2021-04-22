@@ -15,7 +15,7 @@ public class WADamageSource extends DamageSource {
     }
 
     @Override
-    public ITextComponent getDeathMessage(LivingEntity entity) {
+    public ITextComponent getLocalizedDeathMessage(LivingEntity entity) {
         return new TranslationTextComponent(message, entity.getName());
     }
 }

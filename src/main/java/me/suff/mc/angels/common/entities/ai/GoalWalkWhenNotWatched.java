@@ -16,11 +16,11 @@ public class GoalWalkWhenNotWatched extends WaterAvoidingRandomWalkingGoal {
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
-        if(creature instanceof QuantumLockBaseEntity){
-            QuantumLockBaseEntity quantumLockBaseEntity = (QuantumLockBaseEntity) creature;
-            return super.shouldContinueExecuting() && !quantumLockBaseEntity.isSeen();
+    public boolean canContinueToUse() {
+        if(mob instanceof QuantumLockBaseEntity){
+            QuantumLockBaseEntity quantumLockBaseEntity = (QuantumLockBaseEntity) mob;
+            return super.canContinueToUse() && !quantumLockBaseEntity.isSeen();
         }
-        return super.shouldContinueExecuting();
+        return super.canContinueToUse();
     }
 }

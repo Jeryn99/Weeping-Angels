@@ -22,12 +22,12 @@ public class SnowAngelGeneration extends Feature< NoFeatureConfig > {
 
 
     @Override
-    public boolean generate(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
+    public boolean place(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
         for (int y = 45; y < 70; ++y) {
             BlockPos test = new BlockPos(blockPos.getX(), y, blockPos.getZ());
             if (random.nextInt(100) < 20) {
-                if (iSeedReader.getBlockState(test).getBlock().getRegistryName().toString().contains("snow") || iSeedReader.getBlockState(test.down()).getBlock() == Blocks.GRASS_BLOCK) {
-                    iSeedReader.setBlockState(test, WAObjects.Blocks.SNOW_ANGEL.get().getDefaultState(), 2);
+                if (iSeedReader.getBlockState(test).getBlock().getRegistryName().toString().contains("snow") || iSeedReader.getBlockState(test.below()).getBlock() == Blocks.GRASS_BLOCK) {
+                    iSeedReader.setBlock(test, WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState(), 2);
                     return true;
                 }
             }

@@ -32,25 +32,25 @@ public class FortuneEnchantBonus extends LootFunction {
         return new FortuneEnchantBonus.Builder(p_215915_0_);
     }
 
-    public Set< LootParameter< ? > > getRequiredParameters() {
+    public Set< LootParameter< ? > > getReferencedContextParams() {
         return ImmutableSet.of(LootParameters.KILLER_ENTITY);
     }
 
-    private boolean func_215917_b() {
+    private boolean hasLimit() {
         return this.limit > 0;
     }
 
-    public ItemStack doApply(ItemStack stack, LootContext context) {
-        Entity entity = context.get(LootParameters.KILLER_ENTITY);
+    public ItemStack run(ItemStack stack, LootContext context) {
+        Entity entity = context.getParamOrNull(LootParameters.KILLER_ENTITY);
         if (entity instanceof LivingEntity) {
             int i = AngelUtils.getFortuneModifier((LivingEntity) entity);
             if (i == 0) {
                 return stack;
             }
 
-            float f = (float) i * this.count.generateFloat(context.getRandom());
+            float f = (float) i * this.count.getFloat(context.getRandom());
             stack.grow(Math.round(f));
-            if (this.func_215917_b() && stack.getCount() > this.limit) {
+            if (this.hasLimit() && stack.getCount() > this.limit) {
                 stack.setCount(this.limit);
             }
         }
@@ -59,29 +59,29 @@ public class FortuneEnchantBonus extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getFunctionType() {
+    public LootFunctionType getType() {
         return null;
     }
 
     public static class Builder extends LootFunction.Builder< FortuneEnchantBonus.Builder > {
-        private final RandomValueRange field_216073_a;
-        private int field_216074_b = 0;
+        private final RandomValueRange count;
+        private int limit = 0;
 
         public Builder(RandomValueRange p_i50932_1_) {
-            this.field_216073_a = p_i50932_1_;
+            this.count = p_i50932_1_;
         }
 
-        protected FortuneEnchantBonus.Builder doCast() {
+        protected FortuneEnchantBonus.Builder getThis() {
             return this;
         }
 
-        public FortuneEnchantBonus.Builder func_216072_a(int p_216072_1_) {
-            this.field_216074_b = p_216072_1_;
+        public FortuneEnchantBonus.Builder setLimit(int p_216072_1_) {
+            this.limit = p_216072_1_;
             return this;
         }
 
         public ILootFunction build() {
-            return new FortuneEnchantBonus(this.getConditions(), this.field_216073_a, this.field_216074_b);
+            return new FortuneEnchantBonus(this.getConditions(), this.count, this.limit);
         }
     }
 
@@ -95,15 +95,15 @@ public class FortuneEnchantBonus extends LootFunction {
         public void serialize(JsonObject object, FortuneEnchantBonus functionClazz, JsonSerializationContext serializationContext) {
             super.serialize(object, functionClazz, serializationContext);
             object.add("count", serializationContext.serialize(functionClazz.count));
-            if (functionClazz.func_215917_b()) {
+            if (functionClazz.hasLimit()) {
                 object.add("limit", serializationContext.serialize(functionClazz.limit));
             }
 
         }
 
         public FortuneEnchantBonus deserialize(JsonObject object, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
-            int i = JSONUtils.getInt(object, "limit", 0);
-            return new FortuneEnchantBonus(conditionsIn, JSONUtils.deserializeClass(object, "count", deserializationContext, RandomValueRange.class), i);
+            int i = JSONUtils.getAsInt(object, "limit", 0);
+            return new FortuneEnchantBonus(conditionsIn, JSONUtils.getAsObject(object, "count", deserializationContext, RandomValueRange.class), i);
         }
     }
 

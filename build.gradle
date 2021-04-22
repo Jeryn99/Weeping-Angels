@@ -47,6 +47,7 @@ processResources {
     }
 }
 
+println('Setting up Weeping Angels Workspace')
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
@@ -55,13 +56,6 @@ minecraft {
        runs {
         client {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
             mods {
                 weeping_angels {
                     source sourceSets.main
@@ -71,13 +65,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
             mods {
                 weeping_angels {
                     source sourceSets.main
@@ -87,13 +74,6 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
             args '--mod', 'weeping_angels', '--all', '--output', file('src/generated/resources/')
 
             mods {
@@ -129,11 +109,16 @@ repositories {
     maven {
         url 'https://www.dogforce-games.com/maven/'
     }
+    flatDir {
+        dirs 'libMods'
+    }
 }
+
+
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.16-SNAPSHOT')
+    implementation fg.deobf('undefined:time:1.0')
 }
 
 jar {
@@ -150,11 +135,8 @@ jar {
     }
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+
+jar.finalizedBy('reobfJar')
 
 publishing {
     publications {

@@ -11,28 +11,30 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class ChronodyneGeneratorItem extends Item {
 
     public ChronodyneGeneratorItem() {
-        super(new Properties().maxStackSize(16).group(WATabs.MAIN_TAB));
+        super(new Properties().stacksTo(16).tab(WATabs.MAIN_TAB));
     }
 
     /**
      * Called when the equipped item is right clicked.
      */
     @Override
-    public ActionResult< ItemStack > onItemRightClick(World world, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+    public ActionResult< ItemStack > use(World world, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getItemInHand(handIn);
 
         if (!playerIn.isCreative()) {
             itemstack.shrink(1);
         }
 
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
             laser.setItem(laser.getItem());
-            laser.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            world.addEntity(laser);
+            laser.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, 1.5F, 1.0F);
+            world.addFreshEntity(laser);
         }
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
     }

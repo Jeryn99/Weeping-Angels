@@ -21,10 +21,12 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class DetectorItem extends Item {
 
     public DetectorItem() {
-        super(new Properties().group(WATabs.MAIN_TAB).maxStackSize(1));
+        super(new Properties().tab(WATabs.MAIN_TAB).stacksTo(1));
     }
 
     public static void setTime(ItemStack itemStack, int time) {
@@ -44,37 +46,37 @@ public class DetectorItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList< ItemStack > items) {
-        super.fillItemGroup(group, items);
+    public void fillItemCategory(ItemGroup group, NonNullList< ItemStack > items) {
+        super.fillItemCategory(group, items);
     }
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (!entityIn.world.isRemote) {
+        if (!entityIn.level.isClientSide) {
 
             setTime(stack, getTime(stack) + 1);
 
-            List< WeepingAngelEntity > angels = entityIn.world.getEntitiesWithinAABB(WeepingAngelEntity.class, entityIn.getBoundingBox().grow(15, 15, 15));
+            List< WeepingAngelEntity > angels = entityIn.level.getEntitiesOfClass(WeepingAngelEntity.class, entityIn.getBoundingBox().inflate(15, 15, 15));
 
             if (entityIn instanceof PlayerEntity) {
 
                 if (PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
-                    if (entityIn.ticksExisted % 160 == 0) {
-                        worldIn.playSound(null, entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ(), WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+                    if (entityIn.tickCount % 160 == 0) {
+                        worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
                     }
                 }
 
                 if (!angels.isEmpty() && PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
                     {
-                        if (entityIn.ticksExisted % 20 == 0) {
-                            worldIn.playSound(null, entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ(), WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+                        if (entityIn.tickCount % 20 == 0) {
+                            worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
                         }
 
-                        if (worldIn.rand.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
-                            for (ChickenEntity chick : entityIn.world.getEntitiesWithinAABB(ChickenEntity.class, entityIn.getBoundingBox().grow(30, 30, 30))) {
-                                if (entityIn.world.rand.nextInt(100) < 5) {
-                                    chick.world.createExplosion(chick, chick.getPosX(), chick.getPosY(), chick.getPosZ(), 0.5F, Explosion.Mode.NONE);
-                                    chick.entityDropItem(Items.EGG, 1);
+                        if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
+                            for (ChickenEntity chick : entityIn.level.getEntitiesOfClass(ChickenEntity.class, entityIn.getBoundingBox().inflate(30, 30, 30))) {
+                                if (entityIn.level.random.nextInt(100) < 5) {
+                                    chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.Mode.NONE);
+                                    chick.spawnAtLocation(Items.EGG, 1);
                                     chick.remove();
                                 }
                             }

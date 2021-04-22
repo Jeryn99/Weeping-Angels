@@ -23,7 +23,7 @@ import java.util.Random;
 public class SnowArmBlock extends SnowBlock {
 
     public SnowArmBlock() {
-        super(Block.Properties.create(Material.CORAL).tickRandomly().notSolid().hardnessAndResistance(3).sound(SoundType.SNOW).setRequiresTool());
+        super(AbstractBlock.Properties.of(Material.CORAL).randomTicks().noOcclusion().strength(3).sound(SoundType.SNOW).requiresCorrectToolForDrops());
     }
 
     @Nullable
@@ -34,12 +34,12 @@ public class SnowArmBlock extends SnowBlock {
 
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tile = worldIn.getTileEntity(pos);
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof SnowArmTile) {
-            int rotation = MathHelper.floor(placer.rotationYaw);
+            int rotation = MathHelper.floor(placer.yRot);
             SnowArmTile snowArmTile = (SnowArmTile) tile;
             if (!snowArmTile.isHasSetup()) {
                 snowArmTile.setSnowAngelStage(AngelUtils.randowSnowStage());
@@ -52,9 +52,9 @@ public class SnowArmBlock extends SnowBlock {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.isIn(newState.getBlock())) {
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 
@@ -65,16 +65,16 @@ public class SnowArmBlock extends SnowBlock {
 
     @Override
     public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
-        if (worldIn.getLightFor(LightType.BLOCK, pos) > 11) {
-            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
-            TileEntity tile = worldIn.getTileEntity(pos);
+        if (worldIn.getBrightness(LightType.BLOCK, pos) > 11) {
+            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
+            TileEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof SnowArmTile) {
                 SnowArmTile snowArmTile = (SnowArmTile) tile;
                 WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
                 angel.setType(AngelEnums.AngelType.ANGELA_MC);
                 angel.setVarient(snowArmTile.getAngelVariants());
-                angel.setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                worldIn.addEntity(angel);
+                angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                worldIn.addFreshEntity(angel);
                 worldIn.removeBlock(pos, false);
             }
         }

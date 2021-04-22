@@ -29,29 +29,29 @@ public class WATeleporter {
 
     public static BlockPos findSafePlace(PlayerEntity playerEntity, World world, BlockPos pos) {
 
-        if(world.getDimensionKey().equals(World.THE_NETHER)){
+        if(world.dimension().equals(World.NETHER)){
             WorldBorder worldborder = world.getWorldBorder();
-            double d0 = Math.max(-2.9999872E7D, worldborder.minX() + 16.0D);
-            double d1 = Math.max(-2.9999872E7D, worldborder.minZ() + 16.0D);
-            double d2 = Math.min(2.9999872E7D, worldborder.maxX() - 16.0D);
-            double d3 = Math.min(2.9999872E7D, worldborder.maxZ() - 16.0D);
-            double d4 = DimensionType.getCoordinateDifference(world.getDimensionType(), ServerLifecycleHooks.getCurrentServer().getWorld(World.THE_NETHER).getDimensionType());
+            double d0 = Math.max(-2.9999872E7D, worldborder.getMinX() + 16.0D);
+            double d1 = Math.max(-2.9999872E7D, worldborder.getMinZ() + 16.0D);
+            double d2 = Math.min(2.9999872E7D, worldborder.getMaxX() - 16.0D);
+            double d3 = Math.min(2.9999872E7D, worldborder.getMaxZ() - 16.0D);
+            double d4 = DimensionType.getTeleportationScale(world.dimensionType(), ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER).dimensionType());
             BlockPos blockpos1 = new BlockPos(MathHelper.clamp(pos.getZ() * d4, d0, d2), pos.getY(), MathHelper.clamp(pos.getZ() * d4, d1, d3));
 
             BlockState blockstate = world.getBlockState(blockpos1);
-            TeleportationRepositioner.Result tt = TeleportationRepositioner.findLargestRectangle(blockpos1, Direction.Axis.X, 21, Direction.Axis.Y, 21, (posIn) -> {
+            TeleportationRepositioner.Result tt = TeleportationRepositioner.getLargestRectangleAround(blockpos1, Direction.Axis.X, 21, Direction.Axis.Y, 21, (posIn) -> {
                 return world.getBlockState(posIn) == blockstate;
             });
 
-            return tt.startPos;
+            return tt.minCorner;
         }
 
-        if(world.getDimensionKey().equals(World.THE_END)){
-            return ServerWorld.field_241108_a_;
+        if(world.dimension().equals(World.END)){
+            return ServerWorld.END_SPAWN_POINT;
         }
 
         for (int i = 5; i > 0; i--) {
-            for (int y = 0; y < world.getHeight(); y++) {
+            for (int y = 0; y < world.getMaxBuildHeight(); y++) {
                 BlockPos newPos = new BlockPos(pos.getX() + i * 20, y, pos.getZ() + i * 20);
                 if (isTeleportFriendlyBlock(world, pos,playerEntity) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
                     System.out.println("Teleporting player to " + newPos + " || " + world.getBlockState(newPos));
@@ -60,16 +60,16 @@ public class WATeleporter {
             }
         }
 
-        return world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
+        return world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
     }
 
     public static ServerWorld getRandomDimension(Random rand) {
-        Iterable< ServerWorld > dimensions = ServerLifecycleHooks.getCurrentServer().getWorlds();
+        Iterable< ServerWorld > dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
         ArrayList< ServerWorld > allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerWorld dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
-                if (dimension.getDimensionKey().getLocation().toString().equalsIgnoreCase(dimName)) {
+                if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
                 }
             }
@@ -80,7 +80,7 @@ public class WATeleporter {
         }
 
         if(rand.nextInt(100) > 20){
-            allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getWorld(World.THE_NETHER));
+            allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER));
         }
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
@@ -90,7 +90,7 @@ public class WATeleporter {
 
         Structure[] targetStructure = null;
 
-        switch (player.world.getDimensionKey().getLocation().toString()) {
+        switch (player.level.dimension().location().toString()) {
             case "minecraft:overworld":
                 targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
                 break;
@@ -105,10 +105,10 @@ public class WATeleporter {
         }
 
         if (targetStructure != null) {
-            ServerWorld serverWorld = (ServerWorld) player.world;
-            BlockPos bPos = serverWorld.func_241117_a_(targetStructure[player.world.rand.nextInt(targetStructure.length)], player.getPosition(), Integer.MAX_VALUE, false);
+            ServerWorld serverWorld = (ServerWorld) player.level;
+            BlockPos bPos = serverWorld.findNearestMapFeature(targetStructure[player.level.random.nextInt(targetStructure.length)], player.blockPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
-                teleportPlayerTo(player, bPos, player.getServerWorld());
+                teleportPlayerTo(player, bPos, player.getLevel());
                 return true;
             }
         }
@@ -117,12 +117,12 @@ public class WATeleporter {
 
     public static void teleportPlayerTo(ServerPlayerEntity player, BlockPos destinationPos, ServerWorld targetDimension) {
         Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-        player.teleport(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.rotationYaw, player.rotationPitch);
+        player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yRot, player.xRot);
     }
 
 
     public static boolean isPosBelowOrAboveWorld(World dim, int y) {
-        if (dim.getDimensionKey() == World.THE_NETHER) {
+        if (dim.dimension() == World.NETHER) {
             return y <= 0 || y >= 126;
         }
         return y <= 0 || y >= 256;
@@ -130,8 +130,8 @@ public class WATeleporter {
 
     private static boolean isTeleportFriendlyBlock(World world, BlockPos pos, PlayerEntity playerEntity) {
         BlockState state = world.getBlockState(pos);
-        BlockPos blockpos = pos.subtract(playerEntity.getPosition());
-        return state.getMaterial().blocksMovement() && state.hasOpaqueCollisionShape(world, pos) && world.hasNoCollisions(playerEntity, playerEntity.getBoundingBox().offset(blockpos));
+        BlockPos blockpos = pos.subtract(playerEntity.blockPosition());
+        return state.getMaterial().blocksMotion() && state.isCollisionShapeFullBlock(world, pos) && world.noCollision(playerEntity, playerEntity.getBoundingBox().move(blockpos));
     }
 
 }

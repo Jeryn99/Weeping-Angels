@@ -29,8 +29,8 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
         NBTPatcher.angelaToVillager(compound, "model");
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
@@ -40,8 +40,8 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
+    public CompoundNBT save(CompoundNBT compound) {
+        super.save(compound);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariants.name());
@@ -62,37 +62,37 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
+        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return write(new CompoundNBT());
+        return save(new CompoundNBT());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(getBlockState(), pkt.getTag());
     }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return super.getRenderBoundingBox().grow(8, 8, 8);
+        return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
     @Override
     public void tick() {
-        if (world.isRemote) return;
+        if (level.isClientSide) return;
 
-        if (WAConfig.CONFIG.spawnFromBlocks.get() && world.getRedstonePowerFromNeighbors(pos) > 0 && world.getTileEntity(pos) instanceof StatueTile) {
-            WeepingAngelEntity angel = new WeepingAngelEntity(world);
+        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
+            WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setVarient(angelVariants);
             angel.setType(type);
-            angel.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0);
+            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
             angel.setPose(getPose());
-            world.addEntity(angel);
-            world.removeBlock(pos, false);
+            level.addFreshEntity(angel);
+            level.removeBlock(worldPosition, false);
         }
     }
 
@@ -116,7 +116,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     public void onLoad() {
         if (getPose() == null) {
             setPose(WeepingAngelPose.HIDING);
-            markDirty();
+            setChanged();
         }
     }
 
@@ -132,8 +132,8 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
     @Override
     public void sendUpdatesToClient() {
-        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-        markDirty();
+        level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        setChanged();
     }
 }

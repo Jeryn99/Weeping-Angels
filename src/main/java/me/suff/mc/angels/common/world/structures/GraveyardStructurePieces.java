@@ -54,7 +54,7 @@ public class GraveyardStructurePieces {
         int x = pos.getX();
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
-        BlockPos blockpos = rotationOffSet.add(x, pos.getY(), z);
+        BlockPos blockpos = rotationOffSet.offset(x, pos.getY(), z);
         pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length)], blockpos, rotation));
     }
 
@@ -66,7 +66,7 @@ public class GraveyardStructurePieces {
     }
 
     public static Block getRandomPottedPlant(Random random) {
-        List< Block > plants = AngelUtils.POTTED_PLANTS.getAllElements();
+        List< Block > plants = AngelUtils.POTTED_PLANTS.getValues();
         return plants.get(random.nextInt(plants.size()));
     }
 
@@ -79,7 +79,7 @@ public class GraveyardStructurePieces {
             super(WAObjects.Structures.GRAVEYARD_PIECE, 0);
             this.resourceLocation = resourceLocationIn;
             BlockPos blockpos = GraveyardStructurePieces.OFFSET.get(resourceLocation);
-            this.templatePosition = pos.add(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+            this.templatePosition = pos.offset(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             this.rotation = rotationIn;
             this.setupPiece(templateManagerIn);
         }
@@ -92,7 +92,7 @@ public class GraveyardStructurePieces {
         }
 
         private void setupPiece(TemplateManager templateManager) {
-            Template template = templateManager.getTemplateDefaulted(this.resourceLocation);
+            Template template = templateManager.getOrCreate(this.resourceLocation);
             PlacementSettings placementsettings = (new PlacementSettings()).setRotation(this.rotation).setMirror(Mirror.NONE);
             this.setup(template, this.templatePosition, placementsettings);
         }
@@ -101,8 +101,8 @@ public class GraveyardStructurePieces {
          * (abstract) Helper method to read subclass data from NBT
          */
         @Override
-        protected void readAdditional(CompoundNBT tagCompound) {
-            super.readAdditional(tagCompound);
+        protected void addAdditionalSaveData(CompoundNBT tagCompound) {
+            super.addAdditionalSaveData(tagCompound);
             tagCompound.putString("Template", this.resourceLocation.toString());
             tagCompound.putString("Rot", this.rotation.name());
         }
@@ -138,16 +138,16 @@ public class GraveyardStructurePieces {
             }
 
             if ("angel".equals(function)) {
-                StatueTile statueTile = (StatueTile) worldIn.getTileEntity(pos.down());
+                StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
                 statueTile.setAngelVarients(AngelUtils.randomVarient());
-                statueTile.markDirty();
+                statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }
 
             if ("coffin".equals(function)) {
-                CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos.down());
+                CoffinTile coffinTile = (CoffinTile) worldIn.getBlockEntity(pos.below());
                 if (coffinTile != null) {
                     coffinTile.setOpen(rand.nextBoolean());
                     coffinTile.setCoffin(AngelUtils.randomCoffin());
@@ -158,34 +158,34 @@ public class GraveyardStructurePieces {
 
             if ("cobweb".equals(function)) {
                 Block block = rand.nextBoolean() ? Blocks.COBWEB : Blocks.AIR;
-                worldIn.setBlockState(pos, block.getDefaultState(), 2);
+                worldIn.setBlock(pos, block.defaultBlockState(), 2);
             }
 
             if ("crypt_chest".equals(function) || "chest".equals(function)) {
-                LockableLootTileEntity.setLootTable(worldIn, rand, pos.down(), WAObjects.CRYPT_LOOT);
+                LockableLootTileEntity.setLootTable(worldIn, rand, pos.below(), WAObjects.CRYPT_LOOT);
                 worldIn.removeBlock(pos, false);
             }
 
             if ("chest_2down".equals(function)) {
-                LockableLootTileEntity.setLootTable(worldIn, rand, pos.down(2), WAObjects.CRYPT_LOOT);
-                worldIn.removeBlock(pos.down(2), false);
+                LockableLootTileEntity.setLootTable(worldIn, rand, pos.below(2), WAObjects.CRYPT_LOOT);
+                worldIn.removeBlock(pos.below(2), false);
                 worldIn.removeBlock(pos, false);
             }
 
             if ("path".equals(function)) {
-                worldIn.setBlockState(pos, rand.nextBoolean() ? Blocks.AIR.getDefaultState() : getRandomPottedPlant(rand).getDefaultState(), 2);
-                worldIn.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+                worldIn.setBlock(pos, rand.nextBoolean() ? Blocks.AIR.defaultBlockState() : getRandomPottedPlant(rand).defaultBlockState(), 2);
+                worldIn.setBlock(pos.below(), Blocks.PODZOL.defaultBlockState(), 2);
             }
 
             if ("sign".equals(function)) {
-                SignTileEntity signTileEntity = (SignTileEntity) worldIn.getTileEntity(pos.down());
+                SignTileEntity signTileEntity = (SignTileEntity) worldIn.getBlockEntity(pos.below());
                 if (signTileEntity != null) {
-                    signTileEntity.setText(0, new TranslationTextComponent("========"));
-                    signTileEntity.setText(1, new TranslationTextComponent(USERNAMES[rand.nextInt(USERNAMES.length - 1)]));
-                    signTileEntity.setText(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-                    signTileEntity.setText(3, new TranslationTextComponent("========"));
+                    signTileEntity.setMessage(0, new TranslationTextComponent("========"));
+                    signTileEntity.setMessage(1, new TranslationTextComponent(USERNAMES[rand.nextInt(USERNAMES.length - 1)]));
+                    signTileEntity.setMessage(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
+                    signTileEntity.setMessage(3, new TranslationTextComponent("========"));
                     worldIn.removeBlock(pos, false);
-                    worldIn.setBlockState(pos.down(2), Blocks.PODZOL.getDefaultState(), 2);
+                    worldIn.setBlock(pos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
                 }
             }
         }

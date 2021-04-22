@@ -71,7 +71,7 @@ public class WAObjects {
 
     private static void genBlockItems(Block... blocks) {
         for (Block block : blocks) {
-            Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().group(WATabs.MAIN_TAB))));
+            Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
         }
     }
 
@@ -79,7 +79,7 @@ public class WAObjects {
     private static void genBlockItems(Collection< RegistryObject< Block > > collection) {
         for (RegistryObject< Block > block : collection) {
             ItemGroup itemGroup = WATabs.MAIN_TAB;
-            Blocks.BLOCK_ITEMS.register(block.get().getRegistryName().getPath(), () -> setUpItem(new BlockItem(block.get(), new Item.Properties().group(itemGroup))));
+            Blocks.BLOCK_ITEMS.register(block.get().getRegistryName().getPath(), () -> setUpItem(new BlockItem(block.get(), new Item.Properties().tab(itemGroup))));
         }
     }
 
@@ -104,7 +104,7 @@ public class WAObjects {
     private static < T extends Structure< ? > > void registerConfiguredStructure(String registryName, Supplier< T > structure, StructureFeature< ?, ? > configuredStructure) {
         Registry< StructureFeature< ?, ? > > registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, registryName), configuredStructure);
-        FlatGenerationSettings.STRUCTURES.put(structure.get(), configuredStructure);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(structure.get(), configuredStructure);
     }
 
     private static < T extends Structure< ? > > RegistryObject< T > setupStructure(String name, Supplier< T > structure) {
@@ -112,11 +112,11 @@ public class WAObjects {
     }
 
     public static < F extends Structure< ? > > void setupStructure(F structure, StructureSeparationSettings structureSeparationSettings, boolean transformSurroundingLand) {
-        Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
+        Structure.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
         if (transformSurroundingLand) {
-            Structure.field_236384_t_ = ImmutableList.< Structure< ? > >builder().addAll(Structure.field_236384_t_).add(structure).build();
+            Structure.NOISE_AFFECTING_FEATURES = ImmutableList.< Structure< ? > >builder().addAll(Structure.NOISE_AFFECTING_FEATURES).add(structure).build();
         }
-        DimensionStructuresSettings.field_236191_b_ = ImmutableMap.< Structure< ? >, StructureSeparationSettings >builder().putAll(DimensionStructuresSettings.field_236191_b_).put(structure, structureSeparationSettings).build();
+        DimensionStructuresSettings.DEFAULTS = ImmutableMap.< Structure< ? >, StructureSeparationSettings >builder().putAll(DimensionStructuresSettings.DEFAULTS).put(structure, structureSeparationSettings).build();
     }
 
     public static IStructurePieceType registerStructurePiece(IStructurePieceType type, String key) {
@@ -130,17 +130,17 @@ public class WAObjects {
 
     // Tile Creation
     private static < T extends TileEntity > TileEntityType< T > registerTiles(Supplier< T > tile, Block... validBlock) {
-        return TileEntityType.Builder.create(tile, validBlock).build(null);
+        return TileEntityType.Builder.of(tile, validBlock).build(null);
     }
 
     // Entity Creation
     private static < T extends Entity > EntityType< T > registerBase(EntityType.IFactory< T > factory, IClientSpawner< T > client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
-        EntityType.Builder< T > builder = EntityType.Builder.create(factory, classification);
+        EntityType.Builder< T > builder = EntityType.Builder.of(factory, classification);
         builder.setShouldReceiveVelocityUpdates(sendUpdate);
         builder.setTrackingRange(trackingRange);
         builder.setUpdateInterval(updateFreq);
-        builder.size(width, height);
+        builder.sized(width, height);
         builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
@@ -148,12 +148,12 @@ public class WAObjects {
     // Fire Resistant Entity Creation
     private static < T extends Entity > EntityType< T > registerFireImmuneBase(EntityType.IFactory< T > factory, IClientSpawner< T > client, EntityClassification classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
-        EntityType.Builder< T > builder = EntityType.Builder.create(factory, classification);
+        EntityType.Builder< T > builder = EntityType.Builder.of(factory, classification);
         builder.setShouldReceiveVelocityUpdates(sendUpdate);
         builder.setTrackingRange(trackingRange);
         builder.setUpdateInterval(updateFreq);
-        builder.immuneToFire();
-        builder.size(width, height);
+        builder.fireImmune();
+        builder.sized(width, height);
         builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
@@ -192,7 +192,7 @@ public class WAObjects {
         public static final RegistryObject< Block > PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
         public static final RegistryObject< Block > KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
         public static final RegistryObject< Block > STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
-        public static final RegistryObject< Block > COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.create(Material.WOOD).notSolid())));
+        public static final RegistryObject< Block > COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion())));
     }
 
     public static class Items {
@@ -201,10 +201,10 @@ public class WAObjects {
         public static final RegistryObject< Item > TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
         public static final RegistryObject< Item > CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
         public static final RegistryObject< Item > ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>()));
-        public static final RegistryObject< Item > KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().group(WATabs.MAIN_TAB))));
-        public static final RegistryObject< Item > CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().maxStackSize(1).group(WATabs.MAIN_TAB))));
-        public static final RegistryObject< Item > SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_SALLY::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
-        public static final RegistryObject< Item > TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_TIME_PREVAILS::get, (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE))));
+        public static final RegistryObject< Item > KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().tab(WATabs.MAIN_TAB))));
+        public static final RegistryObject< Item > CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().stacksTo(1).tab(WATabs.MAIN_TAB))));
+        public static final RegistryObject< Item > SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_SALLY::get, (new Item.Properties()).stacksTo(1).tab(ItemGroup.TAB_MISC).rarity(Rarity.RARE))));
+        public static final RegistryObject< Item > TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new MusicDiscItem(6, Sounds.DISC_TIME_PREVAILS::get, (new Item.Properties()).stacksTo(1).tab(ItemGroup.TAB_MISC).rarity(Rarity.RARE))));
     }
 
     // Sounds
@@ -232,13 +232,13 @@ public class WAObjects {
 
     public static class WorldGenEntries {
         public static final DeferredRegister< Feature< ? > > FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new SnowAngelGeneration(NoFeatureConfig.field_236558_a_));
+        public static final RegistryObject< Feature< NoFeatureConfig > > ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new SnowAngelGeneration(NoFeatureConfig.CODEC));
         public static final RegistryObject< Feature< OreFeatureConfig > > KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig.CODEC));
     }
 
     public static class ConfiguredFeatures {
-        public static final ConfiguredFeature< ?, ? > ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242732_c(4);
-        public static final ConfiguredFeature< ?, ? > KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, WAObjects.Blocks.KONTRON_ORE.get().getDefaultState(), 10)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(6, 0, 34))).square().func_242731_b(5);
+        public static final ConfiguredFeature< ?, ? > ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_SQUARE).countRandom(4);
+        public static final ConfiguredFeature< ?, ? > KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState(), 10)).decorated(Placement.RANGE.configured(new TopSolidRangeConfig(6, 0, 34))).squared().count(5);
 
         public static void registerConfiguredFeatures() {
             registerConfiguredFeature("arm_snow_feature", ARM_SNOW_FEATURE);
@@ -258,7 +258,7 @@ public class WAObjects {
          * The Structure registry object. This isn't actually setup yet, see {@link WAObjects#setupStructure(Structure, StructureSeparationSettings, boolean)}
          */
         public static final RegistryObject< Structure< ProbabilityConfig > > GRAVEYARD = setupStructure("graveyard", () -> (new GraveyardStructure(ProbabilityConfig.CODEC)));
-        public static final RegistryObject< Structure< NoFeatureConfig > > CATACOMBS = setupStructure("catacombs", () -> (new CatacombStructure(NoFeatureConfig.field_236558_a_)));
+        public static final RegistryObject< Structure< NoFeatureConfig > > CATACOMBS = setupStructure("catacombs", () -> (new CatacombStructure(NoFeatureConfig.CODEC)));
         /**
          * Static instance of our structure so we can reference it before registry stuff happens and use it to make configured structures in ConfiguredStructures
          */
@@ -273,8 +273,8 @@ public class WAObjects {
         /**
          * Static instance of our configured structure feature so we can reference it for registration
          */
-        public static StructureFeature< ?, ? > CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().withConfiguration(new ProbabilityConfig(5));
-        public static StructureFeature< ?, ? > CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().withConfiguration(NoFeatureConfig.field_236559_b_);
+        public static StructureFeature< ?, ? > CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().configured(new ProbabilityConfig(5));
+        public static StructureFeature< ?, ? > CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().configured(NoFeatureConfig.INSTANCE);
 
         public static void registerConfiguredStructures() {
             registerConfiguredStructure("configured_graveyard", Structures.GRAVEYARD, CONFIGURED_GRAVEYARD); //We have to add this to flatGeneratorSettings to account for mods that add custom chunk generators or superflat world type

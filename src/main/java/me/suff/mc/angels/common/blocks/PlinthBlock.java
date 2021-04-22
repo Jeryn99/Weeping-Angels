@@ -28,22 +28,24 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class PlinthBlock extends Block implements IWaterLoggable {
 
-    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_0_15;
+    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final BooleanProperty CLASSIC = BooleanProperty.create("is_old");
 
-    protected static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    protected static final VoxelShape BOTTOM_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
 
     public PlinthBlock() {
-        super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
-        this.setDefaultState(this.getDefaultState().with(CLASSIC, false).with(BlockStateProperties.WATERLOGGED, false));
+        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
+        this.registerDefaultState(this.defaultBlockState().setValue(CLASSIC, false).setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return state.get(CLASSIC) ? BOTTOM_SHAPE : VoxelShapes.fullCube();
+        return state.getValue(CLASSIC) ? BOTTOM_SHAPE : VoxelShapes.block();
     }
 
     @Nullable
@@ -58,34 +60,34 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    public boolean isVariableOpacity() {
+    public boolean hasDynamicShape() {
         return true;
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
-        FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(CLASSIC, false).with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
+        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+        return state.setValue(CLASSIC, false).setValue(ROTATION, MathHelper.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.getFluidState().is(FluidTags.WATER));
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+        return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.defaultFluidState() : Fluids.EMPTY.defaultFluidState();
     }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rot) {
-        return state.with(ROTATION, rot.rotate(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, rot.rotate(state.getValue(ROTATION), 16));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.with(ROTATION, mirrorIn.mirrorRotation(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder< Block, BlockState > builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder< Block, BlockState > builder) {
         builder.add(ROTATION);
         builder.add(CLASSIC);
         builder.add(BlockStateProperties.WATERLOGGED);
@@ -96,11 +98,11 @@ public class PlinthBlock extends Block implements IWaterLoggable {
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
 
-        if (world.getTileEntity(pos) instanceof PlinthTile) {
-            PlinthTile plinth = (PlinthTile) world.getTileEntity(pos);
+        if (world.getBlockEntity(pos) instanceof PlinthTile) {
+            PlinthTile plinth = (PlinthTile) world.getBlockEntity(pos);
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             plinth.setAngelType(AngelUtils.randomType().name());
             plinth.setAngelVarients(AngelUtils.randomVarient());
@@ -109,9 +111,9 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.isIn(newState.getBlock())) {
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 }

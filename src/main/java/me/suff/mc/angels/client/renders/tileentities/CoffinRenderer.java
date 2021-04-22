@@ -32,55 +32,55 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
     public void render(CoffinTile tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
         if (skeletonEntity == null) {
-            skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().world);
+            skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().level);
         }
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5F, 0.5F, 0.5F); //Translate to blockpos
         BlockState blockstate = tileEntityIn.getBlockState();
-        float rotation = 22.5F * (float) blockstate.get(CoffinBlock.ROTATION);
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F)); // Make model not upside down
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+        float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F)); // Make model not upside down
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
 
 
         //Horizontal Placement
-        if (!tileEntityIn.getBlockState().get(CoffinBlock.UPRIGHT)) {
-            matrixStack.rotate(Vector3f.XP.rotationDegrees(-90F));
+        if (!tileEntityIn.getBlockState().getValue(CoffinBlock.UPRIGHT)) {
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
 
             if (tileEntityIn.hasSkeleton()) {
-                matrixStack.push();
-                matrixStack.rotate(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
+                matrixStack.pushPose();
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
                 matrixStack.translate(0F, 1.5F, 0F);
-                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getRenderManager().getRenderer(skeletonEntity);
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
+                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
                 renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
-                matrixStack.pop();
+                matrixStack.popPose();
             }
 
         } else {
             matrixStack.translate(0F, -1F, 0F);
 
             if (tileEntityIn.hasSkeleton()) {
-                matrixStack.push();
-                matrixStack.rotate(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
+                matrixStack.pushPose();
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
                 matrixStack.translate(0F, 1.5F, 0F);
-                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getRenderManager().getRenderer(skeletonEntity);
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
+                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
                 renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
-                matrixStack.pop();
+                matrixStack.popPose();
             }
         }
 
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
         if (!tileEntityIn.getCoffin().name().contains("PTB")) {
-            coffinModel.Door.rotateAngleY = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
-            coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+            coffinModel.Door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
             matrixStack.translate(0, 0.5, 0);
             matrixStack.scale(0.7F, 0.7F, 0.7F);
-            coffinModelPTB.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
+            coffinModelPTB.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
         }
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 
     public ResourceLocation getTexture(CoffinTile.Coffin coffin) {

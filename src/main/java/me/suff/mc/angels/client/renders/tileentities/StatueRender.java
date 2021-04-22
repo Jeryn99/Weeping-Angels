@@ -28,14 +28,14 @@ public class StatueRender extends TileEntityRenderer< StatueTile > {
 
     @Override
     public void render(StatueTile statueTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5F, 1.5F, 0.5F);
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
         BlockState blockstate = statueTile.getBlockState();
-        float rotation = 22.5F * (float) blockstate.get(StatueBlock.ROTATION);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+        float rotation = 22.5F * (float) blockstate.getValue(StatueBlock.ROTATION);
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
         EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
-        ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
+        ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin();
 
         WeepingAngelPose pose = statueTile.getPose();
         if (angel instanceof IAngelModel) {
@@ -43,8 +43,8 @@ public class StatueRender extends TileEntityRenderer< StatueTile > {
             angelModel.setAngelPose(pose);
             texture = angelModel.getTextureForPose(statueTile, pose);
         }
-        angel.setRotationAngles(null, 0, 0, 0, 0, 0);
-        angel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
-        matrixStack.pop();
+        angel.setupAnim(null, 0, 0, 0, 0, 0);
+        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        matrixStack.popPose();
     }
 }

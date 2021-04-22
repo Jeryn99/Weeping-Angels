@@ -78,8 +78,8 @@ public class WeepingAngels {
 
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
-        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().create());
+        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().build());
         AngelUtils.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
         event.enqueueWork(() ->
         {

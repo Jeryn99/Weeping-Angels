@@ -28,42 +28,44 @@ import javax.annotation.Nullable;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class CoffinBlock extends DirectionalBlock {
 
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");
-    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_0_15;
+    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 
 
     public CoffinBlock(Properties properties) {
         super(properties);
-        setDefaultState(getDefaultState().with(WATERLOGGED, false));
+        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false));
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
-            CoffinTile coffinTile = (CoffinTile) worldIn.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+            CoffinTile coffinTile = (CoffinTile) worldIn.getBlockEntity(pos);
             if (coffinTile != null) {
                 if (!coffinTile.getCoffin().name().contains("PTB")) {
                     coffinTile.setOpen(!coffinTile.isOpen());
-                        worldIn.playSound(null, pos.getX()+0.5D, (double)pos.getY() + 0.5D, pos.getZ()+0.5D, coffinTile.isOpen() ? SoundEvents.BLOCK_ENDER_CHEST_OPEN : SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+                        worldIn.playSound(null, pos.getX()+0.5D, (double)pos.getY() + 0.5D, pos.getZ()+0.5D, coffinTile.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
                 } else {
-                    if (player.getHeldItemMainhand().getItem() instanceof MusicDiscItem) {
+                    if (player.getMainHandItem().getItem() instanceof MusicDiscItem) {
                         coffinTile.setDoingSomething(true);
                         if (!player.isCreative()) {
-                            player.getHeldItemMainhand().shrink(1);
+                            player.getMainHandItem().shrink(1);
                         }
                     }
                 }
             }
             coffinTile.sendUpdates();
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
 
@@ -79,13 +81,13 @@ public class CoffinBlock extends DirectionalBlock {
     }
 
     @Override
-    public boolean isVariableOpacity() {
+    public boolean hasDynamicShape() {
         return true;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder< Block, BlockState > builder) {
-        super.fillStateContainer(builder);
+    protected void createBlockStateDefinition(StateContainer.Builder< Block, BlockState > builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(UPRIGHT, ROTATION, WATERLOGGED);
     }
 
@@ -93,23 +95,23 @@ public class CoffinBlock extends DirectionalBlock {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
-        FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER)).with(UPRIGHT, context.getPlayer().isSneaking());
+        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+        return state.setValue(ROTATION, MathHelper.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.getFluidState().is(FluidTags.WATER)).setValue(UPRIGHT, context.getPlayer().isShiftKeyDown());
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+        return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.defaultFluidState() : Fluids.EMPTY.defaultFluidState();
     }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rot) {
-        return state.with(ROTATION, rot.rotate(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, rot.rotate(state.getValue(ROTATION), 16));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.with(ROTATION, mirrorIn.mirrorRotation(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
     
 }

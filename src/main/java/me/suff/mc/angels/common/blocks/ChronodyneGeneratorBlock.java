@@ -20,16 +20,18 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class ChronodyneGeneratorBlock extends Block {
 
     private static final VoxelShape CG_AABB = VoxelShapes.create(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 
     public ChronodyneGeneratorBlock() {
-        super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
+        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -44,40 +46,40 @@ public class ChronodyneGeneratorBlock extends Block {
     }
 
     @Override
-    public boolean isVariableOpacity() {
+    public boolean hasDynamicShape() {
         return false;
     }
 
     @Override
-    public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-        super.onEntityWalk(worldIn, pos, entityIn);
+    public void stepOn(World worldIn, BlockPos pos, Entity entityIn) {
+        super.stepOn(worldIn, pos, entityIn);
 
         if (entityIn instanceof WeepingAngelEntity) {
             AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addEntity(anomalyEntity);
+            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(anomalyEntity);
             worldIn.removeBlock(pos, false);
         }
     }
 
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        if (worldIn.isBlockPowered(pos)) {
+        if (worldIn.hasNeighborSignal(pos)) {
             AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addEntity(anomalyEntity);
+            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(anomalyEntity);
             worldIn.removeBlock(pos, false);
         }
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide) {
             AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addEntity(anomalyEntity);
+            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(anomalyEntity);
             worldIn.removeBlock(pos, false);
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 }

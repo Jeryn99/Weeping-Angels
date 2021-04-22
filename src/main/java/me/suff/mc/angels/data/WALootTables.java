@@ -29,7 +29,7 @@ public class WALootTables implements IDataProvider {
     }
 
     @Override
-    public void act(DirectoryCache cache) throws IOException {
+    public void run(DirectoryCache cache) throws IOException {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {

@@ -24,17 +24,19 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 /**
  * Created by Craig on 17/02/2020 @ 12:19
  */
 public class StatueBlock extends Block implements IWaterLoggable {
 
-    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_0_15;
+    public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 
 
     public StatueBlock() {
-        super(Properties.create(Material.ROCK).notSolid().hardnessAndResistance(3).sound(SoundType.STONE).setRequiresTool());
-        this.setDefaultState(this.getDefaultState().with(BlockStateProperties.WATERLOGGED, false));
+        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Nullable
@@ -49,34 +51,34 @@ public class StatueBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    public boolean isVariableOpacity() {
+    public boolean hasDynamicShape() {
         return true;
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
-        FluidState fluid = context.getWorld().getFluidState(context.getPos());
-        return state.with(ROTATION, MathHelper.floor((double) (context.getPlacementYaw() * 16.0F / 360.0F) + 0.5D) & 15).with(BlockStateProperties.WATERLOGGED, fluid.getFluidState().isTagged(FluidTags.WATER));
+        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+        return state.setValue(ROTATION, MathHelper.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.getFluidState().is(FluidTags.WATER));
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+        return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.defaultFluidState() : Fluids.EMPTY.defaultFluidState();
     }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rot) {
-        return state.with(ROTATION, rot.rotate(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, rot.rotate(state.getValue(ROTATION), 16));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.with(ROTATION, mirrorIn.mirrorRotation(state.get(ROTATION), 16));
+        return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ROTATION);
         builder.add(BlockStateProperties.WATERLOGGED);
     }
@@ -86,20 +88,20 @@ public class StatueBlock extends Block implements IWaterLoggable {
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if (world.getTileEntity(pos) instanceof StatueTile) {
-            StatueTile statue = (StatueTile) world.getTileEntity(pos);
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
+        if (world.getBlockEntity(pos) instanceof StatueTile) {
+            StatueTile statue = (StatueTile) world.getBlockEntity(pos);
 
-            if (!world.isRemote) {
-                BlockPos position = statue.getPos();
+            if (!world.isClientSide) {
+                BlockPos position = statue.getBlockPos();
 
-                if (stack.getChildTag("BlockEntityTag") != null) {
-                    statue.read(state, stack.getChildTag("BlockEntityTag"));
-                    statue.setPos(position);
+                if (stack.getTagElement("BlockEntityTag") != null) {
+                    statue.load(state, stack.getTagElement("BlockEntityTag"));
+                    statue.setPosition(position);
                 } else {
                     statue.setAngelType(AngelUtils.randomType().name());
-                    statue.setPose(WeepingAngelPose.getRandomPose(world.rand));
+                    statue.setPose(WeepingAngelPose.getRandomPose(world.random));
                     statue.setAngelVarients(AngelUtils.randomVarient());
                 }
 
@@ -130,7 +132,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 }

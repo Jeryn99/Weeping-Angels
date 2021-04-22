@@ -23,13 +23,13 @@ public class WABlockTags extends BlockTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
         add(AngelUtils.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if(block.getRegistryName().getNamespace().contains("tardis")) continue;
-            if (block.getDefaultState().getMaterial() == Material.AIR || block instanceof FireBlock) {
+            if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtils.BANNED_BLOCKS, block);
             }
 
@@ -37,17 +37,17 @@ public class WABlockTags extends BlockTagsProvider {
                 add(AngelUtils.POTTED_PLANTS, block);
             }
 
-            if (!block.getDefaultState().isSolid()) {
+            if (!block.defaultBlockState().canOcclude()) {
                 add(AngelUtils.ANGEL_IGNORE, block);
             }
         }
     }
 
     public void add(ITag.INamedTag< Block > branch, Block block) {
-        this.getOrCreateBuilder(branch).add(block);
+        this.tag(branch).add(block);
     }
 
     public void add(ITag.INamedTag< Block > branch, Block... block) {
-        this.getOrCreateBuilder(branch).add(block);
+        this.tag(branch).add(block);
     }
 }

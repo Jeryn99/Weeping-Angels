@@ -35,33 +35,33 @@ public class SnowArmTileRender extends TileEntityRenderer< SnowArmTile > {
 
     @Override
     public void render(SnowArmTile snowArmTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
-        matrixStack.push();
+        matrixStack.pushPose();
         switch (snowArmTile.getSnowAngelStage()) {
             case ARM:
                 matrixStack.translate(0.5F, -0.7F, 0.5F);
-                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
-                this.armModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                this.armModel.renderToBuffer(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
                 break;
             case HEAD:
                 matrixStack.translate(0.5F, 1.6F, 0.5F);
-                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-                this.headModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                this.headModel.renderToBuffer(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
                 break;
             case BODY:
                 matrixStack.translate(0.5F, 1.5F, 0.5F);
-                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-                this.bodyModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                this.bodyModel.renderToBuffer(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
                 break;
             case WINGS:
                 matrixStack.translate(0.5F, 1.5F, 0.5F);
-                matrixStack.rotate(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-                this.wingsModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
+                matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowArmTile.getRotation()));
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                this.wingsModel.renderToBuffer(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowArmTile))), i, i1, 1F, 1F, 1F, 1F);
                 break;
         }
 
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 }

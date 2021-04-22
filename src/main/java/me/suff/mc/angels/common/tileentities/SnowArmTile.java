@@ -48,8 +48,8 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void load(BlockState state, CompoundNBT nbt) {
+        super.load(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
             setAngelVariants(WeepingAngelEntity.AngelVariants.valueOf(nbt.getString(WAConstants.VARIENT)));
@@ -65,44 +65,44 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
         compound.putString(WAConstants.VARIENT, angelVariants.name());
         compound.putInt("rotation", rotation);
         compound.putBoolean("setup", hasSetup);
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
+        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return write(new CompoundNBT());
+        return save(new CompoundNBT());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(getBlockState(), pkt.getTag());
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.read(state, tag);
+        this.load(state, tag);
     }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return super.getRenderBoundingBox().grow(8, 8, 8);
+        return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
     public void sendUpdates() {
-        world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-        markDirty();
+        level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        setChanged();
     }
 
     public boolean isHasSetup() {
@@ -115,15 +115,15 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-        if (world != null && !world.getEntitiesWithinAABB(PlayerEntity.class, AABB.offset(getPos())).isEmpty() && !world.isRemote) {
-            WeepingAngelEntity angel = new WeepingAngelEntity(world);
+        if (level != null && !level.getEntitiesOfClass(PlayerEntity.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
+            WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
             angel.setVarient(angelVariants);
-            BlockPos newPos = getPos();
-            angel.setPosition(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
-            world.addEntity(angel);
-            Integer layers = world.getBlockState(pos).get(LAYERS);
-            world.setBlockState(pos, Blocks.SNOW.getDefaultState().with(LAYERS, layers));
+            BlockPos newPos = getBlockPos();
+            angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
+            level.addFreshEntity(angel);
+            Integer layers = level.getBlockState(worldPosition).getValue(LAYERS);
+            level.setBlockAndUpdate(worldPosition, Blocks.SNOW.defaultBlockState().setValue(LAYERS, layers));
         }
 
         if (angelVariants.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
@@ -134,7 +134,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
         //Randomness for world generatiopn
         if (!hasSetup) {
-            setRotation(world.rand.nextInt(360));
+            setRotation(level.random.nextInt(360));
             setSnowAngelStage(AngelUtils.randowSnowStage());
             hasSetup = true;
             sendUpdates();

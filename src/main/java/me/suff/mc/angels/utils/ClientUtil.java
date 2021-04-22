@@ -60,7 +60,7 @@ public class ClientUtil {
 
     @OnlyIn(Dist.CLIENT)
     public static void playSound(SoundEvent soundIn, float volumeSfx) {
-        Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(soundIn, volumeSfx));
+        Minecraft.getInstance().getSoundManager().play(SimpleSound.forUI(soundIn, volumeSfx));
     }
 
     public static void doClientStuff() {
@@ -73,14 +73,14 @@ public class ClientUtil {
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), (EntityRendererManager entityRendererManager) -> new CGRender(entityRendererManager, Minecraft.getInstance().getItemRenderer()));
 
-        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.SNOW_ANGEL.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.SNOW_ANGEL.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
 
-        ItemModelsProperties.registerProperty(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> DetectorItem.getTime(itemStack));
+        ItemModelsProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> DetectorItem.getTime(itemStack));
 
-        ItemModelsProperties.registerProperty(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.register(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
             if (itemStack == null || itemStack.isEmpty()) {
                 return 0;
             }

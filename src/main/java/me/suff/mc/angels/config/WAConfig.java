@@ -92,7 +92,7 @@ public class WAConfig {
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtils.EnumTeleportType.RANDOM_PLACE);
-        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.THE_END_ID.toString()), String.class::isInstance);
+        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.END_EFFECTS.toString()), String.class::isInstance);
         justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
         teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
         angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
@@ -107,14 +107,14 @@ public class WAConfig {
 
     public ArrayList< String > genBiomesForSpawn() {
         ArrayList< String > spawnBiomes = new ArrayList<>();
-        spawnBiomes.add(Biomes.TAIGA_HILLS.getLocation().toString());
-        spawnBiomes.add(Biomes.TAIGA.getLocation().toString());
-        spawnBiomes.add(Biomes.DESERT.getLocation().toString());
-        spawnBiomes.add(Biomes.DESERT_HILLS.getLocation().toString());
-        spawnBiomes.add(Biomes.PLAINS.getLocation().toString());
-        spawnBiomes.add(Biomes.SWAMP.getLocation().toString());
-        spawnBiomes.add(Biomes.BEACH.getLocation().toString());
-        spawnBiomes.add(Biomes.SNOWY_TAIGA.getLocation().toString());
+        spawnBiomes.add(Biomes.TAIGA_HILLS.location().toString());
+        spawnBiomes.add(Biomes.TAIGA.location().toString());
+        spawnBiomes.add(Biomes.DESERT.location().toString());
+        spawnBiomes.add(Biomes.DESERT_HILLS.location().toString());
+        spawnBiomes.add(Biomes.PLAINS.location().toString());
+        spawnBiomes.add(Biomes.SWAMP.location().toString());
+        spawnBiomes.add(Biomes.BEACH.location().toString());
+        spawnBiomes.add(Biomes.SNOWY_TAIGA.location().toString());
         return spawnBiomes;
     }
 

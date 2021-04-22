@@ -56,39 +56,39 @@ public class AngelUtils {
             Structure.PILLAGER_OUTPOST,
             Structure.MINESHAFT,
             Structure.WOODLAND_MANSION,
-            Structure.JUNGLE_PYRAMID,
+            Structure.JUNGLE_TEMPLE,
             Structure.DESERT_PYRAMID,
             Structure.IGLOO,
             Structure.RUINED_PORTAL,
             Structure.SHIPWRECK,
             Structure.SWAMP_HUT,
             Structure.STRONGHOLD,
-            Structure.MONUMENT,
+            Structure.OCEAN_MONUMENT,
             Structure.BURIED_TREASURE,
             Structure.VILLAGE
     };
-    public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.FORTRESS};
+    public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.NETHER_BRIDGE};
     public static Random RAND = new Random();
 
     public static ITag.INamedTag< Item > makeItem(String domain, String path) {
-        return ItemTags.makeWrapperTag(new ResourceLocation(domain, path).toString());
+        return ItemTags.bind(new ResourceLocation(domain, path).toString());
     }
 
     public static ITag.INamedTag< Block > makeBlock(String domain, String path) {
-        return BlockTags.makeWrapperTag(new ResourceLocation(domain, path).toString());
+        return BlockTags.bind(new ResourceLocation(domain, path).toString());
     }
 
     public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
-        return !living.isPotionActive(Effects.NIGHT_VISION) && angel.world.getLight(angel.getPosition()) <= 0 && angel.world.getDimensionKey().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
+        return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
     }
 
     public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
-        if (!entity.world.isRemote) {
-            ServerWorld serverWorld = (ServerWorld) entity.world;
-            serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
+        if (!entity.level.isClientSide) {
+            ServerWorld serverWorld = (ServerWorld) entity.level;
+            serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
             entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1, 1.0F);
-            InventoryHelper.spawnItemStack(entity.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.world.getBlockState(pos).getBlock()));
-            entity.world.setBlockState(pos, blockState);
+            InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
+            entity.level.setBlockAndUpdate(pos, blockState);
         }
     }
 
@@ -96,7 +96,7 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : AngelUtils.HELD_LIGHT_ITEMS.getAllElements()) {
+        for (Item item : AngelUtils.HELD_LIGHT_ITEMS.getValues()) {
             if (PlayerUtils.isInEitherHand(player, item)) {
                 return true;
             }
@@ -105,7 +105,7 @@ public class AngelUtils {
     }
 
     public static boolean isOutsideOfBorder(World world, BlockPos p) {
-        return !world.getWorldBorder().contains(p);
+        return !world.getWorldBorder().isWithinBounds(p);
     }
 
     /**
@@ -116,9 +116,9 @@ public class AngelUtils {
     }
 
     public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
-        if (playerMP.getDistanceSq(angel) < 1) {
+        if (playerMP.distanceToSqr(angel) < 1) {
             for (Hand enumHand : Hand.values()) {
-                ItemStack stack = playerMP.getHeldItem(enumHand);
+                ItemStack stack = playerMP.getItemInHand(enumHand);
                 if (lightCheck(stack, angel)) {
                     stack.shrink(1);
                     angel.playSound(WAObjects.Sounds.BLOW.get(), 1.0F, 1.0F);
@@ -129,12 +129,12 @@ public class AngelUtils {
     }
 
     public static int getLightValue(Block block) {
-        return block.getDefaultState().getLightValue();
+        return block.defaultBlockState().getLightEmission();
     }
 
     private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-        if (stack.getItem().isIn(AngelUtils.HELD_LIGHT_ITEMS)) {
-            angel.entityDropItem(stack);
+        if (stack.getItem().is(AngelUtils.HELD_LIGHT_ITEMS)) {
+            angel.spawnAtLocation(stack);
             return true;
         }
         return false;
@@ -162,7 +162,7 @@ public class AngelUtils {
     }
 
     public static int getFortuneModifier(LivingEntity entityIn) {
-        return EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FORTUNE, entityIn);
+        return EnchantmentHelper.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE, entityIn);
     }
 
     public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer< ? extends ILootFunction > serialiser) {
@@ -171,11 +171,11 @@ public class AngelUtils {
 
     public static void dropEntityLoot(Entity target, PlayerEntity attacker) {
         LivingEntity targeted = (LivingEntity) target;
-        ResourceLocation resourcelocation = targeted.getLootTableResourceLocation();
-        LootTable loot_table = target.world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+        ResourceLocation resourcelocation = targeted.getLootTable();
+        LootTable loot_table = target.level.getServer().getLootTables().get(resourcelocation);
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
-        LootContext ctx = lootContextBuilder.build(LootParameterSets.ENTITY);
-        List< ItemStack > generatedTable = loot_table.generate(ctx);
+        LootContext ctx = lootContextBuilder.create(LootParameterSets.ENTITY);
+        List< ItemStack > generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
             if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
@@ -184,26 +184,26 @@ public class AngelUtils {
             }
         }
 
-        generatedTable.forEach(target::entityDropItem);
+        generatedTable.forEach(target::spawnAtLocation);
     }
 
     public static LootContext.Builder getLootContextBuilder(boolean p_213363_1_, DamageSource damageSourceIn, LivingEntity entity, PlayerEntity attacker) {
-        LootContext.Builder builder = (new LootContext.Builder((ServerWorld) entity.world)).withRandom(entity.world.rand).withParameter(LootParameters.THIS_ENTITY, entity).withParameter(LootParameters.field_237457_g_, entity.getPositionVec()).withParameter(LootParameters.DAMAGE_SOURCE, damageSourceIn).withNullableParameter(LootParameters.KILLER_ENTITY, damageSourceIn.getTrueSource()).withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, damageSourceIn.getImmediateSource());
-        if (p_213363_1_ && entity.getAttackingEntity() != null) {
-            attacker = (PlayerEntity) entity.getAttackingEntity();
+        LootContext.Builder builder = (new LootContext.Builder((ServerWorld) entity.level)).withRandom(entity.level.random).withParameter(LootParameters.THIS_ENTITY, entity).withParameter(LootParameters.ORIGIN, entity.position()).withParameter(LootParameters.DAMAGE_SOURCE, damageSourceIn).withOptionalParameter(LootParameters.KILLER_ENTITY, damageSourceIn.getEntity()).withOptionalParameter(LootParameters.DIRECT_KILLER_ENTITY, damageSourceIn.getDirectEntity());
+        if (p_213363_1_ && entity.getKillCredit() != null) {
+            attacker = (PlayerEntity) entity.getKillCredit();
             builder = builder.withParameter(LootParameters.LAST_DAMAGE_PLAYER, attacker).withLuck(attacker.getLuck());
         }
         return builder;
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-        if (playerEntity.world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) playerEntity.world;
-            boolean isCatacomb = serverWorld.func_241112_a_().getStructureStart(playerEntity.getPosition(), true, WAObjects.Structures.CATACOMBS.get()).isValid();
+        if (playerEntity.level instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) playerEntity.level;
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).isValid();
 
             if(isCatacomb) {
-                MutableBoundingBox box = serverWorld.func_241112_a_().getStructureStart(playerEntity.getPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
-                return intersects(playerEntity.getBoundingBox(), new Vector3d(box.minX, box.minY, box.minZ), new Vector3d(box.maxX, box.maxY, box.maxZ));
+                MutableBoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
+                return intersects(playerEntity.getBoundingBox(), new Vector3d(box.x0, box.y0, box.z0), new Vector3d(box.x1, box.y1, box.z1));
             }
         }
 

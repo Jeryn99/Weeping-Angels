@@ -8,7 +8,7 @@ public class WATabs {
 
     public static ItemGroup MAIN_TAB = new ItemGroup("angels") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
         }
     };

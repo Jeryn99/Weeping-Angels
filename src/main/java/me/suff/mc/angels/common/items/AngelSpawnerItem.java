@@ -19,10 +19,12 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
 
     public AngelSpawnerItem() {
-        super(new Properties().group(WATabs.MAIN_TAB));
+        super(new Properties().tab(WATabs.MAIN_TAB));
     }
 
     public static void setType(ItemStack stack, AngelEnums.AngelType type) {
@@ -38,8 +40,8 @@ public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList< ItemStack > items) {
-        if (isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList< ItemStack > items) {
+        if (allowdedIn(group)) {
             for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);
                 setType(itemstack, angelType);
@@ -50,30 +52,30 @@ public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
     }
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
-        return new TranslationTextComponent(this.getTranslationKey(stack), getType(stack).getReadable());
+    public ITextComponent getName(ItemStack stack) {
+        return new TranslationTextComponent(this.getDescriptionId(stack), getType(stack).getReadable());
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World worldIn = context.getWorld();
-        BlockPos pos = context.getPos();
+    public ActionResultType useOn(ItemUseContext context) {
+        World worldIn = context.getLevel();
+        BlockPos pos = context.getClickedPos();
         PlayerEntity player = context.getPlayer();
-        Hand hand = player.getActiveHand();
+        Hand hand = player.getUsedItemHand();
 
-        if (!worldIn.isRemote) {
+        if (!worldIn.isClientSide) {
             WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
-            angel.setType(getType(context.getItem()));
-            angel.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-            angel.faceEntity(player, 90.0F, 90.0F);
-            player.getHeldItem(hand).shrink(1);
-            worldIn.addEntity(angel);
+            angel.setType(getType(context.getItemInHand()));
+            angel.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+            angel.lookAt(player, 90.0F, 90.0F);
+            player.getItemInHand(hand).shrink(1);
+            worldIn.addFreshEntity(angel);
 
             if (!player.isCreative()) {
-                context.getItem().shrink(1);
+                context.getItemInHand().shrink(1);
             }
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
 }

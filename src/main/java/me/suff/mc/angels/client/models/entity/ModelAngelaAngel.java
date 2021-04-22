@@ -27,53 +27,53 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     public ModelAngelaAngel() {
-        textureWidth = 128;
-        textureHeight = 128;
+        texWidth = 128;
+        texHeight = 128;
 
         head = new ModelRenderer(this);
-        head.setRotationPoint(0.0F, 0.0F, 0.0F);
-        head.setTextureOffset(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-        head.setTextureOffset(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
+        head.setPos(0.0F, 0.0F, 0.0F);
+        head.texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+        head.texOffs(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
 
         body = new ModelRenderer(this);
-        body.setRotationPoint(0.0F, 0.0F, 0.0F);
-        body.setTextureOffset(56, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-        body.setTextureOffset(32, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.5F, false);
+        body.setPos(0.0F, 0.0F, 0.0F);
+        body.texOffs(56, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
+        body.texOffs(32, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.5F, false);
 
         leftArm = new ModelRenderer(this);
-        leftArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-        leftArm.setTextureOffset(24, 59).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+        leftArm.setPos(-5.0F, 2.0F, 0.0F);
+        leftArm.texOffs(24, 59).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
 
         rightArm = new ModelRenderer(this);
-        rightArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-        rightArm.setTextureOffset(10, 59).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+        rightArm.setPos(5.0F, 2.0F, 0.0F);
+        rightArm.texOffs(10, 59).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
         Legs = new ModelRenderer(this);
-        Legs.setRotationPoint(0.0F, 9.25F, 0.0F);
-        Legs.setTextureOffset(40, 0).addBox(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, 0.0F, false);
-        Legs.setTextureOffset(0, 0).addBox(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, 0.0F, false);
+        Legs.setPos(0.0F, 9.25F, 0.0F);
+        Legs.texOffs(40, 0).addBox(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, 0.0F, false);
+        Legs.texOffs(0, 0).addBox(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, 0.0F, false);
 
 
         leftWing = new ModelRenderer(this);
-        leftWing.setRotationPoint(-1.0F, 5.0F, 2.0F);
+        leftWing.setPos(-1.0F, 5.0F, 2.0F);
         setRotationAngle(leftWing, 0.0F, -0.7854F, 0.0F);
-        leftWing.setTextureOffset(0, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        leftWing.setTextureOffset(6, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        leftWing.setTextureOffset(18, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        leftWing.setTextureOffset(8, 33).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
-        leftWing.setTextureOffset(0, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        leftWing.setTextureOffset(38, 59).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
+        leftWing.texOffs(0, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
+        leftWing.texOffs(6, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
+        leftWing.texOffs(18, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
+        leftWing.texOffs(8, 33).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+        leftWing.texOffs(0, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
+        leftWing.texOffs(38, 59).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
 
         rightWing = new ModelRenderer(this);
-        rightWing.setRotationPoint(1.0F, 5.0F, 2.0F);
+        rightWing.setPos(1.0F, 5.0F, 2.0F);
         setRotationAngle(rightWing, 0.0F, 0.7854F, 0.0F);
-        rightWing.setTextureOffset(10, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        rightWing.setTextureOffset(12, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        rightWing.setTextureOffset(26, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        rightWing.setTextureOffset(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        rightWing.setTextureOffset(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
-        rightWing.setTextureOffset(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+        rightWing.texOffs(10, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
+        rightWing.texOffs(12, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
+        rightWing.texOffs(26, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
+        rightWing.texOffs(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
+        rightWing.texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
+        rightWing.texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
     }
 
     public void setPose(WeepingAngelPose weepingAngelPose) {
@@ -85,7 +85,7 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     }
 
     @Override
-    public void setRotationAngles(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngelEntity != null) {
             pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
@@ -101,108 +101,108 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
             angleX -= 10F;
         }
 
-        head.rotateAngleX = (float) Math.toRadians(0);
-        head.rotateAngleY = (float) Math.toRadians(0);
-        head.rotateAngleZ = (float) Math.toRadians(0);
+        head.xRot = (float) Math.toRadians(0);
+        head.yRot = (float) Math.toRadians(0);
+        head.zRot = (float) Math.toRadians(0);
 
-        rightWing.rotateAngleX = (float) Math.toRadians(angleX);
-        rightWing.rotateAngleY = (float) Math.toRadians(angleY);
-        rightWing.rotateAngleZ = (float) Math.toRadians(angleZ);
-        leftWing.rotateAngleX = (float) Math.toRadians(angleX);
-        leftWing.rotateAngleY = (float) Math.toRadians(-angleY);
-        leftWing.rotateAngleZ = (float) Math.toRadians(angleZ);
+        rightWing.xRot = (float) Math.toRadians(angleX);
+        rightWing.yRot = (float) Math.toRadians(angleY);
+        rightWing.zRot = (float) Math.toRadians(angleZ);
+        leftWing.xRot = (float) Math.toRadians(angleX);
+        leftWing.yRot = (float) Math.toRadians(-angleY);
+        leftWing.zRot = (float) Math.toRadians(angleZ);
 
 
         if (pose == WeepingAngelPose.FURIOUS) {
-            rightArm.rotateAngleX = (float) Math.toRadians(-115);
-            rightArm.rotateAngleY = (float) Math.toRadians(0);
-            rightArm.rotateAngleZ = (float) Math.toRadians(0);
+            rightArm.xRot = (float) Math.toRadians(-115);
+            rightArm.yRot = (float) Math.toRadians(0);
+            rightArm.zRot = (float) Math.toRadians(0);
 
-            leftArm.rotateAngleX = (float) Math.toRadians(-55);
-            leftArm.rotateAngleY = (float) Math.toRadians(0);
-            leftArm.rotateAngleZ = (float) Math.toRadians(0);
+            leftArm.xRot = (float) Math.toRadians(-55);
+            leftArm.yRot = (float) Math.toRadians(0);
+            leftArm.zRot = (float) Math.toRadians(0);
 
-            head.rotateAngleX = (float) Math.toRadians(17.5);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(-10);
+            head.xRot = (float) Math.toRadians(17.5);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(-10);
             return;
         }
 
 
         if (pose == WeepingAngelPose.ANGRY) {
-            rightArm.rotateAngleX = (float) Math.toRadians(-90);
-            rightArm.rotateAngleY = (float) Math.toRadians(-20);
-            rightArm.rotateAngleZ = (float) Math.toRadians(30);
+            rightArm.xRot = (float) Math.toRadians(-90);
+            rightArm.yRot = (float) Math.toRadians(-20);
+            rightArm.zRot = (float) Math.toRadians(30);
 
-            leftArm.rotateAngleX = (float) Math.toRadians(-90);
-            leftArm.rotateAngleY = (float) Math.toRadians(25);
-            leftArm.rotateAngleZ = (float) Math.toRadians(-17.5);
+            leftArm.xRot = (float) Math.toRadians(-90);
+            leftArm.yRot = (float) Math.toRadians(25);
+            leftArm.zRot = (float) Math.toRadians(-17.5);
 
-            head.rotateAngleX = (float) Math.toRadians(0);
-            head.rotateAngleY = (float) Math.toRadians(-12.5);
-            head.rotateAngleZ = (float) Math.toRadians(0);
+            head.xRot = (float) Math.toRadians(0);
+            head.yRot = (float) Math.toRadians(-12.5);
+            head.zRot = (float) Math.toRadians(0);
             return;
         }
 
 
         if (pose == WeepingAngelPose.HIDING) {
-            head.rotateAngleX = (float) Math.toRadians(20);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(0);
+            head.xRot = (float) Math.toRadians(20);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(0);
 
-            rightArm.rotateAngleX = (float) Math.toRadians(-105);
-            rightArm.rotateAngleY = (float) Math.toRadians(20);
-            rightArm.rotateAngleZ = (float) Math.toRadians(12.5);
+            rightArm.xRot = (float) Math.toRadians(-105);
+            rightArm.yRot = (float) Math.toRadians(20);
+            rightArm.zRot = (float) Math.toRadians(12.5);
 
-            leftArm.rotateAngleX = (float) Math.toRadians(-105);
-            leftArm.rotateAngleY = (float) Math.toRadians(-20);
-            leftArm.rotateAngleZ = (float) Math.toRadians(-12.5);
+            leftArm.xRot = (float) Math.toRadians(-105);
+            leftArm.yRot = (float) Math.toRadians(-20);
+            leftArm.zRot = (float) Math.toRadians(-12.5);
             return;
         }
 
         if (pose == WeepingAngelPose.APPROACH) {
-            rightArm.rotateAngleX = -1.04533F;
-            rightArm.rotateAngleY = -0.55851F;
-            rightArm.rotateAngleZ = 0.0F;
-            leftArm.rotateAngleX = -1.04533F;
-            leftArm.rotateAngleY = 0.55851F;
-            leftArm.rotateAngleZ = 0.0F;
+            rightArm.xRot = -1.04533F;
+            rightArm.yRot = -0.55851F;
+            rightArm.zRot = 0.0F;
+            leftArm.xRot = -1.04533F;
+            leftArm.yRot = 0.55851F;
+            leftArm.zRot = 0.0F;
             return;
         }
 
         if (pose == WeepingAngelPose.IDLE) {
-            head.rotateAngleX = (float) Math.toRadians(0);
-            head.rotateAngleY = (float) Math.toRadians(0);
-            head.rotateAngleZ = (float) Math.toRadians(0);
+            head.xRot = (float) Math.toRadians(0);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(0);
 
-            rightArm.rotateAngleX = (float) Math.toRadians(0);
-            rightArm.rotateAngleY = (float) Math.toRadians(0);
-            rightArm.rotateAngleZ = (float) Math.toRadians(-7.5);
+            rightArm.xRot = (float) Math.toRadians(0);
+            rightArm.yRot = (float) Math.toRadians(0);
+            rightArm.zRot = (float) Math.toRadians(-7.5);
 
-            leftArm.rotateAngleX = (float) Math.toRadians(0);
-            leftArm.rotateAngleY = (float) Math.toRadians(0);
-            leftArm.rotateAngleZ = (float) Math.toRadians(7.5);
+            leftArm.xRot = (float) Math.toRadians(0);
+            leftArm.yRot = (float) Math.toRadians(0);
+            leftArm.zRot = (float) Math.toRadians(7.5);
             return;
         }
 
         if (pose == WeepingAngelPose.SHY) {
-            rightArm.rotateAngleX = (float) Math.toRadians(-90);
-            rightArm.rotateAngleY = (float) Math.toRadians(-1.5);
-            rightArm.rotateAngleZ = (float) Math.toRadians(-20);
+            rightArm.xRot = (float) Math.toRadians(-90);
+            rightArm.yRot = (float) Math.toRadians(-1.5);
+            rightArm.zRot = (float) Math.toRadians(-20);
 
-            leftArm.rotateAngleX = (float) Math.toRadians(-120);
-            leftArm.rotateAngleY = (float) Math.toRadians(-36);
-            leftArm.rotateAngleZ = (float) Math.toRadians(10);
+            leftArm.xRot = (float) Math.toRadians(-120);
+            leftArm.yRot = (float) Math.toRadians(-36);
+            leftArm.zRot = (float) Math.toRadians(10);
 
-            head.rotateAngleX = (float) Math.toRadians(20);
-            head.rotateAngleY = (float) Math.toRadians(-40);
-            head.rotateAngleZ = (float) Math.toRadians(-20);
+            head.xRot = (float) Math.toRadians(20);
+            head.yRot = (float) Math.toRadians(-40);
+            head.zRot = (float) Math.toRadians(-20);
             return;
         }
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
@@ -213,9 +213,9 @@ public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implemen
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
+        modelRenderer.zRot = z;
     }
 
     @Override

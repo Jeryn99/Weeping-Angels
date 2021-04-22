@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {
     public ChiselItem(Properties properties) {
@@ -30,16 +32,16 @@ public class ChiselItem extends Item {
      * Called when this item is used when targetting a Block
      */
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos blockpos = context.getPos();
+    public ActionResultType useOn(ItemUseContext context) {
+        World world = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
         PlayerEntity player = context.getPlayer();
 
 
-        if (world.getTileEntity(blockpos) instanceof IPlinth) {
-            IPlinth plinth = (IPlinth) world.getTileEntity(blockpos);
-            if (player.isSneaking()) {
+        if (world.getBlockEntity(blockpos) instanceof IPlinth) {
+            IPlinth plinth = (IPlinth) world.getBlockEntity(blockpos);
+            if (player.isShiftKeyDown()) {
                 plinth.changeModel();
                 plinth.sendUpdatesToClient();
                 return ActionResultType.PASS;
@@ -51,20 +53,20 @@ public class ChiselItem extends Item {
 
         //Handle Statue
         if (blockstate.getBlock() == WAObjects.Blocks.STATUE.get()) {
-            StatueTile statueTile = (StatueTile) world.getTileEntity(blockpos);
-            if (player.isSneaking()) {
+            StatueTile statueTile = (StatueTile) world.getBlockEntity(blockpos);
+            if (player.isShiftKeyDown()) {
                 statueTile.setAngelType(AngelUtils.randomType());
             } else {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
             }
-            statueTile.markDirty();
+            statueTile.setChanged();
             return ActionResultType.PASS;
         }
 
         //Handle Plinth
         if (blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()) {
-            PlinthTile statueTile = (PlinthTile) world.getTileEntity(blockpos);
-            if (player.isSneaking()) {
+            PlinthTile statueTile = (PlinthTile) world.getBlockEntity(blockpos);
+            if (player.isShiftKeyDown()) {
                 statueTile.setAngelType(AngelUtils.randomType());
             } else {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
@@ -77,8 +79,8 @@ public class ChiselItem extends Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, World worldIn, List< ITextComponent > tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, World worldIn, List< ITextComponent > tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel"));
         tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_right_click"));
         tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_sneak"));

@@ -22,15 +22,15 @@ public class AnomalyRender extends MobRenderer< AnomalyEntity, EntityModel< Anom
 
     @Override
     public void render(AnomalyEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
-        ActiveRenderInfo activerenderinfo = Minecraft.getInstance().gameRenderer.getActiveRenderInfo();
-        matrixStackIn.rotate(activerenderinfo.getRotation());
+        matrixStackIn.pushPose();
+        ActiveRenderInfo activerenderinfo = Minecraft.getInstance().gameRenderer.getMainCamera();
+        matrixStackIn.mulPose(activerenderinfo.rotation());
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
     @Override
-    public ResourceLocation getEntityTexture(AnomalyEntity entity) {
+    public ResourceLocation getTextureLocation(AnomalyEntity entity) {
         return TEXTURE;
     }
 }

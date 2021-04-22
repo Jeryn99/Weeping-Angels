@@ -45,7 +45,7 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onHit(RayTraceResult result) {
 
         if (result == null || !isAlive()) return;
 
@@ -55,25 +55,25 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
             if (entityHitResult == null) return;
             Entity hitEntity = entityHitResult.getEntity();
             if (hitEntity instanceof WeepingAngelEntity) {
-                if (!world.isRemote) {
-                    AnomalyEntity a = new AnomalyEntity(world);
-                    a.copyLocationAndAnglesFrom(hitEntity);
-                    world.addEntity(a);
+                if (!level.isClientSide) {
+                    AnomalyEntity a = new AnomalyEntity(level);
+                    a.copyPosition(hitEntity);
+                    level.addFreshEntity(a);
                     remove();
                 }
             }
         }
 
         if (result.getType() == RayTraceResult.Type.BLOCK) {
-            if (!world.isRemote) {
+            if (!level.isClientSide) {
                 BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
-                BlockPos pos = new BlockPos(blockRayTraceResult.getPos().getX(), blockRayTraceResult.getPos().getY() + 1, blockRayTraceResult.getPos().getZ());
-                if (world.isAirBlock(pos) && !world.isAirBlock(pos.down()) || world.getBlockState(pos).getMaterial().equals(Material.PLANTS)) {
-                    world.setBlockState(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().getDefaultState());
+                BlockPos pos = new BlockPos(blockRayTraceResult.getBlockPos().getX(), blockRayTraceResult.getBlockPos().getY() + 1, blockRayTraceResult.getBlockPos().getZ());
+                if (level.isEmptyBlock(pos) && !level.isEmptyBlock(pos.below()) || level.getBlockState(pos).getMaterial().equals(Material.PLANT)) {
+                    level.setBlockAndUpdate(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().defaultBlockState());
                 } else {
-                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
+                    InventoryHelper.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
                 }
-                world.setEntityState(this, (byte) 3);
+                level.broadcastEntityEvent(this, (byte) 3);
                 remove();
             }
         }
@@ -86,7 +86,7 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
     }
 
     @Override
-    public IPacket< ? > createSpawnPacket() {
+    public IPacket< ? > getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

@@ -15,7 +15,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.tardis.mod.helper.Helper;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.particles.TParticleTypes;
@@ -50,7 +49,7 @@ public class TardisMod {
     /* Before you ask, imagine how many roundels would just be ripped from the walls or a Angel just nuking a Tardis from existence*/
     @SubscribeEvent
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
-        boolean isTardisDim = Helper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
+        boolean isTardisDim = WorldHelper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
         boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
     }
@@ -62,25 +61,25 @@ public class TardisMod {
             QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
 
             // Do stuff within the Tardis Dimension
-            if (Helper.areDimensionTypesSame(angel.world, TDimensions.DimensionTypes.TARDIS_TYPE)) {
-                World world = angel.world;
-                ConsoleTile console = (ConsoleTile) world.getTileEntity(TardisHelper.TARDIS_POS);
+            if (WorldHelper.areDimensionTypesSame(angel.level, TDimensions.DimensionTypes.TARDIS_TYPE)) {
+                World world = angel.level;
+                ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
 
                 // Drain Fuel
-                if (angel.ticksExisted % 60 == 0) {
+                if (angel.tickCount % 60 == 0) {
                     boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
                     if (console != null) {
 
                         if (console.getArtron() > 0) {
-                            BlockPos artonPos = console.getPos();
+                            BlockPos artonPos = console.getBlockPos();
                             Vector3d end = WorldHelper.vecFromPos(artonPos);
-                            Vector3d start = WorldHelper.vecFromPos(angel.getPosition());
+                            Vector3d start = WorldHelper.vecFromPos(angel.blockPosition());
                             Vector3d path = start.subtract(end);
                             for (int i = 0; i < 10; ++i) {
                                 double percent = (double) i / 10.0D;
-                                Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.getX() * percent, artonPos.getY() + 1.3D + path.getY() * percent, artonPos.getZ() + 0.5D + path.z * percent);
+                                Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
                                 if (spawnPoint.distanceTo(end) <= 3.5D) {
-                                    angel.world.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
+                                    angel.level.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
                                 }
                             }
                             console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
@@ -88,21 +87,21 @@ public class TardisMod {
                         }
 
                         //No Fuel? No Problem, we'll just rip your systems apart to find some
-                        if (console.getArtron() <= 0 && console.getWorld().getGameTime() % 120 == 0) {
-                            List< Subsystem > subsystems = console.getSubSystems();
+                        if (console.getArtron() <= 0 && console.getLevel().getGameTime() % 120 == 0) {
+                            List<Subsystem> subsystems = console.getSubSystems();
                             if (!subsystems.isEmpty()) {
-                                Subsystem randomSubsystem = subsystems.get(world.rand.nextInt(subsystems.size()));
-                                if (world.rand.nextBoolean()) {
+                                Subsystem randomSubsystem = subsystems.get(world.random.nextInt(subsystems.size()));
+                                if (world.random.nextBoolean()) {
                                     for (int i = 0; i < 18; ++i) {
                                         double angle = Math.toRadians(i * 20);
                                         double x = Math.sin(angle);
                                         double z = Math.cos(angle);
                                         BlockPos pos = new BlockPos(0, 128, 0);
-                                        world.playSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
-                                        world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.rand.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
+                                        world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
+                                        world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.random.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
                                     }
                                     if (randomSubsystem.getHealth() > 0) {
-                                        randomSubsystem.damage(null, world.rand.nextInt(5));
+                                        randomSubsystem.damage(null, world.random.nextInt(5));
                                     }
                                 }
                             }
@@ -111,9 +110,9 @@ public class TardisMod {
                 }
 
                 // Mess with the lights
-                if (angel.ticksExisted % 500 == 0) {
+                if (angel.tickCount % 500 == 0) {
                     if (console != null) {
-                        int randLight = console.getWorld().rand.nextInt(15);
+                        int randLight = console.getLevel().random.nextInt(15);
                         console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
                     }
                 }

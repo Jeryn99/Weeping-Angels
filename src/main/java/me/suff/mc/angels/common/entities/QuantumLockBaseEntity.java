@@ -22,27 +22,27 @@ import java.util.List;
 
 public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
-    private static final DataParameter< Boolean > IS_SEEN = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter< Integer > TIME_VIEWED = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.VARINT);
-    private static final DataParameter< BlockPos > PREVBLOCKPOS = EntityDataManager.createKey(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
+    private static final DataParameter< Boolean > IS_SEEN = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter< Integer > TIME_VIEWED = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.INT);
+    private static final DataParameter< BlockPos > PREVBLOCKPOS = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
 
     public QuantumLockBaseEntity(World worldIn, EntityType< ? extends MonsterEntity > entityType) {
         super(entityType, worldIn);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (!world.isRemote) {
-            List< PlayerEntity > players = world.getEntitiesWithinAABB(PlayerEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
-            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isPlayerFullyAsleep() || player.world != world);
+    public void aiStep() {
+        super.aiStep();
+        if (!level.isClientSide) {
+            List< PlayerEntity > players = level.getEntitiesOfClass(PlayerEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleepingLongEnough() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List< WeepingAngelEntity > angels = world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(WAConfig.CONFIG.stalkRange.get()));
+                List< WeepingAngelEntity > angels = level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
                 for (WeepingAngelEntity angel : angels) {
-                    if (angel.getUniqueID() != getUniqueID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
+                    if (angel.getUUID() != getUUID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
-                        setNoAI(true);
+                        setNoAi(true);
                         return;
                     }
                 }
@@ -50,7 +50,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
 
             if (players.isEmpty()) {
                 setSeenTime(0);
-                setAIMoveSpeed(0.5F);
+                setSpeed(0.5F);
             } else {
                 PlayerEntity targetPlayer = null;
                 for (PlayerEntity player : players) {
@@ -63,14 +63,14 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                     if (targetPlayer == null) {
                         targetPlayer = player;
                         setSeenTime(0);
-                        setAIMoveSpeed(0.5F);
+                        setSpeed(0.5F);
                     }
                 }
 
                 if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
                 snapLookToPlayer(targetPlayer);
-                if (getDistance(targetPlayer) < 2)
-                    attackEntityAsMob(targetPlayer);
+                if (distanceTo(targetPlayer) < 2)
+                    doHurtTarget(targetPlayer);
                 else
                     moveTowards(targetPlayer);
             }
@@ -78,22 +78,22 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     private void snapLookToPlayer(PlayerEntity targetPlayer) {
-        Vector3d vecPos = getPositionVec();
-        Vector3d vecPlayerPos = targetPlayer.getPositionVec();
+        Vector3d vecPos = position();
+        Vector3d vecPlayerPos = targetPlayer.position();
         float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
-        rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
+        yHeadRot = yRot = angle > 180 ? angle : angle + 90;
     }
 
     public void moveTowards(LivingEntity targetPlayer) {
-       getNavigator().tryMoveToEntityLiving(targetPlayer, getAIMoveSpeed());
+       getNavigation().moveTo(targetPlayer, getSpeed());
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        getDataManager().register(IS_SEEN, false);
-        getDataManager().register(TIME_VIEWED, 0);
-        getDataManager().register(PREVBLOCKPOS, BlockPos.ZERO);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        getEntityData().define(IS_SEEN, false);
+        getEntityData().define(TIME_VIEWED, 0);
+        getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
     }
 
     @Override
@@ -104,11 +104,11 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putBoolean(WAConstants.IS_SEEN, isSeen());
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
-        compound.putLong(WAConstants.PREVPOS, getPrevPos().toLong());
+        compound.putLong(WAConstants.PREVPOS, getPrevPos().asLong());
     }
 
     @Override
@@ -117,13 +117,13 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     @Override
-    public boolean canRenderOnFire() {
+    public boolean displayFireAnimation() {
         return false;
     }
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return super.isInvulnerableTo(source) || (source.getTrueSource() == null && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
+        return super.isInvulnerableTo(source) || (source.getEntity() == null && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
     }
 
     public boolean isSeen() {
@@ -131,24 +131,24 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     public int getSeenTime() {
-        return getDataManager().get(TIME_VIEWED);
+        return getEntityData().get(TIME_VIEWED);
     }
 
     public void setSeenTime(int time) {
-        getDataManager().set(TIME_VIEWED, time);
+        getEntityData().set(TIME_VIEWED, time);
     }
 
     public BlockPos getPrevPos() {
-        return getDataManager().get(PREVBLOCKPOS);
+        return getEntityData().get(PREVBLOCKPOS);
     }
 
     public void setPrevPos(BlockPos pos) {
-        getDataManager().set(PREVBLOCKPOS, pos);
+        getEntityData().set(PREVBLOCKPOS, pos);
     }
 
     public void invokeSeen(PlayerEntity player) {
-        getNavigator().setPath(null, 0);
-        setNoAI(true);
+        getNavigation().moveTo(null, 0);
+        setNoAi(true);
       /*  setAIMoveSpeed(-55);
         if (getSeenTime() == 2) {
             Vector3d vecPos = getPositionVec();
@@ -160,7 +160,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     @Override
-    protected boolean isMovementBlocked() {
+    protected boolean isImmobile() {
         return getSeenTime() > 0;
     }
 }

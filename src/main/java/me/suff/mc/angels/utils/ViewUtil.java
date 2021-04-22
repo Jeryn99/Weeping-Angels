@@ -25,7 +25,7 @@ public class ViewUtil {
     private static final float headSize = 0.15f;
 
     public static boolean isInFrontOfEntity(LivingEntity entity, Entity target, boolean vr) {
-        Vector3d vecTargetsPos = target.getPositionVec();
+        Vector3d vecTargetsPos = target.position();
         Vector3d vecLook;
 
         if (vr) {
@@ -35,11 +35,11 @@ public class ViewUtil {
                 throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
             }
         } else {
-            vecLook = entity.getLookVec();
+            vecLook = entity.getLookAngle();
         }
-        Vector3d vecFinal = vecTargetsPos.subtractReverse(new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ())).normalize();
+        Vector3d vecFinal = vecTargetsPos.vectorTo(new Vector3d(entity.getX(), entity.getY(), entity.getZ())).normalize();
         vecFinal = new Vector3d(vecFinal.x, 0.0D, vecFinal.z);
-        return vecFinal.dotProduct(vecLook) < 0.0;
+        return vecFinal.dot(vecLook) < 0.0;
     }
 
     /**
@@ -49,18 +49,18 @@ public class ViewUtil {
      * @param beingViewed The entity being watched by viewer
      */
     public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
-        double dx = beingViewed.getPosX() - viewer.getPosX();
+        double dx = beingViewed.getX() - viewer.getX();
         double dz;
-        for (dz = beingViewed.getPosX() - viewer.getPosZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+        for (dz = beingViewed.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (viewer.rotationYaw > 360) {
-            viewer.rotationYaw -= 360;
+        while (viewer.yRot > 360) {
+            viewer.yRot -= 360;
         }
-        while (viewer.rotationYaw < -360) {
-            viewer.rotationYaw += 360;
+        while (viewer.yRot < -360) {
+            viewer.yRot += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yRot;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -69,23 +69,23 @@ public class ViewUtil {
             yaw -= 360;
         }
 
-        return yaw < 60 && yaw > -60 && viewer.canEntityBeSeen(beingViewed);
+        return yaw < 60 && yaw > -60 && viewer.canSee(beingViewed);
     }
 
     public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
-        double dx = pos.getX() - viewer.getPosX();
+        double dx = pos.getX() - viewer.getX();
         ;
         double dz;
-        for (dz = pos.getX() - viewer.getPosZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+        for (dz = pos.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (viewer.rotationYaw > 360) {
-            viewer.rotationYaw -= 360;
+        while (viewer.yRot > 360) {
+            viewer.yRot -= 360;
         }
-        while (viewer.rotationYaw < -360) {
-            viewer.rotationYaw += 360;
+        while (viewer.yRot < -360) {
+            viewer.yRot += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.rotationYaw;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yRot;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -97,9 +97,9 @@ public class ViewUtil {
     }
 
     public static void lookAt(LivingEntity looker, LivingEntity target) {
-        double dirx = looker.getPosition().getX() - target.getPosition().getX();
-        double diry = looker.getPosition().getX() - target.getPosition().getY();
-        double dirz = looker.getPosition().getX() - target.getPosition().getZ();
+        double dirx = looker.blockPosition().getX() - target.blockPosition().getX();
+        double diry = looker.blockPosition().getX() - target.blockPosition().getY();
+        double dirz = looker.blockPosition().getX() - target.blockPosition().getZ();
 
         double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
 
@@ -115,8 +115,8 @@ public class ViewUtil {
         yaw = yaw * 180.0 / Math.PI;
 
         yaw += 90f;
-        looker.rotationPitch = (float) pitch;
-        looker.rotationYaw = (float) yaw;
+        looker.xRot = (float) pitch;
+        looker.yRot = (float) yaw;
     }
 
     /**
@@ -145,7 +145,7 @@ public class ViewUtil {
             if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
                 pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
             else
-                pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
+                pos = new Vector3d(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
@@ -160,18 +160,18 @@ public class ViewUtil {
         Vector3d[] angelPoints = {new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
         for (int i = 0; i < viewerPoints.length; i++) {
-            if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
+            if (viewer.level.clip(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
                 return false;
             }
-            if (rayTraceBlocks(viewer, viewer.world, viewerPoints[i], angelPoints[i], pos -> {
-                BlockState state = viewer.world.getBlockState(pos);
-                return !canSeeThrough(state, viewer.world, pos);
+            if (rayTraceBlocks(viewer, viewer.level, viewerPoints[i], angelPoints[i], pos -> {
+                BlockState state = viewer.level.getBlockState(pos);
+                return !canSeeThrough(state, viewer.level, pos);
             }) == null) return false;
         }
 
-        if (angel.ticksExisted % 1200 == 0) {
-            if (angel.getDistance(viewer) < 15) {
-                viewer.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 15));
+        if (angel.tickCount % 1200 == 0) {
+            if (angel.distanceTo(viewer) < 15) {
+                viewer.addEffect(new EffectInstance(Effects.BLINDNESS, 15));
             }
         }
 
@@ -180,7 +180,7 @@ public class ViewUtil {
 
     public static boolean viewBlocked(LivingEntity viewer, BlockState blockState, BlockPos blockPos) {
         AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
-        AxisAlignedBB angelBoundingBox = blockState.getShape(viewer.world, blockPos).getBoundingBox();
+        AxisAlignedBB angelBoundingBox = blockState.getShape(viewer.level, blockPos).bounds();
         Vector3d[] viewerPoints = {new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
         if (viewer instanceof PlayerEntity) {
@@ -188,7 +188,7 @@ public class ViewUtil {
             if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
                 pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
             else
-                pos = new Vector3d(viewer.getPosX(), viewer.getPosY() + 1.62f, viewer.getPosZ());
+                pos = new Vector3d(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
@@ -203,12 +203,12 @@ public class ViewUtil {
         Vector3d[] angelPoints = {new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
         for (int i = 0; i < viewerPoints.length; i++) {
-            if (viewer.world.rayTraceBlocks(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
+            if (viewer.level.clip(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
                 return false;
             }
-            if (rayTraceBlocks(viewer, viewer.world, viewerPoints[i], angelPoints[i], pos -> {
-                BlockState state = viewer.world.getBlockState(pos);
-                return !canSeeThrough(state, viewer.world, pos);
+            if (rayTraceBlocks(viewer, viewer.level, viewerPoints[i], angelPoints[i], pos -> {
+                BlockState state = viewer.level.getBlockState(pos);
+                return !canSeeThrough(state, viewer.level, pos);
             }) == null) return false;
         }
         return true;
@@ -227,7 +227,7 @@ public class ViewUtil {
                 int j1 = MathHelper.floor(vec31.z);
                 BlockPos blockpos = new BlockPos(l, i1, j1);
                 if (stopOn.test(blockpos)) {
-                    RayTraceResult raytraceresult = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+                    RayTraceResult raytraceresult = world.clip(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
                     if (raytraceresult != null) {
                         return raytraceresult;
                     }
@@ -324,7 +324,7 @@ public class ViewUtil {
                     j1 = MathHelper.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
                     blockpos = new BlockPos(l, i1, j1);
                     if (stopOn.test(blockpos)) {
-                        RayTraceResult raytraceresult1 = world.rayTraceBlocks(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+                        RayTraceResult raytraceresult1 = world.clip(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
 
                         if (raytraceresult1 != null) {
                             return raytraceresult1;
@@ -341,7 +341,7 @@ public class ViewUtil {
     public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
 
         // Covers all Block, Material and Tag checks :D
-        if (!blockState.isSolid() || !blockState.isOpaqueCube(world, pos)) {
+        if (!blockState.canOcclude() || !blockState.isSolidRender(world, pos)) {
             return true;
         }
 
@@ -349,11 +349,11 @@ public class ViewUtil {
 
         // Special Snowflakes
         if (block instanceof DoorBlock) {
-            return blockState.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
+            return blockState.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
         }
 
         // Config
-        if (block.isIn(AngelUtils.ANGEL_IGNORE)) {
+        if (block.is(AngelUtils.ANGEL_IGNORE)) {
             return true;
         }
 

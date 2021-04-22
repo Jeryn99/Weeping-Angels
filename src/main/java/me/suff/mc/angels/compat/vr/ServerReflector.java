@@ -131,7 +131,7 @@ public class ServerReflector extends VivecraftReflector {
     public boolean isVRPlayer(PlayerEntity player) {
         if (enabled < 0) return false;
         try {
-            UUID uuid = player.getUniqueID();
+            UUID uuid = player.getUUID();
             if (enabled == 0) {
                 Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
                 if (vivePlayers.containsKey(uuid)) {
@@ -159,7 +159,7 @@ public class ServerReflector extends VivecraftReflector {
     public Vector3d getHMDPos(PlayerEntity player) {
         try {
             if (enabled == 0) {
-                UUID uuid = player.getUniqueID();
+                UUID uuid = player.getUUID();
                 //Network Character - attempt to get from NetworkHelper
                 Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
@@ -177,7 +177,7 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDPos", e);
         }
-        return player.getPositionVec().add(0, 1.62, 0);
+        return player.position().add(0, 1.62, 0);
     }
 
 
@@ -190,7 +190,7 @@ public class ServerReflector extends VivecraftReflector {
     @Override
     public Vector3d getHMDRot(PlayerEntity player) {
         try {
-            UUID uuid = player.getUniqueID();
+            UUID uuid = player.getUUID();
             if (enabled == 0) {
                 //Network Character - attempt to get from NetworkHelper
                 Map< UUID, ? > vivePlayers = (Map< UUID, ? extends Object >) fVivePlayers.get(null);
@@ -213,6 +213,6 @@ public class ServerReflector extends VivecraftReflector {
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDRot", e);
         }
-        return player.getLookVec();
+        return player.getLookAngle();
     }
 }

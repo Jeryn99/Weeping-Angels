@@ -10,7 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class PlayerUtils {
 
     public static boolean isInHand(Hand hand, LivingEntity holder, Item item) {
-        ItemStack heldItem = holder.getHeldItem(hand);
+        ItemStack heldItem = holder.getItemInHand(hand);
         return heldItem.getItem() == item;
     }
 
@@ -41,8 +41,8 @@ public class PlayerUtils {
 
 
     public static void sendMessageToPlayer(PlayerEntity player, TranslationTextComponent textComponent, boolean isHotBar) {
-        if (player.world.isRemote) return;
-        player.sendStatusMessage(textComponent, isHotBar);
+        if (player.level.isClientSide) return;
+        player.displayClientMessage(textComponent, isHotBar);
     }
 
 }

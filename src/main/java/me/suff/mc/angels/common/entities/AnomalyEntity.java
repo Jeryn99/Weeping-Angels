@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
 
-    private static final DataParameter< Integer > TIME_ALIVE = EntityDataManager.createKey(AnomalyEntity.class, DataSerializers.VARINT);
+    private static final DataParameter< Integer > TIME_ALIVE = EntityDataManager.defineId(AnomalyEntity.class, DataSerializers.INT);
 
     public AnomalyEntity(World worldIn) {
         super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
@@ -33,61 +33,61 @@ public class AnomalyEntity extends MobEntity {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_PLAYER_ATTACK_WEAK;
+        return SoundEvents.PLAYER_ATTACK_WEAK;
     }
 
     @Override
-    protected boolean isMovementBlocked() {
+    protected boolean isImmobile() {
         return true;
     }
 
     public int getTimeAlive() {
-        return getDataManager().get(TIME_ALIVE);
+        return getEntityData().get(TIME_ALIVE);
     }
 
     public void setTimeAlive(int timeAlive) {
-        getDataManager().set(TIME_ALIVE, timeAlive);
+        getEntityData().set(TIME_ALIVE, timeAlive);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (!world.isRemote) {
+        if (!level.isClientSide) {
 
-            setNoAI(true);
-            if (ticksExisted == 1) {
+            setNoAi(true);
+            if (tickCount == 1) {
                 playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
             }
 
-            if (ticksExisted > getTimeAlive()) {
+            if (tickCount > getTimeAlive()) {
                 remove();
             }
 
-            for (WeepingAngelEntity weepingAngelEntity : world.getEntitiesWithinAABB(WeepingAngelEntity.class, getBoundingBox().grow(10))) {
-                BlockPos pos = getPosition().subtract(weepingAngelEntity.getPosition());
+            for (WeepingAngelEntity weepingAngelEntity : level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(10))) {
+                BlockPos pos = blockPosition().subtract(weepingAngelEntity.blockPosition());
                 Vector3d vec = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
-                weepingAngelEntity.setNoAI(false);
-                weepingAngelEntity.setMotion(vec.scale(0.15D));
+                weepingAngelEntity.setNoAi(false);
+                weepingAngelEntity.setDeltaMovement(vec.scale(0.15D));
             }
         }
     }
 
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {
-        super.collideWithEntity(entityIn);
+    protected void doPush(Entity entityIn) {
+        super.doPush(entityIn);
 
         if (entityIn instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
             weepingAngelEntity.setSilent(true);
-            weepingAngelEntity.attackEntityFrom(WAObjects.GENERATOR, Integer.MAX_VALUE);
+            weepingAngelEntity.hurt(WAObjects.GENERATOR, Integer.MAX_VALUE);
         }
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        getDataManager().register(TIME_ALIVE, 100);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        getEntityData().define(TIME_ALIVE, 100);
     }
 }

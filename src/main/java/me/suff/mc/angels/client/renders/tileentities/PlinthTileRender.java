@@ -27,16 +27,16 @@ public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
 
     @Override
     public void render(PlinthTile plinthTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5F, 2.5F, 0.5F);
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
         BlockState blockstate = plinthTile.getBlockState();
-        float rotation = 22.5F * (float) blockstate.get(StatueBlock.ROTATION);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+        float rotation = 22.5F * (float) blockstate.getValue(StatueBlock.ROTATION);
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
         EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
-        ResourceLocation texture = DefaultPlayerSkin.getDefaultSkinLegacy();
+        ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin();
 
-        if(plinthTile.getBlockState().get(CLASSIC)){
+        if(plinthTile.getBlockState().getValue(CLASSIC)){
             matrixStack.translate(0,0.5,0);
         }
 
@@ -46,8 +46,8 @@ public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
             angelModel.setAngelPose(pose);
             texture = angelModel.getTextureForPose(plinthTile, pose);
         }
-        angel.setRotationAngles(null, 0, 0, 0, 0, 0);
-        angel.render(matrixStack, bufferIn.getBuffer(RenderType.getEntityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
-        matrixStack.pop();
+        angel.setupAnim(null, 0, 0, 0, 0, 0);
+        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        matrixStack.popPose();
     }
 }

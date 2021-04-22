@@ -18,7 +18,7 @@ public class WAItemTags extends ItemTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         ForgeRegistries.BLOCKS.getValues().forEach(block -> {
             if(!block.getRegistryName().getNamespace().contains("tardis")) {
                 WeepingAngels.LOGGER.info("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
@@ -33,6 +33,6 @@ public class WAItemTags extends ItemTagsProvider {
     }
 
     public void add(ITag.INamedTag< Item > branch, Item block) {
-        this.getOrCreateBuilder(branch).add(block);
+        this.tag(branch).add(block);
     }
 }

@@ -57,14 +57,14 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(getBlockState(), pkt.getTag());
     }
 
     @Override
     public void onLoad() {
         if (coffin == null) {
             coffin = AngelUtils.randomCoffin();
-            markDirty();
+            setChanged();
         }
     }
 
@@ -98,18 +98,18 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
             ++ticks;
             if (ticks >= 360) {
-                if (!world.isRemote) {
-                    world.removeBlock(pos, false);
+                if (!level.isClientSide) {
+                    level.removeBlock(worldPosition, false);
 
                     if (ModList.get().isLoaded("tardis")) {
-                        world.setBlockState(pos.up(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).getDefaultState());
+                        level.setBlockAndUpdate(worldPosition.above(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).defaultBlockState());
                     }
 
                     int i = 25;
                     while (i > 0) {
-                        int j = ExperienceOrbEntity.getXPSplit(i);
+                        int j = ExperienceOrbEntity.getExperienceValue(i);
                         i -= j;
-                        this.world.addEntity(new ExperienceOrbEntity(this.world, pos.getX(), pos.getY(), pos.getZ(), j));
+                        this.level.addFreshEntity(new ExperienceOrbEntity(this.level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), j));
                     }
                 }
             }
@@ -119,36 +119,36 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(pos, 3, getUpdateTag());
+        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
     }
 
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return write(new CompoundNBT());
+        return save(new CompoundNBT());
     }
 
     public void sendUpdates() {
-        if (world != null && getBlockState() != null && getBlockState().getBlock() != null) {
-            world.updateComparatorOutputLevel(pos, getBlockState().getBlock());
-            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
+            level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+            level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         }
-        markDirty();
+        setChanged();
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
+    public void load(BlockState state, CompoundNBT nbt) {
         coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         isOpen = nbt.getBoolean("isOpen");
         hasSkeleton = nbt.getBoolean("hasSkeleton");
         openAmount = nbt.getFloat("openAmount");
         alpha = nbt.getFloat("alpha");
         doingSomething = nbt.getBoolean("doingSomething");
-        super.read(state, nbt);
+        super.load(state, nbt);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         if (coffin == null) {
             coffin = AngelUtils.randomCoffin();
         }
@@ -158,7 +158,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         compound.putBoolean("doingSomething", doingSomething);
         compound.putFloat("openAmount", openAmount);
         compound.putFloat("alpha", alpha);
-        return super.write(compound);
+        return super.save(compound);
     }
 
     public boolean isDoingSomething() {
@@ -168,7 +168,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     public void setDoingSomething(boolean doingSomething) {
         this.doingSomething = doingSomething;
         if (doingSomething) {
-            world.playSound(null, pos, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1, 1);
+            level.playSound(null, worldPosition, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1, 1);
         }
     }
 

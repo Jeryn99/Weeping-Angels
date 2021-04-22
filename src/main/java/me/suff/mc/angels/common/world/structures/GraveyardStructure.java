@@ -21,6 +21,8 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
+
 public class GraveyardStructure extends Structure< ProbabilityConfig > {
 
     private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
@@ -50,7 +52,7 @@ public class GraveyardStructure extends Structure< ProbabilityConfig > {
 
     //Required, otherwise will cause NPE Crash
     @Override
-    public Decoration getDecorationStage() {
+    public Decoration step() {
         return Decoration.SURFACE_STRUCTURES;
     }
 
@@ -61,14 +63,14 @@ public class GraveyardStructure extends Structure< ProbabilityConfig > {
         }
 
         @Override
-        public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
-            Rotation rotation = Rotation.values()[rand.nextInt(Rotation.values().length)];
+        public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, ProbabilityConfig config) {
+            Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
             int x = (chunkX << 4) + 7;
             int z = (chunkZ << 4) + 7;
-            int surfaceY = chunkGenerator.getHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);
+            int surfaceY = chunkGenerator.getBaseHeight(x, z, Heightmap.Type.WORLD_SURFACE_WG);
             BlockPos blockpos = new BlockPos(x, surfaceY, z);
-            GraveyardStructurePieces.start(templateManagerIn, blockpos, rotation, this.components, this.rand);
-            this.recalculateStructureSize();
+            GraveyardStructurePieces.start(templateManagerIn, blockpos, rotation, this.pieces, this.random);
+            this.calculateBoundingBox();
         }
 
     }
