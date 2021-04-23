@@ -289,6 +289,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
             randomisePose();
         }
         this.zza = 0.0F;
+        this.yya = 0.0F;
+        this.zza = 0.0F;
     }
 
 

@@ -178,42 +178,6 @@ public class ViewUtil {
         return true;
     }
 
-    public static boolean viewBlocked(LivingEntity viewer, BlockState blockState, BlockPos blockPos) {
-        AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
-        AxisAlignedBB angelBoundingBox = blockState.getShape(viewer.level, blockPos).bounds();
-        Vector3d[] viewerPoints = {new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
-
-        if (viewer instanceof PlayerEntity) {
-            Vector3d pos;
-            if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
-                pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
-            else
-                pos = new Vector3d(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
-            viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
-            viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
-            viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
-            viewerPoints[3] = pos.add(-headSize, headSize, headSize);
-            viewerPoints[4] = pos.add(headSize, headSize, -headSize);
-            viewerPoints[5] = pos.add(headSize, headSize, headSize);
-            viewerPoints[6] = pos.add(headSize, -headSize, headSize);
-            viewerPoints[7] = pos.add(headSize, -headSize, -headSize);
-        }
-
-
-        Vector3d[] angelPoints = {new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
-
-        for (int i = 0; i < viewerPoints.length; i++) {
-            if (viewer.level.clip(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
-                return false;
-            }
-            if (rayTraceBlocks(viewer, viewer.level, viewerPoints[i], angelPoints[i], pos -> {
-                BlockState state = viewer.level.getBlockState(pos);
-                return !canSeeThrough(state, viewer.level, pos);
-            }) == null) return false;
-        }
-        return true;
-    }
-
 
     @Nullable
     private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vector3d vec31, Vector3d vec32, Predicate< BlockPos > stopOn) {

@@ -57,7 +57,7 @@ public class TardisMod {
     @SubscribeEvent
     public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
 
-        if (event.getEntity() instanceof QuantumLockBaseEntity) {
+        if (!(event.getEntity() instanceof QuantumLockBaseEntity)) return;
             QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
 
             // Do stuff within the Tardis Dimension
@@ -117,8 +117,6 @@ public class TardisMod {
                     }
                 }
             }
-
-        }
     }
 
 }

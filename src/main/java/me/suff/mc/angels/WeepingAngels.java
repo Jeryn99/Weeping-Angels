@@ -1,6 +1,7 @@
 package me.suff.mc.angels;
 
 import com.google.common.collect.ImmutableList;
+import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.utils.AngelUtils;
 import me.suff.mc.angels.utils.ClientUtil;
@@ -74,6 +75,7 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         PaintingStuff.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
+        AngelParticles.TYPES.register(bus);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

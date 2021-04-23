@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -147,7 +148,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     }
 
     public void invokeSeen(PlayerEntity player) {
-        getNavigation().moveTo(null, 0);
+        getNavigation().moveTo((Path) null, 0);
         setNoAi(true);
       /*  setAIMoveSpeed(-55);
         if (getSeenTime() == 2) {
