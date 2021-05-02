@@ -1,10 +1,10 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.utils.PlayerUtils;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.config.WAConfig;
+import me.suff.mc.angels.utils.PlayerUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -20,8 +20,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 public class DetectorItem extends Item {
 
@@ -62,7 +60,7 @@ public class DetectorItem extends Item {
 
                 if (PlayerUtils.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
                     if (entityIn.tickCount % 160 == 0) {
-                        worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+                        // worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
                     }
                 }
 

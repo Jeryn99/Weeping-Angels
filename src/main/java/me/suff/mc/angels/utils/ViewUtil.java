@@ -1,7 +1,7 @@
 package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.entities.QuantumLockBaseEntity;
+import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
@@ -125,7 +125,7 @@ public class ViewUtil {
      * @param livingBase The viewer entity
      * @param angel      The entity being watched by viewer
      */
-    public static boolean isInSight(LivingEntity livingBase, QuantumLockBaseEntity angel) {
+    public static boolean isInSight(LivingEntity livingBase, QuantumLockEntity angel) {
         if (viewBlocked(livingBase, angel)) {
             return false;
         }

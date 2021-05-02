@@ -13,5 +13,9 @@ public interface AngelVirus extends INBTSerializable<CompoundNBT> {
 
     void sync();
 
+    void tickCounter();
+
+    int viewTime();
+
     LivingEntity living();
 }

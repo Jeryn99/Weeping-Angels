@@ -50,7 +50,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Mod.EventBusSubscriber
-public class EventHandler {
+public class CommonEvents {
 
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {

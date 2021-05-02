@@ -3,7 +3,7 @@ package me.suff.mc.angels.utils;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.QuantumLockBaseEntity;
+import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
@@ -15,13 +15,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.functions.ILootFunction;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
@@ -78,18 +75,12 @@ public class AngelUtils {
         return BlockTags.bind(new ResourceLocation(domain, path).toString());
     }
 
-    public static boolean isDarkForPlayer(QuantumLockBaseEntity angel, LivingEntity living) {
+    public static boolean isDarkForPlayer(QuantumLockEntity angel, LivingEntity living) {
         return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
     }
 
     public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
-        if (!entity.level.isClientSide) {
-            ServerWorld serverWorld = (ServerWorld) entity.level;
-            serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
-            entity.playSound(WAObjects.Sounds.LIGHT_BREAK.get(), 1, 1.0F);
-            InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
-            entity.level.setBlockAndUpdate(pos, blockState);
-        }
+
     }
 
     /**

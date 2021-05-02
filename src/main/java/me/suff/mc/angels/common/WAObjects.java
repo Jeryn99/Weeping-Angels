@@ -98,7 +98,7 @@ public class WAObjects {
      */
     public static void setupStructures() {
         setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
-        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 1234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
 
     private static < T extends Structure< ? > > void registerConfiguredStructure(String registryName, Supplier< T > structure, StructureFeature< ?, ? > configuredStructure) {

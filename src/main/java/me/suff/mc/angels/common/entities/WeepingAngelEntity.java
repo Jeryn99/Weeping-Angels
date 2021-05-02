@@ -43,17 +43,17 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class WeepingAngelEntity extends QuantumLockBaseEntity {
+public class WeepingAngelEntity extends QuantumLockEntity {
 
-    private static final DataParameter< String > TYPE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter< String > CURRENT_POSE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter< String > VARIENT = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter< Float > LAUGH = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.FLOAT);
-    private static final Predicate< Difficulty > DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
+    private static final DataParameter<String> TYPE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter<String> CURRENT_POSE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter<String> VARIENT = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter<Float> LAUGH = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.FLOAT);
+    private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
 
-    public WeepingAngelEntity(EntityType< ? extends QuantumLockBaseEntity > type, World world) {
+    public WeepingAngelEntity(EntityType<? extends QuantumLockEntity> type, World world) {
         this(world);
     }
 
@@ -189,16 +189,13 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     public void dealDamage(PlayerEntity playerMP) {
-        if (getHealth() > 5) {
-            playerMP.hurt(WAObjects.ANGEL, 4.0F);
-            heal(4.0F);
-        } else {
-            playerMP.hurt(WAObjects.ANGEL_NECK_SNAP, 4.0F);
-            heal(2.0F);
-        }
+        playerMP.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, 4F);
+        heal(getHealth() > 5 ? 4F : 2F);
+        stealItems(playerMP);
+    }
 
-
-        // Steals keys from the player
+    private void stealItems(PlayerEntity playerMP) {
+        // Steals items from the player
         if (getMainHandItem().isEmpty() && random.nextBoolean()) {
             for (int i = 0; i < playerMP.inventory.getContainerSize(); i++) {
                 ItemStack stack = playerMP.inventory.getItem(i);
@@ -297,9 +294,9 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     private void randomisePose() {
         if (getAngelType() != AngelEnums.AngelType.VIO_1) {
             setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
-        } else {
-            setPose(Objects.requireNonNull(random.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
+            return;
         }
+        setPose(Objects.requireNonNull(random.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
     }
 
     private void playSeenSound(PlayerEntity player) {

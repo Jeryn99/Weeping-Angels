@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.entities;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
+import me.suff.mc.angels.conversion.AngelInfection;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -17,17 +18,18 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
+public class QuantumLockEntity extends MonsterEntity implements IMob {
 
-    private static final DataParameter< Boolean > IS_SEEN = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter< Integer > TIME_VIEWED = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.INT);
-    private static final DataParameter< BlockPos > PREVBLOCKPOS = EntityDataManager.defineId(QuantumLockBaseEntity.class, DataSerializers.BLOCK_POS);
+    private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.INT);
+    private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.BLOCK_POS);
 
-    public QuantumLockBaseEntity(World worldIn, EntityType< ? extends MonsterEntity > entityType) {
+    public QuantumLockEntity(World worldIn, EntityType<? extends MonsterEntity> entityType) {
         super(entityType, worldIn);
     }
 
@@ -35,7 +37,7 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
     public void aiStep() {
         super.aiStep();
         if (!level.isClientSide) {
-            List< PlayerEntity > players = level.getEntitiesOfClass(PlayerEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            List<PlayerEntity> players = level.getEntitiesOfClass(PlayerEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleepingLongEnough() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
@@ -58,6 +60,10 @@ public class QuantumLockBaseEntity extends MonsterEntity implements IMob {
                     if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
+                        AngelInfection.get(player).ifPresent((data) -> {
+                            data.tickCounter();
+                            setCustomName(new TranslationTextComponent(String.valueOf(data.viewTime())));
+                        });
                         return;
                     }
 

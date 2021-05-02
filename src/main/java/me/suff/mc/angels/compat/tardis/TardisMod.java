@@ -2,7 +2,7 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
-import me.suff.mc.angels.common.entities.QuantumLockBaseEntity;
+import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
@@ -57,28 +57,28 @@ public class TardisMod {
     @SubscribeEvent
     public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
 
-        if (!(event.getEntity() instanceof QuantumLockBaseEntity)) return;
-            QuantumLockBaseEntity angel = (QuantumLockBaseEntity) event.getEntity();
+        if (!(event.getEntity() instanceof QuantumLockEntity)) return;
+        QuantumLockEntity angel = (QuantumLockEntity) event.getEntity();
 
-            // Do stuff within the Tardis Dimension
-            if (WorldHelper.areDimensionTypesSame(angel.level, TDimensions.DimensionTypes.TARDIS_TYPE)) {
-                World world = angel.level;
-                ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
+        // Do stuff within the Tardis Dimension
+        if (WorldHelper.areDimensionTypesSame(angel.level, TDimensions.DimensionTypes.TARDIS_TYPE)) {
+            World world = angel.level;
+            ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
 
-                // Drain Fuel
-                if (angel.tickCount % 60 == 0) {
-                    boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
-                    if (console != null) {
+            // Drain Fuel
+            if (angel.tickCount % 60 == 0) {
+                boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
+                if (console != null) {
 
-                        if (console.getArtron() > 0) {
-                            BlockPos artonPos = console.getBlockPos();
-                            Vector3d end = WorldHelper.vecFromPos(artonPos);
-                            Vector3d start = WorldHelper.vecFromPos(angel.blockPosition());
-                            Vector3d path = start.subtract(end);
-                            for (int i = 0; i < 10; ++i) {
-                                double percent = (double) i / 10.0D;
-                                Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
-                                if (spawnPoint.distanceTo(end) <= 3.5D) {
+                    if (console.getArtron() > 0) {
+                        BlockPos artonPos = console.getBlockPos();
+                        Vector3d end = WorldHelper.vecFromPos(artonPos);
+                        Vector3d start = WorldHelper.vecFromPos(angel.blockPosition());
+                        Vector3d path = start.subtract(end);
+                        for (int i = 0; i < 10; ++i) {
+                            double percent = (double) i / 10.0D;
+                            Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
+                            if (spawnPoint.distanceTo(end) <= 3.5D) {
                                     angel.level.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
                                 }
                             }

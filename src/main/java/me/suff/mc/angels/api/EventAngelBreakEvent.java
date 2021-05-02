@@ -1,7 +1,7 @@
 package me.suff.mc.angels.api;
 
+import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -14,8 +14,8 @@ public class EventAngelBreakEvent extends EntityEvent {
     private final BlockPos blockPos;
     private BlockState blockState;
 
-    public EventAngelBreakEvent(LivingEntity entity, BlockState blockState, BlockPos blockPos) {
-        super(entity);
+    public EventAngelBreakEvent(QuantumLockEntity quantumLockEntity, BlockState blockState, BlockPos blockPos) {
+        super(quantumLockEntity);
         this.blockState = blockState;
         this.blockPos = blockPos;
     }

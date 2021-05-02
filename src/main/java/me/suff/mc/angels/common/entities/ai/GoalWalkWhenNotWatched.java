@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.entities.ai;
 
-import me.suff.mc.angels.common.entities.QuantumLockBaseEntity;
+import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 
@@ -17,8 +17,8 @@ public class GoalWalkWhenNotWatched extends WaterAvoidingRandomWalkingGoal {
 
     @Override
     public boolean canContinueToUse() {
-        if(mob instanceof QuantumLockBaseEntity){
-            QuantumLockBaseEntity quantumLockBaseEntity = (QuantumLockBaseEntity) mob;
+        if (mob instanceof QuantumLockEntity) {
+            QuantumLockEntity quantumLockBaseEntity = (QuantumLockEntity) mob;
             return super.canContinueToUse() && !quantumLockBaseEntity.isSeen();
         }
         return super.canContinueToUse();

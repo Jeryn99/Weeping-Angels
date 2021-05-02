@@ -2,6 +2,8 @@ package me.suff.mc.angels.conversion;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -15,6 +17,7 @@ public class AngelInfection implements AngelVirus {
     private final LivingEntity living;
 
     private boolean isInfected = false;
+    private int timeSeen = 0;
 
     public AngelInfection(LivingEntity livingEntity) {
         this.living = livingEntity;
@@ -37,11 +40,26 @@ public class AngelInfection implements AngelVirus {
 
     @Override
     public void tick() {
+        if (timeSeen >= 2400) {
+            timeSeen = 0;
+            living.addEffect(new EffectInstance(Effects.CONFUSION, 200));
+            living.addEffect(new EffectInstance(Effects.WITHER, 200));
+        }
     }
 
     @Override
     public void sync() {
 
+    }
+
+    @Override
+    public void tickCounter() {
+        timeSeen++;
+    }
+
+    @Override
+    public int viewTime() {
+        return timeSeen;
     }
 
     @Override
