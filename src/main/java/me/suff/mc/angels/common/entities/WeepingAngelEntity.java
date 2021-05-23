@@ -30,7 +30,6 @@ import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -42,6 +41,8 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
+
+import static me.suff.mc.angels.utils.AngelUtils.breakBlock;
 
 public class WeepingAngelEntity extends QuantumLockEntity {
 
@@ -270,7 +271,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     @Override
-    public void onSyncedDataUpdated(DataParameter< ? > key) {
+    public void onSyncedDataUpdated(DataParameter<?> key) {
         super.onSyncedDataUpdated(key);
         if (TYPE.equals(key)) {
             refreshDimensions();
@@ -338,15 +339,14 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
 
-        if (WAConfig.CONFIG.blockBreaking.get() && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
-            double range = getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
-            replaceBlocks(getBoundingBox().inflate(range, 3, range));
+        if (random.nextBoolean() && WAConfig.CONFIG.blockBreaking.get() && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
+            replaceBlocks();
         }
     }
 
     private void modelCheck() {
         for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
-            if(!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())){
+            if (!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())) {
                 setType(WAConfig.CONFIG.allowedTypes.get().get(0));
             }
         }
@@ -362,14 +362,14 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         return navigator;
     }
 
-    private void replaceBlocks(AxisAlignedBB box) {
+    private void replaceBlocks() {
         if (level.isClientSide || tickCount % 100 != 0) return;
 
         if (level.getMaxLocalRawBrightness(blockPosition()) == 0) {
             return;
         }
-
-        for (Iterator< BlockPos > iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX, box.maxY, box.maxZ), new BlockPos(box.minX, box.minY, box.minZ)).iterator(); iterator.hasNext(); ) {
+        int range = (int) getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), range, 3, range).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             ServerWorld serverWorld = (ServerWorld) level;
             BlockState blockState = serverWorld.getBlockState(pos);
@@ -380,13 +380,13 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-                    AngelUtils.breakBlock(this, pos, Blocks.AIR.defaultBlockState());
+                    breakBlock(this, pos, Blocks.AIR.defaultBlockState());
                     return;
                 }
 
                 if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
                     if (blockState.getValue(RedstoneLampBlock.LIT)) {
-                        AngelUtils.breakBlock(this, pos, blockState.setValue(RedstoneLampBlock.LIT, false));
+                        breakBlock(this, pos, blockState.setValue(RedstoneLampBlock.LIT, false));
                         return;
                     }
                 }
@@ -407,7 +407,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
-                    AngelUtils.breakBlock(this, pos, Blocks.AIR.defaultBlockState());
+                    breakBlock(this, pos, Blocks.AIR.defaultBlockState());
                     return;
                 }
             }

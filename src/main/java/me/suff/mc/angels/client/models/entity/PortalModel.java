@@ -6,7 +6,7 @@ import me.suff.mc.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class PortalModel extends EntityModel< AnomalyEntity > {
+public class PortalModel extends EntityModel<AnomalyEntity> {
 
     private final ModelRenderer PortalMain;
     private final ModelRenderer PortalFrontage;

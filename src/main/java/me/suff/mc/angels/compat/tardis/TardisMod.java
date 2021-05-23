@@ -38,9 +38,9 @@ public class TardisMod {
     The reason for this, is because we do not want players teleported into those for the following reasons:
     1. Massive chance of being teleported into just, the void, death, who wants that?
     2. Even if the void wasn't a thing, why would angels canonically send you into a time machine? */
-    public static ArrayList< ServerWorld > cleanseDimensions(ArrayList< ServerWorld > serverWorlds) {
-        RegistryKey< DimensionType >[] dimensionTypes = new RegistryKey[]{TDimensions.DimensionTypes.TARDIS_TYPE, TDimensions.DimensionTypes.VORTEX_TYPE, TDimensions.DimensionTypes.SPACE_TYPE};
-        for (RegistryKey< DimensionType > dimensionType : dimensionTypes) {
+    public static ArrayList<ServerWorld> cleanseDimensions(ArrayList<ServerWorld> serverWorlds) {
+        RegistryKey<DimensionType>[] dimensionTypes = new RegistryKey[]{TDimensions.DimensionTypes.TARDIS_TYPE, TDimensions.DimensionTypes.VORTEX_TYPE, TDimensions.DimensionTypes.SPACE_TYPE};
+        for (RegistryKey<DimensionType> dimensionType : dimensionTypes) {
             serverWorlds.removeIf(serverWorld -> WorldHelper.areDimensionTypesSame(serverWorld, dimensionType));
         }
         return serverWorlds;
@@ -79,44 +79,44 @@ public class TardisMod {
                             double percent = (double) i / 10.0D;
                             Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
                             if (spawnPoint.distanceTo(end) <= 3.5D) {
-                                    angel.level.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
-                                }
-                            }
-                            console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
-                            angel.heal(0.5F);
-                        }
-
-                        //No Fuel? No Problem, we'll just rip your systems apart to find some
-                        if (console.getArtron() <= 0 && console.getLevel().getGameTime() % 120 == 0) {
-                            List<Subsystem> subsystems = console.getSubSystems();
-                            if (!subsystems.isEmpty()) {
-                                Subsystem randomSubsystem = subsystems.get(world.random.nextInt(subsystems.size()));
-                                if (world.random.nextBoolean()) {
-                                    for (int i = 0; i < 18; ++i) {
-                                        double angle = Math.toRadians(i * 20);
-                                        double x = Math.sin(angle);
-                                        double z = Math.cos(angle);
-                                        BlockPos pos = new BlockPos(0, 128, 0);
-                                        world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
-                                        world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.random.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
-                                    }
-                                    if (randomSubsystem.getHealth() > 0) {
-                                        randomSubsystem.damage(null, world.random.nextInt(5));
-                                    }
-                                }
+                                angel.level.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
                             }
                         }
+                        console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
+                        angel.heal(0.5F);
                     }
-                }
 
-                // Mess with the lights
-                if (angel.tickCount % 500 == 0) {
-                    if (console != null) {
-                        int randLight = console.getLevel().random.nextInt(15);
-                        console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
+                    //No Fuel? No Problem, we'll just rip your systems apart to find some
+                    if (console.getArtron() <= 0 && console.getLevel().getGameTime() % 120 == 0) {
+                        List<Subsystem> subsystems = console.getSubSystems();
+                        if (!subsystems.isEmpty()) {
+                            Subsystem randomSubsystem = subsystems.get(world.random.nextInt(subsystems.size()));
+                            if (world.random.nextBoolean()) {
+                                for (int i = 0; i < 18; ++i) {
+                                    double angle = Math.toRadians(i * 20);
+                                    double x = Math.sin(angle);
+                                    double z = Math.cos(angle);
+                                    BlockPos pos = new BlockPos(0, 128, 0);
+                                    world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
+                                    world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.random.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
+                                }
+                                if (randomSubsystem.getHealth() > 0) {
+                                    randomSubsystem.damage(null, world.random.nextInt(5));
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+            // Mess with the lights
+            if (angel.tickCount % 500 == 0) {
+                if (console != null) {
+                    int randLight = console.getLevel().random.nextInt(15);
+                    console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
+                }
+            }
+        }
     }
 
 }

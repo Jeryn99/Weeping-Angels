@@ -19,17 +19,16 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-import net.minecraft.item.Item.Properties;
-
-public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
+public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 
     public AngelSpawnerItem() {
         super(new Properties().tab(WATabs.MAIN_TAB));
     }
 
-    public static void setType(ItemStack stack, AngelEnums.AngelType type) {
+    public static ItemStack setType(ItemStack stack, AngelType type) {
         CompoundNBT tag = stack.getOrCreateTag();
         tag.putString("type", type.name());
+        return stack;
     }
 
     public static AngelEnums.AngelType getType(ItemStack stack) {
@@ -40,7 +39,7 @@ public class AngelSpawnerItem< E extends WeepingAngelEntity > extends Item {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList< ItemStack > items) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         if (allowdedIn(group)) {
             for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);

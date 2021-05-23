@@ -29,7 +29,7 @@ public class WATeleporter {
 
     public static BlockPos findSafePlace(PlayerEntity playerEntity, World world, BlockPos pos) {
 
-        if(world.dimension().equals(World.NETHER)){
+        if (world.dimension().equals(World.NETHER)) {
             WorldBorder worldborder = world.getWorldBorder();
             double d0 = Math.max(-2.9999872E7D, worldborder.getMinX() + 16.0D);
             double d1 = Math.max(-2.9999872E7D, worldborder.getMinZ() + 16.0D);
@@ -46,14 +46,14 @@ public class WATeleporter {
             return tt.minCorner;
         }
 
-        if(world.dimension().equals(World.END)){
+        if (world.dimension().equals(World.END)) {
             return ServerWorld.END_SPAWN_POINT;
         }
 
         for (int i = 5; i > 0; i--) {
             for (int y = 0; y < world.getMaxBuildHeight(); y++) {
                 BlockPos newPos = new BlockPos(pos.getX() + i * 20, y, pos.getZ() + i * 20);
-                if (isTeleportFriendlyBlock(world, pos,playerEntity) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
+                if (isTeleportFriendlyBlock(world, pos, playerEntity) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
                     System.out.println("Teleporting player to " + newPos + " || " + world.getBlockState(newPos));
                     return newPos;
                 }
@@ -64,8 +64,8 @@ public class WATeleporter {
     }
 
     public static ServerWorld getRandomDimension(Random rand) {
-        Iterable< ServerWorld > dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
-        ArrayList< ServerWorld > allowedDimensions = Lists.newArrayList(dimensions);
+        Iterable<ServerWorld> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
+        ArrayList<ServerWorld> allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerWorld dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
@@ -79,7 +79,7 @@ public class WATeleporter {
             allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
         }
 
-        if(rand.nextInt(100) > 20){
+        if (rand.nextInt(100) > 20) {
             allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER));
         }
 

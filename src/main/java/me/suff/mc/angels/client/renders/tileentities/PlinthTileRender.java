@@ -2,11 +2,11 @@ package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.tileentities.PlinthTile;
+import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -19,7 +19,7 @@ import net.minecraft.util.math.vector.Vector3f;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
-public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
+public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 
     public PlinthTileRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
         super(tileEntityRendererDispatcher);
@@ -33,11 +33,11 @@ public class PlinthTileRender extends TileEntityRenderer< PlinthTile > {
         BlockState blockstate = plinthTile.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(StatueBlock.ROTATION);
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
+        EntityModel<WeepingAngelEntity> angel = ClientUtil.getModelForAngel(plinthTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin();
 
-        if(plinthTile.getBlockState().getValue(CLASSIC)){
-            matrixStack.translate(0,0.5,0);
+        if (plinthTile.getBlockState().getValue(CLASSIC)) {
+            matrixStack.translate(0, 0.5, 0);
         }
 
         WeepingAngelPose pose = plinthTile.getPose();

@@ -6,7 +6,7 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelArmsCovering extends EntityModel< WeepingAngelEntity > {
+public class ModelArmsCovering extends EntityModel<WeepingAngelEntity> {
 
     ModelRenderer RightFinger2;
     ModelRenderer RightArm2;

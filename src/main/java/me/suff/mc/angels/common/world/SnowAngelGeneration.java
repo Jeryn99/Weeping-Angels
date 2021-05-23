@@ -14,9 +14,9 @@ import java.util.Random;
 /**
  * Created by Craig on 11/02/2020 @ 21:58
  */
-public class SnowAngelGeneration extends Feature< NoFeatureConfig > {
+public class SnowAngelGeneration extends Feature<NoFeatureConfig> {
 
-    public SnowAngelGeneration(Codec< NoFeatureConfig > noFeatureConfigCodec) {
+    public SnowAngelGeneration(Codec<NoFeatureConfig> noFeatureConfigCodec) {
         super(noFeatureConfigCodec);
     }
 

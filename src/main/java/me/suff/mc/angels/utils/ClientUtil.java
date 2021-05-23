@@ -1,6 +1,7 @@
 package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.client.ClientEvents;
 import me.suff.mc.angels.client.models.entity.*;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
@@ -27,21 +28,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ClientUtil {
 
-    private static final EntityModel< WeepingAngelEntity > VIO_1 = new ModelAngel();
-    private static final EntityModel< WeepingAngelEntity > ED = new ModelAngelEd();
-    private static final EntityModel< WeepingAngelEntity > CHERUB = new ModelAngelChild();
-    private static final EntityModel< WeepingAngelEntity > A_DIZZLE = new ModelClassicAngel();
-    private static final EntityModel< WeepingAngelEntity > VIO_2 = new ModelAngelMel();
-    private static final EntityModel< WeepingAngelEntity > VILLAGER = new ModelWeepingVillager();
-    private static final EntityModel< WeepingAngelEntity > ANGELA_MC = new ModelAngelaAngel();
+    private static final EntityModel<WeepingAngelEntity> VIO_1 = new ModelAngel();
+    private static final EntityModel<WeepingAngelEntity> ED = new ModelAngelEd();
+    private static final EntityModel<WeepingAngelEntity> CHERUB = new ModelAngelChild();
+    private static final EntityModel<WeepingAngelEntity> A_DIZZLE = new ModelClassicAngel();
+    private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel();
+    private static final EntityModel<WeepingAngelEntity> VILLAGER = new ModelWeepingVillager();
+    private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
 
-    private static final Map< AngelEnums.AngelType, EntityModel< WeepingAngelEntity > > MODEL_MAP = new HashMap<>();
+    private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
 
     static {
         MODEL_MAP.put(AngelEnums.AngelType.CHERUB, CHERUB); // ED
@@ -54,7 +56,7 @@ public class ClientUtil {
     }
 
 
-    public static EntityModel< WeepingAngelEntity > getModelForAngel(AngelEnums.AngelType angelType) {
+    public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
         return MODEL_MAP.get(angelType);
     }
 

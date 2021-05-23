@@ -20,8 +20,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-import net.minecraft.item.Item.Properties;
-
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {
     public ChiselItem(Properties properties) {
@@ -79,7 +77,7 @@ public class ChiselItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, World worldIn, List< ITextComponent > tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel"));
         tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_right_click"));

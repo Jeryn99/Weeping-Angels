@@ -1,12 +1,10 @@
 package me.suff.mc.angels.conversion;
 
 import me.suff.mc.angels.WeepingAngels;
-import net.minecraft.command.arguments.ParticleArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;

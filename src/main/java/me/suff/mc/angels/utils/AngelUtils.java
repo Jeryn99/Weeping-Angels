@@ -15,10 +15,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.functions.ILootFunction;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
@@ -26,6 +29,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -42,11 +46,11 @@ import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
 
 public class AngelUtils {
 
-    public static ITag.INamedTag< Item > THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static ITag.INamedTag< Item > HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static ITag.INamedTag< Block > BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
-    public static ITag.INamedTag< Block > POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static ITag.INamedTag< Block > ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static ITag.INamedTag<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
@@ -67,11 +71,11 @@ public class AngelUtils {
     public static Structure[] NETHER_STRUCTURES = new Structure[]{Structure.BASTION_REMNANT, Structure.NETHER_FOSSIL, Structure.NETHER_BRIDGE};
     public static Random RAND = new Random();
 
-    public static ITag.INamedTag< Item > makeItem(String domain, String path) {
+    public static ITag.INamedTag<Item> makeItem(String domain, String path) {
         return ItemTags.bind(new ResourceLocation(domain, path).toString());
     }
 
-    public static ITag.INamedTag< Block > makeBlock(String domain, String path) {
+    public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
         return BlockTags.bind(new ResourceLocation(domain, path).toString());
     }
 
@@ -80,7 +84,13 @@ public class AngelUtils {
     }
 
     public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
-
+        if (!entity.level.isClientSide) {
+            ServerWorld serverWorld = (ServerWorld) entity.level;
+            serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
+            entity.playSound(SoundEvents.REDSTONE_TORCH_BURNOUT, 0.2F, 1.0F);
+            InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
+            entity.level.setBlock(pos, blockState, 2);
+        }
     }
 
     /**
@@ -156,7 +166,7 @@ public class AngelUtils {
         return EnchantmentHelper.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE, entityIn);
     }
 
-    public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer< ? extends ILootFunction > serialiser) {
+    public static LootFunctionType registerFunction(ResourceLocation resourceLocation, ILootSerializer<? extends ILootFunction> serialiser) {
         return Registry.register(Registry.LOOT_FUNCTION_TYPE, resourceLocation, new LootFunctionType(serialiser));
     }
 
@@ -166,7 +176,7 @@ public class AngelUtils {
         LootTable loot_table = target.level.getServer().getLootTables().get(resourcelocation);
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.create(LootParameterSets.ENTITY);
-        List< ItemStack > generatedTable = loot_table.getRandomItems(ctx);
+        List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
             if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
@@ -192,7 +202,7 @@ public class AngelUtils {
             ServerWorld serverWorld = (ServerWorld) playerEntity.level;
             boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).isValid();
 
-            if(isCatacomb) {
+            if (isCatacomb) {
                 MutableBoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vector3d(box.x0, box.y0, box.z0), new Vector3d(box.x1, box.y1, box.z1));
             }

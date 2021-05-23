@@ -4,7 +4,9 @@ package me.suff.mc.angels.common.tileentities;
 public interface IPlinth {
 
     void changeModel();
+
     void changePose();
+
     void sendUpdatesToClient();
 
 }

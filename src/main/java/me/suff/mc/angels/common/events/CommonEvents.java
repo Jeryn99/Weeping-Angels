@@ -74,7 +74,7 @@ public class CommonEvents {
             if (isGraveYard && !player.abilities.instabuild) {
                 MutableBoundingBox box = world.structureFeatureManager().getStructureAt(pos, true, WAObjects.Structures.GRAVEYARD.get()).getBoundingBox();
                 boolean canPlaySound = false;
-                for (Iterator< BlockPos > iterator = BlockPos.betweenClosedStream(new BlockPos(box.x1, box.y1, box.z1), new BlockPos(box.x0, box.y0, box.z0)).iterator(); iterator.hasNext(); ) {
+                for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.x1, box.y1, box.z1), new BlockPos(box.x0, box.y0, box.z0)).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
                     BlockState blockState = world.getBlockState(blockPos);
                     if (blockState.getBlock() == WAObjects.Blocks.STATUE.get()) {
@@ -97,7 +97,7 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        RegistryKey< Biome > biomeRegistryKey = RegistryKey.create(Registry.BIOME_REGISTRY, biomeLoadingEvent.getName());
+        RegistryKey<Biome> biomeRegistryKey = RegistryKey.create(Registry.BIOME_REGISTRY, biomeLoadingEvent.getName());
         Biome.Category biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.Category.ICY || biomeCategory.getName().contains("snow")) {
@@ -161,7 +161,7 @@ public class CommonEvents {
             }
             //Only spawn Graveyards in the Overworld structure list
             if (serverWorld.dimension().equals(World.OVERWORLD)) {
-                Map< Structure< ? >, StructureSeparationSettings > tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
+                Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
                 tempMap.put(WAObjects.Structures.GRAVEYARD.get(), DimensionStructuresSettings.DEFAULTS.get(WAObjects.Structures.GRAVEYARD.get()));
                 tempMap.put(WAObjects.Structures.CATACOMBS.get(), DimensionStructuresSettings.DEFAULTS.get(WAObjects.Structures.CATACOMBS.get()));
                 serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
@@ -221,7 +221,7 @@ public class CommonEvents {
                     }
 
                     //Generator
-                    if(source == WAObjects.GENERATOR){
+                    if (source == WAObjects.GENERATOR) {
                         shouldCancel = false;
                     }
 
@@ -245,7 +245,7 @@ public class CommonEvents {
                 if (weepingAngelEntity.level.random.nextInt(100) <= 20) {
                     weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
                 }
-                if(attacker != null){
+                if (attacker != null) {
                     attacker.hurt(WAObjects.STONE, 2F);
                 }
             }

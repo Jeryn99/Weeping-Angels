@@ -1,11 +1,8 @@
 package me.suff.mc.angels;
 
 import com.google.common.collect.ImmutableList;
+import me.suff.mc.angels.client.ClientEvents;
 import me.suff.mc.angels.common.AngelParticles;
-import me.suff.mc.angels.data.*;
-import me.suff.mc.angels.utils.AngelUtils;
-import me.suff.mc.angels.utils.ClientUtil;
-import me.suff.mc.angels.utils.FortuneEnchantBonus;
 import me.suff.mc.angels.common.PaintingStuff;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
@@ -13,7 +10,11 @@ import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
+import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
+import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.ClientUtil;
+import me.suff.mc.angels.utils.FortuneEnchantBonus;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -112,9 +113,9 @@ public class WeepingAngels {
     }
 
 
-    public void onMissingMappingsItem(RegistryEvent.MissingMappings< Item > mappings) {
-        ImmutableList< RegistryEvent.MissingMappings.Mapping< Item > > mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping< Item > itemMapping : mapp) {
+    public void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> mappings) {
+        ImmutableList<RegistryEvent.MissingMappings.Mapping<Item>> mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping<Item> itemMapping : mapp) {
             if (itemMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
                 LOGGER.info("Remapped Item weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().asItem().getRegistryName());
                 itemMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get().asItem());
@@ -123,9 +124,9 @@ public class WeepingAngels {
     }
 
 
-    public void onMissingMappingsBlock(RegistryEvent.MissingMappings< Block > mappings) {
-        ImmutableList< RegistryEvent.MissingMappings.Mapping< Block > > mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping< Block > blockMapping : mapp) {
+    public void onMissingMappingsBlock(RegistryEvent.MissingMappings<Block> mappings) {
+        ImmutableList<RegistryEvent.MissingMappings.Mapping<Block>> mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping<Block> blockMapping : mapp) {
             if (blockMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
                 LOGGER.info("Remapped Block weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().getRegistryName());
                 blockMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get());
@@ -133,9 +134,9 @@ public class WeepingAngels {
         }
     }
 
-    public void onMissingMappingsTile(RegistryEvent.MissingMappings< TileEntityType< ? > > mappings) {
-        ImmutableList< RegistryEvent.MissingMappings.Mapping< TileEntityType< ? > > > mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping< TileEntityType< ? > > entityTypeMapping : mapp) {
+    public void onMissingMappingsTile(RegistryEvent.MissingMappings<TileEntityType<?>> mappings) {
+        ImmutableList<RegistryEvent.MissingMappings.Mapping<TileEntityType<?>>> mapp = mappings.getAllMappings();
+        for (RegistryEvent.MissingMappings.Mapping<TileEntityType<?>> entityTypeMapping : mapp) {
             if (entityTypeMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
                 LOGGER.info("Remapped Tile weeping_angels:snow_arm to " + WAObjects.Tiles.SNOW_ANGEL.get().getRegistryName());
                 entityTypeMapping.remap(WAObjects.Tiles.SNOW_ANGEL.get());

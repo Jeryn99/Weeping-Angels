@@ -15,7 +15,7 @@ import net.minecraft.util.math.vector.Vector3f;
  * Angel Type: 0
  * Created by Ford Created using Techne
  */
-public class ModelAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel.png");

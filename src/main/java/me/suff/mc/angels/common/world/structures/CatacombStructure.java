@@ -26,22 +26,20 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
-
-public class CatacombStructure extends Structure< NoFeatureConfig > {
+public class CatacombStructure extends Structure<NoFeatureConfig> {
 
     protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
-    private static final List< MobSpawnInfo.Spawners > STRUCTURE_CREATURES = ImmutableList.of(
+    private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(
             new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
             new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
             new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 20, 1, 3));
 
-    public CatacombStructure(Codec< NoFeatureConfig > codec) {
+    public CatacombStructure(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
 
     @Override
-    public IStartFactory< NoFeatureConfig > getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return CatacombStructure.Start::new;
     }
 
@@ -51,18 +49,22 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
     }
 
     @Override
-    public List< MobSpawnInfo.Spawners > getDefaultSpawnList() {
+    public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {
         return Collections.emptyList();
     }
 
     @Override
-    public List< MobSpawnInfo.Spawners > getDefaultCreatureSpawnList() {
+    public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {
         return STRUCTURE_CREATURES;
     }
 
+    @Override
+    public String getFeatureName() {
+        return super.getFeatureName();
+    }
 
-    public static class Start extends StructureStart< NoFeatureConfig > {
-        public Start(Structure< NoFeatureConfig > structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn) {
+    public static class Start extends StructureStart<NoFeatureConfig> {
+        public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn) {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }
 
@@ -85,11 +87,5 @@ public class CatacombStructure extends Structure< NoFeatureConfig > {
             this.calculateBoundingBox();
 
         }
-    }
-
-
-    @Override
-    public String getFeatureName() {
-        return super.getFeatureName();
     }
 }

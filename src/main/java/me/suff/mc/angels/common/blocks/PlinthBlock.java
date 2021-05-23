@@ -3,7 +3,10 @@ package me.suff.mc.angels.common.blocks;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.utils.AngelUtils;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
@@ -27,8 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class PlinthBlock extends Block implements IWaterLoggable {
 
@@ -87,7 +88,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder< Block, BlockState > builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ROTATION);
         builder.add(CLASSIC);
         builder.add(BlockStateProperties.WATERLOGGED);

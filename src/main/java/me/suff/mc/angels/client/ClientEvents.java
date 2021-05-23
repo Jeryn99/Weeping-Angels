@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.conversion.particle.AngelParticle;
@@ -18,11 +19,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * Created by Craig on 11/02/2020 @ 21:31
@@ -54,20 +58,20 @@ public class ClientEvents {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getInstance().player == null) return;
         SoundHandler sound = Minecraft.getInstance().getSoundManager();
-        if(isInCatacombs) {
+        if (isInCatacombs) {
 
             sound.stop(null, SoundCategory.MUSIC);
 
 
-            if(iSound == null){
+            if (iSound == null) {
                 iSound = SimpleSound.forUI(WAObjects.Sounds.CATACOMB.get(), 1);
             }
 
-            if(!sound.isActive(iSound)){
+            if (!sound.isActive(iSound)) {
                 sound.play(iSound);
             }
         } else {
-            if(sound.isActive(iSound)){
+            if (sound.isActive(iSound)) {
                 sound.stop(iSound);
             }
         }
@@ -87,15 +91,13 @@ public class ClientEvents {
         }
     }
 
-    private static Color color = new Color(4240308);
-
     @SubscribeEvent
     public static void onSetupFogColor(EntityViewRenderEvent.RenderFogEvent.FogColors event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
 /*           event.setRed(105 / 255F);
             event.setGreen(105 / 255F);
             event.setBlue(105 / 255F);*/
-           event.setRed(0.14F);
+            event.setRed(0.14F);
             event.setGreen(0.15F);
             event.setBlue(0.22F);
         }

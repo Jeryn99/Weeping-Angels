@@ -11,11 +11,11 @@ public class DateChecker {
 
     private static Calendar calendar = Calendar.getInstance();
 
-    public static void tick(){
+    public static void tick() {
         calendar.setTimeInMillis(System.currentTimeMillis());
     }
 
-    public static boolean isXmas(){
+    public static boolean isXmas() {
         return calendar.get(Calendar.MONTH) == Calendar.DECEMBER;
     }
 

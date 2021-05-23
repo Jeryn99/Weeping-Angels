@@ -3,7 +3,7 @@ package me.suff.mc.angels.client.renders.tileentities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.CoffinModel;
-import me.suff.mc.angels.client.models.block.CoffinPTB;
+import me.suff.mc.angels.client.models.block.PoliceBoxModel;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import net.minecraft.block.BlockState;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.vector.Vector3f;
 public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
 
     private static final CoffinModel coffinModel = new CoffinModel();
-    private static final CoffinPTB coffinModelPTB = new CoffinPTB();
+    private static final PoliceBoxModel coffinModelPTB = new PoliceBoxModel();
     private static SkeletonEntity skeletonEntity = null;
 
     public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -46,33 +46,15 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
         if (!tileEntityIn.getBlockState().getValue(CoffinBlock.UPRIGHT)) {
             matrixStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
 
-            if (tileEntityIn.hasSkeleton()) {
-                matrixStack.pushPose();
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
-                matrixStack.translate(0F, 1.5F, 0F);
-                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
-                renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
-                matrixStack.popPose();
-            }
-
         } else {
             matrixStack.translate(0F, -1F, 0F);
 
-            if (tileEntityIn.hasSkeleton()) {
-                matrixStack.pushPose();
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
-                matrixStack.translate(0F, 1.5F, 0F);
-                EntityRenderer< ? super SkeletonEntity > renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
-                renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
-                matrixStack.popPose();
-            }
         }
+        renderSkeleton(tileEntityIn, matrixStack, bufferIn, combinedLightIn);
 
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
-        if (!tileEntityIn.getCoffin().name().contains("PTB")) {
+        if (!tileEntityIn.getCoffin().isPoliceBox()) {
             coffinModel.Door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
@@ -81,6 +63,18 @@ public class CoffinRenderer extends TileEntityRenderer< CoffinTile > {
             coffinModelPTB.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
         }
         matrixStack.popPose();
+    }
+
+    private void renderSkeleton(CoffinTile tileEntityIn, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn) {
+        if (tileEntityIn.hasSkeleton()) {
+            matrixStack.pushPose();
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
+            matrixStack.translate(0F, 1.5F, 0F);
+            EntityRenderer< ? super SkeletonEntity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
+            renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
+            matrixStack.popPose();
+        }
     }
 
     public ResourceLocation getTexture(CoffinTile.Coffin coffin) {

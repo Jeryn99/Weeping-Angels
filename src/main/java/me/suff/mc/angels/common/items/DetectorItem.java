@@ -29,7 +29,7 @@ public class DetectorItem extends Item {
 
     public static void setTime(ItemStack itemStack, int time) {
         CompoundNBT tag = itemStack.getOrCreateTag();
-        if(time > 17){
+        if (time > 17) {
             time = 0;
         }
         tag.putInt("time", time);
@@ -44,7 +44,7 @@ public class DetectorItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList< ItemStack > items) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
     }
 
@@ -54,7 +54,7 @@ public class DetectorItem extends Item {
 
             setTime(stack, getTime(stack) + 1);
 
-            List< WeepingAngelEntity > angels = entityIn.level.getEntitiesOfClass(WeepingAngelEntity.class, entityIn.getBoundingBox().inflate(15, 15, 15));
+            List<WeepingAngelEntity> angels = entityIn.level.getEntitiesOfClass(WeepingAngelEntity.class, entityIn.getBoundingBox().inflate(15, 15, 15));
 
             if (entityIn instanceof PlayerEntity) {
 
@@ -84,7 +84,6 @@ public class DetectorItem extends Item {
             }
         }
     }
-
 
 
     @Override

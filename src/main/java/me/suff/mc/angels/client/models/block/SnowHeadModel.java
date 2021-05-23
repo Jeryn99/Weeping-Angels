@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class SnowHeadModel extends EntityModel< Entity > {
+public class SnowHeadModel extends EntityModel<Entity> {
     private final ModelRenderer head;
 
     public SnowHeadModel() {

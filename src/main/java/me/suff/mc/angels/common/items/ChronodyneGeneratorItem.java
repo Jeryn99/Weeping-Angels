@@ -11,8 +11,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import net.minecraft.item.Item.Properties;
-
 public class ChronodyneGeneratorItem extends Item {
 
     public ChronodyneGeneratorItem() {
@@ -23,7 +21,7 @@ public class ChronodyneGeneratorItem extends Item {
      * Called when the equipped item is right clicked.
      */
     @Override
-    public ActionResult< ItemStack > use(World world, PlayerEntity playerIn, Hand handIn) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity playerIn, Hand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
         if (!playerIn.isCreative()) {

@@ -18,7 +18,7 @@ public class WAConfig {
     public static final ForgeConfigSpec CONFIG_SPEC;
 
     static {
-        final Pair< WAConfig, ForgeConfigSpec > specPair = new ForgeConfigSpec.Builder().configure(WAConfig::new);
+        final Pair<WAConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfig::new);
         CONFIG = specPair.getLeft();
         CONFIG_SPEC = specPair.getRight();
     }
@@ -32,10 +32,10 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue maxSpawn;
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minSpawn;
-    public final ForgeConfigSpec.EnumValue< EntityClassification > spawnType;
-    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedBiomes;
+    public final ForgeConfigSpec.EnumValue<EntityClassification> spawnType;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
     // Angel
-    public final ForgeConfigSpec.EnumValue< DamageType > damageType;
+    public final ForgeConfigSpec.EnumValue<DamageType> damageType;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
     public final ForgeConfigSpec.BooleanValue playSeenSounds;
     public final ForgeConfigSpec.DoubleValue damage;
@@ -50,14 +50,14 @@ public class WAConfig {
     public final ForgeConfigSpec.DoubleValue moveSpeed;
 
     // Teleport
-    public final ForgeConfigSpec.EnumValue< AngelUtils.EnumTeleportType > teleportType;
-    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > notAllowedDimensions;
+    public final ForgeConfigSpec.EnumValue<AngelUtils.EnumTeleportType> teleportType;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> notAllowedDimensions;
     public final ForgeConfigSpec.BooleanValue justTeleport;
     public final ForgeConfigSpec.IntValue teleportRange;
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
     public final ForgeConfigSpec.BooleanValue aggroCreative;
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
-    public final ForgeConfigSpec.ConfigValue< List< ? extends String > > allowedTypes;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedTypes;
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
@@ -105,8 +105,8 @@ public class WAConfig {
 
     }
 
-    public ArrayList< String > genBiomesForSpawn() {
-        ArrayList< String > spawnBiomes = new ArrayList<>();
+    public ArrayList<String> genBiomesForSpawn() {
+        ArrayList<String> spawnBiomes = new ArrayList<>();
         spawnBiomes.add(Biomes.TAIGA_HILLS.location().toString());
         spawnBiomes.add(Biomes.TAIGA.location().toString());
         spawnBiomes.add(Biomes.DESERT.location().toString());
@@ -118,8 +118,8 @@ public class WAConfig {
         return spawnBiomes;
     }
 
-    public ArrayList< String > genAngelTypes() {
-        ArrayList< String > allowedTypes = new ArrayList<>();
+    public ArrayList<String> genAngelTypes() {
+        ArrayList<String> allowedTypes = new ArrayList<>();
         for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
             allowedTypes.add(angelType.name());
         }

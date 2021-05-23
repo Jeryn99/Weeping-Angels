@@ -10,8 +10,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.ElderGuardianRenderer;
-import net.minecraft.client.renderer.entity.model.GuardianModel;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -37,13 +35,13 @@ public class AngelParticle extends Particle {
     }
 
     public void render(IVertexBuilder p_225606_1_, ActiveRenderInfo p_225606_2_, float p_225606_3_) {
-        float f = ((float)this.age + p_225606_3_) / (float)this.lifetime;
-        float f1 = 0.05F + 0.5F * MathHelper.sin(f * (float)Math.PI);
+        float f = ((float) this.age + p_225606_3_) / (float) this.lifetime;
+        float f1 = 0.05F + 0.5F * MathHelper.sin(f * (float) Math.PI);
         MatrixStack matrixstack = new MatrixStack();
         matrixstack.mulPose(p_225606_2_.rotation());
         matrixstack.mulPose(Vector3f.XP.rotationDegrees(150.0F * f - 60.0F));
         matrixstack.scale(-1.0F, -1.0F, 1.0F);
-        matrixstack.translate(0.0D, (double)-1.101F, 1.5D);
+        matrixstack.translate(0.0D, (double) -1.101F, 1.5D);
         IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder ivertexbuilder = irendertypebuffer$impl.getBuffer(this.renderType);
         this.model.renderToBuffer(matrixstack, ivertexbuilder, 15728880, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, f1);

@@ -16,13 +16,13 @@ import net.minecraft.world.World;
 
 public class AnomalyEntity extends MobEntity {
 
-    private static final DataParameter< Integer > TIME_ALIVE = EntityDataManager.defineId(AnomalyEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> TIME_ALIVE = EntityDataManager.defineId(AnomalyEntity.class, DataSerializers.INT);
 
     public AnomalyEntity(World worldIn) {
         super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
     }
 
-    public AnomalyEntity(EntityType< ? > type, World world) {
+    public AnomalyEntity(EntityType<?> type, World world) {
         this(world);
     }
 
@@ -41,11 +41,11 @@ public class AnomalyEntity extends MobEntity {
         return true;
     }
 
-    public int getTimeAlive() {
+    public int lifeSpan() {
         return getEntityData().get(TIME_ALIVE);
     }
 
-    public void setTimeAlive(int timeAlive) {
+    public void setLifeSpan(int timeAlive) {
         getEntityData().set(TIME_ALIVE, timeAlive);
     }
 
@@ -60,7 +60,7 @@ public class AnomalyEntity extends MobEntity {
                 playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
             }
 
-            if (tickCount > getTimeAlive()) {
+            if (tickCount > lifeSpan()) {
                 remove();
             }
 

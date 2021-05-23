@@ -6,10 +6,10 @@ import me.suff.mc.angels.client.models.block.SnowBodyModel;
 import me.suff.mc.angels.client.models.block.SnowHeadModel;
 import me.suff.mc.angels.client.models.block.SnowWingsModels;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.common.tileentities.SnowArmTile;
-import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.tileentities.SnowArmTile;
+import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class SnowArmTileRender extends TileEntityRenderer< SnowArmTile > {
+public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
 
     private final SnowArmModel armModel = new SnowArmModel();
     private final SnowBodyModel bodyModel = new SnowBodyModel();

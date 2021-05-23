@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelMel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     public static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_4.png");

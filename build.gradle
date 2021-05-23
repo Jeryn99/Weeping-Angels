@@ -87,23 +87,23 @@ minecraft {
 
 }
 
-curseforge {
-        apiKey = rootProject.curseforge
-        project {
-            id = rootProject.weeping_angels
-            changelog =
-                    '<b> Version 2.0.8 </b></br>' +
-                    '- Fixed a Server Crash.'
-            changelogType = 'html'
-            releaseType = 'release'
-            addGameVersion '1.16.3'
-            addGameVersion '1.16.4'
-            addGameVersion '1.16.5'
-            mainArtifact(jar) {
-                displayName = "[1.16.X] Weeping Angels - $project.version"
-            }
-        }
-}
+//curseforge {
+       // apiKey = rootProject.curseforge
+      //  project {
+            //id = rootProject.weeping_angels
+            //changelog =
+                //    '<b> Version 2.0.8 </b></br>' +
+              //      '- Fixed a Server Crash.'
+            //changelogType = 'html'
+            //releaseType = 'release'
+            //addGameVersion '1.16.3'
+          //  addGameVersion '1.16.4'
+        //    addGameVersion '1.16.5'
+      //      mainArtifact(jar) {
+    //            displayName = "[1.16.X] Weeping Angels - $project.version"
+  //          }
+//        }
+//}
 
 repositories {
     maven { url 'https://www.dogforce-games.com/maven/' }
@@ -124,11 +124,11 @@ jar {
     manifest {
         attributes([
             "Specification-Title": "weeping_angels",
-            "Specification-Vendor": "swirtzly",
+            "Specification-Vendor": "suff99",
             "Specification-Version": "${version}",
             "Implementation-Title": "Weeping Angels",
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"swirtzly",
+            "Implementation-Vendor" :"suff99",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

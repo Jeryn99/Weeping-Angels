@@ -1,7 +1,4 @@
-package me.suff.mc.angels.client.models.block;// Made with Blockbench 3.7.5
-// Exported for Minecraft version 1.15
-// Paste this class into your mod and generate all required imports
-
+package me.suff.mc.angels.client.models.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -9,7 +6,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class CoffinPTB extends EntityModel {
+public class PoliceBoxModel extends EntityModel {
     public final ModelRenderer DoorRight;
     private final ModelRenderer Base;
     private final ModelRenderer Pillars;
@@ -20,7 +17,7 @@ public class CoffinPTB extends EntityModel {
     private final ModelRenderer Lamp;
     private final ModelRenderer DoorLeft;
 
-    public CoffinPTB() {
+    public PoliceBoxModel() {
         texWidth = 256;
         texHeight = 256;
 

@@ -41,7 +41,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleepingLongEnough() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List< WeepingAngelEntity > angels = level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+                List<WeepingAngelEntity> angels = level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
                 for (WeepingAngelEntity angel : angels) {
                     if (angel.getUUID() != getUUID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
@@ -92,7 +92,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
     }
 
     public void moveTowards(LivingEntity targetPlayer) {
-       getNavigation().moveTo(targetPlayer, getSpeed());
+        getNavigation().moveTo(targetPlayer, getSpeed());
     }
 
     @Override
@@ -130,6 +130,11 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
+
+        if(source.isExplosion()){
+            return false;
+        }
+
         return super.isInvulnerableTo(source) || (source.getEntity() == null && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
     }
 
@@ -156,14 +161,6 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
     public void invokeSeen(PlayerEntity player) {
         getNavigation().moveTo((Path) null, 0);
         setNoAi(true);
-      /*  setAIMoveSpeed(-55);
-        if (getSeenTime() == 2) {
-            Vector3d vecPos = getPositionVec();
-            Vector3d vecPlayerPos = player.getPositionVec();
-            float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
-            rotationYawHead = rotationYaw = angle > 180 ? angle : angle + 90;
-        //    setLocationAndAngles(getPosX() + 0.5D, getPosY(), getPosZ() + 0.5D, rotationYaw, rotationPitch);
-        }*/
     }
 
     @Override

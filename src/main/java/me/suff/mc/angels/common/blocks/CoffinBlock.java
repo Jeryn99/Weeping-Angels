@@ -25,10 +25,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.*;
-
-
-import net.minecraft.block.AbstractBlock.Properties;
+import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 
 public class CoffinBlock extends DirectionalBlock {
 
@@ -53,7 +50,7 @@ public class CoffinBlock extends DirectionalBlock {
             if (coffinTile != null) {
                 if (!coffinTile.getCoffin().name().contains("PTB")) {
                     coffinTile.setOpen(!coffinTile.isOpen());
-                        worldIn.playSound(null, pos.getX()+0.5D, (double)pos.getY() + 0.5D, pos.getZ()+0.5D, coffinTile.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
+                    worldIn.playSound(null, pos.getX() + 0.5D, (double) pos.getY() + 0.5D, pos.getZ() + 0.5D, coffinTile.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
                 } else {
                     if (player.getMainHandItem().getItem() instanceof MusicDiscItem) {
                         coffinTile.setDoingSomething(true);
@@ -86,7 +83,7 @@ public class CoffinBlock extends DirectionalBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder< Block, BlockState > builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(UPRIGHT, ROTATION, WATERLOGGED);
     }
@@ -113,5 +110,5 @@ public class CoffinBlock extends DirectionalBlock {
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
-    
+
 }

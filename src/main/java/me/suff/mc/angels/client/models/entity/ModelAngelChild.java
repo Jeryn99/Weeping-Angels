@@ -3,10 +3,10 @@ package me.suff.mc.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.tileentities.PlinthTile;
+import me.suff.mc.angels.common.tileentities.StatueTile;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngelChild extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_child_scream.png");

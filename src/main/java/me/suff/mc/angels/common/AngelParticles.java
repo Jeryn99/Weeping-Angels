@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class AngelParticles {
 
-    public static final DeferredRegister<ParticleType< ? >> TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, WeepingAngels.MODID);
+    public static final DeferredRegister<ParticleType<?>> TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, WeepingAngels.MODID);
 
     public static final RegistryObject<BasicParticleType> INFECTION = TYPES.register("infection", () -> new BasicParticleType(false));
 }

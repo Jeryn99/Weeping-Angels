@@ -3,16 +3,16 @@ package me.suff.mc.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.tileentities.PlinthTile;
+import me.suff.mc.angels.common.tileentities.StatueTile;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelaAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 

@@ -1,7 +1,7 @@
 {
-    "pack": {
-        "description": "Weeping Angels",
-        "pack_format": 4,
-        "_comment": "Resources for the Weeping Angels Mod"
-    }
+  "pack": {
+    "description": "Weeping Angels",
+    "pack_format": 4,
+    "_comment": "Resources for the Weeping Angels Mod"
+  }
 }

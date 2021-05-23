@@ -24,8 +24,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
 /**
  * Created by Craig on 17/02/2020 @ 12:19
  */

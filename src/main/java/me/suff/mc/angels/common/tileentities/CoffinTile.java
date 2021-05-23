@@ -84,7 +84,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
             this.openAmount = 0.0F;
         }
 
-        if (doingSomething && coffin == Coffin.PTB) {
+        if (doingSomething && coffin.isPoliceBox()) {
             if (ticks % 60 < 30) {
                 if (pulses <= 2)
                     this.alpha -= 0.01;
@@ -187,6 +187,20 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     public enum Coffin {
-        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB, PTB_2
+        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB(true), PTB_2(true);
+
+        private final boolean isPoliceBox;
+
+        Coffin(){
+            this.isPoliceBox = false;
+        }
+
+        Coffin(boolean isPoliceBox){
+            this.isPoliceBox = isPoliceBox;
+        }
+
+        public boolean isPoliceBox() {
+            return isPoliceBox;
+        }
     }
 }

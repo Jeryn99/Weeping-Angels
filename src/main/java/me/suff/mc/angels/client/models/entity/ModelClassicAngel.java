@@ -3,9 +3,9 @@ package me.suff.mc.angels.client.models.entity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.utils.DateChecker;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: 2 - Classic
  */
-public class ModelClassicAngel extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic.png");

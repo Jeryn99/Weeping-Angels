@@ -15,7 +15,7 @@ import net.minecraft.util.math.MathHelper;
  * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd extends EntityModel< WeepingAngelEntity > implements IAngelModel {
+public class ModelAngelEd extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_ed.png");

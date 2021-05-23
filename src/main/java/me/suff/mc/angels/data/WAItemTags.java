@@ -1,7 +1,7 @@
 package me.suff.mc.angels.data;
 
-import me.suff.mc.angels.utils.AngelUtils;
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.utils.AngelUtils;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -20,7 +20,7 @@ public class WAItemTags extends ItemTagsProvider {
     @Override
     protected void addTags() {
         ForgeRegistries.BLOCKS.getValues().forEach(block -> {
-            if(!block.getRegistryName().getNamespace().contains("tardis")) {
+            if (!block.getRegistryName().getNamespace().contains("tardis")) {
                 WeepingAngels.LOGGER.info("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
                 if (AngelUtils.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
                     add(AngelUtils.HELD_LIGHT_ITEMS, block.asItem());
@@ -32,7 +32,7 @@ public class WAItemTags extends ItemTagsProvider {
 
     }
 
-    public void add(ITag.INamedTag< Item > branch, Item block) {
+    public void add(ITag.INamedTag<Item> branch, Item block) {
         this.tag(branch).add(block);
     }
 }

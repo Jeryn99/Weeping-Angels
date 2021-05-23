@@ -1,8 +1,8 @@
 package me.suff.mc.angels.data;
 
-import me.suff.mc.angels.utils.AngelUtils;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.utils.AngelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
@@ -28,7 +28,7 @@ public class WABlockTags extends BlockTagsProvider {
         add(AngelUtils.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if(block.getRegistryName().getNamespace().contains("tardis")) continue;
+            if (block.getRegistryName().getNamespace().contains("tardis")) continue;
             if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtils.BANNED_BLOCKS, block);
             }
@@ -43,11 +43,11 @@ public class WABlockTags extends BlockTagsProvider {
         }
     }
 
-    public void add(ITag.INamedTag< Block > branch, Block block) {
+    public void add(ITag.INamedTag<Block> branch, Block block) {
         this.tag(branch).add(block);
     }
 
-    public void add(ITag.INamedTag< Block > branch, Block... block) {
+    public void add(ITag.INamedTag<Block> branch, Block... block) {
         this.tag(branch).add(block);
     }
 }

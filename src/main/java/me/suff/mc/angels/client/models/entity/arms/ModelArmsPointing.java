@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelArmsPointing extends EntityModel< Entity > {
+public class ModelArmsPointing extends EntityModel<Entity> {
 
     ModelRenderer RightArm2;
     ModelRenderer RightFinger1;

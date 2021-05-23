@@ -2,11 +2,11 @@ package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.vector.Vector3f;
 /**
  * Created by Craig on 17/02/2020 @ 12:18
  */
-public class StatueRender extends TileEntityRenderer< StatueTile > {
+public class StatueRender extends TileEntityRenderer<StatueTile> {
 
     public StatueRender(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
         super(tileEntityRendererDispatcher);
@@ -34,7 +34,7 @@ public class StatueRender extends TileEntityRenderer< StatueTile > {
         BlockState blockstate = statueTile.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(StatueBlock.ROTATION);
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        EntityModel< WeepingAngelEntity > angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
+        EntityModel<WeepingAngelEntity> angel = ClientUtil.getModelForAngel(statueTile.getAngelType());
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin();
 
         WeepingAngelPose pose = statueTile.getPose();

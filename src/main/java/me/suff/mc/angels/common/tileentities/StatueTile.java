@@ -1,14 +1,14 @@
 package me.suff.mc.angels.common.tileentities;
 
-import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.utils.AngelUtils;
-import me.suff.mc.angels.utils.NBTPatcher;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
+import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.NBTPatcher;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
