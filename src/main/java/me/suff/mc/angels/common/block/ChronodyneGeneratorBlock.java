@@ -28,8 +28,8 @@ public class ChronodyneGeneratorBlock extends Block {
     }
 
     @Override
-    public void onSteppedOn(World world, BlockPos pos, Entity entity) {
-        super.onSteppedOn(world, pos, entity);
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        super.onSteppedOn(world, pos, state, entity);
         if (entity instanceof WeepingAngelEntity) {
             PortalEntity anomalyEntity = new PortalEntity(world);
             anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());

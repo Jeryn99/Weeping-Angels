@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
@@ -25,7 +25,7 @@ public class DetectorItem extends Item {
     }
 
     public static void setTime(ItemStack itemStack, int time) {
-        CompoundTag tag = itemStack.getOrCreateTag();
+        NbtCompound tag = itemStack.getOrCreateTag();
         if (time > 17) {
             time = 0;
         }
@@ -33,7 +33,7 @@ public class DetectorItem extends Item {
     }
 
     public static int getTime(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getOrCreateTag();
+        NbtCompound tag = itemStack.getOrCreateTag();
         if (tag.contains("time")) {
             return tag.getInt("time");
         }

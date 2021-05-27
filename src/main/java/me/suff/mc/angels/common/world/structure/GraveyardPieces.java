@@ -14,8 +14,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.resource.Resource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.*;
 import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.text.TranslatableText;
@@ -58,11 +59,11 @@ public class GraveyardPieces {
         private final Identifier template;
         private final WeepingAngelVariants angelVariants;
 
-        public MyPiece(StructureManager structureManager, CompoundTag compoundTag) {
-            super(WAStructures.GRAVE_PIECE, compoundTag);
-            this.template = new Identifier(compoundTag.getString("Template"));
-            this.rotation = BlockRotation.valueOf(compoundTag.getString("Rot"));
-            this.angelVariants = WeepingAngelVariants.getVariant(compoundTag.getString(Constants.VARIANT));
+        public MyPiece(StructureManager structureManager, NbtCompound nbtCompound) {
+            super(WAStructures.GRAVE_PIECE, nbtCompound);
+            this.template = new Identifier(nbtCompound.getString("Template"));
+            this.rotation = BlockRotation.valueOf(nbtCompound.getString("Rot"));
+            this.angelVariants = WeepingAngelVariants.getVariant(nbtCompound.getString(Constants.VARIANT));
             this.initializeStructureData(structureManager);
         }
 
@@ -86,13 +87,12 @@ public class GraveyardPieces {
 
 
         @Override
-        protected void writeNbt(CompoundTag tag) {
-            super.writeNbt(tag);
-            tag.putString("Template", this.template.toString());
-            tag.putString("Rot", this.rotation.name());
-            tag.putString(Constants.VARIANT, this.angelVariants.name());
+        protected void writeNbt(ServerWorld world, NbtCompound nbt) {
+            super.writeNbt(world, nbt);
+            nbt.putString("Template", this.template.toString());
+            nbt.putString("Rot", this.rotation.name());
+            nbt.putString(Constants.VARIANT, this.angelVariants.name());
         }
-
 
         @Override
         protected void handleMetadata(String metadata, BlockPos pos, ServerWorldAccess serverWorldAccess, Random rand, BlockBox boundingBox) {

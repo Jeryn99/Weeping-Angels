@@ -26,86 +26,11 @@ public class ViewUtil {
     public static boolean isInFrontOfEntity(LivingEntity entity, Entity target) {
         Vec3d vecTargetsPos = target.getPos();
         Vec3d vecLook = entity.getRotationVec(1);
-        Vec3d vecFinal = vecTargetsPos.reverseSubtract(new Vec3d(entity.getX(), entity.getY(), entity.getZ())).normalize();
+        Vec3d vecFinal = vecTargetsPos.relativize(new Vec3d(entity.getX(), entity.getY(), entity.getZ())).normalize();
         vecFinal = new Vec3d(vecFinal.x, 0.0D, vecFinal.z);
         return vecFinal.dotProduct(vecLook) < 0.0;
     }
 
-    /**
-     * Method that detects whether a entity is the the view sight of another entity
-     *
-     * @param viewer      The viewer entity
-     * @param beingViewed The entity being watched by viewer
-     */
-    public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
-        double dx = beingViewed.getX() - viewer.getX();
-        double dz;
-        for (dz = beingViewed.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-            dx = (Math.random() - Math.random()) * 0.01D;
-        }
-        while (viewer.yaw > 360) {
-            viewer.yaw -= 360;
-        }
-        while (viewer.yaw < -360) {
-            viewer.yaw += 360;
-        }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yaw;
-        yaw = yaw - 90;
-        while (yaw < -180) {
-            yaw += 360;
-        }
-        while (yaw >= 180) {
-            yaw -= 360;
-        }
-
-        return yaw < 60 && yaw > -60 && viewer.canSee(beingViewed);
-    }
-
-    public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
-        double dx = pos.getX() - viewer.getX();
-        double dz;
-        for (dz = pos.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-            dx = (Math.random() - Math.random()) * 0.01D;
-        }
-        while (viewer.yaw > 360) {
-            viewer.yaw -= 360;
-        }
-        while (viewer.yaw < -360) {
-            viewer.yaw += 360;
-        }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yaw;
-        yaw = yaw - 90;
-        while (yaw < -180) {
-            yaw += 360;
-        }
-        while (yaw >= 180) {
-            yaw -= 360;
-        }
-        return yaw < 60 && yaw > -60;
-    }
-
-    public static void lookAt(LivingEntity looker, LivingEntity target) {
-        double dirx = looker.getBlockPos().getX() - target.getBlockPos().getX();
-        double diry = looker.getBlockPos().getX() - target.getBlockPos().getY();
-        double dirz = looker.getBlockPos().getX() - target.getBlockPos().getZ();
-
-        double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
-
-        dirx /= len;
-        diry /= len;
-        dirz /= len;
-
-        double pitch = Math.asin(diry);
-        double yaw = Math.atan2(dirz, dirx);
-
-        //to degree
-        pitch = pitch * 180.0 / Math.PI;
-        yaw = yaw * 180.0 / Math.PI;
-
-        yaw += 90f;
-        looker.pitch = (float) pitch;
-        looker.yaw = (float) yaw;
-    }
 
     /**
      * Method that detects whether a tile is the the view sight of viewer

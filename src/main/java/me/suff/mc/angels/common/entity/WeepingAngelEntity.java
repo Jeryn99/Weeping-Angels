@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -153,8 +153,8 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
-    public void takeKnockback(float f, double d, double e) {
-        //No
+    protected void knockback(LivingEntity target) {
+
     }
 
     @Override
@@ -166,15 +166,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         }
     }
 
+
     @Override
-    public CompoundTag writeNbt(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putString(Constants.CURRENT_POSE, getAngelPose());
         tag.putString(Constants.VARIANT, getVarient());
         return super.writeNbt(tag);
     }
 
     @Override
-    public void readNbt(CompoundTag tag) {
+    public void readNbt(NbtCompound tag) {
         super.readNbt(tag);
         setVarient(WeepingAngelVariants.getVariant(tag.getString(Constants.VARIANT)));
         setPose(WeepingAngelPose.getPose(tag.getString(Constants.CURRENT_POSE)));
@@ -199,7 +200,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
     }
 
     @Override
-    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         playSound(WASounds.ANGEL_AMBIENT, 0.5F, 1.0F);
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
@@ -247,7 +248,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                     ServerWorld teleportWorld = AngelUtils.getRandomDimension(server);
                     BlockPos pos = AngelUtils.getGoodY(teleportWorld, getBlockPos().add(random.nextInt(WAConfig.AngelBehaviour.teleportRange.getValue()), 0, random.nextInt(WAConfig.AngelBehaviour.teleportRange.getValue())));
                     serverPlayerEntity.networkHandler.sendPacket(new PlaySoundFromEntityS2CPacket(WASounds.TELEPORT, SoundCategory.HOSTILE, this, 0.1F, 1.0F));
-                    serverPlayerEntity.teleport(teleportWorld, pos.getX(), pos.getY(), pos.getZ(), player.yaw, player.pitch);
+                    serverPlayerEntity.teleport(teleportWorld, pos.getX(), pos.getY(), pos.getZ(), player.bodyYaw, player.getPitch());
                 }
             }
         }

@@ -21,7 +21,7 @@ public class ChronoItem extends Item {
         if (!world.isClient) {
             ChronoEntity chronoEntity = new ChronoEntity(WeepingAngels.CHRONO, user, world);
             chronoEntity.setItem(itemStack);
-            chronoEntity.setProperties(user, user.pitch, user.yaw, 0.0F, 1.5F, 1.0F);
+            chronoEntity.setProperties(user, user.getPitch(), user.getYaw(), 0.0F, 1.5F, 1.0F);
             world.spawnEntity(chronoEntity);
         }
 

@@ -10,7 +10,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.command.TagCommand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -31,7 +32,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     public void tick() {
         super.tick();
 
-        headYaw = yaw;
+        headYaw = bodyYaw;
         if (!world.isClient && age % 5 == 0) {
             List< PlayerEntity > players = world.getEntitiesByClass(PlayerEntity.class, getBoundingBox().contract(WAConfig.AngelBehaviour.stalkRange.getValue()), LivingEntity::isAlive);
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.world != world);
@@ -56,7 +57,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
                 Vec3d vecPos = getPos();
                 Vec3d vecPlayerPos = targetPlayer.getPos();
                 float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
-                headYaw = yaw = angle > 180 ? angle : angle + 90;
+                headYaw = bodyYaw = angle > 180 ? angle : angle + 90;
 
                 if (isSeen()) return;
                 if (distanceTo(targetPlayer) < 2)
@@ -82,7 +83,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     }
 
     @Override
-    public CompoundTag writeNbt(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putBoolean(Constants.IS_SEEN, isSeen());
         tag.putInt(Constants.TIME_SEEN, getSeenTime());
         tag.putLong(Constants.PREVPOS, getPrevPos().asLong());
@@ -90,7 +91,7 @@ public class QuantumLockBaseEntity extends PathAwareEntity {
     }
 
     @Override
-    public void readNbt(CompoundTag tag) {
+    public void readNbt(NbtCompound tag) {
         super.readNbt(tag);
         if (tag.contains(Constants.TIME_SEEN)) setSeenTime(tag.getInt(Constants.TIME_SEEN));
         if (tag.contains(Constants.PREVPOS)) setPrevPos(getPrevPos());

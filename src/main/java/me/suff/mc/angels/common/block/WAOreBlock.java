@@ -1,11 +1,7 @@
 package me.suff.mc.angels.common.block;
 
 import net.minecraft.block.OreBlock;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.IntRange;
-
-import java.util.Random;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 /* Created by Craig on 19/02/2021 */
 public class WAOreBlock extends OreBlock {
@@ -15,7 +11,7 @@ public class WAOreBlock extends OreBlock {
         super(settings);
     }
 
-    public WAOreBlock(Settings settings, IntRange experienceDropped) {
+    public WAOreBlock(Settings settings, UniformIntProvider experienceDropped) {
         super(settings, experienceDropped);
     }
 }

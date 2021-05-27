@@ -8,7 +8,8 @@ import me.suff.mc.angels.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,19 +27,19 @@ public class PlinthTile extends BlockEntity implements BlockEntityTicker, IPlace
 
     @Nullable
     public BlockEntityUpdateS2CPacket toUpdatePacket() {
-        CompoundTag compoundTag = this.writeNbt(new CompoundTag());
-        return new BlockEntityUpdateS2CPacket(this.pos, 2, compoundTag);
+        NbtCompound NbtCompound = this.writeNbt(new NbtCompound());
+        return new BlockEntityUpdateS2CPacket(this.pos, 2, NbtCompound);
     }
 
     @Override
-    public CompoundTag writeNbt(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         setAngelVariant(WeepingAngelVariants.getVariant(tag.getString(Constants.VARIANT)));
         setAngelPose(WeepingAngelPose.getPose(tag.getString(Constants.CURRENT_POSE)));
         return super.writeNbt(tag);
     }
 
     @Override
-    public void readNbt(CompoundTag nbt) {
+    public void readNbt(NbtCompound nbt) {
         nbt.putString(Constants.CURRENT_POSE, getAngelPose().name());
         nbt.putString(Constants.VARIANT, getAngelVariant().name());
         super.readNbt(nbt);

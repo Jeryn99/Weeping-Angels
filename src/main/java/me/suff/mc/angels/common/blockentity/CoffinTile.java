@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -98,7 +98,7 @@ public class CoffinTile extends BlockEntity implements BlockEntityTicker, BlockE
 
 
     @Override
-    public void readNbt(CompoundTag nbt) {
+    public void readNbt(NbtCompound nbt) {
         if (nbt.contains("coffin_type")) {
             coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         }
@@ -111,7 +111,7 @@ public class CoffinTile extends BlockEntity implements BlockEntityTicker, BlockE
     }
 
     @Override
-    public CompoundTag writeNbt(CompoundTag compound) {
+    public NbtCompound writeNbt(NbtCompound compound) {
         if (coffin != null) {
             compound.putString("coffin_type", coffin.name());
         } else {
@@ -161,13 +161,13 @@ public class CoffinTile extends BlockEntity implements BlockEntityTicker, BlockE
     }
 
     @Override
-    public void fromClientTag(CompoundTag compoundTag) {
-        readNbt(compoundTag);
+    public void fromClientTag(NbtCompound NbtCompound) {
+        readNbt(NbtCompound);
     }
 
     @Override
-    public CompoundTag toClientTag(CompoundTag compoundTag) {
-        return writeNbt(compoundTag);
+    public NbtCompound toClientTag(NbtCompound NbtCompound) {
+        return writeNbt(NbtCompound);
     }
 
     public enum Coffin {

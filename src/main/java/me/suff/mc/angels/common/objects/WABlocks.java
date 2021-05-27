@@ -7,8 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.IntRange;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.Registry;
 
 /* Created by Craig on 18/02/2021 */
@@ -30,7 +31,7 @@ public class WABlocks {
 
 
     public static void init() {
-        KONTRON_ORE = makeBlock(new WAOreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).requiresTool(), new IntRange(1,4)), "kontron_ore");
+        KONTRON_ORE = makeBlock(new WAOreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).requiresTool(), UniformIntProvider.create(1,4)), "kontron_ore");
         COFFIN = makeBlock(new CoffinBlock(FabricBlockSettings.of(Material.WOOD).nonOpaque().hardness(4.0F)), "coffin");
         PLINTH = makeBlock(new PlinthBlock(FabricBlockSettings.of(Material.STONE).nonOpaque().hardness(4.0F)), "plinth");
         STATUE = makeBlock(new StatueBlock(FabricBlockSettings.of(Material.STONE).nonOpaque().hardness(4.0F)), "statue");
