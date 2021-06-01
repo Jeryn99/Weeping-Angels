@@ -51,7 +51,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     private static final DataParameter<String> VARIENT = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<Float> LAUGH = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.FLOAT);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
-    private final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
+    private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
 
     public WeepingAngelEntity(EntityType<? extends QuantumLockEntity> type, World world) {
@@ -432,7 +432,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             case RANDOM_PLACE:
                 double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
                 double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
-
+                //TODO Spawn particles on teleported
                 ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerWorld) player.level;
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
                 teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
@@ -511,6 +511,11 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             double d2 = this.random.nextGaussian() * 0.02D;
             this.level.addParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), d0, d1, d2);
         }
+    }
+
+    @Override
+    public void kill() {
+        remove();
     }
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {

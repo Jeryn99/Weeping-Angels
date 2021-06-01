@@ -130,12 +130,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-
-        if(source.isExplosion()){
-            return false;
-        }
-
-        return super.isInvulnerableTo(source) || (source.getEntity() == null && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR && !source.isCreativePlayer()); //Prevents damage from things like suffocation etc.
+        return !source.isExplosion() && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR;
     }
 
     public boolean isSeen() {
