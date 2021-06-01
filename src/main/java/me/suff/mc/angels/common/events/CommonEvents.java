@@ -190,6 +190,10 @@ public class CommonEvents {
         Entity attacker = event.getSource().getEntity();
         LivingEntity hurt = event.getEntityLiving();
 
+        if (source == DamageSource.OUT_OF_WORLD || source.isExplosion() || WAConfig.CONFIG.damageType.get() == DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY && source == WAObjects.GENERATOR) {
+            return;
+        }
+
         if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) hurt;
 
@@ -210,23 +214,12 @@ public class CommonEvents {
                     }
                     break;
                 case ANY_PICKAXE_AND_GENERATOR_ONLY:
-
-                    boolean shouldCancel = true;
-
                     //Pickaxe
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
-                        shouldCancel = false;
+                        event.setCanceled(true);
                         doHurt(weepingAngelEntity, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
                     }
-
-                    //Generator
-                    if (source == WAObjects.GENERATOR) {
-                        shouldCancel = false;
-                    }
-
-                    event.setCanceled(shouldCancel);
-
                     break;
                 case DIAMOND_AND_ABOVE_PICKAXE_ONLY:
                     if (isAttackerHoldingPickaxe(attacker)) {

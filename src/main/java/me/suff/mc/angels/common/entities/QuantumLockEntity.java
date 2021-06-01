@@ -4,7 +4,9 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.conversion.AngelInfection;
+import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.utils.ViewUtil;
+import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;
@@ -18,7 +20,6 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -60,12 +61,12 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
                     if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
-                        AngelInfection.get(player).ifPresent((data) -> {
-                            data.tickCounter();
-                            setCustomName(new TranslationTextComponent(String.valueOf(data.viewTime())));
-                        });
+                        AngelInfection.get(player).ifPresent(AngelVirus::tickCounter);
                         return;
                     }
+                    AngelInfection.get(player).ifPresent((angelVirus -> {
+                        angelVirus.infect(false);
+                    }));
 
                     if (targetPlayer == null) {
                         targetPlayer = player;
@@ -126,11 +127,6 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
     @Override
     public boolean displayFireAnimation() {
         return false;
-    }
-
-    @Override
-    public boolean isInvulnerableTo(DamageSource source) {
-        return !source.isExplosion() && source != DamageSource.OUT_OF_WORLD && source != WAObjects.GENERATOR;
     }
 
     public boolean isSeen() {
