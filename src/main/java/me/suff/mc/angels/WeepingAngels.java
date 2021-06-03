@@ -1,7 +1,6 @@
 package me.suff.mc.angels;
 
 import com.google.common.collect.ImmutableList;
-import me.suff.mc.angels.client.ClientEvents;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.PaintingStuff;
 import me.suff.mc.angels.common.WAObjects;

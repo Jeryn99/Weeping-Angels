@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.world.structures;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -36,17 +35,21 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static me.suff.mc.angels.WeepingAngels.MODID;
+
 public class GraveyardStructurePieces {
 
-    private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
-    private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
-    private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_3");
-    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3};
-    private static final Map<ResourceLocation, BlockPos> OFFSET = ImmutableMap.of(GRAVEYARD_1, BlockPos.ZERO, GRAVEYARD_2, BlockPos.ZERO, GRAVEYARD_3, BlockPos.ZERO);
+    private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(MODID, "graves/graveyard_1");
+    private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(MODID, "graves/graveyard_2");
+    private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(MODID, "graves/graveyard_3");
+    private static final ResourceLocation GRAVEYARD_4 = new ResourceLocation(MODID, "graves/graveyard_4");
+    private static final ResourceLocation GRAVEYARD_5 = new ResourceLocation(MODID, "graves/graveyard_5");
+    private static final ResourceLocation GRAVEYARD_6 = new ResourceLocation(MODID, "graves/graveyard_6More ");
+    private static final ResourceLocation GRAVEYARD_WALKWAY = new ResourceLocation(MODID, "graves/graveyard_walkway");
+    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY};
     private static String[] USERNAMES = new String[]{};
 
 
@@ -78,7 +81,11 @@ public class GraveyardStructurePieces {
         public Piece(TemplateManager templateManagerIn, ResourceLocation resourceLocationIn, BlockPos pos, Rotation rotationIn) {
             super(WAObjects.Structures.GRAVEYARD_PIECE, 0);
             this.resourceLocation = resourceLocationIn;
-            BlockPos blockpos = GraveyardStructurePieces.OFFSET.get(resourceLocation);
+            BlockPos blockpos = BlockPos.ZERO;
+
+            if (resourceLocation == GRAVEYARD_WALKWAY) {
+                blockpos = blockpos.below(6);
+            }
             this.templatePosition = pos.offset(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             this.rotation = rotationIn;
             this.setupPiece(templateManagerIn);

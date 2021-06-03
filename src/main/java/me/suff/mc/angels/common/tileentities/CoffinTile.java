@@ -191,11 +191,11 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
         private final boolean isPoliceBox;
 
-        Coffin(){
+        Coffin() {
             this.isPoliceBox = false;
         }
 
-        Coffin(boolean isPoliceBox){
+        Coffin(boolean isPoliceBox) {
             this.isPoliceBox = isPoliceBox;
         }
 

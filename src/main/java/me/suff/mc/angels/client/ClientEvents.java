@@ -1,7 +1,6 @@
 package me.suff.mc.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.conversion.particle.AngelParticle;
@@ -19,14 +18,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
-import java.io.IOException;
-import java.nio.file.Paths;
 
 /**
  * Created by Craig on 11/02/2020 @ 21:31

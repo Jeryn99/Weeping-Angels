@@ -269,48 +269,5 @@ public class CommonEvents {
         }
         return false;
     }
-
-
-    /*@SubscribeEvent
-    public static void onAngelDamage(LivingAttackEvent e) {
-        if (!WAConfig.CONFIG.pickaxeOnly.get() || e.getEntityLiving().world.isRemote) return;
-
-      *//*  Entity source = e.getSource().getTrueSource();
-        if (source instanceof LivingEntity) {
-            LivingEntity attacker = (LivingEntity) source;
-            LivingEntity victim = e.getEntityLiving();
-
-            if (victim instanceof WeepingAngelEntity && attacker instanceof PlayerEntity) {
-                WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) victim;
-
-                ItemStack item = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-                boolean isPic = item.getItem() instanceof PickaxeItem;
-                e.setCanceled(!isPic);
-                if (!isPic) {
-
-                    if (victim.world.rand.nextInt(100) <= 20) {
-                        weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
-                    }
-                    attacker.attackEntityFrom(WAObjects.STONE, 2F);
-                } else {
-                    PickaxeItem pick = (PickaxeItem) item.getItem();
-                    if (pick.getTier().getHarvestLevel() < 3 && WAConfig.CONFIG.hardcoreMode.get()) {
-                        return;
-                    }
-                    ServerWorld serverWorld = (ServerWorld) attacker.world;
-                    //Spawn Stone Particles
-                    serverWorld.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.STONE.getDefaultState()), victim.getPosX(), victim.getPosYHeight(0.5D), victim.getPosZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
-                    //Play hit sound
-                    victim.playSound(SoundEvents.BLOCK_STONE_BREAK, 1.0F, 1.0F);
-                    //Damage Pickaxe
-                    item.damageItem(serverWorld.rand.nextInt(4), attacker, livingEntity -> {
-                        boolean isCherub = weepingAngelEntity.isCherub();
-                        weepingAngelEntity.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
-                        attacker.sendBreakAnimation(Hand.MAIN_HAND);
-                    });
-                }
-            }*//*
-        }
-    }*/
 }
 	

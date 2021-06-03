@@ -1,12 +1,10 @@
 package me.suff.mc.angels.common.entities;
 
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.conversion.AngelInfection;
 import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.utils.ViewUtil;
-import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;
@@ -17,7 +15,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;

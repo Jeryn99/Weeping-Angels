@@ -1,7 +1,6 @@
 package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.client.ClientEvents;
 import me.suff.mc.angels.client.models.entity.*;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
@@ -28,7 +27,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.HashMap;
 import java.util.Map;
