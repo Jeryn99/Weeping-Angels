@@ -47,9 +47,11 @@ public class GraveyardStructurePieces {
     private static final ResourceLocation GRAVEYARD_3 = new ResourceLocation(MODID, "graves/graveyard_3");
     private static final ResourceLocation GRAVEYARD_4 = new ResourceLocation(MODID, "graves/graveyard_4");
     private static final ResourceLocation GRAVEYARD_5 = new ResourceLocation(MODID, "graves/graveyard_5");
-    private static final ResourceLocation GRAVEYARD_6 = new ResourceLocation(MODID, "graves/graveyard_6More ");
+    private static final ResourceLocation GRAVEYARD_6 = new ResourceLocation(MODID, "graves/graveyard_6");
     private static final ResourceLocation GRAVEYARD_WALKWAY = new ResourceLocation(MODID, "graves/graveyard_walkway");
-    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY};
+    private static final ResourceLocation GRAVEYARD_LARGE_ONE = new ResourceLocation(MODID, "graves/graveyard_lrg_1");
+    private static final ResourceLocation GRAVEYARD_LARGE_TWO = new ResourceLocation(MODID, "graves/graveyard_lrg_2");
+    private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY, GRAVEYARD_LARGE_ONE, GRAVEYARD_LARGE_TWO};
     private static String[] USERNAMES = new String[]{};
 
 
@@ -58,7 +60,7 @@ public class GraveyardStructurePieces {
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.offset(x, pos.getY(), z);
-        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length)], blockpos, rotation));
+        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, /*ALL_GRAVES[random.nextInt(ALL_GRAVES.length)]*/GRAVEYARD_LARGE_ONE, blockpos, rotation));
     }
 
     public static LocalDate createRandomDate() {
@@ -82,6 +84,10 @@ public class GraveyardStructurePieces {
             super(WAObjects.Structures.GRAVEYARD_PIECE, 0);
             this.resourceLocation = resourceLocationIn;
             BlockPos blockpos = BlockPos.ZERO;
+
+            if(resourceLocation == GRAVEYARD_LARGE_ONE || resourceLocation == GRAVEYARD_LARGE_TWO){
+                blockpos = blockpos.below(9);
+            }
 
             if (resourceLocation == GRAVEYARD_WALKWAY) {
                 blockpos = blockpos.below(6);

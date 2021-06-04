@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.DoubleBlockHalf;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -48,10 +49,10 @@ public class ViewUtil {
      * @param viewer      The viewer entity
      * @param beingViewed The entity being watched by viewer
      */
-    public static boolean canEntitySee(LivingEntity viewer, LivingEntity beingViewed) {
-        double dx = beingViewed.getX() - viewer.getX();
+    public static boolean canEntitySee(LivingEntity viewer, TileEntity beingViewed) {
+        double dx = beingViewed.getBlockPos().getX() - viewer.getX();
         double dz;
-        for (dz = beingViewed.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
+        for (dz = beingViewed.getBlockPos().getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
         while (viewer.yRot > 360) {
@@ -69,7 +70,7 @@ public class ViewUtil {
             yaw -= 360;
         }
 
-        return yaw < 60 && yaw > -60 && viewer.canSee(beingViewed);
+        return yaw < 60 && yaw > -60;
     }
 
     public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {

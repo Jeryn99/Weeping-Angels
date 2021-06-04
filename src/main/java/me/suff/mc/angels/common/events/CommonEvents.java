@@ -12,6 +12,7 @@ import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.WallSignBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +22,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.properties.StructureMode;
+import net.minecraft.tileentity.StructureBlockTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -39,6 +43,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -180,6 +185,20 @@ public class CommonEvents {
             }
         }
     }
+
+ /*   @SubscribeEvent
+    public static void on(BlockEvent.EntityPlaceEvent event){
+        if(event.getPlacedBlock().getBlock() instanceof WallSignBlock){
+            BlockPos pos = event.getBlockSnapshot().getPos();
+            event.getWorld().setBlock(pos.above(), Blocks.STRUCTURE_BLOCK.defaultBlockState(), 4);
+            TileEntity tile = event.getWorld().getBlockEntity(pos.above());
+            if(tile instanceof StructureBlockTileEntity){
+                StructureBlockTileEntity structureBlockTileEntity = (StructureBlockTileEntity) tile;
+                structureBlockTileEntity.setMode(StructureMode.DATA);
+                structureBlockTileEntity.setMetaData("sign");
+            }
+        }
+    }*/
 
     @SubscribeEvent
     public static void onDamage(LivingAttackEvent event) {
