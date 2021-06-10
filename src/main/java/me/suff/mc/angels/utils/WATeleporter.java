@@ -92,15 +92,15 @@ public class WATeleporter {
 
         switch (player.level.dimension().location().toString()) {
             case "minecraft:overworld":
-                targetStructure = AngelUtils.OVERWORLD_STRUCTURES;
+                targetStructure = AngelUtil.OVERWORLD_STRUCTURES;
                 break;
 
             case "minecraft:end":
-                targetStructure = AngelUtils.END_STRUCTURES;
+                targetStructure = AngelUtil.END_STRUCTURES;
                 break;
 
             case "minecraft:nether":
-                targetStructure = AngelUtils.NETHER_STRUCTURES;
+                targetStructure = AngelUtil.NETHER_STRUCTURES;
                 break;
         }
 

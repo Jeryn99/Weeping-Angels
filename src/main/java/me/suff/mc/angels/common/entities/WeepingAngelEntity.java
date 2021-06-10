@@ -7,7 +7,7 @@ import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.block.*;
@@ -42,7 +42,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static me.suff.mc.angels.utils.AngelUtils.breakBlock;
+import static me.suff.mc.angels.utils.AngelUtil.breakBlock;
 
 public class WeepingAngelEntity extends QuantumLockEntity {
 
@@ -84,7 +84,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     public void dropAngelStuff() {
         if (level.isClientSide()) return;
-        AngelUtils.dropEntityLoot(this, this.lastHurtByPlayer);
+        AngelUtil.dropEntityLoot(this, this.lastHurtByPlayer);
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
     }
@@ -97,9 +97,9 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        getEntityData().define(TYPE, AngelUtils.randomType().name());
-        getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtils.RAND).name());
-        getEntityData().define(VARIENT, AngelUtils.randomVarient().name());
+        getEntityData().define(TYPE, AngelUtil.randomType().name());
+        getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
+        getEntityData().define(VARIENT, AngelUtil.randomVarient().name());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -130,7 +130,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (isCherub() && tickCount % AngelUtils.secondsToTicks(2) == 0) {
+        if (isCherub() && tickCount % AngelUtil.secondsToTicks(2) == 0) {
             return CHILD_SOUNDS[random.nextInt(CHILD_SOUNDS.length)];
         }
         return null;
@@ -159,7 +159,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             if (isCherub) {
                 dealDamage(serverPlayerEntity);
                 if (WAConfig.CONFIG.torchBlowOut.get()) {
-                    AngelUtils.removeLightFromHand(serverPlayerEntity, this);
+                    AngelUtil.removeLightFromHand(serverPlayerEntity, this);
                 }
                 return true;
             }
@@ -200,7 +200,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (getMainHandItem().isEmpty() && random.nextBoolean()) {
             for (int i = 0; i < playerMP.inventory.getContainerSize(); i++) {
                 ItemStack stack = playerMP.inventory.getItem(i);
-                if (stack.getItem().is(AngelUtils.THEFT)) {
+                if (stack.getItem().is(AngelUtil.THEFT)) {
                     setItemInHand(Hand.MAIN_HAND, playerMP.inventory.getItem(i).copy());
                     playerMP.inventory.getItem(i).setCount(0);
                     playerMP.inventoryMenu.broadcastChanges();
@@ -294,7 +294,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     private void randomisePose() {
         if (getAngelType() != AngelEnums.AngelType.VIO_1) {
-            setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+            setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             return;
         }
         setPose(Objects.requireNonNull(random.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
@@ -375,7 +375,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             BlockState blockState = serverWorld.getBlockState(pos);
             if (isAllowed(blockState, pos)) {
 
-                if (blockState.getBlock().is(AngelUtils.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
+                if (blockState.getBlock().is(AngelUtil.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
                     continue;
                 }
 
@@ -406,7 +406,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                     }
                 }
 
-                if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
+                if (blockState.getLightValue(level, pos) > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
                     breakBlock(this, pos, Blocks.AIR.defaultBlockState());
                     return;
                 }
@@ -416,14 +416,14 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     private void teleportInteraction(ServerPlayerEntity player) {
         if (level.isClientSide) return;
-        AngelUtils.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
+        AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
         switch (type) {
 
             case DONT:
                 doHurtTarget(player);
                 break;
             case STRUCTURES:
-                Objects.requireNonNull(level.getServer()).tell(new TickDelayedTask(0, () -> {
+                Objects.requireNonNull(level.getServer()).tell(new TickDelayedTask(level.getServer().getTickCount()+1, () -> {
                     if (!WATeleporter.handleStructures(player)) {
                         dealDamage(player);
                     }
@@ -440,7 +440,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 teleportWorld.getServer().tell(new TickDelayedTask(0, () -> {
                     BlockPos blockPos = WATeleporter.findSafePlace(player, teleportWorld, new BlockPos(x, player.getY(), z));
 
-                    if (AngelUtils.isOutsideOfBorder(teleportWorld, blockPos)) {
+                    if (AngelUtil.isOutsideOfBorder(teleportWorld, blockPos)) {
                         dealDamage(player);
                         return;
                     }

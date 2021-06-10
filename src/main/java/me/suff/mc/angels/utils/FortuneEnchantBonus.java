@@ -43,7 +43,7 @@ public class FortuneEnchantBonus extends LootFunction {
     public ItemStack run(ItemStack stack, LootContext context) {
         Entity entity = context.getParamOrNull(LootParameters.KILLER_ENTITY);
         if (entity instanceof LivingEntity) {
-            int i = AngelUtils.getFortuneModifier((LivingEntity) entity);
+            int i = AngelUtil.getFortuneModifier((LivingEntity) entity);
             if (i == 0) {
                 return stack;
             }

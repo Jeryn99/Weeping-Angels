@@ -3,7 +3,7 @@ package me.suff.mc.angels.common.blocks;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -42,10 +42,10 @@ public class SnowArmBlock extends SnowBlock {
             int rotation = MathHelper.floor(placer.yRot);
             SnowArmTile snowArmTile = (SnowArmTile) tile;
             if (!snowArmTile.isHasSetup()) {
-                snowArmTile.setSnowAngelStage(AngelUtils.randowSnowStage());
+                snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowArmTile.setRotation(rotation);
                 snowArmTile.setHasSetup(true);
-                snowArmTile.setAngelVariants(AngelUtils.randomVarient());
+                snowArmTile.setAngelVariants(AngelUtil.randomVarient());
                 snowArmTile.sendUpdates();
             }
         }

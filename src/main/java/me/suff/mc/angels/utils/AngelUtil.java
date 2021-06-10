@@ -44,7 +44,7 @@ import java.util.Random;
 
 import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
 
-public class AngelUtils {
+public class AngelUtil {
 
     public static ITag.INamedTag<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
     public static ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
@@ -80,7 +80,7 @@ public class AngelUtils {
     }
 
     public static boolean isDarkForPlayer(QuantumLockEntity angel, LivingEntity living) {
-        return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtils.handLightCheck(living);
+        return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
     }
 
     public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
@@ -97,8 +97,8 @@ public class AngelUtils {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : AngelUtils.HELD_LIGHT_ITEMS.getValues()) {
-            if (PlayerUtils.isInEitherHand(player, item)) {
+        for (Item item : AngelUtil.HELD_LIGHT_ITEMS.getValues()) {
+            if (PlayerUtil.isInEitherHand(player, item)) {
                 return true;
             }
         }
@@ -134,7 +134,7 @@ public class AngelUtils {
     }
 
     private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
-        if (stack.getItem().is(AngelUtils.HELD_LIGHT_ITEMS)) {
+        if (stack.getItem().is(AngelUtil.HELD_LIGHT_ITEMS)) {
             angel.spawnAtLocation(stack);
             return true;
         }

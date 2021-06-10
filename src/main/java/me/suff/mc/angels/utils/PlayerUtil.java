@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class PlayerUtils {
+public class PlayerUtil {
 
     public static boolean isInHand(Hand hand, LivingEntity holder, Item item) {
         ItemStack heldItem = holder.getItemInHand(hand);

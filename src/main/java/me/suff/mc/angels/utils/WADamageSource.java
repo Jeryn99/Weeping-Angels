@@ -7,7 +7,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class WADamageSource extends DamageSource {
 
-    private String message;
+    private final String message;
 
     public WADamageSource(String name) {
         super(name);

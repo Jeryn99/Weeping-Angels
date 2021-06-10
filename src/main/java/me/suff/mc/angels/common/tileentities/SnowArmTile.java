@@ -4,7 +4,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -127,7 +127,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         }
 
         if (angelVariants.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
-            setSnowAngelStage(AngelUtils.randowSnowStage());
+            setSnowAngelStage(AngelUtil.randowSnowStage());
             hasSetup = true;
             sendUpdates();
         }
@@ -135,7 +135,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         //Randomness for world generatiopn
         if (!hasSetup) {
             setRotation(level.random.nextInt(360));
-            setSnowAngelStage(AngelUtils.randowSnowStage());
+            setSnowAngelStage(AngelUtil.randowSnowStage());
             hasSetup = true;
             sendUpdates();
         }

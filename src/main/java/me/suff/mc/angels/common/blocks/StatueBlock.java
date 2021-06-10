@@ -2,7 +2,7 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -98,9 +98,9 @@ public class StatueBlock extends Block implements IWaterLoggable {
                     statue.load(state, stack.getTagElement("BlockEntityTag"));
                     statue.setPosition(position);
                 } else {
-                    statue.setAngelType(AngelUtils.randomType().name());
+                    statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(AngelUtils.randomVarient());
+                    statue.setAngelVarients(AngelUtil.randomVarient());
                 }
 
         /*        int offset = 0;

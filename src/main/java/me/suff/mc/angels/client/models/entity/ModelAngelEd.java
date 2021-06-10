@@ -1,11 +1,12 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
@@ -15,47 +16,47 @@ import net.minecraft.util.math.MathHelper;
  * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelEd extends SegmentedModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_ed.png");
 
-    private ModelRenderer right_wing_0;
-    private ModelRenderer left_wing_0;
-    private ModelRenderer back_cloth_2;
-    private ModelRenderer head_2;
-    private ModelRenderer body_2;
-    private ModelRenderer head;
-    private ModelRenderer body;
-    private ModelRenderer left_arm;
-    private ModelRenderer right_arm;
-    private ModelRenderer cloth_0;
-    private ModelRenderer cloth_1;
-    private ModelRenderer cloth_2;
-    private ModelRenderer back_cloth;
-    private ModelRenderer left_wing_1;
-    private ModelRenderer right_wing_1;
-    private ModelRenderer nose;
-    private ModelRenderer face;
-    private ModelRenderer right_eyebrow;
-    private ModelRenderer left_eyebrow;
-    private ModelRenderer coverup;
-    private ModelRenderer angry_mouth;
-    private ModelRenderer teeth;
-    private ModelRenderer teeth_1;
-    private ModelRenderer teeth_2;
-    private ModelRenderer teeth_3;
-    private ModelRenderer teeth_4;
-    private ModelRenderer teeth_5;
-    private ModelRenderer wrist_left;
-    private ModelRenderer wrist_right;
-    private ModelRenderer zeth;
-    private ModelRenderer left_wing_2;
-    private ModelRenderer left_wing_3;
-    private ModelRenderer left_wing_4;
-    private ModelRenderer right_wing_2;
-    private ModelRenderer right_wing_3;
-    private ModelRenderer right_wing_4;
+    private final ModelRenderer right_wing_0;
+    private final ModelRenderer left_wing_0;
+    private final ModelRenderer back_cloth_2;
+    private final ModelRenderer head_2;
+    private final ModelRenderer body_2;
+    private final ModelRenderer head;
+    private final ModelRenderer body;
+    private final ModelRenderer left_arm;
+    private final ModelRenderer right_arm;
+    private final ModelRenderer cloth_0;
+    private final ModelRenderer cloth_1;
+    private final ModelRenderer cloth_2;
+    private final ModelRenderer back_cloth;
+    private final ModelRenderer left_wing_1;
+    private final ModelRenderer right_wing_1;
+    private final ModelRenderer nose;
+    private final ModelRenderer face;
+    private final ModelRenderer right_eyebrow;
+    private final ModelRenderer left_eyebrow;
+    private final ModelRenderer coverup;
+    private final ModelRenderer angry_mouth;
+    private final ModelRenderer teeth;
+    private final ModelRenderer teeth_1;
+    private final ModelRenderer teeth_2;
+    private final ModelRenderer teeth_3;
+    private final ModelRenderer teeth_4;
+    private final ModelRenderer teeth_5;
+    private final ModelRenderer wrist_left;
+    private final ModelRenderer wrist_right;
+    private final ModelRenderer zeth;
+    private final ModelRenderer left_wing_2;
+    private final ModelRenderer left_wing_3;
+    private final ModelRenderer left_wing_4;
+    private final ModelRenderer right_wing_2;
+    private final ModelRenderer right_wing_3;
+    private final ModelRenderer right_wing_4;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -370,6 +371,46 @@ public class ModelAngelEd extends EntityModel<WeepingAngelEntity> implements IAn
         left_wing_0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         left_arm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         matrixStack.popPose();
+    }
+
+    @Override
+    public Iterable<ModelRenderer> parts() {
+        return ImmutableList.of(right_wing_0,
+                left_wing_0,
+                back_cloth_2,
+                head_2,
+                body_2,
+                head,
+                body,
+                left_arm,
+                right_arm,
+                cloth_0,
+                cloth_1,
+                cloth_2,
+                back_cloth,
+                left_wing_1,
+                right_wing_1,
+                nose,
+                face,
+                right_eyebrow,
+                left_eyebrow,
+                coverup,
+                angry_mouth,
+                teeth,
+                teeth_1,
+                teeth_2,
+                teeth_3,
+                teeth_4,
+                teeth_5,
+                wrist_left,
+                wrist_right,
+                zeth,
+                left_wing_2,
+                left_wing_3,
+                left_wing_4,
+                right_wing_2,
+                right_wing_3,
+                right_wing_4);
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

@@ -1,7 +1,7 @@
 package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Objects;
 
 public class WAItemTags extends ItemTagsProvider {
 
@@ -20,15 +22,15 @@ public class WAItemTags extends ItemTagsProvider {
     @Override
     protected void addTags() {
         ForgeRegistries.BLOCKS.getValues().forEach(block -> {
-            if (!block.getRegistryName().getNamespace().contains("tardis")) {
-                WeepingAngels.LOGGER.info("Light Value: " + block.getRegistryName() + " || " + AngelUtils.getLightValue(block));
-                if (AngelUtils.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
-                    add(AngelUtils.HELD_LIGHT_ITEMS, block.asItem());
+            if (!Objects.requireNonNull(block.getRegistryName()).getNamespace().contains("tardis")) {
+                WeepingAngels.LOGGER.info("Light Value: " + block.getRegistryName() + " || " + AngelUtil.getLightValue(block));
+                if (AngelUtil.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
+                    add(AngelUtil.HELD_LIGHT_ITEMS, block.asItem());
                 }
             }
         });
 
-        add(AngelUtils.THEFT, Items.CLOCK);
+        add(AngelUtil.THEFT, Items.CLOCK);
 
     }
 

@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -63,7 +63,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void onLoad() {
         if (coffin == null) {
-            coffin = AngelUtils.randomCoffin();
+            coffin = AngelUtil.randomCoffin();
             setChanged();
         }
     }
@@ -150,7 +150,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT save(CompoundNBT compound) {
         if (coffin == null) {
-            coffin = AngelUtils.randomCoffin();
+            coffin = AngelUtil.randomCoffin();
         }
         compound.putString("coffin_type", coffin.name());
         compound.putBoolean("isOpen", isOpen);

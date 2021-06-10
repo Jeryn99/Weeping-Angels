@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -7,12 +8,15 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.IHasArm;
+import net.minecraft.client.renderer.entity.model.IHasHead;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 
@@ -212,6 +216,11 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
         rightWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
+    @Override
+    public Iterable<ModelRenderer> parts() {
+        return ImmutableList.of(this.body, this.leftWing, this.rightWing, this.head, this.leftArm, this.rightArm, this.Legs);
+    }
+
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
@@ -259,5 +268,23 @@ public class ModelAngelaAngel extends EntityModel<WeepingAngelEntity> implements
             suffix = "headless";
         }
         return new ResourceLocation(WeepingAngels.MODID, location + variant + suffix + ".png");
+    }
+
+    @Override
+    public ModelRenderer getHead() {
+        return head;
+    }
+
+    protected ModelRenderer getArm(HandSide handSide) {
+        return handSide == HandSide.LEFT ? this.leftArm : this.rightArm;
+    }
+
+    @Override
+    public void translateToHand(HandSide handSide, MatrixStack matrixStack) {
+        ModelRenderer hand = this.getArm(handSide);
+        boolean wasVisible = hand.visible;
+        hand.visible = true;
+        hand.translateAndRotate(matrixStack);
+        hand.visible = wasVisible;
     }
 }

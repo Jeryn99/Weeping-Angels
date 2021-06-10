@@ -39,6 +39,17 @@ public class CoffinBlock extends DirectionalBlock {
     }
 
     @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof CoffinTile) {
+            CoffinTile coffinTile = (CoffinTile) world.getBlockEntity(pos);
+            if (coffinTile.getCoffin().isPoliceBox()) {
+                return 7;
+            }
+        }
+        return super.getLightValue(state, world, pos);
+    }
+
+    @Override
     public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
@@ -48,7 +59,7 @@ public class CoffinBlock extends DirectionalBlock {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
             CoffinTile coffinTile = (CoffinTile) worldIn.getBlockEntity(pos);
             if (coffinTile != null) {
-                if (!coffinTile.getCoffin().name().contains("PTB")) {
+                if (!coffinTile.getCoffin().isPoliceBox()) {
                     coffinTile.setOpen(!coffinTile.isOpen());
                     worldIn.playSound(null, pos.getX() + 0.5D, (double) pos.getY() + 0.5D, pos.getZ() + 0.5D, coffinTile.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
                 } else {

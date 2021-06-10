@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -8,6 +9,7 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
@@ -15,10 +17,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild extends EntityModel<WeepingAngelEntity> implements IAngelModel {
-
-    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
-            "textures/entities/angel_child_scream.png");
+public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ModelRenderer WeepingCherubFix;
     private final ModelRenderer LeftLeg;
@@ -205,6 +204,11 @@ public class ModelAngelChild extends EntityModel<WeepingAngelEntity> implements 
         matrixStack.translate(0, 1.5, 0);
         WeepingCherubFix.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         matrixStack.popPose();
+    }
+
+    @Override
+    public Iterable<ModelRenderer> parts() {
+        return ImmutableList.of(this.Body, this.LeftWing, this.RightWing, this.Head, this.LeftArm, this.RightArm, this.LeftLeg, this.RightLeg, this.WeepingCherubFix);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

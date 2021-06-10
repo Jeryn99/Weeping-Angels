@@ -36,7 +36,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
         super.aiStep();
         if (!level.isClientSide) {
             List<PlayerEntity> players = level.getEntitiesOfClass(PlayerEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
-            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleepingLongEnough() || player.level != level);
+            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
                 List<WeepingAngelEntity> angels = level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));

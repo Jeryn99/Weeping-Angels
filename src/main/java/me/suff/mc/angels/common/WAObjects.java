@@ -232,12 +232,12 @@ public class WAObjects {
 
     public static class WorldGenEntries {
         public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WeepingAngels.MODID);
-        public static final RegistryObject<Feature<NoFeatureConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new SnowAngelGeneration(NoFeatureConfig.CODEC));
+        public static final RegistryObject<Feature<ProbabilityConfig>> ARM_SNOW_FEATURE = FEATURES.register("arm_snow_feature", () -> new SnowAngelGeneration(ProbabilityConfig.CODEC));
         public static final RegistryObject<Feature<OreFeatureConfig>> KONTRON_ORE = FEATURES.register("kontron_ore", () -> new OreFeature(OreFeatureConfig.CODEC));
     }
 
     public static class ConfiguredFeatures {
-        public static final ConfiguredFeature<?, ?> ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_SQUARE).countRandom(4);
+        public static final ConfiguredFeature<?, ?> ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().configured(new ProbabilityConfig(0.1F)).decorated(Features.Placements.HEIGHTMAP_SQUARE);
         public static final ConfiguredFeature<?, ?> KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState(), 10)).decorated(Placement.RANGE.configured(new TopSolidRangeConfig(6, 0, 34))).squared().count(5);
 
         public static void registerConfiguredFeatures() {

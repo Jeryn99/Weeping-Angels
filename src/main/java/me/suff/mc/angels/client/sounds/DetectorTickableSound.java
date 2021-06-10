@@ -1,7 +1,7 @@
 package me.suff.mc.angels.client.sounds;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.utils.PlayerUtils;
+import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.audio.TickableSound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
@@ -43,7 +43,7 @@ public class DetectorTickableSound extends TickableSound {
         this.y = (float) this.playerEntity.getY();
         this.z = (float) this.playerEntity.getZ();
 
-        boolean isHolding = PlayerUtils.isInEitherHand(playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
+        boolean isHolding = PlayerUtil.isInEitherHand(playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
         //      float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(this.playerEntity.getDeltaMovement()));
         this.pitch = isHolding ? MathHelper.clamp(this.pitch + 0.0025F, 0.0F, 1.0F) : 0F;
         this.volume = isHolding ? MathHelper.lerp(MathHelper.clamp(0.1F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;

@@ -7,7 +7,7 @@ import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -23,7 +23,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
 
     private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
-    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtils.RAND);
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
     public PlinthTile() {
@@ -155,12 +155,12 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
 
     @Override
     public void changeModel() {
-        setAngelType(AngelUtils.randomType());
+        setAngelType(AngelUtil.randomType());
     }
 
     @Override
     public void changePose() {
-        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+        setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
     }
 
     @Override

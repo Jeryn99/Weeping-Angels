@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
 public class EventAngelBreakEvent extends EntityEvent {
 
     private final BlockPos blockPos;
-    private BlockState blockState;
+    private final BlockState blockState;
 
     public EventAngelBreakEvent(QuantumLockEntity quantumLockEntity, BlockState blockState, BlockPos blockPos) {
         super(quantumLockEntity);

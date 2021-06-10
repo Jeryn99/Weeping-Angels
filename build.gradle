@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url = "https://plugins.gradle.org/m2/"}
+        maven { url = "https://plugins.gradle.org/m2/" }
         jcenter()
         mavenCentral()
 
@@ -38,7 +38,7 @@ processResources {
         include 'META-INF/mods.toml'
 
         // Replace version
-        expand 'version':project.version
+        expand 'version': project.version
     }
 
     // Copy everything else except the mods.toml
@@ -53,7 +53,7 @@ println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getPro
 minecraft {
     mappings channel: "${mappings_type}", version: "${mappings_version}"
 
-       runs {
+    runs {
         client {
             workingDirectory project.file('run')
             mods {
@@ -87,30 +87,27 @@ minecraft {
 
 }
 
-//curseforge {
-       // apiKey = rootProject.curseforge
-      //  project {
-            //id = rootProject.weeping_angels
-            //changelog =
-                //    '<b> Version 2.0.8 </b></br>' +
-              //      '- Fixed a Server Crash.'
-            //changelogType = 'html'
-            //releaseType = 'release'
-            //addGameVersion '1.16.3'
-          //  addGameVersion '1.16.4'
-        //    addGameVersion '1.16.5'
-      //      mainArtifact(jar) {
-    //            displayName = "[1.16.X] Weeping Angels - $project.version"
-  //          }
-//        }
-//}
+curseforge {
+    apiKey = rootProject.curseforge
+    project {
+        id = rootProject.weeping_angels
+        changelog = new File("${project.projectDir}/changelog.html").text
+        changelogType = 'html'
+        releaseType = 'release'
+        addGameVersion '1.16.3'
+        addGameVersion '1.16.4'
+        addGameVersion '1.16.5'
+        mainArtifact(jar) {
+            displayName = "[1.16.X] Weeping Angels - $project.version"
+        }
+    }
+}
 
 repositories {
     maven { url 'https://www.dogforce-games.com/maven/' }
     maven { url "https://www.cursemaven.com" }
     flatDir { dirs 'libMods' }
 }
-
 
 
 dependencies {
@@ -123,13 +120,13 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "weeping_angels",
-            "Specification-Vendor": "suff99",
-            "Specification-Version": "${version}",
-            "Implementation-Title": "Weeping Angels",
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"suff99",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "weeping_angels",
+                "Specification-Vendor"    : "suff99",
+                "Specification-Version"   : "${version}",
+                "Implementation-Title"    : "Weeping Angels",
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "suff99",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }

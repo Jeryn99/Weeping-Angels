@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.blaze3d.vertex.MatrixApplyingVertexBuilder;
 import com.mojang.blaze3d.vertex.VertexBuilderUtils;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.client.models.entity.ModelAngelEd;
+import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.ClientUtil;
@@ -25,7 +25,7 @@ import net.minecraft.util.math.vector.Vector3f;
 public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
 
     public AngelRender(EntityRendererManager manager) {
-        super(manager, new ModelAngelEd(), 0.0F);
+        super(manager, new ModelAngelaAngel(), 0.0F);
     }
 
     @Override

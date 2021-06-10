@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import me.suff.mc.angels.client.models.block.SnowArmModel;
 import me.suff.mc.angels.client.models.block.SnowBodyModel;
 import me.suff.mc.angels.client.models.block.SnowHeadModel;
-import me.suff.mc.angels.client.models.block.SnowWingsModels;
+import me.suff.mc.angels.client.models.block.SnowWingsModel;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
@@ -22,7 +22,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     private final SnowArmModel armModel = new SnowArmModel();
     private final SnowBodyModel bodyModel = new SnowBodyModel();
     private final SnowHeadModel headModel = new SnowHeadModel();
-    private final SnowWingsModels wingsModel = new SnowWingsModels();
+    private final SnowWingsModel wingsModel = new SnowWingsModel();
 
     public SnowArmTileRender(TileEntityRendererDispatcher renderer) {
         super(renderer);

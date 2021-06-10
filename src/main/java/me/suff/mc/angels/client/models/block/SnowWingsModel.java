@@ -1,6 +1,4 @@
-package me.suff.mc.angels.client.models.block;// Made with Blockbench 3.7.5
-// Exported for Minecraft version 1.15
-// Paste this class into your mod and generate all required imports
+package me.suff.mc.angels.client.models.block;
 
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -9,12 +7,12 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class SnowWingsModels extends EntityModel<Entity> {
+public class SnowWingsModel extends EntityModel<Entity> {
     private final ModelRenderer bone;
     private final ModelRenderer rightWing;
     private final ModelRenderer leftWing;
 
-    public SnowWingsModels() {
+    public SnowWingsModel() {
         texWidth = 128;
         texHeight = 128;
 

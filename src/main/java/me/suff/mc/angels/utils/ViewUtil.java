@@ -318,7 +318,7 @@ public class ViewUtil {
         }
 
         // Config
-        if (block.is(AngelUtils.ANGEL_IGNORE)) {
+        if (block.is(AngelUtil.ANGEL_IGNORE)) {
             return true;
         }
 

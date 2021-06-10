@@ -9,7 +9,7 @@ import java.util.Calendar;
 @OnlyIn(Dist.CLIENT)
 public class DateChecker {
 
-    private static Calendar calendar = Calendar.getInstance();
+    private static final Calendar calendar = Calendar.getInstance();
 
     public static void tick() {
         calendar.setTimeInMillis(System.currentTimeMillis());

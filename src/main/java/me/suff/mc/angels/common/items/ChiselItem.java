@@ -5,7 +5,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,9 +53,9 @@ public class ChiselItem extends Item {
         if (blockstate.getBlock() == WAObjects.Blocks.STATUE.get()) {
             StatueTile statueTile = (StatueTile) world.getBlockEntity(blockpos);
             if (player.isShiftKeyDown()) {
-                statueTile.setAngelType(AngelUtils.randomType());
+                statueTile.setAngelType(AngelUtil.randomType());
             } else {
-                statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+                statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             }
             statueTile.setChanged();
             return ActionResultType.PASS;
@@ -65,9 +65,9 @@ public class ChiselItem extends Item {
         if (blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()) {
             PlinthTile statueTile = (PlinthTile) world.getBlockEntity(blockpos);
             if (player.isShiftKeyDown()) {
-                statueTile.setAngelType(AngelUtils.randomType());
+                statueTile.setAngelType(AngelUtil.randomType());
             } else {
-                statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+                statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             }
             statueTile.sendUpdates();
             return ActionResultType.PASS;

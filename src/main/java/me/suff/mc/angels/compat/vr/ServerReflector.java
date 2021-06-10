@@ -167,11 +167,11 @@ public class ServerReflector extends VivecraftReflector {
             } else if (enabled == 1) {
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null, player));
 
-                float X = fPosX.getFloat(playerHead);
-                float Y = fPosY.getFloat(playerHead);
-                float Z = fPosZ.getFloat(playerHead);
+                float x = fPosX.getFloat(playerHead);
+                float y = fPosY.getFloat(playerHead);
+                float z = fPosZ.getFloat(playerHead);
 
-                return new Vector3d(X, Y, Z);
+                return new Vector3d(x, y, z);
             }
 
         } catch (Exception e) {

@@ -8,9 +8,10 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.WallSignBlock;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.SignTileEntity;
@@ -27,6 +28,7 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -71,7 +73,7 @@ public class GraveyardStructurePieces {
     }
 
     public static Block getRandomPottedPlant(Random random) {
-        List<Block> plants = AngelUtils.POTTED_PLANTS.getValues();
+        List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
         return plants.get(random.nextInt(plants.size()));
     }
 
@@ -85,7 +87,7 @@ public class GraveyardStructurePieces {
             this.resourceLocation = resourceLocationIn;
             BlockPos blockpos = BlockPos.ZERO;
 
-            if(resourceLocation == GRAVEYARD_LARGE_ONE || resourceLocation == GRAVEYARD_LARGE_TWO){
+            if (resourceLocation == GRAVEYARD_LARGE_ONE || resourceLocation == GRAVEYARD_LARGE_TWO) {
                 blockpos = blockpos.below(9);
             }
 
@@ -123,9 +125,9 @@ public class GraveyardStructurePieces {
         @Override
         protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 
-        /*    if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
-                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getOnlinePlayerNames());
-            }*/
+            if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
+                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerNamesArray());
+            }
 
             if (USERNAMES.length == 0) {
                 try {
@@ -154,7 +156,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
-                statueTile.setAngelVarients(AngelUtils.randomVarient());
+                statueTile.setAngelVarients(AngelUtil.randomVarient());
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }
@@ -163,7 +165,7 @@ public class GraveyardStructurePieces {
                 CoffinTile coffinTile = (CoffinTile) worldIn.getBlockEntity(pos.below());
                 if (coffinTile != null) {
                     coffinTile.setOpen(rand.nextBoolean());
-                    coffinTile.setCoffin(AngelUtils.randomCoffin());
+                    coffinTile.setCoffin(AngelUtil.randomCoffin());
                     coffinTile.setHasSkeleton(rand.nextBoolean());
                     worldIn.removeBlock(pos, false);
                 }
@@ -191,14 +193,18 @@ public class GraveyardStructurePieces {
             }
 
             if ("sign".equals(function)) {
-                SignTileEntity signTileEntity = (SignTileEntity) worldIn.getBlockEntity(pos.below());
-                if (signTileEntity != null) {
-                    signTileEntity.setMessage(0, new TranslationTextComponent("========"));
-                    signTileEntity.setMessage(1, new TranslationTextComponent(USERNAMES[rand.nextInt(USERNAMES.length - 1)]));
-                    signTileEntity.setMessage(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-                    signTileEntity.setMessage(3, new TranslationTextComponent("========"));
+                if (worldIn.getBlockState(pos.below()).getBlock() instanceof WallSignBlock) {
+                    SignTileEntity signTileEntity = (SignTileEntity) worldIn.getBlockEntity(pos.below());
+                    if (signTileEntity != null) {
+                        signTileEntity.setMessage(0, new TranslationTextComponent("========"));
+                        signTileEntity.setMessage(1, new TranslationTextComponent(USERNAMES[rand.nextInt(USERNAMES.length - 1)]));
+                        signTileEntity.setMessage(2, new TranslationTextComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
+                        signTileEntity.setMessage(3, new TranslationTextComponent("========"));
+                        worldIn.removeBlock(pos, false);
+                        worldIn.setBlock(pos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
+                    }
+                } else {
                     worldIn.removeBlock(pos, false);
-                    worldIn.setBlock(pos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
                 }
             }
         }

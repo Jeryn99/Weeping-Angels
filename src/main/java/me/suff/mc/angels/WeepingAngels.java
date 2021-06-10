@@ -2,8 +2,8 @@ package me.suff.mc.angels;
 
 import com.google.common.collect.ImmutableList;
 import me.suff.mc.angels.common.AngelParticles;
-import me.suff.mc.angels.common.PaintingStuff;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.compat.tardis.TardisMod;
@@ -11,7 +11,7 @@ import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.utils.FortuneEnchantBonus;
 import net.minecraft.block.Block;
@@ -73,7 +73,7 @@ public class WeepingAngels {
         WAObjects.Tiles.TILES.register(bus);
         WAObjects.WorldGenEntries.FEATURES.register(bus);
         WAObjects.Structures.STRUCTURES.register(bus);
-        PaintingStuff.PAINTINGS.register(bus);
+        WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
         AngelParticles.TYPES.register(bus);
     }
@@ -82,7 +82,7 @@ public class WeepingAngels {
         Network.init();
         GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().build());
         GlobalEntityTypeAttributes.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().build());
-        AngelUtils.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
+        AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneEnchantBonus.Serializer()); //registerFunction
         event.enqueueWork(() ->
         {
             WAObjects.setupStructures();

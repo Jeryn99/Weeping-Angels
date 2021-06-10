@@ -1,12 +1,13 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.DateChecker;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Angel Type: 2 - Classic
  */
-public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic.png");
@@ -28,22 +29,22 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
     private final ResourceLocation TEXTURE_XMAS = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic_xmas.png");
 
-    private ModelRenderer leftfoot;
-    private ModelRenderer rightfoot;
-    private ModelRenderer leftwing1;
-    private ModelRenderer leftwing2;
-    private ModelRenderer leftwing3;
-    private ModelRenderer leftwing4;
-    private ModelRenderer rightwing1;
-    private ModelRenderer rightwing2;
-    private ModelRenderer rightwing3;
-    private ModelRenderer rightwing4;
-    private ModelRenderer head;
-    private ModelRenderer body;
-    private ModelRenderer rightarm;
-    private ModelRenderer leftarm;
-    private ModelRenderer rightleg;
-    private ModelRenderer leftleg;
+    private final ModelRenderer leftfoot;
+    private final ModelRenderer rightfoot;
+    private final ModelRenderer leftwing1;
+    private final ModelRenderer leftwing2;
+    private final ModelRenderer leftwing3;
+    private final ModelRenderer leftwing4;
+    private final ModelRenderer rightwing1;
+    private final ModelRenderer rightwing2;
+    private final ModelRenderer rightwing3;
+    private final ModelRenderer rightwing4;
+    private final ModelRenderer head;
+    private final ModelRenderer body;
+    private final ModelRenderer rightarm;
+    private final ModelRenderer leftarm;
+    private final ModelRenderer rightleg;
+    private final ModelRenderer leftleg;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -241,6 +242,26 @@ public class ModelClassicAngel extends EntityModel<WeepingAngelEntity> implement
         leftarm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         rightleg.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leftleg.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+    }
+
+    @Override
+    public Iterable<ModelRenderer> parts() {
+        return ImmutableList.of(leftfoot,
+                rightfoot,
+                leftwing1,
+                leftwing2,
+                leftwing3,
+                leftwing4,
+                rightwing1,
+                rightwing2,
+                rightwing3,
+                rightwing4,
+                head,
+                body,
+                rightarm,
+                leftarm,
+                rightleg,
+                leftleg);
     }
 
 

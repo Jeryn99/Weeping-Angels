@@ -7,12 +7,11 @@ import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.block.WallSignBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,9 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.properties.StructureMode;
-import net.minecraft.tileentity.StructureBlockTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -43,7 +39,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -181,7 +176,7 @@ public class CommonEvents {
         if (living instanceof PlayerEntity && !living.level.isClientSide()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) living;
             if (serverPlayerEntity.tickCount % 40 == 0) {
-                Network.sendTo(new MessageCatacomb(AngelUtils.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
+                Network.sendTo(new MessageCatacomb(AngelUtil.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
             }
         }
     }
@@ -209,7 +204,7 @@ public class CommonEvents {
         Entity attacker = event.getSource().getEntity();
         LivingEntity hurt = event.getEntityLiving();
 
-        if (source == DamageSource.OUT_OF_WORLD || source.isExplosion() || WAConfig.CONFIG.damageType.get() == DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY && source == WAObjects.GENERATOR) {
+        if (source == DamageSource.OUT_OF_WORLD || source.isExplosion()) {
             return;
         }
 
@@ -236,7 +231,7 @@ public class CommonEvents {
                     //Pickaxe
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
-                        event.setCanceled(true);
+                        event.setCanceled(false);
                         doHurt(weepingAngelEntity, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
                     }
                     break;

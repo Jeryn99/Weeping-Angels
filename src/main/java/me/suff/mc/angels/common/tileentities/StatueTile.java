@@ -7,7 +7,7 @@ import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.utils.AngelUtils;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.block.BlockState;
@@ -19,7 +19,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 
 import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
@@ -27,7 +26,7 @@ import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 public class StatueTile extends TileEntity implements ITickableTileEntity, IPlinth {
 
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
-    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtils.RAND);
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
 
 
@@ -144,12 +143,12 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
     @Override
     public void changeModel() {
-        setAngelType(AngelUtils.randomType());
+        setAngelType(AngelUtil.randomType());
     }
 
     @Override
     public void changePose() {
-        setPose(WeepingAngelPose.getRandomPose(AngelUtils.RAND));
+        setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
     }
 
     @Override
