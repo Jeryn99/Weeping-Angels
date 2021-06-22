@@ -11,6 +11,8 @@ import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -29,7 +31,7 @@ public class AngelUtils {
         if (!entity.world.isClient) {
             ServerWorld serverWorld = (ServerWorld) entity.world;
             serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
-            entity.playSound(WASounds.LIGHT_BREAK, 1, 1.0F);
+            serverWorld.playSound(null, pos, blockState.getSoundGroup().getBreakSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             ItemStack blockStack = new ItemStack(entity.world.getBlockState(pos).getBlock());
             ItemEntity itemEntity = new ItemEntity(entity.world, pos.getX(), pos.getY(), pos.getZ(), blockStack);
             serverWorld.spawnEntity(itemEntity);

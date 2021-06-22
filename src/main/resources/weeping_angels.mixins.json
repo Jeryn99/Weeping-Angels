@@ -6,7 +6,6 @@
   "client": [
   ],
   "mixins": [
-    "NoiseChunkGeneratorMixin",
     "StructuresConfigAccessor",
     "ServerMixin"
   ],

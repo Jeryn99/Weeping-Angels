@@ -58,7 +58,7 @@ public class ClientAngels implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(WeepingAngels.PORTAL, PortalRenderer::new);
         EntityRendererRegistry.INSTANCE.register(WeepingAngels.CHRONO, FlyingItemEntityRenderer::new);
 
-        EntityModelLayerRegistry.registerModelLayer(ANGELS, WeepingAngelModel::getModelData);
+        EntityModelLayerRegistry.registerModelLayer(ANGELS, WeepingAngelModel::getTexturedModelData);
         // :(
         receiveEntityPacket();
     }
@@ -81,7 +81,7 @@ public class ClientAngels implements ClientModInitializer {
                 e.setPos(pos.x, pos.y, pos.z);
                 e.setPitch(pitch);
                 e.setYaw(yaw);
-                e.setEntityId(entityId);
+                e.setId(entityId);
                 e.setUuid(uuid);
                 MinecraftClient.getInstance().world.addEntity(entityId, e);
             });

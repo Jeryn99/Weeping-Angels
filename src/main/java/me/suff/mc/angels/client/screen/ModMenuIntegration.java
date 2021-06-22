@@ -1,10 +1,5 @@
 package me.suff.mc.angels.client.screen;
 
-import com.oroarmor.config.screen.ModMenuConfigScreen;
-import me.suff.mc.angels.WeepingAngels;
+public class ModMenuIntegration {
 
-public class ModMenuIntegration extends ModMenuConfigScreen {
-    public ModMenuIntegration() {
-        super(WeepingAngels.CONFIG);
-    }
 }

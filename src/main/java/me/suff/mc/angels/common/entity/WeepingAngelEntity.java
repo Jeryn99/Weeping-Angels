@@ -47,9 +47,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+
+import static net.minecraft.block.AbstractCandleBlock.LIT;
 
 /* Created by Craig on 18/02/2021 */
 public class WeepingAngelEntity extends QuantumLockBaseEntity {
@@ -109,7 +112,7 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
         if (age % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
-        if (WAConfig.WorldConfig.breakBlocks.getValue() && isSeen()) {
+        if (WAConfig.WorldConfig.breakBlocks.getValue()) {
             replaceBlocks(getBoundingBox().expand(WAConfig.WorldConfig.breakRange.getValue()));
         }
     }
@@ -291,7 +294,16 @@ public class WeepingAngelEntity extends QuantumLockBaseEntity {
                 continue;
             }
 
-            if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
+            if(blockState.getBlock() instanceof CandleBlock){
+                if(!blockState.get(LIT).booleanValue()) continue;
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                world.setBlockState(pos, (BlockState)blockState.with(LIT, false), 11);
+                world.playSound(null, pos, SoundEvents.BLOCK_CANDLE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.emitGameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+                return;
+            }
+
+           if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
                 AngelUtils.playBreakEvent(this, pos, Blocks.AIR.getDefaultState());
                 return;
             }

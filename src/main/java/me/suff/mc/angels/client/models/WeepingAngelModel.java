@@ -25,36 +25,47 @@ public class WeepingAngelModel extends EntityModel< WeepingAngelEntity > {
         this.body = root.getChild("body");
         this.rightArm = root.getChild("right_arm");
         this.leftArm = root.getChild("left_arm");
-        this.leftWing = root.getChild("leftWing");
-        this.rightWing = root.getChild("rightWing");
+        this.leftWing = root.getChild("leftwing");
+        this.rightWing = root.getChild("rightwing");
     }
 
-    public static TexturedModelData getModelData() {
+    public static ModelData getModelData(){
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
 
-        // head = new ModelRenderer(this);
+        ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 17).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(72, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        String[] names = new String[]{"rightWing", "leftWing", "left_arm", "right_arm", "body", "legs", "head"};
-        for (String name : names) {
-            modelPartData.addChild(name, ModelPartBuilder.create().uv(24, 0).cuboid(-3.0F, -6.0F, -1.0F, 6.0F, 6.0F, 1.0F, Dilation.NONE), ModelTransform.NONE);
-        }
-        ModelPartData headPart = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 17).cuboid(null, -4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-        headPart.addChild("head_2", ModelPartBuilder.create().uv(72, 0).cuboid(null, -4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, Dilation.NONE.add(0.5F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-        ModelPartData bodyPart = modelPartData.addChild("body", ModelPartBuilder.create().uv(56, 17).cuboid(null, -4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-        bodyPart.addChild("body_2", ModelPartBuilder.create().uv(32, 17).cuboid(null, -4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, Dilation.NONE.add(0.5F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-        modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(24, 59).cuboid(null, -2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(-5.0F, 2.0F, 0.0F));
-        modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(10, 59).cuboid(null, -1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
-        ModelPartData legs = modelPartData.addChild("legs", ModelPartBuilder.create().uv(40, 0).cuboid(null, -5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
-        legs.addChild("legs_2", ModelPartBuilder.create().uv(0, 0).cuboid(null, -6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, Dilation.NONE.add(0.0F)), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
-        /* String[] names = new String[]{"rightWing","leftWing", "left_arm", "right_arm", "body","legs", "head"};
-        for (String name : names) {
-            modelPartData.addChild(name, ModelPartBuilder.create().uv(24, 0).cuboid(-3.0F, -6.0F, -1.0F, 6.0F, 6.0F, 1.0F, Dilation.NONE), ModelTransform.NONE);
-        }*/
-        return TexturedModelData.of(modelData, 128, 128);
+        ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(56, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(32, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData leftArm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(24, 59).cuboid(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData rightArm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(10, 59).cuboid(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData Legs = modelPartData.addChild("legs", ModelPartBuilder.create().uv(40, 0).cuboid(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(0, 0).cuboid(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 9.25F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData leftWing = modelPartData.addChild("leftwing", ModelPartBuilder.create().uv(0, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(6, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(18, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(8, 33).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(0, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(38, 59).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-1.0F, 5.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
+
+        ModelPartData rightWing = modelPartData.addChild("rightwing", ModelPartBuilder.create().uv(10, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(12, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(26, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(18, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(0, 83).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .uv(0, 59).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(1.0F, 5.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
+        return modelData;
     }
 
 
+    public static TexturedModelData getTexturedModelData() {
+        return TexturedModelData.of(getModelData(), 128, 128);
+    }
     public WeepingAngelPose getWeepingAngelPose() {
         return weepingAngelPose;
     }
