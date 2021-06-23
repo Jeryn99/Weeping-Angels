@@ -6,12 +6,14 @@ import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -32,6 +34,16 @@ public class SnowArmBlock extends SnowBlock {
         return new SnowArmTile();
     }
 
+    @Override
+    public void entityInside(BlockState blockState, World world, BlockPos blockPos, Entity entity) {
+        if (world.getBlockEntity(blockPos) instanceof SnowArmTile) {
+            SnowArmTile snowArmTile = (SnowArmTile) world.getBlockEntity(blockPos);
+            if (snowArmTile.getSnowAngelStage() == SnowArmTile.SnowAngelStages.ARM) {
+                entity.makeStuckInBlock(blockState, new Vector3d(0.15D, 0.05F, 0.15D));
+            }
+        }
+    }
+
 
     @Override
     public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
@@ -45,7 +57,7 @@ public class SnowArmBlock extends SnowBlock {
                 snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowArmTile.setRotation(rotation);
                 snowArmTile.setHasSetup(true);
-                snowArmTile.setAngelVariants(AngelUtil.randomVarient());
+                snowArmTile.setVariant(AngelUtil.randomVarient());
                 snowArmTile.sendUpdates();
             }
         }
@@ -72,7 +84,7 @@ public class SnowArmBlock extends SnowBlock {
                 SnowArmTile snowArmTile = (SnowArmTile) tile;
                 WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
                 angel.setType(AngelEnums.AngelType.ANGELA_MC);
-                angel.setVarient(snowArmTile.getAngelVariants());
+                angel.setVarient(snowArmTile.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);
                 worldIn.removeBlock(pos, false);

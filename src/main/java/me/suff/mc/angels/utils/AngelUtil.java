@@ -16,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
@@ -26,10 +27,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -87,7 +85,7 @@ public class AngelUtil {
         if (!entity.level.isClientSide) {
             ServerWorld serverWorld = (ServerWorld) entity.level;
             serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
-            entity.playSound(SoundEvents.REDSTONE_TORCH_BURNOUT, 0.2F, 1.0F);
+            serverWorld.playSound((PlayerEntity)null, pos.getX(), pos.getY(), pos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
             entity.level.setBlock(pos, blockState, 2);
         }

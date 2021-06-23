@@ -39,11 +39,11 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.snowAngelStages = snowAngelStages;
     }
 
-    public WeepingAngelEntity.AngelVariants getAngelVariants() {
+    public WeepingAngelEntity.AngelVariants getVariant() {
         return angelVariants;
     }
 
-    public void setAngelVariants(WeepingAngelEntity.AngelVariants angelVariants) {
+    public void setVariant(WeepingAngelEntity.AngelVariants angelVariants) {
         this.angelVariants = angelVariants;
     }
 
@@ -52,7 +52,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         super.load(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setAngelVariants(WeepingAngelEntity.AngelVariants.valueOf(nbt.getString(WAConstants.VARIENT)));
+            setVariant(WeepingAngelEntity.AngelVariants.valueOf(nbt.getString(WAConstants.VARIENT)));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {
@@ -115,6 +115,9 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
+
+        if (snowAngelStages == SnowAngelStages.ARM) return;
+
         if (level != null && !level.getEntitiesOfClass(PlayerEntity.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
@@ -126,6 +129,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
             level.setBlockAndUpdate(worldPosition, Blocks.SNOW.defaultBlockState().setValue(LAYERS, layers));
         }
 
+        //Ensure that any headless variants don't appear with head stage
         if (angelVariants.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
             setSnowAngelStage(AngelUtil.randowSnowStage());
             hasSetup = true;

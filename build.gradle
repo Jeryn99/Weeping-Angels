@@ -24,10 +24,6 @@ archivesBaseName = "${project.jar_name}-1.16.x"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-
 // Process resources on build
 processResources {
     // This will ensure that this task is redone when the versions change.
@@ -56,6 +52,17 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+
+            if (project.hasProperty('mc_uuid')) {
+                args '--uuid', project.getProperty('mc_uuid')
+            }
+            if (project.hasProperty('mc_username')) {
+                args '--username', project.getProperty('mc_username')
+            }
+            if (project.hasProperty('mc_accessToken')) {
+                args '--accessToken', project.getProperty('mc_accessToken')
+            }
+
             mods {
                 weeping_angels {
                     source sourceSets.main
@@ -71,6 +78,7 @@ minecraft {
                 }
             }
         }
+
 
         data {
             workingDirectory project.file('run')
@@ -88,17 +96,19 @@ minecraft {
 }
 
 curseforge {
-    apiKey = rootProject.curseforge
-    project {
-        id = rootProject.weeping_angels
-        changelog = new File("${project.projectDir}/changelog.html").text
-        changelogType = 'html'
-        releaseType = 'release'
-        addGameVersion '1.16.3'
-        addGameVersion '1.16.4'
-        addGameVersion '1.16.5'
-        mainArtifact(jar) {
-            displayName = "[1.16.X] Weeping Angels - $project.version"
+    if (project.hasProperty('curseforge') && project.hasProperty('weeping_angels')) {
+        apiKey = rootProject.curseforge
+        project {
+            id = rootProject.weeping_angels
+            changelog = new File("${project.projectDir}/changelog.html").text
+            changelogType = 'html'
+            releaseType = 'release'
+            addGameVersion '1.16.3'
+            addGameVersion '1.16.4'
+            addGameVersion '1.16.5'
+            mainArtifact(jar) {
+                displayName = "[1.16.X] Weeping Angels - $project.version"
+            }
         }
     }
 }
@@ -106,6 +116,7 @@ curseforge {
 repositories {
     maven { url 'https://www.dogforce-games.com/maven/' }
     maven { url "https://www.cursemaven.com" }
+    maven { url 'https://jitpack.io' }
     flatDir { dirs 'libMods' }
 }
 

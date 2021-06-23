@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class MessageSFX {
 
-    private ResourceLocation sound;
+    private final ResourceLocation sound;
 
     public MessageSFX(ResourceLocation sound) {
         this.sound = sound;

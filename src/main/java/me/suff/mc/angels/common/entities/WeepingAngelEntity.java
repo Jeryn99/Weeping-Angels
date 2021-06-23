@@ -338,7 +338,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (tickCount % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
-
+        setItemInHand(Hand.MAIN_HAND, new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()));
         if (random.nextBoolean() && WAConfig.CONFIG.blockBreaking.get() && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
             replaceBlocks();
         }
@@ -391,7 +391,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                     }
                 }
 
-
                 if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
                     if (getHealth() < getMaxHealth()) {
                         heal(0.5F);
@@ -403,6 +402,8 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                             ((ServerWorld) level).sendParticles(ParticleTypes.PORTAL, pos.getX() + 0.5 + path.x() * percent, pos.getY() + 1.3 + path.y() * percent, pos.getZ() + 0.5 + path.z * percent, 20, 0, 0, 0, 0);
                         }
                         return;
+                    } else {
+                        continue;
                     }
                 }
 
@@ -432,12 +433,12 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             case RANDOM_PLACE:
                 double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
                 double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
-                //TODO Spawn particles on teleported
+
                 ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerWorld) player.level;
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
                 teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
 
-                teleportWorld.getServer().tell(new TickDelayedTask(0, () -> {
+                teleportWorld.getServer().tell(new TickDelayedTask(teleportWorld.getServer().getTickCount() + 1, () -> {
                     BlockPos blockPos = WATeleporter.findSafePlace(player, teleportWorld, new BlockPos(x, player.getY(), z));
 
                     if (AngelUtil.isOutsideOfBorder(teleportWorld, blockPos)) {

@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
@@ -77,6 +78,7 @@ public class WeepingAngels {
         WAAttributes.ATTRIBUTES.register(bus);
         AngelParticles.TYPES.register(bus);
     }
+
 
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();

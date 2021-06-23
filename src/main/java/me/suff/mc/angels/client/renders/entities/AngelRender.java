@@ -41,14 +41,15 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
         matrixStack.pushPose();
         float offset = MathHelper.cos(angel.tickCount * 0.1F) * -0.09F;
         matrixStack.scale(0.5F, 0.5F, 0.5F);
-        matrixStack.translate(0, 4.5, 0);
+        matrixStack.translate(0, 5, 0);
         matrixStack.translate(0, offset, 0);
+        matrixStack.mulPose(Vector3f.YP.rotation(angel.level.getGameTime() / 20F));
         renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, iRenderTypeBuffer, p_225623_6_);
         matrixStack.popPose();
 
         if (calcOverlay(angel.getHealth()) != -1) {
-            MatrixStack.Entry matrixstack$entry = matrixStack.last();
-            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(angel.getHealth()))), matrixstack$entry.pose(), matrixstack$entry.normal());
+            MatrixStack.Entry matrixEntry = matrixStack.last();
+            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(angel.getHealth()))), matrixEntry.pose(), matrixEntry.normal());
             IRenderTypeBuffer finalIRenderTypeBuffer = iRenderTypeBuffer;
             iRenderTypeBuffer = (p_230014_2_) -> {
                 IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(p_230014_2_);

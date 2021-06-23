@@ -97,7 +97,7 @@ public class WAObjects {
      * <br> Call this in CommonSetup in a deferred work task to reduce concurrent modification issues as we are modifying multiple maps we ATed
      */
     public static void setupStructures() {
-        setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), true); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
         setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
     }
 

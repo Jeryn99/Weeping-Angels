@@ -30,7 +30,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
         IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
-        return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowArmTile.getAngelVariants());
+        return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowArmTile.getVariant());
     }
 
     @Override

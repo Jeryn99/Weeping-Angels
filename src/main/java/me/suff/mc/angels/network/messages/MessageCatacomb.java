@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  */
 public class MessageCatacomb {
 
-    private boolean isInCata;
+    private final boolean isInCata;
 
     public MessageCatacomb(boolean isInCata) {
         this.isInCata = isInCata;
