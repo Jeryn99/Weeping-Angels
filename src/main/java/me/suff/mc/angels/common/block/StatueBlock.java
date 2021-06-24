@@ -1,11 +1,10 @@
 package me.suff.mc.angels.common.block;
 
 import me.suff.mc.angels.common.blockentity.StatueTile;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -21,7 +20,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /* Created by Craig on 19/02/2021 */
-public class StatueBlock extends Block implements BlockEntityProvider {
+public class StatueBlock extends BlockWithEntity implements BlockEntityProvider {
 
     public static final IntProperty ROTATION = Properties.ROTATION;
 

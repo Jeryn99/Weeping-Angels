@@ -4,6 +4,7 @@ import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import me.suff.mc.angels.enums.WeepingAngelPose;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 

@@ -4,7 +4,11 @@ import me.suff.mc.angels.common.entity.PortalEntity;
 import me.suff.mc.angels.common.entity.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
@@ -14,8 +18,10 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.event.listener.GameEventListener;
+import org.jetbrains.annotations.Nullable;
 
-public class ChronodyneGeneratorBlock extends Block {
+public class ChronodyneGeneratorBlock extends BlockWithEntity {
 
     public ChronodyneGeneratorBlock() {
         super(Settings.of(Material.STONE).nonOpaque().sounds(BlockSoundGroup.STONE).requiresTool());
@@ -60,4 +66,21 @@ public class ChronodyneGeneratorBlock extends Block {
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return super.getTicker(world, state, type);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
+        return super.getGameEventListener(world, blockEntity);
+    }
 }

@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.renderer.tile;
 
+import me.suff.mc.angels.client.ClientAngels;
 import me.suff.mc.angels.client.models.CoffinModel;
 import me.suff.mc.angels.client.models.PTBCoffinModel;
 import me.suff.mc.angels.common.block.CoffinBlock;
@@ -17,14 +18,15 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
 
 /* Created by Craig on 19/02/2021 */
-public class CoffinTileRenderer implements BlockEntityRenderer< CoffinTile >, BlockEntityRendererFactory< CoffinTile > {
+public class CoffinTileRenderer implements BlockEntityRenderer<CoffinTile>, BlockEntityRendererFactory<CoffinTile> {
 
-    private static final CoffinModel coffinModel = new CoffinModel();
     private static final PTBCoffinModel ptbCoffinModel = new PTBCoffinModel();
+    private static CoffinModel coffinModel;
     private final Context ctx;
 
     public CoffinTileRenderer(Context ctx) {
         this.ctx = ctx;
+        coffinModel = new CoffinModel(this.ctx.getLayerModelPart(ClientAngels.COFFIN));
     }
 
     @Override
@@ -43,7 +45,7 @@ public class CoffinTileRenderer implements BlockEntityRenderer< CoffinTile >, Bl
         }
 
         if (!coffinTile.getCoffin().name().contains("PTB")) {
-           //TODO coffinModel.Door.yaw = -(coffinTile.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.door.yaw = -(coffinTile.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityCutout(getTexture(coffinTile.getCoffin()))), light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);
         } else {
             matrices.translate(0, 0.5, 0);
@@ -58,7 +60,7 @@ public class CoffinTileRenderer implements BlockEntityRenderer< CoffinTile >, Bl
     }
 
     @Override
-    public BlockEntityRenderer< CoffinTile > create(Context ctx) {
+    public BlockEntityRenderer<CoffinTile> create(Context ctx) {
         return new CoffinTileRenderer(ctx);
     }
 }

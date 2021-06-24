@@ -19,9 +19,9 @@ public class WATiles {
     public static BlockEntityType< CoffinTile > COFFIN_TILE;
 
     public static void init() {
-        STATUE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "statue"), FabricBlockEntityTypeBuilder.create(StatueTile::new).build());
-        PLINTH_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "plinth"), FabricBlockEntityTypeBuilder.create(PlinthTile::new).build());
-        COFFIN_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "coffin"), FabricBlockEntityTypeBuilder.create(CoffinTile::new).build());
+        STATUE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "statue"), FabricBlockEntityTypeBuilder.create(StatueTile::new, WABlocks.STATUE).build(null));
+        PLINTH_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "plinth"), FabricBlockEntityTypeBuilder.create(PlinthTile::new, WABlocks.PLINTH).build());
+        COFFIN_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Constants.MODID, "coffin"), FabricBlockEntityTypeBuilder.create(CoffinTile::new, WABlocks.COFFIN).build());
     }
 
 }

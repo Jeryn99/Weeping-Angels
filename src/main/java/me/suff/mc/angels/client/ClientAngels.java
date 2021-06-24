@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.client.models.CoffinModel;
 import me.suff.mc.angels.client.models.WeepingAngelModel;
 import me.suff.mc.angels.client.renderer.entiity.PortalRenderer;
 import me.suff.mc.angels.client.renderer.entiity.WeepingAngelRenderer;
@@ -42,6 +43,7 @@ import static me.suff.mc.angels.WeepingAngels.spawnPacket;
 public class ClientAngels implements ClientModInitializer {
 
     public static EntityModelLayer ANGELS = new EntityModelLayer(new Identifier(Constants.MODID, "angel"), "weeping_angel");
+    public static EntityModelLayer COFFIN = new EntityModelLayer(new Identifier(Constants.MODID, "coffin"), "coffin");
 
     @Override
     public void onInitializeClient() {
@@ -59,6 +61,8 @@ public class ClientAngels implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(WeepingAngels.CHRONO, FlyingItemEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(ANGELS, WeepingAngelModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(COFFIN, CoffinModel::getTexturedModelData);
+
         // :(
         receiveEntityPacket();
     }
