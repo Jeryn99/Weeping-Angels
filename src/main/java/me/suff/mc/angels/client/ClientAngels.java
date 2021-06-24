@@ -44,6 +44,7 @@ public class ClientAngels implements ClientModInitializer {
 
     public static EntityModelLayer ANGELS = new EntityModelLayer(new Identifier(Constants.MODID, "angel"), "weeping_angel");
     public static EntityModelLayer COFFIN = new EntityModelLayer(new Identifier(Constants.MODID, "coffin"), "coffin");
+    public static EntityModelLayer TARDIS = new EntityModelLayer(new Identifier(Constants.MODID, "tardis"), "tardis");
 
     @Override
     public void onInitializeClient() {

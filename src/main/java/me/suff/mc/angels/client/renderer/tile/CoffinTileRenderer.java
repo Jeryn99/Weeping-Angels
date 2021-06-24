@@ -20,13 +20,14 @@ import net.minecraft.util.math.Vec3f;
 /* Created by Craig on 19/02/2021 */
 public class CoffinTileRenderer implements BlockEntityRenderer<CoffinTile>, BlockEntityRendererFactory<CoffinTile> {
 
-    private static final PTBCoffinModel ptbCoffinModel = new PTBCoffinModel();
+    private static PTBCoffinModel ptbCoffinModel;
     private static CoffinModel coffinModel;
     private final Context ctx;
 
     public CoffinTileRenderer(Context ctx) {
         this.ctx = ctx;
         coffinModel = new CoffinModel(this.ctx.getLayerModelPart(ClientAngels.COFFIN));
+        ptbCoffinModel = new PTBCoffinModel(this.ctx.getLayerModelPart(ClientAngels.TARDIS));
     }
 
     @Override

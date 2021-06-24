@@ -6,7 +6,6 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 /* Created by Craig on 19/02/2021 */
 public class WAOreBlock extends OreBlock {
 
-
     public WAOreBlock(Settings settings) {
         super(settings);
     }
