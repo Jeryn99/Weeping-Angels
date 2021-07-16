@@ -330,7 +330,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     @Override
     public void tick() {
-        setVarient(AngelVariants.DIRT);
         modelCheck();
         super.tick();
         if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
