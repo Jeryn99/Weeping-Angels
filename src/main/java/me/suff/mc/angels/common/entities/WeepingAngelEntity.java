@@ -28,6 +28,7 @@ import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.*;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
@@ -48,7 +49,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     private static final DataParameter<String> TYPE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<String> CURRENT_POSE = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
-    private static final DataParameter<String> VARIENT = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
+    private static final DataParameter<String> VARIANT = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.STRING);
     private static final DataParameter<Float> LAUGH = EntityDataManager.defineId(WeepingAngelEntity.class, DataSerializers.FLOAT);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
@@ -99,16 +100,16 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIENT, AngelUtil.randomVarient().name());
+        getEntityData().define(VARIANT, AngelUtil.randomVarient().name());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
     public String getVarient() {
-        return getEntityData().get(VARIENT);
+        return getEntityData().get(VARIANT);
     }
 
     public void setVarient(AngelVariants varient) {
-        getEntityData().set(VARIENT, varient.name());
+        getEntityData().set(VARIANT, varient.name());
     }
 
     @Nullable
@@ -159,7 +160,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             if (isCherub) {
                 dealDamage(serverPlayerEntity);
                 if (WAConfig.CONFIG.torchBlowOut.get()) {
-                    AngelUtil.removeLightFromHand(serverPlayerEntity, this);
+                    AngelUtil.extinguishHand(serverPlayerEntity, this);
                 }
                 return true;
             }
@@ -329,6 +330,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     @Override
     public void tick() {
+        setVarient(AngelVariants.DIRT);
         modelCheck();
         super.tick();
         if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
@@ -338,7 +340,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (tickCount % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
-        setItemInHand(Hand.MAIN_HAND, new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()));
+
         if (random.nextBoolean() && WAConfig.CONFIG.blockBreaking.get() && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
             replaceBlocks();
         }
@@ -380,16 +382,18 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-                    breakBlock(this, pos, Blocks.AIR.defaultBlockState());
+                    breakBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
                     return;
                 }
 
-                if (blockState.getBlock() == Blocks.REDSTONE_LAMP) {
-                    if (blockState.getValue(RedstoneLampBlock.LIT)) {
-                        breakBlock(this, pos, blockState.setValue(RedstoneLampBlock.LIT, false));
+                if (blockState.hasProperty(BlockStateProperties.LIT)) {
+                    if(blockState.getValue(BlockStateProperties.LIT)) {
+                        breakBlock(this, pos, blockState.setValue(BlockStateProperties.LIT, false), false);
                         return;
                     }
+                    continue;
                 }
+
 
                 if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
                     if (getHealth() < getMaxHealth()) {
@@ -408,7 +412,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getLightValue(level, pos) > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
-                    breakBlock(this, pos, Blocks.AIR.defaultBlockState());
+                    breakBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
                     return;
                 }
             }
@@ -424,7 +428,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 doHurtTarget(player);
                 break;
             case STRUCTURES:
-                Objects.requireNonNull(level.getServer()).tell(new TickDelayedTask(level.getServer().getTickCount()+1, () -> {
+                Objects.requireNonNull(level.getServer()).tell(new TickDelayedTask(level.getServer().getTickCount() + 1, () -> {
                     if (!WATeleporter.handleStructures(player)) {
                         dealDamage(player);
                     }
@@ -534,7 +538,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     public enum AngelVariants {
-        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
+        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), DIRT(new ItemStack(Blocks.DIRT)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
 
         private final boolean headless;
         private final ItemStack dropStack;

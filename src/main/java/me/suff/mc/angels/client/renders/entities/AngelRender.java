@@ -28,35 +28,45 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
         super(manager, new ModelAngelaAngel(), 0.0F);
     }
 
+    public static int calcOverlay(float health) {
+        if (health > 45) {
+            return -1;
+        }
+        return (int) Math.floor((1.0 - (health / 50.0)) * 9);
+    }
+
     @Override
     protected float getWhiteOverlayProgress(WeepingAngelEntity livingEntityIn, float partialTicks) {
         return 0;
     }
 
     @Override
-    public void render(WeepingAngelEntity angel, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int p_225623_6_) {
-        model = ClientUtil.getModelForAngel(angel.getAngelType());
+    public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, MatrixStack pMatrixStackIn, IRenderTypeBuffer pBufferIn, int pPackedLightIn) {
+        model = ClientUtil.getModelForAngel(weepingAngelEntity.getAngelType());
 
-        ItemStack key = angel.getMainHandItem();
-        matrixStack.pushPose();
-        float offset = MathHelper.cos(angel.tickCount * 0.1F) * -0.09F;
-        matrixStack.scale(0.5F, 0.5F, 0.5F);
-        matrixStack.translate(0, 5, 0);
-        matrixStack.translate(0, offset, 0);
-        matrixStack.mulPose(Vector3f.YP.rotation(angel.level.getGameTime() / 20F));
-        renderItem(angel, key, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, iRenderTypeBuffer, p_225623_6_);
-        matrixStack.popPose();
+        ItemStack key = weepingAngelEntity.getMainHandItem();
+        pMatrixStackIn.pushPose();
+        float offset = MathHelper.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
+        pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
+        pMatrixStackIn.translate(0, 5, 0);
+        pMatrixStackIn.translate(0, offset, 0);
+        pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngelEntity.level.getGameTime() / 20F));
+        renderItem(weepingAngelEntity, key, ItemCameraTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
+        pMatrixStackIn.popPose();
 
-        if (calcOverlay(angel.getHealth()) != -1) {
-            MatrixStack.Entry matrixEntry = matrixStack.last();
-            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(angel.getHealth()))), matrixEntry.pose(), matrixEntry.normal());
-            IRenderTypeBuffer finalIRenderTypeBuffer = iRenderTypeBuffer;
-            iRenderTypeBuffer = (p_230014_2_) -> {
-                IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(p_230014_2_);
-                return p_230014_2_.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
+        pMatrixStackIn.pushPose();
+        //TODO This messes up Optifine Shaders, not 100% sure if their fault or mine
+        if (calcOverlay(weepingAngelEntity.getHealth()) != -1) {
+            MatrixStack.Entry matrixEntry = pMatrixStackIn.last();
+            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(weepingAngelEntity.getHealth()))), matrixEntry.pose(), matrixEntry.normal());
+            IRenderTypeBuffer finalIRenderTypeBuffer = pBufferIn;
+            pBufferIn = (renderType) -> {
+                IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(renderType);
+                return renderType.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
             };
         }
-        super.render(angel, p_225623_2_, p_225623_3_, matrixStack, iRenderTypeBuffer, p_225623_6_);
+        super.render(weepingAngelEntity, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
+        pMatrixStackIn.popPose();
     }
 
     @Override
@@ -83,14 +93,6 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     public ResourceLocation getTextureLocation(WeepingAngelEntity weepingAngelEntity) {
         IAngelModel iAngelModel = (IAngelModel) model;
         return iAngelModel.getTextureForPose(weepingAngelEntity, WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
-    }
-
-
-    public int calcOverlay(float health) {
-        if (health > 45) {
-            return -1;
-        }
-        return (int) Math.floor((1.0 - (health / 50.0)) * 9);
     }
 
     private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemCameraTransforms.TransformType transformTypeIn, boolean leftHand, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn) {

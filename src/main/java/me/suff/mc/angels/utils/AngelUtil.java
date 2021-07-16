@@ -16,7 +16,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
@@ -27,7 +26,10 @@ import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -81,12 +83,14 @@ public class AngelUtil {
         return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
     }
 
-    public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState) {
+    public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {
         if (!entity.level.isClientSide) {
             ServerWorld serverWorld = (ServerWorld) entity.level;
             serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
-            serverWorld.playSound((PlayerEntity)null, pos.getX(), pos.getY(), pos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
+            serverWorld.playSound(null, pos.getX(), pos.getY(), pos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (breakBlock) {
+                InventoryHelper.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
+            }
             entity.level.setBlock(pos, blockState, 2);
         }
     }
@@ -114,7 +118,7 @@ public class AngelUtil {
         return 20 * seconds;
     }
 
-    public static void removeLightFromHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
+    public static void extinguishHand(ServerPlayerEntity playerMP, WeepingAngelEntity angel) {
         if (playerMP.distanceToSqr(angel) < 1) {
             for (Hand enumHand : Hand.values()) {
                 ItemStack stack = playerMP.getItemInHand(enumHand);
