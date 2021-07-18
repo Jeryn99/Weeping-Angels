@@ -27,6 +27,8 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
 
     @Override
     public void render(PlinthTile plinthTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        if(plinthTile.getHasSpawned()) return;
+
         matrixStack.pushPose();
         matrixStack.translate(0.5F, 2.5F, 0.5F);
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
