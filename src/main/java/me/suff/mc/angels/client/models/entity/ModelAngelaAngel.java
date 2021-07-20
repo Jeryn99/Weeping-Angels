@@ -8,6 +8,7 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.entity.model.IHasHead;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
@@ -232,7 +233,7 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
 
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return generateTex(pose, WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient()));
+            return generateTex(pose, weepingAngelEntity.getVariant());
         }
 
         if (angel instanceof StatueTile) {
@@ -258,16 +259,13 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
-        String variant = angelVariants.name().toLowerCase() + "_angel_";
-        String location = "textures/entities/angela/";
-        location = location + angelVariants.name().toLowerCase().toLowerCase() + "/";
+    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
+        String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
+        String coreFolder = "textures/entities/angela/";
+        coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = emotion.name().toLowerCase();
-        if (angelVariants.isHeadless()) {
-            suffix = "headless";
-        }
-        return new ResourceLocation(WeepingAngels.MODID, location + variant + suffix + ".png");
+        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
+        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 
     @Override

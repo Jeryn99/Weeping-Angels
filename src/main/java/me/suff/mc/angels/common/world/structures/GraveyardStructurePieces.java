@@ -8,6 +8,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -94,6 +95,7 @@ public class GraveyardStructurePieces {
             if (resourceLocation == GRAVEYARD_WALKWAY) {
                 blockpos = blockpos.below(6);
             }
+
             this.templatePosition = pos.offset(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             this.rotation = rotationIn;
             this.setupPiece(templateManagerIn);
@@ -127,23 +129,9 @@ public class GraveyardStructurePieces {
 
             if (USERNAMES.length == 0) {
                 try {
-
-                    ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");
-                    InputStream stream = ServerLifecycleHooks.getCurrentServer().getDataPackRegistries().getResourceManager().getResource(resourceLocation).getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-                    stream.close();
-                    String[] splashes = GSON.fromJson(sb.toString(), String[].class);
-                    if (splashes != null) {
-                        USERNAMES = splashes;
-                    }
+                    loadNames();
                 } catch (IOException e) {
-                    WeepingAngels.LOGGER.catching(e);
+                    e.printStackTrace();
                 }
             }
 
@@ -155,7 +143,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
-                statueTile.setAngelVarients(AngelUtil.randomVarient());
+                statueTile.setAngelVarients(AngelTypes.getRandom());
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }
@@ -205,6 +193,23 @@ public class GraveyardStructurePieces {
                 } else {
                     worldIn.removeBlock(pos, false);
                 }
+            }
+        }
+
+        private void loadNames() throws IOException {
+            ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");
+            InputStream stream = ServerLifecycleHooks.getCurrentServer().getDataPackRegistries().getResourceManager().getResource(resourceLocation).getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            reader.close();
+            stream.close();
+            String[] names = GSON.fromJson(sb.toString(), String[].class);
+            if (names != null) {
+                USERNAMES = names;
             }
         }
 

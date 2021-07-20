@@ -6,6 +6,8 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
@@ -15,6 +17,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
@@ -24,7 +27,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
     private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
-    private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
+    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
     public PlinthTile() {
         super(WAObjects.Tiles.PLINTH.get());
@@ -46,7 +49,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(WeepingAngelEntity.AngelVariants.valueOf(compound.getString(WAConstants.VARIENT)));
+            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
         }
     }
 
@@ -57,7 +60,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
-        compound.putString(WAConstants.VARIENT, angelVariants.name());
+        compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
         return compound;
     }
 
@@ -122,7 +125,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
                 angel.setType(type);
                 angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY() + 1, worldPosition.getZ() + 0.5D, 0, 0);
                 angel.setPose(getPose());
-                angel.setVarient(angelVariants);
+                angel.setVarient(angelVariant);
                 level.addFreshEntity(angel);
                 plinth.setHasSpawned(true);
                 sendUpdates();
@@ -138,12 +141,12 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
         this.pose = pose;
     }
 
-    public WeepingAngelEntity.AngelVariants getAngelVarients() {
-        return angelVariants;
+    public AbstractVariant getAngelVarients() {
+        return angelVariant;
     }
 
-    public void setAngelVarients(WeepingAngelEntity.AngelVariants angelVariants) {
-        this.angelVariants = angelVariants;
+    public void setAngelVarients(AbstractVariant angelVariants) {
+        this.angelVariant = angelVariants;
     }
 
     @Override

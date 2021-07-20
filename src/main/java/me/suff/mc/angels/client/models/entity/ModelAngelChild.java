@@ -8,6 +8,8 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -219,10 +221,9 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-
         if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return generateTex(pose, WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient()));
+            return generateTex(pose, weepingAngelEntity.getVariant());
         }
 
         if (angel instanceof StatueTile) {
@@ -235,11 +236,11 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        return generateTex(WeepingAngelPose.APPROACH, WeepingAngelEntity.AngelVariants.NORMAL);
+        return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
         String location = "textures/entities/cherub/angel_cherub_";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = emotion.name().toLowerCase();

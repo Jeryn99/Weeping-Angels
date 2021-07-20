@@ -7,6 +7,7 @@ import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
+import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -83,7 +84,7 @@ public class AngelUtil {
         return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
     }
 
-    public static void breakBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {
+    public static void updateBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {
         if (!entity.level.isClientSide) {
             ServerWorld serverWorld = (ServerWorld) entity.level;
             serverWorld.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, blockState), pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0, 0, 0);
@@ -148,11 +149,6 @@ public class AngelUtil {
         return AngelEnums.AngelType.values()[pick];
     }
 
-    public static WeepingAngelEntity.AngelVariants randomVarient() {
-        int pick = RAND.nextInt(WeepingAngelEntity.AngelVariants.values().length);
-        return WeepingAngelEntity.AngelVariants.values()[pick];
-    }
-
     public static SnowArmTile.SnowAngelStages randowSnowStage() {
         int pick = RAND.nextInt(SnowArmTile.SnowAngelStages.values().length);
         return SnowArmTile.SnowAngelStages.values()[pick];
@@ -182,8 +178,10 @@ public class AngelUtil {
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
             if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
-                WeepingAngelEntity.AngelVariants angelVarient = WeepingAngelEntity.AngelVariants.valueOf(weepingAngelEntity.getVarient());
-                generatedTable.add(angelVarient.getDropStack());
+                AbstractVariant variant = weepingAngelEntity.getVariant();
+                if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngelEntity)) {
+                    weepingAngelEntity.spawnAtLocation(variant.stackDrop().getStack());
+                }
             }
         }
 

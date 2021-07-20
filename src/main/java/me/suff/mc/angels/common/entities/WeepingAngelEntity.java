@@ -6,6 +6,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
@@ -43,7 +45,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static me.suff.mc.angels.utils.AngelUtil.breakBlock;
+import static me.suff.mc.angels.utils.AngelUtil.updateBlock;
 
 public class WeepingAngelEntity extends QuantumLockEntity {
 
@@ -100,16 +102,16 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, AngelUtil.randomVarient().name());
+        getEntityData().define(VARIANT, AngelTypes.getRandom().getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
-    public String getVarient() {
-        return getEntityData().get(VARIANT);
+    public AbstractVariant getVariant() {
+        return AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
-    public void setVarient(AngelVariants varient) {
-        getEntityData().set(VARIANT, varient.name());
+    public void setVarient(AbstractVariant varient) {
+        getEntityData().set(VARIANT, varient.getRegistryName().toString());
     }
 
     @Nullable
@@ -231,8 +233,10 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         spawnAtLocation(getOffhandItem());
 
         if (getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
-            AngelVariants angelVarient = AngelVariants.valueOf(getVarient());
-            spawnAtLocation(angelVarient.getDropStack());
+            AbstractVariant variant = getVariant();
+            if (variant.shouldDrop(cause, this)) {
+                spawnAtLocation(variant.stackDrop().getStack());
+            }
         }
 
     }
@@ -249,7 +253,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.addAdditionalSaveData(compound);
         compound.putString(WAConstants.POSE, getAngelPose());
         compound.putString(WAConstants.TYPE, getAngelType().name());
-        compound.putString(WAConstants.VARIENT, getVarient());
+        compound.putString(WAConstants.VARIENT, getVariant().getRegistryName().toString());
         compound.putFloat(WAConstants.LAUGH, getLaugh());
     }
 
@@ -268,7 +272,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
         if (compound.contains(WAConstants.VARIENT))
-            setVarient(AngelVariants.valueOf(compound.getString(WAConstants.VARIENT)));
+            setVarient(Objects.requireNonNull(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
     }
 
     @Override
@@ -381,13 +385,13 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getBlock() == Blocks.TORCH || blockState.getBlock() == Blocks.REDSTONE_TORCH || blockState.getBlock() == Blocks.GLOWSTONE) {
-                    breakBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
+                    updateBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
                     return;
                 }
 
                 if (blockState.hasProperty(BlockStateProperties.LIT)) {
-                    if(blockState.getValue(BlockStateProperties.LIT)) {
-                        breakBlock(this, pos, blockState.setValue(BlockStateProperties.LIT, false), false);
+                    if (blockState.getValue(BlockStateProperties.LIT)) {
+                        updateBlock(this, pos, blockState.setValue(BlockStateProperties.LIT, false), false);
                         return;
                     }
                     continue;
@@ -411,7 +415,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 }
 
                 if (blockState.getLightValue(level, pos) > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
-                    breakBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
+                    updateBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
                     return;
                 }
             }
@@ -534,30 +538,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     public void setLaugh(float laugh) {
         getEntityData().set(LAUGH, laugh);
-    }
-
-    public enum AngelVariants {
-        MOSSY(new ItemStack(Blocks.VINE)), NORMAL(new ItemStack(Blocks.COBBLESTONE)), RUSTED(new ItemStack(Blocks.GRANITE)), RUSTED_NO_ARM(new ItemStack(Blocks.GRANITE)), DIRT(new ItemStack(Blocks.DIRT)), RUSTED_NO_WING(new ItemStack(Blocks.GRANITE)), RUSTED_HEADLESS(true, new ItemStack(Blocks.GRANITE));
-
-        private final boolean headless;
-        private final ItemStack dropStack;
-
-        AngelVariants(ItemStack stack) {
-            this(false, stack);
-        }
-
-        AngelVariants(boolean b, ItemStack stack) {
-            headless = b;
-            this.dropStack = stack;
-        }
-
-        public ItemStack getDropStack() {
-            return dropStack;
-        }
-
-        public boolean isHeadless() {
-            return headless;
-        }
     }
 
 }

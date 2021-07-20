@@ -4,6 +4,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,6 +15,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
@@ -23,7 +26,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private WeepingAngelEntity.AngelVariants angelVariants = WeepingAngelEntity.AngelVariants.NORMAL;
+    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -42,12 +45,12 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.snowAngelStages = snowAngelStages;
     }
 
-    public WeepingAngelEntity.AngelVariants getVariant() {
-        return angelVariants;
+    public AbstractVariant getVariant() {
+        return angelVariant;
     }
 
-    public void setVariant(WeepingAngelEntity.AngelVariants angelVariants) {
-        this.angelVariants = angelVariants;
+    public void setVariant(AbstractVariant angelVariant) {
+        this.angelVariant = angelVariant;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         super.load(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setVariant(WeepingAngelEntity.AngelVariants.valueOf(nbt.getString(WAConstants.VARIENT)));
+            setVariant(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {
@@ -70,7 +73,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT save(CompoundNBT compound) {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
-        compound.putString(WAConstants.VARIENT, angelVariants.name());
+        compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
         compound.putInt("rotation", rotation);
         compound.putBoolean("setup", hasSetup);
         return super.save(compound);
@@ -124,7 +127,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         if (level != null && !level.getEntitiesOfClass(PlayerEntity.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
-            angel.setVarient(angelVariants);
+            angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
             level.addFreshEntity(angel);
@@ -133,7 +136,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         }
 
         //Ensure that any headless variants don't appear with head stage
-        if (angelVariants.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
+        if (angelVariant.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
             setSnowAngelStage(AngelUtil.randowSnowStage());
             hasSetup = true;
             sendUpdates();

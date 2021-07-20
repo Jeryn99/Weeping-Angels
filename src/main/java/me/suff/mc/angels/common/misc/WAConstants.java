@@ -9,7 +9,7 @@ public class WAConstants {
     public static final String TYPE = "type";
     public static final String PREVPOS = "prevPos";
     public static final String QAUNTUM_LOCKED = "qauntumLocked";
-    public static final String VARIENT = "varient";
+    public static final String VARIENT = "variant";
 
     public static final String SNOW_STAGE = "snow_stage";
     public static final String LAUGH = "laugh";

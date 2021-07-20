@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -138,11 +139,6 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
         this.weepingAngelPose = angelPose;
     }
 
-    @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
-        return null;
-    }
-
 
     @Override
     public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
@@ -264,6 +260,11 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
                 leftleg);
     }
 
+
+    @Override
+    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
+        return null;
+    }
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {

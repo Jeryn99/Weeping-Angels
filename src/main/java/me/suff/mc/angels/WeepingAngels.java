@@ -6,6 +6,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -38,6 +39,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
+import net.minecraftforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +56,8 @@ public class WeepingAngels {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
         modBus.addListener(this::setup);
+        AngelTypes.VARIANTS.register(modBus);
+
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));

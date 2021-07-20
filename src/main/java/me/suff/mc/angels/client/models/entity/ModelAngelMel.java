@@ -9,6 +9,7 @@ import me.suff.mc.angels.client.models.entity.arms.ModelArmsIdle;
 import me.suff.mc.angels.client.models.entity.arms.ModelArmsPointing;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -640,8 +641,7 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, WeepingAngelEntity.AngelVariants angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
         return null;
     }
-
 }

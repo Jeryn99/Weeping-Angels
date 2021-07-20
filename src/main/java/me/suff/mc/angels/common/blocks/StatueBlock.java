@@ -1,7 +1,12 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -14,11 +19,13 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -30,7 +37,6 @@ import javax.annotation.Nullable;
 public class StatueBlock extends Block implements IWaterLoggable {
 
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
-
 
     public StatueBlock() {
         super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
@@ -100,31 +106,36 @@ public class StatueBlock extends Block implements IWaterLoggable {
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(AngelUtil.randomVarient());
+                    statue.setAngelVarients(AngelTypes.getRandom());
                 }
 
-        /*        int offset = 0;
-                for (AngelEnums.AngelType type : AngelEnums.AngelType.values()) {
-                    for (WeepingAngelEntity.AngelVariants value : WeepingAngelEntity.AngelVariants.values()) {
-                        for (WeepingAngelPose angelPose : WeepingAngelPose.values()) {
-                            if (type == AngelEnums.AngelType.ANGELA_MC) {
-                                world.setBlockState(pos.west(offset), WAObjects.Blocks.STATUE.get().getDefaultState());
-                                StatueTile statueTile = (StatueTile) world.getTileEntity(pos.west(offset));
-                                statueTile.setPose(angelPose);
-                                statueTile.setAngelType(type);
-                                statueTile.setRotation(rotation);
-                                statueTile.setAngelVarients(value);
-                                world.setBlockState(pos.west(offset).north(), Blocks.SPRUCE_WALL_SIGN.getDefaultState());
-                                SignTileEntity signTileEntity = (SignTileEntity) world.getTileEntity(pos.west(offset).north());
-                                signTileEntity.setText(0, new TranslationTextComponent(type.name()));
-                                signTileEntity.setText(1, new TranslationTextComponent(angelPose.name()));
-                                signTileEntity.setText(3, new TranslationTextComponent(value.name()));
-                                signTileEntity.markDirty();
-                                offset++;
+                if (true) {
+                    int offset = 0;
+                    int many = 0;
+                    for (AngelEnums.AngelType type : AngelEnums.AngelType.values()) {
+                        for (AbstractVariant abstractVariant : AngelTypes.VARIANTS_REGISTRY.get()) {
+                            for (WeepingAngelPose angelPose : WeepingAngelPose.values()) {
+                                if (type == AngelEnums.AngelType.ANGELA_MC) {
+                                    world.setBlockAndUpdate(pos.west(offset), WAObjects.Blocks.STATUE.get().defaultBlockState());
+                                    StatueTile statueTile = (StatueTile) world.getBlockEntity(pos.west(offset));
+                                    statueTile.setPose(angelPose);
+                                    statueTile.setAngelType(type);
+                                    statueTile.setAngelVarients(abstractVariant);
+                                    world.setBlockAndUpdate(pos.west(offset).north(), Blocks.SPRUCE_WALL_SIGN.defaultBlockState());
+                                    SignTileEntity signTileEntity = (SignTileEntity) world.getBlockEntity(pos.west(offset).north());
+                                    signTileEntity.setMessage(0, new TranslationTextComponent(type.name()));
+                                    signTileEntity.setMessage(1, new TranslationTextComponent(angelPose.name()));
+                                    signTileEntity.setMessage(2, new TranslationTextComponent(abstractVariant.getRegistryName().getNamespace()));
+                                    signTileEntity.setMessage(3, new TranslationTextComponent(abstractVariant.getRegistryName().getPath()));
+                                    signTileEntity.requestModelDataUpdate();
+                                    offset++;
+                                    many++;
+                                }
                             }
                         }
                     }
-                }*/
+                    System.out.println(many);
+                }
             }
         }
     }
