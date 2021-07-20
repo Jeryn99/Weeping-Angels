@@ -4,6 +4,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BowItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -11,8 +13,12 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.gen.feature.structure.WoodlandMansionStructure;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
 public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
@@ -20,7 +26,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     private boolean isOpen, hasSkeleton = false;
     private float openAmount = 0.0F, alpha = 1;
     private boolean doingSomething = false;
-    private int ticks, pulses;
+    private int ticks, pulses, knockTime;
 
     public CoffinTile() {
         super(WAObjects.Tiles.COFFIN.get());
@@ -82,6 +88,16 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
         if (this.openAmount < 0.0F) {
             this.openAmount = 0.0F;
+        }
+
+        if(knockTime <= 0){
+            knockTime = RAND.nextInt(1800);
+        }
+        setHasSkeleton(true);
+
+        if(level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen()){
+            level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundCategory.BLOCKS, 1.0F * 16, 1.0F);
+            knockTime = RAND.nextInt(1800);
         }
 
         if (doingSomething && coffin.isPoliceBox()) {

@@ -62,7 +62,7 @@ public class GraveyardStructurePieces {
         int z = pos.getZ();
         BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
         BlockPos blockpos = rotationOffSet.offset(x, pos.getY(), z);
-        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, /*ALL_GRAVES[random.nextInt(ALL_GRAVES.length)]*/GRAVEYARD_LARGE_ONE, blockpos, rotation));
+        pieceList.add(new GraveyardStructurePieces.Piece(templateManager, ALL_GRAVES[random.nextInt(ALL_GRAVES.length)], blockpos, rotation));
     }
 
     public static LocalDate createRandomDate() {
@@ -125,10 +125,6 @@ public class GraveyardStructurePieces {
         @Override
         protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 
-            if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
-                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerNamesArray());
-            }
-
             if (USERNAMES.length == 0) {
                 try {
 
@@ -149,7 +145,10 @@ public class GraveyardStructurePieces {
                 } catch (IOException e) {
                     WeepingAngels.LOGGER.catching(e);
                 }
+            }
 
+            if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
+                USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerNamesArray());
             }
 
             if ("angel".equals(function)) {

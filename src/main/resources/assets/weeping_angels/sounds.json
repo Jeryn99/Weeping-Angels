@@ -63,6 +63,16 @@
       }
     ]
   },
+  "knock": {
+    "category": "hostile",
+    "subtitle": "sound.weeping_angels.knock",
+    "sounds": [
+      {
+        "name": "weeping_angels:knock",
+        "stream": false
+      }
+    ]
+  },
   "catacomb": {
     "category": "hostile",
     "subtitle": "sound.weeping_angels.catacomb",
