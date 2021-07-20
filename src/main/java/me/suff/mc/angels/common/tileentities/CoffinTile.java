@@ -93,9 +93,8 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         if(knockTime <= 0){
             knockTime = RAND.nextInt(1800);
         }
-        setHasSkeleton(true);
 
-        if(level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen()){
+        if(level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()){
             level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundCategory.BLOCKS, 1.0F * 16, 1.0F);
             knockTime = RAND.nextInt(1800);
         }

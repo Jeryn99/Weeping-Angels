@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import it.unimi.dsi.fastutil.bytes.ByteRBTreeSet;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
@@ -55,7 +56,7 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
         if (!tileEntityIn.getCoffin().isPoliceBox()) {
-            coffinModel.Door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
             matrixStack.translate(0, 0.5, 0);
