@@ -1,28 +1,28 @@
 package me.suff.mc.angels.common.entities;
 
 import me.suff.mc.angels.common.WAObjects;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class AnomalyEntity extends MobEntity {
+public class AnomalyEntity extends Mob {
 
-    private static final DataParameter<Integer> TIME_ALIVE = EntityDataManager.defineId(AnomalyEntity.class, DataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TIME_ALIVE = SynchedEntityData.defineId(AnomalyEntity.class, EntityDataSerializers.INT);
 
-    public AnomalyEntity(World worldIn) {
+    public AnomalyEntity(Level worldIn) {
         super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
     }
 
-    public AnomalyEntity(EntityType<?> type, World world) {
+    public AnomalyEntity(EntityType<?> type, Level world) {
         this(world);
     }
 
@@ -66,7 +66,7 @@ public class AnomalyEntity extends MobEntity {
 
             for (WeepingAngelEntity weepingAngelEntity : level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(10))) {
                 BlockPos pos = blockPosition().subtract(weepingAngelEntity.blockPosition());
-                Vector3d vec = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngelEntity.setNoAi(false);
                 weepingAngelEntity.setDeltaMovement(vec.scale(0.15D));
             }

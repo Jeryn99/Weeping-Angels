@@ -1,57 +1,57 @@
 package me.suff.mc.angels.common.entities;
 
 import me.suff.mc.angels.common.WAObjects;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.Containers;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 /**
  * Created by Craig on 06/10/2019 @ 12:17
  */
-@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
-public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements IRendersAsItem {
+@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
+public class ChronodyneGeneratorEntity extends ThrowableItemProjectile implements ItemSupplier {
 
     ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, double x, double y, double z, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, double x, double y, double z, Level worldIn) {
         super(type, x, y, z, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ProjectileItemEntity> type, LivingEntity livingEntityIn, World worldIn) {
+    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, LivingEntity livingEntityIn, Level worldIn) {
         super(type, livingEntityIn, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(World world) {
+    public ChronodyneGeneratorEntity(Level world) {
         this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
     }
 
     @Override
-    protected void onHit(RayTraceResult result) {
+    protected void onHit(HitResult result) {
 
         if (result == null || !isAlive()) return;
 
         // Entity Hit
-        if (result.getType() == RayTraceResult.Type.ENTITY) {
-            EntityRayTraceResult entityHitResult = ((EntityRayTraceResult) result);
+        if (result.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult entityHitResult = ((EntityHitResult) result);
             if (entityHitResult == null) return;
             Entity hitEntity = entityHitResult.getEntity();
             if (hitEntity instanceof WeepingAngelEntity) {
@@ -59,22 +59,22 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
                     AnomalyEntity a = new AnomalyEntity(level);
                     a.copyPosition(hitEntity);
                     level.addFreshEntity(a);
-                    remove();
+                    remove(RemovalReason.KILLED);
                 }
             }
         }
 
-        if (result.getType() == RayTraceResult.Type.BLOCK) {
+        if (result.getType() == HitResult.Type.BLOCK) {
             if (!level.isClientSide) {
-                BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) result;
+                BlockHitResult blockRayTraceResult = (BlockHitResult) result;
                 BlockPos pos = new BlockPos(blockRayTraceResult.getBlockPos().getX(), blockRayTraceResult.getBlockPos().getY() + 1, blockRayTraceResult.getBlockPos().getZ());
                 if (level.isEmptyBlock(pos) && !level.isEmptyBlock(pos.below()) || level.getBlockState(pos).getMaterial().equals(Material.PLANT)) {
                     level.setBlockAndUpdate(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().defaultBlockState());
                 } else {
-                    InventoryHelper.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
                 }
                 level.broadcastEntityEvent(this, (byte) 3);
-                remove();
+                remove(RemovalReason.KILLED);
             }
         }
 
@@ -86,7 +86,7 @@ public class ChronodyneGeneratorEntity extends ProjectileItemEntity implements I
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

@@ -11,26 +11,28 @@ import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
-public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlinth {
+public class PlinthTile extends BlockEntity implements BlockEntityTicker<PlinthTile>, IPlinth {
 
     private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
-    public PlinthTile() {
-        super(WAObjects.Tiles.PLINTH.get());
+    public PlinthTile(BlockPos blockPos, BlockState state) {
+        super(WAObjects.Tiles.PLINTH.get(), blockPos, state);
     }
 
     public boolean getHasSpawned() {
@@ -42,8 +44,8 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT compound) {
-        super.load(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
 
         setHasSpawned(compound.getBoolean("hasSpawned"));
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
@@ -54,7 +56,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         super.save(compound);
         NBTPatcher.angelaToVillager(compound, "model");
         compound.putBoolean("hasSpawned", hasSpawned);
@@ -77,23 +79,23 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getTag());
+        handleUpdateTag(pkt.getTag());
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public AABB getRenderBoundingBox() {
         return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
@@ -104,9 +106,8 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public void tick() {
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, PlinthTile p_155256_) {
         if (level.isClientSide) return;
-
 
         boolean isClassic = getAngelType() == AngelType.A_DIZZLE;
         boolean current = getBlockState().getValue(CLASSIC);

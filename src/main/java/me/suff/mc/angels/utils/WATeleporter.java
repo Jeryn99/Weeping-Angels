@@ -2,30 +2,28 @@ package me.suff.mc.angels.utils;
 
 import com.google.common.collect.Lists;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageSFX;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class WATeleporter {
 
-    public static BlockPos findSafePlace(PlayerEntity playerEntity, World world, BlockPos pos) {
+    public static BlockPos findSafePlace(Player playerEntity, Level world, BlockPos pos) {
 
-        if (world.dimension().equals(World.END)) {
-            return ServerWorld.END_SPAWN_POINT;
+        if (world.dimension().equals(Level.END)) {
+            return ServerLevel.END_SPAWN_POINT;
         }
 
         for (int i = 5; i > 0; i--) {
@@ -38,14 +36,14 @@ public class WATeleporter {
             }
         }
 
-        return world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
+        return world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
     }
 
-    public static ServerWorld getRandomDimension(Random rand) {
-        Iterable<ServerWorld> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
-        ArrayList<ServerWorld> allowedDimensions = Lists.newArrayList(dimensions);
+    public static ServerLevel getRandomDimension(Random rand) {
+        Iterable<ServerLevel> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
+        ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 
-        for (ServerWorld dimension : dimensions) {
+        for (ServerLevel dimension : dimensions) {
             for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
                 if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
@@ -53,18 +51,19 @@ public class WATeleporter {
             }
         }
 
-        if (ModList.get().isLoaded("tardis")) {
+        //TODO TARDIS STUFF
+  /*      if (ModList.get().isLoaded("tardis")) {
             allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
-        }
+        }*/
 
-        allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER));
+        allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 
-    public static boolean handleStructures(ServerPlayerEntity player) {
+    public static boolean handleStructures(ServerPlayer player) {
 
-        Structure[] targetStructure = null;
+        StructureFeature[] targetStructure = null;
 
         switch (player.level.dimension().location().toString()) {
             case "minecraft:overworld":
@@ -81,7 +80,7 @@ public class WATeleporter {
         }
 
         if (targetStructure != null) {
-            ServerWorld serverWorld = (ServerWorld) player.level;
+            ServerLevel serverWorld = (ServerLevel) player.level;
             BlockPos bPos = serverWorld.findNearestMapFeature(targetStructure[player.level.random.nextInt(targetStructure.length)], player.blockPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
                 teleportPlayerTo(player, bPos, player.getLevel());
@@ -91,20 +90,20 @@ public class WATeleporter {
         return false;
     }
 
-    public static void teleportPlayerTo(ServerPlayerEntity player, BlockPos destinationPos, ServerWorld targetDimension) {
+    public static void teleportPlayerTo(ServerPlayer player, BlockPos destinationPos, ServerLevel targetDimension) {
         Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
-        player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yRot, player.xRot);
+        player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yHeadRot, player.xRotO);
     }
 
 
-    public static boolean isPosBelowOrAboveWorld(World dim, int y) {
-        if (dim.dimension() == World.NETHER) {
+    public static boolean isPosBelowOrAboveWorld(Level dim, int y) {
+        if (dim.dimension() == Level.NETHER) {
             return y <= 0 || y >= 126;
         }
         return y <= 0 || y >= 256;
     }
 
-    private static boolean isTeleportFriendlyBlock(World world, BlockPos pos, PlayerEntity playerEntity) {
+    private static boolean isTeleportFriendlyBlock(Level world, BlockPos pos, Player playerEntity) {
         BlockState state = world.getBlockState(pos);
         BlockPos blockpos = pos.subtract(playerEntity.blockPosition());
         return state.getMaterial().blocksMotion() && state.isCollisionShapeFullBlock(world, pos) && world.noCollision(playerEntity, playerEntity.getBoundingBox().move(blockpos));

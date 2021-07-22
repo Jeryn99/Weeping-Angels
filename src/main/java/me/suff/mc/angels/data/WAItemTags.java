@@ -2,12 +2,12 @@ package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -34,7 +34,7 @@ public class WAItemTags extends ItemTagsProvider {
 
     }
 
-    public void add(ITag.INamedTag<Item> branch, Item block) {
+    public void add(Tag.Named<Item> branch, Item block) {
         this.tag(branch).add(block);
     }
 }

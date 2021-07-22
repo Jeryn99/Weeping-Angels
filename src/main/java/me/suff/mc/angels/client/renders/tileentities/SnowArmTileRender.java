@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.block.SnowArmModel;
 import me.suff.mc.angels.client.models.block.SnowBodyModel;
 import me.suff.mc.angels.client.models.block.SnowHeadModel;
@@ -10,23 +11,17 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.utils.ClientUtil;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
 
-public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
+public class SnowArmTileRender implements BlockEntityRenderer<SnowArmTile> {
 
     private final SnowArmModel armModel = new SnowArmModel();
     private final SnowBodyModel bodyModel = new SnowBodyModel();
     private final SnowHeadModel headModel = new SnowHeadModel();
     private final SnowWingsModel wingsModel = new SnowWingsModel();
-
-    public SnowArmTileRender(TileEntityRendererDispatcher renderer) {
-        super(renderer);
-    }
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
         IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
@@ -34,7 +29,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     }
 
     @Override
-    public void render(SnowArmTile snowArmTile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
+    public void render(SnowArmTile snowArmTile, float partialTicks, PoseStack matrixStack, MultiBufferSource iRenderTypeBuffer, int i, int i1) {
         matrixStack.pushPose();
         switch (snowArmTile.getSnowAngelStage()) {
             case ARM:

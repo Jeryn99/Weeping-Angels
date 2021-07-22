@@ -2,9 +2,9 @@ package me.suff.mc.angels.network.messages;
 
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
@@ -20,11 +20,11 @@ public class MessageSFX {
         this.sound = sound;
     }
 
-    public static void encode(MessageSFX message, PacketBuffer buffer) {
+    public static void encode(MessageSFX message, FriendlyByteBuf buffer) {
         buffer.writeResourceLocation(message.sound);
     }
 
-    public static MessageSFX decode(PacketBuffer buffer) {
+    public static MessageSFX decode(FriendlyByteBuf buffer) {
         return new MessageSFX(buffer.readResourceLocation());
     }
 

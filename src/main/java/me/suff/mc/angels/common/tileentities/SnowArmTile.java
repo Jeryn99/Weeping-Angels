@@ -7,35 +7,36 @@ import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
-import static net.minecraft.block.SnowBlock.LAYERS;
+import static net.minecraft.world.level.block.SnowLayerBlock.LAYERS;
 
 
-public class SnowArmTile extends TileEntity implements ITickableTileEntity {
+public class SnowArmTile extends BlockEntity implements BlockEntityTicker<SnowArmTile> {
 
-    private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
+    private final AABB AABB = new AABB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
     private boolean hasSetup = false;
     private int rotation = 0;
 
-    public SnowArmTile() {
-        super(WAObjects.Tiles.SNOW_ANGEL.get());
+    public SnowArmTile(BlockPos pos, BlockState blockState) {
+        super(WAObjects.Tiles.SNOW_ANGEL.get(), pos, blockState);
     }
 
     public SnowAngelStages getSnowAngelStage() {
-        if(snowAngelStages == null){
+        if (snowAngelStages == null) {
             return SnowAngelStages.BODY;
         }
         return snowAngelStages;
@@ -53,9 +54,10 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.angelVariant = angelVariant;
     }
 
+
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
             setVariant(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
@@ -71,7 +73,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
         compound.putInt("rotation", rotation);
@@ -80,28 +82,28 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getTag());
+        handleUpdateTag(pkt.getTag());
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.load(state, tag);
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public AABB getRenderBoundingBox() {
         return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
@@ -120,11 +122,11 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void tick() {
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowArmTile p_155256_) {
 
         if (snowAngelStages == SnowAngelStages.ARM) return;
 
-        if (level != null && !level.getEntitiesOfClass(PlayerEntity.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
+        if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
             angel.setVarient(angelVariant);
@@ -151,6 +153,11 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         }
     }
 
+    @Override
+    public boolean isRemoved() {
+        return false;
+    }
+
     public int getRotation() {
         return rotation;
     }
@@ -159,7 +166,6 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.rotation = rotation;
         sendUpdates();
     }
-
 
     public enum SnowAngelStages {
         ARM, HEAD, BODY, WINGS

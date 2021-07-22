@@ -1,31 +1,26 @@
 package me.suff.mc.angels.client.renders.entities;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.mojang.blaze3d.vertex.MatrixApplyingVertexBuilder;
-import com.mojang.blaze3d.vertex.VertexBuilderUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.layers.IronGolemCracksLayer;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ModelBakery;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
 
-    public AngelRender(EntityRendererManager manager) {
+    public AngelRender(EntityRenderDispatcher manager) {
         super(manager, new ModelAngelaAngel(), 0.0F);
         addLayer(new AngelCrackedLayer(this));
     }
@@ -43,17 +38,17 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     }
 
     @Override
-    public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, MatrixStack pMatrixStackIn, IRenderTypeBuffer pBufferIn, int pPackedLightIn) {
+    public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngelEntity.getAngelType());
 
         ItemStack key = weepingAngelEntity.getMainHandItem();
         pMatrixStackIn.pushPose();
-        float offset = MathHelper.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
+        float offset = Mth.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
         pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
         pMatrixStackIn.translate(0, 5, 0);
         pMatrixStackIn.translate(0, offset, 0);
         pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngelEntity.level.getGameTime() / 20F));
-        renderItem(weepingAngelEntity, key, ItemCameraTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
+        renderItem(weepingAngelEntity, key, ItemTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
 
         pMatrixStackIn.pushPose();
@@ -79,10 +74,10 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     }
 
     @Override
-    protected void setupRotations(WeepingAngelEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(WeepingAngelEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         if (entityLiving.deathTime > 0) {
             float deathRotation = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
-            deathRotation = MathHelper.sqrt(deathRotation);
+            deathRotation = Mth.sqrt(deathRotation);
             if (deathRotation > 1.0F) {
                 deathRotation = 1.0F;
             }
@@ -99,7 +94,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
         return iAngelModel.getTextureForPose(weepingAngelEntity, WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
     }
 
-    private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemCameraTransforms.TransformType transformTypeIn, boolean leftHand, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn) {
+    private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemTransforms.TransformType transformTypeIn, boolean leftHand, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {
         if (!itemStackIn.isEmpty()) {
             Minecraft.getInstance().getItemInHandRenderer().renderItem(livingEntityIn, itemStackIn, transformTypeIn, leftHand, matrixStackIn, bufferIn, combinedLightIn);
         }

@@ -5,19 +5,19 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WATabs;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
 public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
 
@@ -26,20 +26,20 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
     }
 
     public static ItemStack setType(ItemStack stack, AngelType type) {
-        CompoundNBT tag = stack.getOrCreateTag();
+        CompoundTag tag = stack.getOrCreateTag();
         tag.putString("type", type.name());
         return stack;
     }
 
     public static AngelEnums.AngelType getType(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
+        CompoundTag tag = stack.getOrCreateTag();
         String angelType = tag.getString("type");
         angelType = angelType.isEmpty() ? AngelType.ANGELA_MC.name() : angelType;
         return AngelEnums.AngelType.valueOf(angelType);
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (allowdedIn(group)) {
             for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);
@@ -51,16 +51,16 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
     }
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
-        return new TranslationTextComponent(this.getDescriptionId(stack), getType(stack).getReadable());
+    public Component getName(ItemStack stack) {
+        return new TranslatableComponent(this.getDescriptionId(stack), getType(stack).getReadable());
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        World worldIn = context.getLevel();
+    public InteractionResult useOn(UseOnContext context) {
+        Level worldIn = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        PlayerEntity player = context.getPlayer();
-        Hand hand = player.getUsedItemHand();
+        Player player = context.getPlayer();
+        InteractionHand hand = player.getUsedItemHand();
 
         if (!worldIn.isClientSide) {
             WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);

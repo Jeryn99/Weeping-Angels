@@ -3,15 +3,15 @@ package me.suff.mc.angels.data;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,11 +43,11 @@ public class WABlockTags extends BlockTagsProvider {
         }
     }
 
-    public void add(ITag.INamedTag<Block> branch, Block block) {
+    public void add(Tag.Named<Block> branch, Block block) {
         this.tag(branch).add(block);
     }
 
-    public void add(ITag.INamedTag<Block> branch, Block... block) {
+    public void add(Tag.Named<Block> branch, Block... block) {
         this.tag(branch).add(block);
     }
 }

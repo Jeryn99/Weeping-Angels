@@ -1,10 +1,10 @@
 package me.suff.mc.angels.conversion;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface AngelVirus extends INBTSerializable<CompoundNBT> {
+public interface AngelVirus extends INBTSerializable<CompoundTag> {
     boolean isInfected();
 
     void infect(boolean infected);

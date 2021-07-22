@@ -2,25 +2,23 @@ package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BowItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.gen.feature.structure.WoodlandMansionStructure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
-public class CoffinTile extends TileEntity implements ITickableTileEntity {
+public class CoffinTile extends BlockEntity implements BlockEntityTicker<CoffinTile> {
 
     private Coffin coffin = null;
     private boolean isOpen, hasSkeleton = false;
@@ -28,8 +26,8 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     private boolean doingSomething = false;
     private int ticks, pulses, knockTime;
 
-    public CoffinTile() {
-        super(WAObjects.Tiles.COFFIN.get());
+    public CoffinTile(BlockPos pos, BlockState state) {
+        super(WAObjects.Tiles.COFFIN.get(), pos, state);
     }
 
     public Coffin getCoffin() {
@@ -61,9 +59,9 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getTag());
+        handleUpdateTag(pkt.getTag());
     }
 
     @Override
@@ -75,7 +73,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void tick() {
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinTile p_155256_) {
         if (isOpen) {
             this.openAmount += 0.1F;
         } else {
@@ -90,12 +88,12 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
             this.openAmount = 0.0F;
         }
 
-        if(knockTime <= 0){
+        if (knockTime <= 0) {
             knockTime = RAND.nextInt(1800);
         }
 
-        if(level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()){
-            level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundCategory.BLOCKS, 1.0F * 16, 1.0F);
+        if (level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
+            level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundSource.BLOCKS, 1.0F * 16, 1.0F);
             knockTime = RAND.nextInt(1800);
         }
 
@@ -122,9 +120,9 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
                     int i = 25;
                     while (i > 0) {
-                        int j = ExperienceOrbEntity.getExperienceValue(i);
+                        int j = ExperienceOrb.getExperienceValue(i);
                         i -= j;
-                        this.level.addFreshEntity(new ExperienceOrbEntity(this.level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), j));
+                        this.level.addFreshEntity(new ExperienceOrb(this.level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), j));
                     }
                 }
             }
@@ -133,14 +131,14 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
     }
 
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
     }
 
     public void sendUpdates() {
@@ -152,18 +150,18 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
+    public void load(CompoundTag nbt) {
         coffin = getCorrectCoffin(nbt.getString("coffin_type"));
         isOpen = nbt.getBoolean("isOpen");
         hasSkeleton = nbt.getBoolean("hasSkeleton");
         openAmount = nbt.getFloat("openAmount");
         alpha = nbt.getFloat("alpha");
         doingSomething = nbt.getBoolean("doingSomething");
-        super.load(state, nbt);
+        super.load(nbt);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         if (coffin == null) {
             coffin = AngelUtil.randomCoffin();
         }
@@ -183,7 +181,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     public void setDoingSomething(boolean doingSomething) {
         this.doingSomething = doingSomething;
         if (doingSomething) {
-            level.playSound(null, worldPosition, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundCategory.BLOCKS, 1, 1);
+            level.playSound(null, worldPosition, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 1, 1);
         }
     }
 

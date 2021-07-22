@@ -1,9 +1,9 @@
 package me.suff.mc.angels.api;
 
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 
@@ -28,7 +28,7 @@ public class EventAngelBreakEvent extends EntityEvent {
         return blockState;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return getEntity().level;
     }
 }

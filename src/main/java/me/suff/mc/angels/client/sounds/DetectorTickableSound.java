@@ -2,17 +2,17 @@ package me.suff.mc.angels.client.sounds;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.PlayerUtil;
-import net.minecraft.client.audio.TickableSound;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 
-public class DetectorTickableSound extends TickableSound {
-    private final PlayerEntity playerEntity;
+public class DetectorTickableSound extends AbstractTickableSoundInstance {
+    private final Player playerEntity;
     private float pitch = 0.0F;
 
-    public DetectorTickableSound(PlayerEntity playerEntity) {
-        super(WAObjects.Sounds.PROJECTOR.get(), SoundCategory.PLAYERS);
+    public DetectorTickableSound(Player playerEntity) {
+        super(WAObjects.Sounds.PROJECTOR.get(), SoundSource.PLAYERS);
         this.playerEntity = playerEntity;
         this.looping = true;
         this.delay = 0;
@@ -45,8 +45,8 @@ public class DetectorTickableSound extends TickableSound {
 
         boolean isHolding = PlayerUtil.isInEitherHand(playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
         //      float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(this.playerEntity.getDeltaMovement()));
-        this.pitch = isHolding ? MathHelper.clamp(this.pitch + 0.0025F, 0.0F, 1.0F) : 0F;
-        this.volume = isHolding ? MathHelper.lerp(MathHelper.clamp(0.1F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
+        this.pitch = isHolding ? Mth.clamp(this.pitch + 0.0025F, 0.0F, 1.0F) : 0F;
+        this.volume = isHolding ? Mth.lerp(Mth.clamp(0.1F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
 
     }
 }

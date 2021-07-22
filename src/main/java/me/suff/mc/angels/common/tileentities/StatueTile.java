@@ -11,35 +11,31 @@ import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
-import me.suff.mc.angels.utils.ViewUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
-import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
-
-public class StatueTile extends TileEntity implements ITickableTileEntity, IPlinth {
+public class StatueTile extends BlockEntity implements BlockEntityTicker<StatueTile>, IPlinth {
 
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
 
-    public StatueTile() {
-        super(WAObjects.Tiles.STATUE.get());
+    public StatueTile(BlockPos pos, BlockState state) {
+        super(WAObjects.Tiles.STATUE.get(), pos, state);
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT compound) {
-        super.load(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         NBTPatcher.angelaToVillager(compound, "model");
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
@@ -49,7 +45,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         super.save(compound);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
@@ -70,45 +66,46 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(worldPosition, 3, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(getBlockState(), pkt.getTag());
+        handleUpdateTag(pkt.getTag());
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public AABB getRenderBoundingBox() {
         return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
     @Override
-    public void tick() {
-        if (level.isClientSide) return;
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, StatueTile p_155256_) {
+        //TODO Re-add structures
+        /*   if (level.isClientSide) return;
 
-        ServerWorld world = (ServerWorld) level;
+        ServerLevel world = (ServerLevel) level;
         boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAObjects.Structures.GRAVEYARD.get()).isValid();
 
         if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
-            PlayerEntity playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
+            Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
             if (playerentity != null) {
                 if (ViewUtil.isInSightPos(playerentity, getBlockPos())) {
-                    BlockState newState = getBlockState().setValue(ROTATION, MathHelper.floor((double) (playerentity.yHeadRot * 16.0F / 360.0F) + 0.5D) & 15);
+                    BlockState newState = getBlockState().setValue(ROTATION, Mth.floor((double) (playerentity.yHeadRot * 16.0F / 360.0F) + 0.5D) & 15);
                     level.setBlock(getBlockPos(), newState, 67);
                     changePose();
                 }
             }
         }
 
-
+*/
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
             angel.setVarient(angelVariant);

@@ -1,9 +1,9 @@
 package me.suff.mc.angels.utils;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 
 public class WADamageSource extends DamageSource {
 
@@ -15,7 +15,7 @@ public class WADamageSource extends DamageSource {
     }
 
     @Override
-    public ITextComponent getLocalizedDeathMessage(LivingEntity entity) {
-        return new TranslationTextComponent(message, entity.getName());
+    public Component getLocalizedDeathMessage(LivingEntity entity) {
+        return new TranslatableComponent(message, entity.getName());
     }
 }

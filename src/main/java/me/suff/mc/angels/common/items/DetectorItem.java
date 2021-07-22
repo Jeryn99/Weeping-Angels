@@ -5,19 +5,19 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.PlayerUtil;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class DetectorItem extends Item {
     }
 
     public static void setTime(ItemStack itemStack, int time) {
-        CompoundNBT tag = itemStack.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrCreateTag();
         if (time > 17) {
             time = 0;
         }
@@ -36,7 +36,7 @@ public class DetectorItem extends Item {
     }
 
     public static int getTime(ItemStack itemStack) {
-        CompoundNBT tag = itemStack.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrCreateTag();
         if (tag.contains("time")) {
             return tag.getInt("time");
         }
@@ -44,26 +44,26 @@ public class DetectorItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.level.isClientSide) {
             setTime(stack, getTime(stack) + 1);
             List<WeepingAngelEntity> angels = entityIn.level.getEntitiesOfClass(WeepingAngelEntity.class, entityIn.getBoundingBox().inflate(15, 15, 15));
-            if (entityIn instanceof PlayerEntity) {
+            if (entityIn instanceof Player) {
                 if (!angels.isEmpty() && PlayerUtil.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
                     {
                         if (entityIn.tickCount % 20 == 0) {
-                            worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING.get(), SoundCategory.PLAYERS, 0.2F, 1.0F);
+                            worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING.get(), SoundSource.PLAYERS, 0.2F, 1.0F);
                         }
 
                         if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
-                            for (ChickenEntity chick : entityIn.level.getEntitiesOfClass(ChickenEntity.class, entityIn.getBoundingBox().inflate(30, 30, 30))) {
+                            for (Chicken chick : entityIn.level.getEntitiesOfClass(Chicken.class, entityIn.getBoundingBox().inflate(30, 30, 30))) {
                                 if (entityIn.level.random.nextInt(100) < 5) {
-                                    chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.Mode.NONE);
+                                    chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.BlockInteraction.NONE);
                                     chick.spawnAtLocation(Items.EGG, 1);
                                     chick.remove();
                                 }

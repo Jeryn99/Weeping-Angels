@@ -1,8 +1,8 @@
 package me.suff.mc.angels.common.variants;
 
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;

@@ -4,9 +4,9 @@ import com.google.common.collect.Lists;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -32,7 +32,7 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue maxSpawn;
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minSpawn;
-    public final ForgeConfigSpec.EnumValue<EntityClassification> spawnType;
+    public final ForgeConfigSpec.EnumValue<MobCategory> spawnType;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
     // Angel
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
@@ -71,7 +71,7 @@ public class WAConfig {
         minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
         maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 1, 1, 100);
         spawnWeight = builder.translation("config.weeping_angels.spawnWeight").comment("The angel spawn spawn weight").defineInRange("spawnWeight", 5, 1, 100);
-        spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER);
+        spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
         allowedBiomes = builder.translation("config.weeping_angels.allowedBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("allowedBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");

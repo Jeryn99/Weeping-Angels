@@ -3,18 +3,18 @@ package me.suff.mc.angels.data;
 import com.google.gson.*;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-public class WALootTables implements IDataProvider {
+public class WALootTables implements DataProvider {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final DataGenerator generator;
@@ -29,7 +29,7 @@ public class WALootTables implements IDataProvider {
     }
 
     @Override
-    public void run(DirectoryCache cache) throws IOException {
+    public void run(HashCache cache) throws IOException {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
@@ -44,12 +44,12 @@ public class WALootTables implements IDataProvider {
         return "Loot Tables";
     }
 
-    public void generateSelfTable(Block block, DirectoryCache cache, Path base) throws IOException {
+    public void generateSelfTable(Block block, HashCache cache, Path base) throws IOException {
         this.generateTable(cache, getPath(base, block.getRegistryName()), () -> this.createBlockDropSelf(block));
     }
 
-    public void generateTable(DirectoryCache cache, Path path, Supplier<JsonElement> element) throws IOException {
-        IDataProvider.save(GSON, cache, element.get(), path);
+    public void generateTable(HashCache cache, Path path, Supplier<JsonElement> element) throws IOException {
+        DataProvider.save(GSON, cache, element.get(), path);
     }
 
     public JsonElement createBlockDropGuarantied(Block block, ResourceLocation drop) {

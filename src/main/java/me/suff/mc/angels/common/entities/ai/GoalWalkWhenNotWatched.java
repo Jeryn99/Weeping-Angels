@@ -1,17 +1,17 @@
 package me.suff.mc.angels.common.entities.ai;
 
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
 /* Created by Craig on 04/04/2021 */
-public class GoalWalkWhenNotWatched extends WaterAvoidingRandomWalkingGoal {
+public class GoalWalkWhenNotWatched extends WaterAvoidingRandomStrollGoal {
 
-    public GoalWalkWhenNotWatched(CreatureEntity creature, double speedIn) {
+    public GoalWalkWhenNotWatched(PathfinderMob creature, double speedIn) {
         super(creature, speedIn);
     }
 
-    public GoalWalkWhenNotWatched(CreatureEntity creature, double speedIn, float probabilityIn) {
+    public GoalWalkWhenNotWatched(PathfinderMob creature, double speedIn, float probabilityIn) {
         super(creature, speedIn, probabilityIn);
     }
 

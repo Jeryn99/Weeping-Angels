@@ -1,15 +1,15 @@
 package me.suff.mc.angels.client.models.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Angel Type: 4 Created by Craig on 11/03/2020 @ 20:58
@@ -19,14 +19,14 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/weeping_villager.png");
 
-    private final ModelRenderer body;
-    private final ModelRenderer wing0;
-    private final ModelRenderer wing2;
-    private final ModelRenderer head;
-    private final ModelRenderer nose;
-    private final ModelRenderer arms;
-    private final ModelRenderer leg0;
-    private final ModelRenderer leg1;
+    private final ModelPart body;
+    private final ModelPart wing0;
+    private final ModelPart wing2;
+    private final ModelPart head;
+    private final ModelPart nose;
+    private final ModelPart arms;
+    private final ModelPart leg0;
+    private final ModelPart leg1;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     /**
@@ -36,11 +36,11 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
         texWidth = 64;
         texHeight = 64;
 
-        body = new ModelRenderer(this);
+        body = new ModelPart(this);
         body.setPos(0.0F, 18.0F, 0.0F);
         body.texOffs(27, 14).addBox(-4.0F, -18.0F, -3.0F, 8.0F, 18.0F, 6.0F, 0.5F, false);
 
-        wing0 = new ModelRenderer(this);
+        wing0 = new ModelPart(this);
         wing0.setPos(-1.5F, -15.0F, 3.25F);
         body.addChild(wing0);
         setRotationAngle(wing0, 0.1745F, -1.0472F, 0.0F);
@@ -49,7 +49,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
         wing0.texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, 0.5F, false);
         wing0.texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, 0.5F, false);
 
-        wing2 = new ModelRenderer(this);
+        wing2 = new ModelPart(this);
         wing2.setPos(1.5F, -15.0F, 3.25F);
         body.addChild(wing2);
         setRotationAngle(wing2, 0.1745F, 1.0472F, 0.0F);
@@ -58,17 +58,17 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
         wing2.texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, 0.5F, false);
         wing2.texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, 0.5F, false);
 
-        head = new ModelRenderer(this);
+        head = new ModelPart(this);
         head.setPos(0.0F, -18.0F, 0.0F);
         body.addChild(head);
         head.texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, false);
 
-        nose = new ModelRenderer(this);
+        nose = new ModelPart(this);
         nose.setPos(0.0F, -3.0F, -4.0F);
         head.addChild(nose);
         nose.texOffs(25, 1).addBox(-1.0F, 0.0F, -2.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
 
-        arms = new ModelRenderer(this);
+        arms = new ModelPart(this);
         arms.setPos(0.0F, -16.0F, 0.0F);
         body.addChild(arms);
         setRotationAngle(arms, -1.1781F, 0.0F, 0.0F);
@@ -76,11 +76,11 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
         arms.texOffs(13, 35).addBox(4.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
         arms.texOffs(13, 35).addBox(-8.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
 
-        leg0 = new ModelRenderer(this);
+        leg0 = new ModelPart(this);
         leg0.setPos(2.0F, 12.0F, 0.0F);
         leg0.texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
-        leg1 = new ModelRenderer(this);
+        leg1 = new ModelPart(this);
         leg1.setPos(-2.0F, 12.0F, 0.0F);
         leg1.texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
@@ -164,7 +164,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
         return null;
     }
 
-    public void setRotationAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
+    public void setRotationAngle(ModelPart ModelRenderer, float x, float y, float z) {
         ModelRenderer.xRot = x;
         ModelRenderer.yRot = y;
         ModelRenderer.zRot = z;
@@ -176,7 +176,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leg0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leg1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);

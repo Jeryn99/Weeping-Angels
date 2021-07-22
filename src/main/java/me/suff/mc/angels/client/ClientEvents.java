@@ -1,21 +1,20 @@
 package me.suff.mc.angels.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.DrawHighlightEvent;
+import net.minecraftforge.client.event.DrawSelectionEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
@@ -29,7 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEvents {
 
     public static boolean isInCatacombs = false;
-    private static ISound iSound = null;
+    private static SoundInstance iSound = null;
 
     @SubscribeEvent
     public static void registerParticles(ParticleFactoryRegisterEvent event) {
@@ -37,12 +36,12 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onBlockHighlight(DrawHighlightEvent.HighlightBlock event) {
+    public static void onBlockHighlight(DrawSelectionEvent.HighlightBlock event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.hitResult.getType() == RayTraceResult.Type.BLOCK) {
-            BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) minecraft.hitResult;
-            ClientPlayerEntity playerEntity = minecraft.player;
-            ClientWorld world = minecraft.level;
+        if (minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult blockRayTraceResult = (BlockHitResult) minecraft.hitResult;
+            LocalPlayer playerEntity = minecraft.player;
+            ClientLevel world = minecraft.level;
             boolean canSee = playerEntity.getMainHandItem().getItem() == WAObjects.Blocks.STATUE.get().asItem() || playerEntity.getOffhandItem().getItem() == WAObjects.Blocks.STATUE.get().asItem();
             event.setCanceled(!canSee && world.getBlockState(blockRayTraceResult.getBlockPos()).getBlock() == WAObjects.Blocks.STATUE.get());
         }
@@ -51,14 +50,14 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getInstance().player == null) return;
-        SoundHandler sound = Minecraft.getInstance().getSoundManager();
+        SoundManager sound = Minecraft.getInstance().getSoundManager();
         if (isInCatacombs) {
 
-            sound.stop(null, SoundCategory.MUSIC);
+            sound.stop(null, SoundSource.MUSIC);
 
 
             if (iSound == null) {
-                iSound = SimpleSound.forUI(WAObjects.Sounds.CATACOMB.get(), 1);
+                iSound = SimpleSoundInstance.forUI(WAObjects.Sounds.CATACOMB.get(), 1);
             }
 
             if (!sound.isActive(iSound)) {
@@ -79,7 +78,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
-            GlStateManager._fogMode(GlStateManager.FogMode.EXP.value);
+            //TODO GlStateManager._fogMode(GlStateManager.EXP.value);
             event.setCanceled(true);
             event.setDensity(0.07F);
         }

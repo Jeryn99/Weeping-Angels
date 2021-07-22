@@ -6,17 +6,17 @@ import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
@@ -30,11 +30,11 @@ public class ChiselItem extends Item {
      * Called when this item is used when targetting a Block
      */
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        World world = context.getLevel();
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
-        PlayerEntity player = context.getPlayer();
+        Player player = context.getPlayer();
 
 
         if (world.getBlockEntity(blockpos) instanceof IPlinth) {
@@ -42,7 +42,7 @@ public class ChiselItem extends Item {
             if (player.isShiftKeyDown()) {
                 plinth.changeModel();
                 plinth.sendUpdatesToClient();
-                return ActionResultType.PASS;
+                return InteractionResult.PASS;
             }
 
             plinth.changePose();
@@ -58,7 +58,7 @@ public class ChiselItem extends Item {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             }
             statueTile.setChanged();
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         }
 
         //Handle Plinth
@@ -70,18 +70,18 @@ public class ChiselItem extends Item {
                 statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             }
             statueTile.sendUpdates();
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         }
 
-        return ActionResultType.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel"));
-        tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_right_click"));
-        tooltip.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_sneak"));
+        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel"));
+        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_right_click"));
+        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_sneak"));
 
     }
 }

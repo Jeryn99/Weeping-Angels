@@ -5,29 +5,29 @@ import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.conversion.AngelInfection;
 import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.utils.ViewUtil;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class QuantumLockEntity extends MonsterEntity implements IMob {
+public class QuantumLockEntity extends Monster implements Enemy {
 
-    private static final DataParameter<Boolean> IS_SEEN = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> TIME_VIEWED = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.INT);
-    private static final DataParameter<BlockPos> PREVBLOCKPOS = EntityDataManager.defineId(QuantumLockEntity.class, DataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Boolean> IS_SEEN = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.BLOCK_POS);
 
-    public QuantumLockEntity(World worldIn, EntityType<? extends MonsterEntity> entityType) {
+    public QuantumLockEntity(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
     }
 
@@ -35,7 +35,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
     public void aiStep() {
         super.aiStep();
         if (!level.isClientSide) {
-            List<PlayerEntity> players = level.getEntitiesOfClass(PlayerEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
@@ -53,8 +53,8 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
                 setSeenTime(0);
                 setSpeed(0.5F);
             } else {
-                PlayerEntity targetPlayer = null;
-                for (PlayerEntity player : players) {
+                Player targetPlayer = null;
+                for (Player player : players) {
                     if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
@@ -82,11 +82,11 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
         }
     }
 
-    private void snapLookToPlayer(PlayerEntity targetPlayer) {
-        Vector3d vecPos = position();
-        Vector3d vecPlayerPos = targetPlayer.position();
+    private void snapLookToPlayer(Player targetPlayer) {
+        Vec3 vecPos = position();
+        Vec3 vecPlayerPos = targetPlayer.position();
         float angle = (float) Math.toDegrees((float) Math.atan2(vecPos.z - vecPlayerPos.z, vecPos.x - vecPlayerPos.x));
-        yHeadRot = yRot = angle > 180 ? angle : angle + 90;
+        yHeadRot = yBodyRot = angle > 180 ? angle : angle + 90;
     }
 
     public void moveTowards(LivingEntity targetPlayer) {
@@ -102,14 +102,14 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT compound) {
+    public void deserializeNBT(CompoundTag compound) {
         super.deserializeNBT(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
         if (compound.contains(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean(WAConstants.IS_SEEN, isSeen());
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
@@ -146,7 +146,7 @@ public class QuantumLockEntity extends MonsterEntity implements IMob {
         getEntityData().set(PREVBLOCKPOS, pos);
     }
 
-    public void invokeSeen(PlayerEntity player) {
+    public void invokeSeen(Player player) {
         getNavigation().moveTo((Path) null, 0);
         setNoAi(true);
     }

@@ -1,12 +1,12 @@
 package me.suff.mc.angels.common.variants;
 
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.level.block.Block;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -23,11 +23,11 @@ public class MiningVariant extends BaseVariant {
 
     @Override
     public boolean shouldDrop(DamageSource damageSource, WeepingAngelEntity quantumLockEntity) {
-        if(damageSource.getEntity() instanceof PlayerEntity){
-            PlayerEntity playerEntity = (PlayerEntity) damageSource.getEntity();
-            if(playerEntity.getMainHandItem().getItem() instanceof PickaxeItem){
+        if (damageSource.getEntity() instanceof Player) {
+            Player playerEntity = (Player) damageSource.getEntity();
+            if (playerEntity.getMainHandItem().getItem() instanceof PickaxeItem) {
                 PickaxeItem pickaxeItem = (PickaxeItem) playerEntity.getMainHandItem().getItem();
-                if(quantumLockEntity.getVariant().stackDrop().getItem() instanceof BlockItem) {
+                if (quantumLockEntity.getVariant().stackDrop().getItem() instanceof BlockItem) {
                     Block block = ((BlockItem) quantumLockEntity.getVariant().stackDrop().getItem()).getBlock();
                     return pickaxeItem.isCorrectToolForDrops(block.defaultBlockState());
                 }

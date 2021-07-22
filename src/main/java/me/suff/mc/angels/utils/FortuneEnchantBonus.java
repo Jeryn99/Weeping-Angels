@@ -4,36 +4,42 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.loot.functions.ILootFunction;
-import net.minecraft.util.JSONUtils;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.RandomValueBounds;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import java.util.Set;
 
 /**
  * Created by 50ap5ud5 on 13 Feb 2020 @ 11:28:06 am
  */
-public class FortuneEnchantBonus extends LootFunction {
+public class FortuneEnchantBonus extends LootItemConditionalFunction {
 
-    private final RandomValueRange count;
+    private final RandomValueBounds count;
     private final int limit;
 
-    private FortuneEnchantBonus(ILootCondition[] conditions, RandomValueRange countIn, int limitIn) {
+    private FortuneEnchantBonus(LootItemCondition[] conditions, RandomValueBounds countIn, int limitIn) {
         super(conditions);
         this.count = countIn;
         this.limit = limitIn;
     }
 
-    public FortuneEnchantBonus.Builder builder(RandomValueRange p_215915_0_) {
+    public FortuneEnchantBonus.Builder builder(RandomValueBounds p_215915_0_) {
         return new FortuneEnchantBonus.Builder(p_215915_0_);
     }
 
-    public Set<LootParameter<?>> getReferencedContextParams() {
-        return ImmutableSet.of(LootParameters.KILLER_ENTITY);
+    public Set<LootContextParam<?>> getReferencedContextParams() {
+        return ImmutableSet.of(LootContextParams.KILLER_ENTITY);
     }
 
     private boolean hasLimit() {
@@ -41,7 +47,7 @@ public class FortuneEnchantBonus extends LootFunction {
     }
 
     public ItemStack run(ItemStack stack, LootContext context) {
-        Entity entity = context.getParamOrNull(LootParameters.KILLER_ENTITY);
+        Entity entity = context.getParamOrNull(LootContextParams.KILLER_ENTITY);
         if (entity instanceof LivingEntity) {
             int i = AngelUtil.getFortuneModifier((LivingEntity) entity);
             if (i == 0) {
@@ -59,15 +65,15 @@ public class FortuneEnchantBonus extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getType() {
+    public LootItemFunctionType getType() {
         return null;
     }
 
-    public static class Builder extends LootFunction.Builder<FortuneEnchantBonus.Builder> {
-        private final RandomValueRange count;
+    public static class Builder extends LootItemConditionalFunction.Builder<FortuneEnchantBonus.Builder> {
+        private final RandomValueBounds count;
         private int limit = 0;
 
-        public Builder(RandomValueRange p_i50932_1_) {
+        public Builder(RandomValueBounds p_i50932_1_) {
             this.count = p_i50932_1_;
         }
 
@@ -80,12 +86,12 @@ public class FortuneEnchantBonus extends LootFunction {
             return this;
         }
 
-        public ILootFunction build() {
+        public LootItemFunction build() {
             return new FortuneEnchantBonus(this.getConditions(), this.count, this.limit);
         }
     }
 
-    public static class Serializer extends LootFunction.Serializer<FortuneEnchantBonus> {
+    public static class Serializer extends LootItemConditionalFunction.Serializer<FortuneEnchantBonus> {
         public Serializer() {
             super();
         }
@@ -101,9 +107,9 @@ public class FortuneEnchantBonus extends LootFunction {
 
         }
 
-        public FortuneEnchantBonus deserialize(JsonObject object, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
-            int i = JSONUtils.getAsInt(object, "limit", 0);
-            return new FortuneEnchantBonus(conditionsIn, JSONUtils.getAsObject(object, "count", deserializationContext, RandomValueRange.class), i);
+        public FortuneEnchantBonus deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditionsIn) {
+            int i = GsonHelper.getAsInt(object, "limit", 0);
+            return new FortuneEnchantBonus(conditionsIn, GsonHelper.getAsObject(object, "count", deserializationContext, RandomValueBounds.class), i);
         }
     }
 

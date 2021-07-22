@@ -5,54 +5,55 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Containers;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEventListener;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class SnowArmBlock extends SnowBlock {
+public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     public SnowArmBlock() {
-        super(AbstractBlock.Properties.of(Material.CORAL).randomTicks().noOcclusion().strength(3).sound(SoundType.SNOW).requiresCorrectToolForDrops());
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new SnowArmTile();
+        super(BlockBehaviour.Properties.of(Material.SNOW).randomTicks().noOcclusion().strength(3).sound(SoundType.SNOW).requiresCorrectToolForDrops());
     }
 
     @Override
-    public void entityInside(BlockState blockState, World world, BlockPos blockPos, Entity entity) {
+    public void entityInside(BlockState blockState, Level world, BlockPos blockPos, Entity entity) {
         if (world.getBlockEntity(blockPos) instanceof SnowArmTile) {
             SnowArmTile snowArmTile = (SnowArmTile) world.getBlockEntity(blockPos);
             if (snowArmTile.getSnowAngelStage() == SnowArmTile.SnowAngelStages.ARM) {
-                entity.makeStuckInBlock(blockState, new Vector3d(0.15D, 0.05F, 0.15D));
+                entity.makeStuckInBlock(blockState, new Vec3(0.15D, 0.05F, 0.15D));
             }
         }
     }
 
 
     @Override
-    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 
         super.setPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tile = worldIn.getBlockEntity(pos);
+        BlockEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof SnowArmTile) {
-            int rotation = MathHelper.floor(placer.yRot);
+            int rotation = Mth.floor(placer.yBodyRot);
             SnowArmTile snowArmTile = (SnowArmTile) tile;
             if (!snowArmTile.isHasSetup()) {
                 snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
@@ -65,22 +66,17 @@ public class SnowArmBlock extends SnowBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
-        if (worldIn.getBrightness(LightType.BLOCK, pos) > 11) {
-            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
-            TileEntity tile = worldIn.getBlockEntity(pos);
+    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
+        if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
+            Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
+            BlockEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof SnowArmTile) {
                 SnowArmTile snowArmTile = (SnowArmTile) tile;
                 WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
@@ -94,4 +90,21 @@ public class SnowArmBlock extends SnowBlock {
 
     }
 
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new SnowArmTile(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
+        return EntityBlock.super.getTicker(p_153212_, p_153213_, p_153214_);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
+        return EntityBlock.super.getListener(p_153210_, p_153211_);
+    }
 }

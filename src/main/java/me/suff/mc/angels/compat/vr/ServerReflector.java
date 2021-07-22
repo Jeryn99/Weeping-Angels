@@ -1,8 +1,8 @@
 package me.suff.mc.angels.compat.vr;
 
 import me.suff.mc.angels.WeepingAngels;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -101,13 +101,13 @@ public class ServerReflector extends VivecraftReflector {
 
                 Class<?> cPlayerTracker = Class.forName("com.techjar.vivecraftforge.util.PlayerTracker");
 
-                mGetPlayerData = cPlayerTracker.getMethod("getPlayerData", PlayerEntity.class);
-                mHasPlayerData = cPlayerTracker.getMethod("hasPlayerData", PlayerEntity.class);
+                mGetPlayerData = cPlayerTracker.getMethod("getPlayerData", Player.class);
+                mHasPlayerData = cPlayerTracker.getMethod("hasPlayerData", Player.class);
 
                 Class<?> cQuaternion = Class.forName("com.techjar.vivecraftforge.util.Quaternion");
 
                 conQuaternion = cQuaternion.getConstructor(float.class, float.class, float.class, float.class);
-                mVecMultiply = cQuaternion.getMethod("multiply", Vector3d.class);
+                mVecMultiply = cQuaternion.getMethod("multiply", Vec3.class);
 
                 WeepingAngels.LOGGER.info("Vivecraft Forge Extensions detected! Enabling compatability features.");
             } catch (Exception e) {
@@ -128,7 +128,7 @@ public class ServerReflector extends VivecraftReflector {
      * @return Returns true if the player is listed in the VR player lists.
      */
     @Override
-    public boolean isVRPlayer(PlayerEntity player) {
+    public boolean isVRPlayer(Player player) {
         if (enabled < 0) return false;
         try {
             UUID uuid = player.getUUID();
@@ -156,14 +156,14 @@ public class ServerReflector extends VivecraftReflector {
      * @return The position
      */
     @Override
-    public Vector3d getHMDPos(PlayerEntity player) {
+    public Vec3 getHMDPos(Player player) {
         try {
             if (enabled == 0) {
                 UUID uuid = player.getUUID();
                 //Network Character - attempt to get from NetworkHelper
                 Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
-                return (Vector3d) mGetHMDPos.invoke(vivePlayer);
+                return (Vec3) mGetHMDPos.invoke(vivePlayer);
             } else if (enabled == 1) {
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null, player));
 
@@ -171,7 +171,7 @@ public class ServerReflector extends VivecraftReflector {
                 float y = fPosY.getFloat(playerHead);
                 float z = fPosZ.getFloat(playerHead);
 
-                return new Vector3d(x, y, z);
+                return new Vec3(x, y, z);
             }
 
         } catch (Exception e) {
@@ -188,14 +188,14 @@ public class ServerReflector extends VivecraftReflector {
      * @return The direction vector
      */
     @Override
-    public Vector3d getHMDRot(PlayerEntity player) {
+    public Vec3 getHMDRot(Player player) {
         try {
             UUID uuid = player.getUUID();
             if (enabled == 0) {
                 //Network Character - attempt to get from NetworkHelper
                 Map<UUID, ?> vivePlayers = (Map<UUID, ? extends Object>) fVivePlayers.get(null);
                 Object vivePlayer = vivePlayers.get(uuid);
-                return (Vector3d) mGetHMDDir.invoke(vivePlayer);
+                return (Vec3) mGetHMDDir.invoke(vivePlayer);
             } else if (enabled == 1) {
                 Object playerHead = fHead.get(mGetPlayerData.invoke(null, player));
 
@@ -208,7 +208,7 @@ public class ServerReflector extends VivecraftReflector {
 
                 //mNormalize.invoke(quaternion);
 
-                return (Vector3d) mVecMultiply.invoke(quaternion, new Vector3d(0, 0, -1));
+                return (Vec3) mVecMultiply.invoke(quaternion, new Vec3(0, 0, -1));
             }
         } catch (Exception e) {
             WeepingAngels.LOGGER.warn("Vivecraft Server: Unknown Error Parsing getHMDRot", e);

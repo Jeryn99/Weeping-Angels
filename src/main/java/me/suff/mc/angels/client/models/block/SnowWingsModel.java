@@ -1,27 +1,27 @@
 package me.suff.mc.angels.client.models.block;
 
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
 
 public class SnowWingsModel extends EntityModel<Entity> {
-    private final ModelRenderer bone;
-    private final ModelRenderer rightWing;
-    private final ModelRenderer leftWing;
+    private final ModelPart bone;
+    private final ModelPart rightWing;
+    private final ModelPart leftWing;
 
     public SnowWingsModel() {
         texWidth = 128;
         texHeight = 128;
 
-        bone = new ModelRenderer(this);
+        bone = new ModelPart(this);
         bone.setPos(0.0F, 23.0F, 2.0F);
         setRotationAngle(bone, 1.0472F, 0.0F, 0.0F);
 
 
-        rightWing = new ModelRenderer(this);
+        rightWing = new ModelPart(this);
         rightWing.setPos(1.0F, 1.0F, 0.0F);
         bone.addChild(rightWing);
         setRotationAngle(rightWing, 0.0F, 0.7854F, 0.0F);
@@ -32,7 +32,7 @@ public class SnowWingsModel extends EntityModel<Entity> {
         rightWing.texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
         rightWing.texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
 
-        leftWing = new ModelRenderer(this);
+        leftWing = new ModelPart(this);
         leftWing.setPos(-1.0F, 1.0F, 0.0F);
         bone.addChild(leftWing);
         setRotationAngle(leftWing, 0.0F, -0.7854F, 0.0F);
@@ -50,11 +50,11 @@ public class SnowWingsModel extends EntityModel<Entity> {
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         bone.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;

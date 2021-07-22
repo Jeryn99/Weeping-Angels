@@ -1,8 +1,8 @@
 package me.suff.mc.angels.client.models.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
@@ -10,26 +10,25 @@ import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.SegmentedModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.ListModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IAngelModel {
 
-    private final ModelRenderer WeepingCherubFix;
-    private final ModelRenderer LeftLeg;
-    private final ModelRenderer RightLeg;
-    private final ModelRenderer LeftArm;
-    private final ModelRenderer RightArm;
-    private final ModelRenderer Body;
-    private final ModelRenderer Head;
-    private final ModelRenderer LeftWing;
-    private final ModelRenderer RightWing;
+    private final ModelPart WeepingCherubFix;
+    private final ModelPart LeftLeg;
+    private final ModelPart RightLeg;
+    private final ModelPart LeftArm;
+    private final ModelPart RightArm;
+    private final ModelPart Body;
+    private final ModelPart Head;
+    private final ModelPart LeftWing;
+    private final ModelPart RightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -40,51 +39,51 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
         texWidth = 67;
         texHeight = 69;
 
-        WeepingCherubFix = new ModelRenderer(this);
+        WeepingCherubFix = new ModelPart(this);
         WeepingCherubFix.setPos(0.0F, 24.0F, 0.0F);
 
 
-        LeftLeg = new ModelRenderer(this);
+        LeftLeg = new ModelPart(this);
         LeftLeg.setPos(1.9F, -12.0F, 0.0F);
         WeepingCherubFix.addChild(LeftLeg);
         LeftLeg.texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
-        RightLeg = new ModelRenderer(this);
+        RightLeg = new ModelPart(this);
         RightLeg.setPos(-1.9F, -12.0F, 0.0F);
         WeepingCherubFix.addChild(RightLeg);
         RightLeg.texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
-        LeftArm = new ModelRenderer(this);
+        LeftArm = new ModelPart(this);
         LeftArm.setPos(5.0F, -21.5F, 0.0F);
         WeepingCherubFix.addChild(LeftArm);
         setRotationAngle(LeftArm, -0.6109F, 0.0F, 0.0F);
         LeftArm.texOffs(53, 53).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
-        RightArm = new ModelRenderer(this);
+        RightArm = new ModelPart(this);
         RightArm.setPos(-5.0F, -21.5F, 0.0F);
         WeepingCherubFix.addChild(RightArm);
         setRotationAngle(RightArm, -0.6109F, 0.0F, 0.0F);
         RightArm.texOffs(50, 17).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
 
-        Body = new ModelRenderer(this);
+        Body = new ModelPart(this);
         Body.setPos(0.0F, -24.0F, 0.0F);
         WeepingCherubFix.addChild(Body);
         Body.texOffs(33, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
         Body.texOffs(29, 30).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 15.0F, 4.0F, 0.25F, false);
 
-        Head = new ModelRenderer(this);
+        Head = new ModelPart(this);
         Head.setPos(0.0F, -24.0F, 0.0F);
         WeepingCherubFix.addChild(Head);
         Head.texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
         Head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
 
-        LeftWing = new ModelRenderer(this);
+        LeftWing = new ModelPart(this);
         LeftWing.setPos(0.0F, -19.0F, 2.0F);
         WeepingCherubFix.addChild(LeftWing);
         setRotationAngle(LeftWing, 0.0F, -0.7854F, 0.0F);
         LeftWing.texOffs(0, 50).addBox(0.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, 0.0F, false);
 
-        RightWing = new ModelRenderer(this);
+        RightWing = new ModelPart(this);
         RightWing.setPos(0.0F, -19.0F, 2.0F);
         WeepingCherubFix.addChild(RightWing);
         setRotationAngle(RightWing, 0.0F, 0.7854F, 0.0F);
@@ -200,7 +199,7 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
 
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 1.5, 0);
@@ -209,11 +208,11 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
     }
 
     @Override
-    public Iterable<ModelRenderer> parts() {
+    public Iterable<ModelPart> parts() {
         return ImmutableList.of(this.Body, this.LeftWing, this.RightWing, this.Head, this.LeftArm, this.RightArm, this.LeftLeg, this.RightLeg, this.WeepingCherubFix);
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;

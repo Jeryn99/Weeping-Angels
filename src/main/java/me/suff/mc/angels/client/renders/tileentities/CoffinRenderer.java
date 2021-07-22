@@ -1,39 +1,38 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import it.unimi.dsi.fastutil.bytes.ByteRBTreeSet;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
+public class CoffinRenderer extends BlockEntityRenderer<CoffinTile> {
 
     private static final CoffinModel coffinModel = new CoffinModel();
     private static final PoliceBoxModel coffinModelPTB = new PoliceBoxModel();
-    private static SkeletonEntity skeletonEntity = null;
+    private static Skeleton skeletonEntity = null;
 
-    public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
+    public CoffinRenderer(BlockEntityRenderDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
     }
 
     @Override
-    public void render(CoffinTile tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(CoffinTile tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
         if (skeletonEntity == null) {
-            skeletonEntity = new SkeletonEntity(EntityType.SKELETON, Minecraft.getInstance().level);
+            skeletonEntity = new Skeleton(EntityType.SKELETON, Minecraft.getInstance().level);
         }
         matrixStack.pushPose();
         matrixStack.translate(0.5F, 0.5F, 0.5F); //Translate to blockpos
@@ -66,12 +65,12 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
         matrixStack.popPose();
     }
 
-    private void renderSkeleton(CoffinTile tileEntityIn, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn) {
+    private void renderSkeleton(CoffinTile tileEntityIn, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn) {
         if (tileEntityIn.hasSkeleton()) {
             matrixStack.pushPose();
             matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
             matrixStack.translate(0F, 1.5F, 0F);
-            EntityRenderer<? super SkeletonEntity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
+            EntityRenderer<? super Skeleton> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(skeletonEntity);
             matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180F)); // Make model not upside down
             renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
             matrixStack.popPose();

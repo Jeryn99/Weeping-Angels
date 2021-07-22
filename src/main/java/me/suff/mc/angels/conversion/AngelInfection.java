@@ -1,9 +1,9 @@
 package me.suff.mc.angels.conversion;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -42,8 +42,8 @@ public class AngelInfection implements AngelVirus {
     public void tick() {
         if (timeSeen >= 6000) {
             timeSeen = 0;
-            living.addEffect(new EffectInstance(Effects.CONFUSION, 200));
-            living.addEffect(new EffectInstance(Effects.WITHER, 200));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200));
+            living.addEffect(new MobEffectInstance(MobEffects.WITHER, 200));
         }
     }
 
@@ -68,14 +68,14 @@ public class AngelInfection implements AngelVirus {
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = new CompoundNBT();
+    public CompoundTag serializeNBT() {
+        CompoundTag compoundNBT = new CompoundTag();
         compoundNBT.putBoolean("infected", isInfected);
         return compoundNBT;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(CompoundTag nbt) {
         infect(nbt.getBoolean("infected"));
 
     }

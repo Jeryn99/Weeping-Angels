@@ -1,84 +1,86 @@
 package me.suff.mc.angels.client.models.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import net.minecraft.client.renderer.entity.model.IHasArm;
-import net.minecraft.client.renderer.entity.model.IHasHead;
-import net.minecraft.client.renderer.entity.model.SegmentedModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.HeadedModel;
+import net.minecraft.client.model.ListModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.HandSide;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
+public class ModelAngelaAngel extends ListModel<WeepingAngelEntity> implements IAngelModel, HeadedModel, ArmedModel {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 
-    private final ModelRenderer head;
-    private final ModelRenderer body;
-    private final ModelRenderer leftArm;
-    private final ModelRenderer rightArm;
-    private final ModelRenderer Legs;
-    private final ModelRenderer leftWing;
-    private final ModelRenderer rightWing;
+    private final ModelPart head;
+    private final ModelPart body;
+    private final ModelPart leftArm;
+    private final ModelPart rightArm;
+    private final ModelPart Legs;
+    private final ModelPart leftWing;
+    private final ModelPart rightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
-    public ModelAngelaAngel() {
-        texWidth = 128;
-        texHeight = 128;
+    public ModelAngelaAngel(ModelPart root) {
+        this.head = root.getChild("head");
+        this.Legs = root.getChild("legs");
+        this.body = root.getChild("body");
+        this.rightArm = root.getChild("right_arm");
+        this.leftArm = root.getChild("left_arm");
+        this.leftWing = root.getChild("leftwing");
+        this.rightWing = root.getChild("rightwing");
+    }
 
-        head = new ModelRenderer(this);
-        head.setPos(0.0F, 0.0F, 0.0F);
-        head.texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-        head.texOffs(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
+    public static MeshDefinition getModelData() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
 
-        body = new ModelRenderer(this);
-        body.setPos(0.0F, 0.0F, 0.0F);
-        body.texOffs(56, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-        body.texOffs(32, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.5F, false);
+        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 17).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(72, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        leftArm = new ModelRenderer(this);
-        leftArm.setPos(-5.0F, 2.0F, 0.0F);
-        leftArm.texOffs(24, 59).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(56, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(32, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
+        PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(24, 59).cuboid(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        rightArm = new ModelRenderer(this);
-        rightArm.setPos(5.0F, 2.0F, 0.0F);
-        rightArm.texOffs(10, 59).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+        PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(10, 59).cuboid(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        Legs = new ModelRenderer(this);
-        Legs.setPos(0.0F, 9.25F, 0.0F);
-        Legs.texOffs(40, 0).addBox(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, 0.0F, false);
-        Legs.texOffs(0, 0).addBox(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, 0.0F, false);
+        PartDefinition Legs = partdefinition.addOrReplaceChild("legs", CubeListBuilder.create().texOffs(40, 0).cuboid(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(0, 0).cuboid(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 9.25F, 0.0F, 0.0F, 0.0F, 0.0F));
 
+        PartDefinition leftWing = partdefinition.addOrReplaceChild("leftwing", CubeListBuilder.create().texOffs(0, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(6, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(18, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(8, 33).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(0, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(38, 59).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-1.0F, 5.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
 
-        leftWing = new ModelRenderer(this);
-        leftWing.setPos(-1.0F, 5.0F, 2.0F);
-        setRotationAngle(leftWing, 0.0F, -0.7854F, 0.0F);
-        leftWing.texOffs(0, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        leftWing.texOffs(6, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        leftWing.texOffs(18, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        leftWing.texOffs(8, 33).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
-        leftWing.texOffs(0, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        leftWing.texOffs(38, 59).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
+        PartDefinition rightWing = partdefinition.addOrReplaceChild("rightwing", CubeListBuilder.create().texOffs(10, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(12, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(26, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(18, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(0, 83).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+                .texOffs(0, 59).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(1.0F, 5.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
+        return meshdefinition;
+    }
 
-        rightWing = new ModelRenderer(this);
-        rightWing.setPos(1.0F, 5.0F, 2.0F);
-        setRotationAngle(rightWing, 0.0F, 0.7854F, 0.0F);
-        rightWing.texOffs(10, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        rightWing.texOffs(12, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        rightWing.texOffs(26, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        rightWing.texOffs(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        rightWing.texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
-        rightWing.texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+    public static TexturedModelData getTexturedModelData() {
+        PlayerModel
+        return TexturedModelData.of(getModelData(), 128, 128);
     }
 
     public void setPose(WeepingAngelPose weepingAngelPose) {
@@ -207,7 +209,7 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
@@ -218,11 +220,11 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
     }
 
     @Override
-    public Iterable<ModelRenderer> parts() {
+    public Iterable<ModelPart> parts() {
         return ImmutableList.of(this.body, this.leftWing, this.rightWing, this.head, this.leftArm, this.rightArm, this.Legs);
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;
@@ -269,17 +271,17 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
     }
 
     @Override
-    public ModelRenderer getHead() {
+    public ModelPart getHead() {
         return head;
     }
 
-    protected ModelRenderer getArm(HandSide handSide) {
-        return handSide == HandSide.LEFT ? this.leftArm : this.rightArm;
+    protected ModelPart getArm(HumanoidArm handSide) {
+        return handSide == HumanoidArm.LEFT ? this.leftArm : this.rightArm;
     }
 
     @Override
-    public void translateToHand(HandSide handSide, MatrixStack matrixStack) {
-        ModelRenderer hand = this.getArm(handSide);
+    public void translateToHand(HumanoidArm handSide, PoseStack matrixStack) {
+        ModelPart hand = this.getArm(handSide);
         boolean wasVisible = hand.visible;
         hand.visible = true;
         hand.translateAndRotate(matrixStack);

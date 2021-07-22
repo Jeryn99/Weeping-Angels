@@ -1,13 +1,13 @@
 package me.suff.mc.angels.client.renders.entities;
 
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 
-public class CGRender extends SpriteRenderer<ProjectileItemEntity> {
+public class CGRender extends ThrownItemRenderer<ThrowableItemProjectile> {
 
-    public CGRender(EntityRendererManager renderManagerIn, ItemRenderer itemRendererIn) {
+    public CGRender(EntityRenderDispatcher renderManagerIn, ItemRenderer itemRendererIn) {
         super(renderManagerIn, itemRendererIn);
     }
 

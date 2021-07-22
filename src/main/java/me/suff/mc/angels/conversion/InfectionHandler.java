@@ -1,12 +1,12 @@
 package me.suff.mc.angels.conversion;
 
 import me.suff.mc.angels.WeepingAngels;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,8 +22,8 @@ public class InfectionHandler {
 
     @SubscribeEvent
     public static void onAttachInfection(AttachCapabilitiesEvent<Entity> capabilitiesEvent) {
-        if (capabilitiesEvent.getObject() instanceof PlayerEntity) {
-            capabilitiesEvent.addCapability(new ResourceLocation(WeepingAngels.MODID, "infection"), new ICapabilitySerializable<CompoundNBT>() {
+        if (capabilitiesEvent.getObject() instanceof Player) {
+            capabilitiesEvent.addCapability(new ResourceLocation(WeepingAngels.MODID, "infection"), new ICapabilitySerializable<CompoundTag>() {
                 final AngelInfection angelInfection = new AngelInfection((LivingEntity) capabilitiesEvent.getObject());
                 final LazyOptional<AngelVirus> infectionInstance = LazyOptional.of(() -> angelInfection);
 
@@ -34,12 +34,12 @@ public class InfectionHandler {
                 }
 
                 @Override
-                public CompoundNBT serializeNBT() {
+                public CompoundTag serializeNBT() {
                     return angelInfection.serializeNBT();
                 }
 
                 @Override
-                public void deserializeNBT(CompoundNBT nbt) {
+                public void deserializeNBT(CompoundTag nbt) {
                     angelInfection.deserializeNBT(nbt);
                 }
             });
@@ -48,8 +48,8 @@ public class InfectionHandler {
 
     @SubscribeEvent
     public static void onTickInfection(LivingEvent.LivingUpdateEvent livingEvent) {
-        if (!(livingEvent.getEntityLiving() instanceof PlayerEntity)) return;
-        PlayerEntity playerEntity = (PlayerEntity) livingEvent.getEntityLiving();
+        if (!(livingEvent.getEntityLiving() instanceof Player)) return;
+        Player playerEntity = (Player) livingEvent.getEntityLiving();
         AngelInfection.get(playerEntity).ifPresent(AngelVirus::tick);
     }
 

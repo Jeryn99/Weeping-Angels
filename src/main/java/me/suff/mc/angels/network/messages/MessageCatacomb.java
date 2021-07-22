@@ -2,8 +2,8 @@ package me.suff.mc.angels.network.messages;
 
 import me.suff.mc.angels.client.ClientEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -18,11 +18,11 @@ public class MessageCatacomb {
         this.isInCata = isInCata;
     }
 
-    public static void encode(MessageCatacomb message, PacketBuffer buffer) {
+    public static void encode(MessageCatacomb message, FriendlyByteBuf buffer) {
         buffer.writeBoolean(message.isInCata);
     }
 
-    public static MessageCatacomb decode(PacketBuffer buffer) {
+    public static MessageCatacomb decode(FriendlyByteBuf buffer) {
         return new MessageCatacomb(buffer.readBoolean());
     }
 

@@ -1,22 +1,22 @@
 package me.suff.mc.angels.client.models.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
-import net.minecraft.client.renderer.entity.model.SegmentedModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.ListModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Angel Type: 2 - Classic
  */
-public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelClassicAngel extends ListModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic.png");
@@ -30,22 +30,22 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
     private final ResourceLocation TEXTURE_XMAS = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic_xmas.png");
 
-    private final ModelRenderer leftfoot;
-    private final ModelRenderer rightfoot;
-    private final ModelRenderer leftwing1;
-    private final ModelRenderer leftwing2;
-    private final ModelRenderer leftwing3;
-    private final ModelRenderer leftwing4;
-    private final ModelRenderer rightwing1;
-    private final ModelRenderer rightwing2;
-    private final ModelRenderer rightwing3;
-    private final ModelRenderer rightwing4;
-    private final ModelRenderer head;
-    private final ModelRenderer body;
-    private final ModelRenderer rightarm;
-    private final ModelRenderer leftarm;
-    private final ModelRenderer rightleg;
-    private final ModelRenderer leftleg;
+    private final ModelPart leftfoot;
+    private final ModelPart rightfoot;
+    private final ModelPart leftwing1;
+    private final ModelPart leftwing2;
+    private final ModelPart leftwing3;
+    private final ModelPart leftwing4;
+    private final ModelPart rightwing1;
+    private final ModelPart rightwing2;
+    private final ModelPart rightwing3;
+    private final ModelPart rightwing4;
+    private final ModelPart head;
+    private final ModelPart body;
+    private final ModelPart rightarm;
+    private final ModelPart leftarm;
+    private final ModelPart rightleg;
+    private final ModelPart leftleg;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -56,75 +56,75 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
         texWidth = 64;
         texHeight = 32;
 
-        leftfoot = new ModelRenderer(this);
+        leftfoot = new ModelPart(this);
         leftfoot.setPos(2.0F, 12.0F, 0.0F);
         leftfoot.texOffs(32, 0).addBox(-2.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
 
-        rightfoot = new ModelRenderer(this);
+        rightfoot = new ModelPart(this);
         rightfoot.setPos(-2.0F, 12.0F, 0.0F);
         rightfoot.texOffs(32, 0).addBox(-4.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
 
-        leftwing1 = new ModelRenderer(this);
+        leftwing1 = new ModelPart(this);
         leftwing1.setPos(1.0F, 1.0F, 1.0F);
         setRotationAngle(leftwing1, 0.2094F, 0.6109F, 0.0F);
         leftwing1.texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
 
-        leftwing2 = new ModelRenderer(this);
+        leftwing2 = new ModelPart(this);
         leftwing2.setPos(1.0F, 1.0F, 1.0F);
         setRotationAngle(leftwing2, 0.2094F, 0.6109F, 0.0175F);
         leftwing2.texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
 
-        leftwing3 = new ModelRenderer(this);
+        leftwing3 = new ModelPart(this);
         leftwing3.setPos(1.0F, 1.0F, 1.0F);
         setRotationAngle(leftwing3, 0.2094F, 0.6109F, 0.0F);
         leftwing3.texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
 
-        leftwing4 = new ModelRenderer(this);
+        leftwing4 = new ModelPart(this);
         leftwing4.setPos(1.0F, 1.0F, 1.0F);
         setRotationAngle(leftwing4, 0.2094F, 0.6109F, 0.0F);
         leftwing4.texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
 
-        rightwing1 = new ModelRenderer(this);
+        rightwing1 = new ModelPart(this);
         rightwing1.setPos(-2.0F, 1.0F, 1.0F);
         setRotationAngle(rightwing1, 0.2094F, -0.6109F, 0.0F);
         rightwing1.texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
 
-        rightwing2 = new ModelRenderer(this);
+        rightwing2 = new ModelPart(this);
         rightwing2.setPos(-2.0F, 1.0F, 1.0F);
         setRotationAngle(rightwing2, 0.2094F, -0.6109F, 0.0F);
         rightwing2.texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
 
-        rightwing3 = new ModelRenderer(this);
+        rightwing3 = new ModelPart(this);
         rightwing3.setPos(-2.0F, 1.0F, 1.0F);
         setRotationAngle(rightwing3, 0.2094F, -0.6109F, 0.0F);
         rightwing3.texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
 
-        rightwing4 = new ModelRenderer(this);
+        rightwing4 = new ModelPart(this);
         rightwing4.setPos(-2.0F, 1.0F, 1.0F);
         setRotationAngle(rightwing4, 0.2094F, -0.6109F, 0.0F);
         rightwing4.texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
 
-        head = new ModelRenderer(this);
+        head = new ModelPart(this);
         head.setPos(0.0F, 0.0F, 0.0F);
         head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-        body = new ModelRenderer(this);
+        body = new ModelPart(this);
         body.setPos(0.0F, 0.0F, 0.0F);
         body.texOffs(0, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
 
-        rightarm = new ModelRenderer(this);
+        rightarm = new ModelPart(this);
         rightarm.setPos(-5.0F, 0.0F, 0.0F);
         rightarm.texOffs(24, 19).addBox(-3.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
 
-        leftarm = new ModelRenderer(this);
+        leftarm = new ModelPart(this);
         leftarm.setPos(5.0F, 0.0F, 0.0F);
         leftarm.texOffs(24, 19).addBox(-1.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
 
-        rightleg = new ModelRenderer(this);
+        rightleg = new ModelPart(this);
         rightleg.setPos(-2.0F, 12.0F, 0.0F);
         rightleg.texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
 
-        leftleg = new ModelRenderer(this);
+        leftleg = new ModelPart(this);
         leftleg.setPos(2.0F, 12.0F, 0.0F);
         leftleg.texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
     }
@@ -221,7 +221,7 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         leftfoot.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         rightfoot.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         leftwing1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
@@ -241,7 +241,7 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
     }
 
     @Override
-    public Iterable<ModelRenderer> parts() {
+    public Iterable<ModelPart> parts() {
         return ImmutableList.of(leftfoot,
                 rightfoot,
                 leftwing1,
@@ -274,7 +274,7 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
         return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY_XMAS : TEXTURE_XMAS;
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;

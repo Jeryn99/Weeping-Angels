@@ -2,21 +2,25 @@ package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.*;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
@@ -26,20 +30,20 @@ public class ViewUtil {
     private static final float headSize = 0.15f;
 
     public static boolean isInFrontOfEntity(LivingEntity entity, Entity target, boolean vr) {
-        Vector3d vecTargetsPos = target.position();
-        Vector3d vecLook;
+        Vec3 vecTargetsPos = target.position();
+        Vec3 vecLook;
 
         if (vr) {
-            if (entity instanceof PlayerEntity) {
-                vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((PlayerEntity) entity);
+            if (entity instanceof Player) {
+                vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((Player) entity);
             } else {
                 throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
             }
         } else {
             vecLook = entity.getLookAngle();
         }
-        Vector3d vecFinal = vecTargetsPos.vectorTo(new Vector3d(entity.getX(), entity.getY(), entity.getZ())).normalize();
-        vecFinal = new Vector3d(vecFinal.x, 0.0D, vecFinal.z);
+        Vec3 vecFinal = vecTargetsPos.vectorTo(new Vec3(entity.getX(), entity.getY(), entity.getZ())).normalize();
+        vecFinal = new Vec3(vecFinal.x, 0.0D, vecFinal.z);
         return vecFinal.dot(vecLook) < 0.0;
     }
 
@@ -49,19 +53,19 @@ public class ViewUtil {
      * @param viewer      The viewer entity
      * @param beingViewed The entity being watched by viewer
      */
-    public static boolean canEntitySee(LivingEntity viewer, TileEntity beingViewed) {
+    public static boolean canEntitySee(LivingEntity viewer, BlockEntity beingViewed) {
         double dx = beingViewed.getBlockPos().getX() - viewer.getX();
         double dz;
         for (dz = beingViewed.getBlockPos().getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (viewer.yRot > 360) {
-            viewer.yRot -= 360;
+        while (viewer.yHeadRot > 360) {
+            viewer.yHeadRot -= 360;
         }
-        while (viewer.yRot < -360) {
-            viewer.yRot += 360;
+        while (viewer.yHeadRot < -360) {
+            viewer.yHeadRot += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yRot;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yHeadRot;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -80,13 +84,13 @@ public class ViewUtil {
         for (dz = pos.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;
         }
-        while (viewer.yRot > 360) {
-            viewer.yRot -= 360;
+        while (viewer.yHeadRot > 360) {
+            viewer.yHeadRot -= 360;
         }
-        while (viewer.yRot < -360) {
-            viewer.yRot += 360;
+        while (viewer.yHeadRot < -360) {
+            viewer.yHeadRot += 360;
         }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yRot;
+        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yHeadRot;
         yaw = yaw - 90;
         while (yaw < -180) {
             yaw += 360;
@@ -116,8 +120,8 @@ public class ViewUtil {
         yaw = yaw * 180.0 / Math.PI;
 
         yaw += 90f;
-        looker.xRot = (float) pitch;
-        looker.yRot = (float) yaw;
+        looker.yHeadRot = (float) pitch;
+        looker.yHeadRot = (float) yaw;
     }
 
     /**
@@ -130,23 +134,23 @@ public class ViewUtil {
         if (viewBlocked(livingBase, angel)) {
             return false;
         }
-        if (livingBase instanceof PlayerEntity) {
-            return isInFrontOfEntity(livingBase, angel, WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) livingBase));
+        if (livingBase instanceof Player) {
+            return isInFrontOfEntity(livingBase, angel, WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) livingBase));
         }
         return isInFrontOfEntity(livingBase, angel, false);
     }
 
     public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
-        AxisAlignedBB viewerBoundBox = viewer.getBoundingBox();
-        AxisAlignedBB angelBoundingBox = angel.getBoundingBox();
-        Vector3d[] viewerPoints = {new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vector3d(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
+        AABB viewerBoundBox = viewer.getBoundingBox();
+        AABB angelBoundingBox = angel.getBoundingBox();
+        Vec3[] viewerPoints = {new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
-        if (viewer instanceof PlayerEntity) {
-            Vector3d pos;
-            if (WeepingAngels.VR_REFLECTOR.isVRPlayer((PlayerEntity) viewer))
-                pos = WeepingAngels.VR_REFLECTOR.getHMDPos((PlayerEntity) viewer);
+        if (viewer instanceof Player) {
+            Vec3 pos;
+            if (WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) viewer))
+                pos = WeepingAngels.VR_REFLECTOR.getHMDPos((Player) viewer);
             else
-                pos = new Vector3d(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
+                pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
@@ -158,10 +162,10 @@ public class ViewUtil {
         }
 
 
-        Vector3d[] angelPoints = {new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vector3d(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
+        Vec3[] angelPoints = {new Vec3(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
         for (int i = 0; i < viewerPoints.length; i++) {
-            if (viewer.level.clip(new RayTraceContext(viewerPoints[i], angelPoints[i], RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, viewer)).getType() == RayTraceResult.Type.MISS) {
+            if (viewer.level.clip(new ClipContext(viewerPoints[i], angelPoints[i], ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, viewer)).getType() == HitResult.Type.MISS) {
                 return false;
             }
             if (rayTraceBlocks(viewer, viewer.level, viewerPoints[i], angelPoints[i], pos -> {
@@ -172,7 +176,7 @@ public class ViewUtil {
 
         if (angel.tickCount % 1200 == 0) {
             if (angel.distanceTo(viewer) < 15) {
-                viewer.addEffect(new EffectInstance(Effects.BLINDNESS, 15));
+                viewer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 15));
             }
         }
 
@@ -181,18 +185,18 @@ public class ViewUtil {
 
 
     @Nullable
-    private static RayTraceResult rayTraceBlocks(LivingEntity livingEntity, World world, Vector3d vec31, Vector3d vec32, Predicate<BlockPos> stopOn) {
+    private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 vec31, Vec3 vec32, Predicate<BlockPos> stopOn) {
         if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
             if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
-                int i = MathHelper.floor(vec32.x);
-                int j = MathHelper.floor(vec32.y);
-                int k = MathHelper.floor(vec32.z);
-                int l = MathHelper.floor(vec31.x);
-                int i1 = MathHelper.floor(vec31.y);
-                int j1 = MathHelper.floor(vec31.z);
+                int i = Mth.floor(vec32.x);
+                int j = Mth.floor(vec32.y);
+                int k = Mth.floor(vec32.z);
+                int l = Mth.floor(vec31.x);
+                int i1 = Mth.floor(vec31.y);
+                int j1 = Mth.floor(vec31.z);
                 BlockPos blockpos = new BlockPos(l, i1, j1);
                 if (stopOn.test(blockpos)) {
-                    RayTraceResult raytraceresult = world.clip(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+                    HitResult raytraceresult = world.clip(new ClipContext(vec31, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
                     if (raytraceresult != null) {
                         return raytraceresult;
                     }
@@ -275,21 +279,21 @@ public class ViewUtil {
 
                     if (d3 < d4 && d3 < d5) {
                         enumfacing = i > l ? Direction.WEST : Direction.EAST;
-                        vec31 = new Vector3d(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
+                        vec31 = new Vec3(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
                     } else if (d4 < d5) {
                         enumfacing = j > i1 ? Direction.DOWN : Direction.UP;
-                        vec31 = new Vector3d(vec31.x + d6 * d4, d1, vec31.z + d8 * d4);
+                        vec31 = new Vec3(vec31.x + d6 * d4, d1, vec31.z + d8 * d4);
                     } else {
                         enumfacing = k > j1 ? Direction.NORTH : Direction.SOUTH;
-                        vec31 = new Vector3d(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
+                        vec31 = new Vec3(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
                     }
 
-                    l = MathHelper.floor(vec31.x) - (enumfacing == Direction.EAST ? 1 : 0);
-                    i1 = MathHelper.floor(vec31.y) - (enumfacing == Direction.UP ? 1 : 0);
-                    j1 = MathHelper.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
+                    l = Mth.floor(vec31.x) - (enumfacing == Direction.EAST ? 1 : 0);
+                    i1 = Mth.floor(vec31.y) - (enumfacing == Direction.UP ? 1 : 0);
+                    j1 = Mth.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
                     blockpos = new BlockPos(l, i1, j1);
                     if (stopOn.test(blockpos)) {
-                        RayTraceResult raytraceresult1 = world.clip(new RayTraceContext(vec31, vec32, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+                        HitResult raytraceresult1 = world.clip(new ClipContext(vec31, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
 
                         if (raytraceresult1 != null) {
                             return raytraceresult1;
@@ -303,7 +307,7 @@ public class ViewUtil {
     }
 
     // This is bloated, I know, but I want to make sure I cover EVERY basis :/
-    public static boolean canSeeThrough(BlockState blockState, World world, BlockPos pos) {
+    public static boolean canSeeThrough(BlockState blockState, Level world, BlockPos pos) {
 
         // Covers all Block, Material and Tag checks :D
         if (!blockState.canOcclude() || !blockState.isSolidRender(world, pos)) {
@@ -318,11 +322,11 @@ public class ViewUtil {
         }
 
         // Config
-        if (block.is(AngelUtil.ANGEL_IGNORE)) {
+        if (blockState.is(AngelUtil.ANGEL_IGNORE)) {
             return true;
         }
 
-        return blockState.getCollisionShape(world, pos) == VoxelShapes.empty();
+        return blockState.getCollisionShape(world, pos) == Shapes.empty();
     }
 
 }
