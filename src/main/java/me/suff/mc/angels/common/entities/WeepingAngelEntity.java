@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.entities;
 
+import com.google.common.collect.ImmutableList;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
@@ -18,6 +19,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -41,9 +43,12 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static me.suff.mc.angels.utils.AngelUtil.updateBlock;
 
@@ -118,6 +123,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld serverWorld, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
+        getVariant().canVariantBeUsed(this);
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -540,4 +546,30 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         getEntityData().set(LAUGH, laugh);
     }
 
+    public enum Cracks {
+        NONE(1.0F),
+        LOW(0.75F),
+        MEDIUM(0.5F),
+        HIGH(0.25F);
+
+        private static final List<WeepingAngelEntity.Cracks> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> (double)p_226516_0_.fraction)).collect(ImmutableList.toImmutableList());
+        private final float fraction;
+
+        Cracks(float p_i225732_3_) {
+            this.fraction = p_i225732_3_;
+        }
+
+        public static WeepingAngelEntity.Cracks byFraction(float p_226515_0_) {
+            for(WeepingAngelEntity.Cracks weepCracks : BY_DAMAGE) {
+                if (p_226515_0_ < weepCracks.fraction) {
+                    return weepCracks;
+                }
+            }
+            return NONE;
+        }
+    }
+
+    public WeepingAngelEntity.Cracks getCrackiness() {
+        return WeepingAngelEntity.Cracks.byFraction(this.getHealth() / this.getMaxHealth());
+    }
 }

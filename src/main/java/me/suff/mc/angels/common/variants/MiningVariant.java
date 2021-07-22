@@ -8,10 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.DamageSource;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class MiningVariant extends BaseVariant {
 
+    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngelEntity> variantTest) {
+        super(itemStackSupplier, rarity, variantTest);
+    }
 
     public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
         super(itemStackSupplier, rarity);

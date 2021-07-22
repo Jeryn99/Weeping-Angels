@@ -40,7 +40,7 @@ public class AngelInfection implements AngelVirus {
 
     @Override
     public void tick() {
-        if (timeSeen >= 2400) {
+        if (timeSeen >= 6000) {
             timeSeen = 0;
             living.addEffect(new EffectInstance(Effects.CONFUSION, 200));
             living.addEffect(new EffectInstance(Effects.WITHER, 200));

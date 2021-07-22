@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.IronGolemCracksLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelBakery;
@@ -26,6 +27,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
 
     public AngelRender(EntityRendererManager manager) {
         super(manager, new ModelAngelaAngel(), 0.0F);
+        addLayer(new AngelCrackedLayer(this));
     }
 
     public static int calcOverlay(float health) {
@@ -55,6 +57,8 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
         pMatrixStackIn.popPose();
 
         pMatrixStackIn.pushPose();
+
+        /*
         //TODO This messes up Optifine Shaders, not 100% sure if their fault or mine
         if (calcOverlay(weepingAngelEntity.getHealth()) != -1) {
             MatrixStack.Entry matrixEntry = pMatrixStackIn.last();
@@ -64,7 +68,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
                 IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(renderType);
                 return renderType.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
             };
-        }
+        }*/
         super.render(weepingAngelEntity, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
     }
