@@ -9,13 +9,8 @@ import me.suff.mc.angels.network.messages.MessageSFX;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.TeleportationRepositioner;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
@@ -28,23 +23,6 @@ import java.util.Random;
 public class WATeleporter {
 
     public static BlockPos findSafePlace(PlayerEntity playerEntity, World world, BlockPos pos) {
-
-        if (world.dimension().equals(World.NETHER)) {
-            WorldBorder worldborder = world.getWorldBorder();
-            double d0 = Math.max(-2.9999872E7D, worldborder.getMinX() + 16.0D);
-            double d1 = Math.max(-2.9999872E7D, worldborder.getMinZ() + 16.0D);
-            double d2 = Math.min(2.9999872E7D, worldborder.getMaxX() - 16.0D);
-            double d3 = Math.min(2.9999872E7D, worldborder.getMaxZ() - 16.0D);
-            double d4 = DimensionType.getTeleportationScale(world.dimensionType(), ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER).dimensionType());
-            BlockPos blockpos1 = new BlockPos(MathHelper.clamp(pos.getZ() * d4, d0, d2), pos.getY(), MathHelper.clamp(pos.getZ() * d4, d1, d3));
-
-            BlockState blockstate = world.getBlockState(blockpos1);
-            TeleportationRepositioner.Result tt = TeleportationRepositioner.getLargestRectangleAround(blockpos1, Direction.Axis.X, 21, Direction.Axis.Y, 21, (posIn) -> {
-                return world.getBlockState(posIn) == blockstate;
-            });
-
-            return tt.minCorner;
-        }
 
         if (world.dimension().equals(World.END)) {
             return ServerWorld.END_SPAWN_POINT;
@@ -79,9 +57,7 @@ public class WATeleporter {
             allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
         }
 
-        if (rand.nextInt(100) > 20) {
-            allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER));
-        }
+        allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(World.NETHER));
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
