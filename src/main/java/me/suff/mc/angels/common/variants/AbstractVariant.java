@@ -26,4 +26,6 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
         this.isHeadless = isHeadless;
         return this;
     }
+
+    public abstract double getRarity();
 }

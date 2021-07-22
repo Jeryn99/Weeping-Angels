@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.variants;
 
-import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,9 +10,11 @@ import net.minecraft.util.DamageSource;
 
 import java.util.function.Supplier;
 
-public class MiningVariant extends Variant {
-    public MiningVariant(Supplier<ItemStack> itemStackSupplier) {
-        super(itemStackSupplier);
+public class MiningVariant extends BaseVariant {
+
+
+    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
+        super(itemStackSupplier, rarity);
     }
 
     @Override
@@ -24,7 +25,6 @@ public class MiningVariant extends Variant {
                 PickaxeItem pickaxeItem = (PickaxeItem) playerEntity.getMainHandItem().getItem();
                 if(quantumLockEntity.getVariant().stackDrop().getItem() instanceof BlockItem) {
                     Block block = ((BlockItem) quantumLockEntity.getVariant().stackDrop().getItem()).getBlock();
-                    System.out.println("Can I drop this? " + pickaxeItem.isCorrectToolForDrops(block.defaultBlockState()));
                     return pickaxeItem.isCorrectToolForDrops(block.defaultBlockState());
                 }
             }

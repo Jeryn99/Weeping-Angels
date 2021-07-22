@@ -6,12 +6,14 @@ import net.minecraft.util.DamageSource;
 
 import java.util.function.Supplier;
 
-public class Variant extends AbstractVariant {
+public class BaseVariant extends AbstractVariant {
 
+    private final int rarity;
     private Supplier<ItemStack> dropStack;
 
-    public Variant(Supplier<ItemStack> itemStackSupplier) {
+    public BaseVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
         this.dropStack = itemStackSupplier;
+        this.rarity = rarity;
     }
 
     @Override
@@ -22,5 +24,10 @@ public class Variant extends AbstractVariant {
     @Override
     public boolean shouldDrop(DamageSource damageSource, WeepingAngelEntity quantumLockEntity) {
         return true;
+    }
+
+    @Override
+    public double getRarity() {
+        return rarity;
     }
 }

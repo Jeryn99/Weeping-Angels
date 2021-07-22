@@ -1,11 +1,7 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.*;
@@ -19,13 +15,11 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -106,10 +100,10 @@ public class StatueBlock extends Block implements IWaterLoggable {
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(AngelTypes.getRandom());
+                    statue.setAngelVarients(AngelTypes.getWeightedRandom());
                 }
 
-                if (true) {
+       /*         if (true) {
                     int offset = 0;
                     int many = 0;
                     for (AngelEnums.AngelType type : AngelEnums.AngelType.values()) {
@@ -135,7 +129,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
                         }
                     }
                     System.out.println(many);
-                }
+                }*/
             }
         }
     }

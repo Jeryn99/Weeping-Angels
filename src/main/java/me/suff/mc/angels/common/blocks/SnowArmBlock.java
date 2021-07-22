@@ -58,7 +58,7 @@ public class SnowArmBlock extends SnowBlock {
                 snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowArmTile.setRotation(rotation);
                 snowArmTile.setHasSetup(true);
-                snowArmTile.setVariant(AngelTypes.getRandom());
+                snowArmTile.setVariant(AngelTypes.getWeightedRandom());
                 snowArmTile.sendUpdates();
             }
         }

@@ -88,14 +88,14 @@ public class GraveyardStructurePieces {
             this.resourceLocation = resourceLocationIn;
             BlockPos blockpos = BlockPos.ZERO;
 
-            if (resourceLocation == GRAVEYARD_LARGE_ONE || resourceLocation == GRAVEYARD_LARGE_TWO) {
+         /*   if (resourceLocation == GRAVEYARD_LARGE_ONE || resourceLocation == GRAVEYARD_LARGE_TWO) {
                 blockpos = blockpos.below(9);
             }
 
             if (resourceLocation == GRAVEYARD_WALKWAY) {
                 blockpos = blockpos.below(6);
             }
-
+*/
             this.templatePosition = pos.offset(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             this.rotation = rotationIn;
             this.setupPiece(templateManagerIn);
@@ -143,7 +143,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
-                statueTile.setAngelVarients(AngelTypes.getRandom());
+                statueTile.setAngelVarients(AngelTypes.getWeightedRandom());
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }

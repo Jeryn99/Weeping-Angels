@@ -102,7 +102,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, AngelTypes.getRandom().getRegistryName().toString());
+        getEntityData().define(VARIANT, AngelTypes.getWeightedRandom().getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -380,7 +380,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             BlockState blockState = serverWorld.getBlockState(pos);
             if (isAllowed(blockState, pos)) {
 
-                if (blockState.getBlock().is(AngelUtil.BANNED_BLOCKS) || blockState.getBlock() == Blocks.LAVA) {
+                if (blockState.getBlock() == Blocks.LAVA) {
                     continue;
                 }
 
@@ -529,7 +529,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled();
+        return !eventAngelBreakEvent.isCanceled() && !blockState.getBlock().is(AngelUtil.BANNED_BLOCKS);
     }
 
     public float getLaugh() {
