@@ -49,8 +49,8 @@ public class ChronodyneGeneratorBlock extends Block {
     }
 
     @Override
-    public void stepOn(Level worldIn, BlockPos pos, Entity entityIn) {
-        super.stepOn(worldIn, pos, entityIn);
+    public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+        super.stepOn(worldIn, pos, state, entityIn);
 
         if (entityIn instanceof WeepingAngelEntity) {
             AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);

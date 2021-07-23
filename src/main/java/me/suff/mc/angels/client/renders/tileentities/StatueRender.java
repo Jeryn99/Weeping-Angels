@@ -12,6 +12,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +20,10 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * Created by Craig on 17/02/2020 @ 12:18
  */
-public class StatueRender implements BlockEntityRenderer<StatueTile> {
+public class StatueRender implements BlockEntityRenderer<StatueTile>, BlockEntityRendererProvider<StatueTile> {
+
+    public StatueRender(Context p_173571_) {
+    }
 
     @Override
     public void render(StatueTile statueTile, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
@@ -41,5 +45,10 @@ public class StatueRender implements BlockEntityRenderer<StatueTile> {
         angel.setupAnim(null, 0, 0, 0, 0, 0);
         angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         matrixStack.popPose();
+    }
+
+    @Override
+    public BlockEntityRenderer<StatueTile> create(Context p_173571_) {
+        return new StatueRender(p_173571_);
     }
 }

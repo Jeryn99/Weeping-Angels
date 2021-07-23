@@ -5,27 +5,32 @@ import com.mojang.math.Vector3f;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
+import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CoffinRenderer extends BlockEntityRenderer<CoffinTile> {
+public class CoffinRenderer implements BlockEntityRenderer<CoffinTile>, BlockEntityRendererProvider<CoffinTile> {
 
-    private static final CoffinModel coffinModel = new CoffinModel();
-    private static final PoliceBoxModel coffinModelPTB = new PoliceBoxModel();
+    private static ModelPart coffinModel;
+    private static ModelPart coffinModelPTB;
     private static Skeleton skeletonEntity = null;
 
-    public CoffinRenderer(BlockEntityRenderDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public CoffinRenderer(Context context) {
+        coffinModel = context.bakeLayer(WAModels.COFFIN);
+        coffinModelPTB = context.bakeLayer(WAModels.POLICE_BOX);
     }
 
     @Override
@@ -55,12 +60,12 @@ public class CoffinRenderer extends BlockEntityRenderer<CoffinTile> {
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
         if (!tileEntityIn.getCoffin().isPoliceBox()) {
-            coffinModel.door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
-            coffinModel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+            coffinModel.getChild("door").yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
             matrixStack.translate(0, 0.5, 0);
             matrixStack.scale(0.7F, 0.7F, 0.7F);
-            coffinModelPTB.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
+            coffinModelPTB.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, tileEntityIn.getAlpha());
         }
         matrixStack.popPose();
     }
@@ -79,5 +84,10 @@ public class CoffinRenderer extends BlockEntityRenderer<CoffinTile> {
 
     public ResourceLocation getTexture(CoffinTile.Coffin coffin) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
+    }
+
+    @Override
+    public BlockEntityRenderer<CoffinTile> create(Context p_173571_) {
+        return new CoffinRenderer(p_173571_);
     }
 }

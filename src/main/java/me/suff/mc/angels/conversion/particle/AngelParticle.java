@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
+import me.suff.mc.angels.client.models.entity.WAModels;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.Model;
@@ -21,13 +22,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class AngelParticle extends Particle {
-    private final Model model = new ModelAngelaAngel();
+    private final ModelAngelaAngel model;
     private final RenderType renderType = RenderType.entityTranslucent(ModelAngelaAngel.ANGRY);
 
     private AngelParticle(ClientLevel p_i232405_1_, double p_i232405_2_, double p_i232405_4_, double p_i232405_6_) {
         super(p_i232405_1_, p_i232405_2_, p_i232405_4_, p_i232405_6_);
         this.gravity = 0.0F;
         this.lifetime = 30;
+        model = new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ANGELA));
     }
 
     public ParticleRenderType getRenderType() {

@@ -314,10 +314,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
 
     private void randomisePose() {
-        if (getAngelType() != AngelEnums.AngelType.VIO_1) {
-            setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
-            return;
-        }
         setPose(Objects.requireNonNull(random.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
     }
 

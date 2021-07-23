@@ -10,12 +10,11 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * Angel Type: 2 - Classic
- */
 public class ModelClassicAngel extends ListModel<WeepingAngelEntity> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
@@ -49,84 +48,60 @@ public class ModelClassicAngel extends ListModel<WeepingAngelEntity> implements 
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
-    /**
-     * Angel Type: 2 - Classic
-     */
-    public ModelClassicAngel() {
-        texWidth = 64;
-        texHeight = 32;
+    public ModelClassicAngel(ModelPart root) {
+        this.leftfoot = root.getChild("leftfoot");
+        this.rightfoot = root.getChild("rightfoot");
+        this.leftwing1 = root.getChild("leftwing1");
+        this.leftwing2 = root.getChild("leftwing2");
+        this.leftwing3 = root.getChild("leftwing3");
+        this.leftwing4 = root.getChild("leftwing4");
+        this.rightwing1 = root.getChild("rightwing1");
+        this.rightwing2 = root.getChild("rightwing2");
+        this.rightwing3 = root.getChild("rightwing3");
+        this.rightwing4 = root.getChild("rightwing4");
+        this.head = root.getChild("head");
+        this.body = root.getChild("body");
+        this.rightarm = root.getChild("rightarm");
+        this.leftarm = root.getChild("leftarm");
+        this.rightleg = root.getChild("rightleg");
+        this.leftleg = root.getChild("leftleg");
+    }
 
-        leftfoot = new ModelPart(this);
-        leftfoot.setPos(2.0F, 12.0F, 0.0F);
-        leftfoot.texOffs(32, 0).addBox(-2.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
+    public static LayerDefinition getModelData() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition leftfoot = partdefinition.addOrReplaceChild("leftfoot", CubeListBuilder.create().texOffs(32, 0).addBox(-2.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        rightfoot = new ModelPart(this);
-        rightfoot.setPos(-2.0F, 12.0F, 0.0F);
-        rightfoot.texOffs(32, 0).addBox(-4.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, 0.0F, false);
+        PartDefinition rightfoot = partdefinition.addOrReplaceChild("rightfoot", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, 7.0F, -4.0F, 6.0F, 5.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        leftwing1 = new ModelPart(this);
-        leftwing1.setPos(1.0F, 1.0F, 1.0F);
-        setRotationAngle(leftwing1, 0.2094F, 0.6109F, 0.0F);
-        leftwing1.texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
+        PartDefinition leftwing1 = partdefinition.addOrReplaceChild("leftwing1", CubeListBuilder.create().texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 1.0F, 1.0F, 0.2094F, 0.6109F, 0.0F));
 
-        leftwing2 = new ModelPart(this);
-        leftwing2.setPos(1.0F, 1.0F, 1.0F);
-        setRotationAngle(leftwing2, 0.2094F, 0.6109F, 0.0175F);
-        leftwing2.texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
+        PartDefinition leftwing2 = partdefinition.addOrReplaceChild("leftwing2", CubeListBuilder.create().texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 1.0F, 1.0F, 0.2094F, 0.6109F, 0.0175F));
 
-        leftwing3 = new ModelPart(this);
-        leftwing3.setPos(1.0F, 1.0F, 1.0F);
-        setRotationAngle(leftwing3, 0.2094F, 0.6109F, 0.0F);
-        leftwing3.texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
+        PartDefinition leftwing3 = partdefinition.addOrReplaceChild("leftwing3", CubeListBuilder.create().texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 1.0F, 1.0F, 0.2094F, 0.6109F, 0.0F));
 
-        leftwing4 = new ModelPart(this);
-        leftwing4.setPos(1.0F, 1.0F, 1.0F);
-        setRotationAngle(leftwing4, 0.2094F, 0.6109F, 0.0F);
-        leftwing4.texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
+        PartDefinition leftwing4 = partdefinition.addOrReplaceChild("leftwing4", CubeListBuilder.create().texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 1.0F, 1.0F, 0.2094F, 0.6109F, 0.0F));
 
-        rightwing1 = new ModelPart(this);
-        rightwing1.setPos(-2.0F, 1.0F, 1.0F);
-        setRotationAngle(rightwing1, 0.2094F, -0.6109F, 0.0F);
-        rightwing1.texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, 0.0F, false);
+        PartDefinition rightwing1 = partdefinition.addOrReplaceChild("rightwing1", CubeListBuilder.create().texOffs(40, 25).addBox(-0.5F, -1.0F, 1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 1.0F, 1.0F, 0.2094F, -0.6109F, 0.0F));
 
-        rightwing2 = new ModelPart(this);
-        rightwing2.setPos(-2.0F, 1.0F, 1.0F);
-        setRotationAngle(rightwing2, 0.2094F, -0.6109F, 0.0F);
-        rightwing2.texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, 0.0F, false);
+        PartDefinition rightwing2 = partdefinition.addOrReplaceChild("rightwing2", CubeListBuilder.create().texOffs(46, 19).addBox(-0.5F, -2.0F, 3.0F, 1.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 1.0F, 1.0F, 0.2094F, -0.6109F, 0.0F));
 
-        rightwing3 = new ModelPart(this);
-        rightwing3.setPos(-2.0F, 1.0F, 1.0F);
-        setRotationAngle(rightwing3, 0.2094F, -0.6109F, 0.0F);
-        rightwing3.texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, 0.0F, false);
+        PartDefinition rightwing3 = partdefinition.addOrReplaceChild("rightwing3", CubeListBuilder.create().texOffs(58, 12).addBox(-0.5F, -2.0F, 5.0F, 1.0F, 18.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 1.0F, 1.0F, 0.2094F, -0.6109F, 0.0F));
 
-        rightwing4 = new ModelPart(this);
-        rightwing4.setPos(-2.0F, 1.0F, 1.0F);
-        setRotationAngle(rightwing4, 0.2094F, -0.6109F, 0.0F);
-        rightwing4.texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, 0.0F, false);
+        PartDefinition rightwing4 = partdefinition.addOrReplaceChild("rightwing4", CubeListBuilder.create().texOffs(52, 16).addBox(-0.5F, 0.0F, 7.0F, 1.0F, 14.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 1.0F, 1.0F, 0.2094F, -0.6109F, 0.0F));
 
-        head = new ModelPart(this);
-        head.setPos(0.0F, 0.0F, 0.0F);
-        head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2443F, 0.0F, 0.0F));
 
-        body = new ModelPart(this);
-        body.setPos(0.0F, 0.0F, 0.0F);
-        body.texOffs(0, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        rightarm = new ModelPart(this);
-        rightarm.setPos(-5.0F, 0.0F, 0.0F);
-        rightarm.texOffs(24, 19).addBox(-3.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
+        PartDefinition rightarm = partdefinition.addOrReplaceChild("rightarm", CubeListBuilder.create().texOffs(24, 19).addBox(-3.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 0.0F, 0.0F, -1.7453F, -0.5585F, 0.0F));
 
-        leftarm = new ModelPart(this);
-        leftarm.setPos(5.0F, 0.0F, 0.0F);
-        leftarm.texOffs(24, 19).addBox(-1.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
+        PartDefinition leftarm = partdefinition.addOrReplaceChild("leftarm", CubeListBuilder.create().texOffs(24, 19).addBox(-1.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, -1.7453F, 0.5585F, 0.0F));
 
-        rightleg = new ModelPart(this);
-        rightleg.setPos(-2.0F, 12.0F, 0.0F);
-        rightleg.texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
+        PartDefinition rightleg = partdefinition.addOrReplaceChild("rightleg", CubeListBuilder.create().texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        leftleg = new ModelPart(this);
-        leftleg.setPos(2.0F, 12.0F, 0.0F);
-        leftleg.texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
+        PartDefinition leftleg = partdefinition.addOrReplaceChild("leftleg", CubeListBuilder.create().texOffs(24, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override

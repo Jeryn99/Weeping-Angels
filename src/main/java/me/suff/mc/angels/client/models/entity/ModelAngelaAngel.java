@@ -12,11 +12,9 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.ListModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
@@ -45,42 +43,37 @@ public class ModelAngelaAngel extends ListModel<WeepingAngelEntity> implements I
         this.rightWing = root.getChild("rightwing");
     }
 
-    public static MeshDefinition getModelData() {
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 17).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(72, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(56, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(32, 17).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(56, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(32, 17).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(24, 59).cuboid(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(24, 59).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(10, 59).cuboid(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(10, 59).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition Legs = partdefinition.addOrReplaceChild("legs", CubeListBuilder.create().texOffs(40, 0).cuboid(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(0, 0).cuboid(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 9.25F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition Legs = partdefinition.addOrReplaceChild("legs", CubeListBuilder.create().texOffs(40, 0).addBox(-5.0F, -0.25F, -3.0F, 10.0F, 11.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).addBox(-6.0F, 10.75F, -4.0F, 12.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 9.25F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition leftWing = partdefinition.addOrReplaceChild("leftwing", CubeListBuilder.create().texOffs(0, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(6, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(18, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(8, 33).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(0, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(38, 59).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-1.0F, 5.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
+        PartDefinition leftWing = partdefinition.addOrReplaceChild("leftwing", CubeListBuilder.create().texOffs(0, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(6, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(18, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(8, 33).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(38, 59).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.0F, 5.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
 
-        PartDefinition rightWing = partdefinition.addOrReplaceChild("rightwing", CubeListBuilder.create().texOffs(10, 101).cuboid(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(12, 83).cuboid(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(26, 83).cuboid(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(18, 33).cuboid(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(0, 83).cuboid(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-                .texOffs(0, 59).cuboid(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(1.0F, 5.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
-        return meshdefinition;
-    }
-
-    public static TexturedModelData getTexturedModelData() {
-        PlayerModel
-        return TexturedModelData.of(getModelData(), 128, 128);
+        PartDefinition rightWing = partdefinition.addOrReplaceChild("rightwing", CubeListBuilder.create().texOffs(10, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(12, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(26, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 5.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
     public void setPose(WeepingAngelPose weepingAngelPose) {

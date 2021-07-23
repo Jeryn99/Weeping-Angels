@@ -61,7 +61,7 @@ public class AnomalyEntity extends Mob {
             }
 
             if (tickCount > lifeSpan()) {
-                remove();
+                remove(RemovalReason.DISCARDED);
             }
 
             for (WeepingAngelEntity weepingAngelEntity : level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(10))) {

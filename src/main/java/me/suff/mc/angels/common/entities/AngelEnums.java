@@ -6,7 +6,7 @@ package me.suff.mc.angels.common.entities;
 public class AngelEnums {
 
     public enum AngelType {
-        VILLAGER("Villager"), ANGELA_MC("Angela"), ED("Ed"), CHERUB("Cherub"), VIO_1("Violet"), VIO_2("Violet (2)"), A_DIZZLE("A_Dizzle");
+        VILLAGER("Villager"), ANGELA_MC("Angela"), ED("Ed"), CHERUB("Cherub"), A_DIZZLE("A_Dizzle");
         private final String readable;
 
         AngelType(String readable) {

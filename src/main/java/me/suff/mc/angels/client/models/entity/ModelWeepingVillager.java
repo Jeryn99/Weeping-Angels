@@ -8,6 +8,8 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,8 +18,7 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implements IAngelModel {
 
-    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
-            "textures/entities/weeping_villager.png");
+    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/weeping_villager.png");
 
     private final ModelPart body;
     private final ModelPart wing0;
@@ -29,62 +30,45 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
     private final ModelPart leg1;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
-    /**
-     * Angel Type: 4
-     */
-    public ModelWeepingVillager() {
-        texWidth = 64;
-        texHeight = 64;
+    public ModelWeepingVillager(ModelPart root) {
+        body = root.getChild("body");
+        wing0 = root.getChild("wing0");
+        wing2 = root.getChild("wing2");
+        head = root.getChild("head");
+        nose = root.getChild("nose");
+        arms = root.getChild("arms");
+        leg0 = root.getChild("leg0");
+        leg1 = root.getChild("leg1");
+    }
 
-        body = new ModelPart(this);
-        body.setPos(0.0F, 18.0F, 0.0F);
-        body.texOffs(27, 14).addBox(-4.0F, -18.0F, -3.0F, 8.0F, 18.0F, 6.0F, 0.5F, false);
+    public static LayerDefinition getModelData(){
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
 
-        wing0 = new ModelPart(this);
-        wing0.setPos(-1.5F, -15.0F, 3.25F);
-        body.addChild(wing0);
-        setRotationAngle(wing0, 0.1745F, -1.0472F, 0.0F);
-        wing0.texOffs(50, 0).addBox(-0.5F, -3.0F, 0.75F, 1.0F, 7.0F, 6.0F, 0.5F, false);
-        wing0.texOffs(52, 13).addBox(-0.5F, 5.0F, 2.75F, 1.0F, 2.0F, 4.0F, 0.5F, false);
-        wing0.texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, 0.5F, false);
-        wing0.texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, 0.5F, false);
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(27, 14).addBox(-4.0F, -18.0F, -3.0F, 8.0F, 18.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(0.0F, 18.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        wing2 = new ModelPart(this);
-        wing2.setPos(1.5F, -15.0F, 3.25F);
-        body.addChild(wing2);
-        setRotationAngle(wing2, 0.1745F, 1.0472F, 0.0F);
-        wing2.texOffs(50, 0).addBox(-0.5F, -3.0F, 0.75F, 1.0F, 7.0F, 6.0F, 0.5F, false);
-        wing2.texOffs(52, 13).addBox(-0.5F, 5.0F, 2.75F, 1.0F, 2.0F, 4.0F, 0.5F, false);
-        wing2.texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, 0.5F, false);
-        wing2.texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, 0.5F, false);
+        PartDefinition wing0 = body.addOrReplaceChild("wing0", CubeListBuilder.create().texOffs(50, 0).addBox(-0.5F, -3.0F, 0.75F, 1.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(52, 13).addBox(-0.5F, 5.0F, 2.75F, 1.0F, 2.0F, 4.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(-1.5F, -15.0F, 3.25F, 0.1745F, -1.0472F, 0.0F));
 
-        head = new ModelPart(this);
-        head.setPos(0.0F, -18.0F, 0.0F);
-        body.addChild(head);
-        head.texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, false);
+        PartDefinition wing2 = body.addOrReplaceChild("wing2", CubeListBuilder.create().texOffs(50, 0).addBox(-0.5F, -3.0F, 0.75F, 1.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(52, 13).addBox(-0.5F, 5.0F, 2.75F, 1.0F, 2.0F, 4.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(47, 0).addBox(-0.5F, 8.0F, 3.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.5F)).mirror(false)
+                .texOffs(59, 2).addBox(-0.5F, 11.0F, 5.75F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(1.5F, -15.0F, 3.25F, 0.1745F, 1.0472F, 0.0F));
 
-        nose = new ModelPart(this);
-        nose.setPos(0.0F, -3.0F, -4.0F);
-        head.addChild(nose);
-        nose.texOffs(25, 1).addBox(-1.0F, 0.0F, -2.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
+        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -18.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        arms = new ModelPart(this);
-        arms.setPos(0.0F, -16.0F, 0.0F);
-        body.addChild(arms);
-        setRotationAngle(arms, -1.1781F, 0.0F, 0.0F);
-        arms.texOffs(30, 39).addBox(-4.0F, 2.0F, -2.0F, 8.0F, 4.0F, 4.0F, 0.0F, false);
-        arms.texOffs(13, 35).addBox(4.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
-        arms.texOffs(13, 35).addBox(-8.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
+        PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(25, 1).addBox(-1.0F, 0.0F, -2.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -3.0F, -4.0F, 0.0F, 0.0F, 0.0F));
 
-        leg0 = new ModelPart(this);
-        leg0.setPos(2.0F, 12.0F, 0.0F);
-        leg0.texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+        PartDefinition arms = body.addOrReplaceChild("arms", CubeListBuilder.create().texOffs(30, 39).addBox(-4.0F, 2.0F, -2.0F, 8.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(13, 35).addBox(4.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(13, 35).addBox(-8.0F, -2.0F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -16.0F, 0.0F, -1.1781F, 0.0F, 0.0F));
 
-        leg1 = new ModelPart(this);
-        leg1.setPos(-2.0F, 12.0F, 0.0F);
-        leg1.texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+        PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-
+        PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 19).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
     @Override

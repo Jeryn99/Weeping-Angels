@@ -5,31 +5,29 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 
-public class PortalModel extends EntityModel<AnomalyEntity> {
+public class PortalModel extends EntityModel<AnomalyEntity>  {
 
     private final ModelPart PortalMain;
     private final ModelPart PortalFrontage;
     private final ModelPart PortalFrontage2;
 
-    public PortalModel() {
-        texWidth = 64;
-        texHeight = 64;
+    public PortalModel(ModelPart root) {
+        this.PortalMain = root.getChild("PortalMain");
+        this.PortalFrontage2 = root.getChild("PortalFrontage2");
+        this.PortalFrontage = root.getChild("PortalFrontage");
+    }
 
-        PortalMain = new ModelPart(this);
-        PortalMain.setPos(0.0F, 8.0F, 0.0F);
-        PortalMain.texOffs(0, 0).addBox(-16.0F, -16.0F, 0.0F, 32.0F, 32.0F, 0.0F, 0.0F, false);
+    public static LayerDefinition getModelData(){
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PortalFrontage = new ModelPart(this);
-        PortalFrontage.setPos(0.0F, 8.0F, 0.0F);
-        setRotationAngle(PortalFrontage, 0.0F, 0.0F, 0.7854F);
-        PortalFrontage.texOffs(0, 32).addBox(-16.0F, -16.0F, -1.0F, 32.0F, 32.0F, 0.0F, 0.0F, false);
-
-        PortalFrontage2 = new ModelPart(this);
-        PortalFrontage2.setPos(0.0F, 8.0F, 0.0F);
-        setRotationAngle(PortalFrontage2, 0.0F, 0.0F, -0.7854F);
-        PortalFrontage2.texOffs(0, 32).addBox(-16.0F, -16.0F, 1.0F, 32.0F, 32.0F, 0.0F, 0.0F, false);
-
+        PartDefinition PortalMain = partdefinition.addOrReplaceChild("PortalMain", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -16.0F, 0.0F, 32.0F, 32.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition PortalFrontage = partdefinition.addOrReplaceChild("PortalFrontage", CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, -16.0F, -1.0F, 32.0F, 32.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 8.0F, 0.0F, 0.0F, 0.0F, 0.7854F));
+        PartDefinition PortalFrontage2 = partdefinition.addOrReplaceChild("PortalFrontage2", CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, -16.0F, 1.0F, 32.0F, 32.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 8.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
+        return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
     @Override
@@ -46,9 +44,4 @@ public class PortalModel extends EntityModel<AnomalyEntity> {
         PortalFrontage2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
-    }
 }

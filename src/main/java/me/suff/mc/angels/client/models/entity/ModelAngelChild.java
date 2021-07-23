@@ -12,6 +12,8 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
@@ -35,60 +37,44 @@ public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IA
     /**
      * Angel Type: Child
      */
-    public ModelAngelChild() {
-        texWidth = 67;
-        texHeight = 69;
-
-        WeepingCherubFix = new ModelPart(this);
-        WeepingCherubFix.setPos(0.0F, 24.0F, 0.0F);
-
-
-        LeftLeg = new ModelPart(this);
-        LeftLeg.setPos(1.9F, -12.0F, 0.0F);
-        WeepingCherubFix.addChild(LeftLeg);
-        LeftLeg.texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
-
-        RightLeg = new ModelPart(this);
-        RightLeg.setPos(-1.9F, -12.0F, 0.0F);
-        WeepingCherubFix.addChild(RightLeg);
-        RightLeg.texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
-
-        LeftArm = new ModelPart(this);
-        LeftArm.setPos(5.0F, -21.5F, 0.0F);
-        WeepingCherubFix.addChild(LeftArm);
-        setRotationAngle(LeftArm, -0.6109F, 0.0F, 0.0F);
-        LeftArm.texOffs(53, 53).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
-
-        RightArm = new ModelPart(this);
-        RightArm.setPos(-5.0F, -21.5F, 0.0F);
-        WeepingCherubFix.addChild(RightArm);
-        setRotationAngle(RightArm, -0.6109F, 0.0F, 0.0F);
-        RightArm.texOffs(50, 17).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
-
-        Body = new ModelPart(this);
-        Body.setPos(0.0F, -24.0F, 0.0F);
-        WeepingCherubFix.addChild(Body);
-        Body.texOffs(33, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-        Body.texOffs(29, 30).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 15.0F, 4.0F, 0.25F, false);
-
-        Head = new ModelPart(this);
-        Head.setPos(0.0F, -24.0F, 0.0F);
-        WeepingCherubFix.addChild(Head);
-        Head.texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-        Head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
-
-        LeftWing = new ModelPart(this);
-        LeftWing.setPos(0.0F, -19.0F, 2.0F);
-        WeepingCherubFix.addChild(LeftWing);
-        setRotationAngle(LeftWing, 0.0F, -0.7854F, 0.0F);
-        LeftWing.texOffs(0, 50).addBox(0.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, 0.0F, false);
-
-        RightWing = new ModelPart(this);
-        RightWing.setPos(0.0F, -19.0F, 2.0F);
-        WeepingCherubFix.addChild(RightWing);
-        setRotationAngle(RightWing, 0.0F, 0.7854F, 0.0F);
-        RightWing.texOffs(0, 34).addBox(-9.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, 0.0F, false);
+    public ModelAngelChild(ModelPart root) {
+        this.WeepingCherubFix = root.getChild("WeepingCherubFix");
+        this.LeftLeg = root.getChild("LeftLeg");
+        this.RightLeg = root.getChild("RightLeg");
+        this.LeftArm = root.getChild("LeftArm");
+        this.RightArm = root.getChild("RightArm");
+        this.Body = root.getChild("Body");
+        this.Head = root.getChild("Head");
+        this.LeftWing = root.getChild("LeftWing");
+        this.RightWing = root.getChild("RightWing");
     }
+
+    public static LayerDefinition getModelData(){
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition WeepingCherubFix = partdefinition.addOrReplaceChild("WeepingCherubFix", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition LeftLeg = WeepingCherubFix.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.9F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition RightLeg = WeepingCherubFix.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.9F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition LeftArm = WeepingCherubFix.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(53, 53).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, -21.5F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition RightArm = WeepingCherubFix.addOrReplaceChild("RightArm", CubeListBuilder.create().texOffs(50, 17).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, -21.5F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition Body = WeepingCherubFix.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(33, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(29, 30).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 15.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offsetAndRotation(0.0F, -24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition Head = WeepingCherubFix.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offsetAndRotation(0.0F, -24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition LeftWing = WeepingCherubFix.addOrReplaceChild("LeftWing", CubeListBuilder.create().texOffs(0, 50).addBox(0.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -19.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
+
+        PartDefinition RightWing = WeepingCherubFix.addOrReplaceChild("RightWing", CubeListBuilder.create().texOffs(0, 34).addBox(-9.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -19.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 128, 128);
+    }
+
 
     @Override
     public WeepingAngelPose getAngelPose() {

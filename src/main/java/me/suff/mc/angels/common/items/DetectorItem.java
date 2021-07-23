@@ -65,7 +65,7 @@ public class DetectorItem extends Item {
                                 if (entityIn.level.random.nextInt(100) < 5) {
                                     chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.BlockInteraction.NONE);
                                     chick.spawnAtLocation(Items.EGG, 1);
-                                    chick.remove();
+                                    chick.remove(Entity.RemovalReason.KILLED);
                                 }
                             }
                         }

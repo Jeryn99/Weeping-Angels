@@ -31,7 +31,7 @@ public class ChronodyneGeneratorItem extends Item {
         if (!world.isClientSide) {
             ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
             laser.setItem(laser.getItem());
-            laser.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, 1.5F, 1.0F);
+            laser.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(laser);
         }
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);

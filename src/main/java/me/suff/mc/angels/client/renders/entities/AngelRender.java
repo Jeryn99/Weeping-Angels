@@ -5,6 +5,7 @@ import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
@@ -12,24 +13,18 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
-
-    public AngelRender(EntityRenderDispatcher manager) {
-        super(manager, new ModelAngelaAngel(), 0.0F);
+public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> implements EntityRendererProvider<WeepingAngelEntity> {
+    public AngelRender(EntityRendererProvider.Context p_174304_) {
+        super(p_174304_, ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC), 1);
         addLayer(new AngelCrackedLayer(this));
-    }
-
-    public static int calcOverlay(float health) {
-        if (health > 45) {
-            return -1;
-        }
-        return (int) Math.floor((1.0 - (health / 50.0)) * 9);
     }
 
     @Override
@@ -100,4 +95,8 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
         }
     }
 
+    @Override
+    public EntityRenderer<WeepingAngelEntity> create(Context context) {
+        return new AngelRender(context);
+    }
 }

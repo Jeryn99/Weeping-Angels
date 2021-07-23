@@ -34,7 +34,7 @@ public class DetectorTickableSound extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
-        if (this.playerEntity.removed) {
+        if (!this.playerEntity.isAlive()) {
             this.stop();
             return;
         }

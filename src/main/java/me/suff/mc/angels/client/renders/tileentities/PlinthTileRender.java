@@ -7,18 +7,22 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
+import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
-public class PlinthTileRender implements BlockEntityRenderer<PlinthTile> {
+public class PlinthTileRender implements BlockEntityRenderer<PlinthTile>, BlockEntityRendererProvider<PlinthTile> {
+
+    public PlinthTileRender(Context p_173571_){}
 
     @Override
     public void render(PlinthTile plinthTile, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
@@ -46,5 +50,10 @@ public class PlinthTileRender implements BlockEntityRenderer<PlinthTile> {
         angel.setupAnim(null, 0, 0, 0, 0, 0);
         angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         matrixStack.popPose();
+    }
+
+    @Override
+    public BlockEntityRenderer<PlinthTile> create(Context p_173571_) {
+        return new PlinthTileRender(p_173571_);
     }
 }
