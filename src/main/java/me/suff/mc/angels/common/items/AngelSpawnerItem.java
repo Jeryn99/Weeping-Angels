@@ -3,7 +3,7 @@ package me.suff.mc.angels.common.items;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WATabs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -14,12 +14,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
+public class AngelSpawnerItem<E extends WeepingAngel> extends Item {
 
     public AngelSpawnerItem() {
         super(new Properties().tab(WATabs.MAIN_TAB));
@@ -63,7 +64,7 @@ public class AngelSpawnerItem<E extends WeepingAngelEntity> extends Item {
         InteractionHand hand = player.getUsedItemHand();
 
         if (!worldIn.isClientSide) {
-            WeepingAngelEntity angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
+            WeepingAngel angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
             angel.setType(getType(context.getItemInHand()));
             angel.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
             angel.lookAt(player, 90.0F, 90.0F);

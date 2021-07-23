@@ -3,10 +3,10 @@ package me.suff.mc.angels.utils;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.QuantumLockEntity;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import me.suff.mc.angels.common.tileentities.CoffinTile;
-import me.suff.mc.angels.common.tileentities.SnowArmTile;
+import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
+import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -47,7 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
+import static me.suff.mc.angels.common.tileentities.CoffinBlockEntity.Coffin.*;
 
 public class AngelUtil {
 
@@ -84,7 +84,7 @@ public class AngelUtil {
         return BlockTags.bind(new ResourceLocation(domain, path).toString());
     }
 
-    public static boolean isDarkForPlayer(QuantumLockEntity angel, LivingEntity living) {
+    public static boolean isDarkForPlayer(QuantumLockedLifeform angel, LivingEntity living) {
         return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != Level.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
     }
 
@@ -123,7 +123,7 @@ public class AngelUtil {
         return 20 * seconds;
     }
 
-    public static void extinguishHand(ServerPlayer playerMP, WeepingAngelEntity angel) {
+    public static void extinguishHand(ServerPlayer playerMP, WeepingAngel angel) {
         if (playerMP.distanceToSqr(angel) < 1) {
             for (InteractionHand enumHand : InteractionHand.values()) {
                 ItemStack stack = playerMP.getItemInHand(enumHand);
@@ -140,7 +140,7 @@ public class AngelUtil {
         return block.defaultBlockState().getLightEmission();
     }
 
-    private static boolean lightCheck(ItemStack stack, WeepingAngelEntity angel) {
+    private static boolean lightCheck(ItemStack stack, WeepingAngel angel) {
         if (stack.is(AngelUtil.HELD_LIGHT_ITEMS)) {
             angel.spawnAtLocation(stack);
             return true;
@@ -153,13 +153,13 @@ public class AngelUtil {
         return AngelEnums.AngelType.values()[pick];
     }
 
-    public static SnowArmTile.SnowAngelStages randowSnowStage() {
-        int pick = RAND.nextInt(SnowArmTile.SnowAngelStages.values().length);
-        return SnowArmTile.SnowAngelStages.values()[pick];
+    public static SnowAngelBlockEntity.SnowAngelStages randowSnowStage() {
+        int pick = RAND.nextInt(SnowAngelBlockEntity.SnowAngelStages.values().length);
+        return SnowAngelBlockEntity.SnowAngelStages.values()[pick];
     }
 
-    public static CoffinTile.Coffin randomCoffin() {
-        CoffinTile.Coffin[] coffins = new CoffinTile.Coffin[]{NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED};
+    public static CoffinBlockEntity.Coffin randomCoffin() {
+        CoffinBlockEntity.Coffin[] coffins = new CoffinBlockEntity.Coffin[]{NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED};
         int pick = RAND.nextInt(coffins.length);
         return coffins[pick];
     }
@@ -179,12 +179,12 @@ public class AngelUtil {
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.create(LootContextParamSets.ENTITY);
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
-        if (target instanceof WeepingAngelEntity) {
-            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
-            if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
-                AbstractVariant variant = weepingAngelEntity.getVariant();
-                if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngelEntity)) {
-                    weepingAngelEntity.spawnAtLocation(variant.stackDrop().getItem());
+        if (target instanceof WeepingAngel) {
+            WeepingAngel weepingAngel = (WeepingAngel) target;
+            if (weepingAngel.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+                AbstractVariant variant = weepingAngel.getVariant();
+                if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
+                    weepingAngel.spawnAtLocation(variant.stackDrop().getItem());
                 }
             }
         }

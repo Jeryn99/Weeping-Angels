@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 
@@ -14,7 +14,7 @@ public class BaseVariant extends AbstractVariant {
     private final int rarity;
     private Supplier<ItemStack> dropStack;
 
-    public BaseVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngelEntity> variantTest) {
+    public BaseVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngel> variantTest) {
         super(variantTest);
         this.dropStack = itemStackSupplier;
         this.rarity = rarity;
@@ -32,7 +32,7 @@ public class BaseVariant extends AbstractVariant {
     }
 
     @Override
-    public boolean shouldDrop(DamageSource damageSource, WeepingAngelEntity quantumLockEntity) {
+    public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
         return true;
     }
 

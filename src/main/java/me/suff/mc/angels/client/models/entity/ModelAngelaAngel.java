@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class ModelAngelaAngel extends ListModel<WeepingAngelEntity> implements IAngelModel, HeadedModel, ArmedModel {
+public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelModel, HeadedModel, ArmedModel {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 
@@ -85,10 +85,10 @@ public class ModelAngelaAngel extends ListModel<WeepingAngelEntity> implements I
     }
 
     @Override
-    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
-        if (weepingAngelEntity != null) {
-            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
+        if (weepingAngel != null) {
+            pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
         boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY || pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM;
@@ -226,18 +226,18 @@ public class ModelAngelaAngel extends ListModel<WeepingAngelEntity> implements I
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
 
-        if (angel instanceof WeepingAngelEntity) {
-            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return generateTex(pose, weepingAngelEntity.getVariant());
+        if (angel instanceof WeepingAngel) {
+            WeepingAngel weepingAngel = (WeepingAngel) angel;
+            return generateTex(pose, weepingAngel.getVariant());
         }
 
-        if (angel instanceof StatueTile) {
-            StatueTile weepingAngelEntity = (StatueTile) angel;
+        if (angel instanceof StatueBlockEntity) {
+            StatueBlockEntity weepingAngelEntity = (StatueBlockEntity) angel;
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        if (angel instanceof PlinthTile) {
-            PlinthTile weepingAngelEntity = (PlinthTile) angel;
+        if (angel instanceof PlinthBlockEntity) {
+            PlinthBlockEntity weepingAngelEntity = (PlinthBlockEntity) angel;
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
         return ANGRY;

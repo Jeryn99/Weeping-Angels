@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.entities.ai;
 
-import me.suff.mc.angels.common.entities.QuantumLockEntity;
+import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
@@ -17,8 +17,8 @@ public class GoalWalkWhenNotWatched extends WaterAvoidingRandomStrollGoal {
 
     @Override
     public boolean canContinueToUse() {
-        if (mob instanceof QuantumLockEntity) {
-            QuantumLockEntity quantumLockBaseEntity = (QuantumLockEntity) mob;
+        if (mob instanceof QuantumLockedLifeform) {
+            QuantumLockedLifeform quantumLockBaseEntity = (QuantumLockedLifeform) mob;
             return super.canContinueToUse() && !quantumLockBaseEntity.isSeen();
         }
         return super.canContinueToUse();

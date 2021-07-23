@@ -24,23 +24,23 @@ import net.minecraftforge.fmllegacy.network.NetworkHooks;
  * Created by Craig on 06/10/2019 @ 12:17
  */
 @OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
-public class ChronodyneGeneratorEntity extends ThrowableItemProjectile implements ItemSupplier {
+public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile implements ItemSupplier {
 
     ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, Level worldIn) {
+    public ChronodyneGeneratorProjectile(EntityType<? extends ThrowableItemProjectile> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, double x, double y, double z, Level worldIn) {
+    public ChronodyneGeneratorProjectile(EntityType<? extends ThrowableItemProjectile> type, double x, double y, double z, Level worldIn) {
         super(type, x, y, z, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(EntityType<? extends ThrowableItemProjectile> type, LivingEntity livingEntityIn, Level worldIn) {
+    public ChronodyneGeneratorProjectile(EntityType<? extends ThrowableItemProjectile> type, LivingEntity livingEntityIn, Level worldIn) {
         super(type, livingEntityIn, worldIn);
     }
 
-    public ChronodyneGeneratorEntity(Level world) {
+    public ChronodyneGeneratorProjectile(Level world) {
         this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
     }
 
@@ -54,9 +54,9 @@ public class ChronodyneGeneratorEntity extends ThrowableItemProjectile implement
             EntityHitResult entityHitResult = ((EntityHitResult) result);
             if (entityHitResult == null) return;
             Entity hitEntity = entityHitResult.getEntity();
-            if (hitEntity instanceof WeepingAngelEntity) {
+            if (hitEntity instanceof WeepingAngel) {
                 if (!level.isClientSide) {
-                    AnomalyEntity a = new AnomalyEntity(level);
+                    Portal a = new Portal(level);
                     a.copyPosition(hitEntity);
                     level.addFreshEntity(a);
                     remove(RemovalReason.KILLED);

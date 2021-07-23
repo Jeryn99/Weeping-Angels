@@ -61,21 +61,21 @@ import java.util.stream.Stream;
 
 import static me.suff.mc.angels.utils.AngelUtil.updateBlock;
 
-public class WeepingAngelEntity extends QuantumLockEntity {
+public class WeepingAngel extends QuantumLockedLifeform {
 
-    private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(WeepingAngelEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<String> CURRENT_POSE = SynchedEntityData.defineId(WeepingAngelEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(WeepingAngelEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<Float> LAUGH = SynchedEntityData.defineId(WeepingAngelEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> CURRENT_POSE = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Float> LAUGH = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.FLOAT);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
 
-    public WeepingAngelEntity(EntityType<? extends QuantumLockEntity> type, Level world) {
+    public WeepingAngel(EntityType<? extends QuantumLockedLifeform> type, Level world) {
         this(world);
     }
 
-    public WeepingAngelEntity(Level world) {
+    public WeepingAngel(Level world) {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
         goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
@@ -553,8 +553,8 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         getEntityData().set(LAUGH, laugh);
     }
 
-    public WeepingAngelEntity.Cracks getCrackiness() {
-        return WeepingAngelEntity.Cracks.byFraction(this.getHealth() / this.getMaxHealth());
+    public WeepingAngel.Cracks getCrackiness() {
+        return WeepingAngel.Cracks.byFraction(this.getHealth() / this.getMaxHealth());
     }
 
     public enum Cracks {
@@ -563,15 +563,15 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         MEDIUM(0.5F),
         HIGH(0.25F);
 
-        private static final List<WeepingAngelEntity.Cracks> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> (double) p_226516_0_.fraction)).collect(ImmutableList.toImmutableList());
+        private static final List<WeepingAngel.Cracks> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((p_226516_0_) -> (double) p_226516_0_.fraction)).collect(ImmutableList.toImmutableList());
         private final float fraction;
 
         Cracks(float p_i225732_3_) {
             this.fraction = p_i225732_3_;
         }
 
-        public static WeepingAngelEntity.Cracks byFraction(float p_226515_0_) {
-            for (WeepingAngelEntity.Cracks weepCracks : BY_DAMAGE) {
+        public static WeepingAngel.Cracks byFraction(float p_226515_0_) {
+            for (WeepingAngel.Cracks weepCracks : BY_DAMAGE) {
                 if (p_226515_0_ < weepCracks.fraction) {
                     return weepCracks;
                 }

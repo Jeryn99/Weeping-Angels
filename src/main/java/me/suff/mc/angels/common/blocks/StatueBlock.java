@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -78,8 +78,8 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
-        if (world.getBlockEntity(pos) instanceof StatueTile) {
-            StatueTile statue = (StatueTile) world.getBlockEntity(pos);
+        if (world.getBlockEntity(pos) instanceof StatueBlockEntity) {
+            StatueBlockEntity statue = (StatueBlockEntity) world.getBlockEntity(pos);
 
             if (!world.isClientSide) {
                 BlockPos position = statue.getBlockPos();
@@ -132,7 +132,7 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new StatueTile(p_153215_, p_153216_);
+        return new StatueBlockEntity(p_153215_, p_153216_);
     }
 
     @Nullable

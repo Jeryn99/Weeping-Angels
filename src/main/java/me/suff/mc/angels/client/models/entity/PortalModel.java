@@ -2,13 +2,13 @@ package me.suff.mc.angels.client.models.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.suff.mc.angels.common.entities.AnomalyEntity;
+import me.suff.mc.angels.common.entities.Portal;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class PortalModel extends EntityModel<AnomalyEntity>  {
+public class PortalModel extends EntityModel<Portal>  {
 
     private final ModelPart PortalMain;
     private final ModelPart PortalFrontage;
@@ -31,7 +31,7 @@ public class PortalModel extends EntityModel<AnomalyEntity>  {
     }
 
     @Override
-    public void setupAnim(AnomalyEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(Portal entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         PortalMain.zRot = -entityIn.tickCount * 2;
         PortalFrontage.zRot = entityIn.tickCount / 2F;
         PortalFrontage2.zRot = -entityIn.tickCount / 2F;

@@ -5,7 +5,7 @@ import com.mojang.math.Vector3f;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
-import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CoffinRenderer implements BlockEntityRenderer<CoffinTile>, BlockEntityRendererProvider<CoffinTile> {
+public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, BlockEntityRendererProvider<CoffinBlockEntity> {
 
     private static ModelPart coffinModel;
     private static ModelPart coffinModelPTB;
@@ -30,7 +30,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinTile>, BlockEnt
     }
 
     @Override
-    public void render(CoffinTile tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(CoffinBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
         if (skeletonEntity == null) {
             skeletonEntity = new Skeleton(EntityType.SKELETON, Minecraft.getInstance().level);
@@ -66,7 +66,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinTile>, BlockEnt
         matrixStack.popPose();
     }
 
-    private void renderSkeleton(CoffinTile tileEntityIn, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn) {
+    private void renderSkeleton(CoffinBlockEntity tileEntityIn, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn) {
         if (tileEntityIn.hasSkeleton()) {
             matrixStack.pushPose();
             matrixStack.mulPose(Vector3f.YP.rotationDegrees(-180F)); // Make model not upside down
@@ -78,12 +78,12 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinTile>, BlockEnt
         }
     }
 
-    public ResourceLocation getTexture(CoffinTile.Coffin coffin) {
+    public ResourceLocation getTexture(CoffinBlockEntity.Coffin coffin) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
     }
 
     @Override
-    public BlockEntityRenderer<CoffinTile> create(Context p_173571_) {
+    public BlockEntityRenderer<CoffinBlockEntity> create(Context p_173571_) {
         return new CoffinRenderer(p_173571_);
     }
 }

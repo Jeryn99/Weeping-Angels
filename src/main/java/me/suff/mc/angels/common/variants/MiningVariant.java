@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class MiningVariant extends BaseVariant {
 
-    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngelEntity> variantTest) {
+    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngel> variantTest) {
         super(itemStackSupplier, rarity, variantTest);
     }
 
@@ -22,7 +22,7 @@ public class MiningVariant extends BaseVariant {
     }
 
     @Override
-    public boolean shouldDrop(DamageSource damageSource, WeepingAngelEntity quantumLockEntity) {
+    public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
         if (damageSource.getEntity() instanceof Player) {
             Player playerEntity = (Player) damageSource.getEntity();
             if (playerEntity.getMainHandItem().getItem() instanceof PickaxeItem) {

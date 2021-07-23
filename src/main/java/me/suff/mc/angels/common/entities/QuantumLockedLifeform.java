@@ -21,13 +21,13 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class QuantumLockEntity extends Monster implements Enemy {
+public class QuantumLockedLifeform extends Monster implements Enemy {
 
-    private static final EntityDataAccessor<Boolean> IS_SEEN = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(QuantumLockEntity.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Boolean> IS_SEEN = SynchedEntityData.defineId(QuantumLockedLifeform.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(QuantumLockedLifeform.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(QuantumLockedLifeform.class, EntityDataSerializers.BLOCK_POS);
 
-    public QuantumLockEntity(Level worldIn, EntityType<? extends Monster> entityType) {
+    public QuantumLockedLifeform(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
     }
 
@@ -39,8 +39,8 @@ public class QuantumLockEntity extends Monster implements Enemy {
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
 
             if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List<WeepingAngelEntity> angels = level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
-                for (WeepingAngelEntity angel : angels) {
+                List<WeepingAngel> angels = level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+                for (WeepingAngel angel : angels) {
                     if (angel.getUUID() != getUUID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         setNoAi(true);

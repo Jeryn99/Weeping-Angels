@@ -3,16 +3,14 @@ package me.suff.mc.angels.client.renders.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -21,29 +19,29 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> implements EntityRendererProvider<WeepingAngelEntity> {
+public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
     public AngelRender(EntityRendererProvider.Context p_174304_) {
         super(p_174304_, ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC), 1);
         addLayer(new AngelCrackedLayer(this));
     }
 
     @Override
-    protected float getWhiteOverlayProgress(WeepingAngelEntity livingEntityIn, float partialTicks) {
+    protected float getWhiteOverlayProgress(WeepingAngel livingEntityIn, float partialTicks) {
         return 0;
     }
 
     @Override
-    public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
-        model = ClientUtil.getModelForAngel(weepingAngelEntity.getAngelType());
+    public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
+        model = ClientUtil.getModelForAngel(weepingAngel.getAngelType());
 
-        ItemStack key = weepingAngelEntity.getMainHandItem();
+        ItemStack key = weepingAngel.getMainHandItem();
         pMatrixStackIn.pushPose();
-        float offset = Mth.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
+        float offset = Mth.cos(weepingAngel.tickCount * 0.1F) * -0.09F;
         pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
         pMatrixStackIn.translate(0, 5, 0);
         pMatrixStackIn.translate(0, offset, 0);
-        pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngelEntity.level.getGameTime() / 20F));
-        renderItem(weepingAngelEntity, key, ItemTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
+        pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngel.level.getGameTime() / 20F));
+        renderItem(weepingAngel, key, ItemTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
 
         pMatrixStackIn.pushPose();
@@ -59,17 +57,17 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
                 return renderType.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
             };
         }*/
-        super.render(weepingAngelEntity, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
+        super.render(weepingAngel, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
     }
 
     @Override
-    protected float getFlipDegrees(WeepingAngelEntity entityLivingBaseIn) {
+    protected float getFlipDegrees(WeepingAngel entityLivingBaseIn) {
         return 90;
     }
 
     @Override
-    protected void setupRotations(WeepingAngelEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(WeepingAngel entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         if (entityLiving.deathTime > 0) {
             float deathRotation = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
             deathRotation = Mth.sqrt(deathRotation);
@@ -84,9 +82,9 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WeepingAngelEntity weepingAngelEntity) {
+    public ResourceLocation getTextureLocation(WeepingAngel weepingAngel) {
         IAngelModel iAngelModel = (IAngelModel) model;
-        return iAngelModel.getTextureForPose(weepingAngelEntity, WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose()));
+        return iAngelModel.getTextureForPose(weepingAngel, WeepingAngelPose.getPose(weepingAngel.getAngelPose()));
     }
 
     private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemTransforms.TransformType transformTypeIn, boolean leftHand, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {
@@ -96,7 +94,7 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     }
 
     @Override
-    public EntityRenderer<WeepingAngelEntity> create(Context context) {
+    public EntityRenderer<WeepingAngel> create(Context context) {
         return new AngelRender(context);
     }
 }

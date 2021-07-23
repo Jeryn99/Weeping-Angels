@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -91,8 +91,8 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
 
-        if (world.getBlockEntity(pos) instanceof PlinthTile) {
-            PlinthTile plinth = (PlinthTile) world.getBlockEntity(pos);
+        if (world.getBlockEntity(pos) instanceof PlinthBlockEntity) {
+            PlinthBlockEntity plinth = (PlinthBlockEntity) world.getBlockEntity(pos);
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
             plinth.setAngelVarients(AngelTypes.getWeightedRandom());
@@ -110,7 +110,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new PlinthTile(p_153215_, p_153216_);
+        return new PlinthBlockEntity(p_153215_, p_153216_);
     }
 
     @Nullable

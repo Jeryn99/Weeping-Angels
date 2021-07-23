@@ -11,7 +11,7 @@ import me.suff.mc.angels.client.renders.tileentities.SnowArmTileRender;
 import me.suff.mc.angels.client.renders.tileentities.StatueRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import net.minecraft.client.Minecraft;
@@ -33,9 +33,9 @@ import java.util.Map;
 public class ClientUtil {
 
 
-    public static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
+    public static final Map<AngelEnums.AngelType, EntityModel<WeepingAngel>> MODEL_MAP = new HashMap<>();
 
-    public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
+    public static EntityModel<WeepingAngel> getModelForAngel(AngelEnums.AngelType angelType) {
         if(MODEL_MAP.isEmpty()){
             MODEL_MAP.put(AngelEnums.AngelType.CHERUB, new ModelAngelChild(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CHERUB)));
             MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ANGELA))); //ANGELA

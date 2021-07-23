@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.blocks;
 
-import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -26,7 +24,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -49,9 +46,9 @@ public class CoffinBlock extends BaseEntityBlock  {
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        if (world.getBlockEntity(pos) instanceof CoffinTile) {
-            CoffinTile coffinTile = (CoffinTile) world.getBlockEntity(pos);
-            if (coffinTile.getCoffin().isPoliceBox()) {
+        if (world.getBlockEntity(pos) instanceof CoffinBlockEntity) {
+            CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) world.getBlockEntity(pos);
+            if (coffinBlockEntity.getCoffin().isPoliceBox()) {
                 return 7;
             }
         }
@@ -66,21 +63,21 @@ public class CoffinBlock extends BaseEntityBlock  {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide && handIn == InteractionHand.MAIN_HAND) {
-            CoffinTile coffinTile = (CoffinTile) worldIn.getBlockEntity(pos);
-            if (coffinTile != null) {
-                if (!coffinTile.getCoffin().isPoliceBox()) {
-                    coffinTile.setOpen(!coffinTile.isOpen());
-                    worldIn.playSound(null, pos.getX() + 0.5D, (double) pos.getY() + 0.5D, pos.getZ() + 0.5D, coffinTile.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
+            CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) worldIn.getBlockEntity(pos);
+            if (coffinBlockEntity != null) {
+                if (!coffinBlockEntity.getCoffin().isPoliceBox()) {
+                    coffinBlockEntity.setOpen(!coffinBlockEntity.isOpen());
+                    worldIn.playSound(null, pos.getX() + 0.5D, (double) pos.getY() + 0.5D, pos.getZ() + 0.5D, coffinBlockEntity.isOpen() ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
                 } else {
                     if (player.getMainHandItem().getItem() instanceof RecordItem) {
-                        coffinTile.setDoingSomething(true);
+                        coffinBlockEntity.setDoingSomething(true);
                         if (!player.isCreative()) {
                             player.getMainHandItem().shrink(1);
                         }
                     }
                 }
             }
-            coffinTile.sendUpdates();
+            coffinBlockEntity.sendUpdates();
         }
         return super.use(state, worldIn, pos, player, handIn, hit);
     }
@@ -122,14 +119,14 @@ public class CoffinBlock extends BaseEntityBlock  {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new CoffinTile(p_153215_, p_153216_);
+        return new CoffinBlockEntity(p_153215_, p_153216_);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return (level1, blockPos, blockState, t) -> {
-            if (t instanceof CoffinTile coffinTile) {
-                coffinTile.tick(level, blockPos, blockState, coffinTile);
+            if (t instanceof CoffinBlockEntity coffinBlockEntity) {
+                coffinBlockEntity.tick(level, blockPos, blockState, coffinBlockEntity);
             }
         };
     }
@@ -138,9 +135,9 @@ public class CoffinBlock extends BaseEntityBlock  {
     @Override
     public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
         super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
-        if(p_60567_.getBlockEntity(p_60568_) instanceof CoffinTile){
-            CoffinTile coffinTile = (CoffinTile) p_60567_.getBlockEntity(p_60568_);
-            coffinTile.setCoffin(AngelUtil.randomCoffin());
+        if(p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity){
+            CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) p_60567_.getBlockEntity(p_60568_);
+            coffinBlockEntity.setCoffin(AngelUtil.randomCoffin());
         }
     }
 }

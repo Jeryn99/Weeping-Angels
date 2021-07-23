@@ -4,7 +4,7 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -22,21 +22,32 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-public class StatueTile extends BlockEntity implements BlockEntityTicker<StatueTile>, IPlinth {
+import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
+public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<PlinthBlockEntity>, IPlinth {
+
+    private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
+    public PlinthBlockEntity(BlockPos blockPos, BlockState state) {
+        super(WAObjects.Tiles.PLINTH.get(), blockPos, state);
+    }
 
-    public StatueTile(BlockPos pos, BlockState state) {
-        super(WAObjects.Tiles.STATUE.get(), pos, state);
+    public boolean getHasSpawned() {
+        return hasSpawned;
+    }
+
+    public void setHasSpawned(boolean hasSpawned) {
+        this.hasSpawned = hasSpawned;
     }
 
     @Override
     public void load(CompoundTag compound) {
         super.load(compound);
-        NBTPatcher.angelaToVillager(compound, "model");
+
+        setHasSpawned(compound.getBoolean("hasSpawned"));
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
@@ -47,6 +58,8 @@ public class StatueTile extends BlockEntity implements BlockEntityTicker<StatueT
     @Override
     public CompoundTag save(CompoundTag compound) {
         super.save(compound);
+        NBTPatcher.angelaToVillager(compound, "model");
+        compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
@@ -86,34 +99,38 @@ public class StatueTile extends BlockEntity implements BlockEntityTicker<StatueT
         return super.getRenderBoundingBox().inflate(8, 8, 8);
     }
 
+    public void sendUpdates() {
+        level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        setChanged();
+    }
+
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, StatueTile p_155256_) {
-        //TODO Re-add structures
-        /*   if (level.isClientSide) return;
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, PlinthBlockEntity p_155256_) {
+        if (level.isClientSide) return;
 
-        ServerLevel world = (ServerLevel) level;
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAObjects.Structures.GRAVEYARD.get()).isValid();
+        boolean isClassic = getAngelType() == AngelType.A_DIZZLE;
+        boolean current = getBlockState().getValue(CLASSIC);
 
-        if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
-            Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
-            if (playerentity != null) {
-                if (ViewUtil.isInSightPos(playerentity, getBlockPos())) {
-                    BlockState newState = getBlockState().setValue(ROTATION, Mth.floor((double) (playerentity.yHeadRot * 16.0F / 360.0F) + 0.5D) & 15);
-                    level.setBlock(getBlockPos(), newState, 67);
-                    changePose();
-                }
-            }
+        if (isClassic && !current) {
+            level.setBlockAndUpdate(worldPosition, getBlockState().setValue(CLASSIC, true));
+        } else if (!isClassic && current) {
+            level.setBlockAndUpdate(worldPosition, getBlockState().setValue(CLASSIC, false));
         }
 
-*/
-        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
-            WeepingAngelEntity angel = new WeepingAngelEntity(level);
-            angel.setVarient(angelVariant);
-            angel.setType(type);
-            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
-            angel.setPose(getPose());
-            level.addFreshEntity(angel);
-            level.removeBlock(worldPosition, false);
+
+        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthBlockEntity) {
+            PlinthBlockEntity plinth = (PlinthBlockEntity) level.getBlockEntity(worldPosition);
+            if (!plinth.getHasSpawned()) {
+                WeepingAngel angel = new WeepingAngel(level);
+                angel.setType(type);
+                angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY() + 1, worldPosition.getZ() + 0.5D, 0, 0);
+                angel.setPose(getPose());
+                angel.setVarient(angelVariant);
+                level.addFreshEntity(angel);
+                plinth.setHasSpawned(true);
+                sendUpdates();
+            }
         }
     }
 
@@ -137,7 +154,6 @@ public class StatueTile extends BlockEntity implements BlockEntityTicker<StatueT
     public void onLoad() {
         if (getPose() == null) {
             setPose(WeepingAngelPose.HIDING);
-            setChanged();
         }
     }
 

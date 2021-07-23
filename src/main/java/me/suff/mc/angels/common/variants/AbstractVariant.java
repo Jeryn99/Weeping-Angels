@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -10,14 +10,14 @@ import java.util.function.Predicate;
 
 public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
 
-    private Predicate<WeepingAngelEntity> variantTest;
+    private Predicate<WeepingAngel> variantTest;
     private boolean isHeadless = false;
 
-    public AbstractVariant(Predicate<WeepingAngelEntity> weepingAngelEntityPredicate) {
+    public AbstractVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
         this.variantTest = weepingAngelEntityPredicate;
     }
 
-    public Predicate<WeepingAngelEntity> getVariantTest() {
+    public Predicate<WeepingAngel> getVariantTest() {
         return variantTest;
     }
 
@@ -25,7 +25,7 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
         return new ItemStack(Blocks.AIR);
     }
 
-    public boolean shouldDrop(DamageSource damageSource, WeepingAngelEntity quantumLockEntity) {
+    public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
         return false;
     }
 
@@ -40,10 +40,10 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
 
     public abstract double getRarity();
 
-    public boolean canVariantBeUsed(WeepingAngelEntity weepingAngelEntity) {
+    public boolean canVariantBeUsed(WeepingAngel weepingAngel) {
         if (variantTest == null) {
             return true;
         }
-        return variantTest.test(weepingAngelEntity);
+        return variantTest.test(weepingAngel);
     }
 }

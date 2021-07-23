@@ -14,15 +14,15 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class AnomalyEntity extends Mob {
+public class Portal extends Mob {
 
-    private static final EntityDataAccessor<Integer> TIME_ALIVE = SynchedEntityData.defineId(AnomalyEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TIME_ALIVE = SynchedEntityData.defineId(Portal.class, EntityDataSerializers.INT);
 
-    public AnomalyEntity(Level worldIn) {
+    public Portal(Level worldIn) {
         super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
     }
 
-    public AnomalyEntity(EntityType<?> type, Level world) {
+    public Portal(EntityType<?> type, Level world) {
         this(world);
     }
 
@@ -64,11 +64,11 @@ public class AnomalyEntity extends Mob {
                 remove(RemovalReason.DISCARDED);
             }
 
-            for (WeepingAngelEntity weepingAngelEntity : level.getEntitiesOfClass(WeepingAngelEntity.class, getBoundingBox().inflate(10))) {
-                BlockPos pos = blockPosition().subtract(weepingAngelEntity.blockPosition());
+            for (WeepingAngel weepingAngel : level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(10))) {
+                BlockPos pos = blockPosition().subtract(weepingAngel.blockPosition());
                 Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
-                weepingAngelEntity.setNoAi(false);
-                weepingAngelEntity.setDeltaMovement(vec.scale(0.15D));
+                weepingAngel.setNoAi(false);
+                weepingAngel.setDeltaMovement(vec.scale(0.15D));
             }
         }
     }
@@ -78,10 +78,10 @@ public class AnomalyEntity extends Mob {
     protected void doPush(Entity entityIn) {
         super.doPush(entityIn);
 
-        if (entityIn instanceof WeepingAngelEntity) {
-            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) entityIn;
-            weepingAngelEntity.setSilent(true);
-            weepingAngelEntity.hurt(WAObjects.GENERATOR, Integer.MAX_VALUE);
+        if (entityIn instanceof WeepingAngel) {
+            WeepingAngel weepingAngel = (WeepingAngel) entityIn;
+            weepingAngel.setSilent(true);
+            weepingAngel.hurt(WAObjects.GENERATOR, Integer.MAX_VALUE);
         }
     }
 

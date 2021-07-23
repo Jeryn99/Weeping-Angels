@@ -2,18 +2,18 @@ package me.suff.mc.angels.common;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.blocks.*;
-import me.suff.mc.angels.common.entities.AnomalyEntity;
-import me.suff.mc.angels.common.entities.ChronodyneGeneratorEntity;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.Portal;
+import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import me.suff.mc.angels.common.items.ChiselItem;
 import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
-import me.suff.mc.angels.common.tileentities.CoffinTile;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.tileentities.SnowArmTile;
-import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
+import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
 import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -124,10 +124,10 @@ public class WAObjects {
     public static class Tiles {
         public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, WeepingAngels.MODID);
 
-        public static RegistryObject<BlockEntityType<SnowArmTile>> SNOW_ANGEL = TILES.register("snow_angel", () -> registerTiles(SnowArmTile::new, Blocks.SNOW_ANGEL.get()));
-        public static RegistryObject<BlockEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
-        public static RegistryObject<BlockEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
-        public static RegistryObject<BlockEntityType<CoffinTile>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinTile::new, Blocks.COFFIN.get()));
+        public static RegistryObject<BlockEntityType<SnowAngelBlockEntity>> SNOW_ANGEL = TILES.register("snow_angel", () -> registerTiles(SnowAngelBlockEntity::new, Blocks.SNOW_ANGEL.get()));
+        public static RegistryObject<BlockEntityType<PlinthBlockEntity>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthBlockEntity::new, Blocks.PLINTH.get()));
+        public static RegistryObject<BlockEntityType<StatueBlockEntity>> STATUE = TILES.register("statue", () -> registerTiles(StatueBlockEntity::new, Blocks.STATUE.get()));
+        public static RegistryObject<BlockEntityType<CoffinBlockEntity>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinBlockEntity::new, Blocks.COFFIN.get()));
     }
 
     public static class Blocks {
@@ -182,9 +182,9 @@ public class WAObjects {
     public static class EntityEntries {
         public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
 
-        public static final RegistryObject<EntityType<WeepingAngelEntity>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngelEntity::new, WeepingAngelEntity::new, MobCategory.MONSTER, 1F, 1.75F, "weeping_angel", false));
-        public static final RegistryObject<EntityType<AnomalyEntity>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(AnomalyEntity::new, AnomalyEntity::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));
-        public static final RegistryObject<EntityType<ChronodyneGeneratorEntity>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorEntity::new, ChronodyneGeneratorEntity::new, MobCategory.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
+        public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngel::new, WeepingAngel::new, MobCategory.MONSTER, 1F, 1.75F, "weeping_angel", false));
+        public static final RegistryObject<EntityType<Portal>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(Portal::new, Portal::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));
+        public static final RegistryObject<EntityType<ChronodyneGeneratorProjectile>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorProjectile::new, ChronodyneGeneratorProjectile::new, MobCategory.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
     }
 
 

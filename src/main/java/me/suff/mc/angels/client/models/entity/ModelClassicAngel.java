@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.model.ListModel;
@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class ModelClassicAngel extends ListModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic.png");
@@ -116,10 +116,10 @@ public class ModelClassicAngel extends ListModel<WeepingAngelEntity> implements 
 
 
     @Override
-    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
-        if (weepingAngelEntity != null) {
-            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
+        if (weepingAngel != null) {
+            pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
         boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY;

@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.blocks;
 
-import me.suff.mc.angels.common.entities.AnomalyEntity;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.Portal;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -52,10 +52,10 @@ public class ChronodyneGeneratorBlock extends Block {
     public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
         super.stepOn(worldIn, pos, state, entityIn);
 
-        if (entityIn instanceof WeepingAngelEntity) {
-            AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addFreshEntity(anomalyEntity);
+        if (entityIn instanceof WeepingAngel) {
+            Portal portal = new Portal(worldIn);
+            portal.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(portal);
             worldIn.removeBlock(pos, false);
         }
     }
@@ -63,9 +63,9 @@ public class ChronodyneGeneratorBlock extends Block {
     @Override
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         if (worldIn.hasNeighborSignal(pos)) {
-            AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addFreshEntity(anomalyEntity);
+            Portal portal = new Portal(worldIn);
+            portal.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(portal);
             worldIn.removeBlock(pos, false);
         }
     }
@@ -73,9 +73,9 @@ public class ChronodyneGeneratorBlock extends Block {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide) {
-            AnomalyEntity anomalyEntity = new AnomalyEntity(worldIn);
-            anomalyEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
-            worldIn.addFreshEntity(anomalyEntity);
+            Portal portal = new Portal(worldIn);
+            portal.setPos(pos.getX(), pos.getY(), pos.getZ());
+            worldIn.addFreshEntity(portal);
             worldIn.removeBlock(pos, false);
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

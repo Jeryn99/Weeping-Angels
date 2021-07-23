@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.ChronodyneGeneratorEntity;
+import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
 import me.suff.mc.angels.common.misc.WATabs;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -29,7 +29,7 @@ public class ChronodyneGeneratorItem extends Item {
         }
 
         if (!world.isClientSide) {
-            ChronodyneGeneratorEntity laser = new ChronodyneGeneratorEntity(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
+            ChronodyneGeneratorProjectile laser = new ChronodyneGeneratorProjectile(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), playerIn, world);
             laser.setItem(laser.getItem());
             laser.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(laser);

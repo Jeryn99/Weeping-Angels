@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.tileentities.StatueTile;
+import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import net.minecraft.client.model.ListModel;
@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * Angel Type: Child
  */
-public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelModel {
 
     private final ModelPart WeepingCherubFix;
     private final ModelPart LeftLeg;
@@ -87,10 +87,10 @@ public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IA
     }
 
     @Override
-    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
-        if (weepingAngelEntity != null) {
-            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
+        if (weepingAngel != null) {
+            pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
         if (pose == WeepingAngelPose.FURIOUS) {
@@ -206,18 +206,18 @@ public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IA
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-        if (angel instanceof WeepingAngelEntity) {
-            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) angel;
-            return generateTex(pose, weepingAngelEntity.getVariant());
+        if (angel instanceof WeepingAngel) {
+            WeepingAngel weepingAngel = (WeepingAngel) angel;
+            return generateTex(pose, weepingAngel.getVariant());
         }
 
-        if (angel instanceof StatueTile) {
-            StatueTile weepingAngelEntity = (StatueTile) angel;
+        if (angel instanceof StatueBlockEntity) {
+            StatueBlockEntity weepingAngelEntity = (StatueBlockEntity) angel;
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        if (angel instanceof PlinthTile) {
-            PlinthTile weepingAngelEntity = (PlinthTile) angel;
+        if (angel instanceof PlinthBlockEntity) {
+            PlinthBlockEntity weepingAngelEntity = (PlinthBlockEntity) angel;
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 

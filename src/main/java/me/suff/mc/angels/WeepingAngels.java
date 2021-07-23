@@ -1,10 +1,9 @@
 package me.suff.mc.angels;
 
-import com.google.common.collect.ImmutableList;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
@@ -13,9 +12,6 @@ import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -109,8 +105,8 @@ public class WeepingAngels {
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event){
-        event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().build());
-        event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().build());
+        event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
+        event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }
 
 

@@ -1,8 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
-import me.suff.mc.angels.common.tileentities.SnowArmTile;
+import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -38,9 +38,9 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     @Override
     public void entityInside(BlockState blockState, Level world, BlockPos blockPos, Entity entity) {
-        if (world.getBlockEntity(blockPos) instanceof SnowArmTile) {
-            SnowArmTile snowArmTile = (SnowArmTile) world.getBlockEntity(blockPos);
-            if (snowArmTile.getSnowAngelStage() == SnowArmTile.SnowAngelStages.ARM) {
+        if (world.getBlockEntity(blockPos) instanceof SnowAngelBlockEntity) {
+            SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) world.getBlockEntity(blockPos);
+            if (snowAngelBlockEntity.getSnowAngelStage() == SnowAngelBlockEntity.SnowAngelStages.ARM) {
                 entity.makeStuckInBlock(blockState, new Vec3(0.15D, 0.05F, 0.15D));
             }
         }
@@ -52,15 +52,15 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof SnowArmTile) {
+        if (tile instanceof SnowAngelBlockEntity) {
             int rotation = Mth.floor(placer.yBodyRot);
-            SnowArmTile snowArmTile = (SnowArmTile) tile;
-            if (!snowArmTile.isHasSetup()) {
-                snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
-                snowArmTile.setRotation(rotation);
-                snowArmTile.setHasSetup(true);
-                snowArmTile.setVariant(AngelTypes.getWeightedRandom());
-                snowArmTile.sendUpdates();
+            SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) tile;
+            if (!snowAngelBlockEntity.isHasSetup()) {
+                snowAngelBlockEntity.setSnowAngelStage(AngelUtil.randowSnowStage());
+                snowAngelBlockEntity.setRotation(rotation);
+                snowAngelBlockEntity.setHasSetup(true);
+                snowAngelBlockEntity.setVariant(AngelTypes.getWeightedRandom());
+                snowAngelBlockEntity.sendUpdates();
             }
         }
     }
@@ -77,11 +77,11 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
         if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
             Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
             BlockEntity tile = worldIn.getBlockEntity(pos);
-            if (tile instanceof SnowArmTile) {
-                SnowArmTile snowArmTile = (SnowArmTile) tile;
-                WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
+            if (tile instanceof SnowAngelBlockEntity) {
+                SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) tile;
+                WeepingAngel angel = new WeepingAngel(worldIn);
                 angel.setType(AngelEnums.AngelType.ANGELA_MC);
-                angel.setVarient(snowArmTile.getVariant());
+                angel.setVarient(snowAngelBlockEntity.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);
                 worldIn.removeBlock(pos, false);
@@ -93,7 +93,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new SnowArmTile(pos, state);
+        return new SnowAngelBlockEntity(pos, state);
     }
 
     @Nullable

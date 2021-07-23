@@ -2,7 +2,7 @@ package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -23,7 +23,7 @@ import net.minecraft.world.phys.AABB;
 import static net.minecraft.world.level.block.SnowLayerBlock.LAYERS;
 
 
-public class SnowArmTile extends BlockEntity implements BlockEntityTicker<SnowArmTile> {
+public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTicker<SnowAngelBlockEntity> {
 
     private final AABB AABB = new AABB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
@@ -31,7 +31,7 @@ public class SnowArmTile extends BlockEntity implements BlockEntityTicker<SnowAr
     private boolean hasSetup = false;
     private int rotation = 0;
 
-    public SnowArmTile(BlockPos pos, BlockState blockState) {
+    public SnowAngelBlockEntity(BlockPos pos, BlockState blockState) {
         super(WAObjects.Tiles.SNOW_ANGEL.get(), pos, blockState);
     }
 
@@ -122,12 +122,12 @@ public class SnowArmTile extends BlockEntity implements BlockEntityTicker<SnowAr
     }
 
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowArmTile p_155256_) {
+    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowAngelBlockEntity p_155256_) {
 
         if (snowAngelStages == SnowAngelStages.ARM) return;
 
         if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
-            WeepingAngelEntity angel = new WeepingAngelEntity(level);
+            WeepingAngel angel = new WeepingAngel(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
             angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();

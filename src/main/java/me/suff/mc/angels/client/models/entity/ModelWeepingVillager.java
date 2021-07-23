@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * Angel Type: 4 Created by Craig on 11/03/2020 @ 20:58
  */
-public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/weeping_villager.png");
 
@@ -72,10 +72,10 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
     }
 
     @Override
-    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
-        if (weepingAngelEntity != null) {
-            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
+        if (weepingAngel != null) {
+            pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
         nose.xRot = (float) Math.toRadians(0);

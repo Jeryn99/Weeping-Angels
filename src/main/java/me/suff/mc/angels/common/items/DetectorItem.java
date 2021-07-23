@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.PlayerUtil;
@@ -52,7 +52,7 @@ public class DetectorItem extends Item {
     public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.level.isClientSide) {
             setTime(stack, getTime(stack) + 1);
-            List<WeepingAngelEntity> angels = entityIn.level.getEntitiesOfClass(WeepingAngelEntity.class, entityIn.getBoundingBox().inflate(15, 15, 15));
+            List<WeepingAngel> angels = entityIn.level.getEntitiesOfClass(WeepingAngel.class, entityIn.getBoundingBox().inflate(15, 15, 15));
             if (entityIn instanceof Player) {
                 if (!angels.isEmpty() && PlayerUtil.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
                     {

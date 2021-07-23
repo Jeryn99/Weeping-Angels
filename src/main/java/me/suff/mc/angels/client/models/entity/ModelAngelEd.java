@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,7 +19,7 @@ import net.minecraft.util.Mth;
  * Angel Type: 1
  * Weeping Angel - EdusgprNetwork Created using Tabula 5.1.0
  */
-public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAngelModel {
+public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_ed.png");
@@ -197,7 +197,7 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
     }
 
     @Override
-    public void setupAnim(WeepingAngelEntity weepingAngelEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
         right_arm.y = 2.5F;
         left_arm.y = 2.5F;
@@ -209,8 +209,8 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
         right_arm.zRot = 0;
 
         WeepingAngelPose pose = weepingAngelPose;
-        if (weepingAngelEntity != null) {
-            pose = WeepingAngelPose.getPose(weepingAngelEntity.getAngelPose());
+        if (weepingAngel != null) {
+            pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
         if (pose != null) {
