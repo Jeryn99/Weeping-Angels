@@ -24,21 +24,13 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_ed.png");
 
+    private final ModelPart main;
     private final ModelPart right_wing_0;
     private final ModelPart left_wing_0;
     private final ModelPart back_cloth_2;
     private final ModelPart head_2;
     private final ModelPart body_2;
     private final ModelPart head;
-    private final ModelPart body;
-    private final ModelPart left_arm;
-    private final ModelPart right_arm;
-    private final ModelPart cloth_0;
-    private final ModelPart cloth_1;
-    private final ModelPart cloth_2;
-    private final ModelPart back_cloth;
-    private final ModelPart left_wing_1;
-    private final ModelPart right_wing_1;
     private final ModelPart nose;
     private final ModelPart face;
     private final ModelPart right_eyebrow;
@@ -51,15 +43,25 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
     private final ModelPart teeth3;
     private final ModelPart teeth4;
     private final ModelPart teeth5;
+    private final ModelPart body;
+    private final ModelPart left_arm;
     private final ModelPart wrist_left;
+    private final ModelPart right_arm;
     private final ModelPart wrist_right;
+    private final ModelPart cloth_0;
     private final ModelPart zeth;
+    private final ModelPart cloth_1;
+    private final ModelPart cloth_2;
+    private final ModelPart back_cloth;
+    private final ModelPart left_wing_1;
     private final ModelPart left_wing_2;
     private final ModelPart left_wing_3;
     private final ModelPart left_wing_4;
+    private final ModelPart right_wing_1;
     private final ModelPart right_wing_2;
     private final ModelPart right_wing_3;
     private final ModelPart right_wing_4;
+
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -67,61 +69,62 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
      * Angel Type: 1
      */
     public ModelAngelEd(ModelPart root) {
-        this.right_wing_0 = root.getChild("right_wing_0");
-        this.left_wing_0 = root.getChild("left_wing_0");
-        this.back_cloth_2 = root.getChild("back_cloth_2");
-        this.head_2 = root.getChild("head_2");
-        this.body_2 = root.getChild("body_2");
-        this.head = root.getChild("head");
-        this.body = root.getChild("body");
-        this.left_arm = root.getChild("left_arm");
-        this.right_arm = root.getChild("right_arm");
-        this.cloth_0 = root.getChild("cloth_0");
-        this.cloth_1 = root.getChild("cloth_1");
-        this.cloth_2 = root.getChild("cloth_2");
-        this.back_cloth = root.getChild("back_cloth");
-        this.left_wing_1 = root.getChild("left_wing_1");
-        this.right_wing_1 = root.getChild("right_wing_1");
-        this.nose = root.getChild("nose");
-        this.face = root.getChild("face");
-        this.right_eyebrow = root.getChild("right_eyebrow");
-        this.left_eyebrow = root.getChild("left_eyebrow");
-        this.coverup = root.getChild("coverup");
-        this.angry_mouth = root.getChild("angry_mouth");
-        this.teeth = root.getChild("teeth");
-        this.teeth1 = root.getChild("teeth1");
-        this.teeth2 = root.getChild("teeth2");
-        this.teeth3 = root.getChild("teeth3");
-        this.teeth4 = root.getChild("teeth4");
-        this.teeth5 = root.getChild("teeth5");
-        this.wrist_left = root.getChild("wrist_left");
-        this.wrist_right = root.getChild("wrist_right");
-        this.zeth = root.getChild("zeth");
-        this.left_wing_2 = root.getChild("left_wing_2");
-        this.left_wing_3 = root.getChild("left_wing_3");
-        this.left_wing_4 = root.getChild("left_wing_4");
-        this.right_wing_2 = root.getChild("right_wing_2");
-        this.right_wing_3 = root.getChild("right_wing_3");
-        this.right_wing_4 = root.getChild("right_wing_4");
+        this.main = root.getChild("main");
+        this.right_wing_0 = main.getChild("right_wing_0");
+        this.left_wing_0 = main.getChild("left_wing_0");
+        this.back_cloth_2 = main.getChild("back_cloth_2");
+        this.head_2 = main.getChild("head_2");
+        this.body_2 = main.getChild("body_2");
+        this.head = main.getChild("head");
+        this.body = main.getChild("body");
+        this.left_arm = main.getChild("left_arm");
+        this.right_arm = main.getChild("right_arm");
+        this.cloth_0 = main.getChild("cloth_0");
+        this.cloth_1 = main.getChild("cloth_1");
+        this.cloth_2 = main.getChild("cloth_2");
+        this.back_cloth = main.getChild("back_cloth");
+        this.left_wing_1 = main.getChild("left_wing_1");
+        this.right_wing_1 = main.getChild("right_wing_1");
+        this.nose = head.getChild("nose");
+        this.face = head.getChild("face");
+        this.right_eyebrow = head.getChild("right_eyebrow");
+        this.left_eyebrow = head.getChild("left_eyebrow");
+        this.coverup = head.getChild("coverup");
+        this.angry_mouth = head.getChild("angry_mouth");
+        this.teeth = angry_mouth.getChild("teeth6");
+        this.teeth1 = angry_mouth.getChild("teeth1");
+        this.teeth2 = angry_mouth.getChild("teeth2");
+        this.teeth3 = angry_mouth.getChild("teeth3");
+        this.teeth4 = angry_mouth.getChild("teeth4");
+        this.teeth5 = angry_mouth.getChild("teeth5");
+        this.wrist_left = left_arm.getChild("left_arm_1");
+        this.wrist_right = right_arm.getChild("left_arm_2");
+        this.zeth = cloth_0.getChild("zeth");
+        this.left_wing_2 = left_wing_1.getChild("left_wing_2");
+        this.left_wing_3 = left_wing_2.getChild("left_wing_3");
+        this.left_wing_4 = left_wing_3.getChild("left_wing_4");
+        this.right_wing_2 = right_wing_1.getChild("right_wing_2");
+        this.right_wing_3 = right_wing_2.getChild("right_wing_3");
+        this.right_wing_4 = right_wing_3.getChild("right_wing_4");
     }
 
     public static LayerDefinition getModelData(){
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition main = partdefinition.addOrReplaceChild("main", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition right_wing_0 = root.addOrReplaceChild("right_wing_0", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, 0.0F, -13.0F, 1.0F, 11.0F, 18.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.4F, 2.0F, 1.5F, 1.5359F, 0.9425F, 0.0F));
+        PartDefinition right_wing_0 = main.addOrReplaceChild("right_wing_0", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, 0.0F, -13.0F, 1.0F, 11.0F, 18.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.4F, 2.0F, 1.5F, 1.5359F, 0.9425F, 0.0F));
 
-        PartDefinition left_wing_0 = root.addOrReplaceChild("left_wing_0", CubeListBuilder.create().texOffs(38, 50).addBox(0.0F, 0.0F, -13.0F, 1.0F, 11.0F, 18.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.4F, 2.0F, 1.5F, 1.5359F, -0.9425F, 0.0F));
+        PartDefinition left_wing_0 = main.addOrReplaceChild("left_wing_0", CubeListBuilder.create().texOffs(38, 50).addBox(0.0F, 0.0F, -13.0F, 1.0F, 11.0F, 18.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.4F, 2.0F, 1.5F, 1.5359F, -0.9425F, 0.0F));
 
-        PartDefinition back_cloth_2 = root.addOrReplaceChild("back_cloth_2", CubeListBuilder.create().texOffs(0, 49).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 12.0F, 2.0F, 0.2793F, 0.0F, 0.0F));
+        PartDefinition back_cloth_2 = main.addOrReplaceChild("back_cloth_2", CubeListBuilder.create().texOffs(0, 49).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 12.0F, 2.0F, 0.2793F, 0.0F, 0.0F));
 
-        PartDefinition head_2 = root.addOrReplaceChild("head_2", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition head_2 = main.addOrReplaceChild("head_2", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition body_2 = root.addOrReplaceChild("body_2", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 23.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition body_2 = main.addOrReplaceChild("body_2", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 23.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition head = main.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
         PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(32, 0).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -4.5F, -4.0F, -0.2246F, 0.0F, 0.0F));
 
@@ -147,27 +150,27 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
 
         PartDefinition teeth6= angry_mouth.addOrReplaceChild("teeth6", CubeListBuilder.create().texOffs(63, 39).addBox(0.0F, 0.0F, -0.03F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.15F, -3.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
 
-        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(56, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 24.0F, 4.0F, new CubeDeformation(0.2F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition body = main.addOrReplaceChild("body", CubeListBuilder.create().texOffs(56, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 24.0F, 4.0F, new CubeDeformation(0.2F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition left_arm = root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 27).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 1.5F, 0.0F, -1.85F, -0.6109F, -0.0873F));
+        PartDefinition left_arm = main.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 27).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 1.5F, 0.0F, -1.85F, -0.6109F, -0.0873F));
 
         PartDefinition left_arm_1 = left_arm.addOrReplaceChild("left_arm_1", CubeListBuilder.create().texOffs(34, 52).addBox(-2.0F, 0.0F, -4.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 4.0F, 2.0F, -0.5236F, 0.0F, 0.0F));
 
-        PartDefinition right_arm = root.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, 1.5F, 0.0F, -1.85F, 0.6109F, 0.0873F));
+        PartDefinition right_arm = main.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, 1.5F, 0.0F, -1.85F, 0.6109F, 0.0873F));
 
         PartDefinition left_arm_2 = right_arm.addOrReplaceChild("left_arm_2", CubeListBuilder.create().texOffs(20, 52).addBox(-1.0F, 0.0F, -4.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 4.0F, 2.0F, -0.5236F, 0.0F, 0.0F));
 
-        PartDefinition cloth_0 = root.addOrReplaceChild("cloth_0", CubeListBuilder.create().texOffs(9, 43).addBox(-5.0F, -1.0F, -2.0F, 10.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cloth_0 = main.addOrReplaceChild("cloth_0", CubeListBuilder.create().texOffs(9, 43).addBox(-5.0F, -1.0F, -2.0F, 10.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
         PartDefinition zeth = cloth_0.addOrReplaceChild("zeth", CubeListBuilder.create().texOffs(20, 50).addBox(-4.5F, -1.0F, -0.6F, 9.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition cloth_1 = root.addOrReplaceChild("cloth_1", CubeListBuilder.create().texOffs(34, 44).addBox(-4.0F, -1.0F, -2.5F, 8.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 3.3F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cloth_1 = main.addOrReplaceChild("cloth_1", CubeListBuilder.create().texOffs(34, 44).addBox(-4.0F, -1.0F, -2.5F, 8.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 3.3F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition cloth_2 = root.addOrReplaceChild("cloth_2", CubeListBuilder.create().texOffs(10, 32).addBox(-3.0F, -1.0F, -2.5F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 6.6F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cloth_2 = main.addOrReplaceChild("cloth_2", CubeListBuilder.create().texOffs(10, 32).addBox(-3.0F, -1.0F, -2.5F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 6.6F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition back_cloth = root.addOrReplaceChild("back_cloth", CubeListBuilder.create().texOffs(60, 44).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 12.0F, 2.0F, 0.2793F, 0.0F, 0.0F));
+        PartDefinition back_cloth = main.addOrReplaceChild("back_cloth", CubeListBuilder.create().texOffs(60, 44).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 12.0F, 2.0F, 0.2793F, 0.0F, 0.0F));
 
-        PartDefinition left_wing_1 = root.addOrReplaceChild("left_wing_1", CubeListBuilder.create().texOffs(24, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.4F, 2.0F, 1.5F, 1.5359F, -0.9425F, 0.0F));
+        PartDefinition left_wing_1 = main.addOrReplaceChild("left_wing_1", CubeListBuilder.create().texOffs(24, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.4F, 2.0F, 1.5F, 1.5359F, -0.9425F, 0.0F));
 
         PartDefinition left_wing_2 = left_wing_1.addOrReplaceChild("left_wing_2", CubeListBuilder.create().texOffs(78, 42).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 4.0F, -1.0F, 1.2292F, 0.0F, 0.0F));
 
@@ -175,7 +178,7 @@ public class ModelAngelEd extends ListModel<WeepingAngelEntity> implements IAnge
 
         PartDefinition left_wing_4 = left_wing_3.addOrReplaceChild("left_wing_4", CubeListBuilder.create().texOffs(22, 36).addBox(-1.0F, 0.0F, -2.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 5.0F, 0.0F, -1.1383F, 0.0F, 0.0F));
 
-        PartDefinition right_wing_1 = root.addOrReplaceChild("right_wing_1", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.4F, 2.0F, 1.5F, 1.5359F, 0.9425F, 0.0F));
+        PartDefinition right_wing_1 = main.addOrReplaceChild("right_wing_1", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.4F, 2.0F, 1.5F, 1.5359F, 0.9425F, 0.0F));
 
         PartDefinition right_wing_2 = right_wing_1.addOrReplaceChild("right_wing_2", CubeListBuilder.create().texOffs(46, 27).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 4.0F, -1.0F, 1.2292F, 0.0F, 0.0F));
 

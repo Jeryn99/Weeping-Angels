@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
+import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
@@ -19,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,14 +49,12 @@ public class WeepingAngels {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
         modBus.addListener(this::setup);
+        modBus.addListener(this::onAttributeAssign);
         AngelTypes.VARIANTS.register(modBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
-        MinecraftForge.EVENT_BUS.addGenericListener(Block.class, this::onMissingMappingsBlock);
-        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntityType.class, this::onMissingMappingsTile);
-        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::onMissingMappingsItem);
         StartupMessageManager.addModMessage("Don't Blink!");
     }
 
@@ -108,36 +108,9 @@ public class WeepingAngels {
         generator.addProvider(new WALootTables(generator));
     }
 
-
-    public void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<Item>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<Item> itemMapping : mapp) {
-            if (itemMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Item weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().asItem().getRegistryName());
-                itemMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get().asItem());
-            }
-        }
-    }
-
-
-    public void onMissingMappingsBlock(RegistryEvent.MissingMappings<Block> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<Block>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<Block> blockMapping : mapp) {
-            if (blockMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Block weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().getRegistryName());
-                blockMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get());
-            }
-        }
-    }
-
-    public void onMissingMappingsTile(RegistryEvent.MissingMappings<BlockEntityType<?>> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<BlockEntityType<?>>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<BlockEntityType<?>> entityTypeMapping : mapp) {
-            if (entityTypeMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Tile weeping_angels:snow_arm to " + WAObjects.Tiles.SNOW_ANGEL.get().getRegistryName());
-                entityTypeMapping.remap(WAObjects.Tiles.SNOW_ANGEL.get());
-            }
-        }
+    public void onAttributeAssign(EntityAttributeCreationEvent event){
+        event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().build());
+        event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().build());
     }
 
 

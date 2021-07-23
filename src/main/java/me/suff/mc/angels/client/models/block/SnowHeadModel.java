@@ -8,16 +8,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 public class SnowHeadModel extends EntityModel<Entity> {
-    private final ModelPart head;
+    private final ModelPart head  = null;
 
     public SnowHeadModel() {
-        texWidth = 128;
-        texHeight = 128;
-        head = new ModelPart(this);
-        head.setPos(0.0F, 25.0F, 0.0F);
-        setRotationAngle(head, -0.2618F, 0.0F, 0.0F);
-        head.texOffs(0, 17).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-        head.texOffs(72, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
+
     }
 
     @Override

@@ -33,18 +33,17 @@ import java.util.Map;
 public class ClientUtil {
 
 
-    private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
-
-    static {
-        MODEL_MAP.put(AngelEnums.AngelType.CHERUB, new ModelAngelChild(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CHERUB)));
-        MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ANGELA))); //ANGELA
-        MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ED))); //ANGELA
-        MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, new ModelClassicAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
-        MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, new ModelWeepingVillager(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
-    }
-
+    public static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
 
     public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelEnums.AngelType angelType) {
+        if(MODEL_MAP.isEmpty()){
+            MODEL_MAP.put(AngelEnums.AngelType.CHERUB, new ModelAngelChild(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CHERUB)));
+            MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ANGELA))); //ANGELA
+            MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelEd(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ED))); //ED
+            MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, new ModelClassicAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
+            MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, new ModelWeepingVillager(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
+
+        }
         return MODEL_MAP.get(angelType);
     }
 

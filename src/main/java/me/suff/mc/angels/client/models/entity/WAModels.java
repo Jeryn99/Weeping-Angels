@@ -3,10 +3,14 @@ package me.suff.mc.angels.client.models.entity;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
+import me.suff.mc.angels.common.entities.AngelEnums;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fmlclient.registry.RenderingRegistry;
+
+import static me.suff.mc.angels.utils.ClientUtil.MODEL_MAP;
 
 public class WAModels {
 
@@ -18,7 +22,7 @@ public class WAModels {
     public static ModelLayerLocation ANGEL_CHERUB = createAngelModelLocation("cherub");
 
     private static ModelLayerLocation createAngelModelLocation(String weeping_angel) {
-        return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "weeping_angel_"+weeping_angel);
+        return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_"+weeping_angel), weeping_angel);
     }
 
     //Other
@@ -26,7 +30,6 @@ public class WAModels {
     public static ModelLayerLocation COFFIN = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "coffin");
     public static ModelLayerLocation POLICE_BOX = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "police_box");
 
-    @SubscribeEvent
     public static void init() {
         RenderingRegistry.registerLayerDefinition(ANGEL_ANGELA, ModelAngelaAngel::getModelData);
         RenderingRegistry.registerLayerDefinition(ANGEL_VILLAGER, ModelWeepingVillager::getModelData);
@@ -36,6 +39,7 @@ public class WAModels {
         RenderingRegistry.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         RenderingRegistry.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
         RenderingRegistry.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
+
     }
 
 }

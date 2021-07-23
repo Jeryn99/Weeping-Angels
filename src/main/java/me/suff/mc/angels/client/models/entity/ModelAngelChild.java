@@ -39,14 +39,14 @@ public class ModelAngelChild extends ListModel<WeepingAngelEntity> implements IA
      */
     public ModelAngelChild(ModelPart root) {
         this.WeepingCherubFix = root.getChild("WeepingCherubFix");
-        this.LeftLeg = root.getChild("LeftLeg");
-        this.RightLeg = root.getChild("RightLeg");
-        this.LeftArm = root.getChild("LeftArm");
-        this.RightArm = root.getChild("RightArm");
-        this.Body = root.getChild("Body");
-        this.Head = root.getChild("Head");
-        this.LeftWing = root.getChild("LeftWing");
-        this.RightWing = root.getChild("RightWing");
+        this.LeftLeg = WeepingCherubFix.getChild("LeftLeg");
+        this.RightLeg = WeepingCherubFix.getChild("RightLeg");
+        this.LeftArm = WeepingCherubFix.getChild("LeftArm");
+        this.RightArm = WeepingCherubFix.getChild("RightArm");
+        this.Body = WeepingCherubFix.getChild("Body");
+        this.Head = WeepingCherubFix.getChild("Head");
+        this.LeftWing = WeepingCherubFix.getChild("LeftWing");
+        this.RightWing = WeepingCherubFix.getChild("RightWing");
     }
 
     public static LayerDefinition getModelData(){

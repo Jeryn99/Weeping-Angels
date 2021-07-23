@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blocks.CoffinBlock;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +21,7 @@ import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
 public class CoffinTile extends BlockEntity implements BlockEntityTicker<CoffinTile> {
 
-    private Coffin coffin = null;
+    private Coffin coffin = Coffin.NEW;
     private boolean isOpen, hasSkeleton = false;
     private float openAmount = 0.0F, alpha = 1;
     private boolean doingSomething = false;
@@ -74,6 +75,7 @@ public class CoffinTile extends BlockEntity implements BlockEntityTicker<CoffinT
 
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinTile p_155256_) {
+
         if (isOpen) {
             this.openAmount += 0.1F;
         } else {

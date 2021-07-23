@@ -8,16 +8,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 public class SnowArmModel extends EntityModel<Entity> {
-    private final ModelPart rightArm;
+    private final ModelPart rightArm = null;
 
     public SnowArmModel() {
-        texWidth = 128;
-        texHeight = 128;
-
-        rightArm = new ModelPart(this);
-        rightArm.setPos(0.0F, 16.0F, -4.0F);
-        setRotationAngle(rightArm, 0.3927F, 0.0F, 0.0F);
-        rightArm.texOffs(10, 59).addBox(-2.0F, -3.0F, 0.0F, 3.0F, 12.0F, 4.0F, 0.0F, false);
+   
     }
 
     @Override

@@ -1,6 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,6 +16,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -33,7 +36,7 @@ import javax.annotation.Nullable;
 import static net.minecraft.world.level.block.SculkSensorBlock.WATERLOGGED;
 
 
-public class CoffinBlock extends Block implements EntityBlock {
+public class CoffinBlock extends BaseEntityBlock  {
 
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
@@ -122,15 +125,22 @@ public class CoffinBlock extends Block implements EntityBlock {
         return new CoffinTile(p_153215_, p_153216_);
     }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        return EntityBlock.super.getTicker(p_153212_, p_153213_, p_153214_);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (level1, blockPos, blockState, t) -> {
+            if (t instanceof CoffinTile coffinTile) {
+                coffinTile.tick(level, blockPos, blockState, coffinTile);
+            }
+        };
     }
 
-    @Nullable
+
     @Override
-    public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
-        return EntityBlock.super.getListener(p_153210_, p_153211_);
+    public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
+        super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
+        if(p_60567_.getBlockEntity(p_60568_) instanceof CoffinTile){
+            CoffinTile coffinTile = (CoffinTile) p_60567_.getBlockEntity(p_60568_);
+            coffinTile.setCoffin(AngelUtil.randomCoffin());
+        }
     }
 }

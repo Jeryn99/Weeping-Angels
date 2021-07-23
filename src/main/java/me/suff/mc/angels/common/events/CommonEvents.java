@@ -174,12 +174,6 @@ public class CommonEvents {
 
     }
 
-    @SubscribeEvent
-    public static void onAttributeAssign(EntityAttributeCreationEvent event){
-        event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelEntity.createAttributes().build());
-        event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngelEntity.createAttributes().build());
-    }
-
 
     public static boolean isAttackerHoldingPickaxe(Entity entity) {
         if (entity instanceof LivingEntity) {

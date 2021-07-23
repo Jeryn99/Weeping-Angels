@@ -8,40 +8,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 public class SnowWingsModel extends EntityModel<Entity> {
-    private final ModelPart bone;
-    private final ModelPart rightWing;
-    private final ModelPart leftWing;
+    private final ModelPart bone = null;
+    private final ModelPart rightWing = null;
+    private final ModelPart leftWing = null;
 
     public SnowWingsModel() {
-        texWidth = 128;
-        texHeight = 128;
-
-        bone = new ModelPart(this);
-        bone.setPos(0.0F, 23.0F, 2.0F);
-        setRotationAngle(bone, 1.0472F, 0.0F, 0.0F);
-
-
-        rightWing = new ModelPart(this);
-        rightWing.setPos(1.0F, 1.0F, 0.0F);
-        bone.addChild(rightWing);
-        setRotationAngle(rightWing, 0.0F, 0.7854F, 0.0F);
-        rightWing.texOffs(10, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        rightWing.texOffs(12, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        rightWing.texOffs(26, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        rightWing.texOffs(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        rightWing.texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
-        rightWing.texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
-
-        leftWing = new ModelPart(this);
-        leftWing.setPos(-1.0F, 1.0F, 0.0F);
-        bone.addChild(leftWing);
-        setRotationAngle(leftWing, 0.0F, -0.7854F, 0.0F);
-        leftWing.texOffs(0, 101).addBox(-1.0F, -4.0F, 0.0F, 2.0F, 5.0F, 3.0F, 0.0F, false);
-        leftWing.texOffs(6, 83).addBox(-1.0F, -8.9F, 5.0F, 2.0F, 14.0F, 1.0F, 0.0F, false);
-        leftWing.texOffs(18, 83).addBox(-1.0F, -6.9F, 3.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
-        leftWing.texOffs(8, 33).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
-        leftWing.texOffs(0, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
-        leftWing.texOffs(38, 59).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
     }
 
     @Override

@@ -32,11 +32,11 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
 
     public ModelWeepingVillager(ModelPart root) {
         body = root.getChild("body");
-        wing0 = root.getChild("wing0");
-        wing2 = root.getChild("wing2");
-        head = root.getChild("head");
-        nose = root.getChild("nose");
-        arms = root.getChild("arms");
+        wing0 = body.getChild("wing0");
+        wing2 = body.getChild("wing2");
+        head = body.getChild("head");
+        nose = head.getChild("nose");
+        arms = root.getChild("body");
         leg0 = root.getChild("leg0");
         leg1 = root.getChild("leg1");
     }
