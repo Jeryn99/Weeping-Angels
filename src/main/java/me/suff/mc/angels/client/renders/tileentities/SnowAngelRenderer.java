@@ -3,6 +3,7 @@ package me.suff.mc.angels.client.renders.tileentities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
+import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
@@ -15,18 +16,18 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
-public class SnowArmTileRender implements BlockEntityRenderer<SnowAngelBlockEntity>, BlockEntityRendererProvider<SnowAngelBlockEntity> {
+public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEntity>, BlockEntityRendererProvider<SnowAngelBlockEntity> {
 
     private ModelPart armModel;
     private ModelPart bodyModel;
     private ModelPart headModel;
     private ModelPart wingsModel;
     
-    public SnowArmTileRender(BlockEntityRendererProvider.Context context) {
-        this.armModel = context.bakeLayer(ModelLayers.BED_HEAD);
-        this.bodyModel = context.bakeLayer(ModelLayers.BED_FOOT);
-        this.headModel = context.bakeLayer(ModelLayers.BED_FOOT);
-        this.wingsModel = context.bakeLayer(ModelLayers.BED_FOOT);
+    public SnowAngelRenderer(BlockEntityRendererProvider.Context context) {
+        this.armModel = context.bakeLayer(WAModels.SNOW_ANGEL_ARM);
+        this.bodyModel = context.bakeLayer(WAModels.SNOW_ANGEL_BODY);
+        this.headModel = context.bakeLayer(WAModels.SNOW_ANGEL_HEAD);
+        this.wingsModel = context.bakeLayer(WAModels.SNOW_ANGEL_WING);
     }
     
     public static ResourceLocation getTexture(SnowAngelBlockEntity snowAngelBlockEntity) {
@@ -38,29 +39,29 @@ public class SnowArmTileRender implements BlockEntityRenderer<SnowAngelBlockEnti
     public void render(SnowAngelBlockEntity snowAngelBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource iRenderTypeBuffer, int i, int i1) {
         matrixStack.pushPose();
         switch (snowAngelBlockEntity.getSnowAngelStage()) {
-            case ARM:
-                matrixStack.translate(0.5F, -0.7F, 0.5F);
+            case ARM -> {
+                matrixStack.translate(0.5F, -1.1F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 this.armModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
-                break;
-            case HEAD:
+            }
+            case HEAD -> {
                 matrixStack.translate(0.5F, 1.6F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
                 this.headModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
-                break;
-            case BODY:
-                matrixStack.translate(0.5F, 1.5F, 0.5F);
+            }
+            case BODY -> {
+                matrixStack.translate(0.5F, 1.7F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
                 this.bodyModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
-                break;
-            case WINGS:
+            }
+            case WINGS -> {
                 matrixStack.translate(0.5F, 1.5F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
                 this.wingsModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
-                break;
+            }
         }
 
         matrixStack.popPose();
@@ -68,6 +69,6 @@ public class SnowArmTileRender implements BlockEntityRenderer<SnowAngelBlockEnti
 
     @Override
     public BlockEntityRenderer<SnowAngelBlockEntity> create(Context p_173571_) {
-        return new SnowArmTileRender(p_173571_);
+        return new SnowAngelRenderer(p_173571_);
     }
 }

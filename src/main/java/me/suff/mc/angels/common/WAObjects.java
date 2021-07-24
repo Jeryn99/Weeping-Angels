@@ -76,7 +76,7 @@ public class WAObjects {
     }
 
     // Tile Creation
-    private static <T extends BlockEntity> BlockEntityType registerTiles(BlockEntityType.BlockEntitySupplier tile, Block validBlock) {
+    private static <T extends BlockEntity> BlockEntityType<T> registerTiles(BlockEntityType.BlockEntitySupplier<T> tile, Block validBlock) {
         return BlockEntityType.Builder.of(tile, validBlock).build(null);
     }
 

@@ -1,6 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -135,10 +137,14 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
         return new StatueBlockEntity(p_153215_, p_153216_);
     }
 
-    @Nullable
+
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        return EntityBlock.super.getTicker(p_153212_, p_153213_, p_153214_);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (level1, blockPos, blockState, t) -> {
+            if (t instanceof StatueBlockEntity statueBlockEntity) {
+                statueBlockEntity.tick(level, blockPos, blockState, statueBlockEntity);
+            }
+        };
     }
 
     @Nullable

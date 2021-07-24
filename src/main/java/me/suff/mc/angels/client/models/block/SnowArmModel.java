@@ -5,13 +5,22 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 public class SnowArmModel extends EntityModel<Entity> {
-    private final ModelPart rightArm = null;
+    private final ModelPart arm;
 
-    public SnowArmModel() {
-   
+    public SnowArmModel(ModelPart root) {
+        arm = root.getChild("arm");
+    }
+
+    public static LayerDefinition getModelData(){
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition arm = partdefinition.addOrReplaceChild("arm", CubeListBuilder.create().texOffs(24, 59).addBox(-2.0F, -5.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, 23.0F, 0.0F, -2.6616F, -0.4363F, 0.5236F));
+        return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
     @Override
@@ -21,12 +30,6 @@ public class SnowArmModel extends EntityModel<Entity> {
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-    }
-
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+        arm.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 }

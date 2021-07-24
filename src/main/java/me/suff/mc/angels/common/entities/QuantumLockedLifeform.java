@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +30,11 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
 
     public QuantumLockedLifeform(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
+    }
+
+    @Override
+    public AttributeMap getAttributes() {
+        return new AttributeMap(WeepingAngel.createAttributes().build());
     }
 
     @Override

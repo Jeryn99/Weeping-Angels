@@ -113,10 +113,13 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         return new PlinthBlockEntity(p_153215_, p_153216_);
     }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        return EntityBlock.super.getTicker(p_153212_, p_153213_, p_153214_);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (level1, blockPos, blockState, t) -> {
+            if (t instanceof PlinthBlockEntity plinthBlockEntity) {
+                plinthBlockEntity.tick(level, blockPos, blockState, plinthBlockEntity);
+            }
+        };
     }
 
     @Nullable

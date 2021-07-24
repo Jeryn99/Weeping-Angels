@@ -192,6 +192,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
         return true;
     }
 
+
+
     public boolean isInCatacomb() {
         //TODO Structure stuff
         /*     if (level instanceof ServerLevel) {

@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -96,10 +97,13 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
         return new SnowAngelBlockEntity(pos, state);
     }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
-        return EntityBlock.super.getTicker(p_153212_, p_153213_, p_153214_);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (level1, blockPos, blockState, t) -> {
+            if (t instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
+                snowAngelBlockEntity.tick(level, blockPos, blockState, snowAngelBlockEntity);
+            }
+        };
     }
 
     @Nullable

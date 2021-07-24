@@ -7,7 +7,7 @@ import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.client.renders.tileentities.CoffinRenderer;
 import me.suff.mc.angels.client.renders.tileentities.PlinthTileRender;
-import me.suff.mc.angels.client.renders.tileentities.SnowArmTileRender;
+import me.suff.mc.angels.client.renders.tileentities.SnowAngelRenderer;
 import me.suff.mc.angels.client.renders.tileentities.StatueRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
@@ -56,7 +56,7 @@ public class ClientUtil {
 
         WAModels.init();
 
-        BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowArmTileRender::new);
+        BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowAngelRenderer::new);
         BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthTileRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.STATUE.get(), StatueRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
