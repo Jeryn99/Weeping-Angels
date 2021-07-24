@@ -35,7 +35,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
     }
 
     public SnowAngelStages getSnowAngelStage() {
-        if(snowAngelStages == null){
+        if (snowAngelStages == null) {
             return SnowAngelStages.BODY;
         }
         return snowAngelStages;

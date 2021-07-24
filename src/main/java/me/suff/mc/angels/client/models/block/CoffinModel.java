@@ -10,10 +10,10 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class CoffinModel extends EntityModel<Entity> {
-    private final ModelRenderer main;
     public final ModelRenderer door;
     public final ModelRenderer goodHandle;
     public final ModelRenderer badHandle;
+    private final ModelRenderer main;
     private final ModelRenderer cube_r1;
 
     public CoffinModel() {
@@ -51,7 +51,8 @@ public class CoffinModel extends EntityModel<Entity> {
         cube_r1.setPos(-8.25F, -21.725F, -5.625F);
         badHandle.addChild(cube_r1);
         setRotationAngle(cube_r1, 0.1745F, 0.0F, 0.2182F);
-        cube_r1.texOffs(41, 29).addBox(0.1927F, -3.2401F, 0.0F, 1.0F, 3.0F, 1.0F, 0.0F, false);    }
+        cube_r1.texOffs(41, 29).addBox(0.1927F, -3.2401F, 0.0F, 1.0F, 3.0F, 1.0F, 0.0F, false);
+    }
 
     /**
      * Sets this entity's model rotation angles
@@ -65,11 +66,11 @@ public class CoffinModel extends EntityModel<Entity> {
      */
     @Override
     public void setupAnim(Entity pEntityIn, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        
+
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         main.render(matrixStack, buffer, packedLight, packedOverlay);
         door.render(matrixStack, buffer, packedLight, packedOverlay);
     }

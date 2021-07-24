@@ -13,7 +13,7 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
     private Predicate<WeepingAngelEntity> variantTest;
     private boolean isHeadless = false;
 
-    public AbstractVariant(Predicate<WeepingAngelEntity> weepingAngelEntityPredicate){
+    public AbstractVariant(Predicate<WeepingAngelEntity> weepingAngelEntityPredicate) {
         this.variantTest = weepingAngelEntityPredicate;
     }
 
@@ -40,8 +40,8 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
 
     public abstract double getRarity();
 
-    public boolean canVariantBeUsed(WeepingAngelEntity weepingAngelEntity){
-        if(variantTest == null) {
+    public boolean canVariantBeUsed(WeepingAngelEntity weepingAngelEntity) {
+        if (variantTest == null) {
             return true;
         }
         return variantTest.test(weepingAngelEntity);
