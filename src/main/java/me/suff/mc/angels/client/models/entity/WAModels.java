@@ -4,7 +4,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fmlclient.registry.RenderingRegistry;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class WAModels {
 
@@ -29,20 +29,19 @@ public class WAModels {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
     }
 
-    public static void init() {
-        RenderingRegistry.registerLayerDefinition(ANGEL_ANGELA, ModelAngelaAngel::getModelData);
-        RenderingRegistry.registerLayerDefinition(ANGEL_VILLAGER, ModelWeepingVillager::getModelData);
-        RenderingRegistry.registerLayerDefinition(ANGEL_CLASSIC, ModelClassicAngel::getModelData);
-        RenderingRegistry.registerLayerDefinition(ANGEL_CHERUB, ModelAngelChild::getModelData);
-        RenderingRegistry.registerLayerDefinition(ANGEL_ED, ModelAngelEd::getModelData);
-        RenderingRegistry.registerLayerDefinition(SNOW_ANGEL_ARM, SnowArmModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(SNOW_ANGEL_BODY, SnowBodyModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(SNOW_ANGEL_HEAD, SnowHeadModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(SNOW_ANGEL_WING, SnowWingsModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
-        RenderingRegistry.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
-
+    public static void init(EntityRenderersEvent.RegisterLayerDefinitions registerLayerDefinitions) {
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_ANGELA, ModelAngelaAngel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_VILLAGER, ModelWeepingVillager::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_CLASSIC, ModelClassicAngel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_CHERUB, ModelAngelChild::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_ED, ModelAngelEd::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_ARM, SnowArmModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_BODY, SnowBodyModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_HEAD, SnowHeadModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_WING, SnowWingsModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
     }
 
 }

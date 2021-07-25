@@ -124,8 +124,15 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowAngelBlockEntity p_155256_) {
 
-        if (snowAngelStages == SnowAngelStages.ARM) return;
+        //Randomness for world generatiopn
+        if (!hasSetup) {
+            setRotation(level.random.nextInt(360));
+            setSnowAngelStage(AngelUtil.randowSnowStage());
+            hasSetup = true;
+            sendUpdates();
+        }
 
+        if (snowAngelStages == SnowAngelStages.ARM) return;
         if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);
             angel.setType(AngelEnums.AngelType.ANGELA_MC);
@@ -139,14 +146,6 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
         //Ensure that any headless variants don't appear with head stage
         if (angelVariant.isHeadless() && snowAngelStages == SnowAngelStages.HEAD || !hasSetup) {
-            setSnowAngelStage(AngelUtil.randowSnowStage());
-            hasSetup = true;
-            sendUpdates();
-        }
-
-        //Randomness for world generatiopn
-        if (!hasSetup) {
-            setRotation(level.random.nextInt(360));
             setSnowAngelStage(AngelUtil.randowSnowStage());
             hasSetup = true;
             sendUpdates();

@@ -42,7 +42,7 @@ public class AngelParticle extends Particle {
         matrixstack.mulPose(p_225606_2_.rotation());
         matrixstack.mulPose(Vector3f.XP.rotationDegrees(150.0F * f - 60.0F));
         matrixstack.scale(-1.0F, -1.0F, 1.0F);
-        matrixstack.translate(0.0D, (double) -1.101F, 1.5D);
+        matrixstack.translate(0.0D, -1.101F, 1.5D);
         MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
         VertexConsumer ivertexbuilder = irendertypebuffer$impl.getBuffer(this.renderType);
         this.model.renderToBuffer(matrixstack, ivertexbuilder, 15728880, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, f1);

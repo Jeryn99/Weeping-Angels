@@ -45,18 +45,6 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
         pMatrixStackIn.popPose();
 
         pMatrixStackIn.pushPose();
-
-        /*
-        //TODO This messes up Optifine Shaders, not 100% sure if their fault or mine
-        if (calcOverlay(weepingAngelEntity.getHealth()) != -1) {
-            MatrixStack.Entry matrixEntry = pMatrixStackIn.last();
-            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(weepingAngelEntity.getHealth()))), matrixEntry.pose(), matrixEntry.normal());
-            IRenderTypeBuffer finalIRenderTypeBuffer = pBufferIn;
-            pBufferIn = (renderType) -> {
-                IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(renderType);
-                return renderType.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
-            };
-        }*/
         super.render(weepingAngel, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
     }

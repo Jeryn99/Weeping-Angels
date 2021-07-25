@@ -10,7 +10,6 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.NBTPatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -36,7 +35,6 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     public void load(CompoundTag compound) {
         super.load(compound);
-        NBTPatcher.angelaToVillager(compound, "model");
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {

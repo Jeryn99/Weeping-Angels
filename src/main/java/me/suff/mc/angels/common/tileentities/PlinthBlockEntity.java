@@ -10,7 +10,6 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.NBTPatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -58,7 +57,6 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     public CompoundTag save(CompoundTag compound) {
         super.save(compound);
-        NBTPatcher.angelaToVillager(compound, "model");
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
         compound.putString("pose", pose.name());

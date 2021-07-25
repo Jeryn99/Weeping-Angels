@@ -33,10 +33,10 @@ public class ClientEvents {
     public static boolean isInCatacombs = false;
     private static SoundInstance iSound = null;
 
+
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
-        if (!(event.getEntity() instanceof Player)) return;
-        Player playerEntity = (Player) event.getEntity();
+        if (!(event.getEntity() instanceof Player playerEntity)) return;
         Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(playerEntity));
     }
 
@@ -67,7 +67,7 @@ public class ClientEvents {
 
 
             if (iSound == null) {
-                iSound = SimpleSoundInstance.forUI(WAObjects.Sounds.CATACOMB.get(), 1);
+                iSound = SimpleSoundInstance.forAmbientAddition(WAObjects.Sounds.CATACOMB.get());
             }
 
             if (!sound.isActive(iSound)) {

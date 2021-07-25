@@ -29,7 +29,7 @@ public class AngelTypes {
     public static final RegistryObject<AbstractVariant> RUSTED_NO_HEAD = VARIANTS.register("rusted_no_head", () -> new BaseVariant(() -> new ItemStack(Blocks.GRANITE), 45).setHeadless(true));
     public static final RegistryObject<AbstractVariant> DIRT = VARIANTS.register("dirt", () -> new BaseVariant(() -> new ItemStack(Blocks.DIRT), 10));
     public static final RegistryObject<AbstractVariant> EMERALD = VARIANTS.register("emerald", () -> new MiningVariant(() -> new ItemStack(Blocks.EMERALD_ORE), 20));
-    public static final RegistryObject<AbstractVariant> COPPER = VARIANTS.register("copper", () -> new MiningVariant(() -> new ItemStack(Blocks.IRON_ORE), 20));
+    public static final RegistryObject<AbstractVariant> COPPER = VARIANTS.register("copper", () -> new MiningVariant(() -> new ItemStack(Blocks.COPPER_ORE), 20));
     public static final RegistryObject<AbstractVariant> LAPIS = VARIANTS.register("lapis_lazuli", () -> new MiningVariant(() -> new ItemStack(Blocks.LAPIS_ORE), 10));
     public static Predicate<WeepingAngel> BANNED_FROM_NETHER = weepingAngelEntity -> {
         if (weepingAngelEntity.level.dimension() == Level.NETHER) {

@@ -1,11 +1,16 @@
 package me.suff.mc.angels;
 
+import me.suff.mc.angels.client.models.entity.WAModels;
+import me.suff.mc.angels.client.renders.entities.AngelRender;
+import me.suff.mc.angels.client.renders.entities.AnomalyRender;
+import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.world.WAWorld;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
@@ -16,6 +21,7 @@ import me.suff.mc.angels.utils.FortuneBonusEnchant;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -43,7 +49,6 @@ public class WeepingAngels {
     public static final ServerReflector VR_REFLECTOR = new ServerReflector();
     public static Logger LOGGER = LogManager.getLogger(NAME);
 
-
     public WeepingAngels() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
@@ -66,8 +71,8 @@ public class WeepingAngels {
         WAObjects.Blocks.BLOCK_ITEMS.register(bus);
         WAObjects.EntityEntries.ENTITIES.register(bus);
         WAObjects.Tiles.TILES.register(bus);
-        //TODO World  WAObjects.WorldGenEntries.FEATURES.register(bus);
-        //TODO World WAObjects.Structures.STRUCTURES.register(bus);
+        //WAWorld.STRUCTURES.register(bus);
+        WAWorld.FEATURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
         AngelParticles.TYPES.register(bus);
@@ -77,19 +82,25 @@ public class WeepingAngels {
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
-        //TODO World
-        /*    event.enqueueWork(() ->
+        event.enqueueWork(() ->
         {
-            WAObjects.setupStructures();
-            WAObjects.ConfiguredStructures.registerConfiguredStructures();
-            WAObjects.ConfiguredFeatures.registerConfiguredFeatures();
-        });*/
+            WAWorld.setupStructures();
+            WAWorld.ConfiguredFeatures.registerConfiguredFeatures();
+            WAWorld.registerConfiguredStructures();
+        });
         VR_REFLECTOR.init();
+    }
 
-        //TODO Tardis Stuff
-      /*  if (ModList.get().isLoaded("tardis")) {
-            TardisMod.enableTardis();
-        }*/
+    @SubscribeEvent
+    public void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
+        WAModels.init(definitions);
+    }
+
+    @SubscribeEvent
+    public void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(WAObjects.EntityEntries.WEEPING_ANGEL.get(), AngelRender::new);
+        event.registerEntityRenderer(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
+        event.registerEntityRenderer(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), CGRender::new);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

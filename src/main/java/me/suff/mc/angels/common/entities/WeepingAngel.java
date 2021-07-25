@@ -11,7 +11,6 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.NBTPatcher;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -277,8 +276,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Override
     public void load(CompoundTag compound) {
         super.load(compound);
-
-        NBTPatcher.angelaToVillager(compound, WAConstants.TYPE);
 
         if (compound.contains(WAConstants.POSE))
             setPose(WeepingAngelPose.getPose(compound.getString(WAConstants.POSE)));

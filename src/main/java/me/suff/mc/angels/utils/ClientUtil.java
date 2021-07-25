@@ -6,9 +6,6 @@ import me.suff.mc.angels.client.renders.blockentities.CoffinRenderer;
 import me.suff.mc.angels.client.renders.blockentities.PlinthRender;
 import me.suff.mc.angels.client.renders.blockentities.SnowAngelRenderer;
 import me.suff.mc.angels.client.renders.blockentities.StatueRender;
-import me.suff.mc.angels.client.renders.entities.AngelRender;
-import me.suff.mc.angels.client.renders.entities.AnomalyRender;
-import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -19,7 +16,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -53,17 +49,10 @@ public class ClientUtil {
     }
 
     public static void doClientStuff() {
-
-        WAModels.init();
-
         BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowAngelRenderer::new);
         BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.STATUE.get(), StatueRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
-
-        EntityRenderers.register(WAObjects.EntityEntries.WEEPING_ANGEL.get(), AngelRender::new);
-        EntityRenderers.register(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
-        EntityRenderers.register(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), CGRender::new);
 
         ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.SNOW_ANGEL.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
