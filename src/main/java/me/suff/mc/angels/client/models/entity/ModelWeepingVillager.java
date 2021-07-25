@@ -41,7 +41,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
         leg1 = root.getChild("leg1");
     }
 
-    public static LayerDefinition getModelData(){
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -82,7 +82,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
         nose.yRot = (float) Math.toRadians(0);
         nose.zRot = (float) Math.toRadians(0);
 
-        body.xRot = (float) Math.toRadians(0);
+        body.xRot = (float) Math.toRadians(17.5);
         body.yRot = (float) Math.toRadians(0);
         body.zRot = (float) Math.toRadians(0);
 
@@ -102,6 +102,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
             head.xRot = (float) Math.toRadians(32.5);
             head.yRot = (float) Math.toRadians(0);
             head.zRot = (float) Math.toRadians(0);
+            body.xRot = (float) Math.toRadians(-17.5);
 
             nose.xRot = (float) Math.toRadians(-17.5);
             arms.xRot = (float) Math.toRadians(-82.5);
@@ -115,7 +116,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
 
             body.xRot = (float) Math.toRadians(0);
             body.yRot = (float) Math.toRadians(0);
-            body.zRot = (float) Math.toRadians(0);
+            body.zRot = (float) Math.toRadians(90);
 
             arms.xRot = (float) Math.toRadians(-67.5);
             arms.yRot = (float) Math.toRadians(0);
@@ -146,12 +147,6 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
         return null;
-    }
-
-    public void setRotationAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
     }
 
     @Override

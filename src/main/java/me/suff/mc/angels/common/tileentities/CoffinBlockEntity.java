@@ -90,12 +90,14 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
         if (knockTime <= 0) {
-            knockTime = RAND.nextInt(1800);
+            knockTime = RAND.nextInt(1800 + 10);
         }
 
-        if (level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
-            level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundSource.BLOCKS, 1.0F * 16, 1.0F);
-            knockTime = RAND.nextInt(1800);
+        if (knockTime >= 0 && level.getGameTime() > 0) {
+            if (level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
+                level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundSource.BLOCKS, 1.0F * 16, 1.0F);
+                knockTime = RAND.nextInt(1800 + 10);
+            }
         }
 
         if (doingSomething && coffin.isPoliceBox()) {

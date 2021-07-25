@@ -1,4 +1,4 @@
-package me.suff.mc.angels.client.renders.tileentities;
+package me.suff.mc.angels.client.renders.blockentities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;

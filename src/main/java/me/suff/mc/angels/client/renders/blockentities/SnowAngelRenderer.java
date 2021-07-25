@@ -1,4 +1,4 @@
-package me.suff.mc.angels.client.renders.tileentities;
+package me.suff.mc.angels.client.renders.blockentities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -8,7 +8,6 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.utils.ClientUtil;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,14 +21,14 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     private ModelPart bodyModel;
     private ModelPart headModel;
     private ModelPart wingsModel;
-    
+
     public SnowAngelRenderer(BlockEntityRendererProvider.Context context) {
         this.armModel = context.bakeLayer(WAModels.SNOW_ANGEL_ARM);
         this.bodyModel = context.bakeLayer(WAModels.SNOW_ANGEL_BODY);
         this.headModel = context.bakeLayer(WAModels.SNOW_ANGEL_HEAD);
         this.wingsModel = context.bakeLayer(WAModels.SNOW_ANGEL_WING);
     }
-    
+
     public static ResourceLocation getTexture(SnowAngelBlockEntity snowAngelBlockEntity) {
         IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
         return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowAngelBlockEntity.getVariant());

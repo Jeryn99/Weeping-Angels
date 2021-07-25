@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 import static net.minecraft.world.level.block.SculkSensorBlock.WATERLOGGED;
 
 
-public class CoffinBlock extends BaseEntityBlock  {
+public class CoffinBlock extends BaseEntityBlock {
 
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
@@ -135,7 +135,7 @@ public class CoffinBlock extends BaseEntityBlock  {
     @Override
     public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
         super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
-        if(p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity){
+        if (p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity) {
             CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) p_60567_.getBlockEntity(p_60568_);
             coffinBlockEntity.setCoffin(AngelUtil.randomCoffin());
         }

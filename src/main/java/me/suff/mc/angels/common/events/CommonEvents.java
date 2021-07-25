@@ -54,12 +54,12 @@ public class CommonEvents {
 
         if (biomeCategory != Biome.BiomeCategory.NETHER && biomeCategory != Biome.BiomeCategory.THEEND) {
 
-                //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-                WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
-                    if (rl.equalsIgnoreCase(biomeRegistryKey.location().toString())) {
-                        biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
-                    }
-                });
+            //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
+            WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
+                if (rl.equalsIgnoreCase(biomeRegistryKey.location().toString())) {
+                    biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                }
+            });
         }
     }
 

@@ -2,13 +2,13 @@ package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.entity.*;
+import me.suff.mc.angels.client.renders.blockentities.CoffinRenderer;
+import me.suff.mc.angels.client.renders.blockentities.PlinthRender;
+import me.suff.mc.angels.client.renders.blockentities.SnowAngelRenderer;
+import me.suff.mc.angels.client.renders.blockentities.StatueRender;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
-import me.suff.mc.angels.client.renders.tileentities.CoffinRenderer;
-import me.suff.mc.angels.client.renders.tileentities.PlinthTileRender;
-import me.suff.mc.angels.client.renders.tileentities.SnowAngelRenderer;
-import me.suff.mc.angels.client.renders.tileentities.StatueRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -36,7 +36,7 @@ public class ClientUtil {
     public static final Map<AngelEnums.AngelType, EntityModel<WeepingAngel>> MODEL_MAP = new HashMap<>();
 
     public static EntityModel<WeepingAngel> getModelForAngel(AngelEnums.AngelType angelType) {
-        if(MODEL_MAP.isEmpty()){
+        if (MODEL_MAP.isEmpty()) {
             MODEL_MAP.put(AngelEnums.AngelType.CHERUB, new ModelAngelChild(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CHERUB)));
             MODEL_MAP.put(AngelEnums.AngelType.ANGELA_MC, new ModelAngelaAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ANGELA))); //ANGELA
             MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelEd(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ED))); //ED
@@ -57,7 +57,7 @@ public class ClientUtil {
         WAModels.init();
 
         BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowAngelRenderer::new);
-        BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthTileRender::new);
+        BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.STATUE.get(), StatueRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
 

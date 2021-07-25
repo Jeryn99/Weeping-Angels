@@ -193,7 +193,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
 
-
     public boolean isInCatacomb() {
         //TODO Structure stuff
         /*     if (level instanceof ServerLevel) {

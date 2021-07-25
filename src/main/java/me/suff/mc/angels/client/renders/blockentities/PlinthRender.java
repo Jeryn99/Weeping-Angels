@@ -1,4 +1,4 @@
-package me.suff.mc.angels.client.renders.tileentities;
+package me.suff.mc.angels.client.renders.blockentities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -19,9 +19,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
-public class PlinthTileRender implements BlockEntityRenderer<PlinthBlockEntity>, BlockEntityRendererProvider<PlinthBlockEntity> {
+public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, BlockEntityRendererProvider<PlinthBlockEntity> {
 
-    public PlinthTileRender(Context p_173571_){}
+    public PlinthRender(Context p_173571_) {
+    }
 
     @Override
     public void render(PlinthBlockEntity plinthBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
@@ -53,6 +54,6 @@ public class PlinthTileRender implements BlockEntityRenderer<PlinthBlockEntity>,
 
     @Override
     public BlockEntityRenderer<PlinthBlockEntity> create(Context p_173571_) {
-        return new PlinthTileRender(p_173571_);
+        return new PlinthRender(p_173571_);
     }
 }

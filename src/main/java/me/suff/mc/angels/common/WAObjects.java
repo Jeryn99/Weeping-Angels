@@ -2,8 +2,8 @@ package me.suff.mc.angels.common;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.blocks.*;
-import me.suff.mc.angels.common.entities.Portal;
 import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
+import me.suff.mc.angels.common.entities.Portal;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import me.suff.mc.angels.common.items.ChiselItem;

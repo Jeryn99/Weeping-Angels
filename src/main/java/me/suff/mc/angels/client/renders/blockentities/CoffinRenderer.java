@@ -1,4 +1,4 @@
-package me.suff.mc.angels.client.renders.tileentities;
+package me.suff.mc.angels.client.renders.blockentities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -56,7 +56,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         //Handle actual rendering
         ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
         if (!tileEntityIn.getCoffin().isPoliceBox()) {
-            coffinModel.getChild("Door").yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
+            coffinModel.getChild("coffin_door").yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         } else {
             matrixStack.translate(0, 0.5, 0);

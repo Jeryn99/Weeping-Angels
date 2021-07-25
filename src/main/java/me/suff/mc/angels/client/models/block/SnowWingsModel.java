@@ -18,7 +18,7 @@ public class SnowWingsModel extends EntityModel<Entity> {
         this.rightWing = root.getChild("rightWing");
     }
 
-    public static LayerDefinition getModelData(){
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 

@@ -7,7 +7,6 @@ import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;

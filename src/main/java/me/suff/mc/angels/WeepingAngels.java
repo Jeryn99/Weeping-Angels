@@ -10,8 +10,11 @@ import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
+import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
+import me.suff.mc.angels.utils.FortuneBonusEnchant;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -73,7 +76,7 @@ public class WeepingAngels {
 
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
-
+        AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         //TODO World
         /*    event.enqueueWork(() ->
         {
@@ -104,7 +107,7 @@ public class WeepingAngels {
         generator.addProvider(new WALootTables(generator));
     }
 
-    public void onAttributeAssign(EntityAttributeCreationEvent event){
+    public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
         event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }

@@ -8,7 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class PortalModel extends EntityModel<Portal>  {
+public class PortalModel extends EntityModel<Portal> {
 
     private final ModelPart PortalMain;
     private final ModelPart PortalFrontage;
@@ -20,7 +20,7 @@ public class PortalModel extends EntityModel<Portal>  {
         this.PortalFrontage = root.getChild("PortalFrontage");
     }
 
-    public static LayerDefinition getModelData(){
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 

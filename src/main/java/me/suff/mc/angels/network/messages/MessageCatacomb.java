@@ -1,6 +1,6 @@
 package me.suff.mc.angels.network.messages;
 
-import me.suff.mc.angels.client.ClientEvents;
+import me.suff.mc.angels.common.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;

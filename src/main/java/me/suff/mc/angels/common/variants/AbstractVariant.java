@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
 
-    private Predicate<WeepingAngel> variantTest;
+    private final Predicate<WeepingAngel> variantTest;
     private boolean isHeadless = false;
 
     public AbstractVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {

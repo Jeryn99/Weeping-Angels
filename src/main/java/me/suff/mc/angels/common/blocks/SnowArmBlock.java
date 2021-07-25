@@ -2,7 +2,6 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;

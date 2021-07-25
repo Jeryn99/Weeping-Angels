@@ -4,7 +4,7 @@
       "predicate": {
         "weeping_angels:angel_type": 0
       },
-      "model": "weeping_angels:item/angel/angela"
+      "model": "weeping_angels:item/angel/villager"
     },
     {
       "predicate": {
@@ -22,23 +22,11 @@
       "predicate": {
         "weeping_angels:angel_type": 3
       },
-      "model": "weeping_angels:item/angel/ed_angel_child"
+      "model": "weeping_angels:item/angel/cherub"
     },
     {
       "predicate": {
         "weeping_angels:angel_type": 4
-      },
-      "model": "weeping_angels:item/angel/vio_1"
-    },
-    {
-      "predicate": {
-        "weeping_angels:angel_type": 5
-      },
-      "model": "weeping_angels:item/angel/vio_2"
-    },
-    {
-      "predicate": {
-        "weeping_angels:angel_type": 6
       },
       "model": "weeping_angels:item/angel/a_dizzle"
     }

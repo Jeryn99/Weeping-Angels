@@ -49,20 +49,16 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         this.RightWing = WeepingCherubFix.getChild("RightWing");
     }
 
-    public static LayerDefinition getModelData(){
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition WeepingCherubFix = partdefinition.addOrReplaceChild("WeepingCherubFix", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
         PartDefinition LeftLeg = WeepingCherubFix.addOrReplaceChild("LeftLeg", CubeListBuilder.create().texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.9F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-
         PartDefinition RightLeg = WeepingCherubFix.addOrReplaceChild("RightLeg", CubeListBuilder.create().texOffs(19, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.9F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-
         PartDefinition LeftArm = WeepingCherubFix.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(53, 53).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, -21.5F, 0.0F, 0.0F, 0.0F, 0.0F));
-
         PartDefinition RightArm = WeepingCherubFix.addOrReplaceChild("RightArm", CubeListBuilder.create().texOffs(50, 17).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, -21.5F, 0.0F, 0.0F, 0.0F, 0.0F));
-
         PartDefinition Body = WeepingCherubFix.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(33, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(29, 30).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 15.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offsetAndRotation(0.0F, -24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
@@ -72,7 +68,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         PartDefinition LeftWing = WeepingCherubFix.addOrReplaceChild("LeftWing", CubeListBuilder.create().texOffs(0, 50).addBox(0.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -19.0F, 2.0F, 0.0F, -0.7854F, 0.0F));
 
         PartDefinition RightWing = WeepingCherubFix.addOrReplaceChild("RightWing", CubeListBuilder.create().texOffs(0, 34).addBox(-9.0F, -7.0F, 0.0F, 9.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -19.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
-        return LayerDefinition.create(meshdefinition, 128, 128);
+        return LayerDefinition.create(meshdefinition, 67, 69);
     }
 
 
@@ -196,12 +192,6 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     @Override
     public Iterable<ModelPart> parts() {
         return ImmutableList.of(this.Body, this.LeftWing, this.RightWing, this.Head, this.LeftArm, this.RightArm, this.LeftLeg, this.RightLeg, this.WeepingCherubFix);
-    }
-
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
     }
 
     @Override
