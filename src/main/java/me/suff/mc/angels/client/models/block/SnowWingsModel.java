@@ -10,8 +10,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 public class SnowWingsModel extends EntityModel<Entity> {
-    private ModelPart rightWing;
-    private ModelPart leftWing;
+    private final ModelPart rightWing;
+    private final ModelPart leftWing;
 
     public SnowWingsModel(ModelPart root) {
         this.leftWing = root.getChild("leftWing");

@@ -51,11 +51,6 @@ public class WATeleporter {
             }
         }
 
-        //TODO TARDIS STUFF
-  /*      if (ModList.get().isLoaded("tardis")) {
-            allowedDimensions = TardisMod.cleanseDimensions(allowedDimensions);
-        }*/
-
         allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));

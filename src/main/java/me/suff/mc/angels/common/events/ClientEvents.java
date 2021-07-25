@@ -17,7 +17,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawSelectionEvent;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -48,7 +47,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onBlockHighlight(DrawSelectionEvent.HighlightBlock event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
+        if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
             BlockHitResult blockRayTraceResult = (BlockHitResult) minecraft.hitResult;
             LocalPlayer playerEntity = minecraft.player;
             ClientLevel world = minecraft.level;
@@ -62,14 +61,10 @@ public class ClientEvents {
         if (Minecraft.getInstance().player == null) return;
         SoundManager sound = Minecraft.getInstance().getSoundManager();
         if (isInCatacombs) {
-
             sound.stop(null, SoundSource.MUSIC);
-
-
             if (iSound == null) {
                 iSound = SimpleSoundInstance.forAmbientAddition(WAObjects.Sounds.CATACOMB.get());
             }
-
             if (!sound.isActive(iSound)) {
                 sound.play(iSound);
             }
@@ -85,25 +80,25 @@ public class ClientEvents {
         DateChecker.tick();
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
             //TODO GlStateManager._fogMode(GlStateManager.EXP.value);
             event.setCanceled(true);
-            event.setDensity(0.07F);
+            event.setDensity(2);
         }
     }
 
     @SubscribeEvent
     public static void onSetupFogColor(EntityViewRenderEvent.RenderFogEvent.FogColors event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
-/*           event.setRed(105 / 255F);
+*//*           event.setRed(105 / 255F);
             event.setGreen(105 / 255F);
-            event.setBlue(105 / 255F);*/
+            event.setBlue(105 / 255F);*//*
             event.setRed(0.14F);
             event.setGreen(0.15F);
             event.setBlue(0.22F);
         }
-    }
+    }*/
 
 }

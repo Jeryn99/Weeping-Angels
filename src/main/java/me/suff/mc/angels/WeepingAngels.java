@@ -71,7 +71,7 @@ public class WeepingAngels {
         WAObjects.Blocks.BLOCK_ITEMS.register(bus);
         WAObjects.EntityEntries.ENTITIES.register(bus);
         WAObjects.Tiles.TILES.register(bus);
-        //WAWorld.STRUCTURES.register(bus);
+        WAWorld.STRUCTURES.register(bus);
         WAWorld.FEATURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);

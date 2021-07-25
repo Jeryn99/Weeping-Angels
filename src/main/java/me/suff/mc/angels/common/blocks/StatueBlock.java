@@ -92,24 +92,6 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
                     statue.setAngelVarients(AngelTypes.getWeightedRandom());
                 }
-
-             /*  if (true) {
-                    int offset = 0;
-                    int many = 0;
-                    for (AngelEnums.AngelType type : AngelEnums.AngelType.values()) {
-                            for (WeepingAngelPose angelPose : WeepingAngelPose.values()) {
-                                if (type == AngelEnums.AngelType.VILLAGER) {
-                                    world.setBlockAndUpdate(pos.west(offset), WAObjects.Blocks.STATUE.get().defaultBlockState());
-                                    StatueBlockEntity statueTile = (StatueBlockEntity) world.getBlockEntity(pos.west(offset));
-                                    statueTile.setPose(angelPose);
-                                    statueTile.setAngelType(type);
-                                    offset++;
-                                    many++;
-                            }
-                        }
-                    }
-                    System.out.println(many);
-                }*/
             }
         }
     }

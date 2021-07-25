@@ -12,7 +12,7 @@ import static me.suff.mc.angels.common.variants.AngelTypes.BANNED_FROM_NETHER;
 public class BaseVariant extends AbstractVariant {
 
     private final int rarity;
-    private Supplier<ItemStack> dropStack;
+    private final Supplier<ItemStack> dropStack;
 
     public BaseVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngel> variantTest) {
         super(variantTest);

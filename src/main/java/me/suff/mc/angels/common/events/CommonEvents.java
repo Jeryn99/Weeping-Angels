@@ -167,22 +167,22 @@ public class CommonEvents {
             }
             if (biomeCategory != Biome.BiomeCategory.NONE && biomeCategory != Biome.BiomeCategory.OCEAN) {
 
-               /* //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
-                boolean shouldAdd = biomeCategory != Biome.Category.ICY && biomeCategory != Biome.Category.MUSHROOM && biomeCategory != Biome.Category.JUNGLE && biomeCategory != Biome.Category.OCEAN && biomeCategory != Biome.Category.RIVER && biomeCategory != Biome.Category.DESERT;
+                //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
+                boolean shouldAdd = biomeCategory != Biome.BiomeCategory.ICY && biomeCategory != Biome.BiomeCategory.MUSHROOM && biomeCategory != Biome.BiomeCategory.JUNGLE && biomeCategory != Biome.BiomeCategory.OCEAN && biomeCategory != Biome.BiomeCategory.RIVER && biomeCategory != Biome.BiomeCategory.DESERT;
                 if (WAConfig.CONFIG.genGraveyard.get()) {
                     if (shouldAdd) {
-                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAObjects.ConfiguredStructures.CONFIGURED_GRAVEYARD);
+                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
                         WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
                     }
                 }
 
-                //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
+                //Catacombs Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
                 if (WAConfig.CONFIG.genCatacombs.get()) {
                     if (shouldAdd) {
-                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredStructures.GRAVEYARD);
+                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
                         WeepingAngels.LOGGER.info("Added Catacombs to: " + biomeLoadingEvent.getName());
                     }
-                }*/
+                }
 
 
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
@@ -196,16 +196,15 @@ public class CommonEvents {
     }
 
 
-  /*  @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void addDimensionalSpacing(final WorldEvent.Load event) {
-        if (event.getWorld() instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) event.getWorld();
+        if (event.getWorld() instanceof ServerLevel serverWorld) {
 
-            *//* Prevent spawning our structure in Vanilla's superflat world as
+            /* Prevent spawning our structure in Vanilla's superflat world as
              * people seem to want their superflat worlds free of modded structures.
              * Also, vanilla superflat is really tricky and buggy to work with as mentioned in WAObjects#registerConfiguredStructure
              * BiomeModificationEvent does not seem to fire for superflat biomes...you can't add structures to superflat without mixin it seems.
-             * *//*
+             * */
             if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && serverWorld.dimension().equals(Level.OVERWORLD)) {
                 return;
             }
@@ -217,11 +216,10 @@ public class CommonEvents {
                 serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
             }
         }
-    }*/
+    }
 
     public static boolean isAttackerHoldingPickaxe(Entity entity) {
-        if (entity instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) entity;
+        if (entity instanceof LivingEntity livingEntity) {
             return livingEntity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof PickaxeItem;
         }
         return false;

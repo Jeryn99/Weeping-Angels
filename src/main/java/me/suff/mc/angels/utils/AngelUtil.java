@@ -8,6 +8,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.world.WAWorld;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.Serializer;
@@ -202,17 +204,14 @@ public class AngelUtil {
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-        //TODO World Stuff
-        /*   if (playerEntity.level instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) playerEntity.level;
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).isValid();
+        if (playerEntity.level instanceof ServerLevel serverWorld) {
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAObjects.Structures.CATACOMBS.get()).getBoundingBox();
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
         }
-*/
         return false;
     }
 

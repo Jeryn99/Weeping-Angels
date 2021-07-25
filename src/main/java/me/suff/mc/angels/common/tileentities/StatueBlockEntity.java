@@ -8,18 +8,25 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.world.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+
+import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, IPlinth {
 
@@ -86,11 +93,10 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, StatueBlockEntity p_155256_) {
-        //TODO Re-add structures
-        /*   if (level.isClientSide) return;
+        if (level.isClientSide) return;
 
         ServerLevel world = (ServerLevel) level;
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAObjects.Structures.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAWorld.GRAVEYARD.get()).isValid();
 
         if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
             Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
@@ -103,7 +109,6 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
-*/
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
             WeepingAngel angel = new WeepingAngel(level);
             angel.setVarient(angelVariant);

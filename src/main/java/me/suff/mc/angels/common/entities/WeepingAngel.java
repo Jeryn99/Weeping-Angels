@@ -9,6 +9,7 @@ import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.world.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.WATeleporter;
@@ -193,10 +194,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     public boolean isInCatacomb() {
-        //TODO Structure stuff
-        /*     if (level instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) level;
-            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), blockPosition(), 100, false);
+        if (level instanceof ServerLevel serverWorld) {
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
 
             if (catacomb == null) {
                 return false;
@@ -204,7 +203,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
             return distanceToSqr(catacomb.getX(), catacomb.getY(), catacomb.getZ()) < 50;
         }
-*/
+
         return false;
     }
 
@@ -499,7 +498,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public boolean isCherub() {
-        return getAngelType() == AngelEnums.AngelType.CHERUB;
+        return getAngelType() == AngelEnums.AngelType.ED_ANGEL_CHILD;
     }
 
     public AngelEnums.AngelType getAngelType() {

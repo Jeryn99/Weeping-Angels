@@ -17,10 +17,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEntity>, BlockEntityRendererProvider<SnowAngelBlockEntity> {
 
-    private ModelPart armModel;
-    private ModelPart bodyModel;
-    private ModelPart headModel;
-    private ModelPart wingsModel;
+    private final ModelPart armModel;
+    private final ModelPart bodyModel;
+    private final ModelPart headModel;
+    private final ModelPart wingsModel;
 
     public SnowAngelRenderer(BlockEntityRendererProvider.Context context) {
         this.armModel = context.bakeLayer(WAModels.SNOW_ANGEL_ARM);
