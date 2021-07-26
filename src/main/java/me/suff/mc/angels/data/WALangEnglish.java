@@ -18,6 +18,7 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.Blocks.STATUE.get(), "Angel Statue");
         add(WAObjects.Blocks.PLINTH.get(), "Angel Plinth");
         add(WAObjects.Blocks.KONTRON_ORE.get(), "Kontron Ore");
+        add(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), "Kontron Ore Deepslate");
         add(WAObjects.Blocks.COFFIN.get(), "Coffin");
 
         /* Items */

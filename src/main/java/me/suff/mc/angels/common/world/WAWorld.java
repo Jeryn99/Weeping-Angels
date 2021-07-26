@@ -73,7 +73,7 @@ public class WAWorld {
 
     public static class ConfiguredFeatures {
 
-        public static final ImmutableList<OreConfiguration.TargetBlockState> KONTRON_TARGET = ImmutableList.of(OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()));
+        public static final ImmutableList<OreConfiguration.TargetBlockState> KONTRON_TARGET = ImmutableList.of(OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState()));
         public static final ConfiguredDecorator<HeightmapConfiguration> HEIGHTMAP_DOUBLE = FeatureDecorator.HEIGHTMAP_SPREAD_DOUBLE.configured(new HeightmapConfiguration(Heightmap.Types.MOTION_BLOCKING));
         public static final ConfiguredDecorator<?> HEIGHTMAP_DOUBLE_SQUARE = HEIGHTMAP_DOUBLE.squared();
         public static final ConfiguredFeature<?, ?> CONFIGURED_SNOW_ANGEL = ANGEL_SNOW.get().configured((new RandomPatchConfiguration.GrassConfigurationBuilder(new SimpleStateProvider(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()), SimpleBlockPlacer.INSTANCE)).tries(5).build()).decorated(HEIGHTMAP_DOUBLE_SQUARE).count(2);

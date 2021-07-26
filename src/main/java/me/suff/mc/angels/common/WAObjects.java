@@ -24,6 +24,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -72,7 +73,7 @@ public class WAObjects {
 
     @SubscribeEvent
     public static void regBlockItems(RegistryEvent.Register<Item> e) {
-        genBlockItems(Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
+        genBlockItems(Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.KONTRON_ORE_DEEPSLATE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
     }
 
     // Tile Creation
@@ -137,7 +138,8 @@ public class WAObjects {
         public static final RegistryObject<Block> SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowArmBlock()));
         public static final RegistryObject<Block> CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
         public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
-        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
+        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.STONE, 3, 3)));
+        public static final RegistryObject<Block> KONTRON_ORE_DEEPSLATE = BLOCKS.register("kontron_ore_deepslate", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.DEEPSLATE, 4.5F, 3)));
         public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
         public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.of(Material.WOOD).noOcclusion())));
     }
