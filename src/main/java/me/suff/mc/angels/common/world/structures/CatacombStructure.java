@@ -7,25 +7,27 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.OceanRuinPieces;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
-
-import java.util.Optional;
+import org.apache.logging.log4j.Level;
 
 public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration> {
+
+    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
 
     public CatacombStructure(Codec<NoneFeatureConfiguration> p_67039_) {
         super(p_67039_);
@@ -33,7 +35,7 @@ public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration
 
     @Override
     public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.UNDERGROUND_STRUCTURES;
+        return GenerationStep.Decoration.RAW_GENERATION;
     }
 
     @Override
@@ -41,53 +43,45 @@ public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration
         return FeatureStart::new;
     }
 
+    @Override
+    protected boolean isFeatureChunk(ChunkGenerator p_160455_, BiomeSource p_160456_, long p_160457_, WorldgenRandom p_160458_, ChunkPos p_160459_, Biome p_160460_, ChunkPos p_160461_, NoneFeatureConfiguration p_160462_, LevelHeightAccessor p_160463_) {
+        return super.isFeatureChunk(p_160455_, p_160456_, p_160457_, p_160458_, p_160459_, p_160460_, p_160461_, p_160462_, p_160463_);
+    }
+
     public static class FeatureStart extends StructureStart<NoneFeatureConfiguration> {
-        public FeatureStart(StructureFeature<NoneFeatureConfiguration> p_160489_, ChunkPos p_160490_, int p_160491_, long p_160492_) {
-            super(p_160489_, p_160490_, p_160491_, p_160492_);
+        public FeatureStart(StructureFeature<NoneFeatureConfiguration> structureFeature, ChunkPos p_160490_, int p_160491_, long p_160492_) {
+            super(structureFeature, p_160490_, p_160491_, p_160492_);
         }
 
 
         @Override
         public void generatePieces(RegistryAccess dynamicRegistryManager, ChunkGenerator chunkGenerator, StructureManager structureManager, ChunkPos p_160505_, Biome p_160506_, NoneFeatureConfiguration p_160507_, LevelHeightAccessor heightLimitView) {
 
-            int x = getChunkPos().x * 16;
-            int z = getChunkPos().z * 16;
+            ChunkPos chunkPos = getChunkPos();
+            int x = chunkPos.x * 16;
+            int z = chunkPos.z * 16;
 
-            BlockPos.MutableBlockPos centerPos = new BlockPos.MutableBlockPos(x, 0, z);
 
-            Optional<? extends Registry<StructureTemplatePool>> optional = dynamicRegistryManager.registry(Registry.TEMPLATE_POOL_REGISTRY);
-            optional.ifPresent(structurePoolElementTypes -> {
+            BlockPos blockpos = new BlockPos(x, Mth.clamp(random.nextInt(45), 30, 45), z);
+            String choosen = variants[random.nextInt(variants.length)];
 
-                JigsawPlacement jigsawPlacement = new JigsawPlacement(() -> structurePoolElementTypes.get(new ResourceLocation(WeepingAngels.MODID, "run_down_house/start_pool")), 10);
+            JigsawConfiguration structureSettingsAndStartPool = new JigsawConfiguration(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 10);
 
-                // All a structure has to do is call this method to turn it into a jigsaw based structure!
-                PoolElementStructurePiece.generate(
-                        dynamicRegistryManager,
-                        structureManager,
-                        OceanRuinPieces::new,
-                        chunkGenerator,
-                        structureManager,
-                        centerPos, // Position of the structure. Y value is ignored if last parameter is set to true.
-                        this, // The class instance that holds the list that will be populated with the jigsaw pieces after this method.
-                        this.random,
-                        false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
-                        // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
-                        true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                        // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                        heightLimitView);
+            JigsawPlacement.addPieces(
+                    dynamicRegistryManager,
+                    structureSettingsAndStartPool,
+                    PoolElementStructurePiece::new,
+                    chunkGenerator,
+                    structureManager,
+                    blockpos,
+                    this,
+                    this.random,
+                    false,
+                    false,
+                    heightLimitView);
 
-                this.pieces.forEach(piece -> piece.move(0, 1, 0));
-                this.pieces.forEach(piece -> piece.getBoundingBox().move(0, -1, 0));
 
-                Vec3i structureCenter = this.pieces.get(0).getBoundingBox().getCenter();
-                int xOffset = centerPos.getX() - structureCenter.getX();
-                int zOffset = centerPos.getZ() - structureCenter.getZ();
-                for (StructurePiece structurePiece : this.pieces) {
-                    structurePiece.move(xOffset, 0, zOffset);
-                }
-
-                this.createBoundingBox();
-            });
+            this.createBoundingBox();
         }
 
     }
