@@ -149,11 +149,11 @@ public class WAObjects {
 
         public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
         public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
-        public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem<>()));
+        public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem()));
         public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().tab(WATabs.MAIN_TAB))));
         public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().stacksTo(1).tab(WATabs.MAIN_TAB))));
-        public static final RegistryObject<Item> SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new RecordItem(6, Sounds.DISC_SALLY::get, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
-        public static final RegistryObject<Item> TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new RecordItem(6, Sounds.DISC_TIME_PREVAILS::get, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
+        public static final RegistryObject<Item> SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new RecordItem(6, Sounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
+        public static final RegistryObject<Item> TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new RecordItem(6, Sounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
     }
 
     // Sounds

@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class AngelSpawnerItem<E extends WeepingAngel> extends Item {
+public class AngelSpawnerItem extends Item {
 
     public AngelSpawnerItem() {
         super(new Properties().tab(WATabs.MAIN_TAB));
@@ -60,15 +60,15 @@ public class AngelSpawnerItem<E extends WeepingAngel> extends Item {
         Level worldIn = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
-        InteractionHand hand = player.getUsedItemHand();
 
         if (!worldIn.isClientSide) {
-            WeepingAngel angel = WAObjects.EntityEntries.WEEPING_ANGEL.get().create(worldIn);
-            angel.setType(getType(context.getItemInHand()));
+            WeepingAngel angel = new WeepingAngel(worldIn);
             angel.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-            angel.lookAt(player, 90.0F, 90.0F);
-            player.getItemInHand(hand).shrink(1);
+            if (player != null) {
+                angel.lookAt(player, 90.0F, 90.0F);
+            }
             worldIn.addFreshEntity(angel);
+            angel.setType(getType(context.getItemInHand()));
 
             if (!player.isCreative()) {
                 context.getItemInHand().shrink(1);

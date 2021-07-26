@@ -57,7 +57,6 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
     public final ForgeConfigSpec.BooleanValue aggroCreative;
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
-    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedTypes;
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
@@ -88,7 +87,6 @@ public class WAConfig {
         moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
         blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
-        allowedTypes = builder.translation("config.weeping_angels.allowedTypes").comment("Note: This a list of Angel Variations that are allowed").defineList("allowedTypes", this::genAngelTypes, String.class::isInstance);
         builder.pop();
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtil.EnumTeleportType.RANDOM_PLACE);

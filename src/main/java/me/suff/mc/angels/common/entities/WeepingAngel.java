@@ -343,7 +343,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void tick() {
-        modelCheck();
         super.tick();
         if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
             setNoAi(false);
@@ -358,13 +357,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
         }
     }
 
-    private void modelCheck() {
-        for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
-            if (!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())) {
-                setType(WAConfig.CONFIG.allowedTypes.get().get(0));
-            }
-        }
-    }
 
     @Override
     protected PathNavigation createNavigation(Level worldIn) {
