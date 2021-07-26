@@ -43,11 +43,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
-import static me.suff.mc.angels.common.world.structures.GraveyardPieces.getRandomPottedPlant;
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
 public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguration> {
@@ -110,6 +111,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         public GraveyardPiece(ServerLevel p_162441_, CompoundTag p_162442_) {
             super(WAPieces.GRAVEYARD, p_162442_, p_162441_, (p_162451_) -> makeSettings(Rotation.valueOf(p_162442_.getString("Rot")), p_162451_));
+
         }
 
         private static StructurePlaceSettings makeSettings(Rotation p_162447_, ResourceLocation p_162448_) {
@@ -193,7 +195,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                     if (signTileEntity != null) {
                         signTileEntity.setMessage(0, new TranslatableComponent("========"));
                         signTileEntity.setMessage(1, new TranslatableComponent(USERNAMES[random.nextInt(USERNAMES.length - 1)]));
-                        signTileEntity.setMessage(2, new TranslatableComponent(GraveyardPieces.createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
+                        signTileEntity.setMessage(2, new TranslatableComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
                         signTileEntity.setMessage(3, new TranslatableComponent("========"));
                         serverLevelAccessor.removeBlock(blockPos, false);
                         serverLevelAccessor.setBlock(blockPos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
@@ -202,6 +204,18 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                     serverLevelAccessor.removeBlock(blockPos, false);
                 }
             }
+        }
+
+        public static LocalDate createRandomDate() {
+            long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
+            long endEpochDay = LocalDate.now().toEpochDay();
+            long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
+            return LocalDate.ofEpochDay(randomDay);
+        }
+
+        public static Block getRandomPottedPlant(Random random) {
+            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
+            return plants.get(random.nextInt(plants.size()));
         }
 
         private void loadNames() throws IOException {

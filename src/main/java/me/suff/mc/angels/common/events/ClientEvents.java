@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.events;
 
+import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
