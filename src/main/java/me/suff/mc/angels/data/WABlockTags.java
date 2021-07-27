@@ -27,6 +27,9 @@ public class WABlockTags extends BlockTagsProvider {
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
         add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
+        add(BlockTags.MINEABLE_WITH_PICKAXE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
+
+
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (block.getRegistryName().getNamespace().contains("tardis")) continue;
             if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
