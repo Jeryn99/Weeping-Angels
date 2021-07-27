@@ -78,57 +78,74 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
 
-        nose.xRot = (float) Math.toRadians(0);
-        nose.yRot = (float) Math.toRadians(0);
-        nose.zRot = (float) Math.toRadians(0);
-
-        body.xRot = (float) Math.toRadians(17.5);
+        //Reset all
+        body.xRot = (float) Math.toRadians(0);
         body.yRot = (float) Math.toRadians(0);
         body.zRot = (float) Math.toRadians(0);
+        wing0.xRot = (float) Math.toRadians(0);
+        wing2.xRot = (float) Math.toRadians(0);
+        head.xRot = (float) Math.toRadians(0);
+        head.yRot = (float) Math.toRadians(0);
+        head.zRot = (float) Math.toRadians(0);
+        nose.xRot = (float) Math.toRadians(0);
+        arms.xRot = (float) Math.toRadians(0);
+        leg1.xRot = (float) Math.toRadians(0);
+        leg0.xRot = (float) Math.toRadians(0);
 
-        arms.xRot = (float) Math.toRadians(-67.5);
-        arms.yRot = (float) Math.toRadians(0);
-        arms.zRot = (float) Math.toRadians(0);
+        boolean isAngry = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY || pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM;
+        float angleX = isAngry ? 20F : 0;
+        float angleY = isAngry ? 60F : 45F;
+        float angleZ = 0;
 
-        wing0.xRot = 0.1745F;
-        wing0.yRot = -1.0472F;
-        wing0.zRot = (float) Math.toRadians(0);
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM) {
+            angleY += 10F;
+            angleX -= 10F;
+        }
 
-        wing2.xRot = 0.1745F;
-        wing2.yRot = 1.0472F;
-        wing2.zRot = (float) Math.toRadians(0);
+        wing2.xRot = (float) Math.toRadians(angleX);
+        wing2.yRot = (float) Math.toRadians(angleY);
+        wing2.zRot = (float) Math.toRadians(angleZ);
+        wing0.xRot = (float) Math.toRadians(angleX);
+        wing0.yRot = (float) Math.toRadians(-angleY);
+        wing0.zRot = (float) Math.toRadians(angleZ);
 
-        if (pose == WeepingAngelPose.HIDING) {
-            head.xRot = (float) Math.toRadians(32.5);
-            head.yRot = (float) Math.toRadians(0);
-            head.zRot = (float) Math.toRadians(0);
-            body.xRot = (float) Math.toRadians(-17.5);
-
-            nose.xRot = (float) Math.toRadians(-17.5);
-            arms.xRot = (float) Math.toRadians(-82.5);
+        if (pose == WeepingAngelPose.IDLE) {
             return;
         }
 
-        if (pose == WeepingAngelPose.IDLE || pose == WeepingAngelPose.SHY) {
-            head.xRot = (float) Math.toRadians(0);
-            head.yRot = (float) Math.toRadians(0);
-            head.zRot = (float) Math.toRadians(0);
 
-            body.xRot = (float) Math.toRadians(0);
+
+        if (pose == WeepingAngelPose.SHY || pose == WeepingAngelPose.HIDING) {
+            nose.xRot = (float) Math.toRadians(-30);
+            nose.yRot = (float) Math.toRadians(0);
+            nose.zRot = (float) Math.toRadians(0);
+
+            head.xRot = (float) Math.toRadians(17.5);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(-10);
+            return;
+        }
+
+        if(pose == WeepingAngelPose.APPROACH || pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY){
+            body.xRot = (float) Math.toRadians(15);
             body.yRot = (float) Math.toRadians(0);
-            body.zRot = (float) Math.toRadians(90);
+            body.zRot = (float) Math.toRadians(0);
 
-            arms.xRot = (float) Math.toRadians(-67.5);
-            arms.yRot = (float) Math.toRadians(0);
-            arms.zRot = (float) Math.toRadians(0);
-            return;
-        }
+            nose.xRot = (float) Math.toRadians(-30);
+            nose.yRot = (float) Math.toRadians(0);
+            nose.zRot = (float) Math.toRadians(0);
 
-        if (pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY) {
-            head.xRot = (float) Math.toRadians(-32.5);
-            body.xRot = (float) Math.toRadians(17.5);
-            wing2.xRot = 0.1745F * 2;
-            wing0.xRot = 0.1745F * 2;
+            head.xRot = (float) Math.toRadians(-30);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(0);
+
+            leg0.xRot = (float) Math.toRadians(-30);
+            leg0.yRot = (float) Math.toRadians(0);
+            leg0.zRot = (float) Math.toRadians(0);
+
+            leg1.xRot = (float) Math.toRadians(30);
+            leg1.yRot = (float) Math.toRadians(0);
+            leg1.zRot = (float) Math.toRadians(0);
             return;
         }
 
