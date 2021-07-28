@@ -6,7 +6,7 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

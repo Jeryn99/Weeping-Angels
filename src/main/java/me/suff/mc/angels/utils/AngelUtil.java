@@ -5,8 +5,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
-import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.world.WAWorld;
 import net.minecraft.core.BlockPos;
@@ -49,7 +49,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-import static me.suff.mc.angels.common.tileentities.CoffinBlockEntity.Coffin.*;
+import static me.suff.mc.angels.common.blockentities.CoffinBlockEntity.Coffin.*;
 
 public class AngelUtil {
 

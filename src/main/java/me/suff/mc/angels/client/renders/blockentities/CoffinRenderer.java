@@ -5,7 +5,7 @@ import com.mojang.math.Vector3f;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
-import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;

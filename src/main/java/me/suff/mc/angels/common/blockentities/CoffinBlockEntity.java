@@ -1,4 +1,4 @@
-package me.suff.mc.angels.common.tileentities;
+package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;

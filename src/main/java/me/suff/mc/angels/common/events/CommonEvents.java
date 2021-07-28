@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.events;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.world.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
@@ -9,6 +10,7 @@ import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -28,14 +31,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -44,6 +51,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Mod.EventBusSubscriber
@@ -55,6 +63,40 @@ public class CommonEvents {
         DamageSource damageSource = event.getSource();
         if (damageSource == WAObjects.ANGEL_NECK_SNAP) {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onOpenChestInGraveYard(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getWorld().isClientSide) return;
+        ServerLevel world = (ServerLevel) event.getWorld();
+        BlockPos pos = event.getPos();
+        Player player = event.getPlayer();
+
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).isValid();
+
+        if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
+            if (isGraveYard && !player.getAbilities().instabuild) {
+                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).getBoundingBox();
+                boolean canPlaySound = false;
+                for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
+                    BlockPos blockPos = iterator.next();
+                    BlockState blockState = world.getBlockState(blockPos);
+                    if (blockState.getBlock() == WAObjects.Blocks.STATUE.get()) {
+                        canPlaySound = true;
+                        StatueBlockEntity statueTile = (StatueBlockEntity) world.getBlockEntity(blockPos);
+                        WeepingAngel angel = new WeepingAngel(world);
+                        angel.setType(statueTile.getAngelType());
+                        angel.moveTo(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, 0, 0);
+                        angel.setPose(statueTile.getPose());
+                        world.addFreshEntity(angel);
+                        world.removeBlock(blockPos, false);
+                    }
+                }
+                if (canPlaySound) {
+                    world.playSound(null, pos, WAObjects.Sounds.ANGEL_AMBIENT.get(), SoundSource.BLOCKS, 0.2F, 1);
+                }
+            }
         }
     }
 

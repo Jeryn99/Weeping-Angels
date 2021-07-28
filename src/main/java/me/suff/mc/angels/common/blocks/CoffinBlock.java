@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.blocks;
 
-import me.suff.mc.angels.common.tileentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

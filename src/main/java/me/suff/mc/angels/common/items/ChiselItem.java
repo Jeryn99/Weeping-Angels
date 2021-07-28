@@ -2,9 +2,9 @@ package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.tileentities.IPlinth;
-import me.suff.mc.angels.common.tileentities.PlinthBlockEntity;
-import me.suff.mc.angels.common.tileentities.StatueBlockEntity;
+import me.suff.mc.angels.common.blockentities.IPlinth;
+import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

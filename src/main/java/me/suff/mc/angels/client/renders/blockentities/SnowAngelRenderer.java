@@ -6,7 +6,7 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.tileentities.SnowAngelBlockEntity;
+import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
