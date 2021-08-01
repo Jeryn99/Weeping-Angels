@@ -15,6 +15,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Objects;
+
 public class WABlockTags extends BlockTagsProvider {
 
 
@@ -31,7 +33,7 @@ public class WABlockTags extends BlockTagsProvider {
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (block.getRegistryName().getNamespace().contains("tardis")) continue;
+            if (Objects.requireNonNull(block.getRegistryName()).getNamespace().contains("tardis")) continue;
             if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtil.BANNED_BLOCKS, block);
             }

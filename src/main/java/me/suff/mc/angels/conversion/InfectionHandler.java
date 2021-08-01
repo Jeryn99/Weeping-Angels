@@ -48,9 +48,9 @@ public class InfectionHandler {
 
     @SubscribeEvent
     public static void onTickInfection(LivingEvent.LivingUpdateEvent livingEvent) {
-        if (!(livingEvent.getEntityLiving() instanceof Player)) return;
-        Player playerEntity = (Player) livingEvent.getEntityLiving();
-        AngelInfection.get(playerEntity).ifPresent(AngelVirus::tick);
+        if(livingEvent.getEntityLiving() instanceof Player player){
+            AngelInfection.get(player).ifPresent(AngelVirus::tick);
+        }
     }
 
 }

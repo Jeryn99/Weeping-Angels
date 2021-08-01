@@ -6,6 +6,7 @@ import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,13 +15,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-public class WALootTables implements DataProvider {
+public class WALootTables extends LootTableProvider {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final DataGenerator generator;
 
 
     public WALootTables(DataGenerator gen) {
+        super(gen);
         this.generator = gen;
     }
 
@@ -29,12 +31,17 @@ public class WALootTables implements DataProvider {
     }
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(HashCache cache) {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (block.getRegistryName().getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get()) {
-                this.generateSelfTable(block, cache, path);
+
+                try {
+                    this.generateSelfTable(block, cache, path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
