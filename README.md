@@ -11,9 +11,9 @@ Minecraft Mod || Weeping Angel || This is a mod that adds the terrifying Weeping
 
 
 <b> Vivecraft Support </b>
-Dependencies:
-If you are playing in Single Player, you will need won't need to do anything extra. But if you are playing on a server, both you and the server will require <a href="https://www.curseforge.com/minecraft/mc-mods/vivecraft-forge-extensions">Vivecraft Forge Extensions</a>
-to be installed. Non-VR Users will not need this installed.  
+Dependencies:</b>
+<p>If you are playing in Single Player, you will need won't need to do anything extra. But if you are playing on a server, both you and the server will require <a href="https://www.curseforge.com/minecraft/mc-mods/vivecraft-forge-extensions">Vivecraft Forge Extensions</a>
+to be installed. Non-VR Users will not need this installed.  </p>
 
 
 | Minecraft Version | Vivecraft Supported? |
