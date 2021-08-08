@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.variants;
 
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +16,18 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
 
     public AbstractVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
         this.variantTest = weepingAngelEntityPredicate;
+    }
+
+    public void tick(WeepingAngel weepingAngel) {
+        if (weepingAngel.getVariant() == AngelTypes.RUSTED_NO_ARM.get()) {
+            weepingAngel.setLeftHanded(true);
+            if(!weepingAngel.getOffhandItem().isEmpty()){
+                weepingAngel.spawnAtLocation(weepingAngel.getOffhandItem());
+                weepingAngel.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+            }
+        } else {
+            weepingAngel.setLeftHanded(false);
+        }
     }
 
     public Predicate<WeepingAngel> getVariantTest() {

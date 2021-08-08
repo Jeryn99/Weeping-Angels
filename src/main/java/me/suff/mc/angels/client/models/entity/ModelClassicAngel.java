@@ -8,14 +8,16 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngelModel {
+public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngelModel, ArmedModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/a_dizzle/angel_classic.png");
@@ -249,11 +251,16 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
         return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY_XMAS : TEXTURE_XMAS;
     }
 
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+    protected ModelPart getArm(HumanoidArm handSide) {
+        return handSide == HumanoidArm.LEFT ? this.leftarm : this.rightarm;
     }
 
-
+    @Override
+    public void translateToHand(HumanoidArm handSide, PoseStack matrixStack) {
+        ModelPart hand = this.getArm(handSide);
+        boolean wasVisible = hand.visible;
+        hand.visible = true;
+        hand.translateAndRotate(matrixStack);
+        hand.visible = wasVisible;
+    }
 }

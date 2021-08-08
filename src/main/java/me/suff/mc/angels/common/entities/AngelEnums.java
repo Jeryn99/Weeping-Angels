@@ -16,6 +16,10 @@ public class AngelEnums {
         public String getReadable() {
             return readable;
         }
+
+        public boolean canHoldThings() {
+            return this == ANGELA_MC || this == ANGELA_MC;
+        }
     }
 
 }

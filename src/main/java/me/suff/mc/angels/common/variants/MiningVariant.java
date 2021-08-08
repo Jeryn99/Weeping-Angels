@@ -23,10 +23,8 @@ public class MiningVariant extends BaseVariant {
 
     @Override
     public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
-        if (damageSource.getEntity() instanceof Player) {
-            Player playerEntity = (Player) damageSource.getEntity();
-            if (playerEntity.getMainHandItem().getItem() instanceof PickaxeItem) {
-                PickaxeItem pickaxeItem = (PickaxeItem) playerEntity.getMainHandItem().getItem();
+        if (damageSource.getEntity() instanceof Player playerEntity) {
+            if (playerEntity.getMainHandItem().getItem() instanceof PickaxeItem pickaxeItem) {
                 if (quantumLockEntity.getVariant().stackDrop().getItem() instanceof BlockItem) {
                     Block block = ((BlockItem) quantumLockEntity.getVariant().stackDrop().getItem()).getBlock();
                     return pickaxeItem.isCorrectToolForDrops(block.defaultBlockState());

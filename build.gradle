@@ -20,7 +20,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: "com.matthewprenger.cursegradle"
 
-version = '1.0.0'
+version = '1.0.1'
 group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 
@@ -91,7 +91,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.10'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.19'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

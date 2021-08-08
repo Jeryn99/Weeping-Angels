@@ -8,21 +8,24 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
-    public AngelRender(EntityRendererProvider.Context p_174304_) {
-        super(p_174304_, ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC), 1);
+    public AngelRender(EntityRendererProvider.Context context) {
+        super(context, ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC), 0.5F);
         addLayer(new AngelCrackedLayer(this));
+        addLayer(new AngelHeldLayer(this));
     }
 
     @Override
@@ -34,19 +37,22 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
     public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngel.getAngelType());
 
-        ItemStack key = weepingAngel.getMainHandItem();
-        pMatrixStackIn.pushPose();
-        float offset = Mth.cos(weepingAngel.tickCount * 0.1F) * -0.09F;
-        pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
-        pMatrixStackIn.translate(0, 5, 0);
-        pMatrixStackIn.translate(0, offset, 0);
-        pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngel.level.getGameTime() / 20F));
-        renderItem(weepingAngel, key, ItemTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
-        pMatrixStackIn.popPose();
+        if(!weepingAngel.getAngelType().canHoldThings()) {
+            ItemStack key = weepingAngel.getMainHandItem();
+            pMatrixStackIn.pushPose();
+            float offset = Mth.cos(weepingAngel.tickCount * 0.1F) * -0.09F;
+            pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
+            pMatrixStackIn.translate(0, 5, 0);
+            pMatrixStackIn.translate(0, offset, 0);
+            pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngel.level.getGameTime() / 20F));
+            renderItem(weepingAngel, key, ItemTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
+            pMatrixStackIn.popPose();
+        }
 
         pMatrixStackIn.pushPose();
         super.render(weepingAngel, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
+
     }
 
     @Override

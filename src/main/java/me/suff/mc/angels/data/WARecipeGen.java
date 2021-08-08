@@ -28,5 +28,7 @@ public class WARecipeGen extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(WAObjects.Items.CHISEL.get()).requires(ItemTags.STONE_CRAFTING_MATERIALS).requires(Items.STRING).requires(Items.STICK).unlockedBy("has_stone", has(ItemTags.STONE_CRAFTING_MATERIALS)).save(consumer);
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(WAObjects.Blocks.KONTRON_ORE.get().asItem()), WAObjects.Items.KONTRON_INGOT.get(), 0.7F, 300).unlockedBy("has_any_kontron", has(WAObjects.Blocks.KONTRON_ORE.get().asItem())).save(consumer, new ResourceLocation(WeepingAngels.MODID, "smelt_kontron"));
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(WAObjects.Blocks.KONTRON_ORE.get().asItem()), WAObjects.Items.KONTRON_INGOT.get(), 0.8F, 150).unlockedBy("has_any_kontron", has(WAObjects.Blocks.KONTRON_ORE.get().asItem())).save(consumer, new ResourceLocation(WeepingAngels.MODID, "blast_kontron"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().asItem()), WAObjects.Items.KONTRON_INGOT.get(), 0.7F, 300).unlockedBy("has_any_kontron", has(WAObjects.Blocks.KONTRON_ORE.get().asItem())).save(consumer, new ResourceLocation(WeepingAngels.MODID, "smelt_kontron_deep"));
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().asItem()), WAObjects.Items.KONTRON_INGOT.get(), 0.8F, 150).unlockedBy("has_any_kontron", has(WAObjects.Blocks.KONTRON_ORE.get().asItem())).save(consumer, new ResourceLocation(WeepingAngels.MODID, "blast_kontron_deep"));
     }
 }

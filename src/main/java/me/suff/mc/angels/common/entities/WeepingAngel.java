@@ -39,8 +39,10 @@ import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EndPortalBlock;
@@ -78,6 +80,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public WeepingAngel(Level world) {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
         goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
+        goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(7, new GoalWalkWhenNotWatched(this, 1.0D));
         xpReward = WAConfig.CONFIG.xpGained.get();
@@ -171,10 +174,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        if (entity instanceof ServerPlayer) {
-            ServerPlayer serverPlayerEntity = (ServerPlayer) entity;
-            boolean isCherub = isCherub();
-            if (isCherub) {
+        if (entity instanceof ServerPlayer serverPlayerEntity) {
+
+            boolean shouldTeleport = random.nextInt(20) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+
+            if (isCherub() || !shouldTeleport) {
                 dealDamage(serverPlayerEntity);
                 if (WAConfig.CONFIG.torchBlowOut.get()) {
                     AngelUtil.extinguishHand(serverPlayerEntity, this);
@@ -182,12 +186,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
                 return true;
             }
 
-            boolean shouldTeleport = random.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
-            if (shouldTeleport) {
-                teleportInteraction(serverPlayerEntity);
-                return true;
-            }
-            dealDamage(serverPlayerEntity);
+            teleportInteraction(serverPlayerEntity);
+            return true;
         }
         return true;
     }
@@ -343,6 +343,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void tick() {
+        getVariant().tick(this);
         super.tick();
         if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
             setNoAi(false);
@@ -427,26 +428,18 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (level.isClientSide) return;
         AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
         switch (type) {
-
-            case DONT:
-                doHurtTarget(player);
-                break;
-            case STRUCTURES:
-                Objects.requireNonNull(level.getServer()).tell(new TickTask(level.getServer().getTickCount() + 1, () -> {
-                    if (!WATeleporter.handleStructures(player)) {
-                        dealDamage(player);
-                    }
-                }));
-                break;
-            case RANDOM_PLACE:
+            case DONT -> doHurtTarget(player);
+            case STRUCTURES -> Objects.requireNonNull(level.getServer()).tell(new TickTask(level.getServer().getTickCount() + 1, () -> {
+                if (!WATeleporter.handleStructures(player)) {
+                    dealDamage(player);
+                }
+            }));
+            case RANDOM_PLACE -> {
                 double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
                 double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
-
                 ServerLevel teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerLevel) player.level;
-
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
                 teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
-
                 teleportWorld.getServer().tell(new TickTask(teleportWorld.getServer().getTickCount() + 1, () -> {
                     BlockPos blockPos = WATeleporter.findSafePlace(player, teleportWorld, new BlockPos(x, player.getY(), z));
 
@@ -461,7 +454,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
                         heal(10);
                     }
                 }));
-                break;
+            }
         }
     }
 

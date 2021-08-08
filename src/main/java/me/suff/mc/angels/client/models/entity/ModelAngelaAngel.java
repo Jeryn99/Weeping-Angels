@@ -217,28 +217,19 @@ public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelM
         return ImmutableList.of(this.body, this.leftWing, this.rightWing, this.head, this.leftArm, this.rightArm, this.Legs);
     }
 
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
-    }
-
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
 
-        if (angel instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) angel;
+        if (angel instanceof WeepingAngel weepingAngel) {
             return generateTex(pose, weepingAngel.getVariant());
         }
 
-        if (angel instanceof StatueBlockEntity) {
-            StatueBlockEntity weepingAngelEntity = (StatueBlockEntity) angel;
-            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
+        if (angel instanceof StatueBlockEntity statueBlockEntity) {
+            return generateTex(statueBlockEntity.getPose(), statueBlockEntity.getAngelVarients());
         }
 
-        if (angel instanceof PlinthBlockEntity) {
-            PlinthBlockEntity weepingAngelEntity = (PlinthBlockEntity) angel;
-            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
+        if (angel instanceof PlinthBlockEntity plinthBlockEntity) {
+            return generateTex(plinthBlockEntity.getPose(), plinthBlockEntity.getAngelVarients());
         }
         return ANGRY;
     }

@@ -6,6 +6,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -13,11 +14,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.entity.GlowSquidRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.decoration.GlowItemFrame;
 
-/**
- * Angel Type: 4 Created by Craig on 11/03/2020 @ 20:58
- */
 public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements IAngelModel {
 
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/weeping_villager.png");
@@ -38,7 +37,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
         wing2 = body.getChild("wing2");
         head = body.getChild("head");
         nose = head.getChild("nose");
-        arms = root.getChild("body");
+        arms = body.getChild("arms");
         leg0 = root.getChild("leg0");
         leg1 = root.getChild("leg1");
     }
@@ -111,43 +110,57 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
         wing0.yRot = (float) Math.toRadians(-angleY);
         wing0.zRot = (float) Math.toRadians(angleZ);
 
-        if (pose == WeepingAngelPose.IDLE) {
-            return;
-        }
+        nose.xRot = (float) Math.toRadians(0);
+        nose.yRot = (float) Math.toRadians(0);
+        nose.zRot = (float) Math.toRadians(0);
 
+        body.xRot = (float) Math.toRadians(17.5);
+        body.yRot = (float) Math.toRadians(0);
+        body.zRot = (float) Math.toRadians(0);
 
+        arms.xRot = (float) Math.toRadians(-67.5);
+        arms.yRot = (float) Math.toRadians(0);
+        arms.zRot = (float) Math.toRadians(0);
 
-        if (pose == WeepingAngelPose.SHY || pose == WeepingAngelPose.HIDING) {
-            nose.xRot = (float) Math.toRadians(-30);
-            nose.yRot = (float) Math.toRadians(0);
-            nose.zRot = (float) Math.toRadians(0);
+        wing0.xRot = 0.1745F;
+        wing0.yRot = -1.0472F;
+        wing0.zRot = (float) Math.toRadians(0);
 
-            head.xRot = (float) Math.toRadians(17.5);
+        wing2.xRot = 0.1745F;
+        wing2.yRot = 1.0472F;
+        wing2.zRot = (float) Math.toRadians(0);
+
+        if (pose == WeepingAngelPose.HIDING) {
+            head.xRot = (float) Math.toRadians(32.5);
             head.yRot = (float) Math.toRadians(0);
-            head.zRot = (float) Math.toRadians(-10);
+            head.zRot = (float) Math.toRadians(0);
+            body.xRot = (float) Math.toRadians(-17.5);
+
+            nose.xRot = (float) Math.toRadians(-17.5);
+            arms.xRot = (float) Math.toRadians(-82.5);
             return;
         }
 
-        if(pose == WeepingAngelPose.APPROACH || pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY){
-            body.xRot = (float) Math.toRadians(15);
-            body.yRot = (float) Math.toRadians(0);
-            body.zRot = (float) Math.toRadians(0);
-
-            nose.xRot = (float) Math.toRadians(-30);
-            nose.yRot = (float) Math.toRadians(0);
-            nose.zRot = (float) Math.toRadians(0);
-
-            head.xRot = (float) Math.toRadians(-30);
+        if (pose == WeepingAngelPose.IDLE || pose == WeepingAngelPose.SHY) {
+            head.xRot = (float) Math.toRadians(0);
             head.yRot = (float) Math.toRadians(0);
             head.zRot = (float) Math.toRadians(0);
 
-            leg0.xRot = (float) Math.toRadians(-30);
-            leg0.yRot = (float) Math.toRadians(0);
-            leg0.zRot = (float) Math.toRadians(0);
+            body.xRot = (float) Math.toRadians(0);
+            body.yRot = (float) Math.toRadians(0);
+            body.zRot = (float) Math.toRadians(90);
 
-            leg1.xRot = (float) Math.toRadians(30);
-            leg1.yRot = (float) Math.toRadians(0);
-            leg1.zRot = (float) Math.toRadians(0);
+            arms.xRot = (float) Math.toRadians(-67.5);
+            arms.yRot = (float) Math.toRadians(0);
+            arms.zRot = (float) Math.toRadians(0);
+            return;
+        }
+
+        if (pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY) {
+            head.xRot = (float) Math.toRadians(-32.5);
+            body.xRot = (float) Math.toRadians(17.5);
+            wing2.xRot = 0.1745F * 2;
+            wing0.xRot = 0.1745F * 2;
             return;
         }
 

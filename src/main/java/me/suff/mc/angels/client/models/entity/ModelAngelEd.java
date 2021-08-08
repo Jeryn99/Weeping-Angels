@@ -7,12 +7,14 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 
 /**
  * Angel Type: 1
@@ -391,6 +393,10 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         return TEXTURE;
+    }
+
+    protected ModelPart getArm(HumanoidArm handSide) {
+        return handSide == HumanoidArm.LEFT ? this.left_arm : this.right_arm;
     }
 
 }
