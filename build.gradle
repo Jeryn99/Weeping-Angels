@@ -10,7 +10,7 @@ buildscript {
 
     }
     dependencies {
-        classpath group: 'me.sizableshrimp.parchmenttest', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
         classpath group: 'gradle.plugin.com.modrinth.minotaur', name: 'Minotaur', version: '1.2.1'
     }
@@ -127,7 +127,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
-    implementation fg.deobf('undefined:time:2.0')
+    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.16-SNAPSHOT')
 }
 
 jar {

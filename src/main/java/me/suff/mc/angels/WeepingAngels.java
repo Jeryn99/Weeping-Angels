@@ -59,9 +59,6 @@ public class WeepingAngels {
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
-        MinecraftForge.EVENT_BUS.addGenericListener(Block.class, this::onMissingMappingsBlock);
-        MinecraftForge.EVENT_BUS.addGenericListener(TileEntityType.class, this::onMissingMappingsTile);
-        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::onMissingMappingsItem);
         StartupMessageManager.addModMessage("Don't Blink!");
     }
 
@@ -116,36 +113,6 @@ public class WeepingAngels {
     }
 
 
-    public void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<Item>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<Item> itemMapping : mapp) {
-            if (itemMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Item weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().asItem().getRegistryName());
-                itemMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get().asItem());
-            }
-        }
-    }
-
-
-    public void onMissingMappingsBlock(RegistryEvent.MissingMappings<Block> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<Block>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<Block> blockMapping : mapp) {
-            if (blockMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Block weeping_angels:snow_arm to " + WAObjects.Blocks.SNOW_ANGEL.get().getRegistryName());
-                blockMapping.remap(WAObjects.Blocks.SNOW_ANGEL.get());
-            }
-        }
-    }
-
-    public void onMissingMappingsTile(RegistryEvent.MissingMappings<TileEntityType<?>> mappings) {
-        ImmutableList<RegistryEvent.MissingMappings.Mapping<TileEntityType<?>>> mapp = mappings.getAllMappings();
-        for (RegistryEvent.MissingMappings.Mapping<TileEntityType<?>> entityTypeMapping : mapp) {
-            if (entityTypeMapping.key.toString().equalsIgnoreCase("weeping_angels:snow_arm")) {
-                LOGGER.info("Remapped Tile weeping_angels:snow_arm to " + WAObjects.Tiles.SNOW_ANGEL.get().getRegistryName());
-                entityTypeMapping.remap(WAObjects.Tiles.SNOW_ANGEL.get());
-            }
-        }
-    }
 
 
 }
