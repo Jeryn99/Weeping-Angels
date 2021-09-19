@@ -19,10 +19,26 @@ public class Network {
 
     public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(WeepingAngels.MODID, "main_channel")).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions(PROTOCOL_VERSION::equals).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel();
 
+    public static int MESSAGE_COUNTER = 0;
+
+
     public static void init() {
-        int messageID = 0;
-        INSTANCE.registerMessage(messageID++, MessageSFX.class, MessageSFX::encode, MessageSFX::decode, MessageSFX.Handler::handle);
-        INSTANCE.registerMessage(messageID++, MessageCatacomb.class, MessageCatacomb::encode, MessageCatacomb::decode, MessageCatacomb.Handler::handle);
+        INSTANCE.messageBuilder(MessageSFX.class, nextId(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(MessageSFX::encode)
+                .decoder(MessageSFX::decode)
+                .consumer(MessageSFX.Handler::handle)
+                .add();
+
+        INSTANCE.messageBuilder(MessageCatacomb.class, nextId(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(MessageCatacomb::encode)
+                .decoder(MessageCatacomb::decode)
+                .consumer(MessageCatacomb.Handler::handle)
+                .add();
+    }
+
+    private static int nextId() {
+        MESSAGE_COUNTER++;
+        return MESSAGE_COUNTER;
     }
 
     /**

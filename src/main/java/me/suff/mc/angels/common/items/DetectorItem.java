@@ -51,7 +51,7 @@ public class DetectorItem extends Item {
     @Override
     public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.level.isClientSide) {
-            setTime(stack, getTime(stack) + 1);
+                setTime(stack, getTime(stack) + 1);
             List<WeepingAngel> angels = entityIn.level.getEntitiesOfClass(WeepingAngel.class, entityIn.getBoundingBox().inflate(15, 15, 15));
             if (entityIn instanceof Player) {
                 if (!angels.isEmpty() && PlayerUtil.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {

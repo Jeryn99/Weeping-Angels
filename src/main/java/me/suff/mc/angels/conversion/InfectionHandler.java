@@ -22,9 +22,9 @@ public class InfectionHandler {
 
     @SubscribeEvent
     public static void onAttachInfection(AttachCapabilitiesEvent<Entity> capabilitiesEvent) {
-        if (capabilitiesEvent.getObject() instanceof Player) {
+        if (capabilitiesEvent.getObject() instanceof Player player) {
             capabilitiesEvent.addCapability(new ResourceLocation(WeepingAngels.MODID, "infection"), new ICapabilitySerializable<CompoundTag>() {
-                final AngelInfection angelInfection = new AngelInfection((LivingEntity) capabilitiesEvent.getObject());
+                final AngelInfection angelInfection = new AngelInfection(player);
                 final LazyOptional<AngelVirus> infectionInstance = LazyOptional.of(() -> angelInfection);
 
                 @Nonnull
