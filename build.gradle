@@ -14,13 +14,16 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = "${mod_version}"
-group = 'me.swirtzly.minecraft.weeping_angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${project.jar_name}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 repositories {
     maven { url 'https://jitpack.io' }
+    maven {
+        url "https://cursemaven.com"
+    }
 }
 
 minecraft {
@@ -83,8 +86,7 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:master-SNAPSHOT')
-    //compile fg.deobf("com.gitlab.Spectre0987:TardisMod-1-14:${tm_tag}") //Use stable version of Tardis Mod
+    implementation fg.deobf("curse.maven:new-tardis-mod-290247:3052663")
 }
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {

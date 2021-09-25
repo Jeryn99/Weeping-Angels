@@ -4,12 +4,12 @@ issueTrackerURL = "https://github.com/Whocraft/Weeping-Angels/issues"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
 logoFile = "logo.png"
 credits = "Ed, Ford, Myself, Rolf, Nictogen, Lukas, ShadowBolt"
-authors = "Swirtzly"
+authors = "Suff99"
 [[mods]]
 modId = "weeping_angels"
-version = "3.0.6"
+version = "3.0.7"
 displayName = "Weeping Angels"
-updateJSONURL = "https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.14/update.json" #optional
+updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
 description = '''
 Mod that adds the terrifying Weeping Angel creatues to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]
@@ -27,6 +27,6 @@ side = "BOTH"
 [[dependencies.weeping_angels]]
 modId = "tardis"
 mandatory = false
-versionRange = "[1.2.0,)"
+versionRange = "[1.4.1]"
 ordering = "AFTER"
 side = "BOTH"

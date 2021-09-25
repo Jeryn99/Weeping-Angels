@@ -9,6 +9,7 @@ import me.suff.mc.angels.compat.events.EventAngelTeleport;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -31,9 +32,7 @@ import net.tardis.mod.dimensions.TardisDimension;
 import net.tardis.mod.helper.Helper;
 import net.tardis.mod.helper.PlayerHelper;
 import net.tardis.mod.helper.TardisHelper;
-import net.tardis.mod.paticles.TParticleTypes;
 import net.tardis.mod.tileentities.ConsoleTile;
-import net.tardis.mod.tileentities.machines.ArtronCollectorTile;
 
 import static net.tardis.mod.events.CommonEvents.WATCH_CAP;
 
@@ -52,9 +51,7 @@ public class Tardis {
 
         if (breakBlockEvent.getState().getBlock().getRegistryName().getPath().contentEquals("artron_collector")) {
             World world = breakBlockEvent.getAngel().getEntityWorld();
-            TileEntity tile = world.getTileEntity(breakBlockEvent.getPos());
-            if (tile instanceof ArtronCollectorTile) {
-                ArtronCollectorTile artronConverterTile = (ArtronCollectorTile) tile;
+            TileEntity artronConverterTile = world.getTileEntity(breakBlockEvent.getPos());
 
                 BlockPos artonPos = artronConverterTile.getPos();
 
@@ -67,13 +64,12 @@ public class Tardis {
                     double percent = (double) i / 10.0D;
                     Vec3d spawnPoint = new Vec3d(artonPos.getX() + 0.5D + path.getX() * percent, artonPos.getY() + 1.3D + path.getY() * percent, artonPos.getZ() + 0.5D + path.z * percent);
                     if (spawnPoint.distanceTo(end) <= 3.5D) {
-                        breakBlockEvent.getAngel().world.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, speed.x, speed.y, speed.z);
+                        breakBlockEvent.getAngel().world.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, speed.x, speed.y, speed.z);
                     }
                 }
 
             }
         }
-    }
 
     @SubscribeEvent
     public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
@@ -84,7 +80,7 @@ public class Tardis {
                 if (PlayerHelper.isInHand(value, playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get())) {
                     ItemStack stack = playerEntity.getHeldItem(value);
                     if (playerEntity.world.getGameTime() % 100L == 0L) {
-                        stack.getCapability(Capabilities.WATCH_CAPABILITY).ifPresent((watch) -> watch.tick(playerEntity.world, playerEntity, value == Hand.MAIN_HAND ? 0 : 1));
+                        stack.getCapability(Capabilities.WATCH_CAPABILITY).ifPresent((watch) -> watch.tick(playerEntity.world, playerEntity));
                     }
                 }
             }
@@ -116,7 +112,7 @@ public class Tardis {
                                 double percent = (double) i / 10.0D;
                                 Vec3d spawnPoint = new Vec3d(artonPos.getX() + 0.5D + path.getX() * percent, artonPos.getY() + 1.3D + path.getY() * percent, artonPos.getZ() + 0.5D + path.z * percent);
                                 if (spawnPoint.distanceTo(end) <= 3.5D) {
-                                    angel.world.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, speed.x, speed.y, speed.z);
+                                    angel.world.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, speed.x, speed.y, speed.z);
                                 }
                             }
 
@@ -139,7 +135,7 @@ public class Tardis {
                 if (angel.getDistanceSq(consolePos.getX(), consolePos.getY(), consolePos.getZ()) < 7 && angel.ticksExisted % 6000 == 0 && world.rand.nextInt(10) < 5) {
                     DimensionType Nworld = WATeleporter.getRandomDimension(angel.world.rand);
                     if (console != null) {
-                        console.setDestination(Nworld, console.randomizeCoords(console.getCurrentLocation(), 7000));
+                        console.setDestination(Nworld, console.randomizeCoords(console.getLocation(), 7000));
                         console.takeoff();
                     }
                 }
