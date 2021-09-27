@@ -2,11 +2,11 @@ package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
-import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.world.WAWorld;
 import net.minecraft.core.BlockPos;

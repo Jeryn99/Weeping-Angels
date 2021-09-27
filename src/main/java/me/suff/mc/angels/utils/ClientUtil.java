@@ -6,11 +6,11 @@ import me.suff.mc.angels.client.renders.blockentities.CoffinRenderer;
 import me.suff.mc.angels.client.renders.blockentities.PlinthRender;
 import me.suff.mc.angels.client.renders.blockentities.SnowAngelRenderer;
 import me.suff.mc.angels.client.renders.blockentities.StatueRender;
+import me.suff.mc.angels.client.sounds.EchoSound;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
-import me.suff.mc.angels.common.items.DetectorItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -78,7 +78,7 @@ public class ClientUtil {
                     return 0.0F;
                 } else {
                     if (clientLevel == null && entity.level instanceof ClientLevel) {
-                        clientLevel = (ClientLevel)entity.level;
+                        clientLevel = (ClientLevel) entity.level;
                     }
 
                     if (clientLevel == null) {
@@ -92,7 +92,7 @@ public class ClientUtil {
                         }
 
                         d0 = this.wobble(clientLevel, d0);
-                        return (float)d0;
+                        return (float) d0;
                     }
                 }
             }
@@ -118,6 +118,8 @@ public class ClientUtil {
             AngelEnums.AngelType type = AngelSpawnerItem.getType(itemStack);
             return type.ordinal();
         });
+
+        EchoSound.addReloader();
     }
 
 }

@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.events;
 
-import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
@@ -18,6 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawSelectionEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -81,25 +81,24 @@ public class ClientEvents {
         DateChecker.tick();
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
-            //TODO GlStateManager._fogMode(GlStateManager.EXP.value);
             event.setCanceled(true);
-            event.setDensity(2);
+            event.setDensity(30F);
         }
     }
 
     @SubscribeEvent
     public static void onSetupFogColor(EntityViewRenderEvent.RenderFogEvent.FogColors event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
-*//*           event.setRed(105 / 255F);
+        /*   event.setRed(105 / 255F);
             event.setGreen(105 / 255F);
-            event.setBlue(105 / 255F);*//*
+            event.setBlue(105 / 255F);*/
             event.setRed(0.14F);
             event.setGreen(0.15F);
             event.setBlue(0.22F);
         }
-    }*/
+    }
 
 }

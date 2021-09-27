@@ -13,6 +13,7 @@ import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.common.world.WAWorld;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
+import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -23,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -62,6 +64,11 @@ public class WeepingAngels {
         StartupMessageManager.addModMessage("Don't Blink!");
     }
 
+    @SubscribeEvent
+    public static void onAddCaps(RegisterCapabilitiesEvent capabilitiesEvent) {
+        capabilitiesEvent.register(AngelVirus.class);
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onNewRegistries(RegistryEvent.NewRegistry e) {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -77,7 +84,6 @@ public class WeepingAngels {
         WAAttributes.ATTRIBUTES.register(bus);
         AngelParticles.TYPES.register(bus);
     }
-
 
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();

@@ -25,7 +25,7 @@ public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & A
     @Override
     public void render(PoseStack pose, MultiBufferSource p_117205_, int p_117206_, WeepingAngel weepingAngel, float p_117208_, float p_117209_, float p_117210_, float p_117211_, float p_117212_, float p_117213_) {
 
-        if(!weepingAngel.getAngelType().canHoldThings()) return;
+        if (!weepingAngel.getAngelType().canHoldThings()) return;
 
         boolean var11 = weepingAngel.getMainArm() == HumanoidArm.RIGHT;
         ItemStack var12 = var11 ? weepingAngel.getOffhandItem() : weepingAngel.getMainHandItem();
@@ -49,7 +49,7 @@ public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & A
             p_117189_.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
             p_117189_.mulPose(Vector3f.YP.rotationDegrees(180.0F));
             boolean var8 = p_117188_ == HumanoidArm.LEFT;
-            p_117189_.translate((float)(var8 ? -1 : 1) / 16.0F, 0.125D, -0.625D);
+            p_117189_.translate((float) (var8 ? -1 : 1) / 16.0F, 0.125D, -0.625D);
             Minecraft.getInstance().getItemInHandRenderer().renderItem(p_117185_, p_117186_, p_117187_, var8, p_117189_, p_117190_, p_117191_);
             p_117189_.popPose();
         }

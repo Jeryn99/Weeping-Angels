@@ -1,6 +1,10 @@
 package me.suff.mc.angels.common;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
+import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.blocks.*;
 import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
 import me.suff.mc.angels.common.entities.Portal;
@@ -10,10 +14,6 @@ import me.suff.mc.angels.common.items.ChiselItem;
 import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
-import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
-import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
-import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;

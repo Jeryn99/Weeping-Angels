@@ -40,7 +40,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
     @Override
     public void aiStep() {
 
-        if(!getMainHandItem().isEmpty()){
+        if (!getMainHandItem().isEmpty()) {
             setPersistenceRequired();
         }
 
@@ -86,11 +86,10 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                 if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
                 snapLookToPlayer(targetPlayer);
                 if (distanceTo(targetPlayer) < 2)
-                    if(random.nextInt(50) < 30) {
+                    if (random.nextInt(50) < 30) {
                         doHurtTarget(targetPlayer);
-                    }
-                else
-                    moveTowards(targetPlayer);
+                    } else
+                        moveTowards(targetPlayer);
             }
         }
     }

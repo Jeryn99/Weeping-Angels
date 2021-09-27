@@ -21,7 +21,7 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
     public void tick(WeepingAngel weepingAngel) {
         if (weepingAngel.getVariant() == AngelTypes.RUSTED_NO_ARM.get()) {
             weepingAngel.setLeftHanded(true);
-            if(!weepingAngel.getOffhandItem().isEmpty()){
+            if (!weepingAngel.getOffhandItem().isEmpty()) {
                 weepingAngel.spawnAtLocation(weepingAngel.getOffhandItem());
                 weepingAngel.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
             }

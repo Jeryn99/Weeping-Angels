@@ -4,9 +4,9 @@ import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
+import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,10 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.*;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -99,7 +102,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         private static final ResourceLocation GRAVEYARD_LARGE_TWO = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_lrg_2");
         private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY, GRAVEYARD_LARGE_ONE, GRAVEYARD_LARGE_TWO};
         private static String[] USERNAMES = new String[]{};
-        
+
         public GraveyardPiece(StructureManager p_71244_, ResourceLocation p_71245_, BlockPos p_71246_, Rotation p_71247_, int p_71248_) {
             super(WAPieces.GRAVEYARD, 0, p_71244_, p_71245_, p_71245_.toString(), makeSettings(p_71247_, p_71245_), makePosition(p_71245_, p_71246_, p_71248_));
         }
@@ -115,7 +118,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
 
         private static BlockPos makePosition(ResourceLocation p_162453_, BlockPos p_162454_, int p_162455_) {
-            
+
             if (p_162453_ == GRAVEYARD_LARGE_ONE || p_162453_ == GRAVEYARD_LARGE_TWO || p_162453_ == GRAVEYARD_WALKWAY) {
                 return p_162454_.below(3);
             }
@@ -124,6 +127,18 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         public static void addPieces(StructureManager p_162435_, BlockPos p_162436_, Rotation p_162437_, StructurePieceAccessor p_162438_, Random p_162439_) {
             p_162438_.addPiece(new GraveyardPiece(p_162435_, ALL_GRAVES[p_162439_.nextInt(ALL_GRAVES.length)], p_162436_, p_162437_, 0));
+        }
+
+        public static LocalDate createRandomDate() {
+            long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
+            long endEpochDay = LocalDate.now().toEpochDay();
+            long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
+            return LocalDate.ofEpochDay(randomDay);
+        }
+
+        public static Block getRandomPottedPlant(Random random) {
+            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
+            return plants.get(random.nextInt(plants.size()));
         }
 
         protected void addAdditionalSaveData(ServerLevel p_162444_, CompoundTag p_162445_) {
@@ -199,18 +214,6 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                     serverLevelAccessor.removeBlock(blockPos, false);
                 }
             }
-        }
-
-        public static LocalDate createRandomDate() {
-            long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
-            long endEpochDay = LocalDate.now().toEpochDay();
-            long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
-            return LocalDate.ofEpochDay(randomDay);
-        }
-
-        public static Block getRandomPottedPlant(Random random) {
-            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
-            return plants.get(random.nextInt(plants.size()));
         }
 
         private void loadNames() throws IOException {

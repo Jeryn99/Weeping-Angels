@@ -34,6 +34,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            arg "-mixin.config=weeping-angels.mixins.json"
 
             if (project.hasProperty('mc_uuid')) {
                 args '--uuid', project.getProperty('mc_uuid')
@@ -91,7 +92,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.19'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.71'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

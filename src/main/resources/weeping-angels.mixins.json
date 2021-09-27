@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "me.suff.mc.angels.mixin",
+  "refmap": "regen.refmap.json",
+  "client": [
+    "SoundSourceMixin"
+  ],
+  "minVersion": "0.8"
+}

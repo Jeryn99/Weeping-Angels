@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -48,7 +47,7 @@ public class InfectionHandler {
 
     @SubscribeEvent
     public static void onTickInfection(LivingEvent.LivingUpdateEvent livingEvent) {
-        if(livingEvent.getEntityLiving() instanceof Player player){
+        if (livingEvent.getEntityLiving() instanceof Player player) {
             AngelInfection.get(player).ifPresent(AngelVirus::tick);
         }
     }
