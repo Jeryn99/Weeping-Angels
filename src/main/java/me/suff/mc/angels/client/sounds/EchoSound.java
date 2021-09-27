@@ -4,17 +4,13 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.EXTEfx;
 
-import java.util.concurrent.CompletableFuture;
-
 public class EchoSound {
-    private static final Minecraft MC = Minecraft.getInstance();
 
     private static boolean available;
     private static boolean setup;
@@ -22,7 +18,7 @@ public class EchoSound {
     private static int auxEffectSlot;
 
     public static void addReloader() {
-        ((ReloadableResourceManager)Minecraft.getInstance().getResourceManager()).registerReloadListener((ResourceManagerReloadListener) p_10758_ -> setup = false);
+        ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener((ResourceManagerReloadListener) p_10758_ -> setup = false);
     }
 
     public static void setSelfPosition(int soundId) {

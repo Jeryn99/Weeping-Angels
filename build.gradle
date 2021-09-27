@@ -2,9 +2,10 @@ buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         maven { url = "https://plugins.gradle.org/m2/" }
         maven { url = 'https://sizableshrimp.me/maven' }
-        maven { url = "https://plugins.gradle.org/m2/" }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         jcenter()
         mavenCentral()
     }
@@ -12,6 +13,7 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
         classpath group: 'gradle.plugin.com.modrinth.minotaur', name: 'Minotaur', version: '1.2.1'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -19,8 +21,10 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0.1'
+
+version = '1.0.2'
 group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 
@@ -93,6 +97,11 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.17.1-37.0.71'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+}
+
+mixin {
+    add sourceSets.main, "weeping_angels.refmap.json"
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
