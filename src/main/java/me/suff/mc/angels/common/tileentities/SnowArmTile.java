@@ -159,11 +159,4 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         this.rotation = rotation;
         sendUpdates();
     }
-
-
-    public enum SnowAngelStages {
-        ARM, HEAD, BODY, WINGS
-    }
-
-
 }

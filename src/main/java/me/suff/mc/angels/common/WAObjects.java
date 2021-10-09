@@ -238,7 +238,7 @@ public class WAObjects {
     }
 
     public static class ConfiguredFeatures {
-        public static final ConfiguredFeature<?, ?> ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().configured(new ProbabilityConfig(0.1F)).decorated(Features.Placements.HEIGHTMAP_SQUARE);
+        public static final ConfiguredFeature<?, ?> ARM_SNOW_FEATURE = WorldGenEntries.ARM_SNOW_FEATURE.get().configured(new ProbabilityConfig(0.1F)).chance(1).decorated(Features.Placements.HEIGHTMAP_SQUARE);
         public static final ConfiguredFeature<?, ?> KONTRON_ORE = WorldGenEntries.KONTRON_ORE.get().configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState(), 10)).decorated(Placement.RANGE.configured(new TopSolidRangeConfig(6, 0, 34))).squared().count(5);
 
         public static void registerConfiguredFeatures() {

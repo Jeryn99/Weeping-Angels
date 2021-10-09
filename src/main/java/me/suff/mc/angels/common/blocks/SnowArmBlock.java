@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.tileentities.SnowAngelStages;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -39,7 +40,7 @@ public class SnowArmBlock extends SnowBlock {
     public void entityInside(BlockState blockState, World world, BlockPos blockPos, Entity entity) {
         if (world.getBlockEntity(blockPos) instanceof SnowArmTile) {
             SnowArmTile snowArmTile = (SnowArmTile) world.getBlockEntity(blockPos);
-            if (snowArmTile.getSnowAngelStage() == SnowArmTile.SnowAngelStages.ARM) {
+            if (snowArmTile.getSnowAngelStage() == SnowAngelStages.ARM) {
                 entity.makeStuckInBlock(blockState, new Vector3d(0.15D, 0.05F, 0.15D));
             }
         }

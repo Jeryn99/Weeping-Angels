@@ -25,6 +25,7 @@ import net.tardis.mod.world.dimensions.TDimensions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -112,7 +113,7 @@ public class TardisMod {
             // Mess with the lights
             if (angel.tickCount % 500 == 0) {
                 if (console != null) {
-                    int randLight = console.getLevel().random.nextInt(15);
+                    int randLight = Objects.requireNonNull(console.getLevel()).random.nextInt(15);
                     console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
                 }
             }
