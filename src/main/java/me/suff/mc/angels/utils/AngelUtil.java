@@ -6,6 +6,7 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.common.tileentities.SnowAngelStages;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.block.Block;
@@ -149,9 +150,9 @@ public class AngelUtil {
         return AngelEnums.AngelType.values()[pick];
     }
 
-    public static SnowArmTile.SnowAngelStages randowSnowStage() {
-        int pick = RAND.nextInt(SnowArmTile.SnowAngelStages.values().length);
-        return SnowArmTile.SnowAngelStages.values()[pick];
+    public static SnowAngelStages randowSnowStage() {
+        int pick = RAND.nextInt(SnowAngelStages.values().length);
+        return SnowAngelStages.values()[pick];
     }
 
     public static CoffinTile.Coffin randomCoffin() {

@@ -116,10 +116,8 @@ curseforge {
 }
 
 repositories {
-    maven { url 'https://www.dogforce-games.com/maven/' }
     maven { url "https://www.cursemaven.com" }
     maven { url 'https://jitpack.io' }
-    flatDir { dirs 'libMods' }
 }
 
 
@@ -127,7 +125,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
-    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.16-SNAPSHOT')
+    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:530b1493a6')
 }
 
 jar {
@@ -147,7 +145,24 @@ jar {
 
 jar.finalizedBy('reobfJar')
 
+////////////////
+// IntelliJ Project Import
+// The Mixin annotation process does not have an obfuscation source when running through the IntelliJ compiler,
+// thus we have to prevent it from being activated as part of importing this Gradle project into IntelliJ.
+if (System.getProperty("idea.sync.active") == "true") {
+    afterEvaluate {
+        tasks.withType(JavaCompile).all {
+            it.options.annotationProcessorPath = files()
+        }
+    }
+}
+
+processResources.setDuplicatesStrategy(DuplicatesStrategy.WARN)
+
+
 publishing {
+
+
     publications {
         mavenJava(MavenPublication) {
             artifact jar
