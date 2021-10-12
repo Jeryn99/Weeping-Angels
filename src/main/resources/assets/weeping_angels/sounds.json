@@ -248,6 +248,38 @@
       {
         "name": "weeping_angels:stone/stone_scrap_5",
         "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_6",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_9",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_10",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_11",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_12",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_13",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_14",
+        "stream": false
+      },
+      {
+        "name": "weeping_angels:stone/stone_scrap_15",
+        "stream": false
       }
     ]
   }
