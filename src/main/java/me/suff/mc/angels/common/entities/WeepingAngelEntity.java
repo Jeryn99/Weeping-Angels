@@ -172,12 +172,12 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 return true;
             }
 
-            boolean shouldTeleport = random.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            boolean shouldTeleport = random.nextBoolean() && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
             if (shouldTeleport) {
+                dealDamage(serverPlayerEntity);
                 teleportInteraction(serverPlayerEntity);
                 return true;
             }
-            dealDamage(serverPlayerEntity);
         }
         return true;
     }
