@@ -222,63 +222,63 @@
     ]
   },
   "stone_scrap": {
-    "subtitle": "sound.weeping_angels.stone_scrap",
+    "subtitle": "sound.weeping_angels.stone_scrape",
     "category": "master",
     "sounds": [
       {
-        "name": "weeping_angels:stone/stone_scrap",
+        "name": "weeping_angels:stone/stone_scrape",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_1",
+        "name": "weeping_angels:stone/stone_scrape_1",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_2",
+        "name": "weeping_angels:stone/stone_scrape_2",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_3",
+        "name": "weeping_angels:stone/stone_scrape_3",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_4",
+        "name": "weeping_angels:stone/stone_scrape_4",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_5",
+        "name": "weeping_angels:stone/stone_scrape_5",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_6",
+        "name": "weeping_angels:stone/stone_scrape_6",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_9",
+        "name": "weeping_angels:stone/stone_scrape_9",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_10",
+        "name": "weeping_angels:stone/stone_scrape_10",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_11",
+        "name": "weeping_angels:stone/stone_scrape_11",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_12",
+        "name": "weeping_angels:stone/stone_scrape_12",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_13",
+        "name": "weeping_angels:stone/stone_scrape_13",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_14",
+        "name": "weeping_angels:stone/stone_scrape_14",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_15",
+        "name": "weeping_angels:stone/stone_scrape_15",
         "stream": false
       }
     ]

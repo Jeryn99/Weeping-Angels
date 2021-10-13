@@ -332,7 +332,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                     playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
                 }
             } else if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
-                playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.1F, soundtype.getPitch());
+                playSound(WAObjects.Sounds.STONE_SCRAPE.get(), 0.1F, soundtype.getPitch());
             }
         }
     }
