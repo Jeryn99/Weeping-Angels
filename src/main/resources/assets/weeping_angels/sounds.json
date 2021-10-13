@@ -221,32 +221,32 @@
       }
     ]
   },
-  "stone_scrap": {
-    "subtitle": "sound.weeping_angels.stone_scrap",
+  "stone_scrape": {
+    "subtitle": "sound.weeping_angels.stone_scrape",
     "category": "master",
     "sounds": [
       {
-        "name": "weeping_angels:stone/stone_scrap",
+        "name": "weeping_angels:stone/stone_scrape",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_1",
+        "name": "weeping_angels:stone/stone_scrape_1",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_2",
+        "name": "weeping_angels:stone/stone_scrape_2",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_3",
+        "name": "weeping_angels:stone/stone_scrape_3",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_4",
+        "name": "weeping_angels:stone/stone_scrape_4",
         "stream": false
       },
       {
-        "name": "weeping_angels:stone/stone_scrap_5",
+        "name": "weeping_angels:stone/stone_scrape_5",
         "stream": false
       }
     ]
