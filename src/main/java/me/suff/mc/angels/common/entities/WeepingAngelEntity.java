@@ -376,9 +376,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     private void replaceBlocks() {
-        for (Hand value : Hand.values()) {
-            setItemInHand(value, new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()));
-        }
         if (level.isClientSide || tickCount % 100 != 0) return;
 
         if (level.getMaxLocalRawBrightness(blockPosition()) == 0) {

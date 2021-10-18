@@ -45,7 +45,7 @@ public class DetectorTickableSound extends TickableSound {
 
         boolean isHolding = PlayerUtil.isInEitherHand(playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
         this.pitch = isHolding ? MathHelper.clamp(this.pitch + 0.0025F, 0.0F, 1.0F) : 0F;
-        this.volume = isHolding ? MathHelper.lerp(MathHelper.clamp(0.1F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
+        this.volume = isHolding ? MathHelper.lerp(MathHelper.clamp(0.3F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
 
     }
 }
