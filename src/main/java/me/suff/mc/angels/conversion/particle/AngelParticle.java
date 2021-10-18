@@ -2,7 +2,7 @@ package me.suff.mc.angels.conversion.particle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
+import me.suff.mc.angels.client.models.entity.ModelDisasterAngel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -21,8 +21,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class AngelParticle extends Particle {
-    private final Model model = new ModelAngelaAngel();
-    private final RenderType renderType = RenderType.entityTranslucent(ModelAngelaAngel.ANGRY);
+    private final Model model = new ModelDisasterAngel();
+    private final RenderType renderType = RenderType.entityTranslucent(ModelDisasterAngel.ANGRY);
 
     private AngelParticle(ClientWorld p_i232405_1_, double p_i232405_2_, double p_i232405_4_, double p_i232405_6_) {
         super(p_i232405_1_, p_i232405_2_, p_i232405_4_, p_i232405_6_);

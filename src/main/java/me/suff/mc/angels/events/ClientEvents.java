@@ -1,4 +1,4 @@
-package me.suff.mc.angels.common.events;
+package me.suff.mc.angels.events;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
@@ -14,9 +14,10 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
-        if (!(event.getEntity() instanceof PlayerEntity)) return;
-        PlayerEntity playerEntity = (PlayerEntity) event.getEntity();
-        Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(playerEntity));
+        if(event.getEntity() instanceof PlayerEntity){
+            PlayerEntity playerEntity = (PlayerEntity) event.getEntity();
+            Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(playerEntity));
+        }
     }
 
 }

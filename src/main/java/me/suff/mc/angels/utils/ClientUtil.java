@@ -2,7 +2,7 @@ package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.entity.*;
-import me.suff.mc.angels.client.renders.entities.AngelRender;
+import me.suff.mc.angels.client.renders.entities.WeepingAngelsRenderer;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.client.renders.tileentities.CoffinRenderer;
@@ -39,7 +39,7 @@ public class ClientUtil {
     private static final EntityModel<WeepingAngelEntity> A_DIZZLE = new ModelClassicAngel();
     private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel();
     private static final EntityModel<WeepingAngelEntity> VILLAGER = new ModelWeepingVillager();
-    private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelAngelaAngel();
+    private static final EntityModel<WeepingAngelEntity> ANGELA_MC = new ModelDisasterAngel();
 
     private static final Map<AngelEnums.AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
 
@@ -69,7 +69,7 @@ public class ClientUtil {
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.STATUE.get(), StatueRender::new);
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.WEEPING_ANGEL.get(), AngelRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelsRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), (EntityRendererManager entityRendererManager) -> new CGRender(entityRendererManager, Minecraft.getInstance().getItemRenderer()));
 
@@ -78,7 +78,12 @@ public class ClientUtil {
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
 
-        ItemModelsProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> DetectorItem.getTime(itemStack));
+        ItemModelsProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
+            if(livingEntity instanceof WeepingAngelEntity && AngelUtil.isHalloween()){
+                return 18;
+            }
+            return DetectorItem.getTime(itemStack);
+        });
 
         ItemModelsProperties.register(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity) -> {
             if (itemStack == null || itemStack.isEmpty()) {

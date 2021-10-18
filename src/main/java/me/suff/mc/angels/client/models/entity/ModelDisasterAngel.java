@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
+public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
 
@@ -31,7 +31,7 @@ public class ModelAngelaAngel extends SegmentedModel<WeepingAngelEntity> impleme
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
-    public ModelAngelaAngel() {
+    public ModelDisasterAngel() {
         texWidth = 128;
         texHeight = 128;
 

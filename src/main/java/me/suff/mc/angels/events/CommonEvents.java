@@ -1,4 +1,4 @@
-package me.suff.mc.angels.common.events;
+package me.suff.mc.angels.events;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;

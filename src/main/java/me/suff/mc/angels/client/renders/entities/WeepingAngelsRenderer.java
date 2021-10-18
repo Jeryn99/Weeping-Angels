@@ -2,15 +2,19 @@ package me.suff.mc.angels.client.renders.entities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
-import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
+import me.suff.mc.angels.client.models.entity.ModelDisasterAngel;
+import me.suff.mc.angels.client.models.entity.WeepingHeldItem;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -18,18 +22,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
+public class WeepingAngelsRenderer extends MobRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {
 
-    public AngelRender(EntityRendererManager manager) {
-        super(manager, new ModelAngelaAngel(), 0.0F);
+    public WeepingAngelsRenderer(EntityRendererManager manager) {
+        super(manager, new ModelDisasterAngel(), 0.0F);
         addLayer(new AngelCrackedLayer(this));
-    }
-
-    public static int calcOverlay(float health) {
-        if (health > 45) {
-            return -1;
-        }
-        return (int) Math.floor((1.0 - (health / 50.0)) * 9);
+        addLayer(new WeepingHeldItem<>(this));
     }
 
     @Override
@@ -41,29 +39,19 @@ public class AngelRender extends MobRenderer<WeepingAngelEntity, EntityModel<Wee
     public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, MatrixStack pMatrixStackIn, IRenderTypeBuffer pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngelEntity.getAngelType());
 
-        ItemStack key = weepingAngelEntity.getMainHandItem();
-        pMatrixStackIn.pushPose();
-        float offset = MathHelper.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
-        pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
-        pMatrixStackIn.translate(0, 5, 0);
-        pMatrixStackIn.translate(0, offset, 0);
-        pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngelEntity.level.getGameTime() / 20F));
-        renderItem(weepingAngelEntity, key, ItemCameraTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
-        pMatrixStackIn.popPose();
+        if(!(model instanceof IHasArm)) {
+            ItemStack key = weepingAngelEntity.getMainHandItem();
+            pMatrixStackIn.pushPose();
+            float offset = MathHelper.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;
+            pMatrixStackIn.scale(0.5F, 0.5F, 0.5F);
+            pMatrixStackIn.translate(0, 5, 0);
+            pMatrixStackIn.translate(0, offset, 0);
+            pMatrixStackIn.mulPose(Vector3f.YP.rotation(weepingAngelEntity.level.getGameTime() / 20F));
+            renderItem(weepingAngelEntity, key, ItemCameraTransforms.TransformType.FIXED, false, pMatrixStackIn, pBufferIn, pPackedLightIn);
+            pMatrixStackIn.popPose();
+        }
 
         pMatrixStackIn.pushPose();
-
-        /*
-        //TODO This messes up Optifine Shaders, not 100% sure if their fault or mine
-        if (calcOverlay(weepingAngelEntity.getHealth()) != -1) {
-            MatrixStack.Entry matrixEntry = pMatrixStackIn.last();
-            IVertexBuilder ivertexbuilder = new MatrixApplyingVertexBuilder(Minecraft.getInstance().levelRenderer.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(calcOverlay(weepingAngelEntity.getHealth()))), matrixEntry.pose(), matrixEntry.normal());
-            IRenderTypeBuffer finalIRenderTypeBuffer = pBufferIn;
-            pBufferIn = (renderType) -> {
-                IVertexBuilder vertexBuilder = finalIRenderTypeBuffer.getBuffer(renderType);
-                return renderType.affectsCrumbling() ? VertexBuilderUtils.create(ivertexbuilder, vertexBuilder) : vertexBuilder;
-            };
-        }*/
         super.render(weepingAngelEntity, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
         pMatrixStackIn.popPose();
     }

@@ -331,7 +331,10 @@ public class WeepingAngelEntity extends QuantumLockEntity {
                 if (level.random.nextInt(5) == 4) {
                     playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
                 }
-            } else if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
+                return;
+            }
+
+            if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
                 playSound(WAObjects.Sounds.STONE_SCRAPE.get(), 0.1F, soundtype.getPitch());
             }
         }
@@ -373,6 +376,9 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     private void replaceBlocks() {
+        for (Hand value : Hand.values()) {
+            setItemInHand(value, new ItemStack(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get()));
+        }
         if (level.isClientSide || tickCount % 100 != 0) return;
 
         if (level.getMaxLocalRawBrightness(blockPosition()) == 0) {

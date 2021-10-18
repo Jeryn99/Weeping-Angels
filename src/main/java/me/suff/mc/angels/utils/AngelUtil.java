@@ -41,9 +41,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 
+import java.time.Month;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import static java.time.Month.OCTOBER;
 import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
 
 public class AngelUtil {
@@ -83,6 +86,11 @@ public class AngelUtil {
 
     public static boolean isDarkForPlayer(QuantumLockEntity angel, LivingEntity living) {
         return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
+    }
+
+    public static boolean isHalloween(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
 
     public static void updateBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {

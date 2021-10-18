@@ -1,7 +1,6 @@
 package me.suff.mc.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
@@ -30,11 +29,6 @@ public class ClientEvents {
 
     public static boolean isInCatacombs = false;
     private static ISound iSound = null;
-
-    @SubscribeEvent
-    public static void registerParticles(ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particleEngine.register(AngelParticles.INFECTION.get(), new AngelParticle.Factory());
-    }
 
     @SubscribeEvent
     public static void onBlockHighlight(DrawHighlightEvent.HighlightBlock event) {

@@ -1,7 +1,5 @@
 package me.suff.mc.angels;
 
-import com.google.common.collect.ImmutableList;
-import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
@@ -15,11 +13,8 @@ import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.utils.FortuneEnchantBonus;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -75,7 +70,6 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
-        AngelParticles.TYPES.register(bus);
     }
 
 

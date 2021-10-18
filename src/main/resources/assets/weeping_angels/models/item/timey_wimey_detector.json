@@ -102,6 +102,12 @@
         "angle": 17
       },
       "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_8"
+    },
+    {
+      "predicate": {
+        "angle": 18
+      },
+      "model": "weeping_angels:item/anim/timey_wimey/lolly_bucket"
     }
   ]
 }
