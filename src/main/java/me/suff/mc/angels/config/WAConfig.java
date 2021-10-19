@@ -59,6 +59,9 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedTypes;
 
+    //Mod
+    public final ForgeConfigSpec.BooleanValue updateChecker;
+
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
         builder.push("world_gen");
@@ -100,6 +103,10 @@ public class WAConfig {
         builder.pop();
         builder.push("block");
         spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a redstone signal").define("spawnFromBlocks", true);
+        builder.pop();
+
+        builder.push("mod");
+        updateChecker = builder.translation("config.weeping_angels.updateChecker").comment("This config option toggles the update message on join").define("updateChecker", true);
         builder.pop();
 
 

@@ -31,7 +31,6 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 // Process resources on build
 processResources {
 
-    duplicatesStrategy = 'include'
 
     // This will ensure that this task is redone when the versions change.
     inputs.property 'version', project.version

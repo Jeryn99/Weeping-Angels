@@ -9,6 +9,7 @@ import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
+import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
@@ -25,6 +26,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
@@ -37,11 +42,14 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
@@ -194,6 +202,27 @@ public class CommonEvents {
             }
         }
     }*/
+
+
+    @SubscribeEvent
+    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event){
+        if(event.getEntity() instanceof PlayerEntity){
+            PlayerEntity playerEntity = (PlayerEntity) event.getEntity();
+            versionCheck(playerEntity);
+        }
+    }
+
+    public static void versionCheck(PlayerEntity playerEntity) {
+        VersionChecker.CheckResult version = VersionChecker.getResult(ModList.get().getModFileById(WeepingAngels.MODID).getMods().get(0));
+        if (version.status == VersionChecker.Status.OUTDATED) {
+            TranslationTextComponent click = new TranslationTextComponent("Download");
+            click.setStyle(Style.EMPTY.setUnderlined(true).withColor(TextFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
+
+            TranslationTextComponent translationTextComponent = new TranslationTextComponent(TextFormatting.BOLD+"[" + TextFormatting.RESET + TextFormatting.YELLOW + "Weeping Angels" + TextFormatting.RESET + TextFormatting.BOLD + "]");
+            translationTextComponent.append(new TranslationTextComponent(" New Update Found: (" + version.target + ") ").append(click));
+            PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
+        }
+    }
 
     @SubscribeEvent
     public static void onDamage(LivingAttackEvent event) {
