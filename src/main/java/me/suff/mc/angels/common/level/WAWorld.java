@@ -1,11 +1,11 @@
-package me.suff.mc.angels.common.world;
+package me.suff.mc.angels.common.level;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.world.structures.CatacombStructure;
-import me.suff.mc.angels.common.world.structures.GraveyardStructure;
+import me.suff.mc.angels.common.level.structures.CatacombStructure;
+import me.suff.mc.angels.common.level.structures.GraveyardStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -72,7 +72,7 @@ public class WAWorld {
         public static final ImmutableList<OreConfiguration.TargetBlockState> KONTRON_TARGET = ImmutableList.of(OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState()));
         public static final ConfiguredDecorator<HeightmapConfiguration> HEIGHTMAP_DOUBLE = FeatureDecorator.HEIGHTMAP_SPREAD_DOUBLE.configured(new HeightmapConfiguration(Heightmap.Types.MOTION_BLOCKING));
         public static final ConfiguredDecorator<?> HEIGHTMAP_DOUBLE_SQUARE = HEIGHTMAP_DOUBLE.squared();
-        public static final ConfiguredFeature<?, ?> CONFIGURED_SNOW_ANGEL = ANGEL_SNOW.get().configured((new RandomPatchConfiguration.GrassConfigurationBuilder(new SimpleStateProvider(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()), SimpleBlockPlacer.INSTANCE)).tries(5).build()).decorated(HEIGHTMAP_DOUBLE_SQUARE).count(2);
+        public static final ConfiguredFeature<?, ?> CONFIGURED_SNOW_ANGEL = ANGEL_SNOW.get().configured((new RandomPatchConfiguration.GrassConfigurationBuilder(new SimpleStateProvider(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()), SimpleBlockPlacer.INSTANCE)).tries(1).build()).decorated(HEIGHTMAP_DOUBLE_SQUARE).count(1);
         public static final ConfiguredFeature<?, ?> CONFIGURED_KONTRON_ORE = KONTRON_ORE.get().configured(new OreConfiguration(KONTRON_TARGET, 9)).count(2).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(63)).squared().count(20);
         public static ConfiguredStructureFeature<?, ? extends StructureFeature<?>> CONFIGURED_GRAVEYARD = GRAVEYARD.get().configured(NoneFeatureConfiguration.INSTANCE);
         public static ConfiguredStructureFeature<?, ? extends StructureFeature<?>> CONFIGURED_CATACOMBS = CATACOMBS.get().configured(NoneFeatureConfiguration.INSTANCE);

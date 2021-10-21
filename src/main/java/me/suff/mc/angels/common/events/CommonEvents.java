@@ -4,7 +4,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.world.WAWorld;
+import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
@@ -199,7 +199,7 @@ public class CommonEvents {
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
                 WeepingAngels.LOGGER.info("Added Snow Angels to: " + biomeLoadingEvent.getName());
-                biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
+                biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.RAW_GENERATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
             }
         }
 
@@ -266,5 +266,7 @@ public class CommonEvents {
         }
         return false;
     }
+
+
 }
 	

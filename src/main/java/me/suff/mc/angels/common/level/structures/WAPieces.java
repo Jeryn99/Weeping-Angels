@@ -1,4 +1,4 @@
-package me.suff.mc.angels.common.world.structures;
+package me.suff.mc.angels.common.level.structures;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.feature.StructurePieceType;

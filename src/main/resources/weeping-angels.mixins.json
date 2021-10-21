@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "me.suff.mc.angels.mixin",
-  "refmap": "regen.refmap.json",
+  "refmap": "weeping_angels.refmap.json",
   "client": [
     "SoundSourceMixin"
   ],

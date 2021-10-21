@@ -44,9 +44,8 @@ public class DetectorTickableSound extends AbstractTickableSoundInstance {
         this.z = (float) this.playerEntity.getZ();
 
         boolean isHolding = PlayerUtil.isInEitherHand(playerEntity, WAObjects.Items.TIMEY_WIMEY_DETECTOR.get());
-        //      float f = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(this.playerEntity.getDeltaMovement()));
         this.pitch = isHolding ? Mth.clamp(this.pitch + 0.0025F, 0.0F, 1.0F) : 0F;
-        this.volume = isHolding ? Mth.lerp(Mth.clamp(0.1F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
+        this.volume = isHolding ? Mth.lerp(Mth.clamp(0.3F, 0.0F, 0.5F), 0.0F, 0.7F) : 0F;
 
     }
 }

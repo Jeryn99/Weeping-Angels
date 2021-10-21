@@ -4,13 +4,12 @@ import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
-import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelTypes;
-import me.suff.mc.angels.common.world.WAWorld;
+import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.conversion.AngelVirus;
@@ -82,7 +81,6 @@ public class WeepingAngels {
         WAWorld.FEATURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
-        AngelParticles.TYPES.register(bus);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

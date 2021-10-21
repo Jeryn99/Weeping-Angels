@@ -8,7 +8,7 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.world.WAWorld;
+import me.suff.mc.angels.common.level.WAWorld;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -46,6 +46,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -217,6 +218,11 @@ public class AngelUtil {
 
     public static boolean intersects(AABB bb, Vec3 min, Vec3 max) {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
+    }
+
+    public static boolean isHalloween() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
 
     public enum EnumTeleportType {

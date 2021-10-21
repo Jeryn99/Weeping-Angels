@@ -8,7 +8,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
-import me.suff.mc.angels.common.world.WAWorld;
+import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ViewUtil;

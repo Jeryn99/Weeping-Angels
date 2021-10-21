@@ -11,7 +11,7 @@ itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
 version = "1.0.2"
 displayName = "Weeping Angels"
-updateJSONURL = "https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16/update.json" #optional
+updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
 description = '''
 Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]

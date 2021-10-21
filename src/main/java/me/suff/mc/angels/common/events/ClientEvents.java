@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.events;
 
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
-import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
@@ -36,13 +35,10 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
-        if (!(event.getEntity() instanceof Player playerEntity)) return;
-        Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(playerEntity));
-    }
 
-    @SubscribeEvent
-    public static void registerParticles(ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particleEngine.register(AngelParticles.INFECTION.get(), new AngelParticle.Factory());
+        if(event.getEntity() instanceof Player player){
+            Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(player));
+        }
     }
 
     @SubscribeEvent

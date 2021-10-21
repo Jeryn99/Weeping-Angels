@@ -1,4 +1,4 @@
-package me.suff.mc.angels.common.world.structures;
+package me.suff.mc.angels.common.level.structures;
 
 import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;

@@ -74,6 +74,11 @@ public class ClientUtil {
 
             public float unclampedCall(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int p_174668_) {
                 Entity entity = livingEntity != null ? livingEntity : itemStack.getEntityRepresentation();
+
+                if(entity instanceof WeepingAngel && AngelUtil.isHalloween()){
+                    return 18;
+                }
+
                 if (entity == null) {
                     return 0.0F;
                 } else {
