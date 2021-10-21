@@ -10,10 +10,15 @@ import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
+import me.suff.mc.angels.utils.PlayerUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,11 +47,14 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
@@ -237,6 +245,25 @@ public class CommonEvents {
         }
     }
 
+
+    @SubscribeEvent
+    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event){
+        if(event.getEntity() instanceof Player playerEntity){
+            versionCheck(playerEntity);
+        }
+    }
+
+    public static void versionCheck(Player playerEntity) {
+        VersionChecker.CheckResult version = VersionChecker.getResult(ModList.get().getModFileById(WeepingAngels.MODID).getMods().get(0));
+        if (version.status() == VersionChecker.Status.OUTDATED) {
+            TranslatableComponent click = new TranslatableComponent("Download");
+            click.setStyle(Style.EMPTY.setUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
+
+            TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD+"[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
+            translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));
+            PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
+        }
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void addDimensionalSpacing(final WorldEvent.Load event) {
