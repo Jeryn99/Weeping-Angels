@@ -30,7 +30,7 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     public static ResourceLocation getTexture(SnowAngelBlockEntity snowAngelBlockEntity) {
-        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
+        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.DISASTER_MC);
         return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowAngelBlockEntity.getVariant());
     }
 

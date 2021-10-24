@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 public class WAModels {
 
     //Angels
-    public static ModelLayerLocation ANGEL_ANGELA = createAngelModelLocation("main");
+    public static ModelLayerLocation ANGEL_DISASTER = createAngelModelLocation("main");
     public static ModelLayerLocation ANGEL_VILLAGER = createAngelModelLocation("villager");
     public static ModelLayerLocation ANGEL_ED = createAngelModelLocation("ed");
     public static ModelLayerLocation ANGEL_CLASSIC = createAngelModelLocation("a_dizzle");
@@ -30,7 +30,7 @@ public class WAModels {
     }
 
     public static void init(EntityRenderersEvent.RegisterLayerDefinitions registerLayerDefinitions) {
-        registerLayerDefinitions.registerLayerDefinition(ANGEL_ANGELA, ModelAngelaAngel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_DISASTER, ModelDisasterAngel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANGEL_VILLAGER, ModelWeepingVillager::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANGEL_CLASSIC, ModelClassicAngel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANGEL_CHERUB, ModelAngelChild::getModelData);

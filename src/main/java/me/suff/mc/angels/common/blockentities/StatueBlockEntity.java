@@ -30,7 +30,7 @@ import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, IPlinth {
 
-    private String type = AngelEnums.AngelType.ANGELA_MC.name();
+    private String type = AngelEnums.AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
@@ -59,7 +59,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     public AngelEnums.AngelType getAngelType() {
-        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
+        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {

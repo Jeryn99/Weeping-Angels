@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
     public AngelRender(EntityRendererProvider.Context context) {
-        super(context, ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC), 0.5F);
+        super(context, ClientUtil.getModelForAngel(AngelEnums.AngelType.DISASTER_MC), 0.5F);
         addLayer(new AngelCrackedLayer(this));
         addLayer(new AngelHeldLayer(this));
     }

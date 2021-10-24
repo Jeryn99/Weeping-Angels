@@ -184,7 +184,7 @@ public class AngelUtil {
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngel) {
             WeepingAngel weepingAngel = (WeepingAngel) target;
-            if (weepingAngel.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+            if (weepingAngel.getAngelType() == AngelEnums.AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
                     weepingAngel.spawnAtLocation(variant.stackDrop().getItem());

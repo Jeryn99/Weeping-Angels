@@ -4,13 +4,13 @@
       "predicate": {
         "weeping_angels:angel_type": 0
       },
-      "model": "weeping_angels:item/angel/angela"
+      "model": "weeping_angels:item/angel/disaster"
     },
     {
       "predicate": {
         "weeping_angels:angel_type": 1
       },
-      "model": "weeping_angels:item/angel/angela_mc"
+      "model": "weeping_angels:item/angel/disaster_mc"
     },
     {
       "predicate": {

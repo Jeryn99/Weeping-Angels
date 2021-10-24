@@ -19,9 +19,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelModel, HeadedModel, ArmedModel {
+public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAngelModel, HeadedModel, ArmedModel {
 
-    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
+    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/normal/normal_angel_angry.png");
 
     private final ModelPart head;
     private final ModelPart body;
@@ -33,7 +33,7 @@ public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelM
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
-    public ModelAngelaAngel(ModelPart root) {
+    public ModelDisasterAngel(ModelPart root) {
         this.head = root.getChild("head");
         this.Legs = root.getChild("legs");
         this.body = root.getChild("body");
@@ -247,7 +247,7 @@ public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelM
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
         String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
-        String coreFolder = "textures/entities/angela/";
+        String coreFolder = "textures/entities/disaster/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();

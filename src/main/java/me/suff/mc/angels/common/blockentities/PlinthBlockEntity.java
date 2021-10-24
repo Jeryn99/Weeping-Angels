@@ -26,7 +26,7 @@ import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<PlinthBlockEntity>, IPlinth {
 
     private boolean hasSpawned = false;
-    private String type = AngelEnums.AngelType.ANGELA_MC.name();
+    private String type = AngelEnums.AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
@@ -65,7 +65,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     public AngelEnums.AngelType getAngelType() {
-        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
+        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {

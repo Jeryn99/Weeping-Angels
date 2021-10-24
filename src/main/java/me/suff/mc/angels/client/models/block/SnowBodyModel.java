@@ -2,7 +2,7 @@ package me.suff.mc.angels.client.models.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.suff.mc.angels.client.models.entity.ModelAngelaAngel;
+import me.suff.mc.angels.client.models.entity.ModelDisasterAngel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -95,6 +95,6 @@ public class SnowBodyModel extends EntityModel<Entity> {
     }
 
     public ResourceLocation getTexture() {
-        return ModelAngelaAngel.ANGRY;
+        return ModelDisasterAngel.ANGRY;
     }
 }

@@ -11,7 +11,7 @@ public class WATabs {
     public static CreativeModeTab MAIN_TAB = new CreativeModeTab("angels") {
         @Override
         public ItemStack makeIcon() {
-            return AngelSpawnerItem.setType(new ItemStack(WAObjects.Items.ANGEL_SPAWNER.get()), AngelEnums.AngelType.ANGELA_MC);
+            return AngelSpawnerItem.setType(new ItemStack(WAObjects.Items.ANGEL_SPAWNER.get()), AngelEnums.AngelType.DISASTER_MC);
         }
     };
 

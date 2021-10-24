@@ -32,7 +32,7 @@ public class AngelSpawnerItem extends Item {
     public static AngelEnums.AngelType getType(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         String angelType = tag.getString("type");
-        angelType = angelType.isEmpty() ? AngelType.ANGELA_MC.name() : angelType;
+        angelType = angelType.isEmpty() ? AngelType.DISASTER_MC.name() : angelType;
         return AngelEnums.AngelType.valueOf(angelType);
     }
 

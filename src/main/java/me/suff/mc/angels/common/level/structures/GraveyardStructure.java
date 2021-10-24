@@ -162,7 +162,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
             if ("angel".equals(function)) {
                 StatueBlockEntity statueTile = (StatueBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
-                statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
+                statueTile.setAngelType(AngelEnums.AngelType.DISASTER_MC);
                 statueTile.setAngelVarients(AngelTypes.getWeightedRandom());
                 statueTile.setChanged();
                 serverLevelAccessor.removeBlock(blockPos, false);

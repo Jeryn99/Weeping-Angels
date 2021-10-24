@@ -80,7 +80,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
             if (tile instanceof SnowAngelBlockEntity) {
                 SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) tile;
                 WeepingAngel angel = new WeepingAngel(worldIn);
-                angel.setType(AngelEnums.AngelType.ANGELA_MC);
+                angel.setType(AngelEnums.AngelType.DISASTER_MC);
                 angel.setVarient(snowAngelBlockEntity.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);

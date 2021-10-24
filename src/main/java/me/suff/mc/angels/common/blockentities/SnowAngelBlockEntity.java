@@ -135,7 +135,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         if (snowAngelStages == SnowAngelStages.ARM) return;
         if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);
-            angel.setType(AngelEnums.AngelType.ANGELA_MC);
+            angel.setType(AngelEnums.AngelType.DISASTER_MC);
             angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);

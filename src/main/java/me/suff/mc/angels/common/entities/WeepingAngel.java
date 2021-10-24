@@ -245,7 +245,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
 
-        if (getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+        if (getAngelType() == AngelEnums.AngelType.DISASTER_MC) {
             AbstractVariant variant = getVariant();
             if (variant.shouldDrop(cause, this)) {
                 spawnAtLocation(variant.stackDrop().getItem());
@@ -487,7 +487,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public AngelEnums.AngelType getAngelType() {
         String type = getEntityData().get(TYPE);
-        return type.isEmpty() ? AngelEnums.AngelType.ANGELA_MC : AngelEnums.AngelType.valueOf(type);
+        return type.isEmpty() ? AngelEnums.AngelType.DISASTER_MC : AngelEnums.AngelType.valueOf(type);
     }
 
     public void setType(String angelType) {

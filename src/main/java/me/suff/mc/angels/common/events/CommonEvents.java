@@ -58,9 +58,11 @@ import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -202,7 +204,7 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        ResourceKey<Biome> biomeRegistryKey = ResourceKey.create(Registry.BIOME_REGISTRY, biomeLoadingEvent.getName());
+        ResourceKey<Biome> biomeRegistryKey = ResourceKey.create(Registry.BIOME_REGISTRY, Objects.requireNonNull(biomeLoadingEvent.getName()));
         Biome.BiomeCategory biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
