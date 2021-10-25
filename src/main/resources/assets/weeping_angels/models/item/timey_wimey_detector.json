@@ -1,113 +1,293 @@
-{
-  "parent": "item/generated",
+  {
+	"credit": "Created in Blockbench by dhi_holo (@holo_modeller on Twitter)",
+	"texture_size": [64, 64],
+	"textures": {
+		"base": "weeping_angels:item/timewimebase",
+		"hand": "weeping_angels:item/timeywime_hands/timeypoint_0",
+		"anim": "weeping_angels:item/timeyanim",
+		"particle": "weeping_angels:item/timewimebase"
+	},
+	"elements": [
+		{
+			"name": "box",
+			"from": [0, 0, 4],
+			"to": [16, 12, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 3], "texture": "#base"},
+				"east": {"uv": [4, 4, 6, 7], "texture": "#base"},
+				"south": {"uv": [0, 3, 4, 6], "texture": "#base"},
+				"west": {"uv": [0, 6, 2, 9], "texture": "#base"},
+				"up": {"uv": [8, 2, 4, 0], "texture": "#base"},
+				"down": {"uv": [8, 2, 4, 4], "texture": "#base"}
+			}
+		},
+		{
+			"name": "handle",
+			"from": [-1.25, 10, 6],
+			"to": [7.75, 15, 10],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [3.25, 12.5, 8]},
+			"faces": {
+				"north": {"uv": [1, 10.25, 3.25, 11.5], "texture": "#base"},
+				"east": {"uv": [0, 10.25, 1, 11.5], "texture": "#base"},
+				"south": {"uv": [4.25, 10.25, 6.5, 11.5], "texture": "#base"},
+				"west": {"uv": [3.25, 10.25, 4.25, 11.5], "texture": "#base"},
+				"up": {"uv": [1, 9.25, 3.25, 10.25], "texture": "#base"},
+				"down": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"}
+			}
+		},
+		{
+			"name": "handle_inner",
+			"from": [0.725, 9.975, 9.975],
+			"to": [6.775, 14.025, 6.025],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [3.25, 12.5, 12]},
+			"faces": {
+				"north": {"uv": [1.25, 10.5, 2.75, 11.5], "texture": "#base"},
+				"east": {"uv": [0, 10.5, 1, 11.5], "texture": "#base"},
+				"south": {"uv": [4.75, 10.5, 6.25, 11.5], "texture": "#base"},
+				"west": {"uv": [3.25, 10.5, 4.25, 11.5], "texture": "#base"},
+				"up": {"uv": [1.5, 9.25, 3, 10.25], "texture": "#base"},
+				"down": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"}
+			}
+		},
+		{
+			"name": "can",
+			"from": [7.3, 12.45, 6.5],
+			"to": [11.3, 15.45, 9.5],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [11.825, -0.175, 0.5]},
+			"faces": {
+				"north": {"uv": [4.5, 9, 5.25, 10], "rotation": 90, "texture": "#base"},
+				"east": {"uv": [5.25, 9, 6, 9.75], "rotation": 270, "texture": "#base"},
+				"south": {"uv": [6, 9, 6.75, 10], "rotation": 270, "texture": "#base"},
+				"up": {"uv": [4.5, 8, 5.25, 9], "rotation": 270, "texture": "#base"},
+				"down": {"uv": [5.25, 8, 6, 9], "rotation": 270, "texture": "#base"}
+			}
+		},
+		{
+			"name": "canside",
+			"from": [11.52167, 15.60182, 9.4975],
+			"to": [8.52667, 12.60682, 6.5025],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [12.04917, 2.97932, 3.5]},
+			"faces": {
+				"north": {"uv": [10, 9.5, 10.75, 10.25], "rotation": 90, "texture": "#base"},
+				"south": {"uv": [11.5, 9.5, 12.25, 10.25], "rotation": 90, "texture": "#base"},
+				"west": {"uv": [9.25, 9.5, 10, 10.25], "rotation": 90, "texture": "#base"},
+				"up": {"uv": [10, 8.75, 10.75, 9.5], "rotation": 90, "texture": "#base"},
+				"down": {"uv": [10.75, 8.75, 11.5, 9.5], "rotation": 90, "texture": "#base"}
+			}
+		},
+		{
+			"name": "clock",
+			"from": [7.5, 1.5, 3.25],
+			"to": [14.5, 8.5, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.5, 3.25]},
+			"faces": {
+				"north": {"uv": [8.5, 0.25, 10.25, 2], "texture": "#base"},
+				"east": {"uv": [8.25, 0.25, 8.5, 2], "texture": "#base"},
+				"south": {"uv": [10.5, 0.25, 12.25, 2], "texture": "#base"},
+				"west": {"uv": [10.25, 0.25, 10.5, 2], "texture": "#base"},
+				"up": {"uv": [8.5, 0, 10.25, 0.25], "texture": "#base"},
+				"down": {"uv": [10.25, 0, 12, 0.25], "texture": "#base"}
+			}
+		},
+		{
+			"name": "hands",
+			"from": [7.75, 1.75, 3.2],
+			"to": [14.25, 8.25, 3.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.5, 3.2]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 14], "texture": "#hand"}
+			}
+		},
+		{
+			"name": "lock",
+			"from": [1.5, 3, 3],
+			"to": [6.5, 7, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1.5, 3, 3]},
+			"faces": {
+				"north": {"uv": [10, 3.5, 11.25, 4.5], "texture": "#base"},
+				"east": {"uv": [11.25, 3.5, 11.5, 4.5], "texture": "#base"},
+				"south": {"uv": [11.5, 3.5, 12.75, 4.5], "texture": "#base"},
+				"west": {"uv": [9.75, 3.5, 10, 4.5], "texture": "#base"},
+				"up": {"uv": [10, 3.25, 11.25, 3.5], "texture": "#base"},
+				"down": {"uv": [11.25, 3.25, 12.5, 3.5], "texture": "#base"}
+			}
+		},
+		{
+			"name": "flashliht",
+			"from": [8, 10, 2.5],
+			"to": [18, 13, 5.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 6.5, 6.5]},
+			"faces": {
+				"north": {"uv": [9.25, 5.5, 11.75, 6.25], "texture": "#base"},
+				"east": {"uv": [8.5, 5.5, 9.25, 6.25], "texture": "#base"},
+				"south": {"uv": [12.5, 5.5, 15, 6.25], "texture": "#base"},
+				"west": {"uv": [11.75, 5.5, 12.5, 6.25], "texture": "#base"},
+				"up": {"uv": [9.25, 4.75, 11.75, 5.5], "texture": "#base"},
+				"down": {"uv": [11.75, 4.75, 14.25, 5.5], "texture": "#base"}
+			}
+		},
+		{
+			"name": "boinger",
+			"from": [4.25, 1, 12.125],
+			"to": [7.75, 6.5, 12.125],
+			"faces": {
+				"north": {"uv": [3.5, 6.5, 2.75, 7.75], "texture": "#base"},
+				"east": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"},
+				"south": {"uv": [2.75, 6.5, 3.5, 7.75], "texture": "#base"},
+				"west": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"},
+				"up": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"},
+				"down": {"uv": [15.5, 15.5, 0.5, 0.5], "texture": "#base"}
+			}
+		},
+		{
+			"name": "flat",
+			"from": [10, 7, 12.25],
+			"to": [17, 14, 12.25],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 10.5, 12.5]},
+			"faces": {
+				"north": {"uv": [15, 0, 8, 7], "texture": "#anim"},
+				"south": {"uv": [8, 0, 15, 7], "texture": "#anim"}
+			}
+		},
+		{
+			"name": "angle",
+			"from": [10, 7, 12.5],
+			"to": [17, 14, 12.5],
+			"rotation": {"angle": -45, "axis": "z", "origin": [13.5, 10.5, 12.5]},
+			"faces": {
+				"north": {"uv": [7, 0, 0, 7], "texture": "#anim"},
+				"south": {"uv": [0, 0, 7, 7], "texture": "#anim"}
+			}
+		}
+	],
+	"groups": [0, 1, 2, 3, 4,
+		{
+			"name": "front",
+			"origin": [1.5, 3, 3],
+			"color": 0,
+			"children": [5, 6, 7, 8]
+		},
+		{
+			"name": "back",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [9,
+				{
+					"name": "animated_spinner",
+					"origin": [13.5, 10.5, 12.5],
+					"color": 0,
+					"children": [10, 11]
+				}
+			]
+		}
+	],
+	"display":
+		{"thirdperson_righthand":{"rotation":[75,90,0],"translation":[0,0,-3.25],"scale":[0.5,0.5,0.5]},
+			"thirdperson_lefthand":{"rotation":[75,-90,0],"translation":[0,0,-3.25],"scale":[0.5,0.5,0.5]},
+			"firstperson_righthand":{"rotation":[0,90,0],"translation":[0,2,0],"scale":[0.5,0.5,0.5]},
+			"firstperson_lefthand":{"rotation":[0,-90,0],"translation":[0,2,0],"scale":[0.5,0.5,0.5]},
+			"ground":{"scale":[0.5,0.5,0.5]},
+			"head":{"rotation":[0,180,0],"translation":[0,13,7],"scale":[1,1,1]},
+			"fixed":{"rotation":[0,180,0],"translation":[0,0,0],"scale":[1,1,1]},
+			"gui":{"rotation":[30,225,0],"translation":[0,0,0],"scale":[0.625,0.625,0.625]}
+		},
   "overrides": [
     {
-      "predicate": {
-        "angle": 0
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_8"
+      "predicate": { "time": 0.0000000 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_0"
     },
     {
-      "predicate": {
-        "angle": 1
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_9"
+      "predicate": { "time": 0.042 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_1"
     },
     {
-      "predicate": {
-        "angle": 2
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_10"
+      "predicate": { "time": 0.084 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_2"
     },
     {
-      "predicate": {
-        "angle": 3
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_11"
+      "predicate": { "time": 0.126 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_3"
     },
     {
-      "predicate": {
-        "angle": 4
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_12"
+      "predicate": { "time": 0.168 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_4"
     },
     {
-      "predicate": {
-        "angle": 5
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_13"
+      "predicate": { "time": 0.21 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_5"
     },
     {
-      "predicate": {
-        "angle": 6
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_14"
+      "predicate": { "time": 0.252 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_6"
     },
     {
-      "predicate": {
-        "angle": 7
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_15"
+      "predicate": { "time": 0.294 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_7"
     },
     {
-      "predicate": {
-        "angle": 8
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_0"
+      "predicate": { "time": 0.336 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_8"
     },
     {
-      "predicate": {
-        "angle": 9
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_1"
+      "predicate": { "time": 0.378 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_9"
     },
     {
-      "predicate": {
-        "angle": 10
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_2"
+      "predicate": { "time": 0.42 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_10"
     },
     {
-      "predicate": {
-        "angle": 12
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_3"
+      "predicate": { "time": 0.462 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_11"
     },
     {
-      "predicate": {
-        "angle": 13
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_4"
+      "predicate": { "time": 0.5 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_0"
     },
     {
-      "predicate": {
-        "angle": 14
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_5"
+      "predicate": { "time": 0.542 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_1"
     },
     {
-      "predicate": {
-        "angle": 15
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_6"
+      "predicate": { "time": 0.584 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_2"
     },
     {
-      "predicate": {
-        "angle": 16
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_7"
+      "predicate": { "time": 0.626 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_3"
     },
     {
-      "predicate": {
-        "angle": 17
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/timeywimeydic_8"
+      "predicate": { "time": 0.668 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_4"
     },
     {
-      "predicate": {
-        "angle": 18
-      },
-      "model": "weeping_angels:item/anim/timey_wimey/lolly_bucket"
+      "predicate": { "time": 0.71 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_5"
+    },
+    {
+      "predicate": { "time": 0.752 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_6"
+    },
+    {
+      "predicate": { "time": 0.794 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_7"
+    },
+    {
+      "predicate": { "time": 0.836 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_8"
+    },
+    {
+      "predicate": { "time": 0.878 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_9"
+    },
+    {
+      "predicate": { "time": 0.92 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_10"
+    },
+    {
+      "predicate": { "time": 0.962 },
+      "model": "weeping_angels:item/detector_anim/timeywimey_11"
     }
   ]
 }

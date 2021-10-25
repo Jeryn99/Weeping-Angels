@@ -26,9 +26,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
@@ -238,11 +236,16 @@ public class CommonEvents {
 
 
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-                WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
-                    if (rl.equalsIgnoreCase(biomeRegistryKey.getRegistryName().toString())) {
+
+                for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
+                    if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
+                        System.out.println("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
                         biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
                     }
-                });
+                }
+
+
+
             }
         }
     }
