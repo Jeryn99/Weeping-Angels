@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 version = "46"
-group = "me.swirtzly.weeping-angels"
+group = "me.suff.mc.angels"
 archivesBaseName = "weeping-angels"
 
 
