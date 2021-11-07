@@ -5,10 +5,12 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;

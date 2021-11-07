@@ -188,8 +188,7 @@ public class CommonEvents {
         weepingAngel.playSound(SoundEvents.STONE_BREAK, 1.0F, 1.0F);
         serverWorld.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), weepingAngel.getX(), weepingAngel.getY(0.5D), weepingAngel.getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
 
-        if (attacker instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) attacker;
+        if (attacker instanceof LivingEntity livingEntity) {
             stack.hurtAndBreak(serverWorld.random.nextInt(4), livingEntity, living -> {
                 boolean isCherub = weepingAngel.isCherub();
                 weepingAngel.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
@@ -236,7 +235,6 @@ public class CommonEvents {
 
 
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-
                 for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
                     if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
                         System.out.println("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -26,6 +27,8 @@ public class WABlockTags extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
+        add(Tags.Blocks.ORES, WAObjects.Blocks.KONTRON_ORE.get());
+        add(Tags.Blocks.ORES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
         add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 

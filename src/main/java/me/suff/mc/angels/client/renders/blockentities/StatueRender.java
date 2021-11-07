@@ -37,8 +37,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
         ResourceLocation texture = DefaultPlayerSkin.getDefaultSkin();
 
         WeepingAngelPose pose = statueBlockEntity.getPose();
-        if (angel instanceof IAngelModel) {
-            IAngelModel angelModel = (IAngelModel) angel;
+        if (angel instanceof IAngelModel angelModel) {
             angelModel.setAngelPose(pose);
             texture = angelModel.getTextureForPose(statueBlockEntity, pose);
         }

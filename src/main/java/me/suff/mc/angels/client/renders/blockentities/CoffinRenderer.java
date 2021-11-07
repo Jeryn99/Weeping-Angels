@@ -83,7 +83,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
     }
 
     @Override
-    public BlockEntityRenderer<CoffinBlockEntity> create(Context p_173571_) {
-        return new CoffinRenderer(p_173571_);
+    public BlockEntityRenderer<CoffinBlockEntity> create(Context context) {
+        return new CoffinRenderer(context);
     }
 }
