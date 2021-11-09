@@ -37,6 +37,33 @@
         "location": "weeping_angels:catacomb/dead_ends/house",
         "processors": "minecraft:empty"
       }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/dead_ends/skull_deadend",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/dead_ends/skull_deadend_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/dead_ends/skull_deadend_3",
+        "processors": "minecraft:empty"
+      }
     }
   ]
 }

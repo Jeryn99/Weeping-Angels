@@ -22,9 +22,11 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 
+import java.util.Objects;
+
 public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration> {
 
-    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
+    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal", "classic"};
 
     public CatacombStructure(Codec<NoneFeatureConfiguration> p_67039_) {
         super(p_67039_);
@@ -62,7 +64,7 @@ public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration
             BlockPos blockpos = new BlockPos(x, Mth.clamp(random.nextInt(45), 30, 45), z);
             String choosen = variants[random.nextInt(variants.length)];
 
-            JigsawConfiguration structureSettingsAndStartPool = new JigsawConfiguration(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), 10);
+            JigsawConfiguration structureSettingsAndStartPool = new JigsawConfiguration(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), Objects.equals(choosen, "classic") ? 20 :  10);
 
             JigsawPlacement.addPieces(
                     dynamicRegistryManager,

@@ -2,7 +2,10 @@ package me.suff.mc.angels.client.models.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.*;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
@@ -25,6 +28,9 @@ public class WAModels {
     public static ModelLayerLocation SNOW_ANGEL_HEAD = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_angel_head");
     public static ModelLayerLocation SNOW_ANGEL_WING = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_angel_wing");
 
+    // "Aflans"
+    public static ModelLayerLocation DYING_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "dying_angel");
+
     private static ModelLayerLocation createAngelModelLocation(String weeping_angel) {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
     }
@@ -42,6 +48,7 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(PlayerModel.createMesh(CubeDeformation.NONE, true), 64, 64));
     }
 
 }

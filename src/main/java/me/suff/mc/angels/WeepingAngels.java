@@ -4,6 +4,7 @@ import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
+import me.suff.mc.angels.client.renders.entities.DyingAngelRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -105,6 +106,7 @@ public class WeepingAngels {
         event.registerEntityRenderer(WAObjects.EntityEntries.WEEPING_ANGEL.get(), AngelRender::new);
         event.registerEntityRenderer(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
         event.registerEntityRenderer(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), CGRender::new);
+        event.registerEntityRenderer(WAObjects.EntityEntries.APLAN.get(), DyingAngelRender::new);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -124,6 +126,7 @@ public class WeepingAngels {
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
+        event.put(WAObjects.EntityEntries.APLAN.get(), WeepingAngel.createAttributes().build());
         event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }
 

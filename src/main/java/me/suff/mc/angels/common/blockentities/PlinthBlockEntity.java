@@ -65,6 +65,18 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     public AngelEnums.AngelType getAngelType() {
+        boolean found = false;
+        for (AngelType value : AngelType.values()) {
+            if (value.name().equals(type)) {
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            type = AngelType.DISASTER_MC.name();
+        }
+
+
         return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 

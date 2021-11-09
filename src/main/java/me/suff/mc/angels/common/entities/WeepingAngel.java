@@ -80,7 +80,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
         goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-        goalSelector.addGoal(7, new GoalWalkWhenNotWatched(this, 1.0D));
         xpReward = WAConfig.CONFIG.xpGained.get();
     }
 
@@ -206,9 +205,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public void dealDamage(Player playerMP) {
-        playerMP.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, 4F);
+        double damage = WAConfig.CONFIG.damage.get();
+        playerMP.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, (float) damage);
         heal(getHealth() > 5 ? 4F : 2F);
         stealItems(playerMP);
+        this.setLastHurtMob(playerMP);
     }
 
     private void stealItems(Player playerMP) {
@@ -301,10 +302,10 @@ public class WeepingAngel extends QuantumLockedLifeform {
             setPrevPos(blockPosition());
             playSeenSound(player);
             randomisePose();
+            this.zza = 0.0F;
+            this.yya = 0.0F;
+            this.zza = 0.0F;
         }
-        this.zza = 0.0F;
-        this.yya = 0.0F;
-        this.zza = 0.0F;
     }
 
 
@@ -343,10 +344,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public void tick() {
         getVariant().tick(this);
         super.tick();
-        if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
-            setNoAi(false);
-        }
-
         if (tickCount % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
