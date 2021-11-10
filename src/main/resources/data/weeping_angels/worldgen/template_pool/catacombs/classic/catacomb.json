@@ -43,7 +43,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/skull_hallway_4",
+        "location": "weeping_angels:catacomb/classic/skull_hallway_5",
         "processors": "minecraft:empty"
       }
     },
@@ -79,7 +79,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/skull_hallway_9",
+        "location": "weeping_angels:catacomb/classic/large_room",
         "processors": "minecraft:empty"
       }
     },
@@ -88,7 +88,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/skull_hallway_10",
+        "location": "weeping_angels:catacomb/classic/large_room_flood",
         "processors": "minecraft:empty"
       }
     }
