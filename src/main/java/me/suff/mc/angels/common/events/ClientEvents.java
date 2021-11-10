@@ -2,7 +2,6 @@ package me.suff.mc.angels.common.events;
 
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,7 +16,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawSelectionEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,7 +34,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
 
-        if(event.getEntity() instanceof Player player){
+        if (event.getEntity() instanceof Player player) {
             Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(player));
         }
     }

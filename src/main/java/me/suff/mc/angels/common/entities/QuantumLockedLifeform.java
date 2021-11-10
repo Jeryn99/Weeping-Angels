@@ -32,6 +32,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
         super(entityType, worldIn);
     }
 
+
     @Override
     public AttributeMap getAttributes() {
         return new AttributeMap(WeepingAngel.createAttributes().build());

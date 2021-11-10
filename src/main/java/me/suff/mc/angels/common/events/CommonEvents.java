@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.events;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
+import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
@@ -26,7 +27,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
@@ -56,7 +59,6 @@ import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -126,14 +128,20 @@ public class CommonEvents {
         DamageType configValue = WAConfig.CONFIG.damageType.get();
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getEntity();
-        LivingEntity hurt = event.getEntityLiving();
 
         if (source == DamageSource.OUT_OF_WORLD || source.isExplosion()) {
             return;
         }
+        LivingEntity living = event.getEntityLiving();
 
-        if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
-            WeepingAngel weepingAngel = (WeepingAngel) hurt;
+        if (living.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get() || living.getType() == WAObjects.EntityEntries.APLAN.get()) {
+            QuantumLockedLifeform hurt = (QuantumLockedLifeform) event.getEntityLiving();
+
+            WeepingAngel weepingAngel = null;
+
+            if (hurt instanceof WeepingAngel) {
+                weepingAngel = (WeepingAngel) hurt;
+            }
 
             switch (configValue) {
                 case NOTHING:
@@ -146,7 +154,7 @@ public class CommonEvents {
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         event.setCanceled(false);
-                        doHurt(weepingAngel, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
+                        doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
                     } else {
                         event.setCanceled(true);
                     }
@@ -156,7 +164,7 @@ public class CommonEvents {
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         event.setCanceled(false);
-                        doHurt(weepingAngel, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
+                        doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
                     }
                     break;
                 case DIAMOND_AND_ABOVE_PICKAXE_ONLY:
@@ -165,7 +173,7 @@ public class CommonEvents {
                         PickaxeItem pickaxe = (PickaxeItem) livingEntity.getItemBySlot(EquipmentSlot.MAINHAND).getItem();
                         boolean isDiamondAndAbove = pickaxe.getTier().getLevel() >= 3;
                         if (isDiamondAndAbove) {
-                            doHurt(weepingAngel, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
+                            doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
                         }
                         event.setCanceled(!isDiamondAndAbove);
                     }
@@ -173,8 +181,8 @@ public class CommonEvents {
             }
 
             if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
-                if (weepingAngel.level.random.nextInt(100) <= 20) {
-                    weepingAngel.playSound(weepingAngel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
+                if (hurt.level.random.nextInt(100) <= 20) {
+                    hurt.playSound(weepingAngel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
                 }
                 if (attacker != null) {
                     attacker.hurt(WAObjects.STONE, 2F);
@@ -183,15 +191,16 @@ public class CommonEvents {
         }
     }
 
-    public static void doHurt(WeepingAngel weepingAngel, @Nullable Entity attacker, ItemStack stack) {
+    public static void doHurt(QuantumLockedLifeform weepingAngel, @Nullable Entity attacker, ItemStack stack) {
         ServerLevel serverWorld = (ServerLevel) weepingAngel.level;
         weepingAngel.playSound(SoundEvents.STONE_BREAK, 1.0F, 1.0F);
         serverWorld.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), weepingAngel.getX(), weepingAngel.getY(0.5D), weepingAngel.getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
 
         if (attacker instanceof LivingEntity livingEntity) {
             stack.hurtAndBreak(serverWorld.random.nextInt(4), livingEntity, living -> {
-                boolean isCherub = weepingAngel.isCherub();
-                weepingAngel.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
+                if (weepingAngel instanceof WeepingAngel angel) {
+                    weepingAngel.playSound(angel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, angel.getLaugh());
+                }
                 livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
             });
         }
@@ -205,7 +214,7 @@ public class CommonEvents {
         Biome.BiomeCategory biomeCategory = biomeLoadingEvent.getCategory();
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
-                WeepingAngels.LOGGER.info("Added Snow Angels to: " + biomeLoadingEvent.getName());
+                System.out.println("Added Snow Angels to: " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.RAW_GENERATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
             }
         }
@@ -221,7 +230,7 @@ public class CommonEvents {
                 if (WAConfig.CONFIG.genGraveyard.get()) {
                     if (shouldAdd) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
-                        WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
+                        System.out.println("Added Graveyard to: " + biomeLoadingEvent.getName());
                     }
                 }
 
@@ -229,7 +238,7 @@ public class CommonEvents {
                 if (WAConfig.CONFIG.genCatacombs.get()) {
                     if (shouldAdd) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
-                        WeepingAngels.LOGGER.info("Added Catacombs to: " + biomeLoadingEvent.getName());
+                        System.out.println("Added Catacombs to: " + biomeLoadingEvent.getName());
                     }
                 }
 
@@ -243,15 +252,14 @@ public class CommonEvents {
                 }
 
 
-
             }
         }
     }
 
 
     @SubscribeEvent
-    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event){
-        if(event.getEntity() instanceof Player playerEntity){
+    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof Player playerEntity) {
             versionCheck(playerEntity);
         }
     }
@@ -262,7 +270,7 @@ public class CommonEvents {
             TranslatableComponent click = new TranslatableComponent("Download");
             click.setStyle(Style.EMPTY.setUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
 
-            TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD+"[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
+            TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
             translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));
             PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
         }

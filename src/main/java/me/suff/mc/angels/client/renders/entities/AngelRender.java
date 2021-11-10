@@ -31,6 +31,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
         return 0;
     }
 
+
     @Override
     public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngel.getAngelType());

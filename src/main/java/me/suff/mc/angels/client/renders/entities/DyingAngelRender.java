@@ -2,16 +2,12 @@ package me.suff.mc.angels.client.renders.entities;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.DyingAngel;
-import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.config.WAConfig;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class DyingAngelRender extends MobRenderer<DyingAngel, PlayerModel<DyingAngel>> implements EntityRendererProvider<DyingAngel> {
@@ -21,6 +17,7 @@ public class DyingAngelRender extends MobRenderer<DyingAngel, PlayerModel<DyingA
 
     public DyingAngelRender(Context context) {
         super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_SLIM), true), 0.5F);
+        addLayer(new ItemInHandLayer<>(this));
     }
 
     @Override

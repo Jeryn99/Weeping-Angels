@@ -72,7 +72,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
                 break;
             }
         }
-        if(!found){
+        if (!found) {
             type = AngelType.DISASTER_MC.name();
         }
 
