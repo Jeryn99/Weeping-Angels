@@ -212,6 +212,16 @@ public class CommonEvents {
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
         ResourceKey<Biome> biomeRegistryKey = ResourceKey.create(Registry.BIOME_REGISTRY, Objects.requireNonNull(biomeLoadingEvent.getName()));
         Biome.BiomeCategory biomeCategory = biomeLoadingEvent.getCategory();
+
+
+        //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
+        for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
+            if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
+                System.out.println("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
+                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+            }
+        }
+
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
                 System.out.println("Added Snow Angels to: " + biomeLoadingEvent.getName());
@@ -241,17 +251,6 @@ public class CommonEvents {
                         System.out.println("Added Catacombs to: " + biomeLoadingEvent.getName());
                     }
                 }
-
-
-                //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-                for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
-                    if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
-                        System.out.println("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
-                        biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
-                    }
-                }
-
-
             }
         }
     }
