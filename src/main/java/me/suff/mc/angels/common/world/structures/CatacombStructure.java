@@ -28,7 +28,7 @@ import java.util.List;
 
 public class CatacombStructure extends Structure<NoFeatureConfig> {
 
-    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal"};
+    protected static final String[] variants = new String[]{"flat", "clean", "broken", "classic", "normal"};
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(
             new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
             new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),

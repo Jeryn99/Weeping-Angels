@@ -1,13 +1,13 @@
 {
-  "name": "weeping_angels:catacombs/flat/catacomb",
-  "fallback": "weeping_angels:catacombs/flat/dead_ends",
+  "name": "weeping_angels:catacombs/classic/dead_ends",
+  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
+      "weight": 3,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/flat/catacomb_hallway_flat_4",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5_empty",
         "processors": "minecraft:empty"
       }
     },
@@ -16,25 +16,25 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/flat/catacomb_hallway_flat_3",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5",
         "processors": "minecraft:empty"
       }
     },
     {
-      "weight": 5,
+      "weight": 2,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/flat/catacomb_hallway_flat_2",
+        "location": "weeping_angels:catacomb/dead_ends/catacomb_hallway_5_dead",
         "processors": "minecraft:empty"
       }
     },
     {
-      "weight": 4,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/flat/catacomb_hallway_flat_1",
+        "location": "weeping_angels:catacomb/dead_ends/house",
         "processors": "minecraft:empty"
       }
     },
