@@ -5,9 +5,11 @@ import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -105,14 +107,9 @@ public class WAConfig {
 
     public ArrayList<String> genBiomesForSpawn() {
         ArrayList<String> spawnBiomes = new ArrayList<>();
-        spawnBiomes.add(Biomes.TAIGA_HILLS.location().toString());
-        spawnBiomes.add(Biomes.TAIGA.location().toString());
-        spawnBiomes.add(Biomes.DESERT.location().toString());
-        spawnBiomes.add(Biomes.DESERT_HILLS.location().toString());
-        spawnBiomes.add(Biomes.PLAINS.location().toString());
-        spawnBiomes.add(Biomes.SWAMP.location().toString());
-        spawnBiomes.add(Biomes.BEACH.location().toString());
-        spawnBiomes.add(Biomes.SNOWY_TAIGA.location().toString());
+        for (Biome biome : ForgeRegistries.BIOMES) {
+            spawnBiomes.add(biome.getRegistryName().toString());
+        }
         return spawnBiomes;
     }
 
