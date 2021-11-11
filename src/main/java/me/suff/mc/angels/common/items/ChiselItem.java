@@ -1,14 +1,10 @@
 package me.suff.mc.angels.common.items;
 
-import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.IPlinth;
-import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
-import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
-import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -16,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
@@ -33,12 +28,9 @@ public class ChiselItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        BlockState blockstate = world.getBlockState(blockpos);
         Player player = context.getPlayer();
 
-
-        if (world.getBlockEntity(blockpos) instanceof IPlinth) {
-            IPlinth plinth = (IPlinth) world.getBlockEntity(blockpos);
+        if (world.getBlockEntity(blockpos) instanceof IPlinth plinth && context.getHand() == InteractionHand.MAIN_HAND) {
             if (player.isShiftKeyDown()) {
                 plinth.changeModel();
                 plinth.sendUpdatesToClient();
@@ -47,29 +39,6 @@ public class ChiselItem extends Item {
 
             plinth.changePose();
             plinth.sendUpdatesToClient();
-        }
-
-        //Handle Statue
-        if (blockstate.getBlock() == WAObjects.Blocks.STATUE.get()) {
-            StatueBlockEntity statueBlockEntity = (StatueBlockEntity) world.getBlockEntity(blockpos);
-            if (player.isShiftKeyDown()) {
-                statueBlockEntity.setAngelType(AngelUtil.randomType());
-            } else {
-                statueBlockEntity.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
-            }
-            statueBlockEntity.setChanged();
-            return InteractionResult.PASS;
-        }
-
-        //Handle Plinth
-        if (blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()) {
-            PlinthBlockEntity statueTile = (PlinthBlockEntity) world.getBlockEntity(blockpos);
-            if (player.isShiftKeyDown()) {
-                statueTile.setAngelType(AngelUtil.randomType());
-            } else {
-                statueTile.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
-            }
-            statueTile.sendUpdates();
             return InteractionResult.PASS;
         }
 

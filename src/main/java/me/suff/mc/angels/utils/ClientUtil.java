@@ -66,6 +66,8 @@ public class ClientUtil {
         ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.CHRONODYNE_GENERATOR.get(), RenderType.cutout());
 
         ItemProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("time"), new ClampedItemPropertyFunction() {
             private double rotation;

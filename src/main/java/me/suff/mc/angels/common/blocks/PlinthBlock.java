@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -40,7 +42,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
 
 
     public PlinthBlock() {
-        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
+        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).noOcclusion().requiresCorrectToolForDrops().strength(1.5F, 6.0F));
         this.registerDefaultState(this.defaultBlockState().setValue(CLASSIC, false).setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
@@ -53,6 +55,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     public boolean hasDynamicShape() {
         return true;
     }
+
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -91,8 +94,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
 
-        if (world.getBlockEntity(pos) instanceof PlinthBlockEntity) {
-            PlinthBlockEntity plinth = (PlinthBlockEntity) world.getBlockEntity(pos);
+        if (world.getBlockEntity(pos) instanceof PlinthBlockEntity plinth) {
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
             plinth.setAngelVarients(AngelTypes.getWeightedRandom());

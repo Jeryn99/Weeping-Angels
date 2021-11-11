@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEntity>, BlockEntityRendererProvider<SnowAngelBlockEntity> {
@@ -35,31 +36,31 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     @Override
-    public void render(SnowAngelBlockEntity snowAngelBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource iRenderTypeBuffer, int i, int i1) {
+    public void render(SnowAngelBlockEntity snowAngelBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStack.pushPose();
         switch (snowAngelBlockEntity.getSnowAngelStage()) {
             case ARM -> {
                 matrixStack.translate(0.5F, -1.1F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
-                this.armModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
+                this.armModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
             }
             case HEAD -> {
                 matrixStack.translate(0.5F, 1.6F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-                this.headModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
+                this.headModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             case BODY -> {
                 matrixStack.translate(0.5F, 1.7F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-                this.bodyModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
+                this.bodyModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             case WINGS -> {
                 matrixStack.translate(0.5F, 1.5F, 0.5F);
                 matrixStack.mulPose(Vector3f.YN.rotationDegrees(snowAngelBlockEntity.getRotation()));
                 matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-                this.wingsModel.render(matrixStack, iRenderTypeBuffer.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), i, i1, 1F, 1F, 1F, 1F);
+                this.wingsModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
         }
 

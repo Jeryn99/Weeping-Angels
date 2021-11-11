@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.blocks;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -46,8 +47,7 @@ public class CoffinBlock extends BaseEntityBlock {
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        if (world.getBlockEntity(pos) instanceof CoffinBlockEntity) {
-            CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) world.getBlockEntity(pos);
+        if (world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinBlockEntity) {
             if (coffinBlockEntity.getCoffin().isPoliceBox()) {
                 return 7;
             }
@@ -135,8 +135,7 @@ public class CoffinBlock extends BaseEntityBlock {
     @Override
     public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
         super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
-        if (p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity) {
-            CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) p_60567_.getBlockEntity(p_60568_);
+        if (p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity coffinBlockEntity) {
             coffinBlockEntity.setCoffin(AngelUtil.randomCoffin());
         }
     }

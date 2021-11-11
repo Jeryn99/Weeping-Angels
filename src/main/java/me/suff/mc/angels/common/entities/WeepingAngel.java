@@ -501,7 +501,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (this.deathTime == 20) {
             hurtTime = 0;
             this.removeAfterChangingDimensions();
-            playSound(getDeathSound(), 1, 1);
         }
         for (int i = 0; i < 20; ++i) {
             double d0 = this.random.nextGaussian() * 0.02D;

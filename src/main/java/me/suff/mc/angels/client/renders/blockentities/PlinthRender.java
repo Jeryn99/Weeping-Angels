@@ -42,13 +42,12 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
         }
 
         WeepingAngelPose pose = plinthBlockEntity.getPose();
-        if (angel instanceof IAngelModel) {
-            IAngelModel angelModel = (IAngelModel) angel;
+        if (angel instanceof IAngelModel angelModel) {
             angelModel.setAngelPose(pose);
             texture = angelModel.getTextureForPose(plinthBlockEntity, pose);
         }
         angel.setupAnim(null, 0, 0, 0, 0, 0);
-        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), 1212121212, combinedOverlayIn, 1, 1, 1, 1);
         matrixStack.popPose();
     }
 

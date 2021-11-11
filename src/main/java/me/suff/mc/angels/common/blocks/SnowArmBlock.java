@@ -11,13 +11,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -38,23 +36,20 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     @Override
     public void entityInside(BlockState blockState, Level world, BlockPos blockPos, Entity entity) {
-        if (world.getBlockEntity(blockPos) instanceof SnowAngelBlockEntity) {
-            SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) world.getBlockEntity(blockPos);
+        if (world.getBlockEntity(blockPos) instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
             if (snowAngelBlockEntity.getSnowAngelStage() == SnowAngelBlockEntity.SnowAngelStages.ARM) {
                 entity.makeStuckInBlock(blockState, new Vec3(0.15D, 0.05F, 0.15D));
             }
         }
     }
 
-
     @Override
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof SnowAngelBlockEntity) {
+        if (tile instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
             int rotation = Mth.floor(placer.yBodyRot);
-            SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) tile;
             if (!snowAngelBlockEntity.isHasSetup()) {
                 snowAngelBlockEntity.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowAngelBlockEntity.setRotation(rotation);
@@ -77,8 +72,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
         if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
             Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
             BlockEntity tile = worldIn.getBlockEntity(pos);
-            if (tile instanceof SnowAngelBlockEntity) {
-                SnowAngelBlockEntity snowAngelBlockEntity = (SnowAngelBlockEntity) tile;
+            if (tile instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
                 WeepingAngel angel = new WeepingAngel(worldIn);
                 angel.setType(AngelEnums.AngelType.DISASTER_MC);
                 angel.setVarient(snowAngelBlockEntity.getVariant());
@@ -87,8 +81,13 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
                 worldIn.removeBlock(pos, false);
             }
         }
-
     }
+
+    @Override
+    public RenderShape getRenderShape(BlockState p_51567_) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
 
     @Nullable
     @Override
