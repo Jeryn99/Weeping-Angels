@@ -204,13 +204,13 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        Legs.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        head.render(matrixStack, buffer, packedLight, packedOverlay);
+        body.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
+        Legs.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
 

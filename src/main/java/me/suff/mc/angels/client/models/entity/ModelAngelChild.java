@@ -185,7 +185,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         matrixStack.pushPose();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 1.5, 0);
-        WeepingCherubFix.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        WeepingCherubFix.render(matrixStack, buffer, packedLight, packedOverlay);
         matrixStack.popPose();
     }
 
@@ -196,18 +196,15 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-        if (angel instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) angel;
+        if (angel instanceof WeepingAngel weepingAngel) {
             return generateTex(pose, weepingAngel.getVariant());
         }
 
-        if (angel instanceof StatueBlockEntity) {
-            StatueBlockEntity weepingAngelEntity = (StatueBlockEntity) angel;
+        if (angel instanceof StatueBlockEntity weepingAngelEntity) {
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        if (angel instanceof PlinthBlockEntity) {
-            PlinthBlockEntity weepingAngelEntity = (PlinthBlockEntity) angel;
+        if (angel instanceof PlinthBlockEntity weepingAngelEntity) {
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 

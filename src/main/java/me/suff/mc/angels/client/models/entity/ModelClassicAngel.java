@@ -199,22 +199,22 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        leftfoot.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightfoot.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftwing1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftwing2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftwing3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftwing4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightwing1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightwing2.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightwing3.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightwing4.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightarm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftarm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        rightleg.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leftleg.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftfoot.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightfoot.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftwing1.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftwing2.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftwing3.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftwing4.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightwing1.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightwing2.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightwing3.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightwing4.render(matrixStack, buffer, packedLight, packedOverlay);
+        head.render(matrixStack, buffer, packedLight, packedOverlay);
+        body.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightarm.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftarm.render(matrixStack, buffer, packedLight, packedOverlay);
+        rightleg.render(matrixStack, buffer, packedLight, packedOverlay);
+        leftleg.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
     @Override

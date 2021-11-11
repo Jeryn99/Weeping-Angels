@@ -155,6 +155,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
     }
 
+
     @Override
     public void changeModel() {
         setAngelType(AngelUtil.randomType());

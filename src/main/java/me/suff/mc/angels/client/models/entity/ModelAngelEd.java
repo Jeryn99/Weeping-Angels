@@ -330,9 +330,9 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        Wings.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        Body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Head.render(matrixStack, buffer, packedLight, packedOverlay);
+        Wings.render(matrixStack, buffer, packedLight, packedOverlay);
+        Body.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
     @Override

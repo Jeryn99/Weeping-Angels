@@ -36,9 +36,11 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 
     public StatueBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F));
+        super(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().requiresCorrectToolForDrops().strength(1.5F, 6.0F));
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
+
+
 
     @Override
     public boolean hasDynamicShape() {

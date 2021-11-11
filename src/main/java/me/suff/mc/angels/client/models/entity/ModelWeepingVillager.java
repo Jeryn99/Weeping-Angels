@@ -184,9 +184,9 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leg0.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-        leg1.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, packedOverlay);
+        leg0.render(matrixStack, buffer, packedLight, packedOverlay);
+        leg1.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
 }

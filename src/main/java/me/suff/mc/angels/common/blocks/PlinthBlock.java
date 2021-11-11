@@ -1,7 +1,9 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
+import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -42,7 +44,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
 
 
     public PlinthBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).noOcclusion().requiresCorrectToolForDrops().strength(1.5F, 6.0F));
+        super(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(CLASSIC, false).setValue(BlockStateProperties.WATERLOGGED, false));
     }
 

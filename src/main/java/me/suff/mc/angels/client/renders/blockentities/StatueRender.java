@@ -42,7 +42,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
             texture = angelModel.getTextureForPose(statueBlockEntity, pose);
         }
         angel.setupAnim(null, 0, 0, 0, 0, 0);
-        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
+        angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         matrixStack.popPose();
     }
 
