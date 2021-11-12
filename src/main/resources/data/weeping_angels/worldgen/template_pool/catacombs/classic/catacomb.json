@@ -93,7 +93,34 @@
       }
     },
     {
-      "weight": 10,
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/flood_bridge",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/flood_bridge_lava",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/labyrinth",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
