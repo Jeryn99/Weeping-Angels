@@ -46,6 +46,8 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
 
             property 'forge.logging.console.level', 'debug'
@@ -59,6 +61,8 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
@@ -71,7 +75,8 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             // Recommended logging data for a userdev environment
             // The markers can be changed as needed.
             // "SCAN": For mods scan.
@@ -103,7 +108,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.9'
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
-    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:530b1493a6')
+    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.5.2')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
