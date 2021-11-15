@@ -47,8 +47,8 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_WING, SnowWingsModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
-        registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
-        registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(PlayerModel.createMesh(CubeDeformation.NONE, true), 64, 64));
+        registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::createBodyLayer);
+        registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(ModelAplan.createMesh(CubeDeformation.NONE, true), 64, 64));
     }
 
 }

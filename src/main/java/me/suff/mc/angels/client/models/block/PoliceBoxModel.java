@@ -1,4 +1,7 @@
-package me.suff.mc.angels.client.models.block;
+package me.suff.mc.angels.client.models.block;// Made with Blockbench 4.0.4
+// Exported for Minecraft version 1.17 with Mojang mappings
+// Paste this class into your mod and generate all required imports
+
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -8,94 +11,97 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
-public class PoliceBoxModel extends EntityModel {
-    public final ModelPart DoorRight;
-    private final ModelPart Base;
-    private final ModelPart Pillars;
-    private final ModelPart Frame;
-    private final ModelPart SideDoors;
-    private final ModelPart PPCBSign;
+public class PoliceBoxModel extends EntityModel{
+
+    private final ModelPart Posts;
+    private final ModelPart Panels;
+    private final ModelPart PPCB;
     private final ModelPart Roof;
     private final ModelPart Lamp;
-    private final ModelPart DoorLeft;
+    private final ModelPart RDoor;
+    private final ModelPart LDoor;
+    private final ModelPart bb_main;
 
     public PoliceBoxModel(ModelPart root) {
-        DoorRight = root.getChild("DoorRight");
-        Base = root.getChild("Base");
-        Pillars = root.getChild("Pillars");
-        Frame = root.getChild("Frame");
-        PPCBSign = root.getChild("PPCBSign");
-        SideDoors = root.getChild("SideDoors");
-        Roof = root.getChild("Roof");
-        Lamp = root.getChild("Lamp");
-        DoorLeft = root.getChild("DoorLeft");
+        this.Posts = root.getChild("Posts");
+        this.Panels = root.getChild("Panels");
+        this.PPCB = root.getChild("PPCB");
+        this.Roof = root.getChild("Roof");
+        this.Lamp = root.getChild("Lamp");
+        this.RDoor = root.getChild("RDoor");
+        this.LDoor = root.getChild("LDoor");
+        this.bb_main = root.getChild("bb_main");
     }
 
-    public static LayerDefinition getModelData() {
+    public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition Base = partdefinition.addOrReplaceChild("Base", CubeListBuilder.create().texOffs(0, 0).addBox(-18.5F, -3.0F, -18.5F, 37.0F, 3.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition Posts = partdefinition.addOrReplaceChild("Posts", CubeListBuilder.create().texOffs(28, 102).addBox(-3.0F, -57.0F, -2.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-14.0F, 21.0F, -15.0F));
 
-        PartDefinition Pillars = partdefinition.addOrReplaceChild("Pillars", CubeListBuilder.create().texOffs(0, 193).addBox(-17.5F, -60.0F, -17.5F, 4.0F, 57.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(140, 191).addBox(13.5F, -60.0F, -17.5F, 4.0F, 57.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(124, 191).addBox(13.5F, -60.0F, 13.5F, 4.0F, 57.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(108, 191).addBox(-17.5F, -60.0F, 13.5F, 4.0F, 57.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(99, 40).addBox(-16.5F, -62.0F, -16.5F, 33.0F, 2.0F, 33.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r1 = Posts.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(28, 102).addBox(-17.0F, -60.0F, -17.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(14.0F, 3.0F, 15.0F, -3.1416F, 0.0F, 3.1416F));
 
-        PartDefinition Frame = partdefinition.addOrReplaceChild("Frame", CubeListBuilder.create().texOffs(209, 181).addBox(-13.5F, -53.0F, -17.0F, 1.0F, 50.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(215, 181).addBox(-17.0F, -53.0F, 12.5F, 2.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(209, 181).addBox(12.5F, -53.0F, 15.0F, 1.0F, 50.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(215, 181).addBox(15.0F, -53.0F, -13.5F, 2.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(209, 181).addBox(12.5F, -53.0F, -17.0F, 1.0F, 50.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(215, 181).addBox(-17.0F, -53.0F, -13.5F, 2.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(209, 181).addBox(-13.5F, -53.0F, 15.0F, 1.0F, 50.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(215, 181).addBox(15.0F, -53.0F, 12.5F, 2.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(221, 181).addBox(-17.0F, -53.0F, -0.5F, 1.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(221, 181).addBox(-0.5F, -53.0F, 16.0F, 1.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(221, 181).addBox(16.0F, -53.0F, -0.5F, 1.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 221).addBox(-17.0F, -54.0F, -17.0F, 34.0F, 1.0F, 34.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r2 = Posts.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(28, 102).addBox(-17.0F, -60.0F, -17.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(14.0F, 3.0F, 15.0F, 0.0F, -1.5708F, 0.0F));
 
-        PartDefinition SideDoors = partdefinition.addOrReplaceChild("SideDoors", CubeListBuilder.create().texOffs(52, 118).addBox(-17.0F, -50.0F, 4.0F, 1.0F, 50.0F, 25.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(104, 140).addBox(-13.5F, -50.0F, 31.5F, 25.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 118).addBox(14.0F, -50.0F, 4.0F, 1.0F, 50.0F, 25.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 21.0F, -16.5F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r3 = Posts.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(28, 102).addBox(-17.0F, -60.0F, -17.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(14.0F, 3.0F, 15.0F, 0.0F, 1.5708F, 0.0F));
 
-        PartDefinition PPCBSign = partdefinition.addOrReplaceChild("PPCBSign", CubeListBuilder.create().texOffs(0, 40).addBox(-15.5F, -59.0F, -18.5F, 31.0F, 5.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 82).addBox(-18.5F, -59.0F, -15.5F, 37.0F, 5.0F, 31.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition Panels = partdefinition.addOrReplaceChild("Panels", CubeListBuilder.create().texOffs(84, 74).addBox(-15.0F, -42.0F, -14.0F, 1.0F, 51.0F, 28.0F, new CubeDeformation(0.0F))
+                .texOffs(40, 102).addBox(-14.0F, -42.0F, -15.0F, 1.0F, 51.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(44, 102).addBox(13.0F, -42.0F, -15.0F, 1.0F, 51.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(84, 72).addBox(-13.0F, -42.0F, -15.0F, 26.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 12.0F, 0.0F));
 
-        PartDefinition Roof = partdefinition.addOrReplaceChild("Roof", CubeListBuilder.create().texOffs(111, 0).addBox(-32.0F, -6.0F, 3.0F, 29.0F, 2.0F, 29.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(105, 105).addBox(-33.0F, -4.0F, 2.0F, 31.0F, 4.0F, 31.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(17.5F, -35.0F, -17.5F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r4 = Panels.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(84, 74).addBox(-15.0F, -54.0F, -14.0F, 1.0F, 51.0F, 28.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 12.0F, 0.0F, -3.1416F, 0.0F, 3.1416F));
 
-        PartDefinition Lamp = partdefinition.addOrReplaceChild("Lamp", CubeListBuilder.create().texOffs(0, 0).addBox(-20.0F, -2.0F, 15.0F, 5.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 13).addBox(-20.0F, -7.5F, 15.0F, 5.0F, 6.0F, 5.0F, new CubeDeformation(-0.5F)).mirror(false)
-                .texOffs(0, 7).addBox(-20.0F, -8.0F, 15.0F, 5.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(16, 13).addBox(-19.0F, -9.0F, 16.0F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(17.5F, -41.0F, -17.5F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r5 = Panels.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(84, 74).addBox(-15.0F, -54.0F, -14.0F, 1.0F, 51.0F, 28.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 12.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
-        PartDefinition DoorLeft = partdefinition.addOrReplaceChild("DoorLeft", CubeListBuilder.create().texOffs(182, 182).addBox(-12.0F, -50.0F, -1.0F, 12.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 24).addBox(-12.0F, -34.0F, -2.0F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(4, 24).addBox(-12.0F, -26.0F, -1.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(12.5F, 21.0F, -15.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition PPCB = partdefinition.addOrReplaceChild("PPCB", CubeListBuilder.create().texOffs(90, 39).addBox(-15.0F, -59.0F, -18.0F, 30.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition DoorRight = partdefinition.addOrReplaceChild("DoorRight", CubeListBuilder.create().texOffs(156, 156).addBox(0.0F, -50.0F, -1.0F, 12.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(221, 181).addBox(12.0F, -50.0F, -2.0F, 1.0F, 50.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 30).addBox(10.0F, -33.0F, -1.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-12.5F, 21.0F, -15.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition cube_r6 = PPCB.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(90, 39).addBox(-15.0F, -59.0F, -18.0F, 30.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -1.5708F, 0.0F));
+
+        PartDefinition cube_r7 = PPCB.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(90, 39).addBox(-15.0F, -59.0F, -18.0F, 30.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -3.1416F, 0.0F, 3.1416F));
+
+        PartDefinition cube_r8 = PPCB.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(90, 39).addBox(-15.0F, -59.0F, -18.0F, 30.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
+
+        PartDefinition Roof = partdefinition.addOrReplaceChild("Roof", CubeListBuilder.create().texOffs(0, 39).addBox(-15.0F, -63.0F, -15.0F, 30.0F, 3.0F, 30.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 72).addBox(-14.0F, -65.0F, -14.0F, 28.0F, 2.0F, 28.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 25.0F, 0.0F));
+
+        PartDefinition Lamp = partdefinition.addOrReplaceChild("Lamp", CubeListBuilder.create().texOffs(0, 0).addBox(-3.0F, -2.0F, -3.0F, 6.0F, 2.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 15).addBox(-2.5F, -7.0F, -2.5F, 5.0F, 5.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 8).addBox(-3.0F, -8.0F, -3.0F, 6.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(20, 11).addBox(-2.0F, -9.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -40.0F, 0.0F));
+
+        PartDefinition RDoor = partdefinition.addOrReplaceChild("RDoor", CubeListBuilder.create().texOffs(48, 102).addBox(-13.0F, -50.0F, -1.0F, 13.0F, 50.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 0).addBox(-12.0F, -33.0F, -2.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(24, 0).addBox(-13.0F, -27.0F, 0.0F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(13.0F, 21.0F, -14.0F));
+
+        PartDefinition LDoor = partdefinition.addOrReplaceChild("LDoor", CubeListBuilder.create().texOffs(0, 102).addBox(0.0F, -50.0F, -1.0F, 13.0F, 50.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 51).addBox(3.0F, -34.0F, 0.0F, 6.0F, 7.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 40).addBox(3.0F, -36.0F, 1.0F, 7.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 8).addBox(10.0F, -32.0F, -2.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(28, 5).addBox(12.0F, -27.0F, 0.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-13.0F, 21.0F, -14.0F));
+
+        PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 0).addBox(-18.0F, -3.0F, -18.0F, 36.0F, 3.0F, 36.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
 
-    @Override
-    public void setupAnim(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
+    @Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        Posts.render(poseStack, buffer, packedLight, packedOverlay);
+        Panels.render(poseStack, buffer, packedLight, packedOverlay);
+        PPCB.render(poseStack, buffer, packedLight, packedOverlay);
+        Roof.render(poseStack, buffer, packedLight, packedOverlay);
+        Lamp.render(poseStack, buffer, packedLight, packedOverlay);
+        RDoor.render(poseStack, buffer, packedLight, packedOverlay);
+        LDoor.render(poseStack, buffer, packedLight, packedOverlay);
+        bb_main.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Base.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Pillars.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Frame.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        SideDoors.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        PPCBSign.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Roof.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Lamp.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        DoorLeft.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        DoorRight.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void setupAnim(Entity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+
     }
+
+
 }

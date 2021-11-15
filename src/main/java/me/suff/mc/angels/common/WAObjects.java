@@ -108,7 +108,7 @@ public class WAObjects {
     }
 
     private static <T extends Entity> EntityType<T> registerFireResistMob(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, String name, boolean velocity) {
-        return registerFireImmuneBase(factory, client, classification, width, height, 80, 3, velocity, name);
+        return registerFireImmuneBase(factory, client, classification, width, height, 80, 2, velocity, name);
     }
 
     public static <T extends Entity> EntityType<T> registerStatic(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, String name) {

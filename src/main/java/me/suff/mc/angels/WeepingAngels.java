@@ -7,6 +7,7 @@ import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.client.renders.entities.DyingAngelRender;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
+import me.suff.mc.angels.common.entities.DyingAngel;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAWorld;
@@ -126,7 +127,7 @@ public class WeepingAngels {
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
-        event.put(WAObjects.EntityEntries.APLAN.get(), WeepingAngel.createAttributes().build());
+        event.put(WAObjects.EntityEntries.APLAN.get(), DyingAngel.createAttributes().build());
         event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }
 

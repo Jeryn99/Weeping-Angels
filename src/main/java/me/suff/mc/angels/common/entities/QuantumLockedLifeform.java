@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.entities;
 
+import me.suff.mc.angels.common.entities.ai.BodyRotationAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.conversion.AngelInfection;
@@ -13,6 +14,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -165,6 +167,11 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
 
     public void setPrevPos(BlockPos pos) {
         getEntityData().set(PREVBLOCKPOS, pos);
+    }
+
+    @Override
+    protected BodyRotationControl createBodyControl() {
+        return new BodyRotationAngel(this);
     }
 
     public void invokeSeen(Player player) {

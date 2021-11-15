@@ -25,6 +25,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -171,7 +172,7 @@ public class CommonEvents {
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         PickaxeItem pickaxe = (PickaxeItem) livingEntity.getItemBySlot(EquipmentSlot.MAINHAND).getItem();
-                        boolean isDiamondAndAbove = pickaxe.getTier().getLevel() >= 3;
+                        boolean isDiamondAndAbove = Objects.equals(pickaxe.getTier().getTag(), BlockTags.NEEDS_DIAMOND_TOOL);
                         if (isDiamondAndAbove) {
                             doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
                         }

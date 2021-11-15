@@ -309,7 +309,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     private void randomisePose() {
-        setPose(Objects.requireNonNull(random.nextBoolean() ? WeepingAngelPose.ANGRY : WeepingAngelPose.HIDING));
+        setPose(WeepingAngelPose.getRandomPose(random));
     }
 
     private void playSeenSound(Player player) {
