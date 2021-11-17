@@ -14,7 +14,6 @@ import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -63,11 +62,6 @@ public class WeepingAngels {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
         StartupMessageManager.addModMessage("Don't Blink!");
-    }
-
-    @SubscribeEvent
-    public static void onAddCaps(RegisterCapabilitiesEvent capabilitiesEvent) {
-        capabilitiesEvent.register(AngelVirus.class);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

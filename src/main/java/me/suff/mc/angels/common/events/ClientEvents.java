@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.DrawSelectionEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
@@ -33,7 +34,6 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
-
         if (event.getEntity() instanceof Player player) {
             Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(player));
         }
@@ -75,11 +75,12 @@ public class ClientEvents {
         DateChecker.tick();
     }
 
+
     @SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
             event.setCanceled(true);
-            event.setDensity(30F);
+            event.setDensity(70);
         }
     }
 

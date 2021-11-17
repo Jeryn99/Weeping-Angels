@@ -63,7 +63,9 @@ public class CatacombStructure extends StructureFeature<NoneFeatureConfiguration
 
             BlockPos blockpos = new BlockPos(x, Mth.clamp(random.nextInt(25), 0, 25), z);
             String choosen = variants[random.nextInt(variants.length)];
-            JigsawConfiguration structureSettingsAndStartPool = new JigsawConfiguration(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")), Objects.equals(choosen, "classic") ? 20 : 10);
+            String diff ="classic";
+
+            JigsawConfiguration structureSettingsAndStartPool = new JigsawConfiguration(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + diff + "/catacomb")), Objects.equals(choosen, "classic") ? 20 : 10);
 
             JigsawPlacement.addPieces(
                     dynamicRegistryManager,

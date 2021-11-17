@@ -3,8 +3,6 @@ package me.suff.mc.angels.common.entities;
 import me.suff.mc.angels.common.entities.ai.BodyRotationAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.conversion.AngelInfection;
-import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -79,13 +77,8 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                     if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
-                        AngelInfection.get(player).ifPresent(AngelVirus::tickCounter);
                         return;
                     }
-                    AngelInfection.get(player).ifPresent((angelVirus -> {
-                        angelVirus.infect(false);
-                    }));
-
                     if (targetPlayer == null) {
                         targetPlayer = player;
                         setSeenTime(0);
