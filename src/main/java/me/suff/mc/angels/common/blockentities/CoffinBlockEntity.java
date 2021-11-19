@@ -72,6 +72,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
     }
 
+
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinBlockEntity p_155256_) {
 

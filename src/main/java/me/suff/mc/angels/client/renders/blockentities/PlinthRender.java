@@ -44,6 +44,7 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
         WeepingAngelPose pose = plinthBlockEntity.getPose();
         if (angel instanceof IAngelModel angelModel) {
             angelModel.setAngelPose(pose);
+            angelModel.toggleHurt(true);
             texture = angelModel.getTextureForPose(plinthBlockEntity, pose);
         }
         angel.setupAnim(null, 0, 0, 0, 0, 0);

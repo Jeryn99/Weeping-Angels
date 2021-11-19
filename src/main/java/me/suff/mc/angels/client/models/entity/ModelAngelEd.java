@@ -67,6 +67,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
+    private boolean showHurt = false;
 
     /**
      * Angel Type: 1
@@ -330,9 +331,9 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Head.render(matrixStack, buffer, packedLight, packedOverlay);
-        Wings.render(matrixStack, buffer, packedLight, packedOverlay);
-        Body.render(matrixStack, buffer, packedLight, packedOverlay);
+        Head.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        Wings.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        Body.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
     }
 
     @Override
@@ -382,6 +383,11 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+    @Override
+    public boolean toggleHurt(boolean hurtShow) {
+        return showHurt;
     }
 
     @Override

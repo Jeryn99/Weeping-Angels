@@ -13,6 +13,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -41,11 +42,13 @@ public class ClientUtil {
 
     public static EntityModel<WeepingAngel> getModelForAngel(AngelEnums.AngelType angelType) {
         if (MODEL_MAP.isEmpty()) {
-            MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, new ModelAngelChild(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CHERUB)));
-            MODEL_MAP.put(AngelEnums.AngelType.DISASTER_MC, new ModelDisasterAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_DISASTER))); //DISASTER
-            MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelEd(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_ED))); //ED
-            MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, new ModelClassicAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
-            MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, new ModelWeepingVillager(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
+            EntityModelSet theBakerMan = Minecraft.getInstance().getEntityModels();
+            MODEL_MAP.put(AngelEnums.AngelType.ED_ANGEL_CHILD, new ModelAngelChild(theBakerMan.bakeLayer(WAModels.ANGEL_CHERUB)));
+            MODEL_MAP.put(AngelEnums.AngelType.DISASTER_MC, new ModelDisasterAngel(theBakerMan.bakeLayer(WAModels.ANGEL_DISASTER))); //DISASTER
+            MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelEd(theBakerMan.bakeLayer(WAModels.ANGEL_ED))); //ED
+            MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, new ModelClassicAngel(theBakerMan.bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
+            MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, new ModelWeepingVillager(theBakerMan.bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
+            MODEL_MAP.put(AngelEnums.AngelType.DYING, new ModelAplan(theBakerMan.bakeLayer(WAModels.DYING_ANGEL),true));
 
         }
         return MODEL_MAP.get(angelType);

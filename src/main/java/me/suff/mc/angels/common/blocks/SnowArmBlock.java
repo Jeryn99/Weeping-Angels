@@ -85,7 +85,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState p_51567_) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.MODEL;
     }
 
 

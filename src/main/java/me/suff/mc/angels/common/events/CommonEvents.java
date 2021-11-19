@@ -135,14 +135,8 @@ public class CommonEvents {
         }
         LivingEntity living = event.getEntityLiving();
 
-        if (living.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get() || living.getType() == WAObjects.EntityEntries.APLAN.get()) {
-            QuantumLockedLifeform hurt = (QuantumLockedLifeform) event.getEntityLiving();
-
-            WeepingAngel weepingAngel = null;
-
-            if (hurt instanceof WeepingAngel) {
-                weepingAngel = (WeepingAngel) hurt;
-            }
+        if (living.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
+            WeepingAngel hurt = (WeepingAngel) event.getEntityLiving();
 
             switch (configValue) {
                 case NOTHING:
@@ -183,7 +177,7 @@ public class CommonEvents {
 
             if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
                 if (hurt.level.random.nextInt(100) <= 20) {
-                    hurt.playSound(weepingAngel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
+                    hurt.playSound(hurt.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, hurt.getLaugh());
                 }
                 if (attacker != null) {
                     attacker.hurt(WAObjects.STONE, 2F);

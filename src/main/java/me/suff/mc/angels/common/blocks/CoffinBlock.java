@@ -1,6 +1,9 @@
 package me.suff.mc.angels.common.blocks;
 
+import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,7 +13,9 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -55,6 +60,8 @@ public class CoffinBlock extends BaseEntityBlock {
         return super.getLightEmission(state, world, pos);
     }
 
+
+
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
@@ -93,6 +100,12 @@ public class CoffinBlock extends BaseEntityBlock {
         builder.add(UPRIGHT, ROTATION, WATERLOGGED);
     }
 
+    @Override
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            super.onRemove(state, worldIn, pos, newState, isMoving);
+        }
+    }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -131,12 +144,18 @@ public class CoffinBlock extends BaseEntityBlock {
         };
     }
 
-
     @Override
-    public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
-        super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
-        if (p_60567_.getBlockEntity(p_60568_) instanceof CoffinBlockEntity coffinBlockEntity) {
-            coffinBlockEntity.setCoffin(AngelUtil.randomCoffin());
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
+        if (world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinBlockEntity) {
+            if (!world.isClientSide) {
+                if (stack.getTagElement("BlockEntityTag") != null) {
+                    coffinBlockEntity.load(stack.getTagElement("BlockEntityTag"));
+                } else {
+                    coffinBlockEntity.setCoffin(AngelUtil.randomCoffin());
+                }
+            }
         }
     }
+
 }

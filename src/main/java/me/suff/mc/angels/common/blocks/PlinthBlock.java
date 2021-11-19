@@ -95,11 +95,13 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
-
         if (world.getBlockEntity(pos) instanceof PlinthBlockEntity plinth) {
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
             plinth.setAngelVarients(AngelTypes.getWeightedRandom());
+            if (stack.getTagElement("BlockEntityTag") != null) {
+                plinth.load(stack.getTagElement("BlockEntityTag"));
+            }
             plinth.sendUpdates();
         }
     }

@@ -8,8 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
 
@@ -75,6 +78,29 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
         builder.add(BlockStateProperties.WATERLOGGED);
     }
 
+    @Override
+    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+        ItemStack stack = super.getPickBlock(state, target, world, pos, player);
+        if(world.getBlockEntity(pos) != null) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            stack.getOrCreateTag().put("extra", blockEntity.serializeNBT());
+        }
+        return stack;
+    }
+
+
+
+    @Override
+    public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
+        super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            super.onRemove(state, worldIn, pos, newState, isMoving);
+        }
+    }
 
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
@@ -82,15 +108,10 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
-        if (world.getBlockEntity(pos) instanceof StatueBlockEntity) {
-            StatueBlockEntity statue = (StatueBlockEntity) world.getBlockEntity(pos);
-
+        if (world.getBlockEntity(pos) instanceof StatueBlockEntity statue) {
             if (!world.isClientSide) {
-                BlockPos position = statue.getBlockPos();
-
                 if (stack.getTagElement("BlockEntityTag") != null) {
                     statue.load(stack.getTagElement("BlockEntityTag"));
-                    //         statue.setPosition(position);
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));

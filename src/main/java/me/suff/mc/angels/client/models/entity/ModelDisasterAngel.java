@@ -33,6 +33,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     private final ModelPart rightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
+    private boolean showHurt = false;
 
     public ModelDisasterAngel(ModelPart root) {
         this.head = root.getChild("head");
@@ -204,13 +205,13 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        Legs.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
+        head.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        leftArm.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        rightArm.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        Legs.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        leftWing.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        rightWing.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
     }
 
 
@@ -245,6 +246,11 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     @Override
     public void setAngelPose(WeepingAngelPose angelType) {
         weepingAngelPose = angelType;
+    }
+
+    @Override
+    public boolean toggleHurt(boolean hurtShow) {
+        return showHurt;
     }
 
     @Override

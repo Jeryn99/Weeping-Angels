@@ -2,13 +2,13 @@ package me.suff.mc.angels.client.models.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.DyingAngel;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 
-public class ModelAplan extends PlayerModel<DyingAngel> implements IAngelModel {
+public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel {
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
@@ -19,11 +19,15 @@ public class ModelAplan extends PlayerModel<DyingAngel> implements IAngelModel {
 
     public ModelAplan(ModelPart p_170821_, boolean p_170822_) {
         super(p_170821_, p_170822_);
+        young = false;
     }
 
     @Override
-    public void setupAnim(DyingAngel weepingAngel, float p_102867_, float p_102868_, float p_102869_, float p_102870_, float p_102871_) {
-       /* WeepingAngelPose pose = weepingAngelPose;
+    public void setupAnim(WeepingAngel weepingAngel, float p_102867_, float p_102868_, float p_102869_, float p_102870_, float p_102871_) {
+
+        young = false;
+
+        WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
@@ -123,21 +127,27 @@ public class ModelAplan extends PlayerModel<DyingAngel> implements IAngelModel {
             head.zRot = (float) Math.toRadians(-20);
             hat.copyFrom(head);
             return;
-        }*/
-        super.setupAnim(weepingAngel, p_102867_, p_102868_, p_102869_, p_102870_, p_102871_);
+        }
     }
 
 
-    //TODO
+    @Override
+    public boolean toggleHurt(boolean hurtShow) {
+        return false;
+    }
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return getTextureForPose(null, pose);
     }
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-        return null;
+        return switch (pose.getEmotion()) {
+            case ANGRY -> ANGRY;
+            case IDLE -> IDLE;
+            case SCREAM -> SCREAM;
+        };
     }
 
     @Override

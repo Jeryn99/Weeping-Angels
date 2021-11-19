@@ -7,7 +7,6 @@ import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.blocks.*;
 import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
-import me.suff.mc.angels.common.entities.DyingAngel;
 import me.suff.mc.angels.common.entities.Portal;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
@@ -186,7 +185,6 @@ public class WAObjects {
         public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
 
         public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngel::new, WeepingAngel::new, MobCategory.MONSTER, 1F, 1.75F, "weeping_angel", false));
-        public static final RegistryObject<EntityType<DyingAngel>> APLAN = ENTITIES.register("aplan", () -> registerFireResistMob(DyingAngel::new, DyingAngel::new, MobCategory.MONSTER, 1F, 1.75F, "aplan", false));
         public static final RegistryObject<EntityType<Portal>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(Portal::new, Portal::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));
         public static final RegistryObject<EntityType<ChronodyneGeneratorProjectile>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorProjectile::new, ChronodyneGeneratorProjectile::new, MobCategory.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
     }

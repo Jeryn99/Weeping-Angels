@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public interface IAngelModel {
 
+    boolean toggleHurt(boolean hurtShow);
+
     ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants);
 
     ResourceLocation getTextureForPose(Object weepingAngelEntity, WeepingAngelPose pose);

@@ -39,6 +39,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
         WeepingAngelPose pose = statueBlockEntity.getPose();
         if (angel instanceof IAngelModel angelModel) {
             angelModel.setAngelPose(pose);
+            angelModel.toggleHurt(true);
             texture = angelModel.getTextureForPose(statueBlockEntity, pose);
         }
         angel.setupAnim(null, 0, 0, 0, 0, 0);

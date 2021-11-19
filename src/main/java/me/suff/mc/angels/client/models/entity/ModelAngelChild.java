@@ -33,6 +33,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     private final ModelPart RightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
+    private boolean showHurt = false;
 
     /**
      * Angel Type: Child
@@ -185,7 +186,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         matrixStack.pushPose();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 1.5, 0);
-        WeepingCherubFix.render(matrixStack, buffer, packedLight, packedOverlay);
+        WeepingCherubFix.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         matrixStack.popPose();
     }
 
@@ -209,6 +210,11 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         }
 
         return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());
+    }
+
+    @Override
+    public boolean toggleHurt(boolean hurtShow) {
+        return showHurt;
     }
 
     @Override
