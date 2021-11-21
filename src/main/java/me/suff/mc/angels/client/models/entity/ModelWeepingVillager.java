@@ -128,13 +128,15 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
         wing2.zRot = (float) Math.toRadians(0);
 
         if (pose == WeepingAngelPose.HIDING) {
-            head.xRot = (float) Math.toRadians(32.5);
+            head.xRot = (float) Math.toRadians(30);
             head.yRot = (float) Math.toRadians(0);
             head.zRot = (float) Math.toRadians(0);
-            body.xRot = (float) Math.toRadians(-17.5);
+            body.xRot = (float) Math.toRadians(0);
 
             nose.xRot = (float) Math.toRadians(-17.5);
-            arms.xRot = (float) Math.toRadians(-82.5);
+            arms.xRot = (float) Math.toRadians(0);
+            arms.xRot = (float) Math.toRadians(-90);
+            arms.zRot = (float) Math.toRadians(0);
             return;
         }
 
@@ -145,7 +147,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
 
             body.xRot = (float) Math.toRadians(0);
             body.yRot = (float) Math.toRadians(0);
-            body.zRot = (float) Math.toRadians(90);
+            body.zRot = (float) Math.toRadians(0);
 
             arms.xRot = (float) Math.toRadians(-67.5);
             arms.yRot = (float) Math.toRadians(0);

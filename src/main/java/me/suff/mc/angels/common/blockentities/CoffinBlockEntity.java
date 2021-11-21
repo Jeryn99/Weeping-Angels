@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -71,7 +72,6 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             setChanged();
         }
     }
-
 
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinBlockEntity p_155256_) {
@@ -201,6 +201,11 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
         return Coffin.HEAVILY_WEATHERED;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox() {
+        return super.getRenderBoundingBox().inflate(8);
     }
 
     public enum Coffin {
