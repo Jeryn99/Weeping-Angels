@@ -48,7 +48,7 @@ public class ClientUtil {
             MODEL_MAP.put(AngelEnums.AngelType.ED, new ModelAngelEd(theBakerMan.bakeLayer(WAModels.ANGEL_ED))); //ED
             MODEL_MAP.put(AngelEnums.AngelType.A_DIZZLE, new ModelClassicAngel(theBakerMan.bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
             MODEL_MAP.put(AngelEnums.AngelType.VILLAGER, new ModelWeepingVillager(theBakerMan.bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
-            MODEL_MAP.put(AngelEnums.AngelType.DYING, new ModelAplan(theBakerMan.bakeLayer(WAModels.DYING_ANGEL),true));
+            MODEL_MAP.put(AngelEnums.AngelType.DYING, new ModelAplan(theBakerMan.bakeLayer(WAModels.DYING_ANGEL), true));
 
         }
         return MODEL_MAP.get(angelType);

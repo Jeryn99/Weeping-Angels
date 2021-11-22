@@ -1,12 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
-import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
-import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -59,7 +55,6 @@ public class CoffinBlock extends BaseEntityBlock {
         }
         return super.getLightEmission(state, world, pos);
     }
-
 
 
     @Override

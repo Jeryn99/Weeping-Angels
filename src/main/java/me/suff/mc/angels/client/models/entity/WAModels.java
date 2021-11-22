@@ -2,7 +2,6 @@ package me.suff.mc.angels.client.models.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.*;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;

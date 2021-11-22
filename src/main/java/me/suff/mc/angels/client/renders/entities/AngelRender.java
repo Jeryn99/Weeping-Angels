@@ -36,7 +36,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
     public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngel.getAngelType());
 
-        if(model instanceof IAngelModel iAngelModel){
+        if (model instanceof IAngelModel iAngelModel) {
             iAngelModel.toggleHurt(false);
         }
 

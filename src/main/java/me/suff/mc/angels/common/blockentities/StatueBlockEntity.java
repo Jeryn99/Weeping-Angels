@@ -19,6 +19,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -120,7 +121,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
-        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
+        if (level.getDifficulty() != Difficulty.PEACEFUL && WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
             WeepingAngel angel = new WeepingAngel(level);
             angel.setVarient(angelVariant);
             angel.setType(type);
@@ -158,12 +159,12 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeModel() {
-        setAngelType(AngelUtil.randomType());
+        setAngelType(AngelEnums.AngelType.next(getAngelType()));
     }
 
     @Override
     public void changePose() {
-        setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
+        setPose(WeepingAngelPose.next(pose));
     }
 
     @Override

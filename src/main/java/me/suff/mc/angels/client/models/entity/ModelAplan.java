@@ -10,11 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel {
 
-    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
-
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_angry.png");
     public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_idle.png");
     public static final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_scream.png");
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
 
     public ModelAplan(ModelPart p_170821_, boolean p_170822_) {

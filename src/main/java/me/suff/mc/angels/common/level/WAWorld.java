@@ -41,7 +41,7 @@ public class WAWorld {
 
     public static void setupStructures() {
         setupStructure(GRAVEYARD.get(), new StructureFeatureConfiguration(200, 100, 1234567890), false);
-        setupStructure(CATACOMBS.get(), new StructureFeatureConfiguration(450, 100, 234567890), false);
+        setupStructure(CATACOMBS.get(), new StructureFeatureConfiguration(450, 260, 234356790), false);
     }
 
     public static void registerConfiguredStructures() {

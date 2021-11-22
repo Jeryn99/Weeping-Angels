@@ -29,6 +29,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         coffinModelPTB = context.bakeLayer(WAModels.POLICE_BOX);
     }
 
+    @SuppressWarnings("resource")
     @Override
     public void render(CoffinBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
 

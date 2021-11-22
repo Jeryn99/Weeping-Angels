@@ -1,13 +1,17 @@
 package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blocks.StatueBlock;
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,6 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Iterator;
 
 import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
@@ -118,6 +124,8 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
 
+                    activateAngels(40);
+
                     if (ModList.get().isLoaded("tardis")) {
                         level.setBlockAndUpdate(worldPosition.above(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).defaultBlockState());
                     }
@@ -132,6 +140,22 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
+    }
+
+    private void activateAngels(int range) {
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(worldPosition, range, range, range).iterator(); iterator.hasNext(); ) {
+            BlockPos pos = iterator.next();
+            ServerLevel serverWorld = (ServerLevel) level;
+            if (level.getDifficulty() != Difficulty.PEACEFUL && serverWorld.getBlockEntity(pos) instanceof StatueBlockEntity statueBlockEntity) {
+                WeepingAngel angel = new WeepingAngel(level);
+                angel.setVarient(statueBlockEntity.getAngelVarients());
+                angel.setType(statueBlockEntity.getAngelType());
+                angel.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, (float) Math.toRadians(22.5F * statueBlockEntity.getBlockState().getValue(StatueBlock.ROTATION)), 0);
+                angel.setPose(statueBlockEntity.getPose());
+                level.addFreshEntity(angel);
+                level.removeBlock(pos, false);
+            }
+        }
     }
 
     @Override

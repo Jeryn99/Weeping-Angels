@@ -31,6 +31,7 @@ public class ChiselItem extends Item {
         Player player = context.getPlayer();
 
         if (world.getBlockEntity(blockpos) instanceof IPlinth plinth && context.getHand() == InteractionHand.MAIN_HAND) {
+
             if (player.isShiftKeyDown()) {
                 plinth.changeModel();
                 plinth.sendUpdatesToClient();

@@ -26,7 +26,6 @@ import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
@@ -42,7 +41,6 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
         super(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().requiresCorrectToolForDrops().strength(1.5F, 6.0F));
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
-
 
 
     @Override
@@ -81,18 +79,11 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     @Override
     public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-        if(world.getBlockEntity(pos) != null) {
+        if (world.getBlockEntity(pos) != null) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             stack.getOrCreateTag().put("extra", blockEntity.serializeNBT());
         }
         return stack;
-    }
-
-
-
-    @Override
-    public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
-        super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
     }
 
     @Override

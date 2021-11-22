@@ -13,6 +13,14 @@ public class AngelEnums {
             this.readable = readable;
         }
 
+        public static AngelType next(AngelType type) {
+            int index = type.ordinal();
+            int nextIndex = index + 1;
+            AngelType[] angels = AngelType.values();
+            nextIndex %= angels.length;
+            return angels[nextIndex];
+        }
+
         public String getReadable() {
             return readable;
         }

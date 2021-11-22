@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
-public class PoliceBoxModel extends EntityModel{
+public class PoliceBoxModel extends EntityModel {
 
     private final ModelPart Posts;
     private final ModelPart Panels;
