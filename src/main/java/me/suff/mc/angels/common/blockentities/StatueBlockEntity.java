@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -38,6 +39,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
         super(WAObjects.Tiles.STATUE.get(), pos, state);
+     
     }
 
     @Override
@@ -125,7 +127,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             WeepingAngel angel = new WeepingAngel(level);
             angel.setVarient(angelVariant);
             angel.setType(type);
-            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
+            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 22.5F * this.getBlockState().getValue(StatueBlock.ROTATION), 0);
             angel.setPose(getPose());
             level.addFreshEntity(angel);
             level.removeBlock(worldPosition, false);

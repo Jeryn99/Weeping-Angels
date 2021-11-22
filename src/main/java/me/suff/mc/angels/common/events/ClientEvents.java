@@ -1,11 +1,14 @@
 package me.suff.mc.angels.common.events;
 
+import me.suff.mc.angels.client.renders.WingsLayer;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -15,6 +18,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawSelectionEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -30,6 +34,17 @@ public class ClientEvents {
     public static boolean isInCatacombs = false;
     private static SoundInstance iSound = null;
 
+    @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class On {
+
+        @SubscribeEvent
+        public static void renderLayers(EntityRenderersEvent.AddLayers addLayers) {
+            addLayers.getSkins().forEach(skin -> {
+                LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> renderer = addLayers.getSkin(skin);
+                renderer.addLayer(new WingsLayer(renderer));
+            });
+        }
+    }
 
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {

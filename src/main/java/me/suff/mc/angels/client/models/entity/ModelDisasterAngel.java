@@ -23,13 +23,13 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/normal/normal_angel_angry.png");
 
-    private final ModelPart head;
-    private final ModelPart body;
-    private final ModelPart leftArm;
-    private final ModelPart rightArm;
-    private final ModelPart Legs;
-    private final ModelPart leftWing;
-    private final ModelPart rightWing;
+    public final ModelPart head;
+    public final ModelPart body;
+    public final ModelPart leftArm;
+    public final ModelPart rightArm;
+    public final ModelPart Legs;
+    public final ModelPart leftWing;
+    public final ModelPart rightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private boolean showHurt = false;
