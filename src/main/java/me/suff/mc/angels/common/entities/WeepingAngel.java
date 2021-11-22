@@ -45,10 +45,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EndPortalBlock;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.energy.CapabilityEnergy;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -393,6 +395,15 @@ public class WeepingAngel extends QuantumLockedLifeform {
                     continue;
                 }
 
+                if(level.getBlockEntity(pos) != null){
+                    BlockEntity blockEntity = level.getBlockEntity(pos);
+                    blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(iEnergyStorage -> {
+                        if(iEnergyStorage.canExtract()){
+                            iEnergyStorage.extractEnergy(100, false);
+                            heal(0.5F);
+                        }
+                    });
+                }
 
                 if (blockState.getBlock() instanceof NetherPortalBlock || blockState.getBlock() instanceof EndPortalBlock) {
                     if (getHealth() < getMaxHealth()) {
