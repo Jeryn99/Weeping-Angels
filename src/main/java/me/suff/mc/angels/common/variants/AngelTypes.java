@@ -5,6 +5,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fmllegacy.RegistryObject;
@@ -38,6 +39,7 @@ public class AngelTypes {
     public static final RegistryObject<AbstractVariant> EMERALD = VARIANTS.register("emerald", () -> new MiningVariant(() -> new ItemStack(Blocks.EMERALD_ORE), 20));
     public static final RegistryObject<AbstractVariant> COPPER = VARIANTS.register("copper", () -> new MiningVariant(() -> new ItemStack(Blocks.COPPER_ORE), 20));
     public static final RegistryObject<AbstractVariant> LAPIS = VARIANTS.register("lapis_lazuli", () -> new MiningVariant(() -> new ItemStack(Blocks.LAPIS_ORE), 10));
+    public static final RegistryObject<AbstractVariant> FIRE = VARIANTS.register("fire", () -> new BaseVariant(() -> new ItemStack(Items.FLINT_AND_STEEL), 10));
     public static Predicate<WeepingAngel> FREE_REIGN = weepingAngelEntity -> true;
     public static final RegistryObject<AbstractVariant> QUARTZ = VARIANTS.register("quartz", () -> new MiningVariant(() -> new ItemStack(Blocks.NETHER_QUARTZ_ORE), 30, FREE_REIGN));
     public static Predicate<WeepingAngel> BANNED_FROM_NETHER = weepingAngelEntity -> {

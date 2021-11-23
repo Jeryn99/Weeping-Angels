@@ -6,6 +6,7 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -60,6 +61,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
         pMatrixStackIn.popPose();
 
     }
+
 
     @Override
     protected float getFlipDegrees(WeepingAngel entityLivingBaseIn) {

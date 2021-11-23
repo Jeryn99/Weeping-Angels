@@ -29,6 +29,7 @@ public class WAModels {
 
     // "Aflans"
     public static ModelLayerLocation DYING_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "dying_angel");
+    public static ModelLayerLocation DOCTOR_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel");
 
     private static ModelLayerLocation createAngelModelLocation(String weeping_angel) {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
@@ -47,6 +48,7 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::createBodyLayer);
+        registerLayerDefinitions.registerLayerDefinition(DOCTOR_ANGEL, ModelDoctorAngel::createBodyLayer);
         registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(ModelAplan.createMesh(CubeDeformation.NONE, true), 64, 64));
     }
 

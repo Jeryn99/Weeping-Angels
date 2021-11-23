@@ -40,8 +40,10 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
         }
     }
 
+    String[] people = new String[]{"bc8b891e-5c25-4c9f-ae61-cdfb270f1cc1", "96511168-1bb3-4ff0-a894-271e42606a39", "6e17cac4-6d28-48ca-a112-61f208fbdcd8", "bd049f17-7fdd-42aa-bd19-81a60d6b526b"};
+
+
     private boolean shouldDisplay(Player player) {
-        String[] people = new String[]{"bc8b891e-5c25-4c9f-ae61-cdfb270f1cc1", "96511168-1bb3-4ff0-a894-271e42606a39"};
         for (String person : people) {
             if(player.getUUID().equals(UUID.fromString(person)) && !player.isModelPartShown(PlayerModelPart.CAPE)){
                 return true;

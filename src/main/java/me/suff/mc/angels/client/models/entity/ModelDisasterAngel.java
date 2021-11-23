@@ -248,6 +248,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     @Override
     public boolean toggleHurt(boolean hurtShow) {
+        this.showHurt = hurtShow;
         return showHurt;
     }
 
