@@ -20,6 +20,7 @@ import net.minecraft.world.entity.HumanoidArm;
 
 public class ModelDoctorAngel extends EntityModel<WeepingAngel> implements IAngelModel, HeadedModel, ArmedModel {
 
+    public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/doctor/doctor_angel_idle.png");
     private final ModelPart head;
     private final ModelPart body;
     private final ModelPart leftArm;
@@ -29,15 +30,6 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngel> implements IAnge
     private final ModelPart rightWing;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private boolean showHurt = false;
-    public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/doctor/doctor_angel_idle.png");
-
-    public WeepingAngelPose getWeepingAngelPose() {
-        return weepingAngelPose;
-    }
-
-    public void setWeepingAngelPose(WeepingAngelPose weepingAngelPose) {
-        this.weepingAngelPose = weepingAngelPose;
-    }
 
     public ModelDoctorAngel(ModelPart root) {
         this.head = root.getChild("head");
@@ -89,6 +81,14 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngel> implements IAnge
                 .texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 5.0F, 2.0F, 0.0F, 0.7854F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 128, 128);
+    }
+
+    public WeepingAngelPose getWeepingAngelPose() {
+        return weepingAngelPose;
+    }
+
+    public void setWeepingAngelPose(WeepingAngelPose weepingAngelPose) {
+        this.weepingAngelPose = weepingAngelPose;
     }
 
     @Override

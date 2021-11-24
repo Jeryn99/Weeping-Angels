@@ -395,12 +395,13 @@ public class WeepingAngel extends QuantumLockedLifeform {
                     continue;
                 }
 
-                if(level.getBlockEntity(pos) != null){
+                if (level.getBlockEntity(pos) != null) {
                     BlockEntity blockEntity = level.getBlockEntity(pos);
                     blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(iEnergyStorage -> {
-                        if(iEnergyStorage.canExtract()){
+                        if (iEnergyStorage.canExtract()) {
                             iEnergyStorage.extractEnergy(100, false);
                             heal(0.5F);
+                            return;
                         }
                     });
                 }

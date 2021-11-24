@@ -34,18 +34,6 @@ public class ClientEvents {
     public static boolean isInCatacombs = false;
     private static SoundInstance iSound = null;
 
-    @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class On {
-
-        @SubscribeEvent
-        public static void renderLayers(EntityRenderersEvent.AddLayers addLayers) {
-            addLayers.getSkins().forEach(skin -> {
-                LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> renderer = addLayers.getSkin(skin);
-                renderer.addLayer(new WingsLayer(renderer));
-            });
-        }
-    }
-
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -89,7 +77,6 @@ public class ClientEvents {
         DateChecker.tick();
     }
 
-
     @SubscribeEvent
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
@@ -107,6 +94,18 @@ public class ClientEvents {
             event.setRed(0.14F);
             event.setGreen(0.15F);
             event.setBlue(0.22F);
+        }
+    }
+
+    @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class On {
+
+        @SubscribeEvent
+        public static void renderLayers(EntityRenderersEvent.AddLayers addLayers) {
+            addLayers.getSkins().forEach(skin -> {
+                LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> renderer = addLayers.getSkin(skin);
+                renderer.addLayer(new WingsLayer(renderer));
+            });
         }
     }
 

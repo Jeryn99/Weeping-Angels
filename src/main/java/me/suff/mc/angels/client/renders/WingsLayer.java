@@ -22,16 +22,17 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
 
 
     private final ModelDisasterAngel model;
+    String[] people = new String[]{"bc8b891e-5c25-4c9f-ae61-cdfb270f1cc1", "96511168-1bb3-4ff0-a894-271e42606a39", "6e17cac4-6d28-48ca-a112-61f208fbdcd8", "bd049f17-7fdd-42aa-bd19-81a60d6b526b"};
+
 
     public WingsLayer(RenderLayerParent<T, M> p_117346_) {
         super(p_117346_);
         model = new ModelDisasterAngel(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.ANGEL_DISASTER));
     }
 
-
     @Override
     public void render(PoseStack p_117349_, MultiBufferSource p_117350_, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
-        if(p_117352_ instanceof Player player && shouldDisplay(player)) {
+        if (p_117352_ instanceof Player player && shouldDisplay(player)) {
             p_117349_.pushPose();
             getParentModel().body.translateAndRotate(p_117349_);
             model.leftWing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(model.generateTex(WeepingAngelPose.HIDING, AngelTypes.NORMAL.get()))), p_117351_, OverlayTexture.NO_OVERLAY);
@@ -40,12 +41,9 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
         }
     }
 
-    String[] people = new String[]{"bc8b891e-5c25-4c9f-ae61-cdfb270f1cc1", "96511168-1bb3-4ff0-a894-271e42606a39", "6e17cac4-6d28-48ca-a112-61f208fbdcd8", "bd049f17-7fdd-42aa-bd19-81a60d6b526b"};
-
-
     private boolean shouldDisplay(Player player) {
         for (String person : people) {
-            if(player.getUUID().equals(UUID.fromString(person)) && !player.isModelPartShown(PlayerModelPart.CAPE)){
+            if (player.getUUID().equals(UUID.fromString(person)) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
                 return true;
             }
         }

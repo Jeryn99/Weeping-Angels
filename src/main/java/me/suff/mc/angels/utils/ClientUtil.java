@@ -63,7 +63,6 @@ public class ClientUtil {
     public static void doClientStuff() {
 
 
-
         BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowAngelRenderer::new);
         BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthRender::new);
         BlockEntityRenderers.register(WAObjects.Tiles.STATUE.get(), StatueRender::new);

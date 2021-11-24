@@ -39,7 +39,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
         super(WAObjects.Tiles.STATUE.get(), pos, state);
-     
+
     }
 
     @Override
