@@ -88,7 +88,7 @@ public class AngelUtil {
     }
 
     public static boolean isDarkForPlayer(QuantumLockedLifeform angel, LivingEntity living) {
-        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != Level.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
+        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getLightEmission(angel.blockPosition()) <= 0 && !angel.level.dimensionType().hasCeiling() && !AngelUtil.handLightCheck(living);
     }
 
     public static void updateBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {

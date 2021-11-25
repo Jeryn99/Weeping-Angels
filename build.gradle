@@ -36,12 +36,15 @@ minecraft {
     mappings channel: "official", version: "1.17.1"
 
     runs {
-        client {
-            workingDirectory project.file('run')
-            arg "-mixin.config=weeping-angels.mixins.json"
 
+        configureEach {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            arg "-mixin.config=weeping-angels.mixins.json"
+        }
+
+        client {
+            workingDirectory project.file('run')
 
             if (project.hasProperty('mc_uuid')) {
                 args '--uuid', project.getProperty('mc_uuid')
@@ -61,8 +64,6 @@ minecraft {
         }
 
         server {
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             workingDirectory project.file('run')
             mods {
                 weeping_angels {
@@ -73,10 +74,6 @@ minecraft {
 
 
         data {
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-
             workingDirectory project.file('run')
             args '--mod', 'weeping_angels', '--all', '--output', file('src/generated/resources/')
 

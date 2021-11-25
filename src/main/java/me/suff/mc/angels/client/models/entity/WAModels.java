@@ -2,6 +2,7 @@ package me.suff.mc.angels.client.models.entity;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.*;
+import me.suff.mc.angels.client.renders.MercyWings;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -30,6 +31,7 @@ public class WAModels {
     // "Aflans"
     public static ModelLayerLocation DYING_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "dying_angel");
     public static ModelLayerLocation DOCTOR_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel");
+    public static ModelLayerLocation MERCY_WINGS = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "mercy_wings");
 
     private static ModelLayerLocation createAngelModelLocation(String weeping_angel) {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
@@ -49,6 +51,7 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::createBodyLayer);
         registerLayerDefinitions.registerLayerDefinition(DOCTOR_ANGEL, ModelDoctorAngel::createBodyLayer);
+        registerLayerDefinitions.registerLayerDefinition(MERCY_WINGS, MercyWings::createBodyLayer);
         registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(ModelAplan.createMesh(CubeDeformation.NONE, true), 64, 64));
     }
 
