@@ -7,7 +7,6 @@ import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -205,14 +204,15 @@ public class AngelUtil {
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-        if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).isValid();
+        //TODO !!!!!
+        /*   if (playerEntity.level instanceof ServerLevel serverWorld) {
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAWorld.CATACOMBS.get()).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).getBoundingBox();
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAWorld.CATACOMBS.get()).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
-        }
+        }*/
         return false;
     }
 

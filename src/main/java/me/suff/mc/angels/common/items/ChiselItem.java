@@ -1,12 +1,9 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.common.blockentities.IPlinth;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.PlayerUtil;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -39,7 +36,7 @@ public class ChiselItem extends Item {
         if (world.getBlockEntity(blockpos) instanceof IPlinth plinth) {
 
             if (player.isShiftKeyDown()) {
-                if(context.getHand() == InteractionHand.MAIN_HAND) {
+                if (context.getHand() == InteractionHand.MAIN_HAND) {
                     player.swing(context.getHand());
                     plinth.changeModel();
                     plinth.sendUpdatesToClient();
@@ -60,7 +57,6 @@ public class ChiselItem extends Item {
             plinth.sendUpdatesToClient();
             return InteractionResult.PASS;
         }
-
 
 
         return InteractionResult.FAIL;

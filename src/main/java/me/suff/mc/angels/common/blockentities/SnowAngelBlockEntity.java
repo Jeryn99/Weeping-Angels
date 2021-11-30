@@ -83,7 +83,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override

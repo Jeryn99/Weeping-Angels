@@ -28,12 +28,11 @@ version = '1.0.3 [BETA] - ' + new Date().format("yyyy-MM-dd")
 group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 
-// Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: "official", version: "1.17.1"
+    mappings channel: "official", version: "1.18"
 
     runs {
 
@@ -96,7 +95,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.1.0'
+    minecraft 'net.minecraftforge:forge:1.18-38.0.1'
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 }
 
@@ -157,9 +156,9 @@ curseforge {
             changelog = new File("${project.projectDir}/changelog.html").text
             changelogType = 'html'
             releaseType = 'release'
-            addGameVersion '1.17.1'
+            addGameVersion '1.18'
             mainArtifact(jar) {
-                displayName = "[1.17.X] Weeping Angels - $project.version"
+                displayName = "[1.18.X] Weeping Angels - $project.version"
             }
         }
     }
@@ -175,7 +174,7 @@ task publishModrinth(type: TaskModrinthUpload) {
         versionNumber = version // Will fail if Modrinth has this version already
         uploadFile = jar
         // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-        addGameVersion('1.17.1')
+        addGameVersion('1.18')
         addLoader('forge')
     }
 }

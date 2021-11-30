@@ -160,7 +160,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(worldPosition, 3, getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
 

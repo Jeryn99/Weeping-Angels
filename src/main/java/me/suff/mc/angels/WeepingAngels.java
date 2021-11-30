@@ -8,7 +8,6 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -70,8 +69,9 @@ public class WeepingAngels {
         WAObjects.Blocks.BLOCK_ITEMS.register(bus);
         WAObjects.EntityEntries.ENTITIES.register(bus);
         WAObjects.Tiles.TILES.register(bus);
-        WAWorld.STRUCTURES.register(bus);
-        WAWorld.FEATURES.register(bus);
+        //TODO !!!!!
+        /*   WAWorld.STRUCTURES.register(bus);
+        WAWorld.FEATURES.register(bus);*/
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
     }
@@ -81,9 +81,10 @@ public class WeepingAngels {
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         event.enqueueWork(() ->
         {
-            WAWorld.setupStructures();
+            //TODO !!!!!
+           /* WAWorld.setupStructures();
             WAWorld.ConfiguredFeatures.registerConfiguredFeatures();
-            WAWorld.registerConfiguredStructures();
+            WAWorld.registerConfiguredStructures();*/
         });
         VR_REFLECTOR.init();
     }

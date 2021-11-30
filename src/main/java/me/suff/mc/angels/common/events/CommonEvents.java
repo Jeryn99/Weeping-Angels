@@ -5,7 +5,6 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
@@ -41,8 +40,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -84,11 +81,14 @@ public class CommonEvents {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
 
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = false;//TODO !!!!!world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).isValid();
+
+        if (!isGraveYard) return;
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
             if (isGraveYard && !player.getAbilities().instabuild) {
-                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).getBoundingBox();
+                //TODO !!!!! BoundingBox box = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).getBoundingBox();
+                BoundingBox box = null;
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
@@ -220,13 +220,13 @@ public class CommonEvents {
         if (WAConfig.CONFIG.arms.get()) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
                 System.out.println("Added Snow Angels to: " + biomeLoadingEvent.getName());
-                biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.RAW_GENERATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
+                //TODO !!!!!  biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.RAW_GENERATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
             }
         }
 
         if (biomeCategory != Biome.BiomeCategory.NETHER && biomeCategory != Biome.BiomeCategory.THEEND) {
             if (WAConfig.CONFIG.genOres.get()) {
-                biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, WAWorld.ConfiguredFeatures.CONFIGURED_KONTRON_ORE);
+                //TODO !!!!!   biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, WAWorld.ConfiguredFeatures.CONFIGURED_KONTRON_ORE.feature());
             }
             if (biomeCategory != Biome.BiomeCategory.NONE && biomeCategory != Biome.BiomeCategory.OCEAN) {
 
@@ -234,7 +234,7 @@ public class CommonEvents {
                 boolean shouldAdd = biomeCategory != Biome.BiomeCategory.ICY && biomeCategory != Biome.BiomeCategory.MUSHROOM && biomeCategory != Biome.BiomeCategory.JUNGLE && biomeCategory != Biome.BiomeCategory.OCEAN && biomeCategory != Biome.BiomeCategory.RIVER && biomeCategory != Biome.BiomeCategory.DESERT;
                 if (WAConfig.CONFIG.genGraveyard.get()) {
                     if (shouldAdd) {
-                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
+                        //TODO !!!!!    biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
                         System.out.println("Added Graveyard to: " + biomeLoadingEvent.getName());
                     }
                 }
@@ -242,7 +242,7 @@ public class CommonEvents {
                 //Catacombs Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
                 if (WAConfig.CONFIG.genCatacombs.get()) {
                     if (shouldAdd) {
-                        biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
+                        //TODO !!!!!biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
                         System.out.println("Added Catacombs to: " + biomeLoadingEvent.getName());
                     }
                 }
@@ -284,10 +284,10 @@ public class CommonEvents {
             }
             //Only spawn Graveyards in the Overworld structure list
             if (serverWorld.dimension().equals(Level.OVERWORLD)) {
-                Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-                tempMap.put(WAWorld.GRAVEYARD.get(), StructureSettings.DEFAULTS.get(WAWorld.GRAVEYARD.get()));
-                tempMap.put(WAWorld.CATACOMBS.get(), StructureSettings.DEFAULTS.get(WAWorld.CATACOMBS.get()));
-                serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
+                Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld.getChunkSource().getGenerator().getSettings().structureConfig());
+                //TODO !!!!!  tempMap.put(WAWorld.GRAVEYARD.get(), StructureSettings.DEFAULTS.get(WAWorld.GRAVEYARD.get()));
+                //TODO !!!!! tempMap.put(WAWorld.CATACOMBS.get(), StructureSettings.DEFAULTS.get(WAWorld.CATACOMBS.get()));
+                serverWorld.getChunkSource().getGenerator().getSettings().structureConfig = tempMap;
             }
         }
     }

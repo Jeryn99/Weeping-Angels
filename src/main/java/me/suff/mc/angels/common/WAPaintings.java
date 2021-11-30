@@ -2,9 +2,9 @@ package me.suff.mc.angels.common;
 
 import me.suff.mc.angels.WeepingAngels;
 import net.minecraft.world.entity.decoration.Motive;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 /* Created by Craig on 07/02/2021 */
 public class WAPaintings {
