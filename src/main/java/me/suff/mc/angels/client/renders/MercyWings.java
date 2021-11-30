@@ -8,8 +8,9 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 public class MercyWings extends EntityModel<LivingEntity> {
 
@@ -69,9 +70,48 @@ public class MercyWings extends EntityModel<LivingEntity> {
     }
 
     @Override
-    public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(LivingEntity p_102544_, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        float f = 0.2617994F;
+        float f1 = -0.2617994F;
+        float f2 = 0.0F;
+        float f3 = 0.0F;
+        if (p_102544_.isFallFlying()) {
+            float f4 = 1.0F;
+            Vec3 vec3 = p_102544_.getDeltaMovement();
+            if (vec3.y < 0.0D) {
+                Vec3 vec31 = vec3.normalize();
+                f4 = 1.0F - (float) Math.pow(-vec31.y, 1.5D);
+            }
 
+            f = f4 * 0.34906584F + (1.0F - f4) * f;
+            f1 = f4 * (-(float) Math.PI / 2F) + (1.0F - f4) * f1;
+        } else if (p_102544_.isCrouching()) {
+            f = 0.6981317F;
+            f1 = (-(float) Math.PI / 4F);
+            f2 = 3.0F;
+            f3 = 0.08726646F;
+        }
+
+        this.Lwing.y = f2;
+        if (p_102544_ instanceof AbstractClientPlayer abstractclientplayer) {
+            abstractclientplayer.elytraRotX = (float) ((double) abstractclientplayer.elytraRotX + (double) (f - abstractclientplayer.elytraRotX) * 0.1D);
+            abstractclientplayer.elytraRotY = (float) ((double) abstractclientplayer.elytraRotY + (double) (f3 - abstractclientplayer.elytraRotY) * 0.1D);
+            abstractclientplayer.elytraRotZ = (float) ((double) abstractclientplayer.elytraRotZ + (double) (f1 - abstractclientplayer.elytraRotZ) * 0.1D);
+            this.Lwing.xRot = abstractclientplayer.elytraRotX;
+            this.Lwing.yRot = abstractclientplayer.elytraRotY;
+            this.Lwing.zRot = abstractclientplayer.elytraRotZ;
+        } else {
+            this.Lwing.xRot = f;
+            this.Lwing.zRot = f1;
+            this.Lwing.yRot = f3;
+        }
+
+        this.RWing.yRot = -this.Lwing.yRot;
+        this.RWing.y = this.Lwing.y;
+        this.RWing.xRot = this.Lwing.xRot;
+        this.RWing.zRot = -this.Lwing.zRot;
     }
+
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {

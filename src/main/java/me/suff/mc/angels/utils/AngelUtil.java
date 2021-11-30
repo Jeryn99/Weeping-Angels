@@ -4,7 +4,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAWorld;
@@ -151,9 +151,9 @@ public class AngelUtil {
         return false;
     }
 
-    public static AngelEnums.AngelType randomType() {
-        int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
-        return AngelEnums.AngelType.values()[pick];
+    public static AngelType randomType() {
+        int pick = RAND.nextInt(AngelType.values().length);
+        return AngelType.values()[pick];
     }
 
     public static SnowAngelBlockEntity.SnowAngelStages randowSnowStage() {
@@ -184,7 +184,7 @@ public class AngelUtil {
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngel) {
             WeepingAngel weepingAngel = (WeepingAngel) target;
-            if (weepingAngel.getAngelType() == AngelEnums.AngelType.DISASTER_MC) {
+            if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
                     weepingAngel.spawnAtLocation(variant.stackDrop().getItem());

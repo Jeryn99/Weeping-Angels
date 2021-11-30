@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.items;
 
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WATabs;
 import net.minecraft.core.BlockPos;
@@ -29,17 +28,17 @@ public class AngelSpawnerItem extends Item {
         return stack;
     }
 
-    public static AngelEnums.AngelType getType(ItemStack stack) {
+    public static AngelType getType(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         String angelType = tag.getString("type");
         angelType = angelType.isEmpty() ? AngelType.DISASTER_MC.name() : angelType;
-        return AngelEnums.AngelType.valueOf(angelType);
+        return AngelType.valueOf(angelType);
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (allowdedIn(group)) {
-            for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+            for (AngelType angelType : AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);
                 setType(itemstack, angelType);
                 items.add(itemstack);

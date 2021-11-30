@@ -24,6 +24,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -141,7 +142,7 @@ public class WAObjects {
         public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.STONE, 3, 3)));
         public static final RegistryObject<Block> KONTRON_ORE_DEEPSLATE = BLOCKS.register("kontron_ore_deepslate", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.DEEPSLATE, 4.5F, 3)));
         public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
-        public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.of(Material.WOOD).noOcclusion())));
+        public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.ACACIA_WOOD).noOcclusion())));
     }
 
     public static class Items {

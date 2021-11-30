@@ -2,8 +2,7 @@ package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
@@ -27,7 +26,7 @@ import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<PlinthBlockEntity>, IPlinth {
 
     private boolean hasSpawned = false;
-    private String type = AngelEnums.AngelType.DISASTER_MC.name();
+    private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
@@ -65,7 +64,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         return compound;
     }
 
-    public AngelEnums.AngelType getAngelType() {
+    public AngelType getAngelType() {
         boolean found = false;
         for (AngelType value : AngelType.values()) {
             if (value.name().equals(type)) {
@@ -78,14 +77,14 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
 
-        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
+        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {
         this.type = type;
     }
 
-    public void setAngelType(AngelEnums.AngelType type) {
+    public void setAngelType(AngelType type) {
         this.type = type.name();
     }
 
@@ -152,9 +151,6 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         this.pose = pose;
     }
 
-    public AbstractVariant getAngelVarients() {
-        return angelVariant;
-    }
 
     public void setAngelVarients(AbstractVariant angelVariants) {
         this.angelVariant = angelVariants;
@@ -169,7 +165,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeModel() {
-        setAngelType(AngelEnums.AngelType.next(getAngelType()));
+        setAngelType(AngelType.next(getAngelType()));
     }
 
     @Override
@@ -182,5 +178,25 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    @Override
+    public AngelType getCurrentType() {
+        return getAngelType();
+    }
+
+    @Override
+    public WeepingAngelPose getCurrentPose() {
+        return pose;
+    }
+
+    @Override
+    public AbstractVariant getVariant() {
+        return angelVariant;
+    }
+
+    @Override
+    public void setAbstractVariant(AbstractVariant variant) {
+        this.angelVariant = variant;
     }
 }

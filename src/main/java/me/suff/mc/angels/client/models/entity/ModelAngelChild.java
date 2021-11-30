@@ -206,7 +206,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         }
 
         if (angel instanceof PlinthBlockEntity weepingAngelEntity) {
-            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
+            return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getVariant());
         }
 
         return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());

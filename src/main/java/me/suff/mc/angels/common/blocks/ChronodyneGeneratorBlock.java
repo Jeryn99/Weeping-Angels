@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +26,7 @@ public class ChronodyneGeneratorBlock extends Block {
     private static final VoxelShape CG_AABB = Shapes.create(new AABB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 
     public ChronodyneGeneratorBlock() {
-        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
+        super(Properties.copy(Blocks.STONE).noOcclusion());
     }
 
     @Override

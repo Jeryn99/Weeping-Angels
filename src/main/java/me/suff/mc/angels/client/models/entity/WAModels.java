@@ -17,6 +17,7 @@ public class WAModels {
     public static ModelLayerLocation ANGEL_ED = createAngelModelLocation("ed");
     public static ModelLayerLocation ANGEL_CLASSIC = createAngelModelLocation("a_dizzle");
     public static ModelLayerLocation ANGEL_CHERUB = createAngelModelLocation("cherub");
+    public static ModelLayerLocation ANGEL_SPARE = createAngelModelLocation("spare");
     //Other
     public static ModelLayerLocation ANOMALY = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "anomaly");
     public static ModelLayerLocation COFFIN = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "coffin");
@@ -28,7 +29,6 @@ public class WAModels {
     public static ModelLayerLocation SNOW_ANGEL_HEAD = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_angel_head");
     public static ModelLayerLocation SNOW_ANGEL_WING = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_angel_wing");
 
-    // "Aflans"
     public static ModelLayerLocation DYING_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "dying_angel");
     public static ModelLayerLocation DOCTOR_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel");
     public static ModelLayerLocation MERCY_WINGS = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "mercy_wings");
@@ -46,6 +46,7 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_ARM, SnowArmModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_BODY, SnowBodyModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_HEAD, SnowHeadModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_SPARE, ModelVAWeepingAngel::createBodyLayer);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_WING, SnowWingsModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);

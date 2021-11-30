@@ -1,9 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +29,7 @@ import java.util.Random;
 public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     public SnowArmBlock() {
-        super(BlockBehaviour.Properties.of(Material.SNOW).randomTicks().noOcclusion().strength(3).sound(SoundType.SNOW).requiresCorrectToolForDrops());
+        super(BlockBehaviour.Properties.copy(Blocks.STONE).randomTicks().noOcclusion());
     }
 
     @Override
@@ -53,7 +52,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
                 snowAngelBlockEntity.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowAngelBlockEntity.setRotation(rotation);
                 snowAngelBlockEntity.setHasSetup(true);
-                snowAngelBlockEntity.setVariant(AngelTypes.getWeightedRandom());
+                snowAngelBlockEntity.setVariant(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
                 snowAngelBlockEntity.sendUpdates();
             }
         }
@@ -73,7 +72,7 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
             BlockEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
                 WeepingAngel angel = new WeepingAngel(worldIn);
-                angel.setType(AngelEnums.AngelType.DISASTER_MC);
+                angel.setType(AngelType.DISASTER_MC);
                 angel.setVarient(snowAngelBlockEntity.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);

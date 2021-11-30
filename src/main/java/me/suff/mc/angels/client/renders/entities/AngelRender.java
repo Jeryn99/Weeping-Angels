@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
     public AngelRender(EntityRendererProvider.Context context) {
-        super(context, ClientUtil.getModelForAngel(AngelEnums.AngelType.DISASTER_MC), 0.5F);
+        super(context, ClientUtil.getModelForAngel(AngelType.DISASTER_MC), 0.5F);
         addLayer(new AngelCrackedLayer(this));
         addLayer(new AngelHeldLayer(this));
     }

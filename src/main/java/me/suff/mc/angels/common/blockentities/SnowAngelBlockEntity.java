@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
@@ -135,7 +135,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         if (snowAngelStages == SnowAngelStages.ARM) return;
         if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);
-            angel.setType(AngelEnums.AngelType.DISASTER_MC);
+            angel.setType(AngelType.DISASTER_MC);
             angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);

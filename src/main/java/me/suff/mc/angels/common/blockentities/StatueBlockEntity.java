@@ -3,8 +3,7 @@ package me.suff.mc.angels.common.blockentities;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blocks.StatueBlock;
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.misc.WAConstants;
@@ -32,7 +31,7 @@ import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, IPlinth {
 
-    private String type = AngelEnums.AngelType.DISASTER_MC.name();
+    private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
@@ -61,7 +60,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         return compound;
     }
 
-    public AngelEnums.AngelType getAngelType() {
+    public AngelType getAngelType() {
         boolean found = false;
         for (AngelType value : AngelType.values()) {
             if (value.name().equals(type)) {
@@ -73,14 +72,14 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             type = AngelType.DISASTER_MC.name();
         }
 
-        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
+        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {
         this.type = type;
     }
 
-    public void setAngelType(AngelEnums.AngelType type) {
+    public void setAngelType(AngelType type) {
         this.type = type.name();
     }
 
@@ -161,7 +160,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeModel() {
-        setAngelType(AngelEnums.AngelType.next(getAngelType()));
+        setAngelType(AngelType.next(getAngelType()));
     }
 
     @Override
@@ -174,5 +173,25 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    @Override
+    public AngelType getCurrentType() {
+        return getAngelType();
+    }
+
+    @Override
+    public WeepingAngelPose getCurrentPose() {
+        return getPose();
+    }
+
+    @Override
+    public AbstractVariant getVariant() {
+        return angelVariant;
+    }
+
+    @Override
+    public void setAbstractVariant(AbstractVariant variant) {
+        this.angelVariant = variant;
     }
 }

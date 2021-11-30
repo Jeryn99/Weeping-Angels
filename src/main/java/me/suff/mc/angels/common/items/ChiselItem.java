@@ -1,8 +1,12 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.common.blockentities.IPlinth;
+import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.utils.PlayerUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,6 +18,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+
+import static me.suff.mc.angels.common.variants.AngelTypes.NORMAL;
 
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {
@@ -30,18 +36,32 @@ public class ChiselItem extends Item {
         BlockPos blockpos = context.getClickedPos();
         Player player = context.getPlayer();
 
-        if (world.getBlockEntity(blockpos) instanceof IPlinth plinth && context.getHand() == InteractionHand.MAIN_HAND) {
+        if (world.getBlockEntity(blockpos) instanceof IPlinth plinth) {
 
             if (player.isShiftKeyDown()) {
-                plinth.changeModel();
-                plinth.sendUpdatesToClient();
+                if(context.getHand() == InteractionHand.MAIN_HAND) {
+                    player.swing(context.getHand());
+                    plinth.changeModel();
+                    plinth.sendUpdatesToClient();
+                    plinth.setAbstractVariant(NORMAL.get());
+                    PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed model to " + plinth.getCurrentType()), true);
+                } else {
+                    player.swing(context.getHand());
+                    plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
+                    plinth.sendUpdatesToClient();
+                    PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
+                }
                 return InteractionResult.PASS;
             }
 
+            player.swing(context.getHand());
             plinth.changePose();
+            PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed pose to " + plinth.getCurrentPose()), true);
             plinth.sendUpdatesToClient();
             return InteractionResult.PASS;
         }
+
+
 
         return InteractionResult.FAIL;
     }

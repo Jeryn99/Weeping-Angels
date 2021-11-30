@@ -32,7 +32,7 @@ public class WABlockTags extends BlockTagsProvider {
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
         add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
-        add(BlockTags.MINEABLE_WITH_PICKAXE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
+        add(BlockTags.MINEABLE_WITH_PICKAXE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), WAObjects.Blocks.PLINTH.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.SNOW_ANGEL.get());
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {

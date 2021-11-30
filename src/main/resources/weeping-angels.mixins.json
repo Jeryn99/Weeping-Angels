@@ -3,6 +3,7 @@
   "package": "me.suff.mc.angels.mixin",
   "refmap": "weeping_angels.refmap.json",
   "client": [
+    "ElytraLayerMixin",
     "SoundSourceMixin"
   ],
   "minVersion": "0.8"

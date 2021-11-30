@@ -6,8 +6,7 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
@@ -162,8 +161,8 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
             if ("angel".equals(function)) {
                 StatueBlockEntity statueTile = (StatueBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
-                statueTile.setAngelType(AngelEnums.AngelType.DISASTER_MC);
-                statueTile.setAngelVarients(AngelTypes.getWeightedRandom());
+                statueTile.setAngelType(AngelType.DISASTER_MC);
+                statueTile.setAngelVarients(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
                 statueTile.setChanged();
                 serverLevelAccessor.removeBlock(blockPos, false);
             }

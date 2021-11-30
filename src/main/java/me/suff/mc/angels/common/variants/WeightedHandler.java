@@ -32,6 +32,10 @@ public class WeightedHandler {
         return entries.isEmpty();
     }
 
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
     private static class Entry {
         double accumulatedWeight;
         AbstractVariant abstractVariant;

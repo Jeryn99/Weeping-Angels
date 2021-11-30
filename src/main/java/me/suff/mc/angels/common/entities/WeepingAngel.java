@@ -117,7 +117,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, AngelTypes.getWeightedRandom().getRegistryName().toString());
+        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom().getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -247,7 +247,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
 
-        if (getAngelType() == AngelEnums.AngelType.DISASTER_MC) {
+        if (getAngelType() == AngelType.DISASTER_MC) {
             AbstractVariant variant = getVariant();
             if (variant.shouldDrop(cause, this)) {
                 spawnAtLocation(variant.stackDrop().getItem());
@@ -293,7 +293,9 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.onSyncedDataUpdated(key);
         if (TYPE.equals(key)) {
             refreshDimensions();
+            setVarient(getAngelType().getWeightedHandler().getRandom());
         }
+
     }
 
     @Override
@@ -490,19 +492,19 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public boolean isCherub() {
-        return getAngelType() == AngelEnums.AngelType.ED_ANGEL_CHILD;
+        return getAngelType() == AngelType.ED_ANGEL_CHILD;
     }
 
-    public AngelEnums.AngelType getAngelType() {
+    public AngelType getAngelType() {
         String type = getEntityData().get(TYPE);
-        return type.isEmpty() ? AngelEnums.AngelType.DISASTER_MC : AngelEnums.AngelType.valueOf(type);
+        return type.isEmpty() ? AngelType.DISASTER_MC : AngelType.valueOf(type);
     }
 
     public void setType(String angelType) {
         getEntityData().set(TYPE, angelType);
     }
 
-    public void setType(AngelEnums.AngelType angelType) {
+    public void setType(AngelType angelType) {
         setType(angelType.name());
     }
 

@@ -2,6 +2,7 @@ package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import net.minecraft.ChatFormatting;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -39,9 +40,9 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.EntityEntries.ANOMALY.get(), "Anomaly");
 
         /* Tooltips */
-        add("tooltip.weeping_angels.chisel", "Used to change appearance of Decorative Angel Blocks");
-        add("tooltip.weeping_angels.chisel_right_click", "- Right click to change angel pose");
-        add("tooltip.weeping_angels.chisel_sneak", "- Sneak + Right click to Change Angel Type");
+        add("tooltip.weeping_angels.chisel", ChatFormatting.BLUE.toString() + "Edit Statue/Plinth");
+        add("tooltip.weeping_angels.chisel_right_click", ChatFormatting.BLUE.toString() + "- Right click to change angel pose");
+        add("tooltip.weeping_angels.chisel_sneak", ChatFormatting.BLUE.toString() + "- Sneak + Right click to Change Angel Type");
 
         /* Damage Sources */
         add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");

@@ -2,7 +2,6 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -38,7 +37,7 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 
     public StatueBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().requiresCorrectToolForDrops().strength(1.5F, 6.0F));
+        super(BlockBehaviour.Properties.copy(Blocks.STONE).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
@@ -77,16 +76,6 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-        if (world.getBlockEntity(pos) != null) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            stack.getOrCreateTag().put("extra", blockEntity.serializeNBT());
-        }
-        return stack;
-    }
-
-    @Override
     public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             super.onRemove(state, worldIn, pos, newState, isMoving);
@@ -106,7 +95,7 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(AngelTypes.getWeightedRandom());
+                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom());
                 }
             }
         }

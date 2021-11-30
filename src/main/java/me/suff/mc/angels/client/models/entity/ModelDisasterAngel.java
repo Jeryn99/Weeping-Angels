@@ -231,7 +231,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
         }
 
         if (angel instanceof PlinthBlockEntity plinthBlockEntity) {
-            return generateTex(plinthBlockEntity.getPose(), plinthBlockEntity.getAngelVarients());
+            return generateTex(plinthBlockEntity.getPose(), plinthBlockEntity.getVariant());
         }
         return ANGRY;
     }

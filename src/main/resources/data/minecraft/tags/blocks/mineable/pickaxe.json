@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "weeping_angels:kontron_ore",
-    "weeping_angels:kontron_ore_deepslate"
+    "weeping_angels:kontron_ore_deepslate",
+    "weeping_angels:plinth",
+    "weeping_angels:statue",
+    "weeping_angels:snow_angel"
   ]
 }
