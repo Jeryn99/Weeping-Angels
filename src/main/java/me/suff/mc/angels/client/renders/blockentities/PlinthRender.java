@@ -3,7 +3,10 @@ package me.suff.mc.angels.client.renders.blockentities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
+import me.suff.mc.angels.client.models.entity.SantaHat;
+import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.client.renders.entities.SeasonalLayer;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -15,13 +18,17 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
 public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, BlockEntityRendererProvider<PlinthBlockEntity> {
 
+    private final SantaHat<Entity> model;
+
     public PlinthRender(Context p_173571_) {
+        model = new SantaHat<>(p_173571_.bakeLayer(WAModels.SANTA_HAT));
     }
 
     @Override
@@ -46,10 +53,16 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
             angelModel.setAngelPose(pose);
             angelModel.toggleHurt(true);
             texture = angelModel.getTextureForPose(plinthBlockEntity, pose);
+            angel.setupAnim(null, 0, 0, 0, 0, 0);
+
+            matrixStack.pushPose();
+            SeasonalLayer.santaHat(matrixStack, bufferIn, combinedLightIn, model, angel);
+            matrixStack.popPose();
+
         }
-        angel.setupAnim(null, 0, 0, 0, 0, 0);
         angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
         matrixStack.popPose();
+
     }
 
     @Override

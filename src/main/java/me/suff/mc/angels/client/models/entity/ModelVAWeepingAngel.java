@@ -3,12 +3,14 @@ package me.suff.mc.angels.client.models.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -26,6 +28,7 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
     private final ModelPart leftWing;
     private final ModelPart rightWing;
     private WeepingAngelPose weepingPose = WeepingAngelPose.ANGRY;
+    private Pair<ModelPart, Vector3d> headData;
 
     public ModelVAWeepingAngel(ModelPart root) {
         this.body = root.getChild("body");
@@ -37,7 +40,7 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
         this.rightWing = root.getChild("rightWing");
     }
 
-    public static LayerDefinition createBodyLayer() {
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -161,10 +164,10 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
 
         if (pose == WeepingAngelPose.APPROACH) {
             rightArm.xRot = -1.04533F;
-            rightArm.yRot = -0.55851F;
+            rightArm.yRot = 0.55851F;
             rightArm.zRot = 0.0F;
             leftArm.xRot = -1.04533F;
-            leftArm.yRot = 0.55851F;
+            leftArm.yRot = -0.55851F;
             leftArm.zRot = 0.0F;
             return;
         }
@@ -251,5 +254,13 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingPose = angelPose;
+    }
+
+    @Override
+    public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
+        if(headData == null) {
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
+        }
+        return headData;
     }
 }

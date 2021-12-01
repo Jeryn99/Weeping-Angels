@@ -33,7 +33,7 @@ public class PoliceBoxModel extends EntityModel {
         this.bb_main = root.getChild("bb_main");
     }
 
-    public static LayerDefinition createBodyLayer() {
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 

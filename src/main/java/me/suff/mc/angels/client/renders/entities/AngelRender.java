@@ -24,6 +24,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
         super(context, ClientUtil.getModelForAngel(AngelType.DISASTER_MC), 0.5F);
         addLayer(new AngelCrackedLayer(this));
         addLayer(new AngelHeldLayer(this));
+        addLayer(new SeasonalLayer(this));
     }
 
     @Override

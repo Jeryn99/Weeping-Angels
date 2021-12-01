@@ -3,12 +3,14 @@ package me.suff.mc.angels.client.models.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.ListModel;
@@ -23,6 +25,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/normal/normal_angel_angry.png");
 
+
     public final ModelPart head;
     public final ModelPart body;
     public final ModelPart leftArm;
@@ -33,6 +36,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private boolean showHurt = false;
+    private Pair<ModelPart, Vector3d> headData;
 
     public ModelDisasterAngel(ModelPart root) {
         this.head = root.getChild("head");
@@ -211,6 +215,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
         Legs.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         leftWing.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         rightWing.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+
     }
 
 
@@ -244,6 +249,14 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     @Override
     public void setAngelPose(WeepingAngelPose angelType) {
         weepingAngelPose = angelType;
+    }
+
+    @Override
+    public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
+        if(headData == null) {
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
+        }
+        return headData;
     }
 
     @Override
