@@ -25,7 +25,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
 
     private static String[] people = new String[]{"bc8b891e-5c25-4c9f-ae61-cdfb270f1cc1", "96511168-1bb3-4ff0-a894-271e42606a39", "6e17cac4-6d28-48ca-a112-61f208fbdcd8", "bd049f17-7fdd-42aa-bd19-81a60d6b526b"};
     private final ModelDisasterAngel model;
-    private final MercyWings mercyWings;
+    public final MercyWings mercyWings;
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/mercy_wings.png");
 
     public WingsLayer(RenderLayerParent<T, M> p_117346_) {
@@ -54,6 +54,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
                 model.rightWing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(model.generateTex(WeepingAngelPose.HIDING, AngelTypes.NORMAL.get()))), p_117351_, OverlayTexture.NO_OVERLAY);
             } else {
                 getParentModel().body.translateAndRotate(p_117349_);
+                mercyWings.setupAnim(player, 0,0,0,0,0);
                 mercyWings.RWing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
                 mercyWings.Lwing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
             }
