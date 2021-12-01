@@ -89,6 +89,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public CompoundTag getUpdateTag() {
+        return super.getUpdateTag()
         return save(new CompoundTag());
     }
 

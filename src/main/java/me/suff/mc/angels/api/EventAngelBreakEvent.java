@@ -29,6 +29,6 @@ public class EventAngelBreakEvent extends EntityEvent {
     }
 
     public Level getWorld() {
-        return getEntity().level;
+        return getEntity().getLevel();
     }
 }
