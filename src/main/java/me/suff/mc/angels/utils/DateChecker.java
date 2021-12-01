@@ -6,7 +6,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Calendar;
 
 /* Created by Craig on 26/02/2021 */
-@OnlyIn(Dist.CLIENT)
 public class DateChecker {
 
     private static final Calendar calendar = Calendar.getInstance();
@@ -17,6 +16,10 @@ public class DateChecker {
 
     public static boolean isXmas() {
         return calendar.get(Calendar.MONTH) == Calendar.DECEMBER;
+    }
+
+    public static boolean isHalloween() {
+        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
 
 }

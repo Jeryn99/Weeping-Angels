@@ -3,11 +3,13 @@ package me.suff.mc.angels.client.models.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.DateChecker;
+import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -50,6 +52,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private boolean showHurt = false;
+    private Pair<ModelPart, Vector3d> headData;
 
     public ModelClassicAngel(ModelPart root) {
         this.leftfoot = root.getChild("leftfoot");
@@ -115,6 +118,16 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+    @Override
+    public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
+        if(placement == HeadPlacement.SANTA) return null;
+
+        if(headData == null){
+            headData = new Pair<>(head, new Vector3d(0,0,0));
+        }
+        return headData;
     }
 
 

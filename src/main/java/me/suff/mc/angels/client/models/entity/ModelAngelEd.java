@@ -3,10 +3,12 @@ package me.suff.mc.angels.client.models.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -68,6 +70,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private boolean showHurt = false;
+    private Pair<ModelPart, Vector3d> headData;
 
     /**
      * Angel Type: 1
@@ -383,6 +386,15 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+
+    @Override
+    public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
+        if(headData == null) {
+            headData = new Pair<>(Head, new Vector3d(0, 0, 0));
+        }
+        return headData;
     }
 
     @Override

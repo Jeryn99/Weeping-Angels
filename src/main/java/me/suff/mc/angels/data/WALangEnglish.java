@@ -82,6 +82,7 @@ public class WALangEnglish extends LanguageProvider {
         add("config.weeping_angels.around_player_range", "Angel target range");
         add("config.weeping_angels.moveSpeed", "Angel move Speed");
         add("config.weeping_angels.transparent_blocks", "Angel Observable Blocks");
+        add("config.weeping_angels.santa_hat", "Santa Hats?");
 
         add("category.weeping_angels.angels", "Angels");
         add("category.weeping_angels.spawn", "Spawn Rates");

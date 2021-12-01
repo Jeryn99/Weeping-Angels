@@ -45,6 +45,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
 
     @Override
     public void render(PoseStack p_117349_, MultiBufferSource p_117350_, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
+       if(p_117352_.isInvisibleTo(Minecraft.getInstance().player)) return;
         if (p_117352_ instanceof Player player && shouldDisplay(player)) {
             p_117349_.pushPose();
             if (!player.getUUID().equals(UUID.fromString("bd049f17-7fdd-42aa-bd19-81a60d6b526b"))) {

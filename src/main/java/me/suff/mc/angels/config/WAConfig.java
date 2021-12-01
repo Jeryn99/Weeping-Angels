@@ -59,6 +59,9 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue aggroCreative;
     public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
 
+    // Easter Eggs
+    public final ForgeConfigSpec.BooleanValue showSantaHatsAtXmas;
+
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
         builder.push("world_gen");
@@ -97,9 +100,15 @@ public class WAConfig {
         angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
         aggroCreative = builder.translation("config.weeping_angels.aggroCreative").comment("Should Angels target creative players?").define("aggroCreative", true);
         builder.pop();
+
         builder.push("block");
         spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a redstone signal").define("spawnFromBlocks", true);
         builder.pop();
+
+        builder.push("easter_eggs");
+        showSantaHatsAtXmas = builder.translation("config.weeping_angels.santa_hat").comment("Toggle whether santa hats are shown at Xmas").define("showSantaHatsAtXmas", true);
+        builder.pop();
+
 
 
     }

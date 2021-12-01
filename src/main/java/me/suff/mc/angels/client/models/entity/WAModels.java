@@ -32,6 +32,7 @@ public class WAModels {
     public static ModelLayerLocation DYING_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "dying_angel");
     public static ModelLayerLocation DOCTOR_ANGEL = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel");
     public static ModelLayerLocation MERCY_WINGS = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "mercy_wings");
+    public static ModelLayerLocation SANTA_HAT = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "santa_hat");
 
     private static ModelLayerLocation createAngelModelLocation(String weeping_angel) {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
@@ -46,13 +47,14 @@ public class WAModels {
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_ARM, SnowArmModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_BODY, SnowBodyModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_HEAD, SnowHeadModel::getModelData);
-        registerLayerDefinitions.registerLayerDefinition(ANGEL_SPARE, ModelVAWeepingAngel::createBodyLayer);
+        registerLayerDefinitions.registerLayerDefinition(ANGEL_SPARE, ModelVAWeepingAngel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(SNOW_ANGEL_WING, SnowWingsModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(COFFIN, CoffinModel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANOMALY, PortalModel::getModelData);
-        registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::createBodyLayer);
-        registerLayerDefinitions.registerLayerDefinition(DOCTOR_ANGEL, ModelDoctorAngel::createBodyLayer);
-        registerLayerDefinitions.registerLayerDefinition(MERCY_WINGS, MercyWings::createBodyLayer);
+        registerLayerDefinitions.registerLayerDefinition(POLICE_BOX, PoliceBoxModel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(DOCTOR_ANGEL, ModelDoctorAngel::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(MERCY_WINGS, MercyWings::getModelData);
+        registerLayerDefinitions.registerLayerDefinition(SANTA_HAT, SantaHat::getModelData);
         registerLayerDefinitions.registerLayerDefinition(DYING_ANGEL, () -> LayerDefinition.create(ModelAplan.createMesh(CubeDeformation.NONE, true), 64, 64));
     }
 

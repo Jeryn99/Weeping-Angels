@@ -1,7 +1,10 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.utils.Pair;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IAngelModel {
@@ -15,4 +18,6 @@ public interface IAngelModel {
     WeepingAngelPose getAngelPose();
 
     void setAngelPose(WeepingAngelPose angelPose);
+
+    Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement);
 }

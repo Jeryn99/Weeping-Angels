@@ -181,8 +181,7 @@ public class AngelUtil {
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.create(LootContextParamSets.ENTITY);
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
-        if (target instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) target;
+        if (target instanceof WeepingAngel weepingAngel) {
             if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
@@ -220,10 +219,6 @@ public class AngelUtil {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
 
-    public static boolean isHalloween() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
-    }
 
     public enum EnumTeleportType {
         STRUCTURES, RANDOM_PLACE, DONT

@@ -1,9 +1,11 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +16,7 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
     public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_idle.png");
     public static final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_scream.png");
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
+    private Pair<ModelPart, Vector3d> headData;
 
 
     public ModelAplan(ModelPart p_170821_, boolean p_170822_) {
@@ -157,5 +160,13 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
+    }
+
+    @Override
+    public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
+        if(headData == null) {
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
+        }
+        return headData;
     }
 }

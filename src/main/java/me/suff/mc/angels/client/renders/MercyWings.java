@@ -1,6 +1,4 @@
-package me.suff.mc.angels.client.renders;// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package me.suff.mc.angels.client.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -22,7 +20,7 @@ public class MercyWings extends EntityModel<LivingEntity> {
         this.RWing = root.getChild("RWing");
     }
 
-    public static LayerDefinition createBodyLayer() {
+    public static LayerDefinition getModelData() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
