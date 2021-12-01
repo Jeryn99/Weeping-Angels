@@ -2,12 +2,17 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "weeping_angels:kontron_ore",
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "weeping_angels:kontron_ore"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
         }
       ]
     }

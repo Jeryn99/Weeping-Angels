@@ -166,7 +166,14 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public CompoundTag getUpdateTag() {
-        return save(new CompoundTag());
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("coffin_type", coffin.name());
+        compoundTag.putBoolean("isOpen", isOpen);
+        compoundTag.putBoolean("hasSkeleton", hasSkeleton);
+        compoundTag.putBoolean("doingSomething", doingSomething);
+        compoundTag.putFloat("openAmount", openAmount);
+        compoundTag.putFloat("alpha", alpha);
+        return compoundTag;
     }
 
     public void sendUpdates() {
@@ -189,7 +196,8 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    protected void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         if (coffin == null) {
             coffin = AngelUtil.randomCoffin();
         }
@@ -199,7 +207,6 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         compound.putBoolean("doingSomething", doingSomething);
         compound.putFloat("openAmount", openAmount);
         compound.putFloat("alpha", alpha);
-        return super.save(compound);
     }
 
     public boolean isDoingSomething() {

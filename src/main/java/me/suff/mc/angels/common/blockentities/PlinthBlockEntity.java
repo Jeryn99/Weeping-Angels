@@ -55,13 +55,12 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
-        super.save(compound);
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
-        return compound;
     }
 
     public AngelType getAngelType() {
@@ -95,7 +94,12 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public CompoundTag getUpdateTag() {
-        return save(new CompoundTag());
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putBoolean("hasSpawned", hasSpawned);
+        compoundTag.putString("model", type);
+        compoundTag.putString("pose", pose.name());
+        compoundTag.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
+        return compoundTag;
     }
 
     @Override

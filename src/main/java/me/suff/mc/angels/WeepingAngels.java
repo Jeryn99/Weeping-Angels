@@ -113,7 +113,7 @@ public class WeepingAngels {
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
-        generator.addProvider(new WALootTables(generator));
+       // generator.addProvider(new WALootTables(generator));
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {

@@ -51,12 +51,11 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
-        super.save(compound);
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
-        return compound;
     }
 
     public AngelType getAngelType() {
@@ -89,8 +88,11 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public CompoundTag getUpdateTag() {
-        return super.getUpdateTag()
-        return save(new CompoundTag());
+        CompoundTag compound = new CompoundTag();
+        compound.putString("model", type);
+        compound.putString("pose", pose.name());
+        compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
+        return compound;
     }
 
     @Override
@@ -132,6 +134,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             level.removeBlock(worldPosition, false);
         }
     }
+
 
     public WeepingAngelPose getPose() {
         return pose;

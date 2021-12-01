@@ -73,12 +73,11 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
         compound.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
         compound.putInt("rotation", rotation);
         compound.putBoolean("setup", hasSetup);
-        return super.save(compound);
     }
 
     @Override
@@ -88,7 +87,12 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
     @Override
     public CompoundTag getUpdateTag() {
-        return save(new CompoundTag());
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
+        compoundTag.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
+        compoundTag.putInt("rotation", rotation);
+        compoundTag.putBoolean("setup", hasSetup);
+        return compoundTag;
     }
 
     @Override
@@ -124,7 +128,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowAngelBlockEntity p_155256_) {
 
-        //Randomness for world generatiopn
+        //Randomness for world generation
         if (!hasSetup) {
             setRotation(level.random.nextInt(360));
             setSnowAngelStage(AngelUtil.randowSnowStage());

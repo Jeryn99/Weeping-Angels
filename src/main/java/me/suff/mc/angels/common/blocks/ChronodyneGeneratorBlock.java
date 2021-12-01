@@ -24,7 +24,7 @@ public class ChronodyneGeneratorBlock extends Block {
     private static final VoxelShape CG_AABB = Shapes.create(new AABB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 
     public ChronodyneGeneratorBlock() {
-        super(Properties.copy(Blocks.STONE).noOcclusion());
+        super(Properties.copy(Blocks.STONE).noOcclusion().requiresCorrectToolForDrops());
     }
 
     @Override
