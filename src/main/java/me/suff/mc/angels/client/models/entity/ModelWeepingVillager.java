@@ -26,7 +26,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     private final ModelPart leg0;
     private final ModelPart leg1;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
-    private boolean showHurt = false;
+    private final boolean showHurt = false;
 
     public ModelWeepingVillager(ModelPart root) {
         body = root.getChild("body");
