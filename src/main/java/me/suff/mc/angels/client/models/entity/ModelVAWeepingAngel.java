@@ -105,10 +105,10 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
         head.zRot = (float) Math.toRadians(0);
 
         rightWing.xRot = (float) Math.toRadians(angleX);
-        rightWing.yRot = (float) Math.toRadians(angleY);
+        rightWing.yRot = (float) Math.toRadians(-angleY);
         rightWing.zRot = (float) Math.toRadians(angleZ);
         leftWing.xRot = (float) Math.toRadians(angleX);
-        leftWing.yRot = (float) Math.toRadians(-angleY);
+        leftWing.yRot = (float) Math.toRadians(angleY);
         leftWing.zRot = (float) Math.toRadians(angleZ);
 
 
