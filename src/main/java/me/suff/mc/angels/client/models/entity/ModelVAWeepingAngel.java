@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client.models.entity;
 
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
@@ -262,5 +263,10 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
             headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
+    }
+
+    @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
     }
 }

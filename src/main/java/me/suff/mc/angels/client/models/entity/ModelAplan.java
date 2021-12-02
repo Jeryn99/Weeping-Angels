@@ -1,5 +1,7 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
@@ -9,6 +11,8 @@ import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
 
 public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel {
 
@@ -168,5 +172,10 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
             headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
+    }
+
+    @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+        return new ArrayList<>();
     }
 }

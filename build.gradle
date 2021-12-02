@@ -116,6 +116,10 @@ if (System.getProperty("idea.sync.active") == "true") {
     }
 }
 
+processResources {
+    duplicatesStrategy = 'exclude'
+}
+
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {

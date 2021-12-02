@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.variants.AbstractVariant;
@@ -20,4 +21,6 @@ public interface IAngelModel {
     void setAngelPose(WeepingAngelPose angelPose);
 
     Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement);
+
+	Iterable<ModelPart> wings(PoseStack pose);
 }

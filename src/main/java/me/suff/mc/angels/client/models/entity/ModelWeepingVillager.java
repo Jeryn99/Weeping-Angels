@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
@@ -74,7 +75,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
 
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
-        WeepingAngelPose pose = weepingAngelPose;
+        WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
@@ -190,13 +191,19 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     }
 
     @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+    	pose.translate(0, 1.2, 0);
+        return ImmutableList.of(wing0, wing2);
+    }
+
+    @Override
     public boolean toggleHurt(boolean hurtShow) {
         return showHurt;
     }
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return getTextureForPose(pose, null);
     }
 
     @Override

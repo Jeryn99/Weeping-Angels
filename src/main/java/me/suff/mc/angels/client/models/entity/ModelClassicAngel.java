@@ -8,6 +8,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.DateChecker;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
@@ -130,10 +131,14 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
         return headData;
     }
 
+    @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+        return ImmutableList.of(leftwing1, leftwing2, leftwing3, leftwing4, rightwing1, rightwing2, rightwing3, rightwing4);
+    }
 
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
-        WeepingAngelPose pose = weepingAngelPose;
+        WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
         }
@@ -259,15 +264,15 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
-    }
-
-    @Override
-    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         if (!DateChecker.isXmas()) {
             return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
         }
         return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY_XMAS : TEXTURE_XMAS;
+    }
+
+    @Override
+    public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
+    	return generateTex(pose, AngelTypes.NORMAL.get());
     }
 
     protected ModelPart getArm(HumanoidArm handSide) {

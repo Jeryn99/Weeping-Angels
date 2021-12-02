@@ -260,6 +260,11 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     }
 
     @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
     public boolean toggleHurt(boolean hurtShow) {
         this.showHurt = hurtShow;
         return showHurt;

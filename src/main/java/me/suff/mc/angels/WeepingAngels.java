@@ -112,13 +112,15 @@ public class WeepingAngels {
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
-        generator.addProvider(new WALootTables(generator));
+       // generator.addProvider(new DonatorsQuickGen(generator));
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
         event.put(WAObjects.EntityEntries.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }
+
+
 
 
 }

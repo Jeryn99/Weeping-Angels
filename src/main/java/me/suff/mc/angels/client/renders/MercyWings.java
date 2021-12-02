@@ -117,6 +117,7 @@ public class MercyWings extends EntityModel<LivingEntity> {
 
         leftMain.yRot = isFlying ? (float) Math.toRadians(Mth.clamp(james.getFallFlyingTicks() * 2, 0, 45)) : -25;
         rightMain.yRot = isFlying ? (float) Math.toRadians(-Mth.clamp(james.getFallFlyingTicks() * 2, 0, 45)) : 25;
+     
     }
 
 

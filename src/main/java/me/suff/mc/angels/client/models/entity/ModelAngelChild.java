@@ -19,6 +19,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
+
 /**
  * Angel Type: Child
  */
@@ -95,6 +97,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         }
         return headData;
     }
+
 
 
     @Override
@@ -238,5 +241,10 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         String suffix = emotion.name().toLowerCase();
         return new ResourceLocation(WeepingAngels.MODID, location + suffix + ".png");
     }
+
+	@Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+		return new ArrayList();
+	}
 
 }
