@@ -2,8 +2,10 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -15,12 +17,17 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.tardis.mod.controls.HandbrakeControl;
+import net.tardis.mod.controls.LandingTypeControl;
+import net.tardis.mod.controls.ThrottleControl;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
-import net.tardis.mod.particles.TParticleTypes;
+import net.tardis.mod.misc.SpaceTimeCoord;
 import net.tardis.mod.sounds.TSounds;
+import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
+import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.world.dimensions.TDimensions;
 
 import java.util.ArrayList;
@@ -55,6 +62,8 @@ public class TardisMod {
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
     }
 
+    public int hbb = 0;
+
     @SubscribeEvent
     public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
 
@@ -65,6 +74,50 @@ public class TardisMod {
         if (WorldHelper.areDimensionTypesSame(angel.level, TDimensions.DimensionTypes.TARDIS_TYPE)) {
             World world = angel.level;
             ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
+
+            if (world instanceof ServerWorld) {
+
+                DistressSignal angelSig = null;
+                for (DistressSignal signal : console.getDistressSignals()) {
+                    if (signal.getMessage().contains("Angels")) {
+                        console.setDestination(signal.getSpaceTimeCoord());
+
+                        if (!console.isInFlight()) {
+
+                            console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> {
+                                sys.setControlActivated(true);
+                            });
+
+                            console.getControl(HandbrakeControl.class).ifPresent(sys -> {
+                                sys.setFree(true);
+                                sys.markDirty();
+                                sys.startAnimation();
+                            });
+
+
+                            console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
+                                landingTypeControl.setLandType(LandingTypeControl.EnumLandType.UP);
+                                landingTypeControl.markDirty();
+                                landingTypeControl.startAnimation();
+                            });
+
+
+
+                            console.getControl(ThrottleControl.class).ifPresent(sys -> {
+                                sys.setAmount(1F);
+                                sys.startAnimation();
+                                sys.markDirty();
+                            });
+
+                            angelSig = signal;
+                            console.takeoff();
+                        }
+                    }
+                }
+                if(angelSig != null){
+                     console.getDistressSignals().remove(angelSig);
+                }
+            }
 
             // Drain Fuel
             if (angel.tickCount % 60 == 0) {
@@ -80,7 +133,7 @@ public class TardisMod {
                             double percent = (double) i / 10.0D;
                             Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
                             if (spawnPoint.distanceTo(end) <= 3.5D) {
-                                angel.level.addParticle(TParticleTypes.ARTRON.get(), spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
+                                angel.level.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
                             }
                         }
                         console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
@@ -119,5 +172,15 @@ public class TardisMod {
             }
         }
     }
+
+    public static void create(MinecraftServer server, BlockPos blockPos) {
+        for (ServerWorld world : TardisHelper.getTardises(server)) {
+            TardisHelper.getConsoleInWorld(world).ifPresent(other -> {
+                other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(World.OVERWORLD, blockPos)));
+            });
+        }
+    }
+
+    ;
 
 }

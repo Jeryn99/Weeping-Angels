@@ -17,6 +17,7 @@ import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -180,6 +181,11 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             }
         }
         return true;
+    }
+
+    @Override
+    protected BodyController createBodyControl() {
+        return new BodyControllerAngel(this);
     }
 
     public boolean isInCatacomb() {

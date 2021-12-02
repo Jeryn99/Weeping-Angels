@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;
@@ -87,10 +88,11 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
         }
 
         if (knockTime <= 0) {
-            knockTime = RAND.nextInt(1800);
+            knockTime = RAND.nextInt(1800) + 10;
         }
 
-        if (level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
+
+        if (knockTime > 0 && level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
             level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundCategory.BLOCKS, 1.0F * 16, 1.0F);
             knockTime = RAND.nextInt(1800);
         }
@@ -111,8 +113,8 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
             if (ticks >= 360) {
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
-
                     if (ModList.get().isLoaded("tardis")) {
+                        TardisMod.create(level.getServer(), worldPosition);
                         level.setBlockAndUpdate(worldPosition.above(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).defaultBlockState());
                     }
 

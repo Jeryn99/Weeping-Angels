@@ -97,7 +97,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/flood_bridge",
+        "location": "weeping_angels:catacomb/classic/flood_bridge_water",
         "processors": "minecraft:empty"
       }
     },
@@ -129,11 +129,11 @@
       }
     },
     {
-      "weight": 6,
+      "weight": 2,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/skull_hallway_9",
+        "location": "weeping_angels:catacomb/classic/large_room",
         "processors": "minecraft:empty"
       }
     },
@@ -142,7 +142,88 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "weeping_angels:catacomb/classic/large_room",
+        "location": "weeping_angels:catacomb/classic/water_cath",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/soul_lit_hallway",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/soul_lit_hallway_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/tardis_dungeon",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/soul_lit_bend",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/fire_cath",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/psycho",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/fire_cath_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/spiral_stairs",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/leap_down",
         "processors": "minecraft:empty"
       }
     },

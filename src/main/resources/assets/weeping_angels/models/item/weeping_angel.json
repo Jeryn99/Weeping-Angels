@@ -4,13 +4,13 @@
       "predicate": {
         "weeping_angels:angel_type": 0
       },
-      "model": "weeping_angels:item/angel/angela"
+      "model": "weeping_angels:item/angel/disaster_mc"
     },
     {
       "predicate": {
         "weeping_angels:angel_type": 1
       },
-      "model": "weeping_angels:item/angel/angela_mc"
+      "model": "weeping_angels:item/angel/doctor_angel"
     },
     {
       "predicate": {
@@ -28,19 +28,31 @@
       "predicate": {
         "weeping_angels:angel_type": 4
       },
-      "model": "weeping_angels:item/angel/vio_1"
+      "model": "weeping_angels:item/angel/a_dizzle"
     },
     {
       "predicate": {
         "weeping_angels:angel_type": 5
       },
-      "model": "weeping_angels:item/angel/vio_2"
+      "model": "weeping_angels:item/angel/vio_1"
     },
     {
       "predicate": {
         "weeping_angels:angel_type": 6
       },
-      "model": "weeping_angels:item/angel/a_dizzle"
+      "model": "weeping_angels:item/angel/wa_angel"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 7
+      },
+      "model": "weeping_angels:item/angel/villager"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 8
+      },
+      "model": "weeping_angels:item/angel/doctor_angel"
     }
   ]
 }

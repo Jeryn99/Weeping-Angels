@@ -9,7 +9,7 @@ credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, Disast
 authors = "Suff99, 50ap5ud5"
 itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
-version = "${version}"
+version = "2.1.7"
 displayName = "Weeping Angels"
 updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
 description = '''
@@ -23,6 +23,6 @@ side = "BOTH"
 [[dependencies.weeping_angels]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.3, ]"
+versionRange = "[1.16.1, ]"
 ordering = "NONE"
 side = "BOTH"

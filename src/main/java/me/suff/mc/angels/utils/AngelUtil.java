@@ -77,11 +77,11 @@ public class AngelUtil {
     public static Random RAND = new Random();
 
     public static ITag.INamedTag<Item> makeItem(String domain, String path) {
-        return ItemTags.bind(new ResourceLocation(domain, path).toString());
+        return ItemTags.createOptional(new ResourceLocation(domain, path));
     }
 
     public static ITag.INamedTag<Block> makeBlock(String domain, String path) {
-        return BlockTags.bind(new ResourceLocation(domain, path).toString());
+        return BlockTags.createOptional(new ResourceLocation(domain, path));
     }
 
     public static boolean isDarkForPlayer(QuantumLockEntity angel, LivingEntity living) {
