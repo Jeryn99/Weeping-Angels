@@ -181,7 +181,8 @@ public class AngelUtil {
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.create(LootContextParamSets.ENTITY);
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
-        if (target instanceof WeepingAngel weepingAngel) {
+        if (target instanceof WeepingAngel) {
+            WeepingAngel weepingAngel = (WeepingAngel) target;
             if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
@@ -203,12 +204,13 @@ public class AngelUtil {
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-        //TODO !!!!!
-        /*   if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAWorld.CATACOMBS.get()).isValid();
+
+        //TODO!!!!
+      /*  if (playerEntity.level instanceof ServerLevel serverWorld) {
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAWorld.CATACOMBS.get()).getBoundingBox();
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
         }*/
@@ -219,6 +221,10 @@ public class AngelUtil {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
 
+    public static boolean isHalloween() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
+    }
 
     public enum EnumTeleportType {
         STRUCTURES, RANDOM_PLACE, DONT

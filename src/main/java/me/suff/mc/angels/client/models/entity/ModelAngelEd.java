@@ -398,13 +398,19 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     }
 
     @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+    	pose.translate(0, 1.5, 0);
+        return ImmutableList.of(left_wing_0, left_wing_1, right_wing_0, right_wing_1);
+    }
+
+    @Override
     public boolean toggleHurt(boolean hurtShow) {
         return showHurt;
     }
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return TEXTURE;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ElytraLayerMixin {
     @Inject(at = @At("HEAD"), method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", cancellable = true)
     public void render(PoseStack p_116951_, MultiBufferSource p_116952_, int p_116953_, LivingEntity p_116954_, float p_116955_, float p_116956_, float p_116957_, float p_116958_, float p_116959_, float p_116960_, CallbackInfo callbackInfo) {
         if (p_116954_ instanceof Player player) {
-            if (WingsLayer.shouldDisplay(player) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
+            if (WingsLayer.shouldDisplay(player) != null && !player.isModelPartShown(PlayerModelPart.CAPE)) {
                 callbackInfo.cancel();
             }
         }

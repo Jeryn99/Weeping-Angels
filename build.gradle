@@ -39,7 +39,7 @@ minecraft {
         configureEach {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-          //  arg "-mixin.config=weeping-angels.mixins.json"
+            arg "-mixin.config=weeping-angels.mixins.json"
         }
 
         client {
@@ -95,7 +95,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18-38.0.1'
+    minecraft 'net.minecraftforge:forge:1.18-38.0.12'
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 }
 

@@ -99,7 +99,5 @@ public class WALangEnglish extends LanguageProvider {
         add("sound.weeping_angels.blow", "Blow");
         add("sound.weeping_angels.angel_death", "Angel crumbles to death");
         add("sound.weeping_angels.projector", "Whirr");
-
-
     }
 }

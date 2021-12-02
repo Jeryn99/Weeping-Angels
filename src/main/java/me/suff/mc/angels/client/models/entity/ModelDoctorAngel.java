@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client.models.entity;
 
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
@@ -268,6 +269,11 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngel> implements IAnge
     }
 
     @Override
+	public Iterable<ModelPart> wings(PoseStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
     public void translateToHand(HumanoidArm p_102108_, PoseStack p_102109_) {
 
     }
@@ -276,4 +282,6 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngel> implements IAnge
     public ModelPart getHead() {
         return head;
     }
+
+
 }
