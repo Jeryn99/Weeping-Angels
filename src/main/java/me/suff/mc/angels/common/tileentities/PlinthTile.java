@@ -46,6 +46,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
 
         setHasSpawned(compound.getBoolean("hasSpawned"));
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
+        NBTPatcher.strip(compound, "model");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
             setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
@@ -59,6 +60,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
+        NBTPatcher.strip(compound, "model");
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
         return compound;
     }

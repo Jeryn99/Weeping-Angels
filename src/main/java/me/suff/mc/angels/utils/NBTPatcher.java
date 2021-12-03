@@ -8,7 +8,7 @@ public class NBTPatcher {
     public static void strip(CompoundNBT compoundNBT, String replaceValue) {
         if (compoundNBT.contains(replaceValue)) {
             String type = compoundNBT.getString(replaceValue);
-            if (type.equals("DISASTER_MC")) {
+            if (type.equals("ANGELA_MC")) {
                 compoundNBT.putString(replaceValue, AngelType.DISASTER_MC.name());
             }
 

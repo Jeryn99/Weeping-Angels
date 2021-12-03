@@ -29,10 +29,8 @@ import java.util.List;
 public class CatacombStructure extends Structure<NoFeatureConfig> {
 
     protected static final String[] variants = new String[]{"flat", "clean", "broken", "classic", "normal"};
-    private static final List<MobSpawnInfo.Spawners> STRUCTURE_CREATURES = ImmutableList.of(
-            new MobSpawnInfo.Spawners(EntityType.BAT, 100, 1, 7),
-            new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 1, 2),
-            new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 20, 1, 3));
+    private static final List<MobSpawnInfo.Spawners> ENEMIES = ImmutableList.of(new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 2, 3), new MobSpawnInfo.Spawners(EntityType.SKELETON, 5, 4, 4), new MobSpawnInfo.Spawners(EntityType.BAT, 8, 5, 5));
+
 
     public CatacombStructure(Codec<NoFeatureConfig> codec) {
         super(codec);
@@ -50,12 +48,7 @@ public class CatacombStructure extends Structure<NoFeatureConfig> {
 
     @Override
     public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {
-        return STRUCTURE_CREATURES;
+        return ENEMIES;
     }
 
     @Override

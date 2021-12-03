@@ -264,6 +264,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.addAdditionalSaveData(compound);
         compound.putString(WAConstants.POSE, getAngelPose());
         compound.putString(WAConstants.TYPE, getAngelType().name());
+        NBTPatcher.strip(compound, "type");
         compound.putString(WAConstants.VARIENT, getVariant().getRegistryName().toString());
         compound.putFloat(WAConstants.LAUGH, getLaugh());
     }
@@ -280,7 +281,10 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (compound.contains(WAConstants.LAUGH))
             setLaugh(serializeNBT().getFloat(WAConstants.LAUGH));
 
-        if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
+        if (compound.contains(WAConstants.TYPE)) {
+            setType(compound.getString(WAConstants.TYPE));
+            NBTPatcher.strip(compound, "type");
+        }
 
         if (compound.contains(WAConstants.VARIENT))
             setVarient(Objects.requireNonNull(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
@@ -366,7 +370,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     private void modelCheck() {
         for (AngelType angelType : AngelType.values()) {
             if (!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())) {
-                setType(WAConfig.CONFIG.allowedTypes.get().get(0));
+                setType(WAConfig.CONFIG.allowedTypes.get().get(random.nextInt(WAConfig.CONFIG.allowedTypes.get().size())));
             }
         }
     }

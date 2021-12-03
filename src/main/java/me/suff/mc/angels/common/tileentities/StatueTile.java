@@ -41,6 +41,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         super.load(state, compound);
         NBTPatcher.strip(compound, "model");
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
+        NBTPatcher.strip(compound, "model");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
             setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
@@ -53,6 +54,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         compound.putString("model", type);
         compound.putString("pose", pose.name());
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
+        NBTPatcher.strip(compound, "model");
         return compound;
     }
 
