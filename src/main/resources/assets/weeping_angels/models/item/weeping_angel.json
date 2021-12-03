@@ -34,7 +34,7 @@
       "predicate": {
         "weeping_angels:angel_type": 5
       },
-      "model": "weeping_angels:item/angel/vio_1"
+      "model": "weeping_angels:item/angel/angela"
     },
     {
       "predicate": {
@@ -52,7 +52,13 @@
       "predicate": {
         "weeping_angels:angel_type": 8
       },
-      "model": "weeping_angels:item/angel/doctor_angel"
+      "model": "weeping_angels:item/angel/vio_1"
+    },
+    {
+      "predicate": {
+        "weeping_angels:angel_type": 9
+      },
+      "model": "weeping_angels:item/angel/vio_2"
     }
   ]
 }

@@ -43,6 +43,7 @@ public class ClientUtil {
     private static final EntityModel<WeepingAngelEntity> DISASTER_MC = new ModelDisasterAngel();
     private static final EntityModel<WeepingAngelEntity> DYING = new ModelDyingAngel(0.5F, true);
     private static final EntityModel<WeepingAngelEntity> SPARE_TIME = new ModelVAAngel();
+    private static final EntityModel<WeepingAngelEntity> DOCTOR = new ModelDoctorAngel();
 
     private static final Map<AngelType, EntityModel<WeepingAngelEntity>> MODEL_MAP = new HashMap<>();
 
@@ -56,7 +57,7 @@ public class ClientUtil {
         MODEL_MAP.put(AngelType.VIO_2, VIO_2);//VIOLET
         MODEL_MAP.put(AngelType.DYING, DYING);//DISASTER
         MODEL_MAP.put(AngelType.SPARE_TIME, SPARE_TIME);//GAS
-        MODEL_MAP.put(AngelType.DOCTOR, SPARE_TIME);//GAS //TODO!!
+        MODEL_MAP.put(AngelType.DOCTOR, DOCTOR);//GAS
     }
 
 
@@ -103,7 +104,6 @@ public class ClientUtil {
                 return 0;
             }
             AngelType type = AngelSpawnerItem.getType(itemStack);
-            System.out.println(type.name() + " || " + type.ordinal());
             return type.ordinal();
         });
     }
