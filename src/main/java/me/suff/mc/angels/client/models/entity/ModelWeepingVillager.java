@@ -161,7 +161,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return TEXTURE;
     }
 
     public void setRotationAngle(ModelRenderer ModelRenderer, float x, float y, float z) {

@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
@@ -126,7 +126,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
         if (level != null && !level.getEntitiesOfClass(PlayerEntity.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
-            angel.setType(AngelEnums.AngelType.ANGELA_MC);
+            angel.setType(AngelType.DISASTER_MC);
             angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);

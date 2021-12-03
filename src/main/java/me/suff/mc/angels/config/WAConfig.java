@@ -1,7 +1,7 @@
 package me.suff.mc.angels.config;
 
 import com.google.common.collect.Lists;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.entity.EntityClassification;
@@ -127,7 +127,7 @@ public class WAConfig {
 
     public ArrayList<String> genAngelTypes() {
         ArrayList<String> allowedTypes = new ArrayList<>();
-        for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+        for (AngelType angelType : AngelType.values()) {
             allowedTypes.add(angelType.name());
         }
         return allowedTypes;

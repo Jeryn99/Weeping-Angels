@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
 
-    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/angela/normal/normal_angel_angry.png");
+    public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/normal/normal_angel_angry.png");
 
     private final ModelRenderer head;
     private final ModelRenderer body;
@@ -261,7 +261,7 @@ public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> imple
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
         String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
-        String coreFolder = "textures/entities/angela/";
+        String coreFolder = "textures/entities/disaster/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();

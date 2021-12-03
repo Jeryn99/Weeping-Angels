@@ -7,7 +7,7 @@ import me.suff.mc.angels.client.models.block.SnowHeadModel;
 import me.suff.mc.angels.client.models.block.SnowWingsModel;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -29,7 +29,7 @@ public class SnowArmTileRender extends TileEntityRenderer<SnowArmTile> {
     }
 
     public static ResourceLocation getTexture(SnowArmTile snowArmTile) {
-        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelEnums.AngelType.ANGELA_MC);
+        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelType.DISASTER_MC);
         return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowArmTile.getVariant());
     }
 

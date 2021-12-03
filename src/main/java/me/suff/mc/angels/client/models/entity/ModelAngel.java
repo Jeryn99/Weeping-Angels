@@ -515,7 +515,7 @@ public class ModelAngel extends EntityModel<WeepingAngelEntity> implements IAnge
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return TEXTURE;
     }
 
     @Override

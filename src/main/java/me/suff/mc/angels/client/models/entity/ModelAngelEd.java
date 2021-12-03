@@ -432,7 +432,7 @@ public class ModelAngelEd extends SegmentedModel<WeepingAngelEntity> implements 
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return TEXTURE;
     }
 
     @Override

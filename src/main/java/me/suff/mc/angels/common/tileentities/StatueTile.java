@@ -2,8 +2,7 @@ package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
-import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
@@ -28,7 +27,7 @@ import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 
 public class StatueTile extends TileEntity implements ITickableTileEntity, IPlinth {
 
-    private String type = AngelEnums.AngelType.ANGELA_MC.name();
+    private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
@@ -40,7 +39,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     @Override
     public void load(BlockState state, CompoundNBT compound) {
         super.load(state, compound);
-        NBTPatcher.angelaToVillager(compound, "model");
+        NBTPatcher.strip(compound, "model");
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
@@ -57,15 +56,15 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         return compound;
     }
 
-    public AngelEnums.AngelType getAngelType() {
-        return AngelEnums.AngelType.valueOf(type.isEmpty() ? AngelType.ANGELA_MC.name() : type);
+    public AngelType getAngelType() {
+        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {
         this.type = type;
     }
 
-    public void setAngelType(AngelEnums.AngelType type) {
+    public void setAngelType(AngelType type) {
         this.type = type.name();
     }
 
@@ -111,8 +110,8 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
             WeepingAngelEntity angel = new WeepingAngelEntity(level);
-            angel.setVarient(angelVariant);
-            angel.setType(type);
+            angel.setVarient(getAngelVarients());
+            angel.setType(getAngelType());
             angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
             angel.setPose(getPose());
             level.addFreshEntity(angel);
@@ -146,12 +145,12 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
     @Override
     public void changeModel() {
-        setAngelType(AngelUtil.randomType());
+        setAngelType(AngelType.next(getAngelType()));
     }
 
     @Override
     public void changePose() {
-        setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
+        setPose(WeepingAngelPose.next(getPose()));
     }
 
     @Override
@@ -159,5 +158,25 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    @Override
+    public AngelType getCurrentType() {
+        return getAngelType();
+    }
+
+    @Override
+    public WeepingAngelPose getCurrentPose() {
+        return pose;
+    }
+
+    @Override
+    public AbstractVariant getVariant() {
+        return angelVariant;
+    }
+
+    @Override
+    public void setAbstractVariant(AbstractVariant variant) {
+        this.angelVariant = variant;
     }
 }

@@ -642,6 +642,6 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        return TEXTURE;
     }
 }

@@ -107,7 +107,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
             PlinthTile plinth = (PlinthTile) world.getBlockEntity(pos);
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
-            plinth.setAngelVarients(AngelTypes.getWeightedRandom());
+            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom());
             plinth.sendUpdates();
         }
     }

@@ -243,7 +243,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
 
-        if (getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+        if (getAngelType() == AngelType.DISASTER_MC) {
             AbstractVariant variant = getVariant();
             if (variant.shouldDrop(cause, this)) {
                 spawnAtLocation(variant.stackDrop().getStack());
@@ -272,7 +272,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     public void load(CompoundNBT compound) {
         super.load(compound);
 
-        NBTPatcher.angelaToVillager(compound, WAConstants.TYPE);
+        NBTPatcher.strip(compound, WAConstants.TYPE);
 
         if (compound.contains(WAConstants.POSE))
             setPose(WeepingAngelPose.getPose(compound.getString(WAConstants.POSE)));
@@ -309,7 +309,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
 
     private void randomisePose() {
-        if (getAngelType() != AngelEnums.AngelType.VIO_1) {
+        if (getAngelType() != AngelType.VIO_1) {
             setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             return;
         }
@@ -364,7 +364,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     private void modelCheck() {
-        for (AngelEnums.AngelType angelType : AngelEnums.AngelType.values()) {
+        for (AngelType angelType : AngelType.values()) {
             if (!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())) {
                 setType(WAConfig.CONFIG.allowedTypes.get().get(0));
             }
@@ -503,19 +503,19 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     public boolean isCherub() {
-        return getAngelType() == AngelEnums.AngelType.CHERUB;
+        return getAngelType() == AngelType.CHERUB;
     }
 
-    public AngelEnums.AngelType getAngelType() {
+    public AngelType getAngelType() {
         String type = getEntityData().get(TYPE);
-        return type.isEmpty() ? AngelEnums.AngelType.ANGELA_MC : AngelEnums.AngelType.valueOf(type);
+        return type.isEmpty() ? AngelType.DISASTER_MC : AngelType.valueOf(type);
     }
 
     public void setType(String angelType) {
         getEntityData().set(TYPE, angelType);
     }
 
-    public void setType(AngelEnums.AngelType angelType) {
+    public void setType(AngelType angelType) {
         setType(angelType.name());
     }
 

@@ -263,7 +263,10 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
-        return null;
+        if (!DateChecker.isXmas()) {
+            return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
+        }
+        return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY_XMAS : TEXTURE_XMAS;
     }
 
     @Override

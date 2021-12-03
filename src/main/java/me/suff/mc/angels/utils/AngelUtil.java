@@ -2,12 +2,11 @@ package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.SnowAngelStages;
-import me.suff.mc.angels.common.tileentities.SnowArmTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -41,12 +40,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 
-import java.time.Month;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import static java.time.Month.OCTOBER;
 import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
 
 public class AngelUtil {
@@ -88,7 +85,7 @@ public class AngelUtil {
         return !living.hasEffect(Effects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != World.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
     }
 
-    public static boolean isHalloween(){
+    public static boolean isHalloween() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
@@ -153,9 +150,9 @@ public class AngelUtil {
         return false;
     }
 
-    public static AngelEnums.AngelType randomType() {
-        int pick = RAND.nextInt(AngelEnums.AngelType.values().length);
-        return AngelEnums.AngelType.values()[pick];
+    public static AngelType randomType() {
+        int pick = RAND.nextInt(AngelType.values().length);
+        return AngelType.values()[pick];
     }
 
     public static SnowAngelStages randowSnowStage() {
@@ -186,7 +183,7 @@ public class AngelUtil {
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) target;
-            if (weepingAngelEntity.getAngelType() == AngelEnums.AngelType.ANGELA_MC) {
+            if (weepingAngelEntity.getAngelType() == AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngelEntity.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngelEntity)) {
                     weepingAngelEntity.spawnAtLocation(variant.stackDrop().getStack());

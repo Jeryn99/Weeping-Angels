@@ -31,6 +31,14 @@ public enum WeepingAngelPose {
         return HIDING;
     }
 
+    public static WeepingAngelPose next(WeepingAngelPose type) {
+        int index = type.ordinal();
+        int nextIndex = index + 1;
+        WeepingAngelPose[] angels = WeepingAngelPose.values();
+        nextIndex %= angels.length;
+        return angels[nextIndex];
+    }
+
     public Emotion getEmotion() {
         return emotion;
     }

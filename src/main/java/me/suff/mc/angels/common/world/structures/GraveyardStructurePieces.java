@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -142,7 +142,7 @@ public class GraveyardStructurePieces {
             if ("angel".equals(function)) {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
-                statueTile.setAngelType(AngelEnums.AngelType.ANGELA_MC);
+                statueTile.setAngelType(AngelType.DISASTER_MC);
                 statueTile.setAngelVarients(AngelTypes.getWeightedRandom());
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);

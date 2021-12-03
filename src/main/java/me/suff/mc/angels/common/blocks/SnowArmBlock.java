@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.blocks;
 
-import me.suff.mc.angels.common.entities.AngelEnums;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.SnowAngelStages;
 import me.suff.mc.angels.common.tileentities.SnowArmTile;
@@ -85,7 +85,7 @@ public class SnowArmBlock extends SnowBlock {
             if (tile instanceof SnowArmTile) {
                 SnowArmTile snowArmTile = (SnowArmTile) tile;
                 WeepingAngelEntity angel = new WeepingAngelEntity(worldIn);
-                angel.setType(AngelEnums.AngelType.ANGELA_MC);
+                angel.setType(AngelType.DISASTER_MC);
                 angel.setVarient(snowArmTile.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);
