@@ -52,6 +52,7 @@ public class WeepingAngels {
         modBus.register(this);
         modBus.addListener(this::setup);
         modBus.addListener(this::onAttributeAssign);
+
         AngelTypes.VARIANTS.register(modBus);
 
         MinecraftForge.EVENT_BUS.register(this);

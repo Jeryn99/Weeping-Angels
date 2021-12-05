@@ -352,8 +352,20 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void tick() {
+
+        if(!WAConfig.CONFIG.isVariantPermitted(getVariant())){
+            setVarient(getAngelType().getWeightedHandler().getRandom());
+        }
+
+        if(!WAConfig.CONFIG.isModelPermitted(getAngelType())){
+            setType(AngelType.next(getAngelType()));
+        }
+
+
         getVariant().tick(this);
         super.tick();
+
+
         if (tickCount % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
