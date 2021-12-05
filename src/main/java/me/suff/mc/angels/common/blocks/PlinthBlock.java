@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -93,7 +94,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         if (world.getBlockEntity(pos) instanceof PlinthBlockEntity plinth) {
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
-            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom());
+            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom(null));
             if (stack.getTagElement("BlockEntityTag") != null) {
                 plinth.load(stack.getTagElement("BlockEntityTag"));
             }

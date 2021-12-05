@@ -121,7 +121,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom().getRegistryName().toString());
+        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom(null).getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -137,7 +137,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
-        getVariant().canVariantBeUsed(this);
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -300,7 +299,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.onSyncedDataUpdated(key);
         if (TYPE.equals(key)) {
             refreshDimensions();
-            setVarient(getAngelType().getWeightedHandler().getRandom());
+            setVarient(getAngelType().getWeightedHandler().getRandom(this));
         }
 
     }
@@ -354,7 +353,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public void tick() {
 
         if(!WAConfig.CONFIG.isVariantPermitted(getVariant())){
-            setVarient(getAngelType().getWeightedHandler().getRandom());
+            setVarient(getAngelType().getWeightedHandler().getRandom(this));
         }
 
         if(!WAConfig.CONFIG.isModelPermitted(getAngelType())){

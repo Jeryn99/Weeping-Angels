@@ -7,8 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,6 +24,8 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
 
@@ -91,7 +95,7 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom());
+                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom(null));
                 }
             }
         }
@@ -123,6 +127,4 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
     public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
         return EntityBlock.super.getListener(p_153210_, p_153211_);
     }
-
-
 }

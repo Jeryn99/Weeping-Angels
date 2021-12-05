@@ -43,6 +43,7 @@ public class WALangEnglish extends LanguageProvider {
         add("tooltip.weeping_angels.chisel", ChatFormatting.BLUE.toString() + "Edit Statue/Plinth");
         add("tooltip.weeping_angels.chisel_right_click", ChatFormatting.BLUE.toString() + "- Right click to change angel pose");
         add("tooltip.weeping_angels.chisel_sneak", ChatFormatting.BLUE.toString() + "- Sneak + Right click to Change Angel Type");
+        add("tooltip.weeping_angels.punch_variant", ChatFormatting.BLUE.toString() + "- Left click to change variant");
 
         /* Damage Sources */
         add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");
@@ -99,5 +100,7 @@ public class WALangEnglish extends LanguageProvider {
         add("sound.weeping_angels.blow", "Blow");
         add("sound.weeping_angels.angel_death", "Angel crumbles to death");
         add("sound.weeping_angels.projector", "Whirr");
+
+
     }
 }

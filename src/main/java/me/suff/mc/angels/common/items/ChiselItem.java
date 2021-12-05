@@ -44,7 +44,7 @@ public class ChiselItem extends Item {
                     PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed model to " + plinth.getCurrentType()), true);
                 } else {
                     player.swing(context.getHand());
-                    plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
+                    plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
                     plinth.sendUpdatesToClient();
                     PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
                 }

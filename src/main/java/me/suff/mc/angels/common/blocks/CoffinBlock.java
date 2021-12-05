@@ -32,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
+import static net.minecraft.world.level.block.SculkSensorBlock.WATERLOGGED;
 
 
 public class CoffinBlock extends BaseEntityBlock {
@@ -42,7 +43,7 @@ public class CoffinBlock extends BaseEntityBlock {
 
     public CoffinBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
+        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -91,7 +92,7 @@ public class CoffinBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(UPRIGHT, ROTATION, BlockStateProperties.WATERLOGGED);
+        builder.add(UPRIGHT, ROTATION, WATERLOGGED);
     }
 
     @Override
