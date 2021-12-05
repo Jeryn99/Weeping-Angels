@@ -5,7 +5,6 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -100,6 +99,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     }
 
+    @Override
+    public boolean isPersistenceRequired() {
+        return super.isPersistenceRequired() || !getMainHandItem().isEmpty() || !getOffhandItem().isEmpty();
+    }
+
     public void dropAngelStuff() {
         if (level.isClientSide()) return;
         AngelUtil.dropEntityLoot(this, this.lastHurtByPlayer);
@@ -192,7 +196,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     public boolean isInCatacomb() {
-        if (level instanceof ServerLevel serverWorld) {
+        //TODO
+        /*if (level instanceof ServerLevel serverWorld) {
             BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
 
             if (catacomb == null) {
@@ -201,9 +206,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
             return distanceToSqr(catacomb.getX(), catacomb.getY(), catacomb.getZ()) < 50;
         }
-
+*/
         return false;
     }
+
+
 
     public void dealDamage(Player playerMP) {
         double damage = WAConfig.CONFIG.damage.get();
@@ -345,8 +352,20 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void tick() {
+
+        if(!WAConfig.CONFIG.isVariantPermitted(getVariant())){
+            setVarient(getAngelType().getWeightedHandler().getRandom());
+        }
+
+        if(!WAConfig.CONFIG.isModelPermitted(getAngelType())){
+            setType(AngelType.next(getAngelType()));
+        }
+
+
         getVariant().tick(this);
         super.tick();
+
+
         if (tickCount % 500 == 0 && getTarget() == null && getSeenTime() == 0) {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }

@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
+import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class WeightedHandler {
     public AbstractVariant getRandom() {
         double r = AngelUtil.RAND.nextDouble() * accumulatedWeight;
         for (Entry entry : entries) {
-            if (entry.accumulatedWeight >= r) {
+            if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.abstractVariant)) {
                 return entry.abstractVariant;
             }
         }

@@ -2,6 +2,9 @@ package me.suff.mc.angels.config;
 
 import com.google.common.collect.Lists;
 import me.suff.mc.angels.common.entities.AngelType;
+import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.BaseVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.world.entity.MobCategory;
@@ -61,6 +64,8 @@ public class WAConfig {
 
     // Easter Eggs
     public final ForgeConfigSpec.BooleanValue showSantaHatsAtXmas;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedAngelTypes;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedVariants;
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
@@ -100,16 +105,36 @@ public class WAConfig {
         angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
         aggroCreative = builder.translation("config.weeping_angels.aggroCreative").comment("Should Angels target creative players?").define("aggroCreative", true);
         builder.pop();
+
         builder.push("block");
         spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a redstone signal").define("spawnFromBlocks", true);
         builder.pop();
 
-        builder.push("easter_eggs");
+        builder.push("misc");
         showSantaHatsAtXmas = builder.translation("config.weeping_angels.santa_hat").comment("Toggle whether santa hats are shown at Xmas").define("showSantaHatsAtXmas", true);
+        allowedAngelTypes = builder.translation("config.weeping_angels.allowed_types").comment("Toggle certain angel models (Only applies to Entity)").defineList("allowedAngelTypes", genAngelTypes(), String.class::isInstance);
+        allowedVariants = builder.translation("config.weeping_angels.allowed_variants").comment("Toggle certain angel variants (Only applies to Entity)").defineList("allowedVariants", getAngelVariants(), String.class::isInstance);
         builder.pop();
 
+    }
 
 
+    public boolean isModelPermitted(AngelType angelType){
+        for (String s : allowedAngelTypes.get()) {
+            if(s.equalsIgnoreCase(angelType.name())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isVariantPermitted(AbstractVariant angelType){
+        for (String s : allowedVariants.get()) {
+            if(s.equalsIgnoreCase(angelType.getRegistryName().toString())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<String> genBiomesForSpawn() {
@@ -120,11 +145,35 @@ public class WAConfig {
         return spawnBiomes;
     }
 
+    public ArrayList<String> getAngelVariants() {
+        ArrayList<String> allowedTypes = new ArrayList<>();
+        allowedTypes.add("weeping_angels:gold");
+        allowedTypes.add("weeping_angels:diamond");
+        allowedTypes.add("weeping_angels:iron");
+        allowedTypes.add("weeping_angels:mossy");
+        allowedTypes.add("weeping_angels:normal");
+        allowedTypes.add("weeping_angels:basalt");
+        allowedTypes.add("weeping_angels:rusted");
+        allowedTypes.add("weeping_angels:rusted_no_arm");
+        allowedTypes.add("weeping_angels:rusted_no_wing");
+        allowedTypes.add("weeping_angels:rusted_no_head");
+        allowedTypes.add("weeping_angels:dirt");
+        allowedTypes.add("weeping_angels:emerald");
+        allowedTypes.add("weeping_angels:copper");
+        allowedTypes.add("weeping_angels:lapis_lazuli");
+        allowedTypes.add("weeping_angels:quartz");
+        return allowedTypes;
+    }
+
     public ArrayList<String> genAngelTypes() {
         ArrayList<String> allowedTypes = new ArrayList<>();
-        for (AngelType angelType : AngelType.values()) {
-            allowedTypes.add(angelType.name());
-        }
+        allowedTypes.add("DISASTER_MC");
+        allowedTypes.add("DOCTOR");
+        allowedTypes.add("ED");
+        allowedTypes.add("ED_ANGEL_CHILD");
+        allowedTypes.add("A_DIZZLE");
+        allowedTypes.add("DYING");
+        allowedTypes.add("VILLAGER");
         return allowedTypes;
     }
 }

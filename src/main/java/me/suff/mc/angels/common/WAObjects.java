@@ -60,7 +60,6 @@ public class WAObjects {
         }
     }
 
-    @SuppressWarnings("unused")
     private static void genBlockItems(Collection<RegistryObject<Block>> collection) {
         for (RegistryObject<Block> block : collection) {
             CreativeModeTab itemGroup = WATabs.MAIN_TAB;
@@ -89,6 +88,7 @@ public class WAObjects {
         builder.setShouldReceiveVelocityUpdates(sendUpdate);
         builder.setTrackingRange(trackingRange);
         builder.setUpdateInterval(updateFreq);
+        builder.clientTrackingRange(10);
         builder.sized(width, height);
         builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
@@ -102,6 +102,8 @@ public class WAObjects {
         builder.setTrackingRange(trackingRange);
         builder.setUpdateInterval(updateFreq);
         builder.fireImmune();
+        builder.clientTrackingRange(10);
+        builder.canSpawnFarFromPlayer();
         builder.sized(width, height);
         builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
