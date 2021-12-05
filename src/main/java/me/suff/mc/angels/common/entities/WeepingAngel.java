@@ -99,6 +99,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     }
 
+    @Override
+    public boolean isPersistenceRequired() {
+        return super.isPersistenceRequired() || !getMainHandItem().isEmpty() || !getOffhandItem().isEmpty();
+    }
+
     public void dropAngelStuff() {
         if (level.isClientSide()) return;
         AngelUtil.dropEntityLoot(this, this.lastHurtByPlayer);
@@ -191,18 +196,21 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     public boolean isInCatacomb() {
-        if (level instanceof ServerLevel serverWorld) {
-            //TODO !!!!!BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
-            BlockPos catacomb = null;
+        //TODO
+        /*if (level instanceof ServerLevel serverWorld) {
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
+
             if (catacomb == null) {
                 return false;
             }
 
             return distanceToSqr(catacomb.getX(), catacomb.getY(), catacomb.getZ()) < 50;
         }
-
+*/
         return false;
     }
+
+
 
     public void dealDamage(Player playerMP) {
         double damage = WAConfig.CONFIG.damage.get();

@@ -79,11 +79,11 @@ public class AngelUtil {
     public static Random RAND = new Random();
 
     public static Tag.Named<Item> makeItem(String domain, String path) {
-        return ItemTags.bind(new ResourceLocation(domain, path).toString());
+        return ItemTags.createOptional(new ResourceLocation(domain, path));
     }
 
     public static Tag.Named<Block> makeBlock(String domain, String path) {
-        return BlockTags.bind(new ResourceLocation(domain, path).toString());
+        return BlockTags.createOptional(new ResourceLocation(domain, path));
     }
 
     public static boolean isDarkForPlayer(QuantumLockedLifeform angel, LivingEntity living) {
@@ -181,8 +181,7 @@ public class AngelUtil {
         LootContext.Builder lootContextBuilder = getLootContextBuilder(true, DamageSource.GENERIC, targeted, attacker);
         LootContext ctx = lootContextBuilder.create(LootContextParamSets.ENTITY);
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
-        if (target instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) target;
+        if (target instanceof WeepingAngel weepingAngel) {
             if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
                 AbstractVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
@@ -204,9 +203,8 @@ public class AngelUtil {
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-
-        //TODO!!!!
-      /*  if (playerEntity.level instanceof ServerLevel serverWorld) {
+        //TODO!
+     /*   if (playerEntity.level instanceof ServerLevel serverWorld) {
             boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).isValid();
 
             if (isCatacomb) {
