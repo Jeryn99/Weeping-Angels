@@ -9,11 +9,13 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.ArrayList;
 
 /**
  * Angel Type: Child
@@ -235,7 +237,7 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());
+        return generateTex(WeepingAngelPose.APPROACH, AngelVariants.NORMAL.get());
     }
 
     @Override
@@ -246,4 +248,13 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
         return new ResourceLocation(WeepingAngels.MODID, location + suffix + ".png");
     }
 
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return null;
+    }
 }

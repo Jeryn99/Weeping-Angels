@@ -23,7 +23,6 @@ import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
-import java.util.Collections;
 import java.util.List;
 
 public class CatacombStructure extends Structure<NoFeatureConfig> {

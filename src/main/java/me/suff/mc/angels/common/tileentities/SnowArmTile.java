@@ -5,7 +5,7 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -26,7 +26,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
 
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AbstractVariant angelVariant = AngelVariants.NORMAL.get();
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -58,7 +58,7 @@ public class SnowArmTile extends TileEntity implements ITickableTileEntity {
         super.load(state, nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setVariant(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
+            setVariant(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {

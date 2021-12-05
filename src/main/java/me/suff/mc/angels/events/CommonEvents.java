@@ -3,6 +3,9 @@ package me.suff.mc.angels.events;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
+import me.suff.mc.angels.common.items.ChiselItem;
+import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
@@ -18,10 +21,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.DebugStickItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -30,6 +35,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
@@ -45,6 +51,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -67,6 +74,34 @@ public class CommonEvents {
         if (damageSource == WAObjects.ANGEL_NECK_SNAP) {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
         }
+    }
+
+    @SubscribeEvent
+    public static void onBreak(BlockEvent.BreakEvent event){
+        PlayerEntity playerEntity = event.getPlayer();
+        IWorld world = event.getWorld();
+        BlockPos pos = event.getPos();
+
+        // Plinth
+        boolean isPlinth = world.getBlockEntity(pos) instanceof IPlinth;
+        boolean hasChisel = playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem;
+        if(isPlinth && playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem){
+            IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
+            event.setCanceled(true);
+            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
+            plinth.sendUpdatesToClient();
+            PlayerUtil.sendMessageToPlayer(playerEntity, new TranslationTextComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
+        }
+
+        if(playerEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() instanceof DebugStickItem && hasChisel){
+            if(world.getBlockEntity(pos) instanceof CoffinTile){
+                event.setCanceled(true);
+                CoffinTile coffinTile = (CoffinTile) world.getBlockEntity(pos);
+                coffinTile.setCoffin(CoffinTile.Coffin.next(coffinTile.getCoffin()));
+                PlayerUtil.sendMessageToPlayer(playerEntity, new TranslationTextComponent(coffinTile.getCoffin().name()), true);
+            }
+        }
+
     }
 
     @SubscribeEvent
@@ -205,8 +240,8 @@ public class CommonEvents {
 
 
     @SubscribeEvent
-    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event){
-        if(event.getEntity() instanceof PlayerEntity){
+    public static void onLoad(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) event.getEntity();
             versionCheck(playerEntity);
         }
@@ -218,7 +253,7 @@ public class CommonEvents {
             TranslationTextComponent click = new TranslationTextComponent("Download");
             click.setStyle(Style.EMPTY.setUnderlined(true).withColor(TextFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
 
-            TranslationTextComponent translationTextComponent = new TranslationTextComponent(TextFormatting.BOLD+"[" + TextFormatting.RESET + TextFormatting.YELLOW + "Weeping Angels" + TextFormatting.RESET + TextFormatting.BOLD + "]");
+            TranslationTextComponent translationTextComponent = new TranslationTextComponent(TextFormatting.BOLD + "[" + TextFormatting.RESET + TextFormatting.YELLOW + "Weeping Angels" + TextFormatting.RESET + TextFormatting.BOLD + "]");
             translationTextComponent.append(new TranslationTextComponent(" New Update Found: (" + version.target + ") ").append(click));
             PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
         }

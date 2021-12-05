@@ -6,7 +6,7 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
@@ -29,7 +29,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
     private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AbstractVariant angelVariant = AngelVariants.NORMAL.get();
 
 
     public StatueTile() {
@@ -44,7 +44,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         NBTPatcher.strip(compound, "model");
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
+            setAngelVarients(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
         }
     }
 
@@ -59,7 +59,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
     }
 
     public AngelType getAngelType() {
-        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
+        return AngelType.get(type);
     }
 
     public void setAngelType(String type) {

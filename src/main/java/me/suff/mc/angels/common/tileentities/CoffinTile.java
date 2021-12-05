@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
@@ -214,6 +215,14 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
 
         public boolean isPoliceBox() {
             return isPoliceBox;
+        }
+
+        public static Coffin next(Coffin type) {
+            int index = type.ordinal();
+            int nextIndex = index + 1;
+            Coffin[] angels = Coffin.values();
+            nextIndex %= angels.length;
+            return angels[nextIndex];
         }
     }
 }

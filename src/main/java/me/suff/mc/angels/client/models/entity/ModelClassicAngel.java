@@ -270,6 +270,11 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
     }
 
     @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return null;
+    }
+
+    @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
         if (!DateChecker.isXmas()) {
             return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
@@ -281,6 +286,11 @@ public class ModelClassicAngel extends SegmentedModel<WeepingAngelEntity> implem
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;
+    }
+
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(leftwing1, leftwing2, leftwing3, leftwing4, rightwing1, rightwing2, rightwing3, rightwing4);
     }
 
 

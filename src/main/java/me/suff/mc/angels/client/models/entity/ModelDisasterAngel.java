@@ -259,6 +259,17 @@ public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> imple
     }
 
     @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return head;
+    }
+
+
+    @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
         String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
         String coreFolder = "textures/entities/disaster/";

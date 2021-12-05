@@ -2,7 +2,6 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -107,7 +106,7 @@ public class PlinthBlock extends Block implements IWaterLoggable {
             PlinthTile plinth = (PlinthTile) world.getBlockEntity(pos);
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
-            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom());
+            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom(null));
             plinth.sendUpdates();
         }
     }

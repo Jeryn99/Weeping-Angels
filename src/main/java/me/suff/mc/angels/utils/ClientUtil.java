@@ -5,6 +5,7 @@ import me.suff.mc.angels.client.models.entity.*;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.client.renders.entities.WeepingAngelsRenderer;
+import me.suff.mc.angels.client.renders.layers.WingsLayer;
 import me.suff.mc.angels.client.renders.tileentities.CoffinRenderer;
 import me.suff.mc.angels.client.renders.tileentities.PlinthTileRender;
 import me.suff.mc.angels.client.renders.tileentities.SnowArmTileRender;
@@ -19,8 +20,8 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -41,7 +42,7 @@ public class ClientUtil {
     private static final EntityModel<WeepingAngelEntity> VIO_2 = new ModelAngelMel();
     private static final EntityModel<WeepingAngelEntity> VILLAGER = new ModelWeepingVillager();
     private static final EntityModel<WeepingAngelEntity> DISASTER_MC = new ModelDisasterAngel();
-    private static final EntityModel<WeepingAngelEntity> DYING = new ModelDyingAngel(0.5F, true);
+    private static final EntityModel<WeepingAngelEntity> DYING = new ModelDyingAngel(0.0F, true);
     private static final EntityModel<WeepingAngelEntity> SPARE_TIME = new ModelVAAngel();
     private static final EntityModel<WeepingAngelEntity> DOCTOR = new ModelDoctorAngel();
 
@@ -62,7 +63,7 @@ public class ClientUtil {
 
 
     public static EntityModel<WeepingAngelEntity> getModelForAngel(AngelType angelType) {
-        if(!MODEL_MAP.containsKey(angelType)){
+        if (!MODEL_MAP.containsKey(angelType)) {
             try {
                 throw new Exception("No model registered for " + angelType.name());
             } catch (Exception e) {
@@ -91,6 +92,12 @@ public class ClientUtil {
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
+
+        Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
+        for (PlayerRenderer renderPlayer : skinMap.values()) {
+            renderPlayer.addLayer(new WingsLayer(renderPlayer));
+        }
+
 
         ItemModelsProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientWorld, livingEntity) -> {
             if (livingEntity instanceof WeepingAngelEntity && AngelUtil.isHalloween()) {

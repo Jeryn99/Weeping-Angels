@@ -440,4 +440,13 @@ public class ModelAngelEd extends SegmentedModel<WeepingAngelEntity> implements 
         return TEXTURE;
     }
 
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(left_wing_0, left_wing_1);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return head;
+    }
 }

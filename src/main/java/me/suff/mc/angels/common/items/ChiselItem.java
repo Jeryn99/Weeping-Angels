@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static me.suff.mc.angels.common.variants.AngelTypes.NORMAL;
+import static me.suff.mc.angels.common.variants.AngelVariants.NORMAL;
 
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {
@@ -43,11 +43,6 @@ public class ChiselItem extends Item {
                     plinth.sendUpdatesToClient();
                     plinth.setAbstractVariant(NORMAL.get());
                     PlayerUtil.sendMessageToPlayer(player, new TranslationTextComponent("Changed model to " + plinth.getCurrentType()), true);
-                } else {
-                    player.swing(context.getHand());
-                    plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
-                    plinth.sendUpdatesToClient();
-                    PlayerUtil.sendMessageToPlayer(player, new TranslationTextComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
                 }
                 return ActionResultType.PASS;
             }
@@ -70,6 +65,7 @@ public class ChiselItem extends Item {
         p_77624_3_.add(new TranslationTextComponent("tooltip.weeping_angels.chisel"));
         p_77624_3_.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_right_click"));
         p_77624_3_.add(new TranslationTextComponent("tooltip.weeping_angels.chisel_sneak"));
+        p_77624_3_.add(new TranslationTextComponent("tooltip.weeping_angels.punch_variant"));
 
     }
 }

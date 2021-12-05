@@ -8,7 +8,6 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -143,7 +142,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelType.DISASTER_MC);
-                statueTile.setAngelVarients(AngelTypes.getWeightedRandom());
+                statueTile.setAngelVarients(statueTile.getAngelType().getWeightedHandler().getRandom(null));
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }

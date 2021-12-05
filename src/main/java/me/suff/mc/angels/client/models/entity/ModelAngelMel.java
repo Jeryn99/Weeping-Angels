@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -624,6 +625,15 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
         armsCovering.renderToBuffer(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }
 
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(LeftWing1, LeftWing2, LeftWing3, LeftWing4, LeftWing5, LeftWing6, LeftWing7, RightWing1, RightWing2, RightWing3, RightWing4, RightWing5, RightWing6, RightWing7);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return null;
+    }
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {

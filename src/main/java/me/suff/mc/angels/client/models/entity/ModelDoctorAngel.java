@@ -14,9 +14,11 @@ import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelDoctorAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
+    public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/doctor/doctor_angel_idle.png");
     private final ModelRenderer head;
     private final ModelRenderer body;
     private final ModelRenderer leftArm;
@@ -26,8 +28,6 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngelEntity> implements
     private final ModelRenderer RLeg;
     private final ModelRenderer leftWing;
     private final ModelRenderer rightWing;
-
-    public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/doctor/doctor_angel_idle.png");
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
 
@@ -91,6 +91,17 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngelEntity> implements
         rightWing.texOffs(18, 33).addBox(-1.0F, -10.0F, 9.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
         rightWing.texOffs(0, 83).addBox(-1.0F, -8.0F, 11.0F, 2.0F, 17.0F, 1.0F, 0.0F, false);
         rightWing.texOffs(0, 59).addBox(-1.0F, -10.9F, 6.0F, 2.0F, 21.0F, 3.0F, 0.0F, false);
+    }
+
+
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return head;
     }
 
     @Override
@@ -212,14 +223,14 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngelEntity> implements
 
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        Legs.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int overlay, float red, float green, float blue, float alpha) {
+        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Legs.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -261,7 +272,6 @@ public class ModelDoctorAngel extends EntityModel<WeepingAngelEntity> implements
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingAngelPose = angelPose;
     }
-
 
 
 }

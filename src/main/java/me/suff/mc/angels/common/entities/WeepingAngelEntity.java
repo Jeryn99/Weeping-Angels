@@ -8,7 +8,7 @@ import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.NBTPatcher;
@@ -72,6 +72,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(7, new GoalWalkWhenNotWatched(this, 1.0D));
         xpReward = WAConfig.CONFIG.xpGained.get();
+        lookControl = new LookControllerAngels(this);
     }
 
 
@@ -107,12 +108,12 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, AngelTypes.getWeightedRandom().getRegistryName().toString());
+        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom(null).getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
     public AbstractVariant getVariant() {
-        return AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
+        return AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
     public void setVarient(AbstractVariant varient) {
@@ -123,7 +124,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld serverWorld, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
-        getVariant().canVariantBeUsed(this);
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -143,6 +143,11 @@ public class WeepingAngelEntity extends QuantumLockEntity {
             return CHILD_SOUNDS[random.nextInt(CHILD_SOUNDS.length)];
         }
         return null;
+    }
+
+    @Override
+    public boolean isPersistenceRequired() {
+        return super.isPersistenceRequired() || getMainHandItem().isEmpty() || getOffhandItem().isEmpty();
     }
 
     @Override
@@ -287,7 +292,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         }
 
         if (compound.contains(WAConstants.VARIENT))
-            setVarient(Objects.requireNonNull(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
+            setVarient(Objects.requireNonNull(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
     }
 
     @Override
@@ -368,10 +373,8 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     private void modelCheck() {
-        for (AngelType angelType : AngelType.values()) {
-            if (!WAConfig.CONFIG.allowedTypes.get().contains(angelType.name())) {
-                setType(WAConfig.CONFIG.allowedTypes.get().get(random.nextInt(WAConfig.CONFIG.allowedTypes.get().size())));
-            }
+        if (!WAConfig.CONFIG.isModelPermitted(getAngelType())) {
+            setType(WAConfig.CONFIG.genAngelTypes().get(random.nextInt(WAConfig.CONFIG.genAngelTypes().size())));
         }
     }
 
@@ -512,7 +515,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     public AngelType getAngelType() {
         String type = getEntityData().get(TYPE);
-        return type.isEmpty() ? AngelType.DISASTER_MC : AngelType.valueOf(type);
+        return AngelType.get(type);
     }
 
     public void setType(String angelType) {

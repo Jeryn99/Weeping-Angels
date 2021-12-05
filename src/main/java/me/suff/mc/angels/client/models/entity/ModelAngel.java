@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -496,6 +497,16 @@ public class ModelAngel extends EntityModel<WeepingAngelEntity> implements IAnge
         model.xRot = x;
         model.yRot = y;
         model.zRot = z;
+    }
+
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(LeftWing1, LeftWing2, LeftWing3, LeftWing4, LeftWing5, LeftWing6, LeftWing7, LeftWing8, LeftWing9, RightWing1, RightWing2, RightWing3, RightWing4, RightWing5, RightWing6, RightWing7, RightWing8, RightWing9);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return null;
     }
 
     @Override

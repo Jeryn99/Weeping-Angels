@@ -2,7 +2,6 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
@@ -37,6 +36,8 @@ import java.util.Objects;
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
 
+    public int hbb = 0;
+
     public static void enableTardis() {
         MinecraftForge.EVENT_BUS.register(new TardisMod());
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
@@ -54,6 +55,14 @@ public class TardisMod {
         return serverWorlds;
     }
 
+    public static void create(MinecraftServer server, BlockPos blockPos) {
+        for (ServerWorld world : TardisHelper.getTardises(server)) {
+            TardisHelper.getConsoleInWorld(world).ifPresent(other -> {
+                other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(World.OVERWORLD, blockPos)));
+            });
+        }
+    }
+
     /* Before you ask, imagine how many roundels would just be ripped from the walls or a Angel just nuking a Tardis from existence*/
     @SubscribeEvent
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
@@ -61,8 +70,6 @@ public class TardisMod {
         boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
     }
-
-    public int hbb = 0;
 
     @SubscribeEvent
     public void onAngelLive(LivingEvent.LivingUpdateEvent event) {
@@ -102,7 +109,6 @@ public class TardisMod {
                             });
 
 
-
                             console.getControl(ThrottleControl.class).ifPresent(sys -> {
                                 sys.setAmount(1F);
                                 sys.startAnimation();
@@ -114,8 +120,8 @@ public class TardisMod {
                         }
                     }
                 }
-                if(angelSig != null){
-                     console.getDistressSignals().remove(angelSig);
+                if (angelSig != null) {
+                    console.getDistressSignals().remove(angelSig);
                 }
             }
 
@@ -170,14 +176,6 @@ public class TardisMod {
                     console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
                 }
             }
-        }
-    }
-
-    public static void create(MinecraftServer server, BlockPos blockPos) {
-        for (ServerWorld world : TardisHelper.getTardises(server)) {
-            TardisHelper.getConsoleInWorld(world).ifPresent(other -> {
-                other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(World.OVERWORLD, blockPos)));
-            });
         }
     }
 

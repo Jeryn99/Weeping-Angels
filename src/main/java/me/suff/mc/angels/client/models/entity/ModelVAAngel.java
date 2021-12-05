@@ -1,17 +1,18 @@
-package me.suff.mc.angels.utils;
+package me.suff.mc.angels.client.models.entity;
 
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelVAAngel extends EntityModel<WeepingAngelEntity> implements IAngelModel {
@@ -214,13 +215,13 @@ public class ModelVAAngel extends EntityModel<WeepingAngelEntity> implements IAn
 
     @Override
     public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-        Legs.render(matrixStack, buffer, packedLight, packedOverlay);
-        leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
-        rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
+        head.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        body.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightArm.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        Legs.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        leftWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        rightWing.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -256,7 +257,7 @@ public class ModelVAAngel extends EntityModel<WeepingAngelEntity> implements IAn
             PlinthTile plinthBlockEntity = (PlinthTile) angel;
             return generateTex(plinthBlockEntity.getPose(), plinthBlockEntity.getAngelVarients());
         }
-        return generateTex(WeepingAngelPose.ANGRY, AngelTypes.NORMAL.get());
+        return generateTex(WeepingAngelPose.ANGRY, AngelVariants.NORMAL.get());
     }
 
 
@@ -268,5 +269,15 @@ public class ModelVAAngel extends EntityModel<WeepingAngelEntity> implements IAn
     @Override
     public void setAngelPose(WeepingAngelPose angelPose) {
         this.weepingPose = angelPose;
+    }
+
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return head;
     }
 }

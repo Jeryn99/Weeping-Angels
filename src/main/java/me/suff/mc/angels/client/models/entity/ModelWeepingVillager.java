@@ -1,5 +1,6 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
@@ -147,6 +148,17 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngelEntity> implem
             return;
         }
 
+    }
+
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        pose.translate(0, 1.2, 0);
+        return ImmutableList.of(wing0, wing2);
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return null;
     }
 
     @Override

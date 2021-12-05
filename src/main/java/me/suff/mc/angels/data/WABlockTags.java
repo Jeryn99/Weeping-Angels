@@ -25,7 +25,7 @@ public class WABlockTags extends BlockTagsProvider {
     @Override
     protected void addTags() {
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
-        add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
+        add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN, WAObjects.Blocks.COFFIN.get());
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (block.getRegistryName().getNamespace().contains("tardis")) continue;

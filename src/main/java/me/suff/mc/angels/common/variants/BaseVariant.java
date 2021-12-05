@@ -7,7 +7,7 @@ import net.minecraft.util.DamageSource;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import static me.suff.mc.angels.common.variants.AngelTypes.BANNED_FROM_NETHER;
+import static me.suff.mc.angels.common.variants.AngelVariants.BANNED_FROM_NETHER;
 
 public class BaseVariant extends AbstractVariant {
 

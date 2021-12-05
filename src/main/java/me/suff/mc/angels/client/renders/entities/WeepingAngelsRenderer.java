@@ -5,14 +5,13 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.ModelDisasterAngel;
 import me.suff.mc.angels.client.models.entity.WeepingHeldItem;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.client.renders.layers.SantaHatLayer;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.IHasArm;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -28,6 +27,7 @@ public class WeepingAngelsRenderer extends MobRenderer<WeepingAngelEntity, Entit
         super(manager, new ModelDisasterAngel(), 0.0F);
         addLayer(new AngelCrackedLayer(this));
         addLayer(new WeepingHeldItem<>(this));
+        addLayer(new SantaHatLayer(this));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class WeepingAngelsRenderer extends MobRenderer<WeepingAngelEntity, Entit
     public void render(WeepingAngelEntity weepingAngelEntity, float pEntityYaw, float pPartialTicks, MatrixStack pMatrixStackIn, IRenderTypeBuffer pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngelEntity.getAngelType());
 
-        if(!(model instanceof IHasArm)) {
+        if (!(model instanceof IHasArm)) {
             ItemStack key = weepingAngelEntity.getMainHandItem();
             pMatrixStackIn.pushPose();
             float offset = MathHelper.cos(weepingAngelEntity.tickCount * 0.1F) * -0.09F;

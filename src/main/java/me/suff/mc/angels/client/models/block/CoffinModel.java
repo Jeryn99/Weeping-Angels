@@ -9,8 +9,8 @@ import net.minecraft.entity.Entity;
 
 public class CoffinModel extends EntityModel<Entity> {
     private final ModelRenderer Body;
-    public ModelRenderer door = null;
     private final ModelRenderer cube_r1;
+    public ModelRenderer door = null;
 
     public CoffinModel() {
         texWidth = 128;

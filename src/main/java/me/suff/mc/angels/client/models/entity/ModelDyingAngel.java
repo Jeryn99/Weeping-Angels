@@ -1,19 +1,24 @@
 package me.suff.mc.angels.client.models.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelDyingAngel extends PlayerModel<WeepingAngelEntity> implements IAngelModel {
+import java.util.ArrayList;
 
-    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
+public class ModelDyingAngel extends PlayerModel<WeepingAngelEntity> implements IAngelModel {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_angry.png");
     public static final ResourceLocation IDLE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_idle.png");
     public static final ResourceLocation SCREAM = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/dying/normal/normal_dying_angel_scream.png");
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
 
     public ModelDyingAngel(float p_i46304_1_, boolean p_i46304_2_) {
         super(p_i46304_1_, p_i46304_2_);
@@ -154,4 +159,18 @@ public class ModelDyingAngel extends PlayerModel<WeepingAngelEntity> implements 
         this.weepingAngelPose = angelPose;
     }
 
+    @Override
+    public Iterable<ModelRenderer> wings(MatrixStack pose) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ModelRenderer getSantaAttachment(MatrixStack pose, boolean b) {
+        return head;
+    }
+
+    @Override
+    public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int ov, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+        super.renderToBuffer(p_225598_1_, p_225598_2_, p_225598_3_, OverlayTexture.NO_OVERLAY, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+    }
 }

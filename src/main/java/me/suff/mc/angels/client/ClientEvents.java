@@ -2,7 +2,6 @@ package me.suff.mc.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -16,7 +15,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

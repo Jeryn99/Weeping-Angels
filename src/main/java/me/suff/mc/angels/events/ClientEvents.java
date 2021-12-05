@@ -14,7 +14,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
-        if(event.getEntity() instanceof PlayerEntity){
+        if (event.getEntity() instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) event.getEntity();
             Minecraft.getInstance().getSoundManager().play(new DetectorTickableSound(playerEntity));
         }

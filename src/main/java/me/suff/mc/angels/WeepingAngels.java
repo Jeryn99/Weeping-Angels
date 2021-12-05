@@ -4,7 +4,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -49,7 +49,7 @@ public class WeepingAngels {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
         modBus.addListener(this::setup);
-        AngelTypes.VARIANTS.register(modBus);
+        AngelVariants.VARIANTS.register(modBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
@@ -105,8 +105,6 @@ public class WeepingAngels {
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));
     }
-
-
 
 
 }

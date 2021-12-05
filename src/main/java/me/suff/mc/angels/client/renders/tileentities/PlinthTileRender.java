@@ -1,8 +1,10 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import me.suff.mc.angels.client.models.SantaHat;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.client.renders.layers.SantaHatLayer;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
@@ -47,6 +49,12 @@ public class PlinthTileRender extends TileEntityRenderer<PlinthTile> {
             IAngelModel angelModel = (IAngelModel) angel;
             angelModel.setAngelPose(pose);
             texture = angelModel.getTextureForPose(plinthTile, pose);
+            angel.setupAnim(null, 0, 0, 0, 0, 0);
+
+            matrixStack.pushPose();
+            SantaHatLayer.santaHat(matrixStack, bufferIn, combinedLightIn, SantaHatLayer.santaHat, angel, plinthTile.getVariant());
+            matrixStack.popPose();
+
         }
         angel.setupAnim(null, 0, 0, 0, 0, 0);
         angel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);

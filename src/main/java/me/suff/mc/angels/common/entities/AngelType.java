@@ -1,14 +1,11 @@
 package me.suff.mc.angels.common.entities;
 
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.common.variants.WeightedHandler;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static me.suff.mc.angels.common.variants.AngelTypes.*;
+import static me.suff.mc.angels.common.variants.AngelVariants.*;
 
 public enum AngelType {
 
@@ -34,7 +31,7 @@ public enum AngelType {
             weightedHandler.addEntry(types);
         }
         if (w[0] == MOSSY.get()) { //TODO Really need to make this not be...well this
-            for (RegistryObject<AbstractVariant> entry : AngelTypes.VARIANTS.getEntries()) {
+            for (RegistryObject<AbstractVariant> entry : AngelVariants.VARIANTS.getEntries()) {
                 weightedHandler.addEntry(entry.get());
             }
         }
@@ -47,6 +44,15 @@ public enum AngelType {
         AngelType[] angels = AngelType.values();
         nextIndex %= angels.length;
         return angels[nextIndex];
+    }
+
+    public static AngelType get(String type) {
+        for (AngelType value : AngelType.values()) {
+            if (value.name().equalsIgnoreCase(type)) {
+                return value;
+            }
+        }
+        return DISASTER_MC;
     }
 
     public WeightedHandler getWeightedHandler() {
