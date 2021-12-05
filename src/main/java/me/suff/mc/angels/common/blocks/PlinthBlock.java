@@ -94,7 +94,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         if (world.getBlockEntity(pos) instanceof PlinthBlockEntity plinth) {
             plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
             plinth.setAngelType(AngelUtil.randomType().name());
-            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom());
+            plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom(null));
             if (stack.getTagElement("BlockEntityTag") != null) {
                 plinth.load(stack.getTagElement("BlockEntityTag"));
             }

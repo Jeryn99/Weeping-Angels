@@ -95,7 +95,7 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom());
+                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom(null));
                 }
             }
         }

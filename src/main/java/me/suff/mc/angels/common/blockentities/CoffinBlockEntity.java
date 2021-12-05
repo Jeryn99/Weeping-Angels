@@ -248,5 +248,14 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         public boolean isPoliceBox() {
             return isPoliceBox;
         }
+
+
+        public static Coffin next(Coffin type) {
+            int index = type.ordinal();
+            int nextIndex = index + 1;
+            Coffin[] angels = Coffin.values();
+            nextIndex %= angels.length;
+            return angels[nextIndex];
+        }
     }
 }

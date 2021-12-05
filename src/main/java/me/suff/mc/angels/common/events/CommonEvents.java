@@ -2,9 +2,12 @@ package me.suff.mc.angels.common.events;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
+import me.suff.mc.angels.common.blockentities.IPlinth;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.items.ChiselItem;
 import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
@@ -32,9 +35,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
@@ -52,6 +57,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -75,6 +81,33 @@ public class CommonEvents {
         if (damageSource == WAObjects.ANGEL_NECK_SNAP) {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
         }
+    }
+
+    @SubscribeEvent
+    public static void onBreak(BlockEvent.BreakEvent event){
+        Player playerEntity = event.getPlayer();
+        LevelAccessor world = event.getWorld();
+        BlockPos pos = event.getPos();
+
+        // Plinth
+        boolean isPlinth = world.getBlockEntity(pos) instanceof IPlinth;
+        boolean hasChisel = playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem;
+        if(isPlinth && playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem){
+            IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
+            event.setCanceled(true);
+            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
+            plinth.sendUpdatesToClient();
+            PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
+        }
+
+        if(playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof DebugStickItem && hasChisel){
+            if(world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinTile){
+                event.setCanceled(true);
+                coffinTile.setCoffin(CoffinBlockEntity.Coffin.next(coffinTile.getCoffin()));
+                PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent(coffinTile.getCoffin().name()), true);
+            }
+        }
+
     }
 
     @SubscribeEvent

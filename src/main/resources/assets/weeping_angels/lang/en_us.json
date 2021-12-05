@@ -66,5 +66,6 @@
   "source.weeping_angels.punch_stone": "%s broke their bones by punching stone...",
   "tooltip.weeping_angels.chisel": "\u00A79Edit Statue/Plinth",
   "tooltip.weeping_angels.chisel_right_click": "\u00A79- Right click to change angel pose",
-  "tooltip.weeping_angels.chisel_sneak": "\u00A79- Sneak + Right click to Change Angel Type"
+  "tooltip.weeping_angels.chisel_sneak": "\u00A79- Sneak + Right click to Change Angel Type",
+  "tooltip.weeping_angels.punch_variant": "\u00A79- Left click to change variant"
 }

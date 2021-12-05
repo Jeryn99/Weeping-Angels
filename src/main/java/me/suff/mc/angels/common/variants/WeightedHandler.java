@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
+import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 
@@ -19,11 +20,15 @@ public class WeightedHandler {
         entries.add(e);
     }
 
-    public AbstractVariant getRandom() {
+    public AbstractVariant getRandom(WeepingAngel weepingAngel) {
         double r = AngelUtil.RAND.nextDouble() * accumulatedWeight;
         for (Entry entry : entries) {
             if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.abstractVariant)) {
-                return entry.abstractVariant;
+                if (weepingAngel == null) {
+                    return entry.abstractVariant;
+                } else if (weepingAngel.getVariant().canVariantBeUsed(weepingAngel)) {
+                    return entry.abstractVariant;
+                }
             }
         }
         return AngelTypes.NORMAL.get();

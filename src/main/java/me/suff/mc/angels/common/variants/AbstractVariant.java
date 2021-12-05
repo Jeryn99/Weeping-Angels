@@ -54,8 +54,8 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
     public abstract double getRarity();
 
     public boolean canVariantBeUsed(WeepingAngel weepingAngel) {
-        if (variantTest == null) {
-            return true;
+        if (variantTest == null || weepingAngel == null) {
+            return false;
         }
         return variantTest.test(weepingAngel);
     }

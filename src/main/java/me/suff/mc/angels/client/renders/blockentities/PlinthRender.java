@@ -56,7 +56,7 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
             angel.setupAnim(null, 0, 0, 0, 0, 0);
 
             matrixStack.pushPose();
-            SeasonalLayer.santaHat(matrixStack, bufferIn, combinedLightIn, model, angel);
+            SeasonalLayer.santaHat(matrixStack, bufferIn, combinedLightIn, model, angel, plinthBlockEntity.getVariant());
             matrixStack.popPose();
 
         }
