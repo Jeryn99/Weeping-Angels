@@ -41,4 +41,14 @@ public class Donator {
 	public boolean isPerked() {
 		return perked;
 	}
+
+	@Override
+	public String toString() {
+		return "Donator{" +
+				"uuid='" + uuid + '\'' +
+				", variant='" + variant + '\'' +
+				", wings='" + wings + '\'' +
+				", perked=" + perked +
+				'}';
+	}
 }

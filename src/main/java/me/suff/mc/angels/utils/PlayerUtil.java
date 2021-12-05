@@ -1,8 +1,10 @@
 package me.suff.mc.angels.utils;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.suff.mc.angels.client.renders.Donator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.InteractionHand;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.apache.http.HttpHeaders.USER_AGENT;
 
@@ -60,6 +63,7 @@ public class PlayerUtil {
     }
 
     public static Donator[] getDonators() {
+
         ArrayList<Donator> donators = new ArrayList<>();
         JsonObject result = null;
         try {
@@ -68,12 +72,11 @@ public class PlayerUtil {
             e.printStackTrace();
         }
 
-        String[] categories = new String[]{"devs", "donators"};
-
-        for (String category : categories) {
-            for (JsonElement devs : result.getAsJsonArray(category)) {
+        for (Map.Entry<String, JsonElement> entry : result.entrySet()) {
+            for (JsonElement devs : result.getAsJsonArray(entry.getKey())) {
                 JsonObject dev = devs.getAsJsonObject();
-                donators.add(new Donator(dev));
+                Donator donator = new Donator(dev);
+                donators.add(donator);
             }
         }
 
