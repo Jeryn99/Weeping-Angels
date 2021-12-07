@@ -15,7 +15,6 @@ import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.utils.WADamageSource;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,7 +29,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,8 +36,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.Collection;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
@@ -69,7 +64,7 @@ public class WAObjects {
 
     @SubscribeEvent
     public static void regBlockItems(RegistryEvent.Register<Item> e) {
-        genBlockItems(Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.KONTRON_ORE_DEEPSLATE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
+        genBlockItems(Blocks.WALL_ARM.get(), Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.KONTRON_ORE_DEEPSLATE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
     }
 
     // Tile Creation
@@ -134,7 +129,7 @@ public class WAObjects {
         public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
         public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 
-        public static final RegistryObject<Block> SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowArmBlock()));
+        public static final RegistryObject<Block> SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowAngelBlock()));
         public static final RegistryObject<Block> CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
         public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
         public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.STONE, 3, 3)));
@@ -146,6 +141,9 @@ public class WAObjects {
             }
             return false;
         }))));
+
+        public static final RegistryObject<Block> WALL_ARM = BLOCKS.register("wall_arm", () -> setUpBlock(new ArmBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.STONE).noCollission().noOcclusion())));
+
     }
 
     public static class Items {

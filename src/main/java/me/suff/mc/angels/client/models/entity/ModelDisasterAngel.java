@@ -276,7 +276,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
         String coreFolder = "textures/entities/disaster/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
+        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();;
         return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 

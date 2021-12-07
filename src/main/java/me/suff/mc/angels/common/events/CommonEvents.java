@@ -16,13 +16,11 @@ import me.suff.mc.angels.utils.DamageType;
 import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -37,16 +35,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -55,7 +48,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -63,9 +55,7 @@ import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber
@@ -82,7 +72,7 @@ public class CommonEvents {
 
 
     @SubscribeEvent
-    public static void onBreak(BlockEvent.BreakEvent event){
+    public static void onBreak(BlockEvent.BreakEvent event) {
         Player playerEntity = event.getPlayer();
         LevelAccessor world = event.getWorld();
         BlockPos pos = event.getPos();
@@ -90,7 +80,7 @@ public class CommonEvents {
         // Plinth
         boolean isPlinth = world.getBlockEntity(pos) instanceof IPlinth;
         boolean hasChisel = playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem;
-        if(isPlinth && playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem){
+        if (isPlinth && playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
             plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
@@ -98,8 +88,8 @@ public class CommonEvents {
             PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }
 
-        if(playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof DebugStickItem && hasChisel){
-            if(world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinTile){
+        if (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof DebugStickItem && hasChisel) {
+            if (world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinTile) {
                 event.setCanceled(true);
                 coffinTile.setCoffin(CoffinBlockEntity.Coffin.next(coffinTile.getCoffin()));
                 PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent(coffinTile.getCoffin().name()), true);

@@ -26,9 +26,9 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
+public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
 
-    public SnowArmBlock() {
+    public SnowAngelBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE).randomTicks().noOcclusion());
     }
 

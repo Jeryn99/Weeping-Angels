@@ -45,12 +45,7 @@ public class WAFeatures {
 
 
     public static void setupStructures() {
-        setupMapSpacingAndLand(
-                CATACOMB.get(),
-                new StructureFeatureConfiguration(10000,
-                        5000,
-                        1234567890),
-                false);
+        setupMapSpacingAndLand(CATACOMB.get(), new StructureFeatureConfiguration(10000, 5000, 1234567890), false);
     }
 
     public static <F extends StructureFeature<?>> void setupMapSpacingAndLand(F structure, StructureFeatureConfiguration structureFeatureConfiguration, boolean transformSurroundingLand) {
@@ -107,11 +102,6 @@ public class WAFeatures {
                 gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
             }
         }
-    }
-
-
-    public static <FC extends FeatureConfiguration> ConfiguredFeature<FC, ?> register(String name, ConfiguredFeature<FC, ?> configuredFeature) {
-        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, name, configuredFeature);
     }
 
     // Taken from Oreplacements, should really be made public by Forge

@@ -1,0 +1,70 @@
+{
+  "variants": {
+    "facing=down,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm",
+      "x": 180
+    },
+    "facing=east,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm_rotated",
+      "y": 90
+    },
+    "facing=north,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm_rotated"
+    },
+    "facing=south,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm_rotated",
+      "y": 180
+    },
+    "facing=up,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm"
+    },
+    "facing=west,variant=0": {
+      "model": "weeping_angels:block/arms/wall_arm_rotated",
+      "y": 270
+    },
+    "facing=down,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms",
+      "x": 180
+    },
+    "facing=east,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms",
+      "x": 90
+    },
+    "facing=north,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms"
+    },
+    "facing=south,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms",
+      "y": 180
+    },
+    "facing=up,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms"
+    },
+    "facing=west,variant=1": {
+      "model": "weeping_angels:block/arms/wall_2arms",
+      "x": 270
+    },
+    "facing=down,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "x": 180
+    },
+    "facing=east,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "y": 90
+    },
+    "facing=north,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff"
+    },
+    "facing=south,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "y": 180
+    },
+    "facing=up,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff"
+    },
+    "facing=west,variant=2": {
+      "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "y": 270
+    }
+  }
+}
