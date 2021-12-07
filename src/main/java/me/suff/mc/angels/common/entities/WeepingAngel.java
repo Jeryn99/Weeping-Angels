@@ -137,6 +137,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
+        setVarient(getAngelType().getWeightedHandler().getRandom(this));
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -211,23 +212,23 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
 
-    public void dealDamage(Player playerMP) {
+    public void dealDamage(Player player) {
         double damage = WAConfig.CONFIG.damage.get();
-        playerMP.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, (float) damage);
+        player.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, (float) damage);
         heal(getHealth() > 5 ? 4F : 2F);
-        stealItems(playerMP);
-        this.setLastHurtMob(playerMP);
+        stealItems(player);
+        this.setLastHurtMob(player);
     }
 
-    private void stealItems(Player playerMP) {
+    private void stealItems(Player player) {
         // Steals items from the player
         if (getMainHandItem().isEmpty() && random.nextBoolean()) {
-            for (int i = 0; i < playerMP.getInventory().getContainerSize(); i++) {
-                ItemStack stack = playerMP.getInventory().getItem(i);
+            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                ItemStack stack = player.getInventory().getItem(i);
                 if (stack.is(AngelUtil.THEFT)) {
-                    setItemInHand(InteractionHand.MAIN_HAND, playerMP.getInventory().getItem(i).copy());
-                    playerMP.getInventory().getItem(i).setCount(0);
-                    playerMP.inventoryMenu.broadcastChanges();
+                    setItemInHand(InteractionHand.MAIN_HAND, player.getInventory().getItem(i).copy());
+                    player.getInventory().getItem(i).setCount(0);
+                    player.inventoryMenu.broadcastChanges();
                     return;
                 }
             }
