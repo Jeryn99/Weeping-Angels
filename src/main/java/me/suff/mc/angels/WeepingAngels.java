@@ -9,6 +9,8 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
+import me.suff.mc.angels.common.level.WAWorld;
+import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -59,6 +61,9 @@ public class WeepingAngels {
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
+        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+        forgeBus.addListener(EventPriority.NORMAL, WAWorld::addDimensionalSpacing);
+        forgeBus.addListener(EventPriority.NORMAL, CatacombStructure::setupStructureSpawns);
         StartupMessageManager.addModMessage("Don't Blink!");
     }
 
@@ -71,9 +76,7 @@ public class WeepingAngels {
         WAObjects.Blocks.BLOCK_ITEMS.register(bus);
         WAObjects.EntityEntries.ENTITIES.register(bus);
         WAObjects.Tiles.TILES.register(bus);
-        //TODO !!!!!
-        /*   WAWorld.STRUCTURES.register(bus);
-        WAWorld.FEATURES.register(bus);*/
+        WAFeatures.DEFERRED_REGISTRY_STRUCTURE.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
     }
@@ -81,13 +84,16 @@ public class WeepingAngels {
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
-        //TODO !!!!!
-        /* WAWorld.setupStructures();
-            WAWorld.ConfiguredFeatures.registerConfiguredFeatures();
-            WAWorld.registerConfiguredStructures();*/
-        event.enqueueWork(WAFeatures::ores);
+        event.enqueueWork(() ->
+        {
+            WAFeatures.ores();
+            WAFeatures.setupStructures();
+            WAWorld.registerConfiguredStructures();
+        });
         VR_REFLECTOR.init();
     }
+
+
 
     @SubscribeEvent
     public void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {

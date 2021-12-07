@@ -54,7 +54,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
             angel.setupAnim(null, 0, 0, 0, 0, 0);
 
             matrixStack.pushPose();
-            SeasonalLayer.santaHat(matrixStack, bufferIn, combinedLightIn, model, angel);
+            SeasonalLayer.santaHat(matrixStack, bufferIn, combinedLightIn, model, angel, statueBlockEntity.getVariant());
             matrixStack.popPose();
 
         }

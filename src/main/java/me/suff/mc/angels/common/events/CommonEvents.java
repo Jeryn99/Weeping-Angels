@@ -240,47 +240,12 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        ResourceKey<Biome> biomeRegistryKey = ResourceKey.create(Registry.BIOME_REGISTRY, Objects.requireNonNull(biomeLoadingEvent.getName()));
-        Biome.BiomeCategory biomeCategory = biomeLoadingEvent.getCategory();
-
 
         //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
         for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
             if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
-                System.out.println("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
+                WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
-            }
-        }
-
-        if (WAConfig.CONFIG.arms.get()) {
-            if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
-                System.out.println("Added Snow Angels to: " + biomeLoadingEvent.getName());
-                //TODO !!!!!  biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.RAW_GENERATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
-            }
-        }
-
-        if (biomeCategory != Biome.BiomeCategory.NETHER && biomeCategory != Biome.BiomeCategory.THEEND) {
-            if (WAConfig.CONFIG.genOres.get()) {
-                //TODO !!!!!   biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, WAWorld.ConfiguredFeatures.CONFIGURED_KONTRON_ORE.feature());
-            }
-            if (biomeCategory != Biome.BiomeCategory.NONE && biomeCategory != Biome.BiomeCategory.OCEAN) {
-
-                //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
-                boolean shouldAdd = biomeCategory != Biome.BiomeCategory.ICY && biomeCategory != Biome.BiomeCategory.MUSHROOM && biomeCategory != Biome.BiomeCategory.JUNGLE && biomeCategory != Biome.BiomeCategory.OCEAN && biomeCategory != Biome.BiomeCategory.RIVER && biomeCategory != Biome.BiomeCategory.DESERT;
-                if (WAConfig.CONFIG.genGraveyard.get()) {
-                    if (shouldAdd) {
-                        //TODO !!!!!    biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
-                        System.out.println("Added Graveyard to: " + biomeLoadingEvent.getName());
-                    }
-                }
-
-                //Catacombs Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
-                if (WAConfig.CONFIG.genCatacombs.get()) {
-                    if (shouldAdd) {
-                        //TODO !!!!!biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
-                        System.out.println("Added Catacombs to: " + biomeLoadingEvent.getName());
-                    }
-                }
             }
         }
     }
@@ -302,28 +267,6 @@ public class CommonEvents {
             TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
             translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));
             PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void addDimensionalSpacing(final WorldEvent.Load event) {
-        if (event.getWorld() instanceof ServerLevel serverWorld) {
-
-            /* Prevent spawning our structure in Vanilla's superflat world as
-             * people seem to want their superflat worlds free of modded structures.
-             * Also, vanilla superflat is really tricky and buggy to work with as mentioned in WAObjects#registerConfiguredStructure
-             * BiomeModificationEvent does not seem to fire for superflat biomes...you can't add structures to superflat without mixin it seems.
-             * */
-            if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && serverWorld.dimension().equals(Level.OVERWORLD)) {
-                return;
-            }
-            //Only spawn Graveyards in the Overworld structure list
-            if (serverWorld.dimension().equals(Level.OVERWORLD)) {
-                Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld.getChunkSource().getGenerator().getSettings().structureConfig());
-                //TODO !!!!!  tempMap.put(WAWorld.GRAVEYARD.get(), StructureSettings.DEFAULTS.get(WAWorld.GRAVEYARD.get()));
-                //TODO !!!!! tempMap.put(WAWorld.CATACOMBS.get(), StructureSettings.DEFAULTS.get(WAWorld.CATACOMBS.get()));
-                serverWorld.getChunkSource().getGenerator().getSettings().structureConfig = tempMap;
-            }
         }
     }
 

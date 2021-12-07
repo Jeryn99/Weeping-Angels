@@ -3,8 +3,6 @@ package me.suff.mc.angels.config;
 import com.google.common.collect.Lists;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
-import me.suff.mc.angels.common.variants.BaseVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.world.entity.MobCategory;
@@ -74,6 +72,7 @@ public class WAConfig {
         genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
         genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
         genCatacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Configure whether Catacombs Structures spawn. This will require a restart when changed.").define("genCatacombs", true);
+
         builder.pop();
         builder.push("spawn");
         minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
@@ -119,18 +118,18 @@ public class WAConfig {
     }
 
 
-    public boolean isModelPermitted(AngelType angelType){
+    public boolean isModelPermitted(AngelType angelType) {
         for (String s : allowedAngelTypes.get()) {
-            if(s.equalsIgnoreCase(angelType.name())){
+            if (s.equalsIgnoreCase(angelType.name())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isVariantPermitted(AbstractVariant angelType){
+    public boolean isVariantPermitted(AbstractVariant angelType) {
         for (String s : allowedVariants.get()) {
-            if(s.equalsIgnoreCase(angelType.getRegistryName().toString())){
+            if (s.equalsIgnoreCase(angelType.getRegistryName().toString())) {
                 return true;
             }
         }
@@ -141,6 +140,17 @@ public class WAConfig {
         ArrayList<String> spawnBiomes = new ArrayList<>();
         for (Biome biome : ForgeRegistries.BIOMES) {
             spawnBiomes.add(biome.getRegistryName().toString());
+        }
+        return spawnBiomes;
+    }
+
+
+    public ArrayList<String> getDefaultWorldGenBiomes() {
+        ArrayList<String> spawnBiomes = new ArrayList<>();
+        for (Biome biome : ForgeRegistries.BIOMES) {
+            if (biome.getBiomeCategory() != Biome.BiomeCategory.OCEAN || biome.getBiomeCategory() != Biome.BiomeCategory.THEEND || biome.getBiomeCategory() != Biome.BiomeCategory.NETHER) {
+                spawnBiomes.add(biome.getRegistryName().toString());
+            }
         }
         return spawnBiomes;
     }

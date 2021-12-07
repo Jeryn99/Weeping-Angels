@@ -15,6 +15,7 @@ import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.utils.WADamageSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,12 +23,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -56,13 +60,6 @@ public class WAObjects {
     private static void genBlockItems(Block... blocks) {
         for (Block block : blocks) {
             Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
-        }
-    }
-
-    private static void genBlockItems(Collection<RegistryObject<Block>> collection) {
-        for (RegistryObject<Block> block : collection) {
-            CreativeModeTab itemGroup = WATabs.MAIN_TAB;
-            Blocks.BLOCK_ITEMS.register(block.get().getRegistryName().getPath(), () -> setUpItem(new BlockItem(block.get(), new Item.Properties().tab(itemGroup))));
         }
     }
 
@@ -143,7 +140,12 @@ public class WAObjects {
         public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.STONE, 3, 3)));
         public static final RegistryObject<Block> KONTRON_ORE_DEEPSLATE = BLOCKS.register("kontron_ore_deepslate", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.DEEPSLATE, 4.5F, 3)));
         public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
-        public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.ACACIA_WOOD).noOcclusion())));
+        public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.ACACIA_WOOD).noOcclusion().emissiveRendering((p_61036_, p_61037_, p_61038_) -> {
+            if(p_61037_.getBlockEntity(p_61038_) instanceof CoffinBlockEntity coffinBlockEntity) {
+                return coffinBlockEntity.getCoffin().isPoliceBox();
+            }
+            return false;
+        }))));
     }
 
     public static class Items {

@@ -1,6 +1,10 @@
 package me.suff.mc.angels.common.level;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -9,22 +13,76 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WAFeatures {
+
+
+    public static final DeferredRegister<StructureFeature<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
+    public static final RegistryObject<StructureFeature<JigsawConfiguration>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacomb", () -> (new CatacombStructure(JigsawConfiguration.CODEC)));
+
+
+    public static void setupStructures() {
+        setupMapSpacingAndLand(
+                CATACOMB.get(),
+                new StructureFeatureConfiguration(10000,
+                        5000,
+                        1234567890),
+                false);
+    }
+
+    public static <F extends StructureFeature<?>> void setupMapSpacingAndLand(F structure, StructureFeatureConfiguration structureFeatureConfiguration, boolean transformSurroundingLand) {
+        StructureFeature.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
+
+        if (transformSurroundingLand) {
+            StructureFeature.NOISE_AFFECTING_FEATURES =
+                    ImmutableList.<StructureFeature<?>>builder()
+                            .addAll(StructureFeature.NOISE_AFFECTING_FEATURES)
+                            .add(structure)
+                            .build();
+        }
+
+        StructureSettings.DEFAULTS =
+                ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration>builder()
+                        .putAll(StructureSettings.DEFAULTS)
+                        .put(structure, structureFeatureConfiguration)
+                        .build();
+
+
+        BuiltinRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
+            Map<StructureFeature<?>, StructureFeatureConfiguration> structureMap = settings.getValue().structureSettings().structureConfig();
+
+            if (structureMap instanceof ImmutableMap) {
+                Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(structureMap);
+                tempMap.put(structure, structureFeatureConfiguration);
+                settings.getValue().structureSettings().structureConfig = tempMap;
+            } else {
+                structureMap.put(structure, structureFeatureConfiguration);
+            }
+        });
+    }
 
 
     private static final HashSet<PlacedFeature> FEATURES = new HashSet<>();

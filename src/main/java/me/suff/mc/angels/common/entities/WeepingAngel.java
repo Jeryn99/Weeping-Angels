@@ -5,6 +5,8 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
+import me.suff.mc.angels.common.level.WAFeatures;
+import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -196,17 +198,13 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     public boolean isInCatacomb() {
-        //TODO
-        /*if (level instanceof ServerLevel serverWorld) {
-            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
-
+        if (level instanceof ServerLevel serverWorld) {
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAFeatures.CATACOMB.get(), blockPosition(), 100, false);
             if (catacomb == null) {
                 return false;
             }
-
             return distanceToSqr(catacomb.getX(), catacomb.getY(), catacomb.getZ()) < 50;
         }
-*/
         return false;
     }
 

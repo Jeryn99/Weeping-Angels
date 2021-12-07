@@ -17,7 +17,7 @@ Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally 
 [[dependencies.weeping_angels]]
 modId = "forge"
 mandatory = true
-versionRange = "[28,)"
+versionRange = "[38,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.weeping_angels]]

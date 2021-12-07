@@ -8,6 +8,7 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.SantaHat;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.DateChecker;
 import me.suff.mc.angels.utils.Pair;
@@ -38,15 +39,13 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
     @Override
     public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         if (!pLivingEntity.isInvisible()) {
-
             //SANTA
-            santaHat(pMatrixStack, pBuffer, pPackedLight, model, getParentModel());
-
-
+            santaHat(pMatrixStack, pBuffer, pPackedLight, model, getParentModel(), pLivingEntity.getVariant());
         }
     }
 
-    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, EntityModel santa, EntityModel model) {
+    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, EntityModel santa, EntityModel model, AbstractVariant abstractVariant) {
+        if(abstractVariant.isHeadless()) return;
         if (model instanceof IAngelModel iAngelModel) {
             Pair<ModelPart, Vector3d> santaHead = iAngelModel.getHeadData(HeadPlacement.SANTA);
             if (DateChecker.isXmas() && santaHead != null && WAConfig.CONFIG.showSantaHatsAtXmas.get()) {
