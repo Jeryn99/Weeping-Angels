@@ -1,25 +1,36 @@
 package me.suff.mc.angels.common.level.structures;
 
+import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.AngelType;
+import me.suff.mc.angels.common.level.WAPieces;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.ShipwreckFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructurePieceType;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OceanRuinConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.ShipwreckConfiguration;
+import net.minecraft.world.level.levelgen.structure.*;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -38,10 +49,36 @@ import java.util.function.Function;
 
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
-public class GraveyardPieces {
+public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguration> {
 
 
-    public class GraveyardPiece extends TemplateStructurePiece {
+    public GraveyardStructure(Codec<NoneFeatureConfiguration> p_72474_) {
+        super(p_72474_, PieceGeneratorSupplier.simple(GraveyardStructure::checkLocation, GraveyardStructure::generatePieces));
+    }
+
+    private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> p_197155_) {
+        return p_197155_.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG);
+    }
+
+    private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePieceAccessor structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
+        structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)], "graveyard",  GraveyardPiece.makeSettings(rotation), blockPos));
+    }
+
+
+    @Override
+    public GenerationStep.Decoration step() {
+        return GenerationStep.Decoration.SURFACE_STRUCTURES;
+    }
+
+    private static void generatePieces(StructurePiecesBuilder p_197233_, PieceGenerator.Context<NoneFeatureConfiguration> p_197234_) {
+        BlockPos blockpos = new BlockPos(p_197234_.chunkPos().getMinBlockX(), 90, p_197234_.chunkPos().getMinBlockZ());
+        Rotation rotation = Rotation.getRandom(p_197234_.random());
+        addPiece(p_197234_.structureManager(), blockpos, rotation, p_197233_, p_197234_.random(), p_197234_.config());
+    }
+
+
+
+    public static class GraveyardPiece extends TemplateStructurePiece {
 
         private static final ResourceLocation GRAVEYARD_1 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_1");
         private static final ResourceLocation GRAVEYARD_2 = new ResourceLocation(WeepingAngels.MODID, "graves/graveyard_2");
@@ -55,14 +92,24 @@ public class GraveyardPieces {
         private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY, GRAVEYARD_LARGE_ONE, GRAVEYARD_LARGE_TWO};
         private static String[] USERNAMES = new String[]{};
 
-        public GraveyardPiece(StructurePieceType p_163660_, int p_163661_, StructureManager p_163662_, ResourceLocation p_163663_, String p_163664_, StructurePlaceSettings p_163665_, BlockPos p_163666_) {
-            super(p_163660_, p_163661_, p_163662_, p_163663_, p_163664_, p_163665_, p_163666_);
+        public GraveyardPiece(int p_163661_, StructureManager p_163662_, ResourceLocation p_163663_, String p_163664_, StructurePlaceSettings p_163665_, BlockPos p_163666_) {
+            super(WAPieces.GRAVEYARD, p_163661_, p_163662_, p_163663_, p_163664_, p_163665_, p_163666_);
         }
 
-        public GraveyardPiece(StructurePieceType p_192677_, CompoundTag p_192678_, StructureManager p_192679_, Function<ResourceLocation, StructurePlaceSettings> p_192680_) {
-            super(p_192677_, p_192678_, p_192679_, p_192680_);
+        public GraveyardPiece(CompoundTag p_192678_, StructureManager p_192679_, Function<ResourceLocation, StructurePlaceSettings> p_192680_) {
+            super(WAPieces.GRAVEYARD, p_192678_, p_192679_, p_192680_);
         }
 
+        public GraveyardPiece(StructurePieceSerializationContext structurePieceSerializationContext, CompoundTag tag) {
+            super(WAPieces.GRAVEYARD, tag, structurePieceSerializationContext.structureManager(), (p_162451_) -> makeSettings(Rotation.NONE));
+        }
+
+
+        private static StructurePlaceSettings makeSettings(Rotation rot) {
+            return (new StructurePlaceSettings()).setRotation(rot).setMirror(Mirror.NONE).setRotationPivot(BlockPos.ZERO).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        }
+
+        
         @Override
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
             if (USERNAMES.length == 0) {

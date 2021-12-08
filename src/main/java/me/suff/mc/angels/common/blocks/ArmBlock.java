@@ -2,8 +2,11 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -17,6 +20,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.Random;
+
 public class ArmBlock extends Block {
 
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -28,8 +33,14 @@ public class ArmBlock extends Block {
 
 
     public ArmBlock(Properties properties) {
-        super(properties);
+        super(properties.randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(VARIANT, 0));
+    }
+
+    @Override
+    public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Random random) {
+        super.randomTick(blockState, serverLevel, blockPos, random);
+        serverLevel.setBlock(blockPos, blockState.setValue(VARIANT, Mth.clamp(AngelUtil.RAND.nextInt(5), 0, 2)), 4);
     }
 
     @Override
@@ -52,7 +63,7 @@ public class ArmBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext p_52669_) {
-        return this.defaultBlockState().setValue(FACING, p_52669_.getNearestLookingDirection().getOpposite()).setValue(VARIANT, AngelUtil.RAND.nextInt(2));
+        return this.defaultBlockState().setValue(FACING, p_52669_.getNearestLookingDirection().getOpposite()).setValue(VARIANT, Mth.clamp(AngelUtil.RAND.nextInt(5), 0, 2));
     }
 
     @Override

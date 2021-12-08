@@ -3,12 +3,15 @@ package me.suff.mc.angels.common.level.structures;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -52,20 +55,17 @@ public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
 
 
     private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_MONSTERS = Lazy.of(() -> ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(EntityType.ILLUSIONER, 100, 4, 9),
-            new MobSpawnSettings.SpawnerData(EntityType.VINDICATOR, 100, 4, 9)
-    ));
+            new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 4, 9)));
     private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_CREATURES = Lazy.of(() -> ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(EntityType.SHEEP, 30, 10, 15),
-            new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 100, 1, 2)
+            new MobSpawnSettings.SpawnerData(EntityType.BAT, 30, 10, 15),
+            new MobSpawnSettings.SpawnerData(EntityType.SPIDER, 100, 1, 2)
     ));
 
-    // Hooked up in StructureTutorialMain. You can move this elsewhere or change it up.
     public static void setupStructureSpawns(final StructureSpawnListGatherEvent event) {
-    /*    if (event.getStructure() == STStructures.RUN_DOWN_HOUSE.get()) {
+        if (event.getStructure() == WAFeatures.CATACOMB.get()) {
             event.addEntitySpawns(MobCategory.MONSTER, STRUCTURE_MONSTERS.get());
             event.addEntitySpawns(MobCategory.CREATURE, STRUCTURE_CREATURES.get());
-        }*/
+        }
     }
 
     private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {

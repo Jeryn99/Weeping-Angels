@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.structures.CatacombStructure;
+import me.suff.mc.angels.common.level.structures.GraveyardStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -18,10 +19,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -42,10 +40,12 @@ public class WAFeatures {
 
     public static final DeferredRegister<StructureFeature<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
     public static final RegistryObject<StructureFeature<JigsawConfiguration>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacomb", () -> (new CatacombStructure(JigsawConfiguration.CODEC)));
+    public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> GRAVEYARD = DEFERRED_REGISTRY_STRUCTURE.register("graveyard", () -> (new GraveyardStructure(NoneFeatureConfiguration.CODEC)));
 
 
     public static void setupStructures() {
         setupMapSpacingAndLand(CATACOMB.get(), new StructureFeatureConfiguration(10000, 5000, 1234567890), false);
+        setupMapSpacingAndLand(GRAVEYARD.get(), new StructureFeatureConfiguration(10000, 8000, 1234353780), false);
     }
 
     public static <F extends StructureFeature<?>> void setupMapSpacingAndLand(F structure, StructureFeatureConfiguration structureFeatureConfiguration, boolean transformSurroundingLand) {

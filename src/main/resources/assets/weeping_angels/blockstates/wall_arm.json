@@ -28,13 +28,17 @@
     },
     "facing=east,variant=1": {
       "model": "weeping_angels:block/arms/wall_2arms",
-      "x": 90
+      "x": 90,
+      "y": 90
     },
     "facing=north,variant=1": {
-      "model": "weeping_angels:block/arms/wall_2arms"
+      "model": "weeping_angels:block/arms/wall_2arms",
+      "x": 270,
+      "y": 180
     },
     "facing=south,variant=1": {
       "model": "weeping_angels:block/arms/wall_2arms",
+      "x": -270,
       "y": 180
     },
     "facing=up,variant=1": {
@@ -42,7 +46,8 @@
     },
     "facing=west,variant=1": {
       "model": "weeping_angels:block/arms/wall_2arms",
-      "x": 270
+      "x": 270,
+      "y": 90
     },
     "facing=down,variant=2": {
       "model": "weeping_angels:block/arms/wall_2arms_diff",
@@ -50,13 +55,17 @@
     },
     "facing=east,variant=2": {
       "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "x": 90,
       "y": 90
     },
     "facing=north,variant=2": {
-      "model": "weeping_angels:block/arms/wall_2arms_diff"
+      "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "x": 270,
+      "y": 180
     },
     "facing=south,variant=2": {
       "model": "weeping_angels:block/arms/wall_2arms_diff",
+      "x": -270,
       "y": 180
     },
     "facing=up,variant=2": {
@@ -64,7 +73,8 @@
     },
     "facing=west,variant=2": {
       "model": "weeping_angels:block/arms/wall_2arms_diff",
-      "y": 270
+      "x": 270,
+      "y": 90
     }
   }
 }
