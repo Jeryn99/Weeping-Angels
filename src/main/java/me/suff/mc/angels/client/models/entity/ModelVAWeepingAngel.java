@@ -259,14 +259,14 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(headData == null) {
+        if (headData == null) {
             headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
+    public Iterable<ModelPart> wings(PoseStack pose) {
         return ImmutableList.of(leftWing, rightWing);
     }
 }

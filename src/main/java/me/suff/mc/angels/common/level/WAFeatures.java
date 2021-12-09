@@ -6,7 +6,6 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.level.structures.GraveyardStructure;
-import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -41,7 +41,8 @@ public class WAFeatures {
     public static final DeferredRegister<StructureFeature<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
     public static final RegistryObject<StructureFeature<JigsawConfiguration>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacomb", () -> (new CatacombStructure(JigsawConfiguration.CODEC)));
     public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> GRAVEYARD = DEFERRED_REGISTRY_STRUCTURE.register("graveyard", () -> (new GraveyardStructure(NoneFeatureConfiguration.CODEC)));
-
+    private static final HashSet<PlacedFeature> FEATURES = new HashSet<>();
+    private static final HashSet<PlacedFeature> ORES = new HashSet<>();
 
     public static void setupStructures() {
         setupMapSpacingAndLand(CATACOMB.get(), new StructureFeatureConfiguration(10000, 5000, 1234567890), false);
@@ -79,9 +80,6 @@ public class WAFeatures {
         });
     }
 
-
-    private static final HashSet<PlacedFeature> FEATURES = new HashSet<>();
-
     public static void ores() {
         BlockState blockState = WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState();
         BlockState blockStateDeep = WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState();
@@ -89,8 +87,13 @@ public class WAFeatures {
         ConfiguredFeature<?, ?> feature = FeatureUtils.register("kontron_ore", Feature.ORE.configured(new OreConfiguration(targetBlockStateList, 9)));
         PlacedFeature placedFeatureUpper = PlacementUtils.register("kontron_ore_upper", feature.placed(commonOrePlacement(90, HeightRangePlacement.triangle(VerticalAnchor.absolute(80), VerticalAnchor.absolute(384)))));
         PlacedFeature placedFeatureMiddle = PlacementUtils.register("kontron_ore_middle", feature.placed(commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56)))));
-        FEATURES.add(placedFeatureUpper);
-        FEATURES.add(placedFeatureMiddle);
+        ORES.add(placedFeatureUpper);
+        ORES.add(placedFeatureMiddle);
+
+        ConfiguredFeature<SimpleBlockConfiguration, ?> snowAngelFeature = FeatureUtils.register("snow_angel", Feature.SIMPLE_BLOCK.configured(new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()))));
+        PlacedFeature snowAngelPlaced = PlacementUtils.register("snow_angel", snowAngelFeature.placed(RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
+        FEATURES.add(snowAngelPlaced);
+
     }
 
 
@@ -98,8 +101,15 @@ public class WAFeatures {
     public static void gen(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
         if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
-            for (PlacedFeature feature : FEATURES) {
+            for (PlacedFeature feature : ORES) {
                 gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
+            }
+        }
+
+        if (event.getCategory() == Biome.BiomeCategory.ICY || event.getName().toString().toLowerCase().contains("snow")) {
+            WeepingAngels.LOGGER.info("Added snow angels to " + event.getName());
+            for (PlacedFeature feature : FEATURES) {
+                gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, feature);
             }
         }
     }

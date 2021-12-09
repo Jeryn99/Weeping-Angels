@@ -204,7 +204,7 @@ public class AngelUtil {
     }
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-      if (playerEntity.level instanceof ServerLevel serverWorld) {
+        if (playerEntity.level instanceof ServerLevel serverWorld) {
             boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAFeatures.CATACOMB.get()).isValid();
 
             if (isCatacomb) {

@@ -391,14 +391,14 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(headData == null) {
+        if (headData == null) {
             headData = new Pair<>(Head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
+    public Iterable<ModelPart> wings(PoseStack pose) {
         pose.translate(0, 1.5, 0);
         return ImmutableList.of(left_wing_0, left_wing_1, right_wing_0, right_wing_1);
     }

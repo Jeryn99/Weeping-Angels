@@ -22,5 +22,5 @@ public interface IAngelModel {
 
     Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement);
 
-	Iterable<ModelPart> wings(PoseStack pose);
+    Iterable<ModelPart> wings(PoseStack pose);
 }

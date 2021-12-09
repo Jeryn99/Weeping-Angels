@@ -36,15 +36,13 @@ public class WAWorld {
 
     public static ConfiguredStructureFeature<?, ?> CONFIGURED_GRAVEYARD = WAFeatures.GRAVEYARD.get()
             .configured(new NoneFeatureConfiguration());
+    private static Method GETCODEC_METHOD;
 
     public static void registerConfiguredStructures() {
         Registry<ConfiguredStructureFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, "catacombs"), CONFIGURED_CATACOMBS);
         Registry.register(registry, new ResourceLocation(WeepingAngels.MODID, "graveyard"), CONFIGURED_GRAVEYARD);
     }
-
-
-    private static Method GETCODEC_METHOD;
 
     public static void addDimensionalSpacing(final WorldEvent.Load event) {
         if (event.getWorld() instanceof ServerLevel serverLevel) {

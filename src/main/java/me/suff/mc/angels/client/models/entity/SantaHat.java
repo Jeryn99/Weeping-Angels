@@ -1,7 +1,4 @@
-package me.suff.mc.angels.client.models.entity;// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package me.suff.mc.angels.client.models.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

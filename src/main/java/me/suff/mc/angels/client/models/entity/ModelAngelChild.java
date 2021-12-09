@@ -90,14 +90,13 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(placement == HeadPlacement.SANTA) return null;
+        if (placement == HeadPlacement.SANTA) return null;
 
-        if(headData == null){
-            headData = new Pair<>(Head, new Vector3d(0,0,0));
+        if (headData == null) {
+            headData = new Pair<>(Head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
-
 
 
     @Override
@@ -242,9 +241,9 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
         return new ResourceLocation(WeepingAngels.MODID, location + suffix + ".png");
     }
 
-	@Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
-		return new ArrayList();
-	}
+    @Override
+    public Iterable<ModelPart> wings(PoseStack pose) {
+        return new ArrayList();
+    }
 
 }

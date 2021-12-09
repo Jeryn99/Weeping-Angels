@@ -2,7 +2,6 @@ package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.blocks.ChronodyneGeneratorBlock;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -37,7 +36,7 @@ public class WAItemTags extends ItemTagsProvider {
 
         add(THEFT, Items.CLOCK);
         for (Item item : ForgeRegistries.ITEMS) {
-            if(item instanceof PickaxeItem || item == WAObjects.Items.CHRONODYNE_GENERATOR.get()) {
+            if (item instanceof PickaxeItem || item == WAObjects.Items.CHRONODYNE_GENERATOR.get()) {
                 add(THEFT, item);
             }
         }

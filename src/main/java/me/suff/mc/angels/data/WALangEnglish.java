@@ -4,6 +4,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class WALangEnglish extends LanguageProvider {
@@ -21,6 +22,7 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.Blocks.KONTRON_ORE.get(), "Kontron Ore");
         add(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), "Deepslate Kontron Ore");
         add(WAObjects.Blocks.COFFIN.get(), "Coffin");
+        add(WAObjects.Blocks.WALL_ARM.get(), "Arms");
 
         /* Items */
         add(WAObjects.Items.ANGEL_SPAWNER.get(), "Weeping Angel (%s)");
@@ -90,17 +92,26 @@ public class WALangEnglish extends LanguageProvider {
         add("category.weeping_angels.worldgen", "World Gen");
 
         /* Sounds */
-        add("sound.weeping_angels.angel_seen", "Angel seen");
-        add("sound.weeping_angels.child_run", "Child running");
-        add("sound.weeping_angels.laughing_child", "Laughing Child");
-        add("sound.weeping_angels.light_break", "Light break");
-        add("sound.weeping_angels.angel_teleport", "Angel Teleports an Entity");
-        add("sound.weeping_angels.stone_scrap", "Stone scrapings");
-        add("sound.weeping_angels.ding", "Ding!");
-        add("sound.weeping_angels.blow", "Blow");
-        add("sound.weeping_angels.angel_death", "Angel crumbles to death");
-        add("sound.weeping_angels.projector", "Whirr");
+        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel Appears");
+        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone Scrape");
+        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel Dies");
+        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel laughing");
+        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Neck snaps");
+        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel sting");
+        addSound(WAObjects.Sounds.BLOW.get(), "Angel blows");
+        addSound(WAObjects.Sounds.CATACOMB.get(), "Catacomb Ambience");
+        addSound(WAObjects.Sounds.CHILD_RUN.get(), "Child running");
+        addSound(WAObjects.Sounds.DING.get(), "Ding!");
+        addSound(WAObjects.Sounds.DISC_SALLY.get(), "Sally");
+        addSound(WAObjects.Sounds.DISC_TIME_PREVAILS.get(), "Time prevails");
+        addSound(WAObjects.Sounds.KNOCK.get(), "Knock");
+        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Cherub laughing");
+        addSound(WAObjects.Sounds.LIGHT_BREAK.get(), "Lighting breaking");
+        addSound(WAObjects.Sounds.TELEPORT.get(), "Teleport");
+        addSound(WAObjects.Sounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
+    }
 
-
+    public void addSound(SoundEvent soundEvent, String lang) {
+        add("sound.weeping_angels." + soundEvent.getLocation().getPath(), lang);
     }
 }

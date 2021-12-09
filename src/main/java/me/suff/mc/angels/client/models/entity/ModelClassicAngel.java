@@ -123,16 +123,16 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(placement == HeadPlacement.SANTA) return null;
+        if (placement == HeadPlacement.SANTA) return null;
 
-        if(headData == null){
-            headData = new Pair<>(head, new Vector3d(0,0,0));
+        if (headData == null) {
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
+    public Iterable<ModelPart> wings(PoseStack pose) {
         return ImmutableList.of(leftwing1, leftwing2, leftwing3, leftwing4, rightwing1, rightwing2, rightwing3, rightwing4);
     }
 
@@ -272,7 +272,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-    	return generateTex(pose, AngelTypes.NORMAL.get());
+        return generateTex(pose, AngelTypes.NORMAL.get());
     }
 
     protected ModelPart getArm(HumanoidArm handSide) {

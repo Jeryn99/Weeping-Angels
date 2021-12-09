@@ -169,6 +169,15 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
+        "location": "weeping_angels:catacomb/classic/soul_lit_hallway_arms",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
         "location": "weeping_angels:catacomb/classic/tardis_dungeon",
         "processors": "minecraft:empty"
       }

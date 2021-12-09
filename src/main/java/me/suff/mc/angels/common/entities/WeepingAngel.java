@@ -6,7 +6,6 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -209,7 +208,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
 
-
     public void dealDamage(Player player) {
         double damage = WAConfig.CONFIG.damage.get();
         player.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, (float) damage);
@@ -351,11 +349,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Override
     public void tick() {
 
-        if(!WAConfig.CONFIG.isVariantPermitted(getVariant())){
+        if (!WAConfig.CONFIG.isVariantPermitted(getVariant())) {
             setVarient(getAngelType().getWeightedHandler().getRandom(this));
         }
 
-        if(!WAConfig.CONFIG.isModelPermitted(getAngelType())){
+        if (!WAConfig.CONFIG.isModelPermitted(getAngelType())) {
             setType(AngelType.next(getAngelType()));
         }
 

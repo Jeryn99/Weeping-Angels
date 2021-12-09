@@ -36,16 +36,8 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
         model = new SantaHat<>(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.SANTA_HAT));
     }
 
-    @Override
-    public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (!pLivingEntity.isInvisible()) {
-            //SANTA
-            santaHat(pMatrixStack, pBuffer, pPackedLight, model, getParentModel(), pLivingEntity.getVariant());
-        }
-    }
-
     public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, EntityModel santa, EntityModel model, AbstractVariant abstractVariant) {
-        if(abstractVariant.isHeadless()) return;
+        if (abstractVariant.isHeadless()) return;
         if (model instanceof IAngelModel iAngelModel) {
             Pair<ModelPart, Vector3d> santaHead = iAngelModel.getHeadData(HeadPlacement.SANTA);
             if (DateChecker.isXmas() && santaHead != null && WAConfig.CONFIG.showSantaHatsAtXmas.get()) {
@@ -55,6 +47,14 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
                 santa.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(SANTA)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
                 pMatrixStack.popPose();
             }
+        }
+    }
+
+    @Override
+    public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        if (!pLivingEntity.isInvisible()) {
+            //SANTA
+            santaHat(pMatrixStack, pBuffer, pPackedLight, model, getParentModel(), pLivingEntity.getVariant());
         }
     }
 

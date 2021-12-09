@@ -1,6 +1,5 @@
 package me.suff.mc.angels.client.models.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
@@ -168,14 +167,14 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(headData == null) {
+        if (headData == null) {
             headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
+    public Iterable<ModelPart> wings(PoseStack pose) {
         return new ArrayList<>();
     }
 }

@@ -26,7 +26,7 @@ public class DateChecker {
     }
 
     public static boolean update(boolean force) {
-        if(force){
+        if (force) {
             Thread thread = new Thread(WingsLayer::update);
             thread.start();
         }

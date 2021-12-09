@@ -253,14 +253,14 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
-        if(headData == null) {
+        if (headData == null) {
             headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
+    public Iterable<ModelPart> wings(PoseStack pose) {
         return ImmutableList.of(leftWing, rightWing);
     }
 
@@ -276,7 +276,8 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
         String coreFolder = "textures/entities/disaster/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();;
+        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
+        ;
         return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 

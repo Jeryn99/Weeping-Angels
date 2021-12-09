@@ -24,7 +24,7 @@ apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.0.3 [BETA] - ' + new Date().format("yyyy-MM-dd")
+version = '1.0.1'
 group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 

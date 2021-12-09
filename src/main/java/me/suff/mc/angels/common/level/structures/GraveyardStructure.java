@@ -62,19 +62,17 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
 
+    private static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, PieceGenerator.Context<NoneFeatureConfiguration> configurationContext) {
+        int height = configurationContext.chunkGenerator().getFirstFreeHeight(configurationContext.chunkPos().getMinBlockX(), configurationContext.chunkPos().getMinBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, configurationContext.heightAccessor());
+        BlockPos blockpos = new BlockPos(configurationContext.chunkPos().getMinBlockX(), height, configurationContext.chunkPos().getMinBlockZ());
+        Rotation rotation = Rotation.getRandom(configurationContext.random());
+        addPiece(configurationContext.structureManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
+    }
 
     @Override
     public GenerationStep.Decoration step() {
         return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
-
-    private static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, PieceGenerator.Context<NoneFeatureConfiguration> configurationContext) {
-        System.out.println(configurationContext.heightAccessor().getHeight());
-        BlockPos blockpos = new BlockPos(configurationContext.chunkPos().getMinBlockX(), configurationContext.heightAccessor().getHeight(), configurationContext.chunkPos().getMinBlockZ());
-        Rotation rotation = Rotation.getRandom(configurationContext.random());
-        addPiece(configurationContext.structureManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
-    }
-
 
     public static class GraveyardPiece extends TemplateStructurePiece {
 
@@ -107,6 +105,17 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
             return (new StructurePlaceSettings()).setRotation(rot).setMirror(Mirror.NONE).setRotationPivot(BlockPos.ZERO).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
 
+        public static LocalDate createRandomDate() {
+            long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
+            long endEpochDay = LocalDate.now().toEpochDay();
+            long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
+            return LocalDate.ofEpochDay(randomDay);
+        }
+
+        public static Block getRandomPottedPlant(Random random) {
+            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
+            return plants.get(random.nextInt(plants.size()));
+        }
 
         @Override
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
@@ -177,18 +186,6 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                     serverLevelAccessor.removeBlock(blockPos, false);
                 }
             }
-        }
-
-        public static LocalDate createRandomDate() {
-            long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
-            long endEpochDay = LocalDate.now().toEpochDay();
-            long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
-            return LocalDate.ofEpochDay(randomDay);
-        }
-
-        public static Block getRandomPottedPlant(Random random) {
-            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
-            return plants.get(random.nextInt(plants.size()));
         }
 
         private void loadNames() throws IOException {

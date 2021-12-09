@@ -14,7 +14,10 @@ import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.data.*;
+import me.suff.mc.angels.data.WABlockTags;
+import me.suff.mc.angels.data.WAItemTags;
+import me.suff.mc.angels.data.WALangEnglish;
+import me.suff.mc.angels.data.WARecipeGen;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
@@ -94,7 +97,6 @@ public class WeepingAngels {
     }
 
 
-
     @SubscribeEvent
     public void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
         WAModels.init(definitions);
@@ -119,7 +121,7 @@ public class WeepingAngels {
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
-       // generator.addProvider(new WALootTables(generator));
+        // generator.addProvider(new WALootTables(generator));
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {

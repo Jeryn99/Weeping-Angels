@@ -182,17 +182,17 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
 
-        if(placement == HeadPlacement.SANTA) return null;
+        if (placement == HeadPlacement.SANTA) return null;
 
-        if(headData == null){
-            headData = new Pair<>(head, new Vector3d(0,0,0));
+        if (headData == null) {
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
 
     @Override
-	public Iterable<ModelPart> wings(PoseStack pose) {
-    	pose.translate(0, 1.2, 0);
+    public Iterable<ModelPart> wings(PoseStack pose) {
+        pose.translate(0, 1.2, 0);
         return ImmutableList.of(wing0, wing2);
     }
 

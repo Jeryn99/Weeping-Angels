@@ -1,52 +1,195 @@
 {
-	"credit": "Made with Blockbench",
-	"texture_size": [128, 128],
-	"textures": {
-		"0": "weeping_angels:entities/disaster/normal/normal_angel_scream",
-		"particle": "weeping_angels:entities/disaster/normal/normal_angel_scream"
-	},
-	"elements": [
-		{
-			"name": "leftArm",
-			"from": [3, 0, 11],
-			"to": [6, 12, 15],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [7, 0.25, 8]},
-			"faces": {
-				"north": {"uv": [1.75, 7.875, 2.125, 9.375], "texture": "#0"},
-				"east": {"uv": [1.25, 7.875, 1.75, 9.375], "texture": "#0"},
-				"south": {"uv": [2.625, 7.875, 3, 9.375], "texture": "#0"},
-				"west": {"uv": [2.125, 7.875, 2.625, 9.375], "texture": "#0"},
-				"up": {"uv": [2.125, 7.875, 1.75, 7.375], "texture": "#0"},
-				"down": {"uv": [2.5, 7.375, 2.125, 7.875], "texture": "#0"}
-			}
-		},
-		{
-			"name": "rightArm",
-			"from": [10, 0, 10],
-			"to": [13, 12, 14],
-			"rotation": {"angle": 22.5, "axis": "y", "origin": [7, 0.25, 8]},
-			"faces": {
-				"north": {"uv": [3.5, 7.875, 3.875, 9.375], "texture": "#0"},
-				"east": {"uv": [3, 7.875, 3.5, 9.375], "texture": "#0"},
-				"south": {"uv": [4.375, 7.875, 4.75, 9.375], "texture": "#0"},
-				"west": {"uv": [3.875, 7.875, 4.375, 9.375], "texture": "#0"},
-				"up": {"uv": [3.875, 7.875, 3.5, 7.375], "texture": "#0"},
-				"down": {"uv": [4.25, 7.375, 3.875, 7.875], "texture": "#0"}
-			}
-		}
-	],
-	"groups": [
-		{
-			"name": "leftArm",
-			"origin": [-1, 0.75, 0],
-			"color": 0,
-			"children": [0]
-		},
-		{
-			"name": "rightArm",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [1]
-		}
-	]
+  "credit": "Made with Blockbench",
+  "texture_size": [
+    128,
+    128
+  ],
+  "textures": {
+    "0": "weeping_angels:entities/disaster/normal/normal_angel_scream",
+    "particle": "weeping_angels:entities/disaster/normal/normal_angel_scream"
+  },
+  "elements": [
+    {
+      "name": "leftArm",
+      "from": [
+        3,
+        0,
+        11
+      ],
+      "to": [
+        6,
+        12,
+        15
+      ],
+      "rotation": {
+        "angle": -22.5,
+        "axis": "y",
+        "origin": [
+          7,
+          0.25,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            7.875,
+            2.125,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            1.25,
+            7.875,
+            1.75,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            2.625,
+            7.875,
+            3,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            2.125,
+            7.875,
+            2.625,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            2.125,
+            7.875,
+            1.75,
+            7.375
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            2.5,
+            7.375,
+            2.125,
+            7.875
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "rightArm",
+      "from": [
+        10,
+        0,
+        10
+      ],
+      "to": [
+        13,
+        12,
+        14
+      ],
+      "rotation": {
+        "angle": 22.5,
+        "axis": "y",
+        "origin": [
+          7,
+          0.25,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            3.5,
+            7.875,
+            3.875,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            3,
+            7.875,
+            3.5,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            4.375,
+            7.875,
+            4.75,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            3.875,
+            7.875,
+            4.375,
+            9.375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            3.875,
+            7.875,
+            3.5,
+            7.375
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            7.375,
+            3.875,
+            7.875
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "leftArm",
+      "origin": [
+        -1,
+        0.75,
+        0
+      ],
+      "color": 0,
+      "children": [
+        0
+      ]
+    },
+    {
+      "name": "rightArm",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "color": 0,
+      "children": [
+        1
+      ]
+    }
+  ]
 }

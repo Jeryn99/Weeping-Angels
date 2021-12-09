@@ -29,10 +29,9 @@ import java.util.UUID;
 public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
     protected static Donator[] people = new Donator[0];
-
-    private EntityModel<WeepingAngel> model;
     public final MercyWings mercyWings;
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/mercy_wings.png");
+    private EntityModel<WeepingAngel> model;
 
     public WingsLayer(RenderLayerParent<T, M> p_117346_) {
         super(p_117346_);

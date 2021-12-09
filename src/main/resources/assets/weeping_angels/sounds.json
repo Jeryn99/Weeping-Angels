@@ -1,6 +1,5 @@
 {
   "angel_seen": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_seen",
     "sounds": [
       {
@@ -90,7 +89,6 @@
     ]
   },
   "ding": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.ding",
     "sounds": [
       {
@@ -100,7 +98,6 @@
     ]
   },
   "knock": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.knock",
     "sounds": [
       {
@@ -110,7 +107,6 @@
     ]
   },
   "catacomb": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.catacomb",
     "sounds": [
       {
@@ -120,7 +116,6 @@
     ]
   },
   "disc_sally": {
-    "category": "block",
     "subtitle": "sound.weeping_angels.disc_sally",
     "sounds": [
       {
@@ -130,7 +125,6 @@
     ]
   },
   "disc_time_prevails": {
-    "category": "block",
     "subtitle": "sound.weeping_angels.disc_time_prevails",
     "sounds": [
       {
@@ -140,7 +134,6 @@
     ]
   },
   "tardis_takeoff": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.tardis_takeoff",
     "sounds": [
       {
@@ -150,7 +143,6 @@
     ]
   },
   "teleport": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.teleport",
     "sounds": [
       {
@@ -164,7 +156,6 @@
     ]
   },
   "angel_mocking": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_mocking",
     "sounds": [
       {
@@ -178,7 +169,6 @@
     ]
   },
   "projector": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.projector",
     "sounds": [
       {
@@ -188,7 +178,6 @@
     ]
   },
   "blow": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.blow",
     "sounds": [
       {
@@ -198,7 +187,6 @@
     ]
   },
   "child_run": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.child_run",
     "sounds": [
       {
@@ -208,7 +196,6 @@
     ]
   },
   "laughing_child": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.laughing_child",
     "sounds": [
       {
@@ -218,7 +205,6 @@
     ]
   },
   "light_break": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.light_break",
     "sounds": [
       {
@@ -228,7 +214,6 @@
     ]
   },
   "angel_ambient": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_ambient",
     "sounds": [
       {
@@ -238,7 +223,6 @@
     ]
   },
   "angel_death": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_death",
     "sounds": [
       {
@@ -248,7 +232,6 @@
     ]
   },
   "angel_neck_snap": {
-    "category": "hostile",
     "subtitle": "sound.weeping_angels.angel_neck_snap",
     "sounds": [
       {
@@ -259,7 +242,6 @@
   },
   "stone_scrape": {
     "subtitle": "sound.weeping_angels.stone_scrape",
-    "category": "master",
     "sounds": [
       {
         "name": "weeping_angels:stone/stone_scrape",

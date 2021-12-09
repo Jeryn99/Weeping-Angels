@@ -2,7 +2,6 @@ package me.suff.mc.angels.common.blocks;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
