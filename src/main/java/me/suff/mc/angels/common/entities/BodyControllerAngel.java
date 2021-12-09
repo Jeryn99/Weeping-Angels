@@ -16,7 +16,7 @@ public class BodyControllerAngel extends BodyController {
     public void clientTick() {
         if (mob instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngel = (WeepingAngelEntity) mob;
-            if (weepingAngel.getSeenTime() > 0) {
+            if (!weepingAngel.isSeen()) {
                 super.clientTick();
             }
         }
