@@ -19,13 +19,10 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.ShipwreckFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructurePieceType;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OceanRuinConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.ShipwreckConfiguration;
-import net.minecraft.world.level.levelgen.structure.*;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
@@ -60,8 +57,9 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         return p_197155_.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG);
     }
 
-    private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePieceAccessor structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
-        structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)], "graveyard",  GraveyardPiece.makeSettings(rotation), blockPos));
+    private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
+        ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
+        structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
 
 
@@ -70,12 +68,12 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
 
-    private static void generatePieces(StructurePiecesBuilder p_197233_, PieceGenerator.Context<NoneFeatureConfiguration> p_197234_) {
-        BlockPos blockpos = new BlockPos(p_197234_.chunkPos().getMinBlockX(), 90, p_197234_.chunkPos().getMinBlockZ());
-        Rotation rotation = Rotation.getRandom(p_197234_.random());
-        addPiece(p_197234_.structureManager(), blockpos, rotation, p_197233_, p_197234_.random(), p_197234_.config());
+    private static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, PieceGenerator.Context<NoneFeatureConfiguration> configurationContext) {
+        System.out.println(configurationContext.heightAccessor().getHeight());
+        BlockPos blockpos = new BlockPos(configurationContext.chunkPos().getMinBlockX(), configurationContext.heightAccessor().getHeight(), configurationContext.chunkPos().getMinBlockZ());
+        Rotation rotation = Rotation.getRandom(configurationContext.random());
+        addPiece(configurationContext.structureManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
     }
-
 
 
     public static class GraveyardPiece extends TemplateStructurePiece {
@@ -109,7 +107,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
             return (new StructurePlaceSettings()).setRotation(rot).setMirror(Mirror.NONE).setRotationPivot(BlockPos.ZERO).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
 
-        
+
         @Override
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
             if (USERNAMES.length == 0) {
