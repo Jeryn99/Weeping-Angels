@@ -141,7 +141,7 @@ public class WAObjects {
             return false;
         }))));
 
-        public static final RegistryObject<Block> WALL_ARM = BLOCKS.register("wall_arm", () -> setUpBlock(new ArmBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.STONE).noCollission().noOcclusion())));
+        public static final RegistryObject<Block> WALL_ARM = BLOCKS.register("wall_arm", () -> setUpBlock(new ArmBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.STONE).noCollission())));
 
     }
 

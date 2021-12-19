@@ -68,6 +68,7 @@ public class ChiselItem extends Item {
         tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel"));
         tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_right_click"));
         tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_sneak"));
+        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.punch_variant"));
 
     }
 }

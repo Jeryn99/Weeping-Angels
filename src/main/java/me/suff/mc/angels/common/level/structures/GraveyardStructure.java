@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -105,11 +104,13 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
             return (new StructurePlaceSettings()).setRotation(rot).setMirror(Mirror.NONE).setRotationPivot(BlockPos.ZERO).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
 
-        public static LocalDate createRandomDate() {
+        public static String createRandomDate() {
             long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
             long endEpochDay = LocalDate.now().toEpochDay();
             long randomDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay);
-            return LocalDate.ofEpochDay(randomDay);
+            LocalDate finalDate = LocalDate.ofEpochDay(randomDay);
+            return finalDate.getDayOfMonth() + "." + finalDate.getMonthValue() + "." + finalDate.getYear();
+
         }
 
         public static Block getRandomPottedPlant(Random random) {
@@ -177,7 +178,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                     if (signTileEntity != null) {
                         signTileEntity.setMessage(0, new TranslatableComponent("========"));
                         signTileEntity.setMessage(1, new TranslatableComponent(USERNAMES[random.nextInt(USERNAMES.length - 1)]));
-                        signTileEntity.setMessage(2, new TranslatableComponent(createRandomDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
+                        signTileEntity.setMessage(2, new TranslatableComponent("Died: " + createRandomDate()));
                         signTileEntity.setMessage(3, new TranslatableComponent("========"));
                         serverLevelAccessor.removeBlock(blockPos, false);
                         serverLevelAccessor.setBlock(blockPos.below(2), Blocks.PODZOL.defaultBlockState(), 2);

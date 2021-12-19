@@ -46,7 +46,7 @@ public class WAFeatures {
 
     public static void setupStructures() {
         setupMapSpacingAndLand(CATACOMB.get(), new StructureFeatureConfiguration(10000, 5000, 1234567890), false);
-        setupMapSpacingAndLand(GRAVEYARD.get(), new StructureFeatureConfiguration(10000, 8000, 1234353780), false);
+        setupMapSpacingAndLand(GRAVEYARD.get(), new StructureFeatureConfiguration(10000, 8000, 1234353780), true);
     }
 
     public static <F extends StructureFeature<?>> void setupMapSpacingAndLand(F structure, StructureFeatureConfiguration structureFeatureConfiguration, boolean transformSurroundingLand) {

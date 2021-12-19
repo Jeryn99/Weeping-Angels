@@ -67,6 +67,7 @@ public class WAConfig {
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
+
         builder.push("world_gen");
         arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
         genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
