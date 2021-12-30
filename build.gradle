@@ -182,24 +182,5 @@ publishing {
     }
 }
 
-import com.modrinth.minotaur.TaskModrinthUpload
-
-task publishModrinth(type: TaskModrinthUpload) {
-    onlyIf {
-        rootProject.modrinth
-    }
-
-    token = rootProject.modrinth
-    projectId = 'TEzJJY7H'
-    changelog = new File("${project.projectDir}/changelog.html").text
-    versionNumber = version // Will fail if Modrinth has this version already
-    uploadFile = jar
-    // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    addGameVersion('1.16.3')
-    addGameVersion('1.16.4')
-    addGameVersion('1.16.5')
-    addLoader('forge')
-}
-
 task publishExternal(type: GradleBuild, dependsOn: ['curseforge', 'publishModrinth']) {
 }

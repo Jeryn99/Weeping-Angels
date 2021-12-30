@@ -1,15 +1,19 @@
 package me.suff.mc.angels;
 
+import me.suff.mc.angels.common.tileentities.NewTardisBlocks;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
+import me.suff.mc.angels.common.items.SItems;
+import me.suff.mc.angels.common.tileentities.STiles;
 import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
+import me.suff.mc.angels.registry.TardisExteriorReg;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.utils.FortuneEnchantBonus;
@@ -70,6 +74,12 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
+        SItems.ITEMS.register(bus);
+        STiles.TILES.register(bus);
+        NewTardisBlocks.BLOCKS.register(bus);
+        TardisExteriorReg.EXTERIORS.register(bus);
+
+
 
         if (ModList.get().isLoaded("tardis")) {
             TardisMod.enableTardis();
