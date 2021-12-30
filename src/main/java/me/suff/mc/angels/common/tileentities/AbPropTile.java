@@ -1,6 +1,6 @@
 package me.suff.mc.angels.common.tileentities;
 
-import net.minecraft.state.properties.BlockStateProperties;
+import me.suff.mc.angels.registry.TardisExteriorReg;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 
@@ -10,6 +10,7 @@ public class AbPropTile extends ExteriorTile {
 
     public AbPropTile() {
         super(STiles.exterior_abprop.get());
+        this.setVariants(TardisExteriorReg.PTB);
     }
 
     @Override
