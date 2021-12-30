@@ -16,4 +16,9 @@ public class AbPropTile extends ExteriorTile {
     public AxisAlignedBB getDoorAABB() {
         return this.getDefaultEntryBox();
     }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return RENDER.move(this.getBlockPos());
+    }
 }

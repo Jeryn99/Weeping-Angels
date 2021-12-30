@@ -1,6 +1,7 @@
 package me.suff.mc.angels.registry;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.client.models.block.interiordoors.AbPropIntDoorModel;
 import me.suff.mc.angels.common.tileentities.NewTardisBlocks;
 import me.suff.mc.angels.client.renders.tileentities.AbPropRender;
 import me.suff.mc.angels.common.tileentities.STiles;
@@ -26,7 +27,7 @@ public class TardisModelReg {
         });
         //Exteriors
         ClientRegistry.bindTileEntityRenderer(STiles.exterior_abprop.get(), AbPropRender::new);
-        EnumDoorTypes.ABPROP.setInteriorDoorModel(new TTCapsuleInteriorModel());
+        EnumDoorTypes.ABPROP.setInteriorDoorModel(new AbPropIntDoorModel());
 
     }
 }

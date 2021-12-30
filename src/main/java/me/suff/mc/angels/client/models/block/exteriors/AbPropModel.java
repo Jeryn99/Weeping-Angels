@@ -1,4 +1,4 @@
-package me.suff.mc.angels.client.models.block;// Made with Blockbench 4.1.0
+package me.suff.mc.angels.client.models.block.exteriors;// Made with Blockbench 4.1.0
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -6,12 +6,21 @@ package me.suff.mc.angels.client.models.block;// Made with Blockbench 4.1.0
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.utils.EnumDoorTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Vector3f;
+import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.models.exteriors.ExteriorModel;
+import net.tardis.mod.client.renderers.boti.BOTIRenderer;
+import net.tardis.mod.client.renderers.boti.PortalInfo;
+import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
+import net.tardis.mod.client.renderers.exteriors.ModernPoliceBoxExteriorRenderer;
+import net.tardis.mod.client.renderers.exteriors.SafeExteriorRenderer;
 import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.enums.EnumMatterState;
+import net.tardis.mod.helper.Helper;
+import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class AbPropModel extends ExteriorModel {
 	private final ModelRenderer Posts;
@@ -30,6 +39,7 @@ public class AbPropModel extends ExteriorModel {
 	private final ModelRenderer Doors;
 	private final ModelRenderer RDoor;
 	private final ModelRenderer LDoor;
+	private final ModelRenderer boti;
 	private final ModelRenderer bb_main;
 
 	public AbPropModel() {
@@ -131,11 +141,15 @@ public class AbPropModel extends ExteriorModel {
 		LDoor.texOffs(0, 8).addBox(10.0F, -32.0F, -2.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 		LDoor.texOffs(28, 5).addBox(12.0F, -27.0F, 0.0F, 1.0F, 3.0F, 1.0F, 0.0F, false);
 
+		boti = new ModelRenderer(this);
+		boti.setPos(0.0F, 0.0F, 0.0F);
+		Doors.addChild(boti);
+		boti.texOffs(163, 0).addBox(-14.0F, -59.0F, -13.0F, 28.0F, 56.0F, 1.0F, 0.0F, false);
+
 		bb_main = new ModelRenderer(this);
 		bb_main.setPos(0.0F, 24.0F, 0.0F);
 		bb_main.texOffs(0, 0).addBox(-18.0F, -3.0F, -18.0F, 36.0F, 3.0F, 36.0F, 0.0F, false);
 	}
-
 
 	@Override
 	public void render(ExteriorTile tile, float v, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float v1) {
@@ -175,6 +189,6 @@ public class AbPropModel extends ExteriorModel {
 
 	@Override
 	public void renderBones(ExteriorTile exterior, float scale, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float alpha) {
-
 	}
+
 }

@@ -1,7 +1,7 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.suff.mc.angels.client.models.block.AbPropModel;
+import me.suff.mc.angels.client.models.block.exteriors.AbPropModel;
 import me.suff.mc.angels.common.tileentities.AbPropTile;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
