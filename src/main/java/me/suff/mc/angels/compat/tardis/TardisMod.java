@@ -53,21 +53,9 @@ public class TardisMod {
 
     public static void enableTardis() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        TardisMod.EXTERIORS.register(bus);
         MinecraftForge.EVENT_BUS.register(new TardisMod());
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
     }
-
-    public static final TexVariant[] PTB_TEX = {
-            new TexVariant("ptb", "tardis.common.normal"),
-            new TexVariant("ptb_2", "exterior.steam.blue"),
-    };
-
-    public static final DeferredRegister<AbstractExterior> EXTERIORS = DeferredRegister.create(AbstractExterior.class, WeepingAngels.MODID);
-    public static final RegistryObject<AbstractExterior> PTB = EXTERIORS.register("ptb", () -> new TwoBlockBasicExterior(() -> WAObjects.Blocks.PTB.get().defaultBlockState(), true, IDoorType.EnumDoorType.MODERN_POLICE_BOX, DoorSounds.BASE, new ResourceLocation(Tardis.MODID, "textures/gui/exteriors/steam.png"), PTB_TEX));
-
-
-
 
 
     /*This method is called from WATeleporter::getRandomDimension, it removes all Tardis interior dimensions
