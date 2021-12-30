@@ -99,6 +99,9 @@ public class WALangEnglish extends LanguageProvider {
         add("sound.weeping_angels.angel_death", "Angel crumbles to death");
         add("sound.weeping_angels.projector", "Whirr");
 
+        add("texvar.weeping_angels.yellow_windows", "2005 - Yellow Windows");
+        add("texvar.weeping_angels.blue_windows", "2005 - Blue Windows");
+
 
     }
 }
