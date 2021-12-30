@@ -314,34 +314,34 @@ public class WeepingAngel extends QuantumLockedLifeform {
         }
     }
 
-
     private void randomisePose() {
         setPose(WeepingAngelPose.getRandomPose(random));
     }
 
     private void playSeenSound(Player player) {
-        boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
-        if (canPlaySound) {
-            if (WAConfig.CONFIG.playSeenSounds.get() && player.distanceTo(this) < 15) {
-                setTimeSincePlayedSound(System.currentTimeMillis());
-                ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundSource.HOSTILE, player.getX(), player.getY(), player.getZ(), 0.1F, 1.0F));
-            }
+        if (player.distanceTo(this) < 15) {
+            setTimeSincePlayedSound(System.currentTimeMillis());
+            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(SoundEvents.STONE_PLACE, SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F));
         }
     }
 
-
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
+        // Don't bother if we're on hard mode.
+        if (level.getDifficulty() == Difficulty.HARD) {
+            return;
+        }
+
         if (!blockIn.getMaterial().isLiquid()) {
             BlockState blockstate = this.level.getBlockState(pos.above());
             SoundType soundtype = blockstate.getBlock() == Blocks.SNOW ? blockstate.getSoundType(level, pos, this) : blockIn.getSoundType(level, pos, this);
 
-            if (isCherub()) {
+            if (level.getDifficulty() == Difficulty.EASY) {
+                playSound(soundtype.getStepSound(), 0.3F, soundtype.getPitch());
+            } else {
                 if (level.random.nextInt(5) == 4) {
-                    playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
+                    playSound(soundtype.getStepSound(), 0.3F, soundtype.getPitch());
                 }
-            } else if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
-                playSound(WAObjects.Sounds.STONE_SCRAPE.get(), 0.1F, soundtype.getPitch());
             }
         }
     }
