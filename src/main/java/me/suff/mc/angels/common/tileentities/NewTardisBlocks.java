@@ -11,6 +11,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.tardis.mod.blocks.exteriors.ExteriorBlock;
 import net.tardis.mod.itemgroups.TItemGroups;
+import net.tardis.mod.misc.TexVariant;
+import net.tardis.mod.texturevariants.TextureVariants;
 
 import java.util.function.Supplier;
 

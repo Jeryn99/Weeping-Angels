@@ -62,6 +62,8 @@
   "source.weeping_angels.backintime": "%s was sent back in time by a Angel!",
   "source.weeping_angels.neck_snap": "%s had their neck snapped by a Angel!",
   "source.weeping_angels.punch_stone": "%s broke their bones by punching stone...",
+  "texvar.weeping_angels.blue_windows": "2005 - Blue Windows",
+  "texvar.weeping_angels.yellow_windows": "2005 - Yellow Windows",
   "tooltip.weeping_angels.chisel": "\u00A79Used to change appearance of Decorative Angel Blocks",
   "tooltip.weeping_angels.chisel_right_click": "\u00A79- Right click to change angel pose",
   "tooltip.weeping_angels.chisel_sneak": "\u00A79- Sneak + Right click to Change Angel Type",
