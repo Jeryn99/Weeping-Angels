@@ -2,10 +2,12 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -15,16 +17,29 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.tardis.mod.Tardis;
+import net.tardis.mod.blocks.TBlocks;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
+import net.tardis.mod.exterior.AbstractExterior;
+import net.tardis.mod.exterior.TwoBlockBasicExterior;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
+import net.tardis.mod.misc.DoorSounds;
+import net.tardis.mod.misc.IDoorType;
 import net.tardis.mod.misc.SpaceTimeCoord;
+import net.tardis.mod.misc.TexVariant;
 import net.tardis.mod.sounds.TSounds;
 import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
+import net.tardis.mod.texturevariants.TextureVariants;
 import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.world.dimensions.TDimensions;
@@ -36,12 +51,24 @@ import java.util.Objects;
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
 
-    public int hbb = 0;
-
     public static void enableTardis() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        TardisMod.EXTERIORS.register(bus);
         MinecraftForge.EVENT_BUS.register(new TardisMod());
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
     }
+
+    public static final TexVariant[] PTB_TEX = {
+            new TexVariant("ptb", "tardis.common.normal"),
+            new TexVariant("ptb_2", "exterior.steam.blue"),
+    };
+
+    public static final DeferredRegister<AbstractExterior> EXTERIORS = DeferredRegister.create(AbstractExterior.class, WeepingAngels.MODID);
+    public static final RegistryObject<AbstractExterior> PTB = EXTERIORS.register("ptb", () -> new TwoBlockBasicExterior(() -> WAObjects.Blocks.PTB.get().defaultBlockState(), true, IDoorType.EnumDoorType.MODERN_POLICE_BOX, DoorSounds.BASE, new ResourceLocation(Tardis.MODID, "textures/gui/exteriors/steam.png"), PTB_TEX));
+
+
+
+
 
     /*This method is called from WATeleporter::getRandomDimension, it removes all Tardis interior dimensions
     The reason for this, is because we do not want players teleported into those for the following reasons:

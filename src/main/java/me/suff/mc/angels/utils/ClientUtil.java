@@ -1,6 +1,7 @@
 package me.suff.mc.angels.utils;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.client.models.block.compat.RenderTardisExterior;
 import me.suff.mc.angels.client.models.entity.*;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
@@ -83,6 +84,7 @@ public class ClientUtil {
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.PLINTH.get(), PlinthTileRender::new);
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.STATUE.get(), StatueRender::new);
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.POLICE_BOX.get(), RenderTardisExterior::new);
 
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngelsRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WAObjects.EntityEntries.ANOMALY.get(), AnomalyRender::new);
@@ -92,6 +94,8 @@ public class ClientUtil {
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(WAObjects.Blocks.PTB.get(), RenderType.cutout());
+
 
         Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
         for (PlayerRenderer renderPlayer : skinMap.values()) {

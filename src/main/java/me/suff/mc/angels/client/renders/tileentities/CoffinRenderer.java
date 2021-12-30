@@ -77,7 +77,7 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
         }
     }
 
-    public ResourceLocation getTexture(CoffinTile.Coffin coffin) {
+    public static ResourceLocation getTexture(CoffinTile.Coffin coffin) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
     }
 }

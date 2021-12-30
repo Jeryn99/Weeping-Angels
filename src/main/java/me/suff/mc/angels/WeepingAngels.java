@@ -70,6 +70,10 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
+
+        if (ModList.get().isLoaded("tardis")) {
+            TardisMod.enableTardis();
+        }
     }
 
 
@@ -86,9 +90,6 @@ public class WeepingAngels {
         });
         VR_REFLECTOR.init();
 
-        if (ModList.get().isLoaded("tardis")) {
-            TardisMod.enableTardis();
-        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

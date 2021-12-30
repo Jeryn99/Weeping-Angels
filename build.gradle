@@ -120,10 +120,10 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.9'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.20'
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
-    compileOnly fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:1.5.2')
+    implementation fg.deobf('com.gitlab.Spectre0987:TardisMod-1-14:b7e5b90ced')
     implementation fg.deobf("curse.maven:terraforged-363820:3451426")
 
 }

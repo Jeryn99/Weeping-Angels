@@ -3,6 +3,7 @@ package me.suff.mc.angels.common;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.client.models.block.compat.PTBExterior;
 import me.suff.mc.angels.common.blocks.*;
 import me.suff.mc.angels.common.entities.AnomalyEntity;
 import me.suff.mc.angels.common.entities.ChronodyneGeneratorEntity;
@@ -50,6 +51,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.tardis.mod.blocks.TBlocks;
+import net.tardis.mod.blocks.exteriors.ExteriorBlock;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -181,6 +184,8 @@ public class WAObjects {
         public static RegistryObject<TileEntityType<PlinthTile>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthTile::new, Blocks.PLINTH.get()));
         public static RegistryObject<TileEntityType<StatueTile>> STATUE = TILES.register("statue", () -> registerTiles(StatueTile::new, Blocks.STATUE.get()));
         public static RegistryObject<TileEntityType<CoffinTile>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinTile::new, Blocks.COFFIN.get()));
+        public static RegistryObject<TileEntityType<PTBExterior>> POLICE_BOX = TILES.register("ptb_box", () -> registerTiles(PTBExterior::new, Blocks.PTB.get()));
+
     }
 
     public static class Blocks {
@@ -193,6 +198,8 @@ public class WAObjects {
         public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
         public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
         public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion())));
+        public static final RegistryObject<Block> PTB = BLOCKS.register("ptb", () -> setUpBlock(new ExteriorBlock()));
+
     }
 
     public static class Items {
