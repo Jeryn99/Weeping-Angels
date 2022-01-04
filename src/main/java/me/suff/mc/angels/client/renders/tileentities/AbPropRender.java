@@ -1,15 +1,14 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.suff.mc.angels.client.models.block.exteriors.AbPropModel;
-import me.suff.mc.angels.common.tileentities.AbPropTile;
+import me.suff.mc.angels.compat.tardis.exteriors.AbPropModel;
+import me.suff.mc.angels.compat.tardis.AbPropTile;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
-import net.tardis.mod.misc.WorldText;
 
 public class AbPropRender extends ExteriorRenderer<AbPropTile> {
     public static final ResourceLocation TEXTURE = CoffinRenderer.getTexture(CoffinTile.Coffin.PTB);

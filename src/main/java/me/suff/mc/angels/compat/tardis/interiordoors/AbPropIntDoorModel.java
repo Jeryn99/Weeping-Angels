@@ -1,13 +1,8 @@
-package me.suff.mc.angels.client.models.block.interiordoors;// Made with Blockbench 4.1.0
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package me.suff.mc.angels.compat.tardis.interiordoors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import me.suff.mc.angels.client.renders.tileentities.AbPropRender;
 import me.suff.mc.angels.utils.EnumDoorTypes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -15,9 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import net.tardis.mod.client.models.interiordoors.IInteriorDoorRenderer;
 import net.tardis.mod.entity.DoorEntity;
 import net.tardis.mod.enums.EnumDoorState;
-import net.tardis.mod.helper.TardisHelper;
-import net.tardis.mod.misc.TexVariant;
-import net.tardis.mod.tileentities.ConsoleTile;
 
 public class AbPropIntDoorModel extends EntityModel<Entity> implements IInteriorDoorRenderer {
 	private final ModelRenderer Posts;
@@ -58,15 +50,15 @@ public class AbPropIntDoorModel extends EntityModel<Entity> implements IInterior
 
 		Roof = new ModelRenderer(this);
 		Roof.setPos(0.0F, 25.0F, 0.0F);
-		
+
 
 		Lamp = new ModelRenderer(this);
 		Lamp.setPos(0.0F, -40.0F, 0.0F);
-		
+
 
 		Doors = new ModelRenderer(this);
 		Doors.setPos(0.0F, 24.0F, 1.0F);
-		
+
 
 		RDoor = new ModelRenderer(this);
 		RDoor.setPos(13.0F, -3.0F, -15.0F);

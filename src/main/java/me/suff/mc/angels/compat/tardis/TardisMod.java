@@ -2,12 +2,17 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
-import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
+import me.suff.mc.angels.client.renders.tileentities.AbPropRender;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
+import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
+import me.suff.mc.angels.compat.tardis.registry.STiles;
+import me.suff.mc.angels.utils.EnumDoorTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -19,27 +24,17 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.tardis.mod.Tardis;
-import net.tardis.mod.blocks.TBlocks;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
-import net.tardis.mod.exterior.AbstractExterior;
-import net.tardis.mod.exterior.TwoBlockBasicExterior;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
-import net.tardis.mod.misc.DoorSounds;
-import net.tardis.mod.misc.IDoorType;
 import net.tardis.mod.misc.SpaceTimeCoord;
-import net.tardis.mod.misc.TexVariant;
 import net.tardis.mod.sounds.TSounds;
 import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
-import net.tardis.mod.texturevariants.TextureVariants;
 import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.world.dimensions.TDimensions;
@@ -77,6 +72,15 @@ public class TardisMod {
             });
         }
     }
+
+    public static void clientStuff() {
+        // Render Stuff
+        RenderTypeLookup.setRenderLayer(NewTardisBlocks.EXTERIOR_ABPROP.get(), RenderType.translucent());
+        //Exteriors
+        ClientRegistry.bindTileEntityRenderer(STiles.EXTERIOR_ABPROP.get(), AbPropRender::new);
+        EnumDoorTypes.ABPROP.setInteriorDoorModel(new AbPropIntDoorModel());
+    }
+
 
     /* Before you ask, imagine how many roundels would just be ripped from the walls or a Angel just nuking a Tardis from existence*/
     @SubscribeEvent

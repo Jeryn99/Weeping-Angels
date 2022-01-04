@@ -1,9 +1,8 @@
-package me.suff.mc.angels.registry;
+package me.suff.mc.angels.compat.tardis.registry;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.renders.tileentities.CoffinRenderer;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
-import me.suff.mc.angels.common.tileentities.NewTardisBlocks;
 import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
@@ -22,7 +21,7 @@ public class TardisExteriorReg {
 
     public static final DeferredRegister<AbstractExterior> EXTERIORS = DeferredRegister.create(AbstractExterior.class, WeepingAngels.MODID);
 
-    public static final RegistryObject<AbstractExterior> ABPROP = EXTERIORS.register("2005exterior", () -> new TwoBlockBasicExterior(() -> NewTardisBlocks.exterior_abprop.get().defaultBlockState(), true, EnumDoorTypes.ABPROP, DoorSounds.WOOD, new ResourceLocation(WeepingAngels.MODID, "textures/gui/exteriors/abexterior.png"), PTB));
+    public static final RegistryObject<AbstractExterior> ABPROP = EXTERIORS.register("2005exterior", () -> new TwoBlockBasicExterior(() -> NewTardisBlocks.EXTERIOR_ABPROP.get().defaultBlockState(), true, EnumDoorTypes.ABPROP, DoorSounds.WOOD, new ResourceLocation(WeepingAngels.MODID, "textures/gui/exteriors/abexterior.png"), PTB));
 
 
 }

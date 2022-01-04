@@ -70,9 +70,11 @@ public class PlayerUtil {
         String[] categories = new String[]{"devs", "donators"};
 
         for (String category : categories) {
-            for (JsonElement devs : result.getAsJsonArray(category)) {
-                JsonObject dev = devs.getAsJsonObject();
-                donators.add(new Donator(dev));
+            if (result != null) {
+                for (JsonElement devs : result.getAsJsonArray(category)) {
+                    JsonObject dev = devs.getAsJsonObject();
+                    donators.add(new Donator(dev));
+                }
             }
         }
 

@@ -1,7 +1,4 @@
-package me.suff.mc.angels.client.models.block.exteriors;// Made with Blockbench 4.1.0
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package me.suff.mc.angels.compat.tardis.exteriors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -9,16 +6,13 @@ import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.vector.Vector3f;
-import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.models.exteriors.ExteriorModel;
 import net.tardis.mod.client.renderers.boti.BOTIRenderer;
 import net.tardis.mod.client.renderers.boti.PortalInfo;
+import net.tardis.mod.client.renderers.exteriors.ClockExteriorRenderer;
 import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
-import net.tardis.mod.client.renderers.exteriors.ModernPoliceBoxExteriorRenderer;
-import net.tardis.mod.client.renderers.exteriors.SafeExteriorRenderer;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.enums.EnumMatterState;
-import net.tardis.mod.helper.Helper;
 import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 
@@ -151,9 +145,44 @@ public class AbPropModel extends ExteriorModel {
 		bb_main.texOffs(0, 0).addBox(-18.0F, -3.0F, -18.0F, 36.0F, 3.0F, 36.0F, 0.0F, false);
 	}
 
+
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
+	}
+
 	@Override
-	public void render(ExteriorTile tile, float v, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float v1) {
-		EnumDoorState state = tile.getOpen();
+	public void renderBoti(ExteriorTile exterior, float scale, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float alpha) {
+		if(exterior.getBotiWorld() != null && exterior.getMatterState() == EnumMatterState.SOLID && exterior.getOpen() != EnumDoorState.CLOSED) {
+			PortalInfo info = new PortalInfo();
+			info.setPosition(exterior.getBlockPos());
+			info.setWorldShell(exterior.getBotiWorld());
+
+			info.setTranslate(matrix -> {
+				matrix.translate(-0.5, 0, -0.5);
+				ExteriorRenderer.applyTransforms(matrix, exterior);
+				matrix.mulPose(Vector3f.ZN.rotationDegrees(180));
+			});
+
+			info.setTranslatePortal(matrix -> {
+				matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(exterior.getBotiWorld().getPortalDirection())));
+				matrix.translate(-0.5, -0.75, -0.5);
+			});
+
+			info.setRenderPortal((matrix, buf) -> {
+				matrix.pushPose();
+				this.boti.render(matrix, buf.getBuffer(RenderType.entityTranslucent(ClockExteriorRenderer.TEXTURE)), packedLight, packedOverlay);
+				matrix.popPose();
+			});
+
+			BOTIRenderer.addPortal(info);
+		}
+	}
+
+	@Override
+	public void renderBones(ExteriorTile exterior, float scale, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float alpha) {
+		EnumDoorState state = exterior.getOpen();
 		matrixStack.pushPose();
 		matrixStack.translate(0.0D, 0.75, 0.0D);
 		matrixStack.scale(0.5F, 0.5F, 0.5F);
@@ -170,25 +199,15 @@ public class AbPropModel extends ExteriorModel {
 				this.RDoor.yRot = (float)Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.CLOSED));
 				this.LDoor.yRot = (float)Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.CLOSED));
 		}
-		Posts.render(matrixStack, buffer, packedLight, packedOverlay);
-		Panels.render(matrixStack, buffer, packedLight, packedOverlay);
-		PPCB.render(matrixStack, buffer, packedLight, packedOverlay);
-		Roof.render(matrixStack, buffer, packedLight, packedOverlay);
-		Lamp.render(matrixStack, buffer, packedLight, packedOverlay);
-		Doors.render(matrixStack, buffer, packedLight, packedOverlay);
-		bb_main.render(matrixStack, buffer, packedLight, packedOverlay);
+		Posts.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		Panels.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		PPCB.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		Roof.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		Lamp.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		Doors.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
+		bb_main.render(matrixStack, buffer, packedLight, packedOverlay, 1, 1, 1, alpha);
 
 		matrixStack.popPose();
-	}
-
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
-	}
-
-	@Override
-	public void renderBones(ExteriorTile exterior, float scale, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float alpha) {
 	}
 
 }

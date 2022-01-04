@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "weeping_angels:chronodyne_generator",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "weeping_angels:chronodyne_generator"
+        }
+      ]
+    }
+  ]
+}

@@ -167,6 +167,11 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 jar.finalizedBy('reobfJar')
 
 publishing {
