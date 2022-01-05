@@ -167,11 +167,13 @@ public class AbPropModel extends ExteriorModel {
 
 			info.setTranslatePortal(matrix -> {
 				matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(exterior.getBotiWorld().getPortalDirection())));
-				matrix.translate(-0.5, -0.75, -0.5);
 			});
 
 			info.setRenderPortal((matrix, buf) -> {
 				matrix.pushPose();
+				float botiScale = 0.6f;
+				matrix.scale(botiScale, botiScale, botiScale);
+				matrix.translate(0, 3, 0);
 				this.boti.render(matrix, buf.getBuffer(RenderType.entityTranslucent(ClockExteriorRenderer.TEXTURE)), packedLight, packedOverlay);
 				matrix.popPose();
 			});
