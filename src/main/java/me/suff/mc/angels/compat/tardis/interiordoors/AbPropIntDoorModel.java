@@ -3,15 +3,25 @@ package me.suff.mc.angels.compat.tardis.interiordoors;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import me.suff.mc.angels.utils.EnumDoorTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
+import net.tardis.mod.cap.Capabilities;
+import net.tardis.mod.client.models.interiordoors.AbstractInteriorDoorModel;
 import net.tardis.mod.client.models.interiordoors.IInteriorDoorRenderer;
+import net.tardis.mod.client.renderers.boti.BOTIRenderer;
+import net.tardis.mod.client.renderers.boti.PortalInfo;
+import net.tardis.mod.client.renderers.entity.DoorRenderer;
 import net.tardis.mod.entity.DoorEntity;
 import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.exterior.AbstractExterior;
+import net.tardis.mod.helper.WorldHelper;
 
-public class AbPropIntDoorModel extends EntityModel<Entity> implements IInteriorDoorRenderer {
+public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
 	private final ModelRenderer Posts;
 	private final ModelRenderer cube_r1;
 	private final ModelRenderer Panels;
@@ -132,32 +142,72 @@ public class AbPropIntDoorModel extends EntityModel<Entity> implements IInterior
 
 	@Override
 	public void renderBones(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay) {
-
+		EnumDoorState state = door.getOpenState();
+		matrixStack.pushPose();
+		matrixStack.translate(0.0D, 0.81D, 0.175D);
+		matrixStack.scale(0.65F, 0.65F, 0.65F);
+		switch (state) {
+			case ONE:
+				this.RDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.ONE));
+				this.LDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.CLOSED));
+				break;
+			case BOTH:
+				this.RDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.ONE));
+				this.LDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.BOTH));
+				break;
+			case CLOSED:
+				this.RDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.CLOSED));
+				this.LDoor.yRot = (float) Math.toRadians(EnumDoorTypes.ABPROP.getRotationForState(EnumDoorState.CLOSED));
+		}
+		matrixStack.translate(0,1.25,0);
+		RDoor.render(matrixStack, buffer, packedLight, packedOverlay);
+		LDoor.render(matrixStack, buffer, packedLight, packedOverlay);
+		boti.render(matrixStack, buffer, packedLight, packedOverlay);
+		matrixStack.translate(0,-1.5,0);
+		PPCB.render(matrixStack, buffer, packedLight, packedOverlay);
+		Panels.render(matrixStack, buffer, packedLight, packedOverlay);
+		Posts.render(matrixStack, buffer, packedLight, packedOverlay);
+		matrixStack.popPose();
 	}
 
 	@Override
 	public void renderBoti(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay) {
+		if(Minecraft.getInstance().level != null && door.getOpenState() != EnumDoorState.CLOSED){
+			Minecraft.getInstance().level.getCapability(Capabilities.TARDIS_DATA).ifPresent(data -> {
+				matrixStack.pushPose();
+				PortalInfo info = new PortalInfo();
+				info.setPosition(door.position());
+				info.setWorldShell(data.getBotiWorld());
 
+				info.setTranslate(matrix -> {
+
+					matrix.scale(1.1f, 1.1f, 1.2f);
+					matrix.translate(0.025, 0, 0);
+					DoorRenderer.applyTranslations(matrix, door.yRot - 180, door.getDirection());
+				});
+				info.setTranslatePortal(matrix -> {
+					matrix.mulPose(Vector3f.ZN.rotationDegrees(180));
+					matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(data.getBotiWorld().getPortalDirection())));
+					matrix.translate(-0.5, -1.75, -0.5);
+				});
+
+				info.setRenderPortal((matrix, impl) -> {
+					matrix.pushPose();
+					matrix.translate(-0.05, -0.2, -0.5f);
+					matrix.scale(1.1F, 1.1F, 1.1F);
+					this.boti.render(matrix, impl.getBuffer(RenderType.entityCutout(this.getTexture())), packedLight, packedOverlay);
+					matrix.popPose();
+				});
+
+				BOTIRenderer.addPortal(info);
+				matrixStack.popPose();
+			});
+		}
 	}
+
 
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("weeping_angels", "textures/exteriors/abpropintdoor.png");
-
-	}
-
-	@Override
-	public void renderDoorWhenClosed(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, ModelRenderer doorBone) {
-
-	}
-
-	@Override
-	public void renderDoorWhenClosed(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, ModelRenderer... doorBones) {
-
-	}
-
-	@Override
-	public boolean doesDoorOpenIntoBotiWindow() {
-		return false;
 	}
 
 	@Override
