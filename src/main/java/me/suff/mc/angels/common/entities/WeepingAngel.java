@@ -38,13 +38,12 @@ import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EndPortalBlock;
-import net.minecraft.world.level.block.NetherPortalBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -321,8 +320,18 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private void playSeenSound(Player player) {
         if (player.distanceTo(this) < 15) {
             setTimeSincePlayedSound(System.currentTimeMillis());
-            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(SoundEvents.STONE_PLACE, SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F));
+            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F));
         }
+    }
+
+    public SoundEvent getSeenSound(){
+        AbstractVariant abstractVariant = getVariant();
+        ItemStack itemStack = abstractVariant.stackDrop();
+        if(itemStack.getItem() instanceof BlockItem blockItem){
+            Block block = blockItem.getBlock();
+            return block.defaultBlockState().getSoundType().getBreakSound();
+        }
+        return SoundEvents.STONE_PLACE;
     }
 
     @Override
@@ -374,7 +383,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     protected PathNavigation createNavigation(Level worldIn) {
-        GroundPathNavigation navigator = new GroundPathNavigation(this, worldIn);
+        WallClimberNavigation navigator = new WallClimberNavigation(this, worldIn);
         navigator.setCanFloat(false);
         navigator.setCanOpenDoors(true);
         navigator.setAvoidSun(false);

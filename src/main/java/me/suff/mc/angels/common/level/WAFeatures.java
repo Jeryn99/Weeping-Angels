@@ -6,6 +6,7 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.level.structures.GraveyardStructure;
+import me.suff.mc.angels.config.WAConfig;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
@@ -100,7 +101,7 @@ public class WAFeatures {
     @SubscribeEvent
     public static void gen(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
-        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
+        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND && WAConfig.CONFIG.genOres.get()) {
             for (PlacedFeature feature : ORES) {
                 gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
             }
