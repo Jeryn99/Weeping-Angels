@@ -17,9 +17,9 @@ public class Donator {
         this.perked = jsonObject.get("perked").getAsBoolean();
     }
 
-    public AngelType getPureWings(){
+    public AngelType getPureWings() {
         for (AngelType value : AngelType.values()) {
-            if(wings.equalsIgnoreCase(value.name())){
+            if (wings.equalsIgnoreCase(value.name())) {
                 return value;
             }
         }
@@ -38,11 +38,11 @@ public class Donator {
         return wings;
     }
 
-    public boolean isPerked() {
-        return perked;
-    }
-
     public void setWings(String wings) {
         this.wings = wings;
+    }
+
+    public boolean isPerked() {
+        return perked;
     }
 }

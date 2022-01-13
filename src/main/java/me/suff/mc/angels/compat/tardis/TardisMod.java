@@ -2,9 +2,8 @@ package me.suff.mc.angels.compat.tardis;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
-import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
-import me.suff.mc.angels.client.renders.tileentities.AbPropRender;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
+import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import me.suff.mc.angels.compat.tardis.registry.STiles;
 import me.suff.mc.angels.utils.EnumDoorTypes;
@@ -75,9 +74,9 @@ public class TardisMod {
 
     public static void clientStuff() {
         // Render Stuff
-        RenderTypeLookup.setRenderLayer(NewTardisBlocks.EXTERIOR_ABPROP.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(NewTardisBlocks.EXTERIOR_2005.get(), RenderType.translucent());
         //Exteriors
-        ClientRegistry.bindTileEntityRenderer(STiles.EXTERIOR_ABPROP.get(), AbPropRender::new);
+        ClientRegistry.bindTileEntityRenderer(STiles.EXTERIOR_2005.get(), AbPropRender::new);
         EnumDoorTypes.ABPROP.setInteriorDoorModel(new AbPropIntDoorModel());
     }
 
@@ -198,6 +197,5 @@ public class TardisMod {
         }
     }
 
-    ;
 
 }

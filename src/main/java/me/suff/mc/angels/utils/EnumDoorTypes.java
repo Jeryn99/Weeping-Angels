@@ -13,22 +13,24 @@ public enum EnumDoorTypes implements IDoorType {
 
 
     ABPROP(state -> {
-        switch(state) {
-            case CLOSED: return 0.0D;
-            case ONE: return 85.0;
-            case BOTH : return -85.0;
-            default:return 0.0;
+        switch (state) {
+            case CLOSED:
+                return 0.0D;
+            case ONE:
+                return 85.0;
+            case BOTH:
+                return -85.0;
+            default:
+                return 0.0;
         }
     }, EnumDoorState.CLOSED, EnumDoorState.ONE, EnumDoorState.BOTH);
-
-
 
 
     Function<EnumDoorState, Double> func;
     EnumDoorState[] validStates;
     Supplier<Supplier<IInteriorDoorRenderer>> renderer;
 
-    EnumDoorTypes(Function<EnumDoorState, Double> func, EnumDoorState... states){
+    EnumDoorTypes(Function<EnumDoorState, Double> func, EnumDoorState... states) {
         this.validStates = states;
         this.func = func;
     }

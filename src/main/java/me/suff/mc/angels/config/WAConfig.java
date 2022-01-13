@@ -92,9 +92,10 @@ public class WAConfig {
         pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
         stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
         moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
-        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
+        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow) - !!!! BLOCK BLACKLISTING: You may be looking for a config option in order to stop certain blocks from being broken. You can do this with a datapack using weeping_angels:angel_proof").define("blockBreaking", true);
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         builder.pop();
+
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtil.EnumTeleportType.RANDOM_PLACE);
         notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(DimensionType.END_EFFECTS.toString()), String.class::isInstance);
@@ -113,7 +114,6 @@ public class WAConfig {
         allowedAngelTypes = builder.translation("config.weeping_angels.allowed_types").comment("Toggle certain angel models (Only applies to Entity)").defineList("allowedAngelTypes", genAngelTypes(), String.class::isInstance);
         allowedVariants = builder.translation("config.weeping_angels.allowed_variants").comment("Toggle certain angel variants (Only applies to Entity)").defineList("allowedVariants", getAngelVariants(), String.class::isInstance);
         builder.pop();
-
     }
 
 

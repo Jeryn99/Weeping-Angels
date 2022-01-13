@@ -25,15 +25,8 @@ public class SantaHatLayer extends LayerRenderer<WeepingAngelEntity, EntityModel
         super(iEntityRenderer);
     }
 
-    @Override
-    public void render(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, WeepingAngelEntity weepingAngel, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
-        if(!weepingAngel.isInvisible() && DateChecker.isXmas()) {
-            santaHat(matrixStack, renderTypeBuffer, light, santaHat, getParentModel(), weepingAngel.getVariant());
-        }
-    }
-
     public static void santaHat(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, EntityModel santa, EntityModel model, AbstractVariant abstractVariant) {
-        if(abstractVariant.isHeadless()) return;
+        if (abstractVariant.isHeadless()) return;
         if (model instanceof IAngelModel) {
             IAngelModel angelModel = (IAngelModel) model;
             if (DateChecker.isXmas() && angelModel.getSantaAttachment(pMatrixStack, false) != null && WAConfig.CONFIG.showSantaHatsAtXmas.get()) {
@@ -43,6 +36,13 @@ public class SantaHatLayer extends LayerRenderer<WeepingAngelEntity, EntityModel
                 santa.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(SANTA)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
                 pMatrixStack.popPose();
             }
+        }
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, WeepingAngelEntity weepingAngel, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
+        if (!weepingAngel.isInvisible() && DateChecker.isXmas()) {
+            santaHat(matrixStack, renderTypeBuffer, light, santaHat, getParentModel(), weepingAngel.getVariant());
         }
     }
 

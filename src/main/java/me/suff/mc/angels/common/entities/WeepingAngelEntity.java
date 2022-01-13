@@ -76,7 +76,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
 
-
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return createMonsterAttributes().
                 add(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).

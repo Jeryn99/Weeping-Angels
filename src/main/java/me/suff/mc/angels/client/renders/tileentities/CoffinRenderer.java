@@ -28,6 +28,10 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
         super(rendererDispatcherIn);
     }
 
+    public static ResourceLocation getTexture(CoffinTile.Coffin coffin) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
+    }
+
     @Override
     public void render(CoffinTile tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
@@ -75,9 +79,5 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
             renderer.render(skeletonEntity, 0, 0, matrixStack, bufferIn, combinedLightIn);
             matrixStack.popPose();
         }
-    }
-
-    public static ResourceLocation getTexture(CoffinTile.Coffin coffin) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
     }
 }

@@ -16,12 +16,13 @@ public class TardisExteriorReg {
 
     public static final TexVariant[] PTB = {
             new TexVariant(CoffinRenderer.getTexture(CoffinTile.Coffin.PTB), "blue_windows"),
-            new TexVariant(CoffinRenderer.getTexture(CoffinTile.Coffin.PTB_2), "yellow_windows")
+            new TexVariant(CoffinRenderer.getTexture(CoffinTile.Coffin.PTB_2), "yellow_windows"),
+            new TexVariant(CoffinRenderer.getTexture(CoffinTile.Coffin.PTB_3), "battle")
     };
 
     public static final DeferredRegister<AbstractExterior> EXTERIORS = DeferredRegister.create(AbstractExterior.class, WeepingAngels.MODID);
 
-    public static final RegistryObject<AbstractExterior> ABPROP = EXTERIORS.register("2005exterior", () -> new TwoBlockBasicExterior(() -> NewTardisBlocks.EXTERIOR_ABPROP.get().defaultBlockState(), true, EnumDoorTypes.ABPROP, DoorSounds.WOOD, new ResourceLocation(WeepingAngels.MODID, "textures/gui/exteriors/abexterior.png"), PTB));
+    public static final RegistryObject<AbstractExterior> ABPROP = EXTERIORS.register("2005exterior", () -> new TwoBlockBasicExterior(() -> NewTardisBlocks.EXTERIOR_2005.get().defaultBlockState(), true, EnumDoorTypes.ABPROP, DoorSounds.WOOD, new ResourceLocation(WeepingAngels.MODID, "textures/gui/exteriors/abexterior.png"), PTB));
 
 
 }

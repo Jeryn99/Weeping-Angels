@@ -82,7 +82,7 @@ public class ClientUtil {
 
     public static void doClientStuff() {
 
-        if(ModList.get().isLoaded("tardis")){
+        if (ModList.get().isLoaded("tardis")) {
             TardisMod.clientStuff();
         }
 

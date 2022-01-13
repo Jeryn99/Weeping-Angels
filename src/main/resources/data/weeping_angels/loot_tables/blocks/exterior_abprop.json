@@ -2,12 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "weeping_angels:exterior_abprop",
+      "name": "weeping_angels:2005exterior",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "weeping_angels:exterior_abprop"
+          "name": "weeping_angels:2005exterior"
         }
       ]
     }

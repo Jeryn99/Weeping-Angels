@@ -13,8 +13,6 @@ import net.tardis.mod.blocks.TileBlock;
 
 public class STiles {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WeepingAngels.MODID);
-    //Exteriors
-    public static RegistryObject<TileEntityType<AbPropTile>> EXTERIOR_ABPROP = TILES.register("exterior_abprop", () -> registerTiles(AbPropTile::new, NewTardisBlocks.EXTERIOR_ABPROP.get()));
 
     private static <T extends TileEntity> TileEntityType<T> registerTiles(Supplier<T> tile, Block... validBlock) {
         TileEntityType<T> type = TileEntityType.Builder.of(tile, validBlock).build(null);
@@ -26,5 +24,8 @@ public class STiles {
         }
 
         return type;
-    }
+    }    //Exteriors
+    public static RegistryObject<TileEntityType<AbPropTile>> EXTERIOR_2005 = TILES.register("2005_exterior", () -> registerTiles(AbPropTile::new, NewTardisBlocks.EXTERIOR_2005.get()));
+
+
 }

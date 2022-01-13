@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
@@ -201,7 +200,7 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
     }
 
     public enum Coffin {
-        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB(true), PTB_2(true);
+        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB(true), PTB_2(true), PTB_3(true);
 
         private final boolean isPoliceBox;
 
@@ -213,16 +212,16 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
             this.isPoliceBox = isPoliceBox;
         }
 
-        public boolean isPoliceBox() {
-            return isPoliceBox;
-        }
-
         public static Coffin next(Coffin type) {
             int index = type.ordinal();
             int nextIndex = index + 1;
             Coffin[] angels = Coffin.values();
             nextIndex %= angels.length;
             return angels[nextIndex];
+        }
+
+        public boolean isPoliceBox() {
+            return isPoliceBox;
         }
     }
 }

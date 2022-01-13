@@ -52,7 +52,7 @@ public class AngelUtil {
     public static ITag.INamedTag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
     public static ITag.INamedTag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
     public static ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "translucent_blocks");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 

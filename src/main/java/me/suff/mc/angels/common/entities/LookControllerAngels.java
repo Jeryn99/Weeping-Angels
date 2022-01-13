@@ -14,9 +14,9 @@ public class LookControllerAngels extends LookController {
 
     @Override
     public void tick() {
-        if(angel instanceof WeepingAngelEntity){
+        if (angel instanceof WeepingAngelEntity) {
             WeepingAngelEntity weepingAngel = (WeepingAngelEntity) angel;
-            if(weepingAngel.getSeenTime() == 0){
+            if (weepingAngel.getSeenTime() == 0) {
                 super.tick();
             }
         }

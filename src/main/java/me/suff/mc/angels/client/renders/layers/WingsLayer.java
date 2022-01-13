@@ -50,9 +50,9 @@ public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, Player
 
     @Override
     public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int lighting, AbstractClientPlayerEntity playerEntity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
-        if(!playerEntity.isInvisible() && shouldDisplay(playerEntity) != null){
+        if (!playerEntity.isInvisible() && shouldDisplay(playerEntity) != null) {
             Donator data = shouldDisplay(playerEntity);
-            if(data.getWings().equalsIgnoreCase("Mercy")) {
+            if (data.getWings().equalsIgnoreCase("Mercy")) {
                 data.setWings(AngelType.DISASTER_MC.name());
             }
             matrixStack.pushPose();

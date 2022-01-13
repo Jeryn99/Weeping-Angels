@@ -1,7 +1,6 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.suff.mc.angels.client.models.SantaHat;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.client.renders.layers.SantaHatLayer;

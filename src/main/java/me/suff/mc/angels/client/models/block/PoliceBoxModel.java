@@ -120,6 +120,7 @@ public class PoliceBoxModel extends EntityModel<Entity> {
         LDoor.setPos(-13.0F, -3.0F, -15.0F);
         Doors.addChild(LDoor);
         LDoor.texOffs(0, 102).addBox(0.0F, -50.0F, -1.0F, 13.0F, 50.0F, 1.0F, 0.0F, false);
+        LDoor.texOffs(15, 55).addBox(11.5F, -2.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, false);
         LDoor.texOffs(0, 51).addBox(3.0F, -34.0F, 0.0F, 6.0F, 7.0F, 2.0F, 0.0F, false);
         LDoor.texOffs(0, 40).addBox(3.0F, -36.0F, 1.0F, 7.0F, 8.0F, 0.0F, 0.0F, false);
         LDoor.texOffs(0, 8).addBox(10.0F, -32.0F, -2.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
@@ -131,12 +132,12 @@ public class PoliceBoxModel extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         //previously the render function, render code was moved to a method below
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Posts.render(matrixStack, buffer, packedLight, packedOverlay);
         Panels.render(matrixStack, buffer, packedLight, packedOverlay);
         PPCB.render(matrixStack, buffer, packedLight, packedOverlay);

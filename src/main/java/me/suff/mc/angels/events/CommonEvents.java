@@ -27,7 +27,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -83,7 +82,7 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onBreak(BlockEvent.BreakEvent event){
+    public static void onBreak(BlockEvent.BreakEvent event) {
         PlayerEntity playerEntity = event.getPlayer();
         IWorld world = event.getWorld();
         BlockPos pos = event.getPos();
@@ -91,7 +90,7 @@ public class CommonEvents {
         // Plinth
         boolean isPlinth = world.getBlockEntity(pos) instanceof IPlinth;
         boolean hasChisel = playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem;
-        if(isPlinth && playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem){
+        if (isPlinth && playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
             plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
@@ -99,8 +98,8 @@ public class CommonEvents {
             PlayerUtil.sendMessageToPlayer(playerEntity, new TranslationTextComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }
 
-        if(playerEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() instanceof DebugStickItem && hasChisel){
-            if(world.getBlockEntity(pos) instanceof CoffinTile){
+        if (playerEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() instanceof DebugStickItem && hasChisel) {
+            if (world.getBlockEntity(pos) instanceof CoffinTile) {
                 event.setCanceled(true);
                 CoffinTile coffinTile = (CoffinTile) world.getBlockEntity(pos);
                 coffinTile.setCoffin(CoffinTile.Coffin.next(coffinTile.getCoffin()));

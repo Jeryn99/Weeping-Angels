@@ -1,18 +1,18 @@
 package me.suff.mc.angels;
 
-import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
-import me.suff.mc.angels.compat.tardis.registry.STiles;
 import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.compat.tardis.TardisMod;
+import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
+import me.suff.mc.angels.compat.tardis.registry.STiles;
+import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
-import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
 import me.suff.mc.angels.utils.FortuneEnchantBonus;
