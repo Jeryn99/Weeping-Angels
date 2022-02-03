@@ -5,9 +5,11 @@ import me.suff.mc.angels.common.entities.AngelType;
 
 public class Donator {
 
+    private String cate;
     private String uuid;
     private String variant;
     private String wings;
+    private String name;
     private boolean perked;
 
     public Donator(JsonObject jsonObject) {
@@ -15,6 +17,16 @@ public class Donator {
         this.variant = jsonObject.get("variant").getAsString();
         this.wings = jsonObject.get("wings").getAsString();
         this.perked = jsonObject.get("perked").getAsBoolean();
+        this.name = jsonObject.get("name").getAsString();
+    }
+
+    public Donator(JsonObject dev, String category) {
+        this(dev);
+        this.cate = category;
+    }
+
+    public String getCate() {
+        return cate;
     }
 
     public AngelType getPureWings() {
@@ -24,6 +36,10 @@ public class Donator {
             }
         }
         return AngelType.DISASTER_MC;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getUuid() {

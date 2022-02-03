@@ -1,6 +1,6 @@
 package me.suff.mc.angels.compat.tardis;
 
-import me.suff.mc.angels.compat.tardis.registry.STiles;
+import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
@@ -10,7 +10,7 @@ public class AbPropTile extends ExteriorTile {
     AxisAlignedBB NORTH_DOOR = new AxisAlignedBB(0, 0, -0.1, 1, 2, 0.5);
 
     public AbPropTile() {
-        super(STiles.EXTERIOR_2005.get());
+        super(TardisTiles.EXTERIOR_2005.get());
         this.setVariants(TardisExteriorReg.PTB);
     }
 

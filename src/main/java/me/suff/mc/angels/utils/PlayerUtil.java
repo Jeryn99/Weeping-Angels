@@ -73,7 +73,7 @@ public class PlayerUtil {
             if (result != null) {
                 for (JsonElement devs : result.getAsJsonArray(category)) {
                     JsonObject dev = devs.getAsJsonObject();
-                    donators.add(new Donator(dev));
+                    donators.add(new Donator(dev, category));
                 }
             }
         }

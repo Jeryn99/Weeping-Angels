@@ -5,7 +5,7 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import me.suff.mc.angels.compat.tardis.registry.STiles;
+import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -76,7 +76,7 @@ public class TardisMod {
         // Render Stuff
         RenderTypeLookup.setRenderLayer(NewTardisBlocks.EXTERIOR_2005.get(), RenderType.translucent());
         //Exteriors
-        ClientRegistry.bindTileEntityRenderer(STiles.EXTERIOR_2005.get(), AbPropRender::new);
+        ClientRegistry.bindTileEntityRenderer(TardisTiles.EXTERIOR_2005.get(), AbPropRender::new);
         EnumDoorTypes.ABPROP.setInteriorDoorModel(new AbPropIntDoorModel());
     }
 

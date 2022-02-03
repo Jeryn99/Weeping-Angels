@@ -3,6 +3,7 @@ package me.suff.mc.angels.data;
 import com.google.gson.*;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -33,7 +34,7 @@ public class WALootTables implements IDataProvider {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (block.getRegistryName().getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get()) {
+            if (block.getRegistryName().getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get() && block != NewTardisBlocks.EXTERIOR_2005.get()) {
                 this.generateSelfTable(block, cache, path);
             }
         }

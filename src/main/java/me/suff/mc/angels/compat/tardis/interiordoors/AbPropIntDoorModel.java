@@ -132,14 +132,6 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
         }
 
         IntDoors.render(matrixStack, buffer, packedLight, packedOverlay);
-        /*matrixStack.translate(0, 1.25, 0);
-        RDoor.render(matrixStack, buffer, packedLight, packedOverlay);
-        LDoor.render(matrixStack, buffer, packedLight, packedOverlay);
-        //boti.render(matrixStack, buffer, packedLight, packedOverlay);
-        matrixStack.translate(0, -1.5, 0);
-        PPCB.render(matrixStack, buffer, packedLight, packedOverlay);
-        Panels.render(matrixStack, buffer, packedLight, packedOverlay);
-        Posts.render(matrixStack, buffer, packedLight, packedOverlay);*/
         matrixStack.popPose();
     }
 

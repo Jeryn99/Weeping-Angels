@@ -7,7 +7,7 @@ import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import me.suff.mc.angels.compat.tardis.registry.STiles;
+import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -75,7 +75,7 @@ public class WeepingAngels {
         WAAttributes.ATTRIBUTES.register(bus);
 
         if (ModList.get().isLoaded("tardis")) {
-            STiles.TILES.register(bus);
+            TardisTiles.TILES.register(bus);
             NewTardisBlocks.BLOCKS.register(bus);
             TardisExteriorReg.EXTERIORS.register(bus);
             TardisMod.enableTardis();
