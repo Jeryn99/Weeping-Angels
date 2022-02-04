@@ -24,8 +24,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 
-import java.util.UUID;
-
 public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
     protected static Donator[] people = new Donator[0];
@@ -41,7 +39,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
 
     public static Donator shouldDisplay(Player player) {
         for (Donator person : people) {
-            if (player.getUUID().equals(UUID.fromString(person.getUuid())) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
+            if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
                 return person;
             }
         }
