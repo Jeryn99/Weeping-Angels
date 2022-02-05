@@ -2,16 +2,21 @@ package me.suff.mc.angels.client.renders;
 
 import com.google.gson.JsonObject;
 import me.suff.mc.angels.common.entities.AngelType;
+import java.util.UUID;
 
 public class Donator {
 
-    public String uuid;
+    public UUID uuid;
     public String variant;
     public String wings;
     public boolean perked;
 
     public Donator(JsonObject jsonObject) {
-        this.uuid = jsonObject.get("uuid").getAsString();
+        try {
+            this.uuid = UUID.fromString(jsonObject.get("uuid").getAsString());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         this.variant = jsonObject.get("variant").getAsString();
         this.wings = jsonObject.get("wings").getAsString();
         this.perked = jsonObject.get("perked").getAsBoolean();
@@ -26,7 +31,7 @@ public class Donator {
         return AngelType.DISASTER_MC;
     }
 
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
