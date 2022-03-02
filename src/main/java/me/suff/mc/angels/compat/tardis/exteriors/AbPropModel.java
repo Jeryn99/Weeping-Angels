@@ -2,17 +2,22 @@ package me.suff.mc.angels.compat.tardis.exteriors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import me.suff.mc.angels.compat.tardis.AbPropRender;
 import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.vector.Vector3f;
+import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.models.exteriors.ExteriorModel;
 import net.tardis.mod.client.renderers.boti.BOTIRenderer;
 import net.tardis.mod.client.renderers.boti.PortalInfo;
 import net.tardis.mod.client.renderers.exteriors.ClockExteriorRenderer;
 import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
+import net.tardis.mod.client.renderers.exteriors.SteamExteriorRenderer;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.enums.EnumMatterState;
+import net.tardis.mod.helper.Helper;
 import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 
@@ -167,14 +172,23 @@ public class AbPropModel extends ExteriorModel {
 
             info.setTranslatePortal(matrix -> {
                 matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(exterior.getBotiWorld().getPortalDirection())));
+                matrix.translate(-0.5, -0.5, -0.5);
+                matrix.translate(0.5, 0, 0);
             });
 
             info.setRenderPortal((matrix, buf) -> {
                 matrix.pushPose();
                 float botiScale = 0.8f;
                 matrix.scale(botiScale - 0.1f, 0.7f, botiScale);
-                matrix.translate(0.0, 1.6f, 0.4);
-                this.boti.render(matrix, buf.getBuffer(RenderType.entityTranslucent(ClockExteriorRenderer.TEXTURE)), packedLight, packedOverlay);
+                matrix.translate(0.0, 1.61f, 0.1);
+                this.boti.render(matrix, buf.getBuffer(TRenderTypes.getTardis(Helper.getVariantTextureOr(exterior.getVariant(), AbPropRender.TEXTURE))), packedLight, packedOverlay);
+                matrix.popPose();
+            });
+            
+            info.setRenderDoor((matrix, buf) -> {
+                matrix.pushPose();
+                this.LDoor.render(matrix, buf.getBuffer(TRenderTypes.getTardis(Helper.getVariantTextureOr(exterior.getVariant(), AbPropRender.TEXTURE))), packedLight, packedOverlay);
+                this.RDoor.render(matrix, buf.getBuffer(TRenderTypes.getTardis(Helper.getVariantTextureOr(exterior.getVariant(), AbPropRender.TEXTURE))), packedLight, packedOverlay);
                 matrix.popPose();
             });
 

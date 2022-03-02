@@ -17,11 +17,14 @@ import net.tardis.mod.client.renderers.boti.PortalInfo;
 import net.tardis.mod.client.renderers.entity.DoorRenderer;
 import net.tardis.mod.entity.DoorEntity;
 import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
+import net.tardis.mod.tileentities.ConsoleTile;
 
 public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
     public static final ResourceLocation BLU = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_blue.png");
     public static final ResourceLocation YELLOW = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_yellow.png");
+    public static final ResourceLocation WAR = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_war.png");
     private final ModelRenderer IntDoors;
     private final ModelRenderer Posts;
     private final ModelRenderer cube_r1;
@@ -31,7 +34,6 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
     private final ModelRenderer LDoor;
     private final ModelRenderer Panels;
     private final ModelRenderer boti;
-    private DoorEntity door;
 
 
     public AbPropIntDoorModel() {
@@ -112,7 +114,6 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
 
     @Override
     public void renderBones(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay) {
-        this.door = door;
         EnumDoorState state = door.getOpenState();
         matrixStack.pushPose();
         matrixStack.translate(0.0D, 0.6f - 0.08, -0.2f);
@@ -144,21 +145,23 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
                 info.setPosition(door.position());
                 info.setWorldShell(data.getBotiWorld());
                 info.setTranslate(matrix -> {
-                    matrix.scale(1.1f, 1.1f, 1.2f);
-                    matrix.translate(0.025, -1, 0);
+//                    matrix.scale(1.1f, 1.1f, 1.2f);
+                    matrix.translate(0.055, -0.5, 0);
                     DoorRenderer.applyTranslations(matrix, door.yRot - 180, door.getDirection());
                 });
                 info.setTranslatePortal(matrix -> {
+                	
                     matrix.mulPose(Vector3f.ZN.rotationDegrees(180));
                     matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(data.getBotiWorld().getPortalDirection())));
+                    matrix.translate(-0.5, -1, -0.5);
                 });
 
                 info.setRenderPortal((matrix, impl) -> {
                     matrix.pushPose();
                     float botiScale = 0.9f;
-                    matrix.scale(botiScale - 0.2F, botiScale - 0.3F, botiScale);
-                    matrix.translate(0, 1.0, 0.5f);
-                    this.boti.render(matrix, impl.getBuffer(RenderType.entityCutout(this.getTexture(door))), packedLight, packedOverlay);
+                    matrix.scale(botiScale - 0.3F, botiScale - 0.25F, botiScale + 0.1F);
+//                    matrix.translate(0, 1.0, 0.5f);
+                    this.boti.render(matrix, impl.getBuffer(RenderType.entityCutout(this.getTexture())), packedLight, packedOverlay);
                     matrix.popPose();
                 });
 
@@ -168,11 +171,6 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
         }
     }
 
-    public ResourceLocation getTexture(DoorEntity door) {
-        this.door = door;
-        return door.getConsole().getExteriorManager().getExteriorVariant() == 0 ? BLU : YELLOW;
-    }
-
     @Override
     public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
 
@@ -180,8 +178,11 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
 
     @Override
     public ResourceLocation getTexture() {
-        if (door != null) {
-            return getTexture(door);
+    	ConsoleTile tile = TardisHelper.getConsoleInWorld(Minecraft.getInstance().level).orElse(null);
+        if (tile != null) {
+            int index = tile.getExteriorManager().getExteriorVariant();
+            if (tile.getExteriorType().getVariants() != null && index < tile.getExteriorType().getVariants().length)
+                return tile.getExteriorType().getVariants()[index].getInteriorDoorTexture();
         }
         return BLU;
     }
