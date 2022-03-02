@@ -275,7 +275,7 @@ public class WAObjects {
         /**
          * Static instance of our configured structure feature so we can reference it for registration
          */
-        public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().configured(new ProbabilityConfig(5));
+        public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().configured(new ProbabilityConfig(0.05F));
         public static StructureFeature<?, ?> CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().configured(NoFeatureConfig.INSTANCE);
 
         public static void registerConfiguredStructures() {
