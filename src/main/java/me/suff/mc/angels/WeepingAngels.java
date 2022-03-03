@@ -2,6 +2,7 @@ package me.suff.mc.angels;
 
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelVariants;
@@ -73,7 +74,6 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
-
         if (ModList.get().isLoaded("tardis")) {
             TardisTiles.TILES.register(bus);
             NewTardisBlocks.BLOCKS.register(bus);

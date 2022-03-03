@@ -551,7 +551,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled() && !blockState.getBlock().is(AngelUtil.BANNED_BLOCKS);
+        return !eventAngelBreakEvent.isCanceled() || !blockState.getBlock().is(AngelUtil.BANNED_BLOCKS);
     }
 
     public float getLaugh() {

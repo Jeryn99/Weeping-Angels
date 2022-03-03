@@ -41,6 +41,7 @@ public class WABlockTags extends BlockTagsProvider {
                 add(AngelUtil.ANGEL_IGNORE, block);
             }
         }
+
     }
 
     public void add(ITag.INamedTag<Block> branch, Block block) {

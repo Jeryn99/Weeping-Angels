@@ -116,7 +116,7 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
     public void renderBones(DoorEntity door, MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay) {
         EnumDoorState state = door.getOpenState();
         matrixStack.pushPose();
-        matrixStack.translate(0.0D, 0.6f - 0.08, -0.2f);
+        matrixStack.translate(0.0D, 0.6f - 0.08, -0.1f);
         matrixStack.scale(0.65F, 0.65F, 0.65F);
         switch (state) {
             case ONE:

@@ -34,6 +34,9 @@ public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, Player
         DateChecker.update(true);
     }
 
+    public static Donator[] getPeople() {
+        return people;
+    }
 
     public static void update() {
         people = PlayerUtil.getDonators();

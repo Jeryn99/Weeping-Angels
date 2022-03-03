@@ -1,18 +1,25 @@
 package me.suff.mc.angels.compat.tardis;
 
+import com.google.common.collect.Lists;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
+import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
+import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -20,14 +27,21 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
+import net.tardis.mod.entity.ai.FollowIntoTardisGoal;
+import net.tardis.mod.entity.ai.FollowOutOfTardisGoal;
+import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.events.LivingEvents;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.misc.SpaceTimeCoord;
@@ -36,11 +50,13 @@ import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
+import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import net.tardis.mod.world.dimensions.TDimensions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -51,6 +67,15 @@ public class TardisMod {
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
     }
 
+    @SubscribeEvent
+    public void enterEvent(LivingEvents.TardisEnterEvent event) {
+        ExteriorTile exterior = event.getExterior();
+        Entity entity = event.getEntity();
+        if (entity instanceof WeepingAngelEntity) {
+            LazyOptional<ConsoleTile> console = TardisHelper.getConsole(ServerLifecycleHooks.getCurrentServer(), exterior.getInteriorDimensionKey());
+            console.ifPresent(consoleTile -> consoleTile.getUnlockManager().addExterior(TardisExteriorReg.ABPROP.get()));
+        }
+    }
 
     /*This method is called from WATeleporter::getRandomDimension, it removes all Tardis interior dimensions
     The reason for this, is because we do not want players teleported into those for the following reasons:
@@ -81,12 +106,21 @@ public class TardisMod {
     }
 
 
-    /* Before you ask, imagine how many roundels would just be ripped from the walls or a Angel just nuking a Tardis from existence*/
+    /* Before you ask, imagine how many roundels would just be ripped from the walls or an Angel just nuking a Tardis from existence*/
     @SubscribeEvent
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
         boolean isTardisDim = WorldHelper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
         boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
+    }
+
+    @SubscribeEvent //Juuuuust to make sure, but it doesnt seem to work
+    public void onCreated(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof WeepingAngelEntity) {
+            WeepingAngelEntity ent = (WeepingAngelEntity) event.getEntity();
+            ent.goalSelector.addGoal(0, new FollowIntoTardisGoal(ent, ent.getAttribute(Attributes.MOVEMENT_SPEED).getValue()));
+            ent.goalSelector.addGoal(1, new FollowOutOfTardisGoal(ent, ent.getAttribute(Attributes.MOVEMENT_SPEED).getValue()));
+        }
     }
 
     @SubscribeEvent
@@ -193,6 +227,19 @@ public class TardisMod {
                     int randLight = Objects.requireNonNull(console.getLevel()).random.nextInt(15);
                     console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
                 }
+            }
+        } else {
+            if (angel.level instanceof ServerWorld) {
+                Optional<TileEntity> optTile = angel.level.blockEntityList.stream().filter(tile -> tile instanceof ExteriorTile && tile.getBlockPos().closerThan(angel.blockPosition(), 3)).findFirst();
+                angel.level.getServer().tell(new TickDelayedTask(0, () ->
+                                optTile.ifPresent(tile -> {
+                                    ExteriorTile exterior = (ExteriorTile) tile;
+                                    if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
+                                        exterior.transferEntities(Lists.newArrayList(angel));
+                                    }
+                                })
+                        )
+                );
             }
         }
     }
