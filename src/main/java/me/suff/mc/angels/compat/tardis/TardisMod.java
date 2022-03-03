@@ -1,14 +1,13 @@
 package me.suff.mc.angels.compat.tardis;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
-import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
-import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
-import me.suff.mc.angels.utils.EnumDoorTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
@@ -20,10 +19,10 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
@@ -37,10 +36,6 @@ import net.tardis.mod.subsystem.Subsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.world.dimensions.TDimensions;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -70,14 +65,6 @@ public class TardisMod {
                 other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(World.OVERWORLD, blockPos)));
             });
         }
-    }
-
-    public static void clientStuff() {
-        // Render Stuff
-        RenderTypeLookup.setRenderLayer(NewTardisBlocks.EXTERIOR_2005.get(), RenderType.translucent());
-        //Exteriors
-        ClientRegistry.bindTileEntityRenderer(TardisTiles.EXTERIOR_2005.get(), AbPropRender::new);
-        EnumDoorTypes.ABPROP.setInteriorDoorModel(new AbPropIntDoorModel());
     }
 
 
@@ -195,6 +182,19 @@ public class TardisMod {
                 }
             }
         }
+    }
+    
+    @SubscribeEvent
+    public void onAngelEnterTardis(EntityJoinWorldEvent event) {
+    	if (!event.getEntity().level.isClientSide()) {
+    		if (WorldHelper.areDimensionTypesSame(event.getEntity().level, TDimensions.DimensionTypes.TARDIS_TYPE)) {
+                World world = event.getEntity().level;
+                ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
+                if (console != null) {
+                   console.getUnlockManager().addExterior(TardisExteriorReg.ABPROP.get());
+                }
+        	}
+    	}
     }
 
 

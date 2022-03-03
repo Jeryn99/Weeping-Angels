@@ -1,7 +1,19 @@
 package me.suff.mc.angels.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.client.models.entity.*;
+import me.suff.mc.angels.client.models.entity.ModelAngel;
+import me.suff.mc.angels.client.models.entity.ModelAngelChild;
+import me.suff.mc.angels.client.models.entity.ModelAngelEd;
+import me.suff.mc.angels.client.models.entity.ModelAngelMel;
+import me.suff.mc.angels.client.models.entity.ModelClassicAngel;
+import me.suff.mc.angels.client.models.entity.ModelDisasterAngel;
+import me.suff.mc.angels.client.models.entity.ModelDoctorAngel;
+import me.suff.mc.angels.client.models.entity.ModelDyingAngel;
+import me.suff.mc.angels.client.models.entity.ModelVAAngel;
+import me.suff.mc.angels.client.models.entity.ModelWeepingVillager;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.client.renders.entities.WeepingAngelsRenderer;
@@ -15,7 +27,7 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import me.suff.mc.angels.common.items.DetectorItem;
-import me.suff.mc.angels.compat.tardis.TardisMod;
+import me.suff.mc.angels.compat.tardis.TardisClientStuff;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;
@@ -31,9 +43,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ClientUtil {
 
@@ -83,7 +92,7 @@ public class ClientUtil {
     public static void doClientStuff() {
 
         if (ModList.get().isLoaded("tardis")) {
-            TardisMod.clientStuff();
+            TardisClientStuff.clientStuff();
         }
 
         ClientRegistry.bindTileEntityRenderer(WAObjects.Tiles.SNOW_ANGEL.get(), SnowArmTileRender::new);

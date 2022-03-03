@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import me.suff.mc.angels.compat.tardis.AbPropRender;
-import me.suff.mc.angels.utils.EnumDoorTypes;
+import me.suff.mc.angels.compat.tardis.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.vector.Vector3f;

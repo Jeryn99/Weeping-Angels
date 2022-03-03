@@ -1,13 +1,11 @@
-package me.suff.mc.angels.utils;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.tardis.mod.client.models.interiordoors.IInteriorDoorRenderer;
-import net.tardis.mod.enums.EnumDoorState;
-import net.tardis.mod.misc.IDoorType;
+package me.suff.mc.angels.compat.tardis;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import net.tardis.mod.client.models.interiordoors.IInteriorDoorRenderer;
+import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.misc.IDoorType;
 
 public enum EnumDoorTypes implements IDoorType {
 
@@ -45,12 +43,12 @@ public enum EnumDoorTypes implements IDoorType {
         return func.apply(state);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public void setInteriorDoorModel(IInteriorDoorRenderer renderer) {
         this.renderer = () -> () -> renderer;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public IInteriorDoorRenderer getInteriorDoorRenderer() {
         return this.renderer.get().get();
     }

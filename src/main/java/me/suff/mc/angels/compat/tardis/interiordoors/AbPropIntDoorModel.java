@@ -2,8 +2,10 @@ package me.suff.mc.angels.compat.tardis.interiordoors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.utils.EnumDoorTypes;
+
+import me.suff.mc.angels.compat.tardis.EnumDoorTypes;
+import me.suff.mc.angels.compat.tardis.TardisClientStuff;
+import me.suff.mc.angels.compat.tardis.WATexVariants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -22,9 +24,7 @@ import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.tileentities.ConsoleTile;
 
 public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
-    public static final ResourceLocation BLU = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_blue.png");
-    public static final ResourceLocation YELLOW = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_yellow.png");
-    public static final ResourceLocation WAR = new ResourceLocation(WeepingAngels.MODID, "textures/exteriors/ab_door_war.png");
+    
     private final ModelRenderer IntDoors;
     private final ModelRenderer Posts;
     private final ModelRenderer cube_r1;
@@ -184,6 +184,6 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
             if (tile.getExteriorType().getVariants() != null && index < tile.getExteriorType().getVariants().length)
                 return tile.getExteriorType().getVariants()[index].getInteriorDoorTexture();
         }
-        return BLU;
+        return WATexVariants.BLU;
     }
 }

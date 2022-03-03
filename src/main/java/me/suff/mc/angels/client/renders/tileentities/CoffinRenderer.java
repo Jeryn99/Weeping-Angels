@@ -1,11 +1,12 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.suff.mc.angels.WeepingAngels;
+
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
 import me.suff.mc.angels.common.blocks.CoffinBlock;
 import me.suff.mc.angels.common.tileentities.CoffinTile;
+import me.suff.mc.angels.utils.TextureUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -26,10 +27,6 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
 
     public CoffinRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
-    }
-
-    public static ResourceLocation getTexture(CoffinTile.Coffin coffin) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/tiles/coffin/" + coffin.name().toLowerCase() + ".png");
     }
 
     @Override
@@ -57,7 +54,7 @@ public class CoffinRenderer extends TileEntityRenderer<CoffinTile> {
         renderSkeleton(tileEntityIn, matrixStack, bufferIn, combinedLightIn);
 
         //Handle actual rendering
-        ResourceLocation texture = getTexture(tileEntityIn.getCoffin());
+        ResourceLocation texture = TextureUtil.getCoffinTexture(tileEntityIn.getCoffin());
         if (!tileEntityIn.getCoffin().isPoliceBox()) {
             coffinModel.door.yRot = -(tileEntityIn.getOpenAmount() * ((float) Math.PI / 3F));
             coffinModel.renderToBuffer(matrixStack, bufferIn.getBuffer(RenderType.entityCutout(texture)), combinedLightIn, combinedOverlayIn, 1, 1, 1, 1);
