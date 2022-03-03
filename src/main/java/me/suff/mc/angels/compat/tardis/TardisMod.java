@@ -6,7 +6,6 @@ import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
-import me.suff.mc.angels.utils.EnumDoorTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.particles.ParticleTypes;
