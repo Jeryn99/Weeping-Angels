@@ -232,6 +232,12 @@ public class ModelVAAngel extends EntityModel<WeepingAngelEntity> implements IAn
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
+
+        //TODO: This is dumb
+        if (abstractVariant != AngelVariants.NORMAL.get() && abstractVariant != AngelVariants.RUSTED.get()) {
+            abstractVariant = AngelVariants.NORMAL.get();
+        }
+
         String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
         String coreFolder = "textures/entities/spare_time/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";

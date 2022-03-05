@@ -51,9 +51,7 @@ public class WeepingAngelsRenderer extends MobRenderer<WeepingAngelEntity, Entit
             pMatrixStackIn.popPose();
         }
 
-        pMatrixStackIn.pushPose();
         super.render(weepingAngelEntity, pEntityYaw, pPartialTicks, pMatrixStackIn, pBufferIn, pPackedLightIn);
-        pMatrixStackIn.popPose();
     }
 
     @Override

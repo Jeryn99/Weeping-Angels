@@ -21,6 +21,7 @@ public class WeepingHeldItem<T extends LivingEntity, M extends EntityModel<T>> e
         super(iEntityRenderer);
     }
 
+    @Override
     public void render(MatrixStack p_225628_1_, IRenderTypeBuffer p_225628_2_, int p_225628_3_, T p_225628_4_, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         boolean flag = p_225628_4_.getMainArm() == HandSide.RIGHT;
         ItemStack itemstack = flag ? p_225628_4_.getOffhandItem() : p_225628_4_.getMainHandItem();
@@ -39,19 +40,20 @@ public class WeepingHeldItem<T extends LivingEntity, M extends EntityModel<T>> e
         }
     }
 
-    private void renderArmWithItem(LivingEntity p_229135_1_, ItemStack p_229135_2_, ItemCameraTransforms.TransformType p_229135_3_, HandSide p_229135_4_, MatrixStack p_229135_5_, IRenderTypeBuffer p_229135_6_, int p_229135_7_) {
+    
+    private void renderArmWithItem(LivingEntity p_229135_1_, ItemStack p_229135_2_, ItemCameraTransforms.TransformType p_229135_3_, HandSide p_229135_4_, MatrixStack matrix, IRenderTypeBuffer p_229135_6_, int p_229135_7_) {
         if (!p_229135_2_.isEmpty()) {
-            p_229135_5_.pushPose();
+            matrix.pushPose();
             if (this.getParentModel() instanceof IHasArm) {
                 IHasArm arm = (IHasArm) this.getParentModel();
-                arm.translateToHand(p_229135_4_, p_229135_5_);
-                p_229135_5_.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
-                p_229135_5_.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+                arm.translateToHand(p_229135_4_, matrix);
+                matrix.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
+                matrix.mulPose(Vector3f.YP.rotationDegrees(180.0F));
                 boolean flag = p_229135_4_ == HandSide.LEFT;
-                p_229135_5_.translate((float) (flag ? -1 : 1) / 16.0F, 0.125D, -0.625D);
-                Minecraft.getInstance().getItemInHandRenderer().renderItem(p_229135_1_, p_229135_2_, p_229135_3_, flag, p_229135_5_, p_229135_6_, p_229135_7_);
-                p_229135_5_.popPose();
+                matrix.translate((float) (flag ? -1 : 1) / 16.0F, 0.125D, -0.625D);
+                Minecraft.getInstance().getItemInHandRenderer().renderItem(p_229135_1_, p_229135_2_, p_229135_3_, flag, matrix, p_229135_6_, p_229135_7_);
             }
+            matrix.popPose();
         }
     }
 }

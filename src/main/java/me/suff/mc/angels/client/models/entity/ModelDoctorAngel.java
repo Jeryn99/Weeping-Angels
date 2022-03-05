@@ -1,7 +1,4 @@
-package me.suff.mc.angels.client.models.entity;// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package me.suff.mc.angels.client.models.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;

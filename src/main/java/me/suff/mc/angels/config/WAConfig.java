@@ -175,6 +175,7 @@ public class WAConfig {
         allowedTypes.add("VILLAGER");
         allowedTypes.add("VIO_1");
         allowedTypes.add("VIO_2");
+        allowedTypes.add("SPARE_TIME");
         return allowedTypes;
     }
 }

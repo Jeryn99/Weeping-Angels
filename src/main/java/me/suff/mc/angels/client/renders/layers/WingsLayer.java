@@ -58,7 +58,6 @@ public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, Player
             if (data.getWings().equalsIgnoreCase("Mercy")) {
                 data.setWings(AngelType.DISASTER_MC.name());
             }
-            matrixStack.pushPose();
             EntityModel<WeepingAngelEntity> model = ClientUtil.getModelForAngel(data.getPureWings());
             if (model instanceof IAngelModel) {
                 IAngelModel iAngelModel = (IAngelModel) model;
@@ -71,7 +70,6 @@ public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, Player
                     }
                 }
             }
-            matrixStack.popPose();
         }
     }
 }
