@@ -36,7 +36,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -65,25 +64,8 @@ public class AngelUtil {
     public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
 
     public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
+    public static TagKey<ConfiguredStructureFeature<?, ?>> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
 
-    public static StructureFeature[] END_STRUCTURES = new StructureFeature[]{StructureFeature.END_CITY};
-    public static StructureFeature[] OVERWORLD_STRUCTURES = new StructureFeature[]{
-
-            StructureFeature.PILLAGER_OUTPOST,
-            StructureFeature.MINESHAFT,
-            StructureFeature.WOODLAND_MANSION,
-            StructureFeature.JUNGLE_TEMPLE,
-            StructureFeature.DESERT_PYRAMID,
-            StructureFeature.IGLOO,
-            StructureFeature.RUINED_PORTAL,
-            StructureFeature.SHIPWRECK,
-            StructureFeature.SWAMP_HUT,
-            StructureFeature.STRONGHOLD,
-            StructureFeature.OCEAN_MONUMENT,
-            StructureFeature.BURIED_TREASURE,
-            StructureFeature.VILLAGE
-    };
-    public static StructureFeature[] NETHER_STRUCTURES = new StructureFeature[]{StructureFeature.BASTION_REMNANT, StructureFeature.NETHER_FOSSIL, StructureFeature.FORTRESS};
     public static Random RAND = new Random();
 
     public static TagKey<Item> makeItem(String domain, String path) {
@@ -92,6 +74,10 @@ public class AngelUtil {
 
     public static TagKey<Block> makeBlock(String domain, String path) {
         return BlockTags.create(new ResourceLocation(domain, path));
+    }
+
+    public static TagKey<ConfiguredStructureFeature<?, ?>> makeStructure(String domain, String path) {
+        return TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(domain, path));
     }
 
     public static TagKey<Biome> makeBiome(String domain, String path) {
@@ -114,9 +100,6 @@ public class AngelUtil {
         }
     }
 
-    /**
-     * Checks if the entity has a item that emites light in their hand
-     */
     public static boolean handLightCheck(LivingEntity player) {
         ArrayList<Item> heldItems = Lists.newArrayList(TagUtil.getValues(Registry.ITEM, AngelUtil.HELD_LIGHT_ITEMS).iterator());
 
@@ -132,9 +115,6 @@ public class AngelUtil {
         return !world.getWorldBorder().isWithinBounds(p);
     }
 
-    /**
-     * Converts seconds into ticks
-     */
     public static int secondsToTicks(int seconds) {
         return 20 * seconds;
     }
@@ -216,14 +196,12 @@ public class AngelUtil {
         return builder;
     }
 
-
-    //TODO!
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAFeatures.CATACOMB.get()).isValid();
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAFeatures.CATACOMB.get()).getBoundingBox();
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
         }
@@ -239,7 +217,12 @@ public class AngelUtil {
         return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
 
+    public static ConfiguredStructureFeature<?, ?> getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
+        Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+        return registry.get(resourceLocation);
+    }
+
     public enum EnumTeleportType {
-        STRUCTURES, RANDOM_PLACE, DONT
+        RANDOM_PLACE, DONT, STRUCTURE
     }
 }

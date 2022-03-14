@@ -1,5 +1,5 @@
 {
-  "type": "weeping_angels:catacomb",
+  "type": "weeping_angels:catacombs",
   "config": {
     "start_pool": "weeping_angels:catacombs/normal/catacomb",
     "size": 7

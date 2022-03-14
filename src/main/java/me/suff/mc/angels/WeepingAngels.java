@@ -112,6 +112,7 @@ public class WeepingAngels {
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WABiomeGen(generator, existingFileHelper));
+        generator.addProvider(new WAStructureTagGen(generator, existingFileHelper));
         generator.addProvider(new WARecipeGen(generator));
         // generator.addProvider(new WALootTables(generator));
     }

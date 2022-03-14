@@ -5,6 +5,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blocks.StatueBlock;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -111,8 +112,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         if (level.isClientSide) return;
 
         ServerLevel world = (ServerLevel) level;
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), WAWorld.GRAVEYARD.get()).isValid();
-        boolean isGraveYard = false;
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).isValid();
         if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
             Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
             if (playerentity != null) {

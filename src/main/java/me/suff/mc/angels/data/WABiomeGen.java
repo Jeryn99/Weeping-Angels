@@ -4,7 +4,6 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.tags.TagManager;

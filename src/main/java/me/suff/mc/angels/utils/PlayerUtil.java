@@ -82,7 +82,7 @@ public class PlayerUtil {
         return donators.toArray(new Donator[0]);
     }
 
-    public static String uuidToUsername(UUID uuid){
+    public static String uuidToUsername(UUID uuid) {
         try {
             JsonObject response = getResponse(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString()));
             response.get("name").getAsString();

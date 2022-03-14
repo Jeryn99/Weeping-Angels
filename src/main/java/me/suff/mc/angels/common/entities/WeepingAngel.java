@@ -5,7 +5,6 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
-import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -459,12 +458,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (level.isClientSide) return;
         AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
         switch (type) {
+            case STRUCTURE -> WATeleporter.handleStructures(player);
             case DONT -> doHurtTarget(player);
-            case STRUCTURES -> Objects.requireNonNull(level.getServer()).tell(new TickTask(level.getServer().getTickCount() + 1, () -> {
-                if (!WATeleporter.handleStructures(player)) {
-                    dealDamage(player);
-                }
-            }));
             case RANDOM_PLACE -> {
                 double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
                 double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());

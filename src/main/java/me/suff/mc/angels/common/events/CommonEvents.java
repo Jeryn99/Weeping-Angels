@@ -8,6 +8,7 @@ import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.items.ChiselItem;
+import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageCatacomb;
@@ -111,13 +112,13 @@ public class CommonEvents {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
 
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).isValid();
 
         if (!isGraveYard) return;
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
-            if (isGraveYard && !player.getAbilities().instabuild) {
-                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).getBoundingBox();
+            if (!player.getAbilities().instabuild) {
+                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).getBoundingBox();
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();

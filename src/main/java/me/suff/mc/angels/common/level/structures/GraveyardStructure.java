@@ -3,7 +3,6 @@ package me.suff.mc.angels.common.level.structures;
 import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.client.renders.Donator;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
@@ -11,7 +10,6 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.level.WAPieces;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.PlayerUtil;
 import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -132,13 +130,13 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         @Override
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
-           if (USERNAMES.length == 0) {
+            if (USERNAMES.length == 0) {
                 try {
                     loadNames();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-           }
+            }
 
             if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
                 USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerNamesArray());

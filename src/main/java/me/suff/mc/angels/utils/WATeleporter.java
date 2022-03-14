@@ -6,13 +6,15 @@ import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.network.messages.MessageSFX;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.commands.LocateCommand;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ConfiguredStructureTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -51,30 +53,8 @@ public class WATeleporter {
                 }
             }
         }
-
         allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
-
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
-    }
-
-    public static boolean handleStructures(ServerPlayer player) {
-
-        StructureFeature[] targetStructure = switch (player.level.dimension().location().toString()) {
-            case "minecraft:overworld" -> AngelUtil.OVERWORLD_STRUCTURES;
-            case "minecraft:end" -> AngelUtil.END_STRUCTURES;
-            case "minecraft:nether" -> AngelUtil.NETHER_STRUCTURES;
-            default -> null;
-        };
-
-        if (targetStructure != null) {
-            ServerLevel serverWorld = (ServerLevel) player.level;
-            BlockPos bPos = serverWorld.findNearestMapFeature(targetStructure[player.level.random.nextInt(targetStructure.length)], player.blockPosition(), Integer.MAX_VALUE, false);
-            if (bPos != null) {
-                teleportPlayerTo(player, bPos, player.getLevel());
-                return true;
-            }
-        }
-        return false;
     }
 
     public static void teleportPlayerTo(ServerPlayer player, BlockPos destinationPos, ServerLevel targetDimension) {
@@ -82,6 +62,18 @@ public class WATeleporter {
         player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yHeadRot, player.xRotO);
     }
 
+    public static boolean handleStructures(ServerPlayer player) {
+        TagKey<ConfiguredStructureFeature<?, ?>> targetStructure = AngelUtil.TELEPORT_STRUCTURES;
+        if (targetStructure != null) {
+            ServerLevel serverWorld = (ServerLevel) player.level;
+            BlockPos bPos = serverWorld.findNearestMapFeature(targetStructure, player.blockPosition(), Integer.MAX_VALUE, false);
+            if (bPos != null) {
+                teleportPlayerTo(player, bPos, player.getLevel());
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean isPosBelowOrAboveWorld(Level dim, int y) {
         if (dim.dimension() == Level.NETHER) {

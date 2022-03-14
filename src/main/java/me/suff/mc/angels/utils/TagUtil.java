@@ -13,12 +13,12 @@ public class TagUtil {
         return registry.getTagOrEmpty(tagKey);
     }
 
-    public static Stream getAllTagsForObject(Registry registry, ResourceKey resourceKey){
+    public static Stream getAllTagsForObject(Registry registry, ResourceKey resourceKey) {
         return registry.getHolderOrThrow(resourceKey).tags();
     }
 
-    public static boolean checkIfObjectHasTag(Registry registry, ResourceKey objectKey, ResourceKey tagkey){
-       return registry.getHolderOrThrow(objectKey).is(tagkey);
+    public static boolean checkIfObjectHasTag(Registry registry, ResourceKey objectKey, ResourceKey tagkey) {
+        return registry.getHolderOrThrow(objectKey).is(tagkey);
     }
 
 }
