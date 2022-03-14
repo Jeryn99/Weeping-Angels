@@ -8,7 +8,7 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
@@ -60,11 +60,11 @@ public class WABlockTags extends BlockTagsProvider {
         }
     }
 
-    public void add(Tag.Named<Block> branch, Block block) {
+    public void add(TagKey<Block> branch, Block block) {
         this.tag(branch).add(block);
     }
 
-    public void add(Tag.Named<Block> branch, Block... block) {
+    public void add(TagKey<Block> branch, Block... block) {
         this.tag(branch).add(block);
     }
 }

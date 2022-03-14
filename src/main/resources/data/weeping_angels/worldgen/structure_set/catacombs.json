@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "weeping_angels:catacombs",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 28040454,
+    "spacing": 3456,
+    "separation": 2678,
+    "type": "minecraft:random_spread"
+  }
+}

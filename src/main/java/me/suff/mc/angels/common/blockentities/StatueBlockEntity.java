@@ -111,7 +111,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         if (level.isClientSide) return;
 
         ServerLevel world = (ServerLevel) level;
-//TODO !!!!!        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), WAWorld.GRAVEYARD.get()).isValid();
         boolean isGraveYard = false;
         if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
             Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);

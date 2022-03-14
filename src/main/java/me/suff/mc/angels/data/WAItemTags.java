@@ -6,7 +6,7 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PickaxeItem;
@@ -43,7 +43,7 @@ public class WAItemTags extends ItemTagsProvider {
 
     }
 
-    public void add(Tag.Named<Item> branch, Item block) {
+    public void add(TagKey<Item> branch, Item block) {
         this.tag(branch).add(block);
     }
 }

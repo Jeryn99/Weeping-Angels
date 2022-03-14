@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.level.structures;
 import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
+import me.suff.mc.angels.client.renders.Donator;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
@@ -10,7 +11,11 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.level.WAPieces;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.PlayerUtil;
+import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -115,19 +120,25 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         }
 
         public static Block getRandomPottedPlant(Random random) {
-            List<Block> plants = AngelUtil.POTTED_PLANTS.getValues();
+            ArrayList<Block> plants = new ArrayList<>();
+
+            //TODO This is bad! But I cannot find a inbuilt way to do this correctly
+            for (Object o : TagUtil.getValues(Registry.BLOCK, AngelUtil.POTTED_PLANTS)) {
+                Holder<Block> value = (Holder<Block>) o;
+                plants.add(value.value());
+            }
             return plants.get(random.nextInt(plants.size()));
         }
 
         @Override
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
-            if (USERNAMES.length == 0) {
+           if (USERNAMES.length == 0) {
                 try {
                     loadNames();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+           }
 
             if (ServerLifecycleHooks.getCurrentServer().isDedicatedServer()) {
                 USERNAMES = ArrayUtils.addAll(USERNAMES, ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerNamesArray());
@@ -192,7 +203,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         private void loadNames() throws IOException {
             ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");
-            InputStream stream = ServerLifecycleHooks.getCurrentServer().getServerResources().getResourceManager().getResource(resourceLocation).getInputStream();
+            InputStream stream = ServerLifecycleHooks.getCurrentServer().getServerResources().resourceManager().getResource(resourceLocation).getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             StringBuilder sb = new StringBuilder();
             String line;

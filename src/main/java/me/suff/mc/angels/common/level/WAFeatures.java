@@ -14,12 +14,14 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.*;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -33,56 +35,20 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WAFeatures {
 
 
     public static final DeferredRegister<StructureFeature<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, WeepingAngels.MODID);
-    public static final RegistryObject<StructureFeature<JigsawConfiguration>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacomb", () -> (new CatacombStructure(JigsawConfiguration.CODEC)));
+    public static final RegistryObject<StructureFeature<JigsawConfiguration>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacomb", CatacombStructure::new);
     public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> GRAVEYARD = DEFERRED_REGISTRY_STRUCTURE.register("graveyard", () -> (new GraveyardStructure(NoneFeatureConfiguration.CODEC)));
     private static final HashSet<PlacedFeature> FEATURES = new HashSet<>();
     private static final HashSet<PlacedFeature> ORES = new HashSet<>();
 
-    public static void setupStructures() {
-        setupMapSpacingAndLand(CATACOMB.get(), new StructureFeatureConfiguration(10000, 5000, 1234567890), false);
-        setupMapSpacingAndLand(GRAVEYARD.get(), new StructureFeatureConfiguration(10000, 8000, 1234353780), true);
-    }
-
-    public static <F extends StructureFeature<?>> void setupMapSpacingAndLand(F structure, StructureFeatureConfiguration structureFeatureConfiguration, boolean transformSurroundingLand) {
-        StructureFeature.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
-
-        if (transformSurroundingLand) {
-            StructureFeature.NOISE_AFFECTING_FEATURES =
-                    ImmutableList.<StructureFeature<?>>builder()
-                            .addAll(StructureFeature.NOISE_AFFECTING_FEATURES)
-                            .add(structure)
-                            .build();
-        }
-
-        StructureSettings.DEFAULTS =
-                ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration>builder()
-                        .putAll(StructureSettings.DEFAULTS)
-                        .put(structure, structureFeatureConfiguration)
-                        .build();
-
-
-        BuiltinRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
-            Map<StructureFeature<?>, StructureFeatureConfiguration> structureMap = settings.getValue().structureSettings().structureConfig();
-
-            if (structureMap instanceof ImmutableMap) {
-                Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(structureMap);
-                tempMap.put(structure, structureFeatureConfiguration);
-                settings.getValue().structureSettings().structureConfig = tempMap;
-            } else {
-                structureMap.put(structure, structureFeatureConfiguration);
-            }
-        });
-    }
 
     public static void ores() {
-        BlockState blockState = WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState();
+  /*      BlockState blockState = WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState();
         BlockState blockStateDeep = WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState();
         List<OreConfiguration.TargetBlockState> targetBlockStateList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, blockState), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, blockStateDeep));
         ConfiguredFeature<?, ?> feature = FeatureUtils.register("kontron_ore", Feature.ORE.configured(new OreConfiguration(targetBlockStateList, 9)));
@@ -93,11 +59,11 @@ public class WAFeatures {
 
         ConfiguredFeature<SimpleBlockConfiguration, ?> snowAngelFeature = FeatureUtils.register("snow_angel", Feature.SIMPLE_BLOCK.configured(new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()))));
         PlacedFeature snowAngelPlaced = PlacementUtils.register("snow_angel", snowAngelFeature.placed(RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
-        FEATURES.add(snowAngelPlaced);
-
+        FEATURES.add(snowAngelPlaced);*/
     }
 
 
+/*
     @SubscribeEvent
     public static void gen(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
@@ -114,6 +80,7 @@ public class WAFeatures {
             }
         }
     }
+*/
 
     // Taken from Oreplacements, should really be made public by Forge
     private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {

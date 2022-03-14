@@ -32,7 +32,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: "official", version: "1.18"
+    mappings channel: "official", version: "1.18.2"
 
     runs {
 
@@ -95,8 +95,8 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.5'
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.15'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 mixin {
@@ -115,7 +115,6 @@ if (System.getProperty("idea.sync.active") == "true") {
     }
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {
         attributes([
@@ -133,7 +132,6 @@ jar {
 processResources {
     duplicatesStrategy = 'exclude'
 }
-
 
 
 // Example configuration to allow publishing using the maven-publish plugin
@@ -163,7 +161,7 @@ curseforge {
             changelog = new File("${project.projectDir}/changelog.html").text
             changelogType = 'html'
             releaseType = 'release'
-            addGameVersion '1.18'
+            addGameVersion '1.18.2'
             mainArtifact(jar) {
                 displayName = "[1.18.X] Weeping Angels - $project.version"
             }

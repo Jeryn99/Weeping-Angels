@@ -1,65 +1,34 @@
 package me.suff.mc.angels.common.level.structures;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.Codec;
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.event.world.StructureSpawnListGatherEvent;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Optional;
 
 public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
 
     protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal", "classic"};
-    private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_MONSTERS = Lazy.of(() -> ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 100, 4, 9)));
-    private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_CREATURES = Lazy.of(() -> ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(EntityType.BAT, 30, 10, 15),
-            new MobSpawnSettings.SpawnerData(EntityType.SPIDER, 100, 1, 2)
-    ));
 
-
-    public CatacombStructure(Codec<JigsawConfiguration> codec) {
-        super(codec, (context) -> {
-                    if (!CatacombStructure.isFeatureChunk(context)) {
-                        return Optional.empty();
-                    } else {
-                        return CatacombStructure.createPiecesGenerator(context);
-                    }
-                },
-                PostPlacementProcessor.NONE);
+    public CatacombStructure() {
+        super(JigsawConfiguration.CODEC, CatacombStructure::createPiecesGenerator, PostPlacementProcessor.NONE);
     }
 
-    public static void setupStructureSpawns(final StructureSpawnListGatherEvent event) {
-        if (event.getStructure() == WAFeatures.CATACOMB.get()) {
-            event.addEntitySpawns(MobCategory.MONSTER, STRUCTURE_MONSTERS.get());
-            event.addEntitySpawns(MobCategory.CREATURE, STRUCTURE_CREATURES.get());
-        }
-    }
 
     private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
@@ -67,46 +36,37 @@ public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
         return context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ()))) && WAConfig.CONFIG.genCatacombs.get();
     }
 
-    public static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
-        BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0).atY(AngelUtil.RAND.nextInt(30) * (AngelUtil.RAND.nextBoolean() ? -1 : 1));
-        NoiseColumn blockReader = context.chunkGenerator().getBaseColumn(blockpos.getX(), blockpos.getZ(), context.heightAccessor());
 
-        String choosen = variants[AngelUtil.RAND.nextInt(variants.length)];
+    private static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> jigsawConfigurationContext) {
 
-        JigsawConfiguration newConfig = new JigsawConfiguration(
-                () -> context.registryAccess().ownedRegistryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
-                        .get(new ResourceLocation(WeepingAngels.MODID, "catacombs/" + choosen + "/catacomb")),
-                10
-        );
+        // Check if the spot is valid for our structure. This is just as another method for cleanness.
+        // Returning an empty optional tells the game to skip this spot as it will not generate the structure.
+        if (!CatacombStructure.isFeatureChunk(jigsawConfigurationContext)) {
+            return Optional.empty();
+        }
 
-        PieceGeneratorSupplier.Context<JigsawConfiguration> newContext = new PieceGeneratorSupplier.Context<>(
-                context.chunkGenerator(),
-                context.biomeSource(),
-                context.seed(),
-                context.chunkPos(),
-                newConfig,
-                context.heightAccessor(),
-                context.validBiome(),
-                context.structureManager(),
-                context.registryAccess()
-        );
+        // Turns the chunk coordinates into actual coordinates we can use. (Gets center of that chunk)
+        BlockPos blockpos = jigsawConfigurationContext.chunkPos().getMiddleBlockPosition(0);
+
+        // Random Y value between -30, -40
+        int yPos = Mth.randomBetweenInclusive(AngelUtil.RAND, 30, 40) * -1;
 
         Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
                 JigsawPlacement.addPieces(
-                        newContext,
+                        jigsawConfigurationContext,
                         PoolElementStructurePiece::new,
-                        blockpos,
+                        blockpos.atY(yPos),
                         false,
                         false
                 );
 
-
         if (structurePiecesGenerator.isPresent()) {
-            WeepingAngels.LOGGER.log(Level.DEBUG, "Catacombs at " + blockpos);
+            WeepingAngels.LOGGER.log(Level.INFO, "Catacomb Structure at {}", blockpos);
         }
 
         return structurePiecesGenerator;
     }
+
 
     @Override
     public GenerationStep.Decoration step() {

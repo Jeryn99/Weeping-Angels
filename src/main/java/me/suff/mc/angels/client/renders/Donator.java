@@ -2,10 +2,12 @@ package me.suff.mc.angels.client.renders;
 
 import com.google.gson.JsonObject;
 import me.suff.mc.angels.common.entities.AngelType;
+
 import java.util.UUID;
 
 public class Donator {
 
+    private final String name;
     public UUID uuid;
     public String variant;
     public String wings;
@@ -20,6 +22,11 @@ public class Donator {
         this.variant = jsonObject.get("variant").getAsString();
         this.wings = jsonObject.get("wings").getAsString();
         this.perked = jsonObject.get("perked").getAsBoolean();
+        this.name = jsonObject.get("name").getAsString();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public AngelType getPureWings() {

@@ -36,7 +36,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.player.Player;
@@ -197,7 +196,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public boolean isInCatacomb() {
         if (level instanceof ServerLevel serverWorld) {
-            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAFeatures.CATACOMB.get(), blockPosition(), 100, false);
+            BlockPos catacomb = null; //serverWorld.getLevel().findNearestMapFeature(WAFeatures.CATACOMB.get(), blockPosition(), 100, false);
             if (catacomb == null) {
                 return false;
             }
@@ -324,10 +323,10 @@ public class WeepingAngel extends QuantumLockedLifeform {
         }
     }
 
-    public SoundEvent getSeenSound(){
+    public SoundEvent getSeenSound() {
         AbstractVariant abstractVariant = getVariant();
         ItemStack itemStack = abstractVariant.stackDrop();
-        if(itemStack.getItem() instanceof BlockItem blockItem){
+        if (itemStack.getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
             return block.defaultBlockState().getSoundType().getBreakSound();
         }

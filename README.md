@@ -3,7 +3,8 @@
         <img width="60%" src="http://cf.way2muchnoise.eu/versions/weeping-angels-mod.svg"> <br>
         <img width="30%" src="http://cf.way2muchnoise.eu/weeping-angels-mod.svg"> 
 
-Minecraft Mod || Weeping Angel || This is a mod that adds the terrifying Weeping Angels to the Game, Minecraft. Don't Blink!
+Minecraft Mod || Weeping Angel || This is a mod that adds the terrifying Weeping Angels to the Game, Minecraft. Don't
+Blink!
 
 </p>
 
@@ -14,7 +15,6 @@ Minecraft Mod || Weeping Angel || This is a mod that adds the terrifying Weeping
 Dependencies:
 <p>If you are playing in Single Player, you will need won't need to do anything extra. But if you are playing on a server, both you and the server will require <a href="https://www.curseforge.com/minecraft/mc-mods/vivecraft-forge-extensions">Vivecraft Forge Extensions</a>
 to be installed. Non-VR Users will not need this installed.  </p>
-
 
 | Minecraft Version | Vivecraft Supported? |
 | ------------------- | --------------- | 

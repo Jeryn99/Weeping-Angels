@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.apache.http.HttpHeaders.USER_AGENT;
 
@@ -79,6 +80,16 @@ public class PlayerUtil {
         }
 
         return donators.toArray(new Donator[0]);
+    }
+
+    public static String uuidToUsername(UUID uuid){
+        try {
+            JsonObject response = getResponse(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString()));
+            response.get("name").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static JsonObject getResponse(URL url) throws IOException {

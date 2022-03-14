@@ -14,10 +14,12 @@ import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import me.suff.mc.angels.utils.PlayerUtil;
+import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -36,6 +38,7 @@ import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -53,8 +56,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.commons.compress.utils.Lists;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -106,14 +111,13 @@ public class CommonEvents {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
 
-        boolean isGraveYard = false;//TODO !!!!!world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).isValid();
 
         if (!isGraveYard) return;
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
             if (isGraveYard && !player.getAbilities().instabuild) {
-                //TODO !!!!! BoundingBox box = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).getBoundingBox();
-                BoundingBox box = null;
+                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, WAWorld.GRAVEYARD.get()).getBoundingBox();
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
@@ -232,8 +236,9 @@ public class CommonEvents {
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
 
         //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-        for (String biome : WAConfig.CONFIG.allowedBiomes.get()) {
-            if (biome.equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
+        ArrayList<Biome> biomes = Lists.newArrayList(TagUtil.getValues(BuiltinRegistries.BIOME, AngelUtil.STRUCTURE_SPAWNS).iterator());
+        for (Biome biome : biomes) {
+            if (biome.getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
                 WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
             }

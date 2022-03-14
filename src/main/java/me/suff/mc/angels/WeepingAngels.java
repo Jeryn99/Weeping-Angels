@@ -9,15 +9,11 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.WAWorld;
 import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.data.WABlockTags;
-import me.suff.mc.angels.data.WAItemTags;
-import me.suff.mc.angels.data.WALangEnglish;
-import me.suff.mc.angels.data.WARecipeGen;
+import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ClientUtil;
@@ -45,6 +41,8 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static me.suff.mc.angels.common.level.WAPieces.init;
+
 @Mod("weeping_angels")
 public class WeepingAngels {
 
@@ -64,9 +62,6 @@ public class WeepingAngels {
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
-        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-        forgeBus.addListener(EventPriority.NORMAL, WAWorld::addDimensionalSpacing);
-        forgeBus.addListener(EventPriority.NORMAL, CatacombStructure::setupStructureSpawns);
         StartupMessageManager.addModMessage("Don't Blink!");
     }
 
@@ -87,13 +82,9 @@ public class WeepingAngels {
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
-        event.enqueueWork(() ->
-        {
-            WAFeatures.ores();
-            WAFeatures.setupStructures();
-            WAWorld.registerConfiguredStructures();
-        });
+        event.enqueueWork(WAFeatures::ores);
         VR_REFLECTOR.init();
+        init();
     }
 
 
@@ -120,6 +111,7 @@ public class WeepingAngels {
         generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new WALangEnglish(generator));
+        generator.addProvider(new WABiomeGen(generator, existingFileHelper));
         generator.addProvider(new WARecipeGen(generator));
         // generator.addProvider(new WALootTables(generator));
     }

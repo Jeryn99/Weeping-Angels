@@ -6,12 +6,11 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,6 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minSpawn;
     public final ForgeConfigSpec.EnumValue<MobCategory> spawnType;
-    public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
     // Angel
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
@@ -81,7 +79,6 @@ public class WAConfig {
         maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 5, 1, 100);
         spawnWeight = builder.translation("config.weeping_angels.spawnWeight").comment("The angel spawn spawn weight").defineInRange("spawnWeight", 5, 1, 100);
         spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
-        allowedBiomes = builder.translation("config.weeping_angels.allowedBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("allowedBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
@@ -136,25 +133,6 @@ public class WAConfig {
             }
         }
         return false;
-    }
-
-    public ArrayList<String> genBiomesForSpawn() {
-        ArrayList<String> spawnBiomes = new ArrayList<>();
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            spawnBiomes.add(biome.getRegistryName().toString());
-        }
-        return spawnBiomes;
-    }
-
-
-    public ArrayList<String> getDefaultWorldGenBiomes() {
-        ArrayList<String> spawnBiomes = new ArrayList<>();
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            if (biome.getBiomeCategory() != Biome.BiomeCategory.OCEAN || biome.getBiomeCategory() != Biome.BiomeCategory.THEEND || biome.getBiomeCategory() != Biome.BiomeCategory.NETHER) {
-                spawnBiomes.add(biome.getRegistryName().toString());
-            }
-        }
-        return spawnBiomes;
     }
 
     public ArrayList<String> getAngelVariants() {

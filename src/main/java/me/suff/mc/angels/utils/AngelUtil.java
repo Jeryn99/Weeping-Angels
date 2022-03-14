@@ -19,7 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,8 +32,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -45,7 +47,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.compress.utils.Lists;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -54,11 +58,14 @@ import static me.suff.mc.angels.common.blockentities.CoffinBlockEntity.Coffin.*;
 
 public class AngelUtil {
 
-    public static Tag.Named<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static Tag.Named<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static Tag.Named<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
-    public static Tag.Named<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static Tag.Named<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static TagKey<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static TagKey<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static TagKey<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static TagKey<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+
+    public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
+
     public static StructureFeature[] END_STRUCTURES = new StructureFeature[]{StructureFeature.END_CITY};
     public static StructureFeature[] OVERWORLD_STRUCTURES = new StructureFeature[]{
 
@@ -76,15 +83,19 @@ public class AngelUtil {
             StructureFeature.BURIED_TREASURE,
             StructureFeature.VILLAGE
     };
-    public static StructureFeature[] NETHER_STRUCTURES = new StructureFeature[]{StructureFeature.BASTION_REMNANT, StructureFeature.NETHER_FOSSIL, StructureFeature.NETHER_BRIDGE};
+    public static StructureFeature[] NETHER_STRUCTURES = new StructureFeature[]{StructureFeature.BASTION_REMNANT, StructureFeature.NETHER_FOSSIL, StructureFeature.FORTRESS};
     public static Random RAND = new Random();
 
-    public static Tag.Named<Item> makeItem(String domain, String path) {
-        return ItemTags.createOptional(new ResourceLocation(domain, path));
+    public static TagKey<Item> makeItem(String domain, String path) {
+        return ItemTags.create(new ResourceLocation(domain, path));
     }
 
-    public static Tag.Named<Block> makeBlock(String domain, String path) {
-        return BlockTags.createOptional(new ResourceLocation(domain, path));
+    public static TagKey<Block> makeBlock(String domain, String path) {
+        return BlockTags.create(new ResourceLocation(domain, path));
+    }
+
+    public static TagKey<Biome> makeBiome(String domain, String path) {
+        return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(domain, path));
     }
 
     public static boolean isDarkForPlayer(QuantumLockedLifeform angel, LivingEntity living) {
@@ -107,7 +118,9 @@ public class AngelUtil {
      * Checks if the entity has a item that emites light in their hand
      */
     public static boolean handLightCheck(LivingEntity player) {
-        for (Item item : AngelUtil.HELD_LIGHT_ITEMS.getValues()) {
+        ArrayList<Item> heldItems = Lists.newArrayList(TagUtil.getValues(Registry.ITEM, AngelUtil.HELD_LIGHT_ITEMS).iterator());
+
+        for (Item item : heldItems) {
             if (PlayerUtil.isInEitherHand(player, item)) {
                 return true;
             }
@@ -203,6 +216,8 @@ public class AngelUtil {
         return builder;
     }
 
+
+    //TODO!
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
             boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAFeatures.CATACOMB.get()).isValid();
