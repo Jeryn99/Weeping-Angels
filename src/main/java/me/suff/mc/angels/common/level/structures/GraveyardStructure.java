@@ -13,6 +13,7 @@ import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -119,8 +120,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         public static Block getRandomPottedPlant(Random random) {
             ArrayList<Block> plants = new ArrayList<>();
-
-            //TODO This is bad! But I cannot find a inbuilt way to do this correctly
+            //TODO This is bad! But I cannot find a inbuilt way to do this correctly, there is a way though
             for (Object o : TagUtil.getValues(Registry.BLOCK, AngelUtil.POTTED_PLANTS)) {
                 Holder<Block> value = (Holder<Block>) o;
                 plants.add(value.value());

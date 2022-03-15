@@ -13,6 +13,7 @@ public class TagUtil {
         return registry.getTagOrEmpty(tagKey);
     }
 
+
     public static Stream getAllTagsForObject(Registry registry, ResourceKey resourceKey) {
         return registry.getHolderOrThrow(resourceKey).tags();
     }

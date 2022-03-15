@@ -1,6 +1,8 @@
 7ce40d23cfd8239073b1e6ae14eec0a77a9e5ef7 assets/weeping_angels/lang/en_us.json
 ca0fffe95ad4872992f9acdbf3b07b03bc37a056 data/forge/tags/blocks/ores.json
+ca0fffe95ad4872992f9acdbf3b07b03bc37a056 data/forge/tags/blocks/ores_in_ground/stone.json
 dee10ddc483c7d34d73c64bce57670f9ec2b2de8 data/minecraft/tags/blocks/mineable/pickaxe.json
+ca0fffe95ad4872992f9acdbf3b07b03bc37a056 data/minecraft/tags/blocks/needs_stone_tool.json
 648e08fc9e4f034ad159318ab4d5c6605f4e8498 data/minecraft/tags/blocks/stone_bricks.json
 f24f8a5b7718e30d4a3422786f511e9f5f683ab5 data/weeping_angels/advancements/recipes/angels/blast_kontron.json
 d11d36773abb9396dc92822e63911125e0cb0824 data/weeping_angels/advancements/recipes/angels/blast_kontron_deep.json

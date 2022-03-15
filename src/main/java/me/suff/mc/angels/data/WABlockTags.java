@@ -21,6 +21,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Objects;
 
+import static net.minecraft.tags.BlockTags.NEEDS_STONE_TOOL;
+
 public class WABlockTags extends BlockTagsProvider {
 
 
@@ -30,17 +32,17 @@ public class WABlockTags extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
+        add(Tags.Blocks.ORES, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
+        add(Tags.Blocks.ORES_IN_GROUND_STONE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
+        add(NEEDS_STONE_TOOL, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
 
-        for (RegistryObject<AbstractVariant> entry : AngelTypes.VARIANTS.getEntries()) {
-            System.out.println(entry.get().getRegistryName());
-        }
-
-        add(Tags.Blocks.ORES, WAObjects.Blocks.KONTRON_ORE.get());
-        add(Tags.Blocks.ORES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get());
         add(BlockTags.STONE_BRICKS, WAObjects.Blocks.SNOW_ANGEL.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.PLINTH.get());
+
         add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         add(BlockTags.MINEABLE_WITH_PICKAXE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), WAObjects.Blocks.PLINTH.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.SNOW_ANGEL.get());
+
+
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
