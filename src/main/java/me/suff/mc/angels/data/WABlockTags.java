@@ -2,8 +2,6 @@ package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.variants.AbstractVariant;
-import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Objects;
 
@@ -41,8 +38,6 @@ public class WABlockTags extends BlockTagsProvider {
         add(AngelUtil.BANNED_BLOCKS, Blocks.MAGMA_BLOCK, Blocks.GLOWSTONE, Blocks.SEA_LANTERN);
 
         add(BlockTags.MINEABLE_WITH_PICKAXE, WAObjects.Blocks.KONTRON_ORE.get(), WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), WAObjects.Blocks.PLINTH.get(), WAObjects.Blocks.STATUE.get(), WAObjects.Blocks.SNOW_ANGEL.get());
-
-
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {

@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class WABiomeGen extends TagsProvider<Biome> {
 
     public WABiomeGen(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator, BuiltinRegistries.BIOME, WeepingAngels.MODID, helper, TagManager.getTagDir(BuiltinRegistries.BIOME.key()).substring(5));
+        super(generator, BuiltinRegistries.BIOME, WeepingAngels.MODID, helper);
     }
 
     @Override
