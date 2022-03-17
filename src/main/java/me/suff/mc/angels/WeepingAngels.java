@@ -1,5 +1,6 @@
 package me.suff.mc.angels;
 
+import me.suff.mc.angels.common.WAGlm;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.AngelType;
@@ -74,6 +75,8 @@ public class WeepingAngels {
         WAObjects.Structures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
+        WAGlm.GLM.register(bus);
+
         if (ModList.get().isLoaded("tardis")) {
             TardisTiles.TILES.register(bus);
             NewTardisBlocks.BLOCKS.register(bus);
@@ -111,6 +114,7 @@ public class WeepingAngels {
         generator.addProvider(new WALangEnglish(generator));
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));
+        generator.addProvider(new LootTablesForDrops(generator));
     }
 
 
