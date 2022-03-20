@@ -1,7 +1,6 @@
 package me.suff.mc.angels.data;
 
 import com.google.gson.JsonObject;
-import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -26,7 +25,7 @@ public class WAGlobalLoot {
     public static final RegistryObject<DiscLoot.Serializer> ANGEL_LOOT = GLM.register("loot", DiscLoot.Serializer::new);
 
     public static ItemStack genMusicDisc(Random random) {
-        return new ItemStack(random.nextBoolean()  ? WAObjects.Items.SALLY.get() : WAObjects.Items.TIME_PREVAILS.get());
+        return new ItemStack(random.nextBoolean() ? WAObjects.Items.SALLY.get() : WAObjects.Items.TIME_PREVAILS.get());
     }
 
     public static class DiscLoot extends LootModifier {

@@ -18,7 +18,7 @@ public class LootTablesForDrops extends GlobalLootModifierProvider {
     protected void start() {
 
         //FOB WATCH
-        ResourceLocation[] fobWatchTables = new ResourceLocation[]{
+        ResourceLocation[] specificTables = new ResourceLocation[]{
                 BuiltInLootTables.ABANDONED_MINESHAFT,
                 BuiltInLootTables.BASTION_BRIDGE,
                 BuiltInLootTables.LIBRARIAN_GIFT,
@@ -27,7 +27,7 @@ public class LootTablesForDrops extends GlobalLootModifierProvider {
                 BuiltInLootTables.SHIPWRECK_SUPPLY
         };
 
-        for (ResourceLocation currentTable : fobWatchTables) {
+        for (ResourceLocation currentTable : specificTables) {
             add(currentTable.getPath(), WAGlobalLoot.ANGEL_LOOT.get(), new WAGlobalLoot.DiscLoot(
                     new LootItemCondition[]{LootTableIdCondition.builder(currentTable).build()}, 15)
             );

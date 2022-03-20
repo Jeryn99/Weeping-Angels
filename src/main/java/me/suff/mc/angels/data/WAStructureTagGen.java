@@ -5,7 +5,6 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
