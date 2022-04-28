@@ -2,9 +2,7 @@ package me.suff.mc.angels.compat.tardis.interiordoors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import me.suff.mc.angels.compat.tardis.EnumDoorTypes;
-import me.suff.mc.angels.compat.tardis.TardisClientStuff;
 import me.suff.mc.angels.compat.tardis.WATexVariants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
@@ -24,7 +22,7 @@ import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.tileentities.ConsoleTile;
 
 public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
-    
+
     private final ModelRenderer IntDoors;
     private final ModelRenderer Posts;
     private final ModelRenderer cube_r1;
@@ -150,7 +148,7 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
                     DoorRenderer.applyTranslations(matrix, door.yRot - 180, door.getDirection());
                 });
                 info.setTranslatePortal(matrix -> {
-                	
+
                     matrix.mulPose(Vector3f.ZN.rotationDegrees(180));
                     matrix.mulPose(Vector3f.YP.rotationDegrees(WorldHelper.getAngleFromFacing(data.getBotiWorld().getPortalDirection())));
                     matrix.translate(-0.5, -1, -0.5);
@@ -178,7 +176,7 @@ public class AbPropIntDoorModel extends AbstractInteriorDoorModel {
 
     @Override
     public ResourceLocation getTexture() {
-    	ConsoleTile tile = TardisHelper.getConsoleInWorld(Minecraft.getInstance().level).orElse(null);
+        ConsoleTile tile = TardisHelper.getConsoleInWorld(Minecraft.getInstance().level).orElse(null);
         if (tile != null) {
             int index = tile.getExteriorManager().getExteriorVariant();
             if (tile.getExteriorType().getVariants() != null && index < tile.getExteriorType().getVariants().length)

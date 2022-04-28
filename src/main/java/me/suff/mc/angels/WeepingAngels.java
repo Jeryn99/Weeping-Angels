@@ -3,14 +3,15 @@ package me.suff.mc.angels;
 import me.suff.mc.angels.common.WAGlm;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.WAPaintings;
-import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelVariants;
 import me.suff.mc.angels.compat.tardis.TardisMod;
+import me.suff.mc.angels.compat.tardis.datagen.TardisSchemGen;
+import me.suff.mc.angels.compat.tardis.datagen.TardisSpectroGen;
 import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
+import me.suff.mc.angels.compat.tardis.registry.TardisTiles;
 import me.suff.mc.angels.compat.vr.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
@@ -115,6 +116,11 @@ public class WeepingAngels {
         generator.addProvider(new WARecipeGen(generator));
         generator.addProvider(new WALootTables(generator));
         generator.addProvider(new LootTablesForDrops(generator));
+
+        if (ModList.get().isLoaded("tardis")) {
+            generator.addProvider(new TardisSpectroGen(generator));
+            generator.addProvider(new TardisSchemGen(generator));
+        }
     }
 
 

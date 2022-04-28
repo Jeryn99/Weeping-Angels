@@ -1,4 +1,4 @@
-02eacb95c72b776c2f6bafaa4bed8778140eca26 assets/weeping_angels/lang/en_us.json
+2b03b740c084316e016a5fa1e67c1ed77308817d assets/weeping_angels/lang/en_us.json
 dce14c929228cc15814fa800fb658c5c3c4a8b69 data/forge/loot_modifiers/global_loot_modifiers.json
 648e08fc9e4f034ad159318ab4d5c6605f4e8498 data/minecraft/tags/blocks/stone_bricks.json
 0732c2d9ed5515b1a9b87f237236dcf3a9bcd677 data/weeping_angels/advancements/recipes/angels/blast_kontron.json
@@ -38,3 +38,4 @@ d4f63d3261b329a871c4ded30798938f219a2dea data/weeping_angels/tags/blocks/angel_p
 902e67ec6064d4428f604e15bf43357b5c8e5e6c data/weeping_angels/tags/blocks/translucent_blocks.json
 28267f7b8e96195f9dd61fae4c8db9697e2a60e9 data/weeping_angels/tags/items/angel_theft.json
 c359b4fedf01a479bf4b65d973c1bce634ebed7e data/weeping_angels/tags/items/held_light_items.json
+a4249729b43810d77ff0304a609f382fb9aad8e4 data/weeping_angels/unlock_schematics/exteriors/2005exterior.json

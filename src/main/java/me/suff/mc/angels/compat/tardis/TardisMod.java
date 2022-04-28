@@ -9,11 +9,17 @@ import com.google.common.collect.Lists;
 
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
+import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
+import me.suff.mc.angels.common.tileentities.IPlinth;
+import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
+import me.suff.mc.angels.utils.AngelUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
@@ -24,16 +30,22 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.tardis.mod.cap.items.sonic.SonicCapability;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
+import net.tardis.mod.items.SonicItem;
 import net.tardis.mod.misc.SpaceTimeCoord;
+import net.tardis.mod.schematics.ExteriorUnlockSchematic;
+import net.tardis.mod.schematics.Schematic;
+import net.tardis.mod.schematics.Schematics;
 import net.tardis.mod.sounds.TSounds;
 import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
@@ -45,10 +57,19 @@ import net.tardis.mod.world.dimensions.TDimensions;
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
 
+
+
+    public static ExteriorUnlockSchematic getSchem() {
+        ExteriorUnlockSchematic schem = (ExteriorUnlockSchematic) Schematics.SCHEMATIC_REGISTRY.get(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
+        Schematics.SCHEMATIC_REGISTRY.forEach((resourceLocation, schematic) -> System.out.println(resourceLocation));
+        return schem;
+    }
+
     public static void enableTardis() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(new TardisMod());
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
+
     }
 
 
@@ -200,6 +221,20 @@ public class TardisMod {
                     )
                 );
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void rightClick(PlayerInteractEvent.RightClickBlock event){
+        TileEntity blockEntity = event.getWorld().getBlockEntity(event.getPos());
+
+        if(blockEntity instanceof IPlinth && event.getItemStack().getItem() instanceof SonicItem && AngelUtil.isInCatacomb(event.getEntityLiving())){
+            event.setCanceled(true);
+            ItemStack sonic = event.getItemStack();
+            SonicCapability.getForStack(sonic).ifPresent(iSonic -> {
+                iSonic.addSchematic(getSchem());
+                iSonic.sync(event.getPlayer(), event.getHand());
+            });
         }
     }
 
