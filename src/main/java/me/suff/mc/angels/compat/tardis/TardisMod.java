@@ -60,9 +60,7 @@ public class TardisMod {
 
 
     public static ExteriorUnlockSchematic getSchem() {
-        ExteriorUnlockSchematic schem = (ExteriorUnlockSchematic) Schematics.SCHEMATIC_REGISTRY.get(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
-        Schematics.SCHEMATIC_REGISTRY.forEach((resourceLocation, schematic) -> System.out.println(resourceLocation));
-        return schem;
+        return (ExteriorUnlockSchematic) Schematics.SCHEMATIC_REGISTRY.get(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
     }
 
     public static void enableTardis() {

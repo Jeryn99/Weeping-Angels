@@ -22,9 +22,7 @@ import net.minecraft.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -551,9 +549,14 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     }
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
+
+        if (blockState.getBlock().is(AngelUtil.BANNED_BLOCKS)) {
+            return false;
+        }
+
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled() || !blockState.getBlock().is(AngelUtil.BANNED_BLOCKS);
+        return !eventAngelBreakEvent.isCanceled();
     }
 
     public float getLaugh() {
