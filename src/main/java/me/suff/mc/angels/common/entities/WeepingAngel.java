@@ -10,8 +10,10 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.TagUtil;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -48,6 +50,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -548,9 +551,16 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
+
+        if (TagUtil.hasTag(ForgeRegistries.BLOCKS, AngelUtil.ANGEL_IGNORE, blockState.getBlock())) {
+            return false;
+        }
+
+
+
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled() && !blockState.is(AngelUtil.BANNED_BLOCKS);
+        return !eventAngelBreakEvent.isCanceled();
     }
 
     public float getLaugh() {
