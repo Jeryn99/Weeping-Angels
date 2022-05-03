@@ -102,6 +102,8 @@ public class WALangEnglish extends LanguageProvider {
         add("texvar.weeping_angels.yellow_windows", "2005 - Yellow Windows");
         add("texvar.weeping_angels.blue_windows", "2005 - Blue Windows");
         add("texvar.weeping_angels.battle", "2005 - Battle");
+        add("texvar.weeping_angels.damaged", "2005 - Damaged");
+        add("texvar.weeping_angels.yellow_darker", "2005 - Yellow Windows - Darker");
         add("exterior.weeping_angels.2005_exterior", "2005 Exterior");
         add("exterior.weeping_angels.2005exterior", "2005 Exterior");
 
