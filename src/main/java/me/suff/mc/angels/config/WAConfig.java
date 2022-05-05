@@ -32,9 +32,9 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue genGraveyard;
     public final ForgeConfigSpec.BooleanValue genCatacombs;
     // Spawn
-    public final ForgeConfigSpec.IntValue maxSpawn;
+    public final ForgeConfigSpec.IntValue maxCount;
     public final ForgeConfigSpec.IntValue spawnWeight;
-    public final ForgeConfigSpec.IntValue minSpawn;
+    public final ForgeConfigSpec.IntValue minCount;
     public final ForgeConfigSpec.EnumValue<EntityClassification> spawnType;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedBiomes;
     // Angel
@@ -69,17 +69,17 @@ public class WAConfig {
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
         builder.push("world_gen");
-        arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
+        arms = builder.translation("config.weeping_angels.genArms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
         genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
         genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
         genCatacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Configure whether Catacombs Structures spawn. This will require a restart when changed.").define("genCatacombs", true);
         builder.pop();
         builder.push("spawn");
-        minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
-        maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 5, 1, 100);
-        spawnWeight = builder.translation("config.weeping_angels.spawnWeight").comment("The angel spawn spawn weight").defineInRange("spawnWeight", 5, 1, 100);
-        spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER);
-        allowedBiomes = builder.translation("config.weeping_angels.allowedBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("allowedBiomes", genBiomesForSpawn(), String.class::isInstance);
+        minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
+        maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 3, 1, 100);
+        spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 25, 1, Integer.MAX_VALUE);
+        spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER );
+        allowedBiomes = builder.translation("config.weeping_angels.spawnBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("spawnBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
@@ -139,7 +139,9 @@ public class WAConfig {
     public ArrayList<String> genBiomesForSpawn() {
         ArrayList<String> spawnBiomes = new ArrayList<>();
         for (Biome biome : ForgeRegistries.BIOMES) {
-            spawnBiomes.add(biome.getRegistryName().toString());
+            if(biome.getBiomeCategory() == Biome.Category.NETHER || biome.getBiomeCategory() == Biome.Category.FOREST || biome.getBiomeCategory() == Biome.Category.PLAINS) {
+                spawnBiomes.add(biome.getRegistryName().toString());
+            }
         }
         return spawnBiomes;
     }

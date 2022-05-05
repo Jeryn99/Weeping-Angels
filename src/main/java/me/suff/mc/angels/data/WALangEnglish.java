@@ -59,18 +59,18 @@ public class WALangEnglish extends LanguageProvider {
         add("config.weeping_angels.angeldimteleport", "Angel inter-dimensional teleporting");
         add("config.weeping_angels.block_break_range", "Block break Range");
         add("config.weeping_angels.chicken_go_boom", "Chicken Explosions?");
-        add("config.weeping_angels.max_spawn", "Angel - Maximum spawn");
-        add("config.weeping_angels.spawn_probability", "Spawn Probability");
-        add("config.weeping_angels.min_spawn", "Angel - Minimum Spawn");
+        add("config.weeping_angels.spawn_weight", "Spawn Weight");
+        add("config.weeping_angels.minCount", "Weeping Angel - Minimum Spawn");
+        add("config.weeping_angels.maxCount", "Weeping Angel - Maximum spawn");
         add("config.weeping_angels.angel.block_break", "Block breaking");
         add("config.weeping_angels.blowout_torch", "Blow out torch");
-        add("config.weeping_angels.genCatacombs", "Gen catacombs?");
-        add("config.weeping_angels.chanceGenCatacombs", "Chance to generate a catacomb");
+        add("config.weeping_angels.genCatacombs", "Generate catacombs?");
         add("config.weeping_angels.teleport_instant", "Just teleport & No Damage?");
         add("config.weeping_angels.spawntype", "Spawn type");
         add("config.weeping_angels.angel_speed", "Angel Speed");
         add("config.weeping_angels.disallowed_blocks", "A list of blocks angels should NOT break.");
         add("config.weeping_angels.disallowed_dimensions", "A list of dimensions angels should NOT go to.");
+        add("config.weeping_angels.spawnBiomes", "A list of biomes where 'Weeping Angels' should spawn");
         add("config.weeping_angels.angel_move_sound", "Toggle movement sounds for the angels");
         add("config.weeping_angels.angel_seen_sound", "Toggle seen sounds for the angels");
         add("config.weeping_angels.teleport_type", "The Teleport type");
@@ -82,10 +82,11 @@ public class WALangEnglish extends LanguageProvider {
         add("config.weeping_angels.around_player_range", "Angel target range");
         add("config.weeping_angels.moveSpeed", "Angel move Speed");
         add("config.weeping_angels.transparent_blocks", "Angel Observable Blocks");
+        add("config.weeping_angels.genArms", "Generate Arms?");
 
-        add("category.weeping_angels.angels", "Angels");
+        add("category.weeping_angels.angels", "Weeping Angels Behaviour");
         add("category.weeping_angels.spawn", "Spawn Rates");
-        add("category.weeping_angels.worldgen", "World Gen");
+        add("category.weeping_angels.worldgen", "World Generation");
 
         /* Sounds */
         add("sound.weeping_angels.angel_seen", "Angel seen");

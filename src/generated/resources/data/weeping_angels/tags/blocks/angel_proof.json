@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:magma_block",
+    "minecraft:glowstone",
+    "minecraft:sea_lantern",
+    "weeping_angels:coffin",
+    "minecraft:air",
+    "minecraft:fire",
+    "minecraft:void_air",
+    "minecraft:cave_air"
+  ]
+}
