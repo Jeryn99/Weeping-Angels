@@ -29,10 +29,11 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue genGraveyard;
     public final ForgeConfigSpec.BooleanValue genCatacombs;
     // Spawn
-    public final ForgeConfigSpec.IntValue maxSpawn;
+    public final ForgeConfigSpec.IntValue maxCount;
     public final ForgeConfigSpec.IntValue spawnWeight;
-    public final ForgeConfigSpec.IntValue minSpawn;
+    public final ForgeConfigSpec.IntValue minCount;
     public final ForgeConfigSpec.EnumValue<MobCategory> spawnType;
+
     // Angel
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
@@ -64,19 +65,17 @@ public class WAConfig {
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
-
         builder.push("world_gen");
-        arms = builder.translation("config.weeping_angels.gen_arms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
+        arms = builder.translation("config.weeping_angels.genArms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
         genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
         genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
         genCatacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Configure whether Catacombs Structures spawn. This will require a restart when changed.").define("genCatacombs", true);
-
         builder.pop();
         builder.push("spawn");
-        minSpawn = builder.translation("config.weeping_angels.min_spawn").comment("The minimum amount of angels per biome").defineInRange("minimumSpawn", 1, 1, 100);
-        maxSpawn = builder.translation("config.weeping_angels.max_spawn").comment("The maximum amount of angels per biome").defineInRange("maximumSpawn", 5, 1, 100);
-        spawnWeight = builder.translation("config.weeping_angels.spawnWeight").comment("The angel spawn spawn weight").defineInRange("spawnWeight", 5, 1, 100);
-        spawnType = builder.translation("config.weeping_angels.spawntype").comment("Angel spawn type").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
+        minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
+        maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 3, 1, 100);
+        spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 25, 1, Integer.MAX_VALUE);
+        spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
         builder.pop();
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
@@ -90,9 +89,10 @@ public class WAConfig {
         pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
         stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
         moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
-        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow)").define("blockBreaking", true);
+        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow) - !!!! BLOCK BLACKLISTING: You may be looking for a config option in order to stop certain blocks from being broken. You can do this with a datapack using weeping_angels:angel_proof").define("blockBreaking", true);
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         builder.pop();
+
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtil.EnumTeleportType.RANDOM_PLACE);
         notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(Level.END.location().toString()), String.class::isInstance);
@@ -111,7 +111,6 @@ public class WAConfig {
         allowedAngelTypes = builder.translation("config.weeping_angels.allowed_types").comment("Toggle certain angel models (Only applies to Entity)").defineList("allowedAngelTypes", genAngelTypes(), String.class::isInstance);
         allowedVariants = builder.translation("config.weeping_angels.allowed_variants").comment("Toggle certain angel variants (Only applies to Entity)").defineList("allowedVariants", getAngelVariants(), String.class::isInstance);
         builder.pop();
-
     }
 
 
@@ -162,6 +161,9 @@ public class WAConfig {
         allowedTypes.add("A_DIZZLE");
         allowedTypes.add("DYING");
         allowedTypes.add("VILLAGER");
+        allowedTypes.add("VIO_1");
+        allowedTypes.add("VIO_2");
+        allowedTypes.add("SPARE_TIME");
         return allowedTypes;
     }
 }

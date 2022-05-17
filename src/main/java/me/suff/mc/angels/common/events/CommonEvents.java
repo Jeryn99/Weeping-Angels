@@ -241,7 +241,7 @@ public class CommonEvents {
         for (Biome biome : biomes) {
             if (biome.getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
                 WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
-                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
             }
         }
     }

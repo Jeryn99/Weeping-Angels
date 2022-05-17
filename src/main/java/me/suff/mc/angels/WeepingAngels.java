@@ -39,6 +39,7 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.NewRegistryEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.common.level.WAPieces.init;
 
@@ -79,7 +80,7 @@ public class WeepingAngels {
         WAAttributes.ATTRIBUTES.register(bus);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final @NotNull FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         event.enqueueWork(WAFeatures::ores);
