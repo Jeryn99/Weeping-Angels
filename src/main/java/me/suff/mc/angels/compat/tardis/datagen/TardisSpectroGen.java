@@ -23,7 +23,7 @@ public class TardisSpectroGen extends SpectrometerRecipeGen {
     @Override
     public void run(DirectoryCache cache) throws IOException {
         final Path path = this.generator.getOutputFolder();
-     //   createSpectrometerRecipe(path, cache, 200, Ingredient.of(WAObjects.Items.KONTRON_INGOT.get()), TardisMod::getSchem);
+      //  createSpectrometerRecipe(path, cache, 200, Ingredient.of(WAObjects.Items.KONTRON_INGOT.get()), TardisMod::getSchem);
     }
 
     @Override

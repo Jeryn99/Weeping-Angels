@@ -12,7 +12,6 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.tileentities.IPlinth;
-import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -34,6 +33,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.tardis.mod.cap.Capabilities;
 import net.tardis.mod.cap.items.sonic.SonicCapability;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
@@ -44,9 +45,9 @@ import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.items.SonicItem;
 import net.tardis.mod.misc.SpaceTimeCoord;
 import net.tardis.mod.schematics.ExteriorUnlockSchematic;
-import net.tardis.mod.schematics.Schematic;
 import net.tardis.mod.schematics.Schematics;
 import net.tardis.mod.sounds.TSounds;
+import net.tardis.mod.subsystem.NavComSubsystem;
 import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
@@ -67,7 +68,6 @@ public class TardisMod {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(new TardisMod());
         WeepingAngels.LOGGER.info("Tardis Mod Detected! Enabling Compatibility Features!");
-
     }
 
 
@@ -114,15 +114,26 @@ public class TardisMod {
             if (world instanceof ServerWorld) {
 
                 DistressSignal angelSig = null;
-                for (DistressSignal signal : console.getDistressSignals()) {
+               /* for (DistressSignal signal : console.getDistressSignals()) {
                     if (signal.getMessage().contains("Angels")) {
-                        console.setDestination(signal.getSpaceTimeCoord());
+                        console.setDestination(signal.getSpaceTimeCoord());*/
 
-                        if (!console.isInFlight()) {
+                        if(console.isLanding()){
+                            for (Subsystem system : console.getSubSystems()) {
+                                system.setActivated(false);
+                            }
+                        }
 
-                            console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> {
-                                sys.setControlActivated(true);
-                            });
+                        if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
+
+                            BlockPos spaceTimePos = console.getCurrentLocation();
+                            RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
+                            BlockPos catacombLocation = ServerLifecycleHooks.getCurrentServer().getLevel(spaceTimeDim).findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), spaceTimePos, 100, false);
+
+
+                            console.setDestination(new SpaceTimeCoord(console.getReturnLocation().getDim(), catacombLocation));
+
+                            console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
 
                             console.getControl(HandbrakeControl.class).ifPresent(sys -> {
                                 sys.setFree(true);
@@ -132,7 +143,7 @@ public class TardisMod {
 
 
                             console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
-                                landingTypeControl.setLandType(LandingTypeControl.EnumLandType.UP);
+                                landingTypeControl.setLandType(LandingTypeControl.EnumLandType.DOWN);
                                 landingTypeControl.markDirty();
                                 landingTypeControl.startAnimation();
                             });
@@ -144,13 +155,13 @@ public class TardisMod {
                                 sys.markDirty();
                             });
 
-                            angelSig = signal;
-                            console.takeoff();
-                        }
-                    }
+                     //       angelSig = signal;
+                            console.takeoff(false);
+                   //     }
+                  //  }
                 }
                 if (angelSig != null) {
-                    console.getDistressSignals().remove(angelSig);
+                //    console.getDistressSignals().remove(angelSig);
                 }
             }
 

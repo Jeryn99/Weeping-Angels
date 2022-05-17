@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "weeping_angels:chronodyne_generator"
+    ]
+  },
+  "criteria": {
+    "has_kontron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "weeping_angels:kontron_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "weeping_angels:chronodyne_generator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_kontron",
+      "has_the_recipe"
+    ]
+  ]
+}

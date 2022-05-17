@@ -99,6 +99,7 @@ public class PlayerUtil {
         } catch (ConnectException e) {
             WeepingAngels.LOGGER.error("Connection issue when retrieving Donators!");
             e.printStackTrace();
+
             return null;
         }
     }

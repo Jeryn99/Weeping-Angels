@@ -90,7 +90,7 @@ public class CommonEvents {
         // Plinth
         boolean isPlinth = world.getBlockEntity(pos) instanceof IPlinth;
         boolean hasChisel = playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem;
-        if (isPlinth && playerEntity.getItemInHand(Hand.MAIN_HAND).getItem() instanceof ChiselItem) {
+        if (isPlinth && hasChisel) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
             plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
@@ -233,6 +233,9 @@ public class CommonEvents {
         LivingEntity living = livingUpdateEvent.getEntityLiving();
         if (living instanceof PlayerEntity && !living.level.isClientSide()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) living;
+
+            System.out.println();
+
             if (serverPlayerEntity.tickCount % 40 == 0) {
                 Network.sendTo(new MessageCatacomb(AngelUtil.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
             }

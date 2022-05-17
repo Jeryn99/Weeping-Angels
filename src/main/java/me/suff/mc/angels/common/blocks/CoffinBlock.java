@@ -35,6 +35,7 @@ public class CoffinBlock extends DirectionalBlock {
 
     public CoffinBlock(Properties properties) {
         super(properties);
+        System.out.println();
         registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false));
     }
 
