@@ -3,6 +3,7 @@ package me.suff.mc.angels.data;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -108,6 +109,29 @@ public class WALangEnglish extends LanguageProvider {
         add("exterior.weeping_angels.2005_exterior", "2005 Exterior");
         add("exterior.weeping_angels.2005exterior", "2005 Exterior");
 
+        /* Sounds */
+        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel ambiance");
+        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone scrapings");
+        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel crumbles to death");
+        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel mocks");
+        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Neck snaps neck");
+        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel seen");
+        addSound(WAObjects.Sounds.BLOW.get(), "Angel blows");
+        addSound(WAObjects.Sounds.CATACOMB.get(), "Catacomb Ambience");
+        addSound(WAObjects.Sounds.CHILD_RUN.get(), "Child running");
+        addSound(WAObjects.Sounds.DING.get(), "Ding!");
+        addSound(WAObjects.Sounds.DISC_SALLY.get(), "Sally");
+        addSound(WAObjects.Sounds.DISC_TIME_PREVAILS.get(), "Time prevails");
+        addSound(WAObjects.Sounds.KNOCK.get(), "Knocking");
+        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Laughing Child");
+        addSound(WAObjects.Sounds.LIGHT_BREAK.get(), "Lighting breaking");
+        addSound(WAObjects.Sounds.TELEPORT.get(), "Angel Teleports an Entity");
+        addSound(WAObjects.Sounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
+        addSound(WAObjects.Sounds.PROJECTOR.get(), "Whirr");
 
+    }
+
+    public void addSound(SoundEvent soundEvent, String lang) {
+        add("sound.weeping_angels." + soundEvent.getLocation().getPath(), lang);
     }
 }
