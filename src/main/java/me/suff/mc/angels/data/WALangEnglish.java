@@ -92,23 +92,25 @@ public class WALangEnglish extends LanguageProvider {
         add("category.weeping_angels.worldgen", "World Gen");
 
         /* Sounds */
-        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel Appears");
-        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone Scrape");
-        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel Dies");
-        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel laughing");
-        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Neck snaps");
-        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel sting");
+        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel ambiance");
+        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone scrapings");
+        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel crumbles to death");
+        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel mocks");
+        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Neck snaps neck");
+        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel seen");
         addSound(WAObjects.Sounds.BLOW.get(), "Angel blows");
         addSound(WAObjects.Sounds.CATACOMB.get(), "Catacomb Ambience");
         addSound(WAObjects.Sounds.CHILD_RUN.get(), "Child running");
         addSound(WAObjects.Sounds.DING.get(), "Ding!");
         addSound(WAObjects.Sounds.DISC_SALLY.get(), "Sally");
         addSound(WAObjects.Sounds.DISC_TIME_PREVAILS.get(), "Time prevails");
-        addSound(WAObjects.Sounds.KNOCK.get(), "Knock");
-        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Cherub laughing");
+        addSound(WAObjects.Sounds.KNOCK.get(), "Knocking");
+        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Laughing Child");
         addSound(WAObjects.Sounds.LIGHT_BREAK.get(), "Lighting breaking");
-        addSound(WAObjects.Sounds.TELEPORT.get(), "Teleport");
+        addSound(WAObjects.Sounds.TELEPORT.get(), "Angel Teleports an Entity");
         addSound(WAObjects.Sounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
+        addSound(WAObjects.Sounds.PROJECTOR.get(), "Whirr");
+
     }
 
     public void addSound(SoundEvent soundEvent, String lang) {
