@@ -22,7 +22,6 @@ public class TagUtil {
     }
 
     public static boolean hasTag(IForgeRegistry registry, TagKey<?> objectKey, ForgeRegistryEntry<?> tagkey) {
-        System.out.println(registry.tags().getTag(objectKey).contains(tagkey));
         return registry.tags().getTag(objectKey).contains(tagkey);
     }
 

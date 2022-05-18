@@ -18,6 +18,7 @@ import me.suff.mc.angels.utils.PlayerUtil;
 import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.BuiltinRegistries;
@@ -41,6 +42,7 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -237,9 +239,9 @@ public class CommonEvents {
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
 
         //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-        ArrayList<Biome> biomes = Lists.newArrayList(TagUtil.getValues(BuiltinRegistries.BIOME, AngelUtil.STRUCTURE_SPAWNS).iterator());
-        for (Biome biome : biomes) {
-            if (biome.getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
+        for (Object value : TagUtil.getValues(BuiltinRegistries.BIOME, AngelUtil.STRUCTURE_SPAWNS)) {
+            Holder<Biome> biome = (Holder<Biome>) value;
+            if (biome.value().getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
                 WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
             }
