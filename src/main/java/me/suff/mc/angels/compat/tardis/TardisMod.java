@@ -1,14 +1,9 @@
 package me.suff.mc.angels.compat.tardis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import com.google.common.collect.Lists;
-
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
+import me.suff.mc.angels.api.EventAngelTeportedPlayerCrossDim;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.tileentities.IPlinth;
@@ -34,7 +29,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import net.tardis.mod.cap.Capabilities;
 import net.tardis.mod.cap.items.sonic.SonicCapability;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
@@ -54,6 +48,11 @@ import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import net.tardis.mod.world.dimensions.TDimensions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -83,10 +82,10 @@ public class TardisMod {
         return serverWorlds;
     }
 
-    public static void create(MinecraftServer server, BlockPos blockPos) {
+    public static void create(MinecraftServer server, BlockPos blockPos, RegistryKey<World> registryKey) {
         for (ServerWorld world : TardisHelper.getTardises(server)) {
             TardisHelper.getConsoleInWorld(world).ifPresent(other -> {
-                other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(World.OVERWORLD, blockPos)));
+                other.addDistressSignal(new DistressSignal("Angels Hungry!", new SpaceTimeCoord(registryKey, blockPos)));
             });
         }
     }
@@ -98,6 +97,12 @@ public class TardisMod {
         boolean isTardisDim = WorldHelper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
         boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
+    }
+
+    @SubscribeEvent
+    public void onAngelBlockBreak(EventAngelTeportedPlayerCrossDim angelTeportedPlayer) {
+        boolean isTardisDim = WorldHelper.areDimensionTypesSame(angelTeportedPlayer.getDestinationDim(), TDimensions.DimensionTypes.TARDIS_TYPE);
+        angelTeportedPlayer.setCanceled(isTardisDim);
     }
 
     @SubscribeEvent
@@ -131,7 +136,8 @@ public class TardisMod {
                             BlockPos catacombLocation = ServerLifecycleHooks.getCurrentServer().getLevel(spaceTimeDim).findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), spaceTimePos, 100, false);
 
 
-                            console.setDestination(new SpaceTimeCoord(console.getReturnLocation().getDim(), catacombLocation));
+                            console.setDestination(new SpaceTimeCoord(spaceTimeDim, catacombLocation));
+                            TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
 
                             console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
 
@@ -178,8 +184,8 @@ public class TardisMod {
                         for (int i = 0; i < 10; ++i) {
                             double percent = (double) i / 10.0D;
                             Vector3d spawnPoint = new Vector3d(artonPos.getX() + 0.5D + path.x() * percent, artonPos.getY() + 1.3D + path.y() * percent, artonPos.getZ() + 0.5D + path.z * percent);
-                            if (spawnPoint.distanceTo(end) <= 3.5D) {
-                                angel.level.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0, 0);
+                            if (spawnPoint.distanceTo(end) <= 3.5D && angel.level.isClientSide) {
+                                angel.level.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, 0.0D, 0.0D, 0.0D);
                             }
                         }
                         console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
@@ -216,21 +222,20 @@ public class TardisMod {
                     console.getInteriorManager().setLight(MathHelper.clamp(randLight, 0, 15));
                 }
             }
+
+            return;
         }
-        else {
             if (angel.level instanceof ServerWorld) {
                 Optional<TileEntity> optTile = angel.level.blockEntityList.stream().filter(tile -> tile instanceof ExteriorTile && tile.getBlockPos().closerThan(angel.blockPosition(), 3)).findFirst();
-                angel.level.getServer().tell(new TickDelayedTask(0, () ->
-                            optTile.ifPresent(tile -> {
-                                ExteriorTile exterior = (ExteriorTile) tile;
-                                if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
-                                    exterior.transferEntities(Lists.newArrayList(angel));
-                                }
-                            })
-                    )
+                angel.level.getServer().tell(new TickDelayedTask(0, () -> optTile.ifPresent(tile -> {
+                            ExteriorTile exterior = (ExteriorTile) tile;
+                            if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
+                                exterior.transferEntities(Lists.newArrayList(angel)); //TODO force doors open if angel has key
+                            }
+                        })
+                        )
                 );
             }
-        }
     }
 
     @SubscribeEvent

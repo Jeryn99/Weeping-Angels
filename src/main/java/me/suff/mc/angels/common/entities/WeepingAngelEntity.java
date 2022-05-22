@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.entities;
 
 import com.google.common.collect.ImmutableList;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
+import me.suff.mc.angels.api.EventAngelTeportedPlayerCrossDim;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
@@ -445,6 +446,8 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
     private void teleportInteraction(ServerPlayerEntity player) {
         if (level.isClientSide) return;
+
+
         AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
         switch (type) {
 
@@ -464,23 +467,28 @@ public class WeepingAngelEntity extends QuantumLockEntity {
 
                 ServerWorld teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerWorld) player.level;
 
-                ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
-                teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
+                EventAngelTeportedPlayerCrossDim event = new EventAngelTeportedPlayerCrossDim(this, player, teleportWorld);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) {
+                    ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
+                    teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
 
-                teleportWorld.getServer().tell(new TickDelayedTask(teleportWorld.getServer().getTickCount() + 1, () -> {
-                    BlockPos blockPos = WATeleporter.findSafePlace(player, teleportWorld, new BlockPos(x, player.getY(), z));
+                    teleportWorld.getServer().tell(new TickDelayedTask(teleportWorld.getServer().getTickCount() + 1, () -> {
+                        BlockPos blockPos = WATeleporter.findSafePlace(player, teleportWorld, new BlockPos(x, player.getY(), z));
 
-                    if (AngelUtil.isOutsideOfBorder(teleportWorld, blockPos)) {
-                        dealDamage(player);
-                        return;
-                    }
+                        if (AngelUtil.isOutsideOfBorder(teleportWorld, blockPos)) {
+                            dealDamage(player);
+                            return;
+                        }
 
-                    if (teleportWorld != null) {
-                        WATeleporter.teleportPlayerTo(player, blockPos, teleportWorld);
-                        teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, false);
-                        heal(10);
-                    }
-                }));
+                        if (teleportWorld != null) {
+                            WATeleporter.teleportPlayerTo(player, blockPos, teleportWorld);
+                            teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, false);
+                            heal(10);
+                        }
+
+                    }));
+                }
                 break;
         }
     }

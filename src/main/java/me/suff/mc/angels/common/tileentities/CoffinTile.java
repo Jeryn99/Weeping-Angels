@@ -114,7 +114,6 @@ public class CoffinTile extends TileEntity implements ITickableTileEntity {
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
                     if (ModList.get().isLoaded("tardis")) {
-                        TardisMod.create(level.getServer(), worldPosition);
                         level.setBlockAndUpdate(worldPosition.above(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).defaultBlockState());
                     }
 
