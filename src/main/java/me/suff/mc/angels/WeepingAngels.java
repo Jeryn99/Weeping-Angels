@@ -112,7 +112,7 @@ public class WeepingAngels {
         generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
         generator.addProvider(new LootTablesForDrops(generator));
-        generator.addProvider(new WALangEnglish(generator));
+        generator.addProvider(new WALangEnglish());
         generator.addProvider(new WABiomeGen(generator, existingFileHelper));
         generator.addProvider(new WAStructureTagGen(generator, existingFileHelper));
         generator.addProvider(new WARecipeGen(generator));
