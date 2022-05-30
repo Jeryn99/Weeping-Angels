@@ -111,15 +111,10 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
 
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
-            WeepingAngelEntity angel = new WeepingAngelEntity(level);
-            angel.setVarient(getAngelVarients());
-            angel.setType(getAngelType());
-            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
-            angel.setPose(getPose());
-            level.addFreshEntity(angel);
-            level.removeBlock(worldPosition, false);
+           spawn();
         }
     }
+
 
     public WeepingAngelPose getPose() {
         return pose;
@@ -160,6 +155,17 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
         level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    @Override
+    public void spawn() {
+        WeepingAngelEntity angel = new WeepingAngelEntity(level);
+        angel.setVarient(getAngelVarients());
+        angel.setType(getAngelType());
+        angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY(), worldPosition.getZ() + 0.5D, 0, 0);
+        angel.setPose(getPose());
+        level.addFreshEntity(angel);
+        level.removeBlock(worldPosition, false);
     }
 
     @Override

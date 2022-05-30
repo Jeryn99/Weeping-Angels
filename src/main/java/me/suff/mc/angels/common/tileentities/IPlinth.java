@@ -12,6 +12,7 @@ public interface IPlinth {
     void changePose();
 
     void sendUpdatesToClient();
+    void spawn();
 
     AngelType getCurrentType();
 

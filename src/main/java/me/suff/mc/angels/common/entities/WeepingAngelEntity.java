@@ -493,22 +493,6 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         }
     }
 
-    @Override
-    public boolean checkSpawnRules(IWorld worldIn, SpawnReason spawnReasonIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && this.isValidLightLevel() && super.checkSpawnRules(worldIn, spawnReasonIn);
-    }
-
-
-    protected boolean isValidLightLevel() {
-        BlockPos blockpos = new BlockPos(this.getX(), this.getBoundingBox().minY, this.getZ());
-        if (this.level.getBrightness(LightType.SKY, blockpos) > this.random.nextInt(32)) {
-            return false;
-        } else {
-            int i = this.level.isThundering() ? this.level.getMaxLocalRawBrightness(blockpos, 10) : this.level.getMaxLocalRawBrightness(blockpos);
-            return i <= this.random.nextInt(8);
-        }
-    }
-
     public String getAngelPose() {
         return getEntityData().get(CURRENT_POSE);
     }

@@ -8,6 +8,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.PlayerUtil;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +21,7 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -28,12 +31,12 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.tardis.mod.cap.items.sonic.SonicCapability;
 import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
 import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.helper.BlockPosHelper;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
 import net.tardis.mod.items.SonicItem;
@@ -45,14 +48,12 @@ import net.tardis.mod.subsystem.NavComSubsystem;
 import net.tardis.mod.subsystem.StabilizerSubsystem;
 import net.tardis.mod.subsystem.Subsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
+import net.tardis.mod.tileentities.console.misc.AlarmType;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import net.tardis.mod.world.dimensions.TDimensions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -117,63 +118,54 @@ public class TardisMod {
             ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
 
             if (world instanceof ServerWorld) {
-
-                DistressSignal angelSig = null;
-               /* for (DistressSignal signal : console.getDistressSignals()) {
-                    if (signal.getMessage().contains("Angels")) {
-                        console.setDestination(signal.getSpaceTimeCoord());*/
-
-                        if(console.isLanding()){
-                            for (Subsystem system : console.getSubSystems()) {
-                                system.setActivated(false);
-                            }
-                        }
-
-                        if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
-
-                            BlockPos spaceTimePos = console.getCurrentLocation();
-                            RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
-                            BlockPos catacombLocation = ServerLifecycleHooks.getCurrentServer().getLevel(spaceTimeDim).findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), spaceTimePos, 100, false);
-
-
-                            console.setDestination(new SpaceTimeCoord(spaceTimeDim, catacombLocation));
-                            TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
-
-                            console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
-
-                            console.getControl(HandbrakeControl.class).ifPresent(sys -> {
-                                sys.setFree(true);
-                                sys.markDirty();
-                                sys.startAnimation();
-                            });
-
-
-                            console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
-                                landingTypeControl.setLandType(LandingTypeControl.EnumLandType.DOWN);
-                                landingTypeControl.markDirty();
-                                landingTypeControl.startAnimation();
-                            });
-
-
-                            console.getControl(ThrottleControl.class).ifPresent(sys -> {
-                                sys.setAmount(1F);
-                                sys.startAnimation();
-                                sys.markDirty();
-                            });
-
-                     //       angelSig = signal;
-                            console.takeoff(false);
-                   //     }
-                  //  }
+                ServerWorld serverWorld = (ServerWorld) world;
+                if (console.isLanding()) {
+                    for (Subsystem system : console.getSubSystems()) {
+                        system.setActivated(false);
+                    }
                 }
-                if (angelSig != null) {
-                //    console.getDistressSignals().remove(angelSig);
+
+                if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
+
+                    RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
+
+                    ServerWorld destWorld = console.getLevel().getServer().getLevel(console.getDestinationDimension());
+                    BlockPos pos = destWorld.findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), console.getDestinationPosition(), 100, false);
+                    List<BlockPos> viablePoses = BlockPosHelper.getFilteredBlockPositionsInStructure(pos, destWorld, destWorld.structureFeatureManager(), WAObjects.Structures.CATACOMBS.get(), Blocks.COBWEB);
+                    Collections.shuffle(viablePoses);
+                    if (!viablePoses.isEmpty()) {
+                        console.setDestination(new SpaceTimeCoord(spaceTimeDim, viablePoses.get(0)));
+                        TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
+                        console.getInteriorManager().soundAlarm(AlarmType.LOW);
+                        console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
+
+                        console.getControl(HandbrakeControl.class).ifPresent(sys -> {
+                            sys.setFree(true);
+                            sys.markDirty();
+                            sys.startAnimation();
+                        });
+
+
+                        console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
+                            landingTypeControl.setLandType(LandingTypeControl.EnumLandType.DOWN);
+                            landingTypeControl.markDirty();
+                            landingTypeControl.startAnimation();
+                        });
+
+
+                        console.getControl(ThrottleControl.class).ifPresent(sys -> {
+                            sys.setAmount(1F);
+                            sys.startAnimation();
+                            sys.markDirty();
+                        });
+                        console.takeoff(false);
+                    }
                 }
             }
 
             // Drain Fuel
             if (angel.tickCount % 60 == 0) {
-                boolean isAngelHealthHalfed = angel.getHealth() == angel.getMaxHealth() / 2;
+                boolean isAngelHalfHealth = angel.getHealth() == angel.getMaxHealth() / 2;
                 if (console != null) {
 
                     if (console.getArtron() > 0) {
@@ -188,7 +180,7 @@ public class TardisMod {
                                 angel.level.addParticle(ParticleTypes.END_ROD, spawnPoint.x, spawnPoint.y, spawnPoint.z, 0.0D, 0.0D, 0.0D);
                             }
                         }
-                        console.setArtron(console.getArtron() - (isAngelHealthHalfed ? 5 : 1));
+                        console.setArtron(console.getArtron() - (isAngelHalfHealth ? 5 : 1));
                         angel.heal(0.5F);
                     }
 
@@ -232,8 +224,7 @@ public class TardisMod {
                             if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
                                 exterior.transferEntities(Lists.newArrayList(angel)); //TODO force doors open if angel has key
                             }
-                        })
-                        )
+                        }))
                 );
             }
     }
@@ -243,11 +234,14 @@ public class TardisMod {
         TileEntity blockEntity = event.getWorld().getBlockEntity(event.getPos());
 
         if(blockEntity instanceof IPlinth && event.getItemStack().getItem() instanceof SonicItem && AngelUtil.isInCatacomb(event.getEntityLiving())){
+            IPlinth iPlinth = (IPlinth) blockEntity;
             event.setCanceled(true);
             ItemStack sonic = event.getItemStack();
             SonicCapability.getForStack(sonic).ifPresent(iSonic -> {
                 iSonic.addSchematic(getSchem());
                 iSonic.sync(event.getPlayer(), event.getHand());
+                PlayerUtil.sendMessageToPlayer(event.getPlayer(), new TranslationTextComponent("message.weeping_angels.2005_schematic"), true);
+                iPlinth.spawn();
             });
         }
     }

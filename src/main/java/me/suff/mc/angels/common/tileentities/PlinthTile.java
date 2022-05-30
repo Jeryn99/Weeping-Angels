@@ -121,16 +121,7 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
 
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthTile) {
             PlinthTile plinth = (PlinthTile) level.getBlockEntity(worldPosition);
-            if (!plinth.getHasSpawned()) {
-                WeepingAngelEntity angel = new WeepingAngelEntity(level);
-                angel.setType(getAngelType());
-                angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY() + 1, worldPosition.getZ() + 0.5D, 0, 0);
-                angel.setPose(getPose());
-                angel.setVarient(getAngelVarients());
-                level.addFreshEntity(angel);
-                plinth.setHasSpawned(true);
-                sendUpdates();
-            }
+            spawn();
         }
     }
 
@@ -172,6 +163,20 @@ public class PlinthTile extends TileEntity implements ITickableTileEntity, IPlin
         level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    @Override
+    public void spawn() {
+        if (!getHasSpawned()) {
+            WeepingAngelEntity angel = new WeepingAngelEntity(level);
+            angel.setType(getAngelType());
+            angel.moveTo(worldPosition.getX() + 0.5D, worldPosition.getY() + 1, worldPosition.getZ() + 0.5D, 0, 0);
+            angel.setPose(getPose());
+            angel.setVarient(getAngelVarients());
+            level.addFreshEntity(angel);
+            setHasSpawned(true);
+            sendUpdates();
+        }
     }
 
     @Override

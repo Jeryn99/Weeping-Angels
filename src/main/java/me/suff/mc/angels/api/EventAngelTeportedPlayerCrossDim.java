@@ -30,4 +30,9 @@ public class EventAngelTeportedPlayerCrossDim extends EntityEvent {
     public ServerWorld getDestinationDim() {
         return destinationDim;
     }
+
+    @Override
+    public boolean isCancelable() {
+        return true;
+    }
 }
