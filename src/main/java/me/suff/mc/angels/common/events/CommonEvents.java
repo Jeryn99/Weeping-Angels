@@ -241,6 +241,7 @@ public class CommonEvents {
         //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
         for (Object value : TagUtil.getValues(BuiltinRegistries.BIOME, AngelUtil.STRUCTURE_SPAWNS)) {
             Holder<Biome> biome = (Holder<Biome>) value;
+            System.out.println(biome.value().getRegistryName() + " || " + biomeLoadingEvent.getName());
             if (biome.value().getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
                 WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
