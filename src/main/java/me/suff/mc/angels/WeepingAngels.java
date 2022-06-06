@@ -10,7 +10,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.variants.AngelTypes;
-import me.suff.mc.angels.compat.vr.ServerReflector;
+import me.suff.mc.angels.compat.vivecraft.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;

@@ -1,4 +1,4 @@
-package me.suff.mc.angels.compat.vr;
+package me.suff.mc.angels.compat.vivecraft;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;

@@ -1,4 +1,4 @@
-package me.suff.mc.angels.compat.vr;
+package me.suff.mc.angels.compat.vivecraft;
 
 import me.suff.mc.angels.WeepingAngels;
 import net.minecraft.world.entity.player.Player;

@@ -1,11 +1,12 @@
 package me.suff.mc.angels.common.level.structures;
 
-import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
@@ -16,10 +17,10 @@ import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
-import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
 
@@ -33,7 +34,9 @@ public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
     private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
-        return context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ()))) && WAConfig.CONFIG.genCatacombs.get();
+
+        Holder<Predicate<Holder<Biome>>> biome = Holder.direct(context.validBiome());
+        return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ()))) && WAConfig.CONFIG.genCatacombs.get();
     }
 
 
@@ -51,20 +54,8 @@ public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
         // Random Y value between -30, -40
         int yPos = Mth.randomBetweenInclusive(AngelUtil.RAND, 30, 40) * -1;
 
-        Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
-                JigsawPlacement.addPieces(
-                        jigsawConfigurationContext,
-                        PoolElementStructurePiece::new,
-                        blockpos.atY(yPos),
-                        false,
-                        false
-                );
-
-        if (structurePiecesGenerator.isPresent()) {
-            WeepingAngels.LOGGER.log(Level.INFO, "Catacomb Structure at {}", blockpos);
-        }
-
-        return structurePiecesGenerator;
+        return JigsawPlacement.addPieces(jigsawConfigurationContext, PoolElementStructurePiece::new, blockpos.atY(yPos), false, false
+        );
     }
 
 

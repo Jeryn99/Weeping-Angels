@@ -67,7 +67,9 @@ public class WAFeatures {
             }
         }
 
-        if (event.getCategory() == Biome.BiomeCategory.ICY || event.getName().toString().toLowerCase().contains("snow")) {
+        Holder<Biome> biome = Holder.direct(ForgeRegistries.BIOMES.getValue(event.getName()));
+
+        if (biome.value().getPrecipitation() == Biome.Precipitation.SNOW) {
             WeepingAngels.LOGGER.info("Added snow angels to " + event.getName());
             for (Holder<PlacedFeature> feature : FEATURES) {
                 gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, feature);

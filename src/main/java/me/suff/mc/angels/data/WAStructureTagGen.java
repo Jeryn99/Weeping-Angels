@@ -1,6 +1,7 @@
 package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
+import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
@@ -19,6 +20,9 @@ public class WAStructureTagGen extends TagsProvider<ConfiguredStructureFeature<?
         for (ConfiguredStructureFeature<?, ?> structureFeature : BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE) {
             this.tag(AngelUtil.TELEPORT_STRUCTURES).add(structureFeature);
         }
+
+        this.tag(AngelUtil.CATACOMBS).addOptional(WAFeatures.CATACOMB.getId());
+
     }
 
 
