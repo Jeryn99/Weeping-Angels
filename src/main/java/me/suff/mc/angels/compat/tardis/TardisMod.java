@@ -7,6 +7,7 @@ import me.suff.mc.angels.api.EventAngelTeportedPlayerCrossDim;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import me.suff.mc.angels.common.tileentities.IPlinth;
+import me.suff.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.block.Blocks;
@@ -65,6 +66,9 @@ public class TardisMod {
         if(schem == null){
             ExteriorUnlockSchematic exteriorUnlockSchematic = new ExteriorUnlockSchematic();
             exteriorUnlockSchematic.setId(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
+            exteriorUnlockSchematic.setExterior(NewTardisBlocks.EXTERIOR_2005.getId());
+            exteriorUnlockSchematic.setTranslation("exterior.weeping_angels.2005exterior");
+            exteriorUnlockSchematic.setUseTranslatedName(true);
             return exteriorUnlockSchematic;
         }
         schem.setId(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
