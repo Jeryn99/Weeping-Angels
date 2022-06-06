@@ -111,7 +111,7 @@ public class StatueTile extends TileEntity implements ITickableTileEntity, IPlin
 
 
         if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueTile) {
-           spawn();
+            spawn();
         }
     }
 

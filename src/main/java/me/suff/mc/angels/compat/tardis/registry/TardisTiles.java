@@ -25,6 +25,7 @@ public class TardisTiles {
 
         return type;
     }    //Exteriors
+
     public static RegistryObject<TileEntityType<AbPropTile>> EXTERIOR_2005 = TILES.register("2005_exterior", () -> registerTiles(AbPropTile::new, NewTardisBlocks.EXTERIOR_2005.get()));
 
 

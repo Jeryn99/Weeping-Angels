@@ -70,7 +70,7 @@ public class PlayerUtil {
             e.printStackTrace();
         }
 
-        if(result == null) return WingsLayer.getPeople();
+        if (result == null) return WingsLayer.getPeople();
 
         String[] categories = new String[]{"devs", "donators"};
 

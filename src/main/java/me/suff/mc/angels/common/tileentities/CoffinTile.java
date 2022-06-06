@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.tileentities;
 
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;

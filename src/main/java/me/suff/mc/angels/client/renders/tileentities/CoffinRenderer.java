@@ -1,7 +1,6 @@
 package me.suff.mc.angels.client.renders.tileentities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import me.suff.mc.angels.client.models.block.CoffinModel;
 import me.suff.mc.angels.client.models.block.PoliceBoxModel;
 import me.suff.mc.angels.common.blocks.CoffinBlock;

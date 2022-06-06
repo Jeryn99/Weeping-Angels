@@ -51,12 +51,12 @@ public class WeepingAngels {
     public static Logger LOGGER = LogManager.getLogger(NAME);
 
 
+
     public WeepingAngels() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
         modBus.addListener(this::setup);
         AngelVariants.VARIANTS.register(modBus);
-
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));

@@ -40,7 +40,7 @@ public class WeepingHeldItem<T extends LivingEntity, M extends EntityModel<T>> e
         }
     }
 
-    
+
     private void renderArmWithItem(LivingEntity p_229135_1_, ItemStack p_229135_2_, ItemCameraTransforms.TransformType p_229135_3_, HandSide p_229135_4_, MatrixStack matrix, IRenderTypeBuffer p_229135_6_, int p_229135_7_) {
         if (!p_229135_2_.isEmpty()) {
             matrix.pushPose();

@@ -1,7 +1,6 @@
 package me.suff.mc.angels.compat.tardis;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import me.suff.mc.angels.common.tileentities.CoffinTile;
 import me.suff.mc.angels.compat.tardis.exteriors.AbPropModel;
 import me.suff.mc.angels.utils.TextureUtil;

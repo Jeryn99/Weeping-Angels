@@ -234,8 +234,6 @@ public class CommonEvents {
         if (living instanceof PlayerEntity && !living.level.isClientSide()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) living;
 
-            System.out.println();
-
             if (serverPlayerEntity.tickCount % 40 == 0) {
                 Network.sendTo(new MessageCatacomb(AngelUtil.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
             }

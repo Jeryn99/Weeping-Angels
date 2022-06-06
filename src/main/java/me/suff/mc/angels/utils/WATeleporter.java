@@ -1,6 +1,7 @@
 package me.suff.mc.angels.utils;
 
 import com.google.common.collect.Lists;
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.compat.tardis.TardisMod;
 import me.suff.mc.angels.config.WAConfig;
@@ -32,7 +33,7 @@ public class WATeleporter {
             for (int y = 0; y < world.getMaxBuildHeight(); y++) {
                 BlockPos newPos = new BlockPos(pos.getX() + i * 20, y, pos.getZ() + i * 20);
                 if (isTeleportFriendlyBlock(world, pos, playerEntity) && !isPosBelowOrAboveWorld(world, newPos.getY())) {
-                    System.out.println("Teleporting player to " + newPos + " || " + world.getBlockState(newPos));
+                    WeepingAngels.LOGGER.info("Teleporting player to " + newPos + " || " + world.getBlockState(newPos));
                     return newPos;
                 }
             }

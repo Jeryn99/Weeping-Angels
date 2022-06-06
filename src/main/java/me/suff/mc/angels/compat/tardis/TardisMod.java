@@ -60,10 +60,9 @@ import java.util.*;
 public class TardisMod {
 
 
-
     public static ExteriorUnlockSchematic getSchem() {
         ExteriorUnlockSchematic schem = (ExteriorUnlockSchematic) Schematics.SCHEMATIC_REGISTRY.get(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
-        if(schem == null){
+        if (schem == null) {
             ExteriorUnlockSchematic exteriorUnlockSchematic = new ExteriorUnlockSchematic();
             exteriorUnlockSchematic.setId(new ResourceLocation("weeping_angels:exteriors/2005exterior"));
             exteriorUnlockSchematic.setExterior(NewTardisBlocks.EXTERIOR_2005.getId());
@@ -112,8 +111,8 @@ public class TardisMod {
     }
 
     @SubscribeEvent
-    public void onAngelBlockBreak(EventAngelTeportedPlayerCrossDim angelTeportedPlayer) {
-        boolean isTardisDim = WorldHelper.areDimensionTypesSame(angelTeportedPlayer.getDestinationDim(), TDimensions.DimensionTypes.TARDIS_TYPE);
+    public void stopAngels(EventAngelTeportedPlayerCrossDim angelTeportedPlayer) {
+        boolean isTardisDim = WorldHelper.areDimensionTypesSame(angelTeportedPlayer.getPlayer().level, TDimensions.DimensionTypes.TARDIS_TYPE);
         angelTeportedPlayer.setCanceled(isTardisDim);
     }
 
@@ -228,23 +227,23 @@ public class TardisMod {
 
             return;
         }
-            if (angel.level instanceof ServerWorld) {
-                Optional<TileEntity> optTile = angel.level.blockEntityList.stream().filter(tile -> tile instanceof ExteriorTile && tile.getBlockPos().closerThan(angel.blockPosition(), 3)).findFirst();
-                angel.level.getServer().tell(new TickDelayedTask(0, () -> optTile.ifPresent(tile -> {
-                            ExteriorTile exterior = (ExteriorTile) tile;
-                            if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
-                                exterior.transferEntities(Lists.newArrayList(angel)); //TODO force doors open if angel has key
-                            }
-                        }))
-                );
-            }
+        if (angel.level instanceof ServerWorld) {
+            Optional<TileEntity> optTile = angel.level.blockEntityList.stream().filter(tile -> tile instanceof ExteriorTile && tile.getBlockPos().closerThan(angel.blockPosition(), 3)).findFirst();
+            angel.level.getServer().tell(new TickDelayedTask(0, () -> optTile.ifPresent(tile -> {
+                        ExteriorTile exterior = (ExteriorTile) tile;
+                        if (exterior.getOpen() != EnumDoorState.CLOSED && !exterior.getLocked() && !exterior.isExteriorDeadLocked()) {
+                            exterior.transferEntities(Lists.newArrayList(angel)); //TODO force doors open if angel has key
+                        }
+                    }))
+            );
+        }
     }
 
     @SubscribeEvent
-    public void rightClick(PlayerInteractEvent.RightClickBlock event){
+    public void rightClick(PlayerInteractEvent.RightClickBlock event) {
         TileEntity blockEntity = event.getWorld().getBlockEntity(event.getPos());
 
-        if(blockEntity instanceof IPlinth && event.getItemStack().getItem() instanceof SonicItem && AngelUtil.isInCatacomb(event.getEntityLiving())){
+        if (blockEntity instanceof IPlinth && event.getItemStack().getItem() instanceof SonicItem && AngelUtil.isInCatacomb(event.getEntityLiving())) {
             IPlinth iPlinth = (IPlinth) blockEntity;
             event.setCanceled(true);
             ItemStack sonic = event.getItemStack();

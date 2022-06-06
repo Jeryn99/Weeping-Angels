@@ -6,7 +6,6 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -78,7 +77,7 @@ public class WAConfig {
         minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
         maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 3, 1, 100);
         spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 25, 1, Integer.MAX_VALUE);
-        spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER );
+        spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", EntityClassification.MONSTER);
         allowedBiomes = builder.translation("config.weeping_angels.spawnBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("spawnBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
         builder.push("angel");
@@ -139,7 +138,7 @@ public class WAConfig {
     public ArrayList<String> genBiomesForSpawn() {
         ArrayList<String> spawnBiomes = new ArrayList<>();
         for (Biome biome : ForgeRegistries.BIOMES) {
-            if(biome.getBiomeCategory() == Biome.Category.NETHER || biome.getBiomeCategory() == Biome.Category.FOREST || biome.getBiomeCategory() == Biome.Category.PLAINS) {
+            if (biome.getBiomeCategory() == Biome.Category.NETHER || biome.getBiomeCategory() == Biome.Category.FOREST || biome.getBiomeCategory() == Biome.Category.PLAINS) {
                 spawnBiomes.add(biome.getRegistryName().toString());
             }
         }

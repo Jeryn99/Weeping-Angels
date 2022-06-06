@@ -2,19 +2,15 @@ package me.suff.mc.angels.compat.tardis.exteriors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import me.suff.mc.angels.compat.tardis.AbPropRender;
 import me.suff.mc.angels.compat.tardis.EnumDoorTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.vector.Vector3f;
 import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.models.exteriors.ExteriorModel;
 import net.tardis.mod.client.renderers.boti.BOTIRenderer;
 import net.tardis.mod.client.renderers.boti.PortalInfo;
-import net.tardis.mod.client.renderers.exteriors.ClockExteriorRenderer;
 import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
-import net.tardis.mod.client.renderers.exteriors.SteamExteriorRenderer;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.enums.EnumMatterState;
 import net.tardis.mod.helper.Helper;
@@ -184,7 +180,7 @@ public class AbPropModel extends ExteriorModel {
                 this.boti.render(matrix, buf.getBuffer(TRenderTypes.getTardis(Helper.getVariantTextureOr(exterior.getVariant(), AbPropRender.TEXTURE))), packedLight, packedOverlay);
                 matrix.popPose();
             });
-            
+
             info.setRenderDoor((matrix, buf) -> {
                 matrix.pushPose();
                 this.LDoor.render(matrix, buf.getBuffer(TRenderTypes.getTardis(Helper.getVariantTextureOr(exterior.getVariant(), AbPropRender.TEXTURE))), packedLight, packedOverlay);
