@@ -238,6 +238,7 @@ public class CommonEvents {
         for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
             for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
                 if (BiomeDictionary.hasType(biome, biomeType)) {
+                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with Weight {} || Type {}", biome, WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
                     biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
                 }
             }
@@ -256,7 +257,7 @@ public class CommonEvents {
         VersionChecker.CheckResult version = VersionChecker.getResult(ModList.get().getModFileById(WeepingAngels.MODID).getMods().get(0));
         if (version.status() == VersionChecker.Status.OUTDATED) {
             TranslatableComponent click = new TranslatableComponent("Download");
-            click.setStyle(Style.EMPTY.setUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
+            click.setStyle(Style.EMPTY.withUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
 
             TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
             translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));
