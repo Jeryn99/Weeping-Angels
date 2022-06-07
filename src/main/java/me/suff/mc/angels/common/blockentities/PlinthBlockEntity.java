@@ -14,6 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,7 +28,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     private boolean hasSpawned = false;
     private String type = AngelType.DISASTER_MC.name();
-    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
+    private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(RandomSource.create());
     private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
 
     public PlinthBlockEntity(BlockPos blockPos, BlockState state) {

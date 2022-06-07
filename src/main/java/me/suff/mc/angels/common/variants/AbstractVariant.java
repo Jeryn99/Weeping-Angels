@@ -5,11 +5,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.function.Predicate;
 
-public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
+public abstract class AbstractVariant {
 
     private final Predicate<WeepingAngel> variantTest;
     private boolean isHeadless = false;

@@ -9,11 +9,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class WATeleporter {
         return world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
     }
 
-    public static ServerLevel getRandomDimension(Random rand) {
+    public static ServerLevel getRandomDimension(RandomSource rand) {
         Iterable<ServerLevel> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
         ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 
@@ -56,15 +57,15 @@ public class WATeleporter {
     }
 
     public static void teleportPlayerTo(ServerPlayer player, BlockPos destinationPos, ServerLevel targetDimension) {
-        Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
+        Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getLocation()), player);
         player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yHeadRot, player.xRotO);
     }
 
     public static boolean handleStructures(ServerPlayer player) {
-        TagKey<ConfiguredStructureFeature<?, ?>> targetStructure = AngelUtil.TELEPORT_STRUCTURES;
+        TagKey<Structure> targetStructure = AngelUtil.TELEPORT_STRUCTURES;
         if (targetStructure != null) {
             ServerLevel serverWorld = (ServerLevel) player.level;
-            BlockPos bPos = serverWorld.findNearestMapFeature(targetStructure, player.blockPosition(), Integer.MAX_VALUE, false);
+            BlockPos bPos = serverWorld.findNearestMapStructure(targetStructure, player.blockPosition(), Integer.MAX_VALUE, false);
             if (bPos != null) {
                 teleportPlayerTo(player, bPos, player.getLevel());
                 return true;

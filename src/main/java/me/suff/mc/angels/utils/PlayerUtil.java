@@ -3,7 +3,7 @@ package me.suff.mc.angels.utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.suff.mc.angels.client.renders.Donator;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,7 +55,7 @@ public class PlayerUtil {
     }
 
 
-    public static void sendMessageToPlayer(Player player, TranslatableComponent textComponent, boolean isHotBar) {
+    public static void sendMessageToPlayer(Player player, MutableComponent textComponent, boolean isHotBar) {
         if (player.level.isClientSide) return;
         player.displayClientMessage(textComponent, isHotBar);
     }

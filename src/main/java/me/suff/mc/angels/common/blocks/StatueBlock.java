@@ -118,9 +118,4 @@ public class StatueBlock extends Block implements SimpleWaterloggedBlock, Entity
         };
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
-        return EntityBlock.super.getListener(p_153210_, p_153211_);
-    }
 }

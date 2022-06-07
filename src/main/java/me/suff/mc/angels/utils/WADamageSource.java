@@ -1,7 +1,6 @@
 package me.suff.mc.angels.utils;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -16,6 +15,6 @@ public class WADamageSource extends DamageSource {
 
     @Override
     public Component getLocalizedDeathMessage(LivingEntity entity) {
-        return new TranslatableComponent(message, entity.getName());
+        return Component.translatable(message, entity.getName());
     }
 }

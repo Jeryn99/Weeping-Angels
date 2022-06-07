@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.variants;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.AngelUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
 
 public class AngelTypes {
 
-    public static final DeferredRegister<AbstractVariant> VARIANTS = DeferredRegister.create(AbstractVariant.class, WeepingAngels.MODID);
+    public static final DeferredRegister<AbstractVariant> VARIANTS = DeferredRegister.create(new ResourceLocation(WeepingAngels.MODID, "angel_types"), WeepingAngels.MODID);
     public static final RegistryObject<AbstractVariant> GOLD = VARIANTS.register("gold", () -> new MiningVariant(() -> new ItemStack(Blocks.GOLD_ORE), 25));
     public static final RegistryObject<AbstractVariant> DIAMOND = VARIANTS.register("diamond", () -> new MiningVariant(() -> new ItemStack(Blocks.DIAMOND_ORE), 5));
     public static final RegistryObject<AbstractVariant> IRON = VARIANTS.register("iron", () -> new MiningVariant(() -> new ItemStack(Blocks.IRON_ORE), 50));
@@ -45,7 +46,7 @@ public class AngelTypes {
         }
         return false;
     };
-    public static Supplier<IForgeRegistry<AbstractVariant>> VARIANTS_REGISTRY = VARIANTS.makeRegistry("angel_types", () -> new RegistryBuilder<AbstractVariant>().setMaxID(Integer.MAX_VALUE - 1));
+    public static Supplier<IForgeRegistry<AbstractVariant>> VARIANTS_REGISTRY = VARIANTS.makeRegistry(() -> new RegistryBuilder<AbstractVariant>().setMaxID(Integer.MAX_VALUE - 1));
 
 
 }

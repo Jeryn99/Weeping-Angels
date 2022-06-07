@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -37,7 +36,7 @@ public class AngelSpawnerItem extends Item {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowdedIn(group)) {
+        if (allowedIn(group)) {
             for (AngelType angelType : AngelType.values()) {
                 ItemStack itemstack = new ItemStack(this);
                 setType(itemstack, angelType);
@@ -49,7 +48,7 @@ public class AngelSpawnerItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return new TranslatableComponent(this.getDescriptionId(stack), getType(stack).getReadable());
+        return Component.translatable(this.getDescriptionId(stack), getType(stack).getReadable());
     }
 
     @Override

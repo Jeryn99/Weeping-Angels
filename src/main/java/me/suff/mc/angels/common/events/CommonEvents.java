@@ -20,8 +20,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,13 +45,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -89,14 +88,14 @@ public class CommonEvents {
             event.setCanceled(true);
             plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
             plinth.sendUpdatesToClient();
-            PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
+            PlayerUtil.sendMessageToPlayer(playerEntity, Component.translatable("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }
 
         if (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof DebugStickItem && hasChisel) {
             if (world.getBlockEntity(pos) instanceof CoffinBlockEntity coffinTile) {
                 event.setCanceled(true);
                 coffinTile.setCoffin(CoffinBlockEntity.Coffin.next(coffinTile.getCoffin()));
-                PlayerUtil.sendMessageToPlayer(playerEntity, new TranslatableComponent(coffinTile.getCoffin().name()), true);
+                PlayerUtil.sendMessageToPlayer(playerEntity, Component.translatable(coffinTile.getCoffin().name()), true);
             }
         }
 
@@ -110,13 +109,13 @@ public class CommonEvents {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
 
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).isValid();
+        boolean isGraveYard = world.structureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).isValid();
 
         if (!isGraveYard) return;
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
             if (!player.getAbilities().instabuild) {
-                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).getBoundingBox();
+                BoundingBox box = world.structureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).getBoundingBox();
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
@@ -256,11 +255,11 @@ public class CommonEvents {
     public static void versionCheck(Player playerEntity) {
         VersionChecker.CheckResult version = VersionChecker.getResult(ModList.get().getModFileById(WeepingAngels.MODID).getMods().get(0));
         if (version.status() == VersionChecker.Status.OUTDATED) {
-            TranslatableComponent click = new TranslatableComponent("Download");
+            MutableComponent click = Component.translatable("Download");
             click.setStyle(Style.EMPTY.withUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
 
-            TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
-            translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));
+            MutableComponent translationTextComponent = Component.translatable(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
+            translationTextComponent.append(Component.translatable(" New Update Found: (" + version.target() + ") ").append(click));
             PlayerUtil.sendMessageToPlayer(playerEntity, translationTextComponent, false);
         }
     }

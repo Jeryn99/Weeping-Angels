@@ -1,6 +1,6 @@
 package me.suff.mc.angels.client.poses;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public enum WeepingAngelPose {
 
@@ -17,7 +17,7 @@ public enum WeepingAngelPose {
         this.emotion = Emotion.IDLE;
     }
 
-    public static WeepingAngelPose getRandomPose(Random random) {
+    public static WeepingAngelPose getRandomPose(RandomSource random) {
         int pick = random.nextInt(WeepingAngelPose.values().length);
         return WeepingAngelPose.values()[pick];
     }

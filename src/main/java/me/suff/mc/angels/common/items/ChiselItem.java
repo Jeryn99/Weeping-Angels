@@ -4,7 +4,6 @@ import me.suff.mc.angels.common.blockentities.IPlinth;
 import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -41,19 +40,19 @@ public class ChiselItem extends Item {
                     plinth.changeModel();
                     plinth.sendUpdatesToClient();
                     plinth.setAbstractVariant(NORMAL.get());
-                    PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed model to " + plinth.getCurrentType()), true);
+                    PlayerUtil.sendMessageToPlayer(player, Component.translatable("Changed model to " + plinth.getCurrentType()), true);
                 } else {
                     player.swing(context.getHand());
                     plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
                     plinth.sendUpdatesToClient();
-                    PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
+                    PlayerUtil.sendMessageToPlayer(player, Component.translatable("Changed variant to " + plinth.getVariant().getRegistryName()), true);
                 }
                 return InteractionResult.PASS;
             }
 
             player.swing(context.getHand());
             plinth.changePose();
-            PlayerUtil.sendMessageToPlayer(player, new TranslatableComponent("Changed pose to " + plinth.getCurrentPose()), true);
+            PlayerUtil.sendMessageToPlayer(player, Component.translatable("Changed pose to " + plinth.getCurrentPose()), true);
             plinth.sendUpdatesToClient();
             return InteractionResult.PASS;
         }
@@ -65,10 +64,10 @@ public class ChiselItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel"));
-        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_right_click"));
-        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.chisel_sneak"));
-        tooltip.add(new TranslatableComponent("tooltip.weeping_angels.punch_variant"));
+        tooltip.add(Component.translatable("tooltip.weeping_angels.chisel"));
+        tooltip.add(Component.translatable("tooltip.weeping_angels.chisel_right_click"));
+        tooltip.add(Component.translatable("tooltip.weeping_angels.chisel_sneak"));
+        tooltip.add(Component.translatable("tooltip.weeping_angels.punch_variant"));
 
     }
 }

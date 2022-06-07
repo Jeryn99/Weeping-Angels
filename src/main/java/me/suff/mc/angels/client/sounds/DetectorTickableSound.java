@@ -5,6 +5,7 @@ import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 
 public class DetectorTickableSound extends AbstractTickableSoundInstance {
@@ -12,7 +13,7 @@ public class DetectorTickableSound extends AbstractTickableSoundInstance {
     private float pitch = 0.0F;
 
     public DetectorTickableSound(Player playerEntity) {
-        super(WAObjects.Sounds.PROJECTOR.get(), SoundSource.PLAYERS);
+        super(WAObjects.Sounds.PROJECTOR.get(), SoundSource.PLAYERS, RandomSource.create());
         this.playerEntity = playerEntity;
         this.looping = true;
         this.delay = 0;

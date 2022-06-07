@@ -78,10 +78,10 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent.FogDensity event) {
+    public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
             event.setCanceled(true);
-            event.setDensity(70);
+            event.setFarPlaneDistance(70); //TODO look into
         }
     }
 

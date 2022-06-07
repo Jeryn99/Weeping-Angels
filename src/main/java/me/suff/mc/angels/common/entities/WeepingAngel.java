@@ -10,7 +10,6 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.TagUtil;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -121,7 +120,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     protected void defineSynchedData() {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
-        getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
+        getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(random).name());
         getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom(null).getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
@@ -204,7 +203,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public boolean isInCatacomb() {
         if (level instanceof ServerLevel serverWorld) {
-            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(AngelUtil.CATACOMBS, blockPosition(), 100, false);
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapStructure(AngelUtil.CATACOMBS, blockPosition(), 100, false);
             if (catacomb == null) {
                 return false;
             }
@@ -246,7 +245,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    protected boolean shouldDropExperience() {
+    protected boolean isAlwaysExperienceDropper() {
         return true;
     }
 
@@ -327,7 +326,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private void playSeenSound(Player player) {
         if (player.distanceTo(this) < 15) {
             setTimeSincePlayedSound(System.currentTimeMillis());
-            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F));
+            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, 1)); //TODO wtf is a seed
         }
     }
 
@@ -471,7 +470,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
             case RANDOM_PLACE -> {
                 double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
                 double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
-                ServerLevel teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerLevel) player.level;
+                ServerLevel teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(player.level.random) : (ServerLevel) player.level;
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
                 teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);
                 teleportWorld.getServer().tell(new TickTask(teleportWorld.getServer().getTickCount() + 1, () -> {
@@ -548,11 +547,9 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
 
-        if (TagUtil.hasTag(ForgeRegistries.BLOCKS, AngelUtil.ANGEL_IGNORE, blockState.getBlock())) {
+        if (ForgeRegistries.BLOCKS.tags().getTag(AngelUtil.ANGEL_IGNORE).contains(blockState.getBlock())) {
             return false;
         }
-
-
 
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);

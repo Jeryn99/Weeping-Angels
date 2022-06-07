@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -91,7 +90,7 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
         if (world.getBlockEntity(pos) instanceof PlinthBlockEntity plinth) {
-            plinth.setPose(WeepingAngelPose.getRandomPose(AngelUtil.RAND));
+            plinth.setPose(WeepingAngelPose.getRandomPose(world.random));
             plinth.setAngelType(AngelUtil.randomType().name());
             plinth.setAngelVarients(plinth.getAngelType().getWeightedHandler().getRandom(null));
             if (stack.getTagElement("BlockEntityTag") != null) {
@@ -123,9 +122,4 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         };
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
-        return EntityBlock.super.getListener(p_153210_, p_153211_);
-    }
 }

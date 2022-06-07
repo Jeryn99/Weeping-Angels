@@ -36,8 +36,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.Serializer;
@@ -56,6 +56,7 @@ import static me.suff.mc.angels.common.blockentities.CoffinBlockEntity.Coffin.*;
 
 public class AngelUtil {
 
+    public static final Random RAND = new Random();
     public static TagKey<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
     public static TagKey<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
     public static TagKey<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
@@ -63,10 +64,8 @@ public class AngelUtil {
     public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
 
     public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
-    public static TagKey<ConfiguredStructureFeature<?, ?>> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
-    public static TagKey<ConfiguredStructureFeature<?, ?>> CATACOMBS = makeStructure(WeepingAngels.MODID, "haunted_structures");
-
-    public static Random RAND = new Random();
+    public static TagKey<Structure> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
+    public static TagKey<Structure> CATACOMBS = makeStructure(WeepingAngels.MODID, "haunted_structures");
 
     public static TagKey<Item> makeItem(String domain, String path) {
         return ItemTags.create(new ResourceLocation(domain, path));
@@ -76,8 +75,8 @@ public class AngelUtil {
         return BlockTags.create(new ResourceLocation(domain, path));
     }
 
-    public static TagKey<ConfiguredStructureFeature<?, ?>> makeStructure(String domain, String path) {
-        return TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(domain, path));
+    public static TagKey<Structure> makeStructure(String domain, String path) {
+        return TagKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(domain, path));
     }
 
     public static TagKey<Biome> makeBiome(String domain, String path) {
@@ -198,10 +197,10 @@ public class AngelUtil {
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).isValid();
+            boolean isCatacomb = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).getBoundingBox();
+                BoundingBox box = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAFeatures.CATACOMB.getId())).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
         }
@@ -217,8 +216,8 @@ public class AngelUtil {
         return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
     }
 
-    public static ConfiguredStructureFeature<?, ?> getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
-        Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+    public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
+        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
         return registry.get(resourceLocation);
     }
 

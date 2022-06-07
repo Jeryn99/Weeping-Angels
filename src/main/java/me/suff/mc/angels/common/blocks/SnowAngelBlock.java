@@ -7,6 +7,7 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,7 +69,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
             Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
             BlockEntity tile = worldIn.getBlockEntity(pos);
@@ -82,6 +83,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
             }
         }
     }
+
 
     @Override
     public RenderShape getRenderShape(BlockState p_51567_) {
@@ -102,11 +104,5 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
                 snowAngelBlockEntity.tick(level, blockPos, blockState, snowAngelBlockEntity);
             }
         };
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
-        return EntityBlock.super.getListener(p_153210_, p_153211_);
     }
 }

@@ -25,6 +25,7 @@ import java.util.Iterator;
 
 import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
+
 public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<CoffinBlockEntity> {
 
     private Coffin coffin = Coffin.NEW;

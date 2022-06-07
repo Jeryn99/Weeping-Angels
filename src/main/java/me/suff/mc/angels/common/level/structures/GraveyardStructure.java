@@ -15,9 +15,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -27,6 +30,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
@@ -35,6 +40,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -44,6 +50,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -51,7 +58,7 @@ import java.util.function.Predicate;
 
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
-public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguration> {
+public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
 
 
     public GraveyardStructure(Codec<NoneFeatureConfiguration> p_72474_) {
@@ -63,7 +70,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
     }
 
-    private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
+    private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
         ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
         structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
@@ -72,12 +79,22 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         int height = configurationContext.chunkGenerator().getFirstFreeHeight(configurationContext.chunkPos().getMinBlockX(), configurationContext.chunkPos().getMinBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, configurationContext.heightAccessor());
         BlockPos blockpos = new BlockPos(configurationContext.chunkPos().getMinBlockX(), height, configurationContext.chunkPos().getMinBlockZ());
         Rotation rotation = Rotation.getRandom(configurationContext.random());
-        addPiece(configurationContext.structureManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
+        addPiece(configurationContext.structureTemplateManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
     }
 
     @Override
     public GenerationStep.Decoration step() {
         return GenerationStep.Decoration.SURFACE_STRUCTURES;
+    }
+
+    @Override
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext p_226571_) {
+        return Optional.empty();
+    }
+
+    @Override
+    public StructureType<?> type() {
+        return null;
     }
 
     public static class GraveyardPiece extends TemplateStructurePiece {
@@ -94,16 +111,16 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         private static final ResourceLocation[] ALL_GRAVES = new ResourceLocation[]{GRAVEYARD_1, GRAVEYARD_2, GRAVEYARD_3, GRAVEYARD_4, GRAVEYARD_5, GRAVEYARD_6, GRAVEYARD_WALKWAY, GRAVEYARD_LARGE_ONE, GRAVEYARD_LARGE_TWO};
         private static String[] USERNAMES = new String[]{};
 
-        public GraveyardPiece(int p_163661_, StructureManager p_163662_, ResourceLocation p_163663_, String p_163664_, StructurePlaceSettings p_163665_, BlockPos p_163666_) {
+        public GraveyardPiece(int p_163661_, StructureTemplateManager p_163662_, ResourceLocation p_163663_, String p_163664_, StructurePlaceSettings p_163665_, BlockPos p_163666_) {
             super(WAPieces.GRAVEYARD, p_163661_, p_163662_, p_163663_, p_163664_, p_163665_, p_163666_);
         }
 
-        public GraveyardPiece(CompoundTag p_192678_, StructureManager p_192679_, Function<ResourceLocation, StructurePlaceSettings> p_192680_) {
+        public GraveyardPiece(CompoundTag p_192678_, StructureTemplateManager p_192679_, Function<ResourceLocation, StructurePlaceSettings> p_192680_) {
             super(WAPieces.GRAVEYARD, p_192678_, p_192679_, p_192680_);
         }
 
         public GraveyardPiece(StructurePieceSerializationContext structurePieceSerializationContext, CompoundTag tag) {
-            super(WAPieces.GRAVEYARD, tag, structurePieceSerializationContext.structureManager(), (p_162451_) -> makeSettings(Rotation.NONE));
+            super(WAPieces.GRAVEYARD, tag, structurePieceSerializationContext.structureTemplateManager(), (p_162451_) -> makeSettings(Rotation.NONE));
         }
 
 
@@ -131,7 +148,8 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         }
 
         @Override
-        protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, Random random, BoundingBox p_73687_) {
+        
+        protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, RandomSource random, BoundingBox p_73687_) {
             if (USERNAMES.length == 0) {
                 try {
                     loadNames();
@@ -188,10 +206,10 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
                 if (serverLevelAccessor.getBlockState(blockPos.below()).getBlock() instanceof WallSignBlock) {
                     SignBlockEntity signTileEntity = (SignBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                     if (signTileEntity != null) {
-                        signTileEntity.setMessage(0, new TranslatableComponent("========"));
-                        signTileEntity.setMessage(1, new TranslatableComponent(USERNAMES[random.nextInt(USERNAMES.length - 1)]));
-                        signTileEntity.setMessage(2, new TranslatableComponent("Died: " + createRandomDate()));
-                        signTileEntity.setMessage(3, new TranslatableComponent("========"));
+                        signTileEntity.setMessage(0, Component.translatable("========"));
+                        signTileEntity.setMessage(1, Component.translatable((USERNAMES[random.nextInt(USERNAMES.length - 1)]));
+                        signTileEntity.setMessage(2, Component.translatable(("Died: " + createRandomDate()));
+                        signTileEntity.setMessage(3, Component.translatable(("========"));
                         serverLevelAccessor.removeBlock(blockPos, false);
                         serverLevelAccessor.setBlock(blockPos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
                     }
@@ -203,7 +221,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         private void loadNames() throws IOException {
             ResourceLocation resourceLocation = new ResourceLocation(WeepingAngels.MODID, "names.json");
-            InputStream stream = ServerLifecycleHooks.getCurrentServer().getServerResources().resourceManager().getResource(resourceLocation).getInputStream();
+            InputStream stream = ServerLifecycleHooks.getCurrentServer().getServerResources().resourceManager().getResource(resourceLocation).get().open();
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             StringBuilder sb = new StringBuilder();
             String line;

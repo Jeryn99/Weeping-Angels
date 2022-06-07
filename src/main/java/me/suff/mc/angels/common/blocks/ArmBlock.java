@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -37,7 +38,7 @@ public class ArmBlock extends Block {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Random random) {
+    public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random) {
         super.randomTick(blockState, serverLevel, blockPos, random);
         serverLevel.setBlock(blockPos, blockState.setValue(VARIANT, Mth.clamp(AngelUtil.RAND.nextInt(5), 0, 2)), 4);
     }
