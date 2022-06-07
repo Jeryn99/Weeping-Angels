@@ -60,7 +60,6 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static me.suff.mc.angels.utils.AngelUtil.ANGEL_SPAWNS;
 import static me.suff.mc.angels.utils.AngelUtil.updateBlock;
 
 public class WeepingAngel extends QuantumLockedLifeform {
@@ -496,7 +495,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && super.checkSpawnRules(worldIn, spawnReasonIn) && worldIn.getBiome(blockPosition()).is(ANGEL_SPAWNS);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && super.checkSpawnRules(worldIn, spawnReasonIn);
     }
 
 

@@ -63,8 +63,6 @@ public class AngelUtil {
     public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
 
     public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
-    public static TagKey<Biome> ANGEL_SPAWNS = makeBiome(WeepingAngels.MODID, "spawns/weeping_angels");
-
     public static TagKey<ConfiguredStructureFeature<?, ?>> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
     public static TagKey<ConfiguredStructureFeature<?, ?>> CATACOMBS = makeStructure(WeepingAngels.MODID, "haunted_structures");
 
