@@ -499,7 +499,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
 
-
     public String getAngelPose() {
         return getEntityData().get(CURRENT_POSE);
     }
@@ -551,7 +550,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (TagUtil.hasTag(ForgeRegistries.BLOCKS, AngelUtil.ANGEL_IGNORE, blockState.getBlock())) {
             return false;
         }
-
 
 
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);

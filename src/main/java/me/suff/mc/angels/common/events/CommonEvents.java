@@ -65,6 +65,8 @@ import java.util.Objects;
 @Mod.EventBusSubscriber
 public class CommonEvents {
 
+    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
+
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {
         LivingEntity killed = event.getEntityLiving();
@@ -73,7 +75,6 @@ public class CommonEvents {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
         }
     }
-
 
     @SubscribeEvent
     public static void onBreak(BlockEvent.BreakEvent event) {
@@ -101,7 +102,6 @@ public class CommonEvents {
         }
 
     }
-
 
     @SubscribeEvent
     public static void onOpenChestInGraveYard(PlayerInteractEvent.RightClickBlock event) {
@@ -230,15 +230,13 @@ public class CommonEvents {
 
     }
 
-    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
-
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
 
         for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
             for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
                 if (BiomeDictionary.hasType(biome, biomeType)) {
-                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with Weight {} || Type {}", biome, WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
+                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biome.location(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
                     biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
                 }
             }
