@@ -32,7 +32,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: "official", version: "1.18.2"
+    mappings channel: "official", version: "1.19"
 
     runs {
 
@@ -95,7 +95,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.48'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.1'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -161,9 +161,9 @@ curseforge {
             changelog = new File("${project.projectDir}/changelog.html").text
             changelogType = 'html'
             releaseType = 'release'
-            addGameVersion '1.18.2'
+            addGameVersion '1.19'
             mainArtifact(jar) {
-                displayName = "[1.18.X] Weeping Angels - $project.version"
+                displayName = "[1.19.X] Weeping Angels - $project.version"
             }
         }
     } else {
