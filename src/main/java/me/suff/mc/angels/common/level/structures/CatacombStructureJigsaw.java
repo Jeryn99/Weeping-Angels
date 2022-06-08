@@ -2,15 +2,12 @@ package me.suff.mc.angels.common.level.structures;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
@@ -21,8 +18,6 @@ import java.util.Optional;
 
 public class CatacombStructureJigsaw extends Structure {
 
-    // A custom codec that changes the size limit for our code_structure_sky_fan.json's config to not be capped at 7.
-    // With this, we can have a structure with a size limit up to 30 if we want to have extremely long branches of pieces in the structure.
     public static final Codec<CatacombStructureJigsaw> CODEC = RecordCodecBuilder.<CatacombStructureJigsaw>mapCodec(instance ->
             instance.group(CatacombStructureJigsaw.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
@@ -53,6 +48,7 @@ public class CatacombStructureJigsaw extends Structure {
 
 
     private static boolean extraSpawningChecks(Structure.GenerationContext context) {
+
         ChunkPos chunkpos = context.chunkPos();
 
         return context.chunkGenerator().getFirstOccupiedHeight(
@@ -71,24 +67,27 @@ public class CatacombStructureJigsaw extends Structure {
             return Optional.empty();
         }
 
-        int startY = AngelUtil.RAND.nextInt(60) * -1;
+        int startY = context.random().nextInt(60) * -1;
 
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
 
-        return JigsawPlacement.addPieces(
-                context,
-                this.startPool,
-                this.startJigsawName,
-                this.size,
-                blockPos,
-                false,
-                this.projectStartToHeightmap,
-                this.maxDistanceFromCenter);
+        Optional<Structure.GenerationStub> structurePiecesGenerator =
+                JigsawPlacement.addPieces(
+                        context,
+                        this.startPool,
+                        this.startJigsawName,
+                        this.size,
+                        blockPos,
+                        false,
+                        this.projectStartToHeightmap,
+                        this.maxDistanceFromCenter);
+
+        return structurePiecesGenerator;
     }
 
     @Override
     public StructureType<?> type() {
-        return WAFeatures.CATACOMB.get(); // Helps the game know how to turn this structure back to json to save to chunks
+        return WAFeatures.CATACOMB.get();
     }
 }

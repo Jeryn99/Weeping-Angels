@@ -10,7 +10,8 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.BiomeModifiers;
+import me.suff.mc.angels.common.level.biomemodifiers.SnowAngelModifier;
+import me.suff.mc.angels.common.level.biomemodifiers.SpawnsModifier;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vivecraft.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -72,10 +73,12 @@ public class WeepingAngels {
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
         WAGlobalLoot.GLM.register(modBus);
+        WAFeatures.PLACED_FEATURES.register(modBus);
 
         final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
         serializers.register(modBus);
-        serializers.register(BiomeModifiers.WeepingAngelSpawnsModifier.WEEPING_ANGEL_SPAWNS.getPath(), BiomeModifiers.WeepingAngelSpawnsModifier::makeCodec);
+        serializers.register(SpawnsModifier.WEEPING_ANGEL_SPAWNS.getPath(), SpawnsModifier::makeCodec);
+        serializers.register(SnowAngelModifier.ADD_FEATURES_TO_BIOMES_RL.getPath(), SnowAngelModifier::makeCodec);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);

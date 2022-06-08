@@ -44,8 +44,11 @@ public class WAFeatures {
     public static final DeferredRegister<StructureType<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, WeepingAngels.MODID);
     public static final RegistryObject<StructureType<?>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacombs", () -> typeConvert(CatacombStructureJigsaw.CODEC));
     public static final RegistryObject<StructureType<?>> GRAVEYARD = DEFERRED_REGISTRY_STRUCTURE.register("graveyard", () -> typeConvert(GraveyardStructure.CODEC));
-    private static final HashSet<Holder<PlacedFeature>> FEATURES = new HashSet<>();
-    private static final HashSet<Holder<PlacedFeature>> ORES = new HashSet<>();
+
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, WeepingAngels.MODID);
+
+    public static final HashSet<Holder<PlacedFeature>> FEATURES = new HashSet<>();
+    public static final HashSet<Holder<PlacedFeature>> ORES = new HashSet<>();
 
 
     private static <S extends Structure> StructureType<S> typeConvert(Codec<S> codec) {
@@ -53,6 +56,7 @@ public class WAFeatures {
     }
 
     private static Structure.StructureSettings structure(TagKey<Biome> p_236546_, Map<MobCategory, StructureSpawnOverride> p_236547_, GenerationStep.Decoration p_236548_, TerrainAdjustment p_236549_) {
+
         return new Structure.StructureSettings(biomes(p_236546_), p_236547_, p_236548_, p_236549_);
     }
 
@@ -72,6 +76,7 @@ public class WAFeatures {
         return BuiltinRegistries.BIOME.getOrCreateTag(p_236537_);
     }
 
+
     public static void ores() {
         BlockState blockState = WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState();
         BlockState blockStateDeep = WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState();
@@ -82,31 +87,12 @@ public class WAFeatures {
         ORES.add(placedFeatureUpper);
         ORES.add(placedFeatureMiddle);
 
+
         Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> snowAngelFeature = FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()))));
         Holder<PlacedFeature> snowAngelPlaced = PlacementUtils.register("snow_angel", snowAngelFeature, NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
         FEATURES.add(snowAngelPlaced);
+
     }
-
-
-    //TODO
-/*    @SubscribeEvent
-    public static void gen(BiomeLoadingEvent event) {
-        BiomeGenerationSettingsBuilder gen = event.getGeneration();
-        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND && WAConfig.CONFIG.genOres.get()) {
-            for (Holder<PlacedFeature> feature : ORES) {
-                gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
-            }
-        }
-
-        Holder<Biome> biome = Holder.direct(ForgeRegistries.BIOMES.getValue(event.getName()));
-
-        if (biome.value().getPrecipitation() == Biome.Precipitation.SNOW) {
-            WeepingAngels.LOGGER.info("Added snow angels to " + event.getName());
-            for (Holder<PlacedFeature> feature : FEATURES) {
-                gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, feature);
-            }
-        }
-    }*/
 
 
     // Taken from Oreplacements, should really be made public by Forge
