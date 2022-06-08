@@ -36,7 +36,7 @@ public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
         Holder<Predicate<Holder<Biome>>> biome = Holder.direct(context.validBiome());
-        return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ()))) && WAConfig.CONFIG.genCatacombs.get();
+        return context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ()))) && WAConfig.CONFIG.genCatacombs.get();
     }
 
 

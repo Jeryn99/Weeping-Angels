@@ -59,8 +59,7 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
     }
 
     private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> configurationContext) {
-        Holder<Predicate<Holder<Biome>>> biome = Holder.direct(configurationContext.validBiome());
-        return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
+        return configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
     }
 
     private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
