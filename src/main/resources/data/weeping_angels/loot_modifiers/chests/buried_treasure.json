@@ -1,10 +1,10 @@
 {
+  "type": "weeping_angels:loot",
+  "chance": 40,
   "conditions": [
     {
       "condition": "forge:loot_table_id",
       "loot_table_id": "minecraft:chests/buried_treasure"
     }
-  ],
-  "chance": 40,
-  "type": "weeping_angels:loot"
+  ]
 }

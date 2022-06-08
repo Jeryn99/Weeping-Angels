@@ -1,29 +1,29 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "minecraft:clock"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "K": {
+      "item": "weeping_angels:kontron_ingot"
+    },
+    "P": {
+      "item": "minecraft:stone_button"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
   "pattern": [
     "IPI",
     "EKE",
     "IRI"
   ],
-  "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "E": {
-      "item": "minecraft:clock"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    },
-    "P": {
-      "item": "minecraft:stone_button"
-    },
-    "K": {
-      "item": "weeping_angels:kontron_ingot"
-    }
-  },
   "result": {
-    "item": "weeping_angels:chronodyne_generator",
-    "count": 2
+    "count": 2,
+    "item": "weeping_angels:chronodyne_generator"
   }
 }

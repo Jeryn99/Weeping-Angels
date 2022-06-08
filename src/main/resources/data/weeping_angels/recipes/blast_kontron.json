@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 150,
+  "experience": 0.8,
   "ingredient": {
     "item": "weeping_angels:kontron_ore"
   },
-  "result": "weeping_angels:kontron_ingot",
-  "experience": 0.8,
-  "cookingtime": 150
+  "result": "weeping_angels:kontron_ingot"
 }

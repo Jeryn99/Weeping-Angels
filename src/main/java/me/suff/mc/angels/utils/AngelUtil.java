@@ -47,7 +47,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Calendar;
 import java.util.List;
@@ -64,7 +63,9 @@ public class AngelUtil {
     public static TagKey<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
     public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
 
-    public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
+    public static TagKey<Biome> CATACOMB_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/catacombs");
+    public static TagKey<Biome> GRAVEYARD_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/graveyard");
+    public static TagKey<Biome> ANGEL_SPAWNS = makeBiome(WeepingAngels.MODID, "spawns/weeping_angels");
     public static TagKey<Structure> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
     public static TagKey<Structure> CATACOMBS = makeStructure(WeepingAngels.MODID, "haunted_structures");
 

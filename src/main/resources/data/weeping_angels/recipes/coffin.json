@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "W": {
+      "tag": "minecraft:logs"
+    }
+  },
   "pattern": [
     "WWW",
     "WBW",
     "WWW"
   ],
-  "key": {
-    "W": {
-      "tag": "minecraft:logs"
-    },
-    "B": {
-      "item": "minecraft:bone"
-    }
-  },
   "result": {
     "item": "weeping_angels:coffin"
   }

@@ -1,5 +1,6 @@
 package me.suff.mc.angels;
 
+import com.mojang.serialization.Codec;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.renders.entities.AngelRender;
 import me.suff.mc.angels.client.renders.entities.AnomalyRender;
@@ -9,6 +10,7 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
+import me.suff.mc.angels.common.level.BiomeModifiers;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vivecraft.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
@@ -23,8 +25,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -36,7 +38,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -68,8 +71,11 @@ public class WeepingAngels {
         WAFeatures.DEFERRED_REGISTRY_STRUCTURE.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
-
         WAGlobalLoot.GLM.register(modBus);
+
+        final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
+        serializers.register(modBus);
+        serializers.register(BiomeModifiers.WeepingAngelSpawnsModifier.WEEPING_ANGEL_SPAWNS.getPath(), BiomeModifiers.WeepingAngelSpawnsModifier::makeCodec);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
@@ -106,13 +112,14 @@ public class WeepingAngels {
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(false, new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
-        generator.addProvider(false, new WABlockTags(generator, existingFileHelper));
-        generator.addProvider(false, new LootTablesForDrops(generator));
-        generator.addProvider(false, new WALangEnglish());
-        generator.addProvider(false, new WABiomeGen(generator, existingFileHelper));
-        generator.addProvider(false, new WAStructureTagGen(generator, existingFileHelper));
-        generator.addProvider(false, new WARecipeGen(generator));
+        generator.addProvider(true, new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
+        generator.addProvider(true, new WABlockTags(generator, existingFileHelper));
+        generator.addProvider(true, new LootTablesForDrops(generator));
+        generator.addProvider(true, new WALangEnglish());
+        generator.addProvider(true, new WABiomeGen(generator, existingFileHelper));
+        generator.addProvider(true, new WAStructureTagGen(generator, existingFileHelper));
+        generator.addProvider(true, new WARecipeGen(generator));
+        WABiomeModifiers.onGatherData(e);
         // generator.addProvider(new WALootTables(generator));
     }
 

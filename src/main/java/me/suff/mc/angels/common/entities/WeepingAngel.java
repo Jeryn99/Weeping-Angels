@@ -326,7 +326,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private void playSeenSound(Player player) {
         if (player.distanceTo(this) < 15) {
             setTimeSincePlayedSound(System.currentTimeMillis());
-            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, 1)); //TODO wtf is a seed
+            ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
         }
     }
 

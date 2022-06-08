@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:torch",
     "minecraft:torch",
@@ -18,6 +17,9 @@
     "minecraft:campfire",
     "minecraft:soul_campfire",
     "minecraft:shroomlight",
-    "minecraft:crying_obsidian"
+    "minecraft:crying_obsidian",
+    "minecraft:ochre_froglight",
+    "minecraft:verdant_froglight",
+    "minecraft:pearlescent_froglight"
   ]
 }

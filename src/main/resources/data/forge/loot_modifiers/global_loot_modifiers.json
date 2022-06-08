@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "entries": [
     "weeping_angels:chests/stronghold_library",
     "weeping_angels:gameplay/hero_of_the_village/librarian_gift",
@@ -12,5 +11,6 @@
     "weeping_angels:chests/woodland_mansion",
     "weeping_angels:chests/buried_treasure",
     "weeping_angels:chests/shipwreck_supply"
-  ]
+  ],
+  "replace": false
 }

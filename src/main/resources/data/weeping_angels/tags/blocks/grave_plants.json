@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:flower_pot",
     "minecraft:potted_oak_sapling",
@@ -8,6 +7,7 @@
     "minecraft:potted_jungle_sapling",
     "minecraft:potted_acacia_sapling",
     "minecraft:potted_dark_oak_sapling",
+    "minecraft:potted_mangrove_propagule",
     "minecraft:potted_fern",
     "minecraft:potted_dandelion",
     "minecraft:potted_poppy",

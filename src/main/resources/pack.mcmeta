@@ -1,7 +1,8 @@
 {
   "pack": {
-    "description": "Weeping Angels",
-    "pack_format": 4,
-    "_comment": "Resources for the Weeping Angels Mod"
+    "pack_format": 8,
+    "description": "Weeping Angels resource pack",
+    "forge:resource_pack_format": 9,
+    "forge:data_pack_format": 10
   }
 }

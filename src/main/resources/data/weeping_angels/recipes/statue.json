@@ -1,9 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#",
-    "S"
-  ],
   "key": {
     "#": {
       "item": "minecraft:stone"
@@ -12,6 +8,10 @@
       "item": "minecraft:smooth_stone"
     }
   },
+  "pattern": [
+    "#",
+    "S"
+  ],
   "result": {
     "item": "weeping_angels:statue"
   }

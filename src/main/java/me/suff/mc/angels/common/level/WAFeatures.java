@@ -9,12 +9,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.Structures;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
@@ -91,7 +89,7 @@ public class WAFeatures {
 
 
     //TODO
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void gen(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
         if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND && WAConfig.CONFIG.genOres.get()) {
@@ -108,7 +106,7 @@ public class WAFeatures {
                 gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, feature);
             }
         }
-    }
+    }*/
 
 
     // Taken from Oreplacements, should really be made public by Forge

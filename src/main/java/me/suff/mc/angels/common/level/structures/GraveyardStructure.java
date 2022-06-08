@@ -8,7 +8,6 @@ import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.level.WAPieces;
-import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.core.BlockPos;
@@ -20,20 +19,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
@@ -49,10 +44,8 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
@@ -77,11 +70,6 @@ public class GraveyardStructure extends Structure {
         BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 90, chunkpos.getMinBlockZ());
         Rotation rotation = Rotation.getRandom(worldgenrandom);
         GraveyardStructure.addPiece(generationContext.structureTemplateManager(), blockpos, rotation, structurePiecesBuilder, worldgenrandom);
-    }
-
-    private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> configurationContext) {
-        Holder<Predicate<Holder<Biome>>> biome = Holder.direct(configurationContext.validBiome());
-        return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
     }
 
     private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, WorldgenRandom random) {
