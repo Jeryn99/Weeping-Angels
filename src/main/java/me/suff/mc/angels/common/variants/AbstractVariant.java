@@ -1,6 +1,8 @@
 package me.suff.mc.angels.common.variants;
 
+import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
@@ -57,5 +59,9 @@ public abstract class AbstractVariant {
             return true;
         }
         return variantTest.test(weepingAngel);
+    }
+
+    public ResourceLocation getRegistryName(){
+        return AngelTypes.VARIANTS_REGISTRY.get().getKey(this);
     }
 }

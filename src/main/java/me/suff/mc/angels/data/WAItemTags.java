@@ -26,8 +26,8 @@ public class WAItemTags extends ItemTagsProvider {
     @Override
     protected void addTags() {
         ForgeRegistries.BLOCKS.getValues().forEach(block -> {
-            if (!Objects.requireNonNull(block.getRegistryName()).getNamespace().contains("tardis")) {
-                WeepingAngels.LOGGER.info("Light Value: " + block.getRegistryName() + " || " + AngelUtil.getLightValue(block));
+            if (!Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block).getNamespace().contains("tardis"))) {
+                WeepingAngels.LOGGER.info("Light Value: " + ForgeRegistries.BLOCKS.getKey(block) + " || " + AngelUtil.getLightValue(block));
                 if (AngelUtil.getLightValue(block) > 7 && block.asItem() != Items.AIR) {
                     add(AngelUtil.HELD_LIGHT_ITEMS, block.asItem());
                 }

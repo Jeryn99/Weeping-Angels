@@ -16,18 +16,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -38,7 +37,6 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplie
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -58,11 +56,27 @@ import java.util.function.Predicate;
 
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
-public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
+public class GraveyardStructure extends Structure {
 
+    public static final Codec<GraveyardStructure> CODEC = simpleCodec(GraveyardStructure::new);
 
-    public GraveyardStructure(Codec<NoneFeatureConfiguration> p_72474_) {
-        super(p_72474_, PieceGeneratorSupplier.simple(GraveyardStructure::checkLocation, GraveyardStructure::generatePieces));
+    public GraveyardStructure(StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_227595_) {
+        return onTopOfChunkCenter(p_227595_, Heightmap.Types.WORLD_SURFACE_WG, (p_227598_) -> {
+            this.generatePieces(p_227598_, p_227595_);
+        });
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        ChunkPos chunkpos = generationContext.chunkPos();
+        WorldgenRandom worldgenrandom = generationContext.random();
+        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 90, chunkpos.getMinBlockZ());
+        Rotation rotation = Rotation.getRandom(worldgenrandom);
+        GraveyardStructure.addPiece(generationContext.structureTemplateManager(), blockpos, rotation, structurePiecesBuilder, worldgenrandom);
     }
 
     private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> configurationContext) {
@@ -70,17 +84,11 @@ public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
         return biome.is(AngelUtil.STRUCTURE_SPAWNS.location()) && configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
     }
 
-    private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
+    private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, WorldgenRandom random) {
         ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
         structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
 
-    private static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, PieceGenerator.Context<NoneFeatureConfiguration> configurationContext) {
-        int height = configurationContext.chunkGenerator().getFirstFreeHeight(configurationContext.chunkPos().getMinBlockX(), configurationContext.chunkPos().getMinBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, configurationContext.heightAccessor());
-        BlockPos blockpos = new BlockPos(configurationContext.chunkPos().getMinBlockX(), height, configurationContext.chunkPos().getMinBlockZ());
-        Rotation rotation = Rotation.getRandom(configurationContext.random());
-        addPiece(configurationContext.structureTemplateManager(), blockpos, rotation, structurePiecesBuilder, configurationContext.random(), configurationContext.config());
-    }
 
     @Override
     public GenerationStep.Decoration step() {
@@ -88,13 +96,8 @@ public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
     }
 
     @Override
-    public Optional<GenerationStub> findGenerationPoint(GenerationContext p_226571_) {
-        return Optional.empty();
-    }
-
-    @Override
     public StructureType<?> type() {
-        return null;
+        return StructureType.BURIED_TREASURE;
     }
 
     public static class GraveyardPiece extends TemplateStructurePiece {
@@ -138,7 +141,7 @@ public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
         }
 
         //TODO This is bad! But I cannot find a inbuilt way to do this correctly, there is a way though
-        public static Block getRandomPottedPlant(Random random) {
+        public static Block getRandomPottedPlant(RandomSource random) {
             ArrayList<Block> plants = new ArrayList<>();
             for (Object o : TagUtil.getValues(Registry.BLOCK, AngelUtil.POTTED_PLANTS)) {
                 Holder<Block> value = (Holder<Block>) o;
@@ -148,7 +151,6 @@ public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
         }
 
         @Override
-        
         protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, RandomSource random, BoundingBox p_73687_) {
             if (USERNAMES.length == 0) {
                 try {
@@ -207,9 +209,9 @@ public class GraveyardStructure extends Structure<NoneFeatureConfiguration> {
                     SignBlockEntity signTileEntity = (SignBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                     if (signTileEntity != null) {
                         signTileEntity.setMessage(0, Component.translatable("========"));
-                        signTileEntity.setMessage(1, Component.translatable((USERNAMES[random.nextInt(USERNAMES.length - 1)]));
-                        signTileEntity.setMessage(2, Component.translatable(("Died: " + createRandomDate()));
-                        signTileEntity.setMessage(3, Component.translatable(("========"));
+                        signTileEntity.setMessage(1, Component.translatable((USERNAMES[random.nextInt(USERNAMES.length - 1)])));
+                        signTileEntity.setMessage(2, Component.translatable(("Died: " + createRandomDate())));
+                        signTileEntity.setMessage(3, Component.translatable(("========")));
                         serverLevelAccessor.removeBlock(blockPos, false);
                         serverLevelAccessor.setBlock(blockPos.below(2), Blocks.PODZOL.defaultBlockState(), 2);
                     }

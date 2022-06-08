@@ -1,20 +1,14 @@
 package me.suff.mc.angels.data;
 
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.events.CommonEvents;
 import me.suff.mc.angels.utils.AngelUtil;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class WABiomeGen extends TagsProvider<Biome> {
 
@@ -26,7 +20,12 @@ public class WABiomeGen extends TagsProvider<Biome> {
     protected void addTags() {
 
 
-        for (Biome biome : ForgeRegistries.BIOMES) {
+        this.tag(AngelUtil.STRUCTURE_SPAWNS).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_TAIGA);
+
+//TODO
+/*        for (Biome biome : ForgeRegistries.BIOMES) {
+
+
             Holder<Biome> biomeHolder = Holder.direct(biome);
             Biome.BiomeCategory category = Biome.getBiomeCategory(biomeHolder);
 
@@ -37,10 +36,10 @@ public class WABiomeGen extends TagsProvider<Biome> {
                 }
             }
 
-          /*  if(category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.FOREST || category == Biome.BiomeCategory.PLAINS || biome.getPrecipitation() == Biome.Precipitation.SNOW) {
+          *//*  if(category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.FOREST || category == Biome.BiomeCategory.PLAINS || biome.getPrecipitation() == Biome.Precipitation.SNOW) {
                 add(AngelUtil.ANGEL_SPAWNS, biome);
-            }*/
-        }
+            }*//*
+        }*/
     }
 
 

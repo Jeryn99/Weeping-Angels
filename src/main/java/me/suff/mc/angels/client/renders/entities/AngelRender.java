@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -86,9 +87,9 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
         return iAngelModel.getTextureForPose(weepingAngel, WeepingAngelPose.getPose(weepingAngel.getAngelPose()));
     }
 
-    private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemTransforms.TransformType transformTypeIn, boolean leftHand, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {
+    private void renderItem(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemTransforms.TransformType transformTypeIn, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferIn, int combinedLightIn) {
         if (!itemStackIn.isEmpty()) {
-            Minecraft.getInstance().getItemInHandRenderer().renderItem(livingEntityIn, itemStackIn, transformTypeIn, leftHand, matrixStackIn, bufferIn, combinedLightIn);
+            Minecraft.getInstance().getItemRenderer().renderStatic(itemStackIn, ItemTransforms.TransformType.FIXED, combinedLightIn, OverlayTexture.NO_OVERLAY, poseStack, bufferIn, livingEntityIn.getId());
         }
     }
 

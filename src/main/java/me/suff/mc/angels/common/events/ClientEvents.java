@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.events;
 
+import com.mojang.blaze3d.shaders.FogShape;
 import me.suff.mc.angels.client.renders.WingsLayer;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.WAObjects;
@@ -81,7 +82,9 @@ public class ClientEvents {
     public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent event) {
         if (Minecraft.getInstance().level != null && isInCatacombs) {
             event.setCanceled(true);
-            event.setFarPlaneDistance(70); //TODO look into
+            event.setNearPlaneDistance(-8);
+            event.setFarPlaneDistance(60 * 0.5F);
+            event.setFogShape(FogShape.SPHERE);
         }
     }
 

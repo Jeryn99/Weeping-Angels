@@ -57,27 +57,24 @@ public class WeepingAngels {
         modBus.addListener(this::setup);
         modBus.addListener(this::onAttributeAssign);
 
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         AngelTypes.VARIANTS.register(modBus);
+        WAObjects.Sounds.SOUNDS.register(bus);
+        WAObjects.Blocks.BLOCKS.register(bus);
+        WAObjects.Blocks.BLOCK_ITEMS.register(bus);
+        WAObjects.Items.ITEMS.register(bus);
+        WAObjects.EntityEntries.ENTITIES.register(bus);
+        WAObjects.Tiles.TILES.register(bus);
+        WAFeatures.DEFERRED_REGISTRY_STRUCTURE.register(bus);
+        WAPaintings.PAINTINGS.register(bus);
+        WAAttributes.ATTRIBUTES.register(bus);
+
         WAGlobalLoot.GLM.register(modBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
         StartupMessageManager.addModMessage("Don't Blink!");
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onNewRegistries(NewRegistryEvent e) {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        WAObjects.Sounds.SOUNDS.register(bus);
-        WAObjects.Items.ITEMS.register(bus);
-        WAObjects.Blocks.BLOCKS.register(bus);
-        WAObjects.Blocks.BLOCK_ITEMS.register(bus);
-        WAObjects.EntityEntries.ENTITIES.register(bus);
-        WAObjects.Tiles.TILES.register(bus);
-        WAFeatures.DEFERRED_REGISTRY_STRUCTURE.register(bus);
-        WAPaintings.PAINTINGS.register(bus);
-        WAAttributes.ATTRIBUTES.register(bus);
     }
 
     private void setup(final @NotNull FMLCommonSetupEvent event) {
@@ -109,13 +106,13 @@ public class WeepingAngels {
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
-        generator.addProvider(new WABlockTags(generator, existingFileHelper));
-        generator.addProvider(new LootTablesForDrops(generator));
-        generator.addProvider(new WALangEnglish());
-        generator.addProvider(new WABiomeGen(generator, existingFileHelper));
-        generator.addProvider(new WAStructureTagGen(generator, existingFileHelper));
-        generator.addProvider(new WARecipeGen(generator));
+        generator.addProvider(false, new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
+        generator.addProvider(false, new WABlockTags(generator, existingFileHelper));
+        generator.addProvider(false, new LootTablesForDrops(generator));
+        generator.addProvider(false, new WALangEnglish());
+        generator.addProvider(false, new WABiomeGen(generator, existingFileHelper));
+        generator.addProvider(false, new WAStructureTagGen(generator, existingFileHelper));
+        generator.addProvider(false, new WARecipeGen(generator));
         // generator.addProvider(new WALootTables(generator));
     }
 

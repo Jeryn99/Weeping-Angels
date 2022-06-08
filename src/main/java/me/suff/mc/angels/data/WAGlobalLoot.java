@@ -1,9 +1,11 @@
 package me.suff.mc.angels.data;
 
 import com.google.gson.JsonObject;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -12,9 +14,7 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.List;
-import java.util.Random;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.WeepingAngels.MODID;
 
@@ -24,7 +24,7 @@ public class WAGlobalLoot {
 
     public static final RegistryObject<DiscLoot.Serializer> ANGEL_LOOT = GLM.register("loot", DiscLoot.Serializer::new);
 
-    public static ItemStack genMusicDisc(Random random) {
+    public static ItemStack genMusicDisc(RandomSource random) {
         return new ItemStack(random.nextBoolean() ? WAObjects.Items.SALLY.get() : WAObjects.Items.TIME_PREVAILS.get());
     }
 
@@ -38,8 +38,7 @@ public class WAGlobalLoot {
         }
 
         @Override
-        protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-
+        protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
             if (context.getRandom().nextInt(100) <= chance) {
                 generatedLoot.add(genMusicDisc(context.getRandom()));
             }

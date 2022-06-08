@@ -29,8 +29,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,19 +49,17 @@ public class WAObjects {
         return block;
     }
 
-    private static void genBlockItems(Block... blocks) {
-        for (Block block : blocks) {
-            Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
+    public static void doBlockItems() {
+
+        for (var block : Blocks.BLOCKS.getEntries()) {
+            if (!block.getId().equals(Blocks.CHRONODYNE_GENERATOR.getId())) {
+                Blocks.BLOCK_ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().tab(WATabs.MAIN_TAB)));
+            }
         }
     }
 
     private static SoundEvent setUpSound(String soundName) {
         return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
-    }
-
-    @SubscribeEvent
-    public static void regBlockItems(RegistryEvent.Register<Item> e) {
-        genBlockItems(Blocks.WALL_ARM.get(), Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.KONTRON_ORE_DEEPSLATE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
     }
 
     // Tile Creation
@@ -155,6 +151,11 @@ public class WAObjects {
         public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().stacksTo(1).tab(WATabs.MAIN_TAB))));
         public static final RegistryObject<Item> SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new RecordItem(6, Sounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
         public static final RegistryObject<Item> TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new RecordItem(6, Sounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
+
+        static {
+            doBlockItems();
+        }
+
     }
 
     // Sounds

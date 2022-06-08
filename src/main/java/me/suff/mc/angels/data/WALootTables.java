@@ -3,9 +3,10 @@ package me.suff.mc.angels.data;
 import com.google.gson.*;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -31,11 +32,11 @@ public class WALootTables extends LootTableProvider {
     }
 
     @Override
-    public void run(HashCache cache) {
+    public void run(CachedOutput cache) {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (block.getRegistryName().getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get()) {
+            if (ForgeRegistries.BLOCKS.getKey(block).getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get()) {
 
                 try {
                     this.generateSelfTable(block, cache, path);
@@ -51,12 +52,12 @@ public class WALootTables extends LootTableProvider {
         return "Loot Tables";
     }
 
-    public void generateSelfTable(Block block, HashCache cache, Path base) throws IOException {
-        this.generateTable(cache, getPath(base, block.getRegistryName()), () -> this.createBlockDropSelf(block));
+    public void generateSelfTable(Block block, CachedOutput cache, Path base) throws IOException {
+        this.generateTable(cache, getPath(base, ForgeRegistries.BLOCKS.getKey(block)), () -> this.createBlockDropSelf(block));
     }
 
-    public void generateTable(HashCache cache, Path path, Supplier<JsonElement> element) throws IOException {
-        DataProvider.save(GSON, cache, element.get(), path);
+    public void generateTable(CachedOutput cache, Path path, Supplier<JsonElement> element) throws IOException {
+        DataProvider.saveStable(cache, element.get(), path);
     }
 
     public JsonElement createBlockDropGuarantied(Block block, ResourceLocation drop) {
@@ -67,7 +68,7 @@ public class WALootTables extends LootTableProvider {
 
         JsonObject first = new JsonObject();
 
-        first.add("name", new JsonPrimitive(block.getRegistryName().toString()));
+        first.add("name", new JsonPrimitive(ForgeRegistries.BLOCKS.getKey(block).toString()));
         first.add("rolls", new JsonPrimitive(1));
 
         JsonArray entries = new JsonArray();
@@ -89,7 +90,7 @@ public class WALootTables extends LootTableProvider {
     }
 
     public JsonElement createBlockDropSelf(Block block) {
-        return this.createBlockDropGuarantied(block, block.getRegistryName());
+        return this.createBlockDropGuarantied(block, ForgeRegistries.BLOCKS.getKey(block));
     }
 
 }

@@ -7,9 +7,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.entity.EndermanRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -42,16 +45,16 @@ public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & A
         }
     }
 
-    protected void renderArmWithItem(LivingEntity p_117185_, ItemStack p_117186_, TransformType p_117187_, HumanoidArm p_117188_, PoseStack p_117189_, MultiBufferSource p_117190_, int p_117191_) {
+    protected void renderArmWithItem(LivingEntity livingEntity, ItemStack p_117186_, TransformType p_117187_, HumanoidArm p_117188_, PoseStack poseStack, MultiBufferSource multiBufferSource, int light) {
         if (!p_117186_.isEmpty()) {
-            p_117189_.pushPose();
-            this.getParentModel().translateToHand(p_117188_, p_117189_);
-            p_117189_.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
-            p_117189_.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+            poseStack.pushPose();
+            this.getParentModel().translateToHand(p_117188_, poseStack);
+            poseStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
+            poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
             boolean var8 = p_117188_ == HumanoidArm.LEFT;
-            p_117189_.translate((float) (var8 ? -1 : 1) / 16.0F, 0.125D, -0.625D);
-            Minecraft.getInstance().getItemInHandRenderer().renderItem(p_117185_, p_117186_, p_117187_, var8, p_117189_, p_117190_, p_117191_);
-            p_117189_.popPose();
+            poseStack.translate((float) (var8 ? -1 : 1) / 16.0F, 0.125D, -0.625D);
+            Minecraft.getInstance().getItemRenderer().renderStatic(p_117186_, ItemTransforms.TransformType.FIXED, light, OverlayTexture.NO_OVERLAY, poseStack, multiBufferSource, livingEntity.getId());
+            poseStack.popPose();
         }
     }
 

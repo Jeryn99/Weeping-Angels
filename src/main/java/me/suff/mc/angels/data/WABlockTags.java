@@ -41,7 +41,7 @@ public class WABlockTags extends BlockTagsProvider {
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (Objects.requireNonNull(block.getRegistryName()).getNamespace().contains("tardis")) continue;
+            if (Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getNamespace().contains("tardis")) continue;
 
             if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtil.BANNED_BLOCKS, block);

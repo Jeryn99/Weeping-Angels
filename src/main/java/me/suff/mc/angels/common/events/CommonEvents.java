@@ -28,6 +28,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -56,6 +57,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -229,11 +231,11 @@ public class CommonEvents {
 
     }
 
-    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
+    //TODO Spawns
+/*    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-
         for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
             for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
                 if (BiomeDictionary.hasType(biome, biomeType)) {
@@ -242,7 +244,7 @@ public class CommonEvents {
                 }
             }
         }
-    }
+    }*/
 
 
     @SubscribeEvent

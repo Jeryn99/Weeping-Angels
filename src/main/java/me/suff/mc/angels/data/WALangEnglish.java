@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.ChatFormatting;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.sounds.SoundEvent;
@@ -133,7 +134,7 @@ public class WALangEnglish implements DataProvider {
     }
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(CachedOutput cache) throws IOException {
         addTranslations();
         if (!data.isEmpty()) {
             File target = new File("../crowdin/english.json");
