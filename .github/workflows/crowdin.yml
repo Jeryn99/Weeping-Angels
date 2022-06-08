@@ -2,7 +2,7 @@ name: Crowdin Action
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 1.18.2 ]
 
 jobs:
   synchronize-with-crowdin:
