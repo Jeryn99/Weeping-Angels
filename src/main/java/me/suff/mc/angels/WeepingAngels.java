@@ -9,9 +9,8 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.structures.CatacombStructure;
 import me.suff.mc.angels.common.variants.AngelTypes;
-import me.suff.mc.angels.compat.vr.ServerReflector;
+import me.suff.mc.angels.compat.vivecraft.ServerReflector;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.data.*;
 import me.suff.mc.angels.network.Network;
@@ -24,7 +23,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -38,8 +36,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.NewRegistryEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.common.level.WAPieces.init;
 
@@ -58,6 +58,7 @@ public class WeepingAngels {
         modBus.addListener(this::onAttributeAssign);
 
         AngelTypes.VARIANTS.register(modBus);
+        WAGlobalLoot.GLM.register(modBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
@@ -66,7 +67,7 @@ public class WeepingAngels {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onNewRegistries(RegistryEvent.NewRegistry e) {
+    public void onNewRegistries(NewRegistryEvent e) {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         WAObjects.Sounds.SOUNDS.register(bus);
         WAObjects.Items.ITEMS.register(bus);
@@ -79,7 +80,7 @@ public class WeepingAngels {
         WAAttributes.ATTRIBUTES.register(bus);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final @NotNull FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         event.enqueueWork(WAFeatures::ores);
@@ -110,7 +111,8 @@ public class WeepingAngels {
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
         generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
         generator.addProvider(new WABlockTags(generator, existingFileHelper));
-        generator.addProvider(new WALangEnglish(generator));
+        generator.addProvider(new LootTablesForDrops(generator));
+        generator.addProvider(new WALangEnglish());
         generator.addProvider(new WABiomeGen(generator, existingFileHelper));
         generator.addProvider(new WAStructureTagGen(generator, existingFileHelper));
         generator.addProvider(new WARecipeGen(generator));

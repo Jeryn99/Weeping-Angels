@@ -85,7 +85,7 @@ public class PlayerUtil {
     public static String uuidToUsername(UUID uuid) {
         try {
             JsonObject response = getResponse(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString()));
-            response.get("name").getAsString();
+            return response.get("name").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
         }

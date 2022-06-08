@@ -10,6 +10,7 @@ import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
+import me.suff.mc.angels.utils.TagUtil;
 import me.suff.mc.angels.utils.WATeleporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -48,6 +49,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -131,11 +134,16 @@ public class WeepingAngel extends QuantumLockedLifeform {
         getEntityData().set(VARIANT, varient.getRegistryName().toString());
     }
 
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
+
+
         setVarient(getAngelType().getWeightedHandler().getRandom(this));
+
+
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -173,29 +181,30 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(@NotNull Entity entity) {
         if (entity instanceof ServerPlayer serverPlayerEntity) {
 
-            boolean shouldTeleport = random.nextInt(20) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            boolean canTeleport = random.nextInt(20) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            if (canTeleport) {
+                teleportInteraction(serverPlayerEntity);
+                return true;
+            }
 
-            if (isCherub() || !shouldTeleport) {
+            if (isInCatacomb() || isCherub()) {
                 dealDamage(serverPlayerEntity);
                 if (WAConfig.CONFIG.torchBlowOut.get()) {
                     AngelUtil.extinguishHand(serverPlayerEntity, this);
                 }
                 return true;
             }
-
-            teleportInteraction(serverPlayerEntity);
-            return true;
         }
-        return true;
+        return false;
     }
 
 
     public boolean isInCatacomb() {
         if (level instanceof ServerLevel serverWorld) {
-            BlockPos catacomb = null; //serverWorld.getLevel().findNearestMapFeature(WAFeatures.CATACOMB.get(), blockPosition(), 100, false);
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(AngelUtil.CATACOMBS, blockPosition(), 100, false);
             if (catacomb == null) {
                 return false;
             }
@@ -425,7 +434,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
                         if (iEnergyStorage.canExtract()) {
                             iEnergyStorage.extractEnergy(100, false);
                             heal(0.5F);
-                            return;
                         }
                     });
                 }
@@ -487,19 +495,9 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && this.isValidLightLevel() && super.checkSpawnRules(worldIn, spawnReasonIn);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && super.checkSpawnRules(worldIn, spawnReasonIn);
     }
 
-
-    protected boolean isValidLightLevel() {
-        BlockPos blockpos = new BlockPos(this.getX(), this.getBoundingBox().minY, this.getZ());
-        if (this.level.getBrightness(LightLayer.SKY, blockpos) > this.random.nextInt(32)) {
-            return false;
-        } else {
-            int i = this.level.isThundering() ? this.level.getMaxLocalRawBrightness(blockpos, 10) : this.level.getMaxLocalRawBrightness(blockpos);
-            return i <= this.random.nextInt(8);
-        }
-    }
 
     public String getAngelPose() {
         return getEntityData().get(CURRENT_POSE);
@@ -548,9 +546,15 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
+
+        if (TagUtil.hasTag(ForgeRegistries.BLOCKS, AngelUtil.ANGEL_IGNORE, blockState.getBlock())) {
+            return false;
+        }
+
+
         EventAngelBreakEvent eventAngelBreakEvent = new EventAngelBreakEvent(this, blockState, blockPos);
         MinecraftForge.EVENT_BUS.post(eventAngelBreakEvent);
-        return !eventAngelBreakEvent.isCanceled() && !blockState.is(AngelUtil.BANNED_BLOCKS);
+        return !eventAngelBreakEvent.isCanceled();
     }
 
     public float getLaugh() {

@@ -3,7 +3,6 @@ package me.suff.mc.angels.utils;
 public class Pair<U, V> {
 
     private U first;
-
     private V second;
 
     public Pair(U first, V second) {

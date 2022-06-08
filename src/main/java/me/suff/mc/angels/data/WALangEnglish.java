@@ -1,24 +1,35 @@
 package me.suff.mc.angels.data;
 
-import me.suff.mc.angels.WeepingAngels;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.ChatFormatting;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.block.Block;
 
-public class WALangEnglish extends LanguageProvider {
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Supplier;
 
-    public WALangEnglish(DataGenerator gen) {
-        super(gen, WeepingAngels.MODID, "en_us");
-    }
+public class WALangEnglish implements DataProvider {
+    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
+    private final Map<String, String> data = new TreeMap<>();
 
-    @Override
-    protected void addTranslations() {
+    public void addTranslations() {
         /* Blocks */
         add(WAObjects.Blocks.SNOW_ANGEL.get(), "Angel hiding in Snow");
-        add(WAObjects.Blocks.STATUE.get(), "Angel Statue");
-        add(WAObjects.Blocks.PLINTH.get(), "Angel Plinth");
+        add(WAObjects.Blocks.STATUE.get(), "Statue (Weeping Angel)");
+        add(WAObjects.Blocks.PLINTH.get(), "Plinth (Weeping Angel)");
         add(WAObjects.Blocks.KONTRON_ORE.get(), "Kontron Ore");
         add(WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get(), "Deepslate Kontron Ore");
         add(WAObjects.Blocks.COFFIN.get(), "Coffin");
@@ -42,10 +53,10 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.EntityEntries.ANOMALY.get(), "Anomaly");
 
         /* Tooltips */
-        add("tooltip.weeping_angels.chisel", ChatFormatting.BLUE.toString() + "Edit Statue/Plinth");
-        add("tooltip.weeping_angels.chisel_right_click", ChatFormatting.BLUE.toString() + "- Right click to change angel pose");
-        add("tooltip.weeping_angels.chisel_sneak", ChatFormatting.BLUE.toString() + "- Sneak + Right click to Change Angel Type");
-        add("tooltip.weeping_angels.punch_variant", ChatFormatting.BLUE.toString() + "- Left click to change variant");
+        add("tooltip.weeping_angels.chisel", ChatFormatting.BLUE + "Edit Statue/Plinth");
+        add("tooltip.weeping_angels.chisel_right_click", ChatFormatting.BLUE + "- Right click to change angel pose");
+        add("tooltip.weeping_angels.chisel_sneak", ChatFormatting.BLUE + "- Sneak + Right click to Change Angel Type");
+        add("tooltip.weeping_angels.punch_variant", ChatFormatting.BLUE + "- Left click to change variant");
 
         /* Damage Sources */
         add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");
@@ -89,29 +100,122 @@ public class WALangEnglish extends LanguageProvider {
 
         add("category.weeping_angels.angels", "Angels");
         add("category.weeping_angels.spawn", "Spawn Rates");
-        add("category.weeping_angels.worldgen", "World Gen");
+        add("category.weeping_angels.worldgen", "World Generation");
+
+        add("texvar.weeping_angels.yellow_windows", "2005 - Yellow Windows");
+        add("texvar.weeping_angels.blue_windows", "2005 - Blue Windows");
+        add("texvar.weeping_angels.battle", "2005 - Battle");
+        add("texvar.weeping_angels.damaged", "2005 - Damaged");
+        add("texvar.weeping_angels.yellow_darker", "2005 - Yellow Windows - Darker");
+        add("exterior.weeping_angels.2005_exterior", "2005 Exterior");
+        add("exterior.weeping_angels.2005exterior", "2005 Exterior");
+        add("message.weeping_angels.2005_schematic", "Schematic Obtained! Don't Blink and Run!");
 
         /* Sounds */
-        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel Appears");
-        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone Scrape");
-        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel Dies");
-        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel laughing");
-        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Neck snaps");
-        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel sting");
+        addSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), "Angel ambiance");
+        addSound(WAObjects.Sounds.STONE_SCRAPE.get(), "Stone scrapings");
+        addSound(WAObjects.Sounds.ANGEL_DEATH.get(), "Angel crumbles to death");
+        addSound(WAObjects.Sounds.ANGEL_MOCKING.get(), "Angel mocks");
+        addSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), "Players neck snaps");
+        addSound(WAObjects.Sounds.ANGEL_SEEN.get(), "Angel seen");
         addSound(WAObjects.Sounds.BLOW.get(), "Angel blows");
         addSound(WAObjects.Sounds.CATACOMB.get(), "Catacomb Ambience");
         addSound(WAObjects.Sounds.CHILD_RUN.get(), "Child running");
         addSound(WAObjects.Sounds.DING.get(), "Ding!");
         addSound(WAObjects.Sounds.DISC_SALLY.get(), "Sally");
         addSound(WAObjects.Sounds.DISC_TIME_PREVAILS.get(), "Time prevails");
-        addSound(WAObjects.Sounds.KNOCK.get(), "Knock");
-        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Cherub laughing");
+        addSound(WAObjects.Sounds.KNOCK.get(), "Knocking");
+        addSound(WAObjects.Sounds.LAUGHING_CHILD.get(), "Laughing Child");
         addSound(WAObjects.Sounds.LIGHT_BREAK.get(), "Lighting breaking");
-        addSound(WAObjects.Sounds.TELEPORT.get(), "Teleport");
+        addSound(WAObjects.Sounds.TELEPORT.get(), "Angel Teleports an Entity");
         addSound(WAObjects.Sounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
+        addSound(WAObjects.Sounds.PROJECTOR.get(), "Whirr");
     }
+
+    @Override
+    public void run(HashCache cache) throws IOException {
+        addTranslations();
+        if (!data.isEmpty()) {
+            File target = new File("../crowdin/english.json");
+            System.out.println(data);
+            System.out.println(target.getAbsolutePath());
+            FileWriter writer = new FileWriter(target);
+            GSON.toJson(data, writer);
+            writer.flush();
+            writer.close();
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "Crowdin";
+    }
+
 
     public void addSound(SoundEvent soundEvent, String lang) {
         add("sound.weeping_angels." + soundEvent.getLocation().getPath(), lang);
+    }
+
+    public void addBlock(Supplier<? extends Block> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(Block key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    public void addItem(Supplier<? extends Item> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(Item key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    public void addItemStack(Supplier<ItemStack> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(ItemStack key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    public void addEnchantment(Supplier<? extends Enchantment> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(Enchantment key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    /*
+    public void addBiome(Supplier<? extends Biome> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(Biome key, String name) {
+        add(key.getTranslationKey(), name);
+    }
+    */
+
+    public void addEffect(Supplier<? extends MobEffect> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(MobEffect key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    public void addEntityType(Supplier<? extends EntityType<?>> key, String name) {
+        add(key.get(), name);
+    }
+
+    public void add(EntityType<?> key, String name) {
+        add(key.getDescriptionId(), name);
+    }
+
+    public void add(String key, String value) {
+        if (data.put(key, value) != null)
+            throw new IllegalStateException("Duplicate translation key " + key);
     }
 }

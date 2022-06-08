@@ -240,7 +240,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     public enum Coffin {
-        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB(true), PTB_2(true);
+        NEW, WEATHERED, SLIGHTLY_WEATHERED, HEAVILY_WEATHERED, PTB(true), PTB_2(true), PTB_3(true), PTB_4(true), PTB_5(true);
 
         private final boolean isPoliceBox;
 

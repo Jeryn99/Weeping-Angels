@@ -18,6 +18,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static net.minecraft.util.datafix.fixes.BlockEntitySignTextStrictJsonFix.GSON;
 
@@ -56,8 +58,8 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
         super(p_72474_, PieceGeneratorSupplier.simple(GraveyardStructure::checkLocation, GraveyardStructure::generatePieces));
     }
 
-    private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> p_197155_) {
-        return p_197155_.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
+    private static boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> configurationContext) {
+        return configurationContext.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG) && WAConfig.CONFIG.genGraveyard.get();
     }
 
     private static void addPiece(StructureManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, Random random, NoneFeatureConfiguration noneFeatureConfiguration) {
@@ -117,10 +119,9 @@ public class GraveyardStructure extends StructureFeature<NoneFeatureConfiguratio
 
         }
 
+        //TODO This is bad! But I cannot find a inbuilt way to do this correctly, there is a way though
         public static Block getRandomPottedPlant(Random random) {
             ArrayList<Block> plants = new ArrayList<>();
-
-            //TODO This is bad! But I cannot find a inbuilt way to do this correctly
             for (Object o : TagUtil.getValues(Registry.BLOCK, AngelUtil.POTTED_PLANTS)) {
                 Holder<Block> value = (Holder<Block>) o;
                 plants.add(value.value());

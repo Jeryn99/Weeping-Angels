@@ -15,15 +15,14 @@ import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import me.suff.mc.angels.utils.PlayerUtil;
-import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -45,6 +44,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -57,15 +57,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.commons.compress.utils.Lists;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
+
+    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
 
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {
@@ -75,7 +75,6 @@ public class CommonEvents {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
         }
     }
-
 
     @SubscribeEvent
     public static void onBreak(BlockEvent.BreakEvent event) {
@@ -103,7 +102,6 @@ public class CommonEvents {
         }
 
     }
-
 
     @SubscribeEvent
     public static void onOpenChestInGraveYard(PlayerInteractEvent.RightClickBlock event) {
@@ -232,16 +230,15 @@ public class CommonEvents {
 
     }
 
-
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
 
-        //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-        ArrayList<Biome> biomes = Lists.newArrayList(TagUtil.getValues(BuiltinRegistries.BIOME, AngelUtil.STRUCTURE_SPAWNS).iterator());
-        for (Biome biome : biomes) {
-            if (biome.getRegistryName().toString().equalsIgnoreCase(biomeLoadingEvent.getName().toString())) {
-                WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to " + biomeLoadingEvent.getName());
-                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+        for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
+            for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
+                if (BiomeDictionary.hasType(biome, biomeType)) {
+                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biome.location(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
+                    biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
+                }
             }
         }
     }
@@ -258,7 +255,7 @@ public class CommonEvents {
         VersionChecker.CheckResult version = VersionChecker.getResult(ModList.get().getModFileById(WeepingAngels.MODID).getMods().get(0));
         if (version.status() == VersionChecker.Status.OUTDATED) {
             TranslatableComponent click = new TranslatableComponent("Download");
-            click.setStyle(Style.EMPTY.setUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
+            click.setStyle(Style.EMPTY.withUnderlined(true).withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod")));
 
             TranslatableComponent translationTextComponent = new TranslatableComponent(ChatFormatting.BOLD + "[" + ChatFormatting.RESET + ChatFormatting.YELLOW + "Weeping Angels" + ChatFormatting.RESET + ChatFormatting.BOLD + "]");
             translationTextComponent.append(new TranslatableComponent(" New Update Found: (" + version.target() + ") ").append(click));

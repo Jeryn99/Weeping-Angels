@@ -10,6 +10,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -46,9 +47,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.compress.utils.Lists;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -65,6 +64,7 @@ public class AngelUtil {
 
     public static TagKey<Biome> STRUCTURE_SPAWNS = makeBiome(WeepingAngels.MODID, "has_structure/angel_structure_biomes");
     public static TagKey<ConfiguredStructureFeature<?, ?>> TELEPORT_STRUCTURES = makeStructure(WeepingAngels.MODID, "teleport_structures");
+    public static TagKey<ConfiguredStructureFeature<?, ?>> CATACOMBS = makeStructure(WeepingAngels.MODID, "haunted_structures");
 
     public static Random RAND = new Random();
 
@@ -100,11 +100,11 @@ public class AngelUtil {
         }
     }
 
+    //TODO This could do with being converted proper tag logic
     public static boolean handLightCheck(LivingEntity player) {
-        ArrayList<Item> heldItems = Lists.newArrayList(TagUtil.getValues(Registry.ITEM, AngelUtil.HELD_LIGHT_ITEMS).iterator());
-
-        for (Item item : heldItems) {
-            if (PlayerUtil.isInEitherHand(player, item)) {
+        for (Object o : TagUtil.getValues(Registry.ITEM, AngelUtil.HELD_LIGHT_ITEMS)) {
+            Holder<Item> value = (Holder<Item>) o;
+            if (PlayerUtil.isInEitherHand(player, value.value())) {
                 return true;
             }
         }

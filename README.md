@@ -1,27 +1,21 @@
-<p align="center" width="100%">
-    <img width="80%" src="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16/src/main/resources/logo.png"> 
-        <img width="60%" src="http://cf.way2muchnoise.eu/versions/weeping-angels-mod.svg"> <br>
-        <img width="30%" src="http://cf.way2muchnoise.eu/weeping-angels-mod.svg"> 
-
-Minecraft Mod || Weeping Angel || This is a mod that adds the terrifying Weeping Angels to the Game, Minecraft. Don't
-Blink!
-
-</p>
-
-
-
-
-<b> Vivecraft Support </b>
-Dependencies:
-<p>If you are playing in Single Player, you will need won't need to do anything extra. But if you are playing on a server, both you and the server will require <a href="https://www.curseforge.com/minecraft/mc-mods/vivecraft-forge-extensions">Vivecraft Forge Extensions</a>
-to be installed. Non-VR Users will not need this installed.  </p>
-
-| Minecraft Version | Vivecraft Supported? |
-| ------------------- | --------------- | 
-| 1.12.2 |Yes| 
-| 1.13 |N/A (No Weeping Angels)| 
-| 1.14.4 |N/A (No Vivecraft)| 
-| 1.15.2 |N/A (Untested, please let me know)| 
-| 1.16.x |Yes| 
-| 1.17.1 | N/A (No Vivecraft)| 
-
+<center>
+  <img width="80%" src="https://raw.githubusercontent.com/WhoCraft/Weeping-Angels/1.16/src/main/resources/logo.png" alt="Logo">
+  <br>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod">
+    <img src="https://cf.way2muchnoise.eu/short_weeping-angels.svg" alt="Downloads">
+  </a>
+  <a href="https://crowdin.com/project/weeping-angels">
+    <img src="https://badges.crowdin.net/weeping-angels/localized.svg" alt="Crowdin">
+  </a>
+  <a href="https://discord.gg/QNrXAxvCz9">
+    <img src="https://img.shields.io/discord/595971324996747265.svg?logoColor=FFFFFF&logo=discord&color=7289DA&style=flat-square" alt="Discord">
+  </a>
+  <img src="https://cf.way2muchnoise.eu/versions/weeping-angels-mod.svg" alt="Versions">
+</center>
+<h3>About:</h3> 
+This mod was created for <a href="https://www.curseforge.com/minecraft/modpacks/modjampack-modjam-5">ModJam 5</a>, it was loosely based on the original mod created by a_dizzle back in 1.5.2. (You can even find angels with the original model within the world as a tribute) This mod was started in 1.12 and has spanned every version since then with the exclusion of 1.13. <h3>Server Sponsorship:</h3>
+<center>
+  <a href="https://www.bisecthosting.com/clients/aff.php?aff=3107">
+    <img src="https://www.bisecthosting.com/partners/custom-banners/93a09616-0303-43e9-9d7f-039e21e51ae7.png" alt="Bisect Sponsership">
+  </a>
+</center>
