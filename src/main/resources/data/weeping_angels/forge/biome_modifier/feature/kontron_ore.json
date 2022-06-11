@@ -1,0 +1,6 @@
+{
+  "type": "weeping_angels:feature_add",
+  "biomes": "#minecraft:is_overworld",
+  "features": "weeping_angels:kontron_upper",
+  "generation_stage": "VEGETAL_DECORATION"
+}

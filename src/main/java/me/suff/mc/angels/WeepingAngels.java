@@ -10,7 +10,7 @@ import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.biomemodifiers.SnowAngelModifier;
+import me.suff.mc.angels.common.level.biomemodifiers.FeatureModifier;
 import me.suff.mc.angels.common.level.biomemodifiers.SpawnsModifier;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.compat.vivecraft.ServerReflector;
@@ -78,7 +78,7 @@ public class WeepingAngels {
         final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
         serializers.register(modBus);
         serializers.register(SpawnsModifier.WEEPING_ANGEL_SPAWNS.getPath(), SpawnsModifier::makeCodec);
-        serializers.register(SnowAngelModifier.ADD_FEATURES_TO_BIOMES_RL.getPath(), SnowAngelModifier::makeCodec);
+        serializers.register(FeatureModifier.ADD_FEATURE.getPath(), FeatureModifier::makeCodec);
 
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
@@ -122,7 +122,7 @@ public class WeepingAngels {
         generator.addProvider(true, new WABiomeGen(generator, existingFileHelper));
         generator.addProvider(true, new WAStructureTagGen(generator, existingFileHelper));
         generator.addProvider(true, new WARecipeGen(generator));
-        WABiomeModifiers.onGatherData(e);
+        generator.addProvider(true, new WABiomeModifiers(generator));
         // generator.addProvider(new WALootTables(generator));
     }
 

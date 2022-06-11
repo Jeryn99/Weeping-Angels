@@ -17,19 +17,20 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static me.suff.mc.angels.WeepingAngels.MODID;
 
-public record SnowAngelModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage,
-                                HolderSet<PlacedFeature> features) implements BiomeModifier {
+public record FeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features) implements BiomeModifier {
 
-    public static final ResourceLocation ADD_FEATURES_TO_BIOMES_RL = new ResourceLocation(MODID, "snow_angels");
+    public static final ResourceLocation ADD_FEATURE = new ResourceLocation(MODID, "feature_add");
+    public static final String NAME = "feature/snow_angels";
+    public static final String ORE_NAME = "feature/kontron_ore";
 
-    private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(ADD_FEATURES_TO_BIOMES_RL, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
+    private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(ADD_FEATURE, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
 
-    public static Codec<SnowAngelModifier> makeCodec() {
+    public static Codec<FeatureModifier> makeCodec() {
         return RecordCodecBuilder.create(builder -> builder.group(
-                Biome.LIST_CODEC.fieldOf("biomes").forGetter(SnowAngelModifier::biomes),
-                Codec.STRING.comapFlatMap(SnowAngelModifier::generationStageFromString, GenerationStep.Decoration::toString).fieldOf("generation_stage").forGetter(SnowAngelModifier::generationStage),
-                PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(SnowAngelModifier::features)
-        ).apply(builder, SnowAngelModifier::new));
+                Biome.LIST_CODEC.fieldOf("biomes").forGetter(FeatureModifier::biomes),
+                Codec.STRING.comapFlatMap(FeatureModifier::generationStageFromString, GenerationStep.Decoration::toString).fieldOf("generation_stage").forGetter(FeatureModifier::generationStage),
+                PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(FeatureModifier::features)
+        ).apply(builder, FeatureModifier::new));
     }
 
     private static DataResult<GenerationStep.Decoration> generationStageFromString(String name) {

@@ -50,7 +50,6 @@ public class WAObjects {
     }
 
     public static void doBlockItems() {
-
         for (var block : Blocks.BLOCKS.getEntries()) {
             if (!block.getId().equals(Blocks.CHRONODYNE_GENERATOR.getId())) {
                 Blocks.BLOCK_ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().tab(WATabs.MAIN_TAB)));

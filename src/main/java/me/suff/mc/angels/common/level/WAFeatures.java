@@ -10,6 +10,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
@@ -34,7 +35,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -47,9 +47,9 @@ public class WAFeatures {
 
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, WeepingAngels.MODID);
 
-    public static final HashSet<Holder<PlacedFeature>> FEATURES = new HashSet<>();
-    public static final HashSet<Holder<PlacedFeature>> ORES = new HashSet<>();
-
+    public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
+    public static RegistryObject<PlacedFeature> KONTRON_UPPER = PLACED_FEATURES.register("kontron_upper", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
+    public static RegistryObject<PlacedFeature> KONTRON_MIDDLE = PLACED_FEATURES.register("kontron_middle", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
 
     private static <S extends Structure> StructureType<S> typeConvert(Codec<S> codec) {
         return () -> codec;
@@ -82,15 +82,13 @@ public class WAFeatures {
         BlockState blockStateDeep = WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState();
         List<OreConfiguration.TargetBlockState> targetBlockStateList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, blockState), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, blockStateDeep));
         Holder<ConfiguredFeature<OreConfiguration, ?>> feature = FeatureUtils.register("ore_kontron", Feature.ORE, new OreConfiguration(targetBlockStateList, 9));
+
         Holder<PlacedFeature> placedFeatureUpper = PlacementUtils.register("kontron_ore_upper", feature, commonOrePlacement(90, HeightRangePlacement.triangle(VerticalAnchor.absolute(80), VerticalAnchor.absolute(384))));
         Holder<PlacedFeature> placedFeatureMiddle = PlacementUtils.register("kontron_ore_middle", feature, commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56))));
-        ORES.add(placedFeatureUpper);
-        ORES.add(placedFeatureMiddle);
 
 
         Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> snowAngelFeature = FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()))));
         Holder<PlacedFeature> snowAngelPlaced = PlacementUtils.register("snow_angel", snowAngelFeature, NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
-        FEATURES.add(snowAngelPlaced);
 
     }
 
