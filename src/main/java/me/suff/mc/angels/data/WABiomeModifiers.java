@@ -61,13 +61,13 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
 
         // Biome Modifiers
         BiomeModifier spawnsModifier = new SpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
-        FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.HAS_IGLOO), GenerationStep.Decoration.VEGETAL_DECORATION, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.SNOW_ANGEL.getId()))));
-        FeatureModifier oreModifer = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.VEGETAL_DECORATION, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.KONTRON_UPPER.getId()))));
+        FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.HAS_IGLOO), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.SNOW_ANGEL.getId()))));
+        FeatureModifier oreModifer = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.KONTRON_ORE.getId()))));
 
         // Generate BiomeModiers
         generate(ops, spawnsModifier, outputFolder, SpawnsModifier.MODIFY_SPAWNS, cachedOutput);
         generate(ops, snowAngel, outputFolder, FeatureModifier.NAME, cachedOutput);
-        generate(ops, oreModifer, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
+      //  generate(ops, oreModifer, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
 
 
         // TODO: need to seperate or combine kontron related generation + correctly set up and not use igloos and nether stuff for everything

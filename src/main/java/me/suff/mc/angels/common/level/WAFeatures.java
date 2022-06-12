@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -47,55 +48,20 @@ public class WAFeatures {
 
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, WeepingAngels.MODID);
 
-    public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
-    public static RegistryObject<PlacedFeature> KONTRON_UPPER = PLACED_FEATURES.register("kontron_upper", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
-    public static RegistryObject<PlacedFeature> KONTRON_MIDDLE = PLACED_FEATURES.register("kontron_middle", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) NetherFeatures.LARGE_BASALT_COLUMNS, List.of(CountOnEveryLayerPlacement.of(1), BiomeFilter.biome())));
+    public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get())), List.of(WAObjects.Blocks.SNOW_ANGEL.get()))), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
+    public static RegistryObject<PlacedFeature> KONTRON_ORE = PLACED_FEATURES.register("kontron_ore", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get())), List.of(WAObjects.Blocks.SNOW_ANGEL.get()))), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
 
     private static <S extends Structure> StructureType<S> typeConvert(Codec<S> codec) {
         return () -> codec;
-    }
-
-    private static Structure.StructureSettings structure(TagKey<Biome> p_236546_, Map<MobCategory, StructureSpawnOverride> p_236547_, GenerationStep.Decoration p_236548_, TerrainAdjustment p_236549_) {
-
-        return new Structure.StructureSettings(biomes(p_236546_), p_236547_, p_236548_, p_236549_);
-    }
-
-    private static Structure.StructureSettings structure(TagKey<Biome> p_236539_, GenerationStep.Decoration p_236540_, TerrainAdjustment p_236541_) {
-        return structure(p_236539_, Map.of(), p_236540_, p_236541_);
-    }
-
-    private static Structure.StructureSettings structure(TagKey<Biome> p_236543_, TerrainAdjustment p_236544_) {
-        return structure(p_236543_, Map.of(), GenerationStep.Decoration.SURFACE_STRUCTURES, p_236544_);
-    }
-
-    private static Holder<Structure> register(ResourceKey<Structure> p_236534_, Structure p_236535_) {
-        return BuiltinRegistries.register(BuiltinRegistries.STRUCTURES, p_236534_, p_236535_);
     }
 
     private static HolderSet<Biome> biomes(TagKey<Biome> p_236537_) {
         return BuiltinRegistries.BIOME.getOrCreateTag(p_236537_);
     }
 
-
-    public static void ores() {
-        BlockState blockState = WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState();
-        BlockState blockStateDeep = WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState();
-        List<OreConfiguration.TargetBlockState> targetBlockStateList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, blockState), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, blockStateDeep));
-        Holder<ConfiguredFeature<OreConfiguration, ?>> feature = FeatureUtils.register("ore_kontron", Feature.ORE, new OreConfiguration(targetBlockStateList, 9));
-
-        Holder<PlacedFeature> placedFeatureUpper = PlacementUtils.register("kontron_ore_upper", feature, commonOrePlacement(90, HeightRangePlacement.triangle(VerticalAnchor.absolute(80), VerticalAnchor.absolute(384))));
-        Holder<PlacedFeature> placedFeatureMiddle = PlacementUtils.register("kontron_ore_middle", feature, commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56))));
-
-
-        Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> snowAngelFeature = FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState()))));
-        Holder<PlacedFeature> snowAngelPlaced = PlacementUtils.register("snow_angel", snowAngelFeature, NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
-
-    }
-
-
     // Taken from Oreplacements, should really be made public by Forge
-    private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
-        return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
+    private static List<PlacementModifier> orePlacement(PlacementModifier placementModifier, PlacementModifier p_195348_) {
+        return List.of(placementModifier, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
     }
 
     private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {

@@ -89,7 +89,7 @@ public class WeepingAngels {
     private void setup(final @NotNull FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
-        event.enqueueWork(WAFeatures::ores);
+//        event.enqueueWork(WAFeatures::ores);
         VR_REFLECTOR.init();
         init();
     }
