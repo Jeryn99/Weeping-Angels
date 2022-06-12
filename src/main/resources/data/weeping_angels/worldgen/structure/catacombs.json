@@ -1,6 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "start_pool": "weeping_angels:catacombs/broken/catacomb",
+  "start_pool": "weeping_angels:catacombs/catacombs",
   "size": 5,
   "max_distance_from_center": 80,
   "biomes": "#weeping_angels:has_structure/catacombs",

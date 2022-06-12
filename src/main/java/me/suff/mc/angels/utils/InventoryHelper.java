@@ -7,7 +7,7 @@ import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-public class ForgePatchThis {
+public class InventoryHelper {
 
     //taken from RecipeProvider
     public static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {

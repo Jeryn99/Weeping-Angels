@@ -1,8 +1,8 @@
 {
   "type": "weeping_angels:catacombs",
   "config": {
-    "start_pool": "weeping_angels:catacombs/normal/catacomb",
-    "size": 7
+    "start_pool": "weeping_angels:catacombs/catacombs",
+    "size": 17
   },
   "biomes": "#weeping_angels:has_structure/angel_structure_biomes",
   "adapt_noise": false,

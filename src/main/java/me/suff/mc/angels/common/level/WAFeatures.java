@@ -35,7 +35,11 @@ import static me.suff.mc.angels.WeepingAngels.MODID;
 public class WAFeatures {
 
     public static final DeferredRegister<StructureType<?>> STRUCTURES = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, MODID);
-    public static final RegistryObject<StructureType<?>> CATACOMB = STRUCTURES.register("catacombs", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+    public static final RegistryObject<StructureType<?>> CATACOMB = STRUCTURES.register("catacomb_broken", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+  /*  public static final RegistryObject<StructureType<?>> CATACOMB_CLASSIC = STRUCTURES.register("catacomb_classic", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+    public static final RegistryObject<StructureType<?>> CATACOMB_CLEAN = STRUCTURES.register("catacomb_clean", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+    public static final RegistryObject<StructureType<?>> CATACOMB_FLAT = STRUCTURES.register("catacomb_flat", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+    public static final RegistryObject<StructureType<?>> CATACOMB_NORMAL = STRUCTURES.register("catacomb_normal", () -> typeConvert(CatacombStructureJigsaw.CODEC));*/
     public static final RegistryObject<StructureType<?>> GRAVEYARD = STRUCTURES.register("graveyard", () -> typeConvert(GraveyardStructure.CODEC));
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, MODID);

@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[24,)"
-license = "https://github.com/WhoCraft/Weeping-Angels/blob/1.16/LICENSE"
+license = "https://github.com/WhoCraft/Weeping-Angels/blob/1.19/LICENSE"
 issueTrackerURL = "https://github.com/WhoCraft/Weeping-Angels/issues"
 [[mods]]
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
@@ -9,7 +9,7 @@ credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, Disast
 authors = "Suff99, 50ap5ud5"
 itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
-version = "1.0.0"
+version = "41.0.1"
 displayName = "Weeping Angels"
 updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
 description = '''
@@ -23,6 +23,6 @@ side = "BOTH"
 [[dependencies.weeping_angels]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18, ]"
+versionRange = "[1.19, ]"
 ordering = "NONE"
 side = "BOTH"
