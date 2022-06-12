@@ -16,7 +16,7 @@ import static me.suff.mc.angels.WeepingAngels.MODID;
 
 public record SpawnsModifier(HolderSet<Biome> biomes, SpawnerData spawn) implements BiomeModifier {
     public static final ResourceLocation WEEPING_ANGEL_SPAWNS = new ResourceLocation(MODID, "spawns/weeping_angels");
-    public static final String MODIFY_SPAWNS = "spawns/weeping_angels";
+    public static final String MODIFY_SPAWNS = "weeping_angel_spawns";
     private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(WEEPING_ANGEL_SPAWNS, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
 
     public static Codec<SpawnsModifier> makeCodec() {

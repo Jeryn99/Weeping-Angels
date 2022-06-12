@@ -1,6 +1,0 @@
-{
-  "type": "weeping_angels:feature_add",
-  "biomes": "#minecraft:has_structure/igloo",
-  "features": "weeping_angels:snow_angel",
-  "generation_stage": "VEGETAL_DECORATION"
-}

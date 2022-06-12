@@ -40,6 +40,8 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             arg "-mixin.config=weeping-angels.mixins.json"
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
         }
 
         client {
@@ -95,7 +97,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19-41.0.17'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.1'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -114,6 +116,7 @@ if (System.getProperty("idea.sync.active") == "true") {
         }
     }
 }
+
 
 jar {
     manifest {

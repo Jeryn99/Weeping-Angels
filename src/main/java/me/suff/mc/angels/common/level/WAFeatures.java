@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.level;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
-import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.structures.CatacombStructureJigsaw;
 import me.suff.mc.angels.common.level.structures.GraveyardStructure;
@@ -10,66 +10,65 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
-import java.util.Map;
+
+import static me.suff.mc.angels.WeepingAngels.MODID;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WAFeatures {
 
-    public static final DeferredRegister<StructureType<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, WeepingAngels.MODID);
-    public static final RegistryObject<StructureType<?>> CATACOMB = DEFERRED_REGISTRY_STRUCTURE.register("catacombs", () -> typeConvert(CatacombStructureJigsaw.CODEC));
-    public static final RegistryObject<StructureType<?>> GRAVEYARD = DEFERRED_REGISTRY_STRUCTURE.register("graveyard", () -> typeConvert(GraveyardStructure.CODEC));
+    public static final DeferredRegister<StructureType<?>> STRUCTURES = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, MODID);
+    public static final RegistryObject<StructureType<?>> CATACOMB = STRUCTURES.register("catacombs", () -> typeConvert(CatacombStructureJigsaw.CODEC));
+    public static final RegistryObject<StructureType<?>> GRAVEYARD = STRUCTURES.register("graveyard", () -> typeConvert(GraveyardStructure.CODEC));
 
-    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, WeepingAngels.MODID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, MODID);
 
-    public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get())), List.of(WAObjects.Blocks.SNOW_ANGEL.get()))), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
-    public static RegistryObject<PlacedFeature> KONTRON_ORE = PLACED_FEATURES.register("kontron_ore", () -> new PlacedFeature((Holder<ConfiguredFeature<?, ?>>) (Holder<? extends ConfiguredFeature<?, ?>>) FeatureUtils.register("snow_angel", Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get())), List.of(WAObjects.Blocks.SNOW_ANGEL.get()))), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
+    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 4, 0.3F)));
+    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_LARGE_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron_large", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 12, 0.5F)));
+    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_BURIED_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron_buried", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 9, 1.0F)));
+    public static RegistryObject<ConfiguredFeature<?, ?>> SNOW_ANGEL_CONFIGURED = CONFIGURED_FEATURES.register("snow_angel", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState())))));
+
+
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, MODID);
+
+    public static RegistryObject<PlacedFeature> ORE_KONTRON = PLACED_FEATURES.register("ore_kontron", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_CONFIGURED.get()), List.copyOf(commonOrePlacement(7, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(8), VerticalAnchor.aboveBottom(96))))));
+    public static RegistryObject<PlacedFeature> ORE_KONTRON_LARGE = PLACED_FEATURES.register("ore_kontron_large", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_LARGE_CONFIGURED.get()), List.copyOf(rareOrePlacement(9, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(8), VerticalAnchor.aboveBottom(96))))));
+    public static RegistryObject<PlacedFeature> ORE_KONTRON_BURIED = PLACED_FEATURES.register("ore_kontron_buried", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_BURIED_CONFIGURED.get()), List.copyOf(commonOrePlacement(4, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(80))))));
+
+    public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature(Holder.direct(WAFeatures.SNOW_ANGEL_CONFIGURED.get()), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
+
 
     private static <S extends Structure> StructureType<S> typeConvert(Codec<S> codec) {
         return () -> codec;
     }
 
-    private static HolderSet<Biome> biomes(TagKey<Biome> p_236537_) {
-        return BuiltinRegistries.BIOME.getOrCreateTag(p_236537_);
+    private static List<PlacementModifier> orePlacement(PlacementModifier plMod, PlacementModifier plMod2) {
+        return List.of(plMod, InSquarePlacement.spread(), plMod2, BiomeFilter.biome());
     }
 
-    // Taken from Oreplacements, should really be made public by Forge
-    private static List<PlacementModifier> orePlacement(PlacementModifier placementModifier, PlacementModifier p_195348_) {
-        return List.of(placementModifier, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
+    private static List<PlacementModifier> commonOrePlacement(int amt, PlacementModifier plMod) {
+        return orePlacement(CountPlacement.of(amt), plMod);
     }
 
-    private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
-        return orePlacement(CountPlacement.of(p_195344_), p_195345_);
-    }
-
-    private static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
-        return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
+    private static List<PlacementModifier> rareOrePlacement(int amt, PlacementModifier plMod) {
+        return orePlacement(RarityFilter.onAverageOnceEvery(amt), plMod);
     }
 
 }

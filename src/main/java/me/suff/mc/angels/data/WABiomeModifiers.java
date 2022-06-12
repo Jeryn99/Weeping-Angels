@@ -8,6 +8,7 @@ import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.level.biomemodifiers.FeatureModifier;
 import me.suff.mc.angels.common.level.biomemodifiers.SpawnsModifier;
 import me.suff.mc.angels.utils.AngelUtil;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -21,7 +22,10 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ForgeBiomeTagsProvider;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -56,21 +60,20 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
         RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
         final Path outputFolder = this.dataGenerator.getOutputFolder();
 
-        Registry<PlacedFeature> placedFeatures = ops.registry(Registry.PLACED_FEATURE_REGISTRY).get();
-
-
         // Biome Modifiers
         BiomeModifier spawnsModifier = new SpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
-        FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.HAS_IGLOO), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.SNOW_ANGEL.getId()))));
-        FeatureModifier oreModifer = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(placedFeatures.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, WAFeatures.KONTRON_ORE.getId()))));
+        FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
+        FeatureModifier oreModiferSmall = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
+        FeatureModifier oreModiferLarge = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_LARGE.get())));
+        FeatureModifier oreModiferBuried = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_BURIED.get())));
+
 
         // Generate BiomeModiers
         generate(ops, spawnsModifier, outputFolder, SpawnsModifier.MODIFY_SPAWNS, cachedOutput);
-        generate(ops, snowAngel, outputFolder, FeatureModifier.NAME, cachedOutput);
-      //  generate(ops, oreModifer, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
-
-
-        // TODO: need to seperate or combine kontron related generation + correctly set up and not use igloos and nether stuff for everything
+        generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);
+        generate(ops, oreModiferSmall, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
+        generate(ops, oreModiferLarge, outputFolder, FeatureModifier.ORE_NAME + "_large", cachedOutput);
+        generate(ops, oreModiferBuried, outputFolder, FeatureModifier.ORE_NAME + "_buried", cachedOutput);
     }
 
     @Override

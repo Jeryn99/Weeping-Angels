@@ -69,10 +69,12 @@ public class WeepingAngels {
         WAObjects.Items.ITEMS.register(bus);
         WAObjects.EntityEntries.ENTITIES.register(bus);
         WAObjects.Tiles.TILES.register(bus);
-        WAFeatures.DEFERRED_REGISTRY_STRUCTURE.register(bus);
+        WAFeatures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
         WAGlobalLoot.GLM.register(modBus);
+
+        WAFeatures.CONFIGURED_FEATURES.register(modBus);
         WAFeatures.PLACED_FEATURES.register(modBus);
 
         final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
@@ -89,7 +91,6 @@ public class WeepingAngels {
     private void setup(final @NotNull FMLCommonSetupEvent event) {
         Network.init();
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
-//        event.enqueueWork(WAFeatures::ores);
         VR_REFLECTOR.init();
         init();
     }

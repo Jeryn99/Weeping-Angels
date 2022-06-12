@@ -20,8 +20,7 @@ import static me.suff.mc.angels.WeepingAngels.MODID;
 public record FeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features) implements BiomeModifier {
 
     public static final ResourceLocation ADD_FEATURE = new ResourceLocation(MODID, "feature_add");
-    public static final String NAME = "feature/snow_angels";
-    public static final String ORE_NAME = "feature/kontron_ore";
+    public static final String ORE_NAME = "kontron_ore";
 
     private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(ADD_FEATURE, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
 
