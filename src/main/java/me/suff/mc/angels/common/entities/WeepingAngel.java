@@ -408,8 +408,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
             BlockPos pos = iterator.next();
             ServerLevel serverWorld = (ServerLevel) level;
             BlockState blockState = serverWorld.getBlockState(pos);
-            if (isAllowed(blockState, pos)) {
 
+            if (isAllowed(blockState, pos)) {
                 if (blockState.getBlock() == Blocks.LAVA) {
                     continue;
                 }
@@ -420,6 +420,14 @@ public class WeepingAngel extends QuantumLockedLifeform {
                 }
 
                 if (blockState.hasProperty(BlockStateProperties.LIT)) {
+
+                    if (blockState.getBlock() instanceof CandleBlock) {
+                        if (!CandleBlock.canLight(blockState)) {
+                            CandleBlock.extinguish(null, blockState, level, pos);
+                            return;
+                        }
+                    }
+
                     if (blockState.getValue(BlockStateProperties.LIT)) {
                         updateBlock(this, pos, blockState.setValue(BlockStateProperties.LIT, false), false);
                         return;
@@ -547,7 +555,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public boolean isAllowed(BlockState blockState, BlockPos blockPos) {
 
-        if (ForgeRegistries.BLOCKS.tags().getTag(AngelUtil.ANGEL_IGNORE).contains(blockState.getBlock())) {
+        if (ForgeRegistries.BLOCKS.tags().getTag(AngelUtil.BANNED_BLOCKS).contains(blockState.getBlock())) {
             return false;
         }
 

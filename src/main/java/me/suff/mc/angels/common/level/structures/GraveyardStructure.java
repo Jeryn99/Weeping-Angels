@@ -9,10 +9,7 @@ import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.level.WAPieces;
 import me.suff.mc.angels.utils.AngelUtil;
-import me.suff.mc.angels.utils.TagUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +31,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -42,7 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -127,15 +124,9 @@ public class GraveyardStructure extends Structure {
             return finalDate.getDayOfMonth() + "." + finalDate.getMonthValue() + "." + finalDate.getYear();
 
         }
-
-        //TODO This is bad! But I cannot find a inbuilt way to do this correctly, there is a way though
         public static Block getRandomPottedPlant(RandomSource random) {
-            ArrayList<Block> plants = new ArrayList<>();
-            for (Object o : TagUtil.getValues(Registry.BLOCK, AngelUtil.POTTED_PLANTS)) {
-                Holder<Block> value = (Holder<Block>) o;
-                plants.add(value.value());
-            }
-            return plants.get(random.nextInt(plants.size()));
+            Optional<Block> plant = ForgeRegistries.BLOCKS.tags().getTag(AngelUtil.POTTED_PLANTS).getRandomElement(random);
+            return plant.get();
         }
 
         @Override

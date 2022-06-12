@@ -63,17 +63,15 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
         // Biome Modifiers
         BiomeModifier spawnsModifier = new SpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
         FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
-        FeatureModifier oreModiferSmall = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
-        FeatureModifier oreModiferLarge = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_LARGE.get())));
-        FeatureModifier oreModiferBuried = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_BURIED.get())));
+        FeatureModifier oreModifer = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
+        FeatureModifier oreModiferSmall = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())));
 
 
         // Generate BiomeModiers
         generate(ops, spawnsModifier, outputFolder, SpawnsModifier.MODIFY_SPAWNS, cachedOutput);
         generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);
         generate(ops, oreModiferSmall, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
-        generate(ops, oreModiferLarge, outputFolder, FeatureModifier.ORE_NAME + "_large", cachedOutput);
-        generate(ops, oreModiferBuried, outputFolder, FeatureModifier.ORE_NAME + "_buried", cachedOutput);
+        generate(ops, oreModifer, outputFolder, FeatureModifier.ORE_NAME + "_small", cachedOutput);
     }
 
     @Override
