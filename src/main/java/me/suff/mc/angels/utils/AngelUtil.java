@@ -10,6 +10,7 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;

@@ -5,6 +5,7 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;

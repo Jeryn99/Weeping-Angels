@@ -13,7 +13,13 @@
   <img src="https://cf.way2muchnoise.eu/versions/weeping-angels-mod.svg" alt="Versions">
 </center>
 <h3>About:</h3> 
-This mod was created for <a href="https://www.curseforge.com/minecraft/modpacks/modjampack-modjam-5">ModJam 5</a>, it was loosely based on the original mod created by a_dizzle back in 1.5.2. (You can even find angels with the original model within the world as a tribute) This mod was started in 1.12 and has spanned every version since then with the exclusion of 1.13. <h3>Server Sponsorship:</h3>
+This mod was created for <a href="https://www.curseforge.com/minecraft/modpacks/modjampack-modjam-5">ModJam 5</a>, it was loosely based on the original mod created by a_dizzle back in 1.5.2. (You can even find angels with the original model within the world as a tribute) This mod was started in 1.12 and has spanned every version since then with the exclusion of 1.13. 
+
+<h3>1.19+ Data-pack Changes:</h3>
+1. angel_proof => <a href="https://github.com/Suff99/Weeping-Angels/blob/1.19/src/main/resources/data/weeping_angels/tags/blocks/unbreakable_blocks.json">unbreakable_blocks</a>
+2. angel_ignore => <a href="https://github.com/Suff99/Weeping-Angels/blob/1.19/src/main/resources/data/weeping_angels/tags/blocks/angel_occulude_blocks.json">angel_occulude_blocks</a>
+
+<h3>Server Sponsorship:</h3>
 <center>
   <a href="https://www.bisecthosting.com/clients/aff.php?aff=3107">
     <img src="https://www.bisecthosting.com/partners/custom-banners/93a09616-0303-43e9-9d7f-039e21e51ae7.png" alt="Bisect Sponsership">

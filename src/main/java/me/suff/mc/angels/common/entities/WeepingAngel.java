@@ -421,8 +421,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
                 if (blockState.hasProperty(BlockStateProperties.LIT)) {
 
-                    if (blockState.getBlock() instanceof CandleBlock) {
-                        if (!CandleBlock.canLight(blockState)) {
+                    if(blockState.getBlock() instanceof CandleBlock){
+                        if(!CandleBlock.canLight(blockState)) {
                             CandleBlock.extinguish(null, blockState, level, pos);
                             return;
                         }
