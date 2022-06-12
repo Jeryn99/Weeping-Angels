@@ -40,17 +40,15 @@ public class WAFeatures {
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, MODID);
 
-    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 4, 0.3F)));
-    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_LARGE_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron_large", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 12, 0.5F)));
-    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_BURIED_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron_buried", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 9, 1.0F)));
+    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 9)));
+    public static RegistryObject<ConfiguredFeature<?, ?>> ORE_KONTRON_SMALL_CONFIGURED = CONFIGURED_FEATURES.register("ore_kontron_small", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get().defaultBlockState())), 4)));
     public static RegistryObject<ConfiguredFeature<?, ?>> SNOW_ANGEL_CONFIGURED = CONFIGURED_FEATURES.register("snow_angel", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(WAObjects.Blocks.SNOW_ANGEL.get().defaultBlockState())))));
 
 
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, MODID);
 
-    public static RegistryObject<PlacedFeature> ORE_KONTRON = PLACED_FEATURES.register("ore_kontron", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_CONFIGURED.get()), List.copyOf(commonOrePlacement(7, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(8), VerticalAnchor.aboveBottom(96))))));
-    public static RegistryObject<PlacedFeature> ORE_KONTRON_LARGE = PLACED_FEATURES.register("ore_kontron_large", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_LARGE_CONFIGURED.get()), List.copyOf(rareOrePlacement(9, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(8), VerticalAnchor.aboveBottom(96))))));
-    public static RegistryObject<PlacedFeature> ORE_KONTRON_BURIED = PLACED_FEATURES.register("ore_kontron_buried", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_BURIED_CONFIGURED.get()), List.copyOf(commonOrePlacement(4, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(80))))));
+    public static RegistryObject<PlacedFeature> ORE_KONTRON = PLACED_FEATURES.register("ore_kontron", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_CONFIGURED.get()), List.copyOf(commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56))))));
+    public static RegistryObject<PlacedFeature> ORE_KONTRON_SMALL = PLACED_FEATURES.register("ore_kontron_small", () -> new PlacedFeature(Holder.direct(WAFeatures.ORE_KONTRON_SMALL_CONFIGURED.get()), List.copyOf(commonOrePlacement(10, HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(72))))));
 
     public static RegistryObject<PlacedFeature> SNOW_ANGEL = PLACED_FEATURES.register("snow_angel", () -> new PlacedFeature(Holder.direct(WAFeatures.SNOW_ANGEL_CONFIGURED.get()), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
 
@@ -65,10 +63,6 @@ public class WAFeatures {
 
     private static List<PlacementModifier> commonOrePlacement(int amt, PlacementModifier plMod) {
         return orePlacement(CountPlacement.of(amt), plMod);
-    }
-
-    private static List<PlacementModifier> rareOrePlacement(int amt, PlacementModifier plMod) {
-        return orePlacement(RarityFilter.onAverageOnceEvery(amt), plMod);
     }
 
 }

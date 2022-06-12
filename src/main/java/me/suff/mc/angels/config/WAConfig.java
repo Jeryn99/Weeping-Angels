@@ -5,7 +5,6 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,12 +21,6 @@ public class WAConfig {
         CONFIG = specPair.getLeft();
         CONFIG_SPEC = specPair.getRight();
     }
-
-    // WorldGen
-    public final ForgeConfigSpec.BooleanValue arms;
-    public final ForgeConfigSpec.BooleanValue genOres;
-    public final ForgeConfigSpec.BooleanValue genGraveyard;
-    public final ForgeConfigSpec.BooleanValue genCatacombs;
 
     // Angel
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
@@ -60,12 +53,6 @@ public class WAConfig {
 
 
     public WAConfig(ForgeConfigSpec.Builder builder) {
-        builder.push("world_gen");
-        arms = builder.translation("config.weeping_angels.genArms").comment("Config to toggle the generation of arms in snow biomes").define("arms", true);
-        genOres = builder.translation("config.weeping_angels.genOre").comment("Configure whether the mods ores spawn. This MAY require a restart when changed.").define("genOres", true);
-        genGraveyard = builder.translation("config.weeping_angels.genGraveyard").comment("Configure whether Graveyard Structures spawn. This will require a restart when changed.").define("genGraveyard", true);
-        genCatacombs = builder.translation("config.weeping_angels.genCatacombs").comment("Configure whether Catacombs Structures spawn. This will require a restart when changed.").define("genCatacombs", true);
-        builder.pop();
 
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);

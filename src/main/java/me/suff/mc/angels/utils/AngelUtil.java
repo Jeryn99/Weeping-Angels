@@ -10,7 +10,6 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Calendar;
 import java.util.List;
@@ -59,9 +59,9 @@ public class AngelUtil {
     public static final Random RAND = new Random();
     public static TagKey<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
     public static TagKey<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static TagKey<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static TagKey<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_occulude_blocks");
     public static TagKey<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static TagKey<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "unbreakable_blocks");
 
     public static TagKey<Biome> CATACOMB_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/catacombs");
     public static TagKey<Biome> GRAVEYARD_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/graveyard");
@@ -97,15 +97,14 @@ public class AngelUtil {
             if (breakBlock) {
                 Containers.dropItemStack(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(entity.level.getBlockState(pos).getBlock()));
             }
-            entity.level.setBlock(pos, blockState, 2);
+            entity.level.removeBlock(pos, true);
+            entity.level.setBlock(pos, blockState, Block.UPDATE_NEIGHBORS);
         }
     }
 
-    //TODO This could do with being converted proper tag logic
     public static boolean handLightCheck(LivingEntity player) {
-        for (Object o : TagUtil.getValues(Registry.ITEM, AngelUtil.HELD_LIGHT_ITEMS)) {
-            Holder<Item> value = (Holder<Item>) o;
-            if (PlayerUtil.isInEitherHand(player, value.value())) {
+        for (Item item : ForgeRegistries.ITEMS.tags().getTag(AngelUtil.HELD_LIGHT_ITEMS)) {
+            if (PlayerUtil.isInEitherHand(player, item)) {
                 return true;
             }
         }
