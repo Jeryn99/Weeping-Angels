@@ -1,5 +1,8 @@
 package me.suff.mc.angels.utils;
 
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelType;
@@ -39,10 +42,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
 
 import static me.suff.mc.angels.common.tileentities.CoffinTile.Coffin.*;
 

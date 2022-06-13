@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.items;
 
+import java.util.List;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.misc.WATabs;
@@ -18,8 +19,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class DetectorItem extends Item {
 

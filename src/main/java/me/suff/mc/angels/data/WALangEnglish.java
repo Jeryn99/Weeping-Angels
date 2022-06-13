@@ -40,10 +40,10 @@ public class WALangEnglish extends LanguageProvider {
         add(WAObjects.EntityEntries.ANOMALY.get(), "Anomaly");
 
         /* Tooltips */
-        add("tooltip.weeping_angels.chisel", TextFormatting.BLUE.toString() + "Used to change appearance of Decorative Angel Blocks");
-        add("tooltip.weeping_angels.chisel_right_click", TextFormatting.BLUE.toString() + "- Right click to change angel pose");
-        add("tooltip.weeping_angels.chisel_sneak", TextFormatting.BLUE.toString() + "- Sneak + Right click to Change Angel Type");
-        add("tooltip.weeping_angels.punch_variant", TextFormatting.BLUE.toString() + "- Left click to change variant");
+        add("tooltip.weeping_angels.chisel", TextFormatting.BLUE + "Used to change appearance of Decorative Angel Blocks");
+        add("tooltip.weeping_angels.chisel_right_click", TextFormatting.BLUE + "- Right click to change angel pose");
+        add("tooltip.weeping_angels.chisel_sneak", TextFormatting.BLUE + "- Sneak + Right click to Change Angel Type");
+        add("tooltip.weeping_angels.punch_variant", TextFormatting.BLUE + "- Left click to change variant");
 
         /* Damage Sources */
         add("source.weeping_angels.backintime", "%s was sent back in time by a Angel!");

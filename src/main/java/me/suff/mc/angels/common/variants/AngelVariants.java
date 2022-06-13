@@ -1,5 +1,7 @@
 package me.suff.mc.angels.common.variants;
 
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -10,9 +12,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
-
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class AngelVariants {
 

@@ -1,6 +1,8 @@
 package me.suff.mc.angels.config;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.List;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -11,9 +13,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WAConfig {
     public static final WAConfig CONFIG;

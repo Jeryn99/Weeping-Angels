@@ -1,5 +1,6 @@
 package me.suff.mc.angels.data;
 
+import java.util.function.Consumer;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.block.Blocks;
@@ -9,8 +10,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
-
-import java.util.function.Consumer;
 
 public class WARecipeGen extends RecipeProvider {
     public WARecipeGen(DataGenerator generatorIn) {

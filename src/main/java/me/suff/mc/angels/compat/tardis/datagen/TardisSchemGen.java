@@ -1,11 +1,10 @@
 package me.suff.mc.angels.compat.tardis.datagen;
 
+import java.io.IOException;
 import me.suff.mc.angels.compat.tardis.registry.TardisExteriorReg;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.tardis.mod.datagen.TardisSchematicGen;
-
-import java.io.IOException;
 
 public class TardisSchemGen extends TardisSchematicGen {
     public TardisSchemGen(DataGenerator generator) {

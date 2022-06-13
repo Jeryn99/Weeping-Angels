@@ -1,6 +1,11 @@
 package me.suff.mc.angels.events;
 
 import com.mojang.serialization.Codec;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.annotation.Nullable;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
@@ -60,12 +65,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-
-import javax.annotation.Nullable;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -364,4 +363,4 @@ public class CommonEvents {
         return false;
     }
 }
-	
+

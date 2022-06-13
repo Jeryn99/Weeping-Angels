@@ -1,6 +1,7 @@
 package me.suff.mc.angels.client.renders.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import java.util.UUID;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelType;
@@ -22,8 +23,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.UUID;
 
 public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
 

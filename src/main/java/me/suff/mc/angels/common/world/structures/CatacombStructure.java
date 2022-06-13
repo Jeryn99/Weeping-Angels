@@ -2,6 +2,7 @@ package me.suff.mc.angels.common.world.structures;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import java.util.List;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.entity.EntityType;
@@ -22,8 +23,6 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-
-import java.util.List;
 
 public class CatacombStructure extends Structure<NoFeatureConfig> {
 

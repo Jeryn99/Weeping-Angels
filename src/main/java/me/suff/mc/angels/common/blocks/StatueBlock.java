@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.blocks;
 
+import javax.annotation.Nullable;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.tileentities.StatueTile;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -21,8 +22,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Craig on 17/02/2020 @ 12:19

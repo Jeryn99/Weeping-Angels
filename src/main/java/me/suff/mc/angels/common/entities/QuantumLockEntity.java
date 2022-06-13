@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.entities;
 
+import java.util.List;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.ViewUtil;
@@ -16,8 +17,6 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class QuantumLockEntity extends MonsterEntity implements IMob {
 

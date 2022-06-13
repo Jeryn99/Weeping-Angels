@@ -1,6 +1,7 @@
 package me.suff.mc.angels.compat.tardis;
 
 import com.google.common.collect.Lists;
+import java.util.*;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.api.EventAngelTeportedPlayerCrossDim;
@@ -53,8 +54,6 @@ import net.tardis.mod.tileentities.console.misc.AlarmType;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import net.tardis.mod.world.dimensions.TDimensions;
-
-import java.util.*;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {
@@ -128,7 +127,6 @@ public class TardisMod {
             ConsoleTile console = (ConsoleTile) world.getBlockEntity(TardisHelper.TARDIS_POS);
 
             if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
                 if (console.isLanding()) {
                     for (Subsystem system : console.getSubSystems()) {
                         system.setActivated(false);
@@ -143,7 +141,7 @@ public class TardisMod {
                     BlockPos pos = destWorld.findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), console.getDestinationPosition(), 100, false);
                     List<BlockPos> viablePoses = BlockPosHelper.getFilteredBlockPositionsInStructure(pos, destWorld, destWorld.structureFeatureManager(), WAObjects.Structures.CATACOMBS.get(), Blocks.COBWEB);
                     Collections.shuffle(viablePoses);
-                    if (!viablePoses.isEmpty()) {
+                    if (!viablePoses.isEmpty() && spaceTimeDim != null) {
                         console.setDestination(new SpaceTimeCoord(spaceTimeDim, viablePoses.get(0)));
                         TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
                         console.getInteriorManager().soundAlarm(AlarmType.LOW);

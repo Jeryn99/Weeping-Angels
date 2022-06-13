@@ -2,6 +2,7 @@ package me.suff.mc.angels.client.renders.entities;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import java.util.Map;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -11,8 +12,6 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class AngelCrackedLayer extends LayerRenderer<WeepingAngelEntity, EntityModel<WeepingAngelEntity>> {

@@ -1,6 +1,8 @@
 package me.suff.mc.angels.common;
 
 import com.google.gson.JsonObject;
+import java.util.List;
+import java.util.Random;
 import me.suff.mc.angels.WeepingAngels;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
@@ -12,9 +14,6 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.List;
-import java.util.Random;
 
 /* Created by Craig on 10/03/2021 */
 public class WAGlm {

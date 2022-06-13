@@ -1,5 +1,6 @@
 package me.suff.mc.angels.common.blocks;
 
+import javax.annotation.Nullable;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.tileentities.PlinthTile;
 import me.suff.mc.angels.utils.AngelUtil;
@@ -28,8 +29,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class PlinthBlock extends Block implements IWaterLoggable {
 

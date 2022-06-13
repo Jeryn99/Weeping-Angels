@@ -1,5 +1,7 @@
 package me.suff.mc.angels.utils;
 
+import java.util.function.Predicate;
+import javax.annotation.Nullable;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.QuantumLockEntity;
 import net.minecraft.block.Block;
@@ -17,9 +19,6 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.function.Predicate;
 
 public class ViewUtil {
 

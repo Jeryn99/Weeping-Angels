@@ -1,14 +1,13 @@
 package me.suff.mc.angels.compat.vr;
 
-import me.suff.mc.angels.WeepingAngels;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.UUID;
+import me.suff.mc.angels.WeepingAngels;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class ServerReflector extends VivecraftReflector {
     // Keeps track of what part of Vivecraft is detected.

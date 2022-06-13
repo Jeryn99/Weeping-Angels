@@ -1,5 +1,7 @@
 package me.suff.mc.angels.common.items;
 
+import java.util.List;
+import javax.annotation.Nullable;
 import me.suff.mc.angels.common.tileentities.IPlinth;
 import me.suff.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,9 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 import static me.suff.mc.angels.common.variants.AngelVariants.NORMAL;
 

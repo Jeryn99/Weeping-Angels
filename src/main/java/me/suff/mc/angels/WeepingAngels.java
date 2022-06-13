@@ -51,7 +51,6 @@ public class WeepingAngels {
     public static Logger LOGGER = LogManager.getLogger(NAME);
 
 
-
     public WeepingAngels() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);

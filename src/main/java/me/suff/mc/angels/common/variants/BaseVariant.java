@@ -1,11 +1,10 @@
 package me.suff.mc.angels.common.variants;
 
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import static me.suff.mc.angels.common.variants.AngelVariants.BANNED_FROM_NETHER;
 

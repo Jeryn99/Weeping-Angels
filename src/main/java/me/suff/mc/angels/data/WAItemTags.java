@@ -1,5 +1,6 @@
 package me.suff.mc.angels.data;
 
+import java.util.Objects;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BlockTagsProvider;
@@ -10,8 +11,6 @@ import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Objects;
 
 public class WAItemTags extends ItemTagsProvider {
 

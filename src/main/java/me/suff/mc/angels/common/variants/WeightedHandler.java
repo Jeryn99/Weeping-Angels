@@ -1,11 +1,10 @@
 package me.suff.mc.angels.common.variants;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WeightedHandler {
 

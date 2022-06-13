@@ -1,5 +1,7 @@
 package me.suff.mc.angels.common.blocks;
 
+import java.util.Random;
+import javax.annotation.Nullable;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.tileentities.SnowAngelStages;
@@ -19,9 +21,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class SnowArmBlock extends SnowBlock {
 

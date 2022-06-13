@@ -1,11 +1,10 @@
 package me.suff.mc.angels.network.messages;
 
+import java.util.function.Supplier;
 import me.suff.mc.angels.client.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 /**
  * Created by Craig on 20/01/2019.
