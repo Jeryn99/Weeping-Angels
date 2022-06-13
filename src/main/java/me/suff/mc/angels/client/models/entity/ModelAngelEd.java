@@ -276,21 +276,19 @@ public class ModelAngelEd extends SegmentedModel<WeepingAngelEntity> implements 
             }
 
             if (pose == WeepingAngelPose.ANGRY) {
-                float swing = MathHelper.sin(attackTime * (float) Math.PI);
-                float f1 = MathHelper.sin((1.0F - (1.0F - attackTime) * (1.0F - attackTime)) * (float) Math.PI);
-                right_arm.zRot = 0.0F;
-                left_arm.zRot = 0.0F;
-                right_arm.yRot = -(0.1F - swing * 0.6F);
-                left_arm.yRot = 0.1F - swing * 0.6F;
-                right_arm.xRot = -1.5F;
-                left_arm.xRot = -1.5F;
-                right_arm.xRot += swing * 1.2F - f1 * 0.4F;
-                left_arm.xRot += swing * 1.2F - f1 * 0.4F;
-                right_arm.zRot += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-                left_arm.zRot -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-                right_arm.xRot += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                left_arm.xRot -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                head.xRot = headPitch * 0.017453292F;
+
+                right_arm.xRot = (float) Math.toRadians(-90);
+                right_arm.yRot = (float) Math.toRadians(25);
+                right_arm.zRot = (float) Math.toRadians(17.5);
+
+                left_arm.xRot = (float) Math.toRadians(-90);
+                left_arm.yRot = (float) Math.toRadians(-25);
+                left_arm.zRot = (float) Math.toRadians(-17.5);
+
+                head.xRot = (float) Math.toRadians(10);
+                head.yRot = (float) Math.toRadians(0);
+                head.zRot = (float) Math.toRadians(0);
+
                 return;
             }
 
