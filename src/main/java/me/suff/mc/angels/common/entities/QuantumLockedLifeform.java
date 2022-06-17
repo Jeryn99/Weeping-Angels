@@ -92,8 +92,9 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                     if (random.nextInt(50) < 30) {
                         doHurtTarget(targetPlayer);
                     }
-                } else
+                } else {
                     moveTowards(targetPlayer);
+                }
             }
         }
     }

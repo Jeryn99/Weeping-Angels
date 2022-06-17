@@ -5,8 +5,8 @@ import com.mojang.serialization.JsonOps;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.level.biomemodifiers.FeatureModifier;
-import me.suff.mc.angels.common.level.biomemodifiers.SpawnsModifier;
+import me.suff.mc.angels.common.level.biomemodifiers.BiomeFeatureModifier;
+import me.suff.mc.angels.common.level.biomemodifiers.BiomeSpawnsModifier;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -16,16 +16,12 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ForgeBiomeTagsProvider;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -55,23 +51,23 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
     }
 
     @Override
-    public void run(CachedOutput cachedOutput) throws IOException {
+    public void run(CachedOutput cachedOutput) {
 
         RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
         final Path outputFolder = this.dataGenerator.getOutputFolder();
 
         // Biome Modifiers
-        BiomeModifier spawnsModifier = new SpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
-        FeatureModifier snowAngel = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
-        FeatureModifier oreModifer = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
-        FeatureModifier oreModiferSmall = new FeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())));
+        BiomeModifier spawnsModifier = new BiomeSpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
+        BiomeFeatureModifier snowAngel = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
+        BiomeFeatureModifier oreModifer = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
+        BiomeFeatureModifier oreModiferSmall = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())));
 
 
         // Generate BiomeModiers
-        generate(ops, spawnsModifier, outputFolder, SpawnsModifier.MODIFY_SPAWNS, cachedOutput);
+        generate(ops, spawnsModifier, outputFolder, BiomeSpawnsModifier.MODIFY_SPAWNS, cachedOutput);
         generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);
-        generate(ops, oreModiferSmall, outputFolder, FeatureModifier.ORE_NAME, cachedOutput);
-        generate(ops, oreModifer, outputFolder, FeatureModifier.ORE_NAME + "_small", cachedOutput);
+        generate(ops, oreModiferSmall, outputFolder, BiomeFeatureModifier.ORE_NAME, cachedOutput);
+        generate(ops, oreModifer, outputFolder, BiomeFeatureModifier.ORE_NAME + "_small", cachedOutput);
     }
 
     @Override

@@ -17,19 +17,19 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static me.suff.mc.angels.WeepingAngels.MODID;
 
-public record FeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features) implements BiomeModifier {
+public record BiomeFeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features) implements BiomeModifier {
 
     public static final ResourceLocation ADD_FEATURE = new ResourceLocation(MODID, "feature_add");
     public static final String ORE_NAME = "kontron_ore";
 
     private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(ADD_FEATURE, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
 
-    public static Codec<FeatureModifier> makeCodec() {
+    public static Codec<BiomeFeatureModifier> makeCodec() {
         return RecordCodecBuilder.create(builder -> builder.group(
-                Biome.LIST_CODEC.fieldOf("biomes").forGetter(FeatureModifier::biomes),
-                Codec.STRING.comapFlatMap(FeatureModifier::generationStageFromString, GenerationStep.Decoration::toString).fieldOf("generation_stage").forGetter(FeatureModifier::generationStage),
-                PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(FeatureModifier::features)
-        ).apply(builder, FeatureModifier::new));
+                Biome.LIST_CODEC.fieldOf("biomes").forGetter(BiomeFeatureModifier::biomes),
+                Codec.STRING.comapFlatMap(BiomeFeatureModifier::generationStageFromString, GenerationStep.Decoration::toString).fieldOf("generation_stage").forGetter(BiomeFeatureModifier::generationStage),
+                PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(BiomeFeatureModifier::features)
+        ).apply(builder, BiomeFeatureModifier::new));
     }
 
     private static DataResult<GenerationStep.Decoration> generationStageFromString(String name) {

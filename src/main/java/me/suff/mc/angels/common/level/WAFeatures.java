@@ -6,14 +6,10 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.level.structures.CatacombStructureJigsaw;
 import me.suff.mc.angels.common.level.structures.GraveyardStructure;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -36,10 +32,7 @@ public class WAFeatures {
 
     public static final DeferredRegister<StructureType<?>> STRUCTURES = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, MODID);
     public static final RegistryObject<StructureType<?>> CATACOMB = STRUCTURES.register("catacomb_broken", () -> typeConvert(CatacombStructureJigsaw.CODEC));
-  /*  public static final RegistryObject<StructureType<?>> CATACOMB_CLASSIC = STRUCTURES.register("catacomb_classic", () -> typeConvert(CatacombStructureJigsaw.CODEC));
-    public static final RegistryObject<StructureType<?>> CATACOMB_CLEAN = STRUCTURES.register("catacomb_clean", () -> typeConvert(CatacombStructureJigsaw.CODEC));
-    public static final RegistryObject<StructureType<?>> CATACOMB_FLAT = STRUCTURES.register("catacomb_flat", () -> typeConvert(CatacombStructureJigsaw.CODEC));
-    public static final RegistryObject<StructureType<?>> CATACOMB_NORMAL = STRUCTURES.register("catacomb_normal", () -> typeConvert(CatacombStructureJigsaw.CODEC));*/
+
     public static final RegistryObject<StructureType<?>> GRAVEYARD = STRUCTURES.register("graveyard", () -> typeConvert(GraveyardStructure.CODEC));
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, MODID);

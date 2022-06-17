@@ -33,10 +33,15 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -77,9 +82,15 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public WeepingAngel(Level world) {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
-        goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
+        goalSelector.addGoal(0, new OpenDoorGoal(this, false));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
+        goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
+        goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
+        targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(WeepingAngel.class));
+
         xpReward = WAConfig.CONFIG.xpGained.get();
     }
 

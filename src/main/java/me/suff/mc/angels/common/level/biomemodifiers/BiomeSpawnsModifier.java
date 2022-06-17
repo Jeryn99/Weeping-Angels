@@ -14,16 +14,16 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static me.suff.mc.angels.WeepingAngels.MODID;
 
-public record SpawnsModifier(HolderSet<Biome> biomes, SpawnerData spawn) implements BiomeModifier {
+public record BiomeSpawnsModifier(HolderSet<Biome> biomes, SpawnerData spawn) implements BiomeModifier {
     public static final ResourceLocation WEEPING_ANGEL_SPAWNS = new ResourceLocation(MODID, "spawns/weeping_angels");
     public static final String MODIFY_SPAWNS = "weeping_angel_spawns";
     private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(WEEPING_ANGEL_SPAWNS, ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
 
-    public static Codec<SpawnsModifier> makeCodec() {
+    public static Codec<BiomeSpawnsModifier> makeCodec() {
         return RecordCodecBuilder.create(builder -> builder.group(
-                Biome.LIST_CODEC.fieldOf("biomes").forGetter(SpawnsModifier::biomes),
-                SpawnerData.CODEC.fieldOf("spawn").forGetter(SpawnsModifier::spawn)
-        ).apply(builder, SpawnsModifier::new));
+                Biome.LIST_CODEC.fieldOf("biomes").forGetter(BiomeSpawnsModifier::biomes),
+                SpawnerData.CODEC.fieldOf("spawn").forGetter(BiomeSpawnsModifier::spawn)
+        ).apply(builder, BiomeSpawnsModifier::new));
     }
 
     @Override
