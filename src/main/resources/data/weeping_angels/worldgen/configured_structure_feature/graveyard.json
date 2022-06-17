@@ -1,18 +1,20 @@
 {
   "type": "weeping_angels:graveyard",
-  "config": {
-    "start_pool": "weeping_angels:catacombs/normal/catacomb",
-    "size": 7
-  },
-  "biomes": "#weeping_angels:has_structure/angel_structure_biomes",
+  "start_pool": "weeping_angels:catacombs/broken/catacomb",
+  "size": 1,
+  "biomes": "#weeping_angels:has_structure/graveyard",
+  "step": "surface_structures",
   "adapt_noise": true,
+  "start_height": {
+    "absolute": 0
+  },
   "spawn_overrides": {
     "monster": {
-      "bounding_box": "piece",
+      "bounding_box": "full",
       "spawns": [
         {
-          "type": "weeping_angels:weeping_angel",
-          "weight": 5,
+          "type": "weeping-angels:weeping_angel",
+          "weight": 1,
           "minCount": 1,
           "maxCount": 2
         }

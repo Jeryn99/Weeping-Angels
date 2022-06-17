@@ -56,25 +56,23 @@ public class GraveyardStructure extends Structure {
         super(structureSettings);
     }
 
-    @Override
-    public @NotNull Optional<GenerationStub> findGenerationPoint(Structure.@NotNull GenerationContext p_227595_) {
-        return onTopOfChunkCenter(p_227595_, Heightmap.Types.WORLD_SURFACE_WG, (p_227598_) -> {
-            this.generatePieces(p_227598_, p_227595_);
-        });
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_230235_) {
+        Rotation rotation = Rotation.getRandom(p_230235_.random());
+        BlockPos blockpos = this.getLowestYIn5by5BoxOffset7Blocks(p_230235_, rotation);
+        return blockpos.getY() < 60 ? Optional.empty() : Optional.of(new Structure.GenerationStub(blockpos, (p_230240_) -> {
+            this.generatePieces(p_230240_, p_230235_, blockpos, rotation);
+        }));
     }
 
-    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
-        ChunkPos chunkpos = generationContext.chunkPos();
-        WorldgenRandom worldgenrandom = generationContext.random();
-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 90, chunkpos.getMinBlockZ());
-        Rotation rotation = Rotation.getRandom(worldgenrandom);
-        GraveyardStructure.addPiece(generationContext.structureTemplateManager(), blockpos, rotation, structurePiecesBuilder, worldgenrandom);
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext, BlockPos blockPos, Rotation rotation) {
+        GraveyardStructure.addPiece(generationContext.structureTemplateManager(), blockPos, rotation, structurePiecesBuilder, generationContext.random());
     }
 
     private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, WorldgenRandom random) {
         ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
         structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
+
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
