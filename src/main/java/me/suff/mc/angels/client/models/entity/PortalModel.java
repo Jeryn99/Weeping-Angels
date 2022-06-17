@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import org.jetbrains.annotations.NotNull;
 
 public class PortalModel extends EntityModel<Portal> {
 
@@ -39,7 +40,7 @@ public class PortalModel extends EntityModel<Portal> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStackIn, @NotNull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         PortalMain.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
         PortalFrontage.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
         PortalFrontage2.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);

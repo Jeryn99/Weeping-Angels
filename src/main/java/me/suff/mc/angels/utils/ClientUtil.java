@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class ClientUtil {
             private double rota;
             private long lastUpdateTick;
 
-            public float unclampedCall(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int p_174668_) {
+            public float unclampedCall(@NotNull ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int p_174668_) {
                 Entity entity = livingEntity != null ? livingEntity : itemStack.getEntityRepresentation();
 
                 if (entity instanceof WeepingAngel && AngelUtil.isHalloween()) {

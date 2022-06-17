@@ -1,7 +1,7 @@
 package me.suff.mc.angels.common.entities;
 
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.common.variants.WeightedHandler;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -27,15 +27,15 @@ public enum AngelType {
         this.weightedHandler = weightedHandler;
     }
 
-    AngelType(String readable, boolean canHold, List<AbstractVariant> w) {
+    AngelType(String readable, boolean canHold, List<AngelVariant> w) {
         this.readable = readable;
         this.canHold = canHold;
         WeightedHandler weightedHandler = new WeightedHandler();
-        for (AbstractVariant types : w) {
+        for (AngelVariant types : w) {
             weightedHandler.addEntry(types);
         }
         if (w.isEmpty()) {
-            for (RegistryObject<AbstractVariant> entry : AngelTypes.VARIANTS.getEntries()) {
+            for (RegistryObject<AngelVariant> entry : AngelTypes.VARIANTS.getEntries()) {
                 weightedHandler.addEntry(entry.get());
             }
         }

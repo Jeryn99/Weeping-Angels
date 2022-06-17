@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -44,12 +45,12 @@ public class DetectorItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!entityIn.level.isClientSide) {
             setTime(stack, getTime(stack) + 1);
             List<WeepingAngel> angels = entityIn.level.getEntitiesOfClass(WeepingAngel.class, entityIn.getBoundingBox().inflate(15, 15, 15));

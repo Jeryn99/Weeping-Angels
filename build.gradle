@@ -170,6 +170,6 @@ curseforge {
             }
         }
     } else {
-        println('Missing curseforge key!');
+        println('Missing curseforge key!')
     }
 }

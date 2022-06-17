@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.variants;
 
-import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -10,13 +9,13 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Predicate;
 
-public abstract class AbstractVariant {
+public abstract class AngelVariant {
 
-    private final Predicate<WeepingAngel> variantTest;
+    private final Predicate<WeepingAngel> variantAllowedOnSpawn;
     private boolean isHeadless = false;
 
-    public AbstractVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
-        this.variantTest = weepingAngelEntityPredicate;
+    public AngelVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
+        this.variantAllowedOnSpawn = weepingAngelEntityPredicate;
     }
 
     public void tick(WeepingAngel weepingAngel) {
@@ -31,8 +30,8 @@ public abstract class AbstractVariant {
         }
     }
 
-    public Predicate<WeepingAngel> getVariantTest() {
-        return variantTest;
+    public Predicate<WeepingAngel> getVariantAllowedOnSpawn() {
+        return variantAllowedOnSpawn;
     }
 
     public ItemStack stackDrop() {
@@ -47,7 +46,7 @@ public abstract class AbstractVariant {
         return isHeadless;
     }
 
-    public AbstractVariant setHeadless(boolean isHeadless) {
+    public AngelVariant setHeadless(boolean isHeadless) {
         this.isHeadless = isHeadless;
         return this;
     }
@@ -55,10 +54,10 @@ public abstract class AbstractVariant {
     public abstract double getRarity();
 
     public boolean canVariantBeUsed(WeepingAngel weepingAngel) {
-        if (variantTest == null) {
+        if (variantAllowedOnSpawn == null) {
             return true;
         }
-        return variantTest.test(weepingAngel);
+        return variantAllowedOnSpawn.test(weepingAngel);
     }
 
     public ResourceLocation getRegistryName(){

@@ -18,7 +18,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class WATeleporter {
 

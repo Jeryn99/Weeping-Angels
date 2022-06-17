@@ -15,6 +15,7 @@ import me.suff.mc.angels.network.messages.MessageCatacomb;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
 import me.suff.mc.angels.utils.PlayerUtil;
+import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -23,12 +24,10 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -40,8 +39,6 @@ import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,16 +49,16 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Objects;
+
+import static me.suff.mc.angels.common.WAObjects.GENERATOR;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -159,20 +156,22 @@ public class CommonEvents {
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getEntity();
 
-        if (source == DamageSource.OUT_OF_WORLD || source.isExplosion()) {
+        if (source == DamageSource.OUT_OF_WORLD) {
             return;
         }
+
         LivingEntity living = event.getEntityLiving();
 
-        if (living.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
-            WeepingAngel hurt = (WeepingAngel) event.getEntityLiving();
+        if (living instanceof WeepingAngel hurt) {
 
             switch (configValue) {
+                case EVERYTHING:
+                    break;
                 case NOTHING:
                     event.setCanceled(true);
                     break;
                 case GENERATOR_ONLY:
-                    event.setCanceled(source != WAObjects.GENERATOR);
+                    event.setCanceled(source != GENERATOR);
                     break;
                 case ANY_PICKAXE_ONLY:
                     if (isAttackerHoldingPickaxe(attacker)) {
@@ -189,7 +188,10 @@ public class CommonEvents {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         event.setCanceled(false);
                         doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlot.MAINHAND));
+                        return;
                     }
+                    //Generator
+                    event.setCanceled(source != GENERATOR);
                     break;
                 case DIAMOND_AND_ABOVE_PICKAXE_ONLY:
                     if (isAttackerHoldingPickaxe(attacker)) {
@@ -205,7 +207,7 @@ public class CommonEvents {
             }
 
             if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
-                if (hurt.level.random.nextInt(100) <= 20) {
+                if (hurt.level.random.nextInt(100) <= 10) {
                     hurt.playSound(hurt.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, hurt.getLaugh());
                 }
                 if (attacker != null) {
@@ -230,22 +232,6 @@ public class CommonEvents {
         }
 
     }
-
-    //TODO Spawns
-/*    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
-            for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
-                if (BiomeDictionary.hasType(biome, biomeType)) {
-                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with Weight {} || Type {}", biome, WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
-                    biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
-                }
-            }
-        }
-    }*/
-
 
     @SubscribeEvent
     public static void onLoad(PlayerEvent.PlayerLoggedInEvent event) {

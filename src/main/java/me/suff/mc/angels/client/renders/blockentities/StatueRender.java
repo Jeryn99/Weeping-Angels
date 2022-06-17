@@ -20,6 +20,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Craig on 17/02/2020 @ 12:18
@@ -34,7 +35,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
     }
 
     @Override
-    public void render(StatueBlockEntity statueBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StatueBlockEntity statueBlockEntity, float partialTicks, PoseStack matrixStack, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStack.pushPose();
         matrixStack.translate(0.5F, 1.5F, 0.5F);
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
@@ -65,7 +66,7 @@ public class StatueRender implements BlockEntityRenderer<StatueBlockEntity>, Blo
 
 
     @Override
-    public BlockEntityRenderer<StatueBlockEntity> create(Context p_173571_) {
+    public @NotNull BlockEntityRenderer<StatueBlockEntity> create(@NotNull Context p_173571_) {
         return new StatueRender(p_173571_);
     }
 }

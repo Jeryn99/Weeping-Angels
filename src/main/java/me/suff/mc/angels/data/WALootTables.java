@@ -6,11 +6,11 @@ import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -32,7 +32,7 @@ public class WALootTables extends LootTableProvider {
     }
 
     @Override
-    public void run(CachedOutput cache) {
+    public void run(@NotNull CachedOutput cache) {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
@@ -48,7 +48,7 @@ public class WALootTables extends LootTableProvider {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Loot Tables";
     }
 

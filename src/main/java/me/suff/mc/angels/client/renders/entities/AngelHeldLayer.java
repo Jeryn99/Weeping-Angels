@@ -9,7 +9,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.client.renderer.entity.EndermanRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & ArmedModel> extends RenderLayer<T, M> {
@@ -26,7 +26,7 @@ public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & A
     }
 
     @Override
-    public void render(PoseStack pose, MultiBufferSource p_117205_, int p_117206_, WeepingAngel weepingAngel, float p_117208_, float p_117209_, float p_117210_, float p_117211_, float p_117212_, float p_117213_) {
+    public void render(@NotNull PoseStack pose, @NotNull MultiBufferSource p_117205_, int p_117206_, WeepingAngel weepingAngel, float p_117208_, float p_117209_, float p_117210_, float p_117211_, float p_117212_, float p_117213_) {
 
         if (!weepingAngel.getAngelType().canHoldThings()) return;
 
@@ -59,7 +59,7 @@ public class AngelHeldLayer<T extends WeepingAngel, M extends EntityModel<T> & A
     }
 
     @Override
-    public M getParentModel() {
+    public @NotNull M getParentModel() {
         return super.getParentModel();
     }
 }

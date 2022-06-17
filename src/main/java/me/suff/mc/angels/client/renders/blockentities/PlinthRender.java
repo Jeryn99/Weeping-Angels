@@ -20,6 +20,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
@@ -32,7 +33,7 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
     }
 
     @Override
-    public void render(PlinthBlockEntity plinthBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(PlinthBlockEntity plinthBlockEntity, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (plinthBlockEntity.getHasSpawned()) return;
 
         matrixStack.pushPose();
@@ -66,7 +67,7 @@ public class PlinthRender implements BlockEntityRenderer<PlinthBlockEntity>, Blo
     }
 
     @Override
-    public BlockEntityRenderer<PlinthBlockEntity> create(Context p_173571_) {
+    public @NotNull BlockEntityRenderer<PlinthBlockEntity> create(@NotNull Context p_173571_) {
         return new PlinthRender(p_173571_);
     }
 }

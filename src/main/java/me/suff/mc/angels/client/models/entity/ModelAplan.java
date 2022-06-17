@@ -5,11 +5,12 @@ import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float p_102867_, float p_102868_, float p_102869_, float p_102870_, float p_102871_) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float p_102867_, float p_102868_, float p_102869_, float p_102870_, float p_102871_) {
 
         young = false;
 
@@ -131,7 +132,6 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
             head.yRot = (float) Math.toRadians(-40);
             head.zRot = (float) Math.toRadians(-20);
             hat.copyFrom(head);
-            return;
         }
     }
 
@@ -142,7 +142,7 @@ public class ModelAplan extends PlayerModel<WeepingAngel> implements IAngelModel
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariants) {
         return getTextureForPose(null, pose);
     }
 

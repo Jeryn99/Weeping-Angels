@@ -16,6 +16,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
         return new FortuneBonusEnchant.Builder(p_215915_0_);
     }
 
-    public Set<LootContextParam<?>> getReferencedContextParams() {
+    public @NotNull Set<LootContextParam<?>> getReferencedContextParams() {
         return ImmutableSet.of(LootContextParams.KILLER_ENTITY);
     }
 
@@ -46,7 +47,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
     }
 
 
-    public ItemStack run(ItemStack stack, LootContext context) {
+    public @NotNull ItemStack run(@NotNull ItemStack stack, LootContext context) {
         Entity entity = context.getParamOrNull(LootContextParams.KILLER_ENTITY);
         if (entity instanceof LivingEntity) {
             int i = AngelUtil.getFortuneModifier((LivingEntity) entity);
@@ -64,7 +65,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public @NotNull LootItemFunctionType getType() {
         return null;
     }
 
@@ -76,7 +77,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
             this.count = p_i50932_1_;
         }
 
-        protected FortuneBonusEnchant.Builder getThis() {
+        protected FortuneBonusEnchant.@NotNull Builder getThis() {
             return this;
         }
 
@@ -85,7 +86,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
             return this;
         }
 
-        public LootItemFunction build() {
+        public @NotNull LootItemFunction build() {
             return new FortuneBonusEnchant(this.getConditions(), this.count, this.limit);
         }
     }
@@ -97,7 +98,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
 
         //serialize
         @Override
-        public void serialize(JsonObject object, FortuneBonusEnchant functionClazz, JsonSerializationContext serializationContext) {
+        public void serialize(@NotNull JsonObject object, @NotNull FortuneBonusEnchant functionClazz, @NotNull JsonSerializationContext serializationContext) {
             super.serialize(object, functionClazz, serializationContext);
             object.add("count", serializationContext.serialize(functionClazz.count));
             if (functionClazz.hasLimit()) {
@@ -106,7 +107,7 @@ public class FortuneBonusEnchant extends LootItemConditionalFunction {
 
         }
 
-        public FortuneBonusEnchant deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditionsIn) {
+        public @NotNull FortuneBonusEnchant deserialize(@NotNull JsonObject object, @NotNull JsonDeserializationContext deserializationContext, LootItemCondition @NotNull [] conditionsIn) {
             int i = GsonHelper.getAsInt(object, "limit", 0);
             return new FortuneBonusEnchant(conditionsIn, GsonHelper.getAsObject(object, "count", deserializationContext, IntRange.class), i);
         }

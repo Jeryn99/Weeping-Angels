@@ -7,8 +7,8 @@ import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.DateChecker;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
@@ -19,6 +19,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngelModel, ArmedModel {
 
@@ -52,7 +54,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     private final ModelPart leftleg;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
-    private boolean showHurt = false;
+    private final boolean showHurt = false;
     private Pair<ModelPart, Vector3d> headData;
 
     public ModelClassicAngel(ModelPart root) {
@@ -137,7 +139,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
@@ -212,12 +214,11 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
             head.xRot = (float) Math.toRadians(20);
             head.yRot = (float) Math.toRadians(-40);
             head.zRot = (float) Math.toRadians(-20);
-            return;
         }
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         leftfoot.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         rightfoot.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         leftwing1.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
@@ -237,7 +238,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     }
 
     @Override
-    public Iterable<ModelPart> parts() {
+    public @NotNull Iterable<ModelPart> parts() {
         return ImmutableList.of(leftfoot,
                 rightfoot,
                 leftwing1,
@@ -263,7 +264,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariants) {
         if (!DateChecker.isXmas()) {
             return pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY ? TEXTURE_ANGRY : TEXTURE;
         }
@@ -280,7 +281,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     }
 
     @Override
-    public void translateToHand(HumanoidArm handSide, PoseStack matrixStack) {
+    public void translateToHand(@NotNull HumanoidArm handSide, @NotNull PoseStack matrixStack) {
         ModelPart hand = this.getArm(handSide);
         boolean wasVisible = hand.visible;
         hand.visible = true;

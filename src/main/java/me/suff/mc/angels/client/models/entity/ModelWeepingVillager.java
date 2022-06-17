@@ -7,7 +7,7 @@ import com.mojang.math.Vector3d;
 import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,6 +15,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements IAngelModel {
 
@@ -29,7 +31,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     private final ModelPart leg0;
     private final ModelPart leg1;
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
-    private boolean showHurt = false;
+    private final boolean showHurt = false;
     private Pair<ModelPart, Vector3d> headData;
 
     public ModelWeepingVillager(ModelPart root) {
@@ -74,7 +76,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
@@ -164,7 +166,6 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
             body.xRot = (float) Math.toRadians(17.5);
             wing2.xRot = 0.1745F * 2;
             wing0.xRot = 0.1745F * 2;
-            return;
         }
 
     }
@@ -202,7 +203,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariants) {
         return getTextureForPose(pose, null);
     }
 
@@ -212,7 +213,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         body.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         leg0.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         leg1.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);

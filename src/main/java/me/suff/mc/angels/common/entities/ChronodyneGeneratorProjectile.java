@@ -19,6 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Craig on 06/10/2019 @ 12:17
@@ -45,7 +46,7 @@ public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile imple
     }
 
     @Override
-    protected void onHit(HitResult result) {
+    protected void onHit(@NotNull HitResult result) {
 
         if (result == null || !isAlive()) return;
 
@@ -86,17 +87,17 @@ public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile imple
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected Item getDefaultItem() {
+    protected @NotNull Item getDefaultItem() {
         return stack.getItem();
     }
 
     @Override
-    public ItemStack getItem() {
+    public @NotNull ItemStack getItem() {
         return stack;
     }
 }

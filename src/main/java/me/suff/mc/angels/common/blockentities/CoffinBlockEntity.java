@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
@@ -81,7 +82,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinBlockEntity p_155256_) {
+    public void tick(@NotNull Level p_155253_, @NotNull BlockPos p_155254_, @NotNull BlockState p_155255_, @NotNull CoffinBlockEntity p_155256_) {
 
         if (isOpen) {
             this.openAmount += 0.1F;
@@ -166,7 +167,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("coffin_type", coffin.name());
         compoundTag.putBoolean("isOpen", isOpen);
@@ -197,7 +198,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compound) {
+    protected void saveAdditional(@NotNull CompoundTag compound) {
         super.saveAdditional(compound);
         if (coffin == null) {
             coffin = AngelUtil.randomCoffin();

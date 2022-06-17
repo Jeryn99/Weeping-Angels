@@ -7,6 +7,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.AngelType;
+import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.level.WAPieces;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -16,19 +17,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
@@ -45,7 +43,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
@@ -78,15 +75,15 @@ public class GraveyardStructure extends Structure {
         ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
         structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
     }
-    
+
     @Override
-    public GenerationStep.Decoration step() {
+    public GenerationStep.@NotNull Decoration step() {
         return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
 
     @Override
-    public StructureType<?> type() {
-        return StructureType.BURIED_TREASURE;
+    public @NotNull StructureType<?> type() {
+        return WAFeatures.GRAVEYARD.get();
     }
 
     public static class GraveyardPiece extends TemplateStructurePiece {
@@ -112,13 +109,14 @@ public class GraveyardStructure extends Structure {
         }
 
         public GraveyardPiece(StructurePieceSerializationContext structurePieceSerializationContext, CompoundTag tag) {
-            super(WAPieces.GRAVEYARD, tag, structurePieceSerializationContext.structureTemplateManager(), (p_162451_) -> makeSettings(Rotation.NONE));
+            super(WAPieces.GRAVEYARD, tag, structurePieceSerializationContext.structureTemplateManager(), (p_162451_) -> makeSettings(Rotation.getRandom(RandomSource.create())));
         }
 
 
         private static StructurePlaceSettings makeSettings(Rotation rot) {
             return (new StructurePlaceSettings()).setRotation(rot).setMirror(Mirror.NONE).setRotationPivot(BlockPos.ZERO).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
+
 
         public static String createRandomDate() {
             long startEpochDay = LocalDate.of(1800, 1, 1).toEpochDay();
@@ -134,7 +132,7 @@ public class GraveyardStructure extends Structure {
         }
 
         @Override
-        protected void handleDataMarker(String function, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, RandomSource random, BoundingBox p_73687_) {
+        protected void handleDataMarker(@NotNull String function, @NotNull BlockPos blockPos, @NotNull ServerLevelAccessor serverLevelAccessor, @NotNull RandomSource random, @NotNull BoundingBox p_73687_) {
             if (USERNAMES.length == 0) {
                 try {
                     loadNames();

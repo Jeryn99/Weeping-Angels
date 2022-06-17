@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class Portal extends Mob {
 
@@ -32,7 +33,7 @@ public class Portal extends Mob {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource damageSourceIn) {
         return SoundEvents.PLAYER_ATTACK_WEAK;
     }
 
@@ -75,11 +76,10 @@ public class Portal extends Mob {
 
 
     @Override
-    protected void doPush(Entity entityIn) {
+    protected void doPush(@NotNull Entity entityIn) {
         super.doPush(entityIn);
 
-        if (entityIn instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) entityIn;
+        if (entityIn instanceof WeepingAngel weepingAngel) {
             weepingAngel.setSilent(true);
             weepingAngel.hurt(WAObjects.GENERATOR, Integer.MAX_VALUE);
         }

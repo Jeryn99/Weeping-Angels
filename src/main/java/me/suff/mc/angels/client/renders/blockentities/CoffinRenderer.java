@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, BlockEntityRendererProvider<CoffinBlockEntity> {
 
@@ -31,7 +32,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
 
     @SuppressWarnings("resource")
     @Override
-    public void render(CoffinBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(@NotNull CoffinBlockEntity tileEntityIn, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
         if (skeletonEntity == null) {
             skeletonEntity = new Skeleton(EntityType.SKELETON, Minecraft.getInstance().level);
@@ -84,7 +85,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
     }
 
     @Override
-    public BlockEntityRenderer<CoffinBlockEntity> create(Context context) {
+    public @NotNull BlockEntityRenderer<CoffinBlockEntity> create(@NotNull Context context) {
         return new CoffinRenderer(context);
     }
 }

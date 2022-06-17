@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class MercyWings extends EntityModel<LivingEntity> {
 
@@ -122,7 +123,7 @@ public class MercyWings extends EntityModel<LivingEntity> {
 
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Lwing.render(poseStack, buffer, packedLight, packedOverlay);
         RWing.render(poseStack, buffer, packedLight, packedOverlay);
     }

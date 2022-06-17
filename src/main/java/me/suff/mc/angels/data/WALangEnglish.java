@@ -6,7 +6,6 @@ import me.suff.mc.angels.common.WAObjects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -14,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -134,7 +134,7 @@ public class WALangEnglish implements DataProvider {
     }
 
     @Override
-    public void run(CachedOutput cache) throws IOException {
+    public void run(@NotNull CachedOutput cache) throws IOException {
         addTranslations();
         if (!data.isEmpty()) {
             File target = new File("../crowdin/english.json");
@@ -148,7 +148,7 @@ public class WALangEnglish implements DataProvider {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Crowdin";
     }
 
@@ -188,16 +188,6 @@ public class WALangEnglish implements DataProvider {
     public void add(Enchantment key, String name) {
         add(key.getDescriptionId(), name);
     }
-
-    /*
-    public void addBiome(Supplier<? extends Biome> key, String name) {
-        add(key.get(), name);
-    }
-
-    public void add(Biome key, String name) {
-        add(key.getTranslationKey(), name);
-    }
-    */
 
     public void addEffect(Supplier<? extends MobEffect> key, String name) {
         add(key.get(), name);

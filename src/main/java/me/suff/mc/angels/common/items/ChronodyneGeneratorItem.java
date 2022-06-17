@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class ChronodyneGeneratorItem extends Item {
 
@@ -21,7 +22,7 @@ public class ChronodyneGeneratorItem extends Item {
      * Called when the equipped item is right clicked.
      */
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player playerIn, InteractionHand handIn) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player playerIn, @NotNull InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
         if (!playerIn.isCreative()) {

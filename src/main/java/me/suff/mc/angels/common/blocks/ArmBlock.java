@@ -19,8 +19,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.Random;
+import org.jetbrains.annotations.NotNull;
 
 public class ArmBlock extends Block {
 
@@ -38,13 +37,13 @@ public class ArmBlock extends Block {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random) {
+    public void randomTick(@NotNull BlockState blockState, @NotNull ServerLevel serverLevel, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         super.randomTick(blockState, serverLevel, blockPos, random);
         serverLevel.setBlock(blockPos, blockState.setValue(VARIANT, Mth.clamp(AngelUtil.RAND.nextInt(5), 0, 2)), 4);
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_154346_, BlockGetter p_154347_, BlockPos p_154348_, CollisionContext p_154349_) {
+    public @NotNull VoxelShape getShape(BlockState p_154346_, @NotNull BlockGetter p_154347_, @NotNull BlockPos p_154348_, @NotNull CollisionContext p_154349_) {
         switch (p_154346_.getValue(FACING).getAxis()) {
             case X:
             default:
@@ -67,22 +66,22 @@ public class ArmBlock extends Block {
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState p_52725_) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState p_52725_) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public BlockState rotate(BlockState p_52716_, Rotation p_52717_) {
+    public @NotNull BlockState rotate(BlockState p_52716_, Rotation p_52717_) {
         return p_52716_.setValue(FACING, p_52717_.rotate(p_52716_.getValue(FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState p_52713_, Mirror p_52714_) {
+    public @NotNull BlockState mirror(BlockState p_52713_, Mirror p_52714_) {
         return p_52713_.rotate(p_52714_.getRotation(p_52713_.getValue(FACING)));
     }
 
     @Override
-    public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
+    public void entityInside(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, Entity entity) {
         entity.makeStuckInBlock(blockState, new Vec3(0.25D, 0.05F, 0.25D));
         entity.hurt(WAObjects.STONE, 1.0F);
     }

@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
     public AngelRender(EntityRendererProvider.Context context) {
@@ -29,13 +30,13 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
     }
 
     @Override
-    protected float getWhiteOverlayProgress(WeepingAngel livingEntityIn, float partialTicks) {
+    protected float getWhiteOverlayProgress(@NotNull WeepingAngel livingEntityIn, float partialTicks) {
         return 0;
     }
 
 
     @Override
-    public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStackIn, MultiBufferSource pBufferIn, int pPackedLightIn) {
+    public void render(WeepingAngel weepingAngel, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStackIn, @NotNull MultiBufferSource pBufferIn, int pPackedLightIn) {
         model = ClientUtil.getModelForAngel(weepingAngel.getAngelType());
 
         if (model instanceof IAngelModel iAngelModel) {
@@ -62,12 +63,12 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
 
 
     @Override
-    protected float getFlipDegrees(WeepingAngel entityLivingBaseIn) {
+    protected float getFlipDegrees(@NotNull WeepingAngel entityLivingBaseIn) {
         return 90;
     }
 
     @Override
-    protected void setupRotations(WeepingAngel entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(WeepingAngel entityLiving, @NotNull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         if (entityLiving.deathTime > 0) {
             float deathRotation = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
             deathRotation = Mth.sqrt(deathRotation);
@@ -82,7 +83,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WeepingAngel weepingAngel) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull WeepingAngel weepingAngel) {
         IAngelModel iAngelModel = (IAngelModel) model;
         return iAngelModel.getTextureForPose(weepingAngel, WeepingAngelPose.getPose(weepingAngel.getAngelPose()));
     }
@@ -94,7 +95,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
     }
 
     @Override
-    public EntityRenderer<WeepingAngel> create(Context context) {
+    public @NotNull EntityRenderer<WeepingAngel> create(@NotNull Context context) {
         return new AngelRender(context);
     }
 }

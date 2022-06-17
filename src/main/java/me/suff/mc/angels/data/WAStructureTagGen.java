@@ -6,9 +6,9 @@ import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class WAStructureTagGen extends TagsProvider<Structure> {
 
@@ -27,7 +27,7 @@ public class WAStructureTagGen extends TagsProvider<Structure> {
     }
 
 
-    public String getName() {
+    public @NotNull String getName() {
         return "Angel Structure - Structure Teleport Tags";
     }
 }

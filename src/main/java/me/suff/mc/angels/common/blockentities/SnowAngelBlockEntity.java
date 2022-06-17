@@ -4,8 +4,8 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.block.SnowLayerBlock.LAYERS;
 
@@ -27,7 +28,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
     private final AABB AABB = new AABB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -46,17 +47,17 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         this.snowAngelStages = snowAngelStages;
     }
 
-    public AbstractVariant getVariant() {
+    public AngelVariant getVariant() {
         return angelVariant;
     }
 
-    public void setVariant(AbstractVariant angelVariant) {
+    public void setVariant(AngelVariant angelVariant) {
         this.angelVariant = angelVariant;
     }
 
 
     @Override
-    public void load(CompoundTag nbt) {
+    public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
@@ -86,7 +87,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString(WAConstants.SNOW_STAGE, snowAngelStages.name());
         compoundTag.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
@@ -126,7 +127,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, SnowAngelBlockEntity p_155256_) {
+    public void tick(@NotNull Level p_155253_, @NotNull BlockPos p_155254_, @NotNull BlockState p_155255_, @NotNull SnowAngelBlockEntity p_155256_) {
 
         //Randomness for world generation
         if (!hasSetup) {

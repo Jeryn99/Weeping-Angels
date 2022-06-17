@@ -24,6 +24,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,13 +52,13 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
     }
 
     @Override
-    public void run(CachedOutput cachedOutput) {
+    public void run(@NotNull CachedOutput cachedOutput) {
 
         RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
         final Path outputFolder = this.dataGenerator.getOutputFolder();
 
         // Biome Modifiers
-        BiomeModifier spawnsModifier = new BiomeSpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 25, 1, 3));
+        BiomeModifier spawnsModifier = new BiomeSpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 1, 1, 1));
         BiomeFeatureModifier snowAngel = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
         BiomeFeatureModifier oreModifer = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
         BiomeFeatureModifier oreModiferSmall = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())));
@@ -71,7 +72,7 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return MODID + " Biome Modifiers";
     }
 }

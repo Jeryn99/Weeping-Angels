@@ -12,22 +12,22 @@ public class WeightedHandler {
     private final List<Entry> entries = new ArrayList<>();
     private double accumulatedWeight;
 
-    public void addEntry(AbstractVariant abstractVariant) {
-        accumulatedWeight += abstractVariant.getRarity();
+    public void addEntry(AngelVariant angelVariant) {
+        accumulatedWeight += angelVariant.getRarity();
         Entry e = new Entry();
-        e.abstractVariant = abstractVariant;
+        e.angelVariant = angelVariant;
         e.accumulatedWeight = accumulatedWeight;
         entries.add(e);
     }
 
-    public AbstractVariant getRandom(WeepingAngel weepingAngel) {
+    public AngelVariant getRandom(WeepingAngel weepingAngel) {
         double r = AngelUtil.RAND.nextDouble() * accumulatedWeight;
         for (Entry entry : entries) {
-            if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.abstractVariant)) {
+            if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.angelVariant)) {
                 if (weepingAngel == null || weepingAngel.getVariant() == null) {
-                    return entry.abstractVariant;
+                    return entry.angelVariant;
                 } else if (weepingAngel.getVariant().canVariantBeUsed(weepingAngel)) {
-                    return entry.abstractVariant;
+                    return entry.angelVariant;
                 }
             }
         }
@@ -44,6 +44,6 @@ public class WeightedHandler {
 
     private static class Entry {
         double accumulatedWeight;
-        AbstractVariant abstractVariant;
+        AngelVariant angelVariant;
     }
 }

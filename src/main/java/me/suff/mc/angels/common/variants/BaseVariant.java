@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 import static me.suff.mc.angels.common.variants.AngelTypes.BANNED_FROM_NETHER;
 
-public class BaseVariant extends AbstractVariant {
+public class BaseVariant extends AngelVariant {
 
     private final int rarity;
     private final Supplier<ItemStack> dropStack;

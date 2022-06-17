@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +28,7 @@ public class AnomalyRender extends MobRenderer<Portal, EntityModel<Portal>> impl
 
 
     @Override
-    public void render(Portal entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    public void render(@NotNull Portal entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.pushPose();
         Camera activerenderinfo = Minecraft.getInstance().gameRenderer.getMainCamera();
         matrixStackIn.mulPose(activerenderinfo.rotation());
@@ -36,18 +37,18 @@ public class AnomalyRender extends MobRenderer<Portal, EntityModel<Portal>> impl
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Portal entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Portal entity) {
         return TEXTURE;
     }
 
     @Nullable
     @Override
-    protected RenderType getRenderType(Portal p_115322_, boolean p_115323_, boolean p_115324_, boolean p_115325_) {
+    protected RenderType getRenderType(@NotNull Portal p_115322_, boolean p_115323_, boolean p_115324_, boolean p_115325_) {
         return RenderType.entityCutout(TEXTURE);
     }
 
     @Override
-    public EntityRenderer<Portal> create(Context context) {
+    public @NotNull EntityRenderer<Portal> create(@NotNull Context context) {
         return new AnomalyRender(context);
     }
 }

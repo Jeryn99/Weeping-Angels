@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
 
 
     @Override
-    public AttributeMap getAttributes() {
+    public @NotNull AttributeMap getAttributes() {
         return new AttributeMap(WeepingAngel.createAttributes().build());
     }
 
@@ -126,7 +127,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean(WAConstants.IS_SEEN, isSeen());
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
@@ -164,7 +165,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
     }
 
     @Override
-    protected BodyRotationControl createBodyControl() {
+    protected @NotNull BodyRotationControl createBodyControl() {
         return new BodyRotationAngel(this);
     }
 

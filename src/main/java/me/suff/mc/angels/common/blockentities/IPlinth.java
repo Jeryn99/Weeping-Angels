@@ -2,7 +2,7 @@ package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelType;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 
 /* Created by Craig on 03/04/2021 */
 public interface IPlinth {
@@ -17,8 +17,8 @@ public interface IPlinth {
 
     WeepingAngelPose getCurrentPose();
 
-    AbstractVariant getVariant();
+    AngelVariant getVariant();
 
-    void setAbstractVariant(AbstractVariant variant);
+    void setAbstractVariant(AngelVariant variant);
 
 }

@@ -2,10 +2,9 @@ package me.suff.mc.angels.config;
 
 import com.google.common.collect.Lists;
 import me.suff.mc.angels.common.entities.AngelType;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.DamageType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -34,18 +33,20 @@ public class WAConfig {
     public final ForgeConfigSpec.BooleanValue chickenGoboom;
     public final ForgeConfigSpec.BooleanValue torchBlowOut;
     public final ForgeConfigSpec.BooleanValue freezeOnAngel;
-    public final ForgeConfigSpec.BooleanValue pickaxeOnly;
     public final ForgeConfigSpec.IntValue stalkRange;
     public final ForgeConfigSpec.DoubleValue moveSpeed;
+
+    public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
+
 
     // Teleport
     public final ForgeConfigSpec.EnumValue<AngelUtil.EnumTeleportType> teleportType;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> notAllowedDimensions;
     public final ForgeConfigSpec.BooleanValue justTeleport;
     public final ForgeConfigSpec.IntValue teleportRange;
+    public final ForgeConfigSpec.IntValue teleportChance;
     public final ForgeConfigSpec.BooleanValue angelDimTeleport;
     public final ForgeConfigSpec.BooleanValue aggroCreative;
-    public final ForgeConfigSpec.BooleanValue spawnFromBlocks;
 
     // Easter Eggs
     public final ForgeConfigSpec.BooleanValue showSantaHatsAtXmas;
@@ -64,24 +65,24 @@ public class WAConfig {
         chickenGoboom = builder.translation("config.weeping_angels.chicken_go_boom").comment("If this is enabled, the timey wimey detector can blow up chickens when in use randomly").define("chickenGoboom", true);
         torchBlowOut = builder.translation("config.weeping_angels.blowout_torch").comment("If this is enabled, baby angels will blow out light items from the players hand").define("torchBlowOut", true);
         freezeOnAngel = builder.translation("config.weeping_angels.ql").comment("if enabled, angels will freeze when they see one another. (Impacts performance a bit)").define("freezeOnAngel", false);
-        pickaxeOnly = builder.translation("config.weeping_angels.pickaxe_only").comment("if enabled, Only pickaxes and generators will work on the angels").define("pickaxeOnly", true);
         stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
         moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
-        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If this is enabled, angels will break blocks (If gamerules allow) - !!!! BLOCK BLACKLISTING: You may be looking for a config option in order to stop certain blocks from being broken. You can do this with a datapack using weeping_angels:angel_proof").define("blockBreaking", true);
+        blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If mobGriefing is enabled, angels will break blocks [You may be looking for a config option in order to stop certain blocks from being broken. You can do this with a data-pack using weeping_angels:unbreakable_blocks]").define("blockBreaking", true);
         blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
+        aggroCreative = builder.translation("config.weeping_angels.aggroCreative").comment("Should Angels target creative players?").define("aggroCreative", false);
         builder.pop();
 
         builder.push("teleport");
         teleportType = builder.translation("config.weeping_angels.teleport_enabled").comment("Teleport Type - STRUCTURES: Teleports you to Structures Only - DONT: No Teleporting, only damage - RANDOM: Anywhere").defineEnum("teleportType", AngelUtil.EnumTeleportType.RANDOM_PLACE);
-        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("Note: This a list of dimensions that angels should NOT teleport you to.").defineList("notAllowedDimensions", Lists.newArrayList(Level.END.location().toString()), String.class::isInstance);
-        justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("just teleport. no damage.").define("justTeleport", false);
-        teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported by the Angels").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
-        angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("If this is enabled, angel teleporting can also tp the player to other dimensions").define("angelDimTeleport", true);
-        aggroCreative = builder.translation("config.weeping_angels.aggroCreative").comment("Should Angels target creative players?").define("aggroCreative", true);
+        angelDimTeleport = builder.translation("config.weeping_angels.angeldimteleport").comment("Toggle whether Weeping Angels can teleport you across dimensions").define("angelDimTeleport", true);
+        notAllowedDimensions = builder.translation("config.weeping_angels.disallowed_dimensions").comment("A list of Dimensions that you cannot be teleported to").defineList("notAllowedDimensions", Lists.newArrayList(Level.END.location().toString()), String.class::isInstance);
+        justTeleport = builder.translation("config.weeping_angels.teleport_instant").comment("If toggled, players will not be damaged by angels, just teleported").define("justTeleport", false);
+        teleportRange = builder.translation("config.weeping_angels.teleportRange").comment("The maximum range a user can be teleported").defineInRange("teleportRange", 450, 1, Integer.MAX_VALUE);
+        teleportChance = builder.translation("config.weeping_angels.teleport_chance").comment("The chance of which a player can be teleported. Set to -1 to only allow damage").defineInRange("teleportRange", 50, -1, 100);
         builder.pop();
 
         builder.push("block");
-        spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a redstone signal").define("spawnFromBlocks", true);
+        spawnFromBlocks = builder.translation("config.weeping_angels.spawnFromBlocks").comment("This config option toggles whether angels can spawn from Statues/Plinths when they receive a reds-tone signal").define("spawnFromBlocks", true);
         builder.pop();
 
         builder.push("misc");
@@ -101,7 +102,7 @@ public class WAConfig {
         return false;
     }
 
-    public boolean isVariantPermitted(AbstractVariant angelType) {
+    public boolean isVariantPermitted(AngelVariant angelType) {
         for (String s : allowedVariants.get()) {
             if (s.equalsIgnoreCase(angelType.getRegistryName().toString())) {
                 return true;

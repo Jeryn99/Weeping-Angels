@@ -6,8 +6,8 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.WATeleporter;
@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -45,6 +46,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -136,18 +138,18 @@ public class WeepingAngel extends QuantumLockedLifeform {
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
-    public AbstractVariant getVariant() {
+    public AngelVariant getVariant() {
         return AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
-    public void setVarient(AbstractVariant varient) {
+    public void setVarient(AngelVariant varient) {
         getEntityData().set(VARIANT, varient.getRegistryName().toString());
     }
 
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor serverWorld, @NotNull DifficultyInstance difficultyInstance, @NotNull MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 
 
@@ -158,7 +160,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource damageSourceIn) {
         return SoundEvents.STONE_HIT;
     }
 
@@ -176,12 +178,12 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public float getEyeHeight(Pose p_213307_1_) {
+    public float getEyeHeight(@NotNull Pose p_213307_1_) {
         return isCherub() ? 0.5F : 1.3F;
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose poseIn) {
+    public @NotNull EntityDimensions getDimensions(@NotNull Pose poseIn) {
         return isCherub() ? new EntityDimensions(0.8F, 0.8F, true) : super.getDimensions(poseIn);
     }
 
@@ -194,21 +196,19 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public boolean doHurtTarget(@NotNull Entity entity) {
         if (entity instanceof ServerPlayer serverPlayerEntity) {
 
-            boolean canTeleport = random.nextInt(20) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            int teleportChance = WAConfig.CONFIG.teleportChance.get();
+            boolean canTeleport = WAConfig.CONFIG.justTeleport.get() || random.nextInt(100) < teleportChance && teleportChance != -1 && getHealth() > 5 && !isInCatacomb();
             if (canTeleport) {
                 teleportInteraction(serverPlayerEntity);
-                return true;
-            }
-
-            if (isInCatacomb() || isCherub()) {
-                dealDamage(serverPlayerEntity);
-                if (WAConfig.CONFIG.torchBlowOut.get()) {
+                return false;
+            } else {
+                if (WAConfig.CONFIG.torchBlowOut.get() && isCherub()) {
                     AngelUtil.extinguishHand(serverPlayerEntity, this);
                 }
-                return true;
+                return dealDamage(serverPlayerEntity);
             }
         }
-        return false;
+        return true;
     }
 
 
@@ -224,12 +224,34 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
 
-    public void dealDamage(Player player) {
-        double damage = WAConfig.CONFIG.damage.get();
-        player.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, (float) damage);
-        heal(getHealth() > 5 ? 4F : 2F);
-        stealItems(player);
-        this.setLastHurtMob(player);
+    public boolean dealDamage(LivingEntity livingEntity) {
+
+        // Steal valuable items if the player has them!
+        if (livingEntity instanceof Player player) {
+            stealItems(player);
+        }
+
+        float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        float knockbackAmount = (float) this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        if (livingEntity != null) {
+            attackDamage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), livingEntity.getMobType());
+            knockbackAmount += (float) EnchantmentHelper.getKnockbackBonus(this);
+        }
+        int fireAspect = EnchantmentHelper.getFireAspect(this);
+        if (fireAspect > 0) {
+            livingEntity.setSecondsOnFire(fireAspect * 4);
+        }
+        boolean ifHurt = livingEntity.hurt(getHealth() > 5 ? WAObjects.ANGEL : WAObjects.ANGEL_NECK_SNAP, attackDamage);
+        if (ifHurt) {
+            heal(getHealth() > 5 ? 4F : 2F);
+            if (knockbackAmount > 0.0F) {
+                livingEntity.knockback(knockbackAmount * 0.5F, Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(this.getYRot() * ((float) Math.PI / 180F)));
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+            }
+            this.doEnchantDamageEffects(this, livingEntity);
+            this.setLastHurtMob(livingEntity);
+        }
+        return ifHurt;
     }
 
     private void stealItems(Player player) {
@@ -261,13 +283,13 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public void die(DamageSource cause) {
+    public void die(@NotNull DamageSource cause) {
         super.die(cause);
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
 
         if (getAngelType() == AngelType.DISASTER_MC) {
-            AbstractVariant variant = getVariant();
+            AngelVariant variant = getVariant();
             if (variant.shouldDrop(cause, this)) {
                 spawnAtLocation(variant.stackDrop().getItem());
             }
@@ -276,7 +298,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public void makeStuckInBlock(BlockState state, Vec3 motionMultiplierIn) {
+    public void makeStuckInBlock(BlockState state, @NotNull Vec3 motionMultiplierIn) {
         if (!state.is(Blocks.COBWEB)) {
             super.makeStuckInBlock(state, motionMultiplierIn);
         }
@@ -292,7 +314,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public void load(CompoundTag compound) {
+    public void load(@NotNull CompoundTag compound) {
         super.load(compound);
 
         if (compound.contains(WAConstants.POSE))
@@ -308,7 +330,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+    public void onSyncedDataUpdated(@NotNull EntityDataAccessor<?> key) {
         super.onSyncedDataUpdated(key);
         if (TYPE.equals(key)) {
             refreshDimensions();
@@ -342,8 +364,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public SoundEvent getSeenSound() {
-        AbstractVariant abstractVariant = getVariant();
-        ItemStack itemStack = abstractVariant.stackDrop();
+        AngelVariant angelVariant = getVariant();
+        ItemStack itemStack = angelVariant.stackDrop();
         if (itemStack.getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
             return block.defaultBlockState().getSoundType().getBreakSound();
@@ -352,7 +374,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, BlockState blockIn) {
+    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockIn) {
         // Don't bother if we're on hard mode.
         if (level.getDifficulty() == Difficulty.HARD) {
             return;
@@ -399,7 +421,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
 
     @Override
-    protected PathNavigation createNavigation(Level worldIn) {
+    protected @NotNull PathNavigation createNavigation(@NotNull Level worldIn) {
         WallClimberNavigation navigator = new WallClimberNavigation(this, worldIn);
         navigator.setCanFloat(false);
         navigator.setCanOpenDoors(true);
@@ -512,7 +534,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    public boolean checkSpawnRules(LevelAccessor worldIn, @NotNull MobSpawnType spawnReasonIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && super.checkSpawnRules(worldIn, spawnReasonIn);
     }
 

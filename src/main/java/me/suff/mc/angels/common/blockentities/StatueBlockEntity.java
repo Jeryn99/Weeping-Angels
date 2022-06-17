@@ -7,8 +7,8 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAFeatures;
 import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.AngelUtil;
 import me.suff.mc.angels.utils.ViewUtil;
@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.common.blocks.StatueBlock.ROTATION;
 
@@ -34,7 +35,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(RandomSource.create());
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
@@ -43,7 +44,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void load(CompoundTag compound) {
+    public void load(@NotNull CompoundTag compound) {
         super.load(compound);
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
@@ -53,7 +54,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void saveAdditional(CompoundTag compound) {
+    public void saveAdditional(@NotNull CompoundTag compound) {
         super.saveAdditional(compound);
         compound.putString("model", type);
         compound.putString("pose", pose.name());
@@ -89,7 +90,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         CompoundTag compound = new CompoundTag();
         compound.putString("model", type);
         compound.putString("pose", pose.name());
@@ -109,7 +110,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, StatueBlockEntity p_155256_) {
+    public void tick(@NotNull Level p_155253_, @NotNull BlockPos p_155254_, @NotNull BlockState p_155255_, @NotNull StatueBlockEntity p_155256_) {
         if (level.isClientSide) return;
 
         ServerLevel world = (ServerLevel) level;
@@ -145,11 +146,11 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         this.pose = pose;
     }
 
-    public AbstractVariant getAngelVarients() {
+    public AngelVariant getAngelVarients() {
         return angelVariant;
     }
 
-    public void setAngelVarients(AbstractVariant angelVariants) {
+    public void setAngelVarients(AngelVariant angelVariants) {
         this.angelVariant = angelVariants;
     }
 
@@ -190,12 +191,12 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public AbstractVariant getVariant() {
+    public AngelVariant getVariant() {
         return angelVariant;
     }
 
     @Override
-    public void setAbstractVariant(AbstractVariant variant) {
+    public void setAbstractVariant(AngelVariant variant) {
         this.angelVariant = variant;
     }
 }

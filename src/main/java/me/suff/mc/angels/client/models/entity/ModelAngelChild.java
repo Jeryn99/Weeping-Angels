@@ -9,8 +9,8 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -18,6 +18,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     private final ModelPart RightWing;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
-    private boolean showHurt = false;
+    private final boolean showHurt = false;
     private Pair<ModelPart, Vector3d> headData;
 
     /**
@@ -100,7 +102,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
 
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
@@ -192,13 +194,12 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
             Head.yRot = (float) Math.toRadians(-40);
             Head.zRot = (float) Math.toRadians(-20);
 
-            return;
         }
     }
 
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         matrixStack.translate(0, 1.5, 0);
@@ -207,7 +208,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     }
 
     @Override
-    public Iterable<ModelPart> parts() {
+    public @NotNull Iterable<ModelPart> parts() {
         return ImmutableList.of(this.Body, this.LeftWing, this.RightWing, this.Head, this.LeftArm, this.RightArm, this.LeftLeg, this.RightLeg, this.WeepingCherubFix);
     }
 
@@ -234,7 +235,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariants) {
         String location = "textures/entities/cherub/angel_cherub_";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = emotion.name().toLowerCase();

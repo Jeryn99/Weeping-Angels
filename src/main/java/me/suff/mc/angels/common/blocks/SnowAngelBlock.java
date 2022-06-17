@@ -23,11 +23,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
 
@@ -36,7 +35,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
     @Override
-    public void entityInside(BlockState blockState, Level world, BlockPos blockPos, Entity entity) {
+    public void entityInside(@NotNull BlockState blockState, Level world, @NotNull BlockPos blockPos, @NotNull Entity entity) {
         if (world.getBlockEntity(blockPos) instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
             if (snowAngelBlockEntity.getSnowAngelStage() == SnowAngelBlockEntity.SnowAngelStages.ARM) {
                 entity.makeStuckInBlock(blockState, new Vec3(0.15D, 0.05F, 0.15D));
@@ -45,7 +44,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(@NotNull Level worldIn, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer, @NotNull ItemStack stack) {
 
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         BlockEntity tile = worldIn.getBlockEntity(pos);
@@ -62,14 +61,14 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
+    public void randomTick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
             Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
             BlockEntity tile = worldIn.getBlockEntity(pos);
@@ -86,19 +85,19 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
 
 
     @Override
-    public RenderShape getRenderShape(BlockState p_51567_) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState p_51567_) {
         return RenderShape.MODEL;
     }
 
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new SnowAngelBlockEntity(pos, state);
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         return (level1, blockPos, blockState, t) -> {
             if (t instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
                 snowAngelBlockEntity.tick(level, blockPos, blockState, snowAngelBlockEntity);

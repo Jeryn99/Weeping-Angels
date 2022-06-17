@@ -9,7 +9,7 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
@@ -20,6 +20,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAngelModel, HeadedModel, ArmedModel {
 
@@ -90,7 +92,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
@@ -202,12 +204,11 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
             head.xRot = (float) Math.toRadians(20);
             head.yRot = (float) Math.toRadians(-40);
             head.zRot = (float) Math.toRadians(-20);
-            return;
         }
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         body.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         leftArm.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
@@ -220,7 +221,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
 
     @Override
-    public Iterable<ModelPart> parts() {
+    public @NotNull Iterable<ModelPart> parts() {
         return ImmutableList.of(this.body, this.leftWing, this.rightWing, this.head, this.leftArm, this.rightArm, this.Legs);
     }
 
@@ -271,18 +272,17 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
-        String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariant) {
+        String variant = angelVariant.getRegistryName().getPath() + "_angel_";
         String coreFolder = "textures/entities/disaster/";
-        coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
+        coreFolder = coreFolder + angelVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
-        ;
-        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
+        String suffix = angelVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
+        return new ResourceLocation(angelVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 
     @Override
-    public ModelPart getHead() {
+    public @NotNull ModelPart getHead() {
         return head;
     }
 
@@ -291,7 +291,7 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
     }
 
     @Override
-    public void translateToHand(HumanoidArm handSide, PoseStack matrixStack) {
+    public void translateToHand(@NotNull HumanoidArm handSide, @NotNull PoseStack matrixStack) {
         ModelPart hand = this.getArm(handSide);
         boolean wasVisible = hand.visible;
         hand.visible = true;

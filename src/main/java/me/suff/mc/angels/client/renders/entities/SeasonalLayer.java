@@ -8,7 +8,7 @@ import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.models.entity.SantaHat;
 import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.config.WAConfig;
 import me.suff.mc.angels.utils.DateChecker;
 import me.suff.mc.angels.utils.Pair;
@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<WeepingAngel>> {
@@ -36,8 +37,8 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
         model = new SantaHat<>(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.SANTA_HAT));
     }
 
-    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, EntityModel santa, EntityModel model, AbstractVariant abstractVariant) {
-        if (abstractVariant.isHeadless()) return;
+    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, EntityModel santa, EntityModel model, AngelVariant angelVariant) {
+        if (angelVariant.isHeadless()) return;
         if (model instanceof IAngelModel iAngelModel) {
             Pair<ModelPart, Vector3d> santaHead = iAngelModel.getHeadData(HeadPlacement.SANTA);
             if (DateChecker.isXmas() && santaHead != null && WAConfig.CONFIG.showSantaHatsAtXmas.get()) {
@@ -51,7 +52,7 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
     }
 
     @Override
-    public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(@NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         if (!pLivingEntity.isInvisible()) {
             //SANTA
             santaHat(pMatrixStack, pBuffer, pPackedLight, model, getParentModel(), pLivingEntity.getVariant());

@@ -3,6 +3,7 @@ package me.suff.mc.angels.utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class WADamageSource extends DamageSource {
 
@@ -14,7 +15,7 @@ public class WADamageSource extends DamageSource {
     }
 
     @Override
-    public Component getLocalizedDeathMessage(LivingEntity entity) {
+    public @NotNull Component getLocalizedDeathMessage(LivingEntity entity) {
         return Component.translatable(message, entity.getName());
     }
 }

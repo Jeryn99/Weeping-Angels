@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEntity>, BlockEntityRendererProvider<SnowAngelBlockEntity> {
 
@@ -36,7 +37,7 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     @Override
-    public void render(SnowAngelBlockEntity snowAngelBlockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(SnowAngelBlockEntity snowAngelBlockEntity, float partialTicks, PoseStack matrixStack, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStack.pushPose();
         switch (snowAngelBlockEntity.getSnowAngelStage()) {
             case ARM -> {
@@ -68,7 +69,7 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     @Override
-    public BlockEntityRenderer<SnowAngelBlockEntity> create(Context p_173571_) {
+    public @NotNull BlockEntityRenderer<SnowAngelBlockEntity> create(@NotNull Context p_173571_) {
         return new SnowAngelRenderer(p_173571_);
     }
 }

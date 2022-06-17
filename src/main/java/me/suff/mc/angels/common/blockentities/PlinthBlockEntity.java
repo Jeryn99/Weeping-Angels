@@ -5,10 +5,9 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.misc.WAConstants;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import static me.suff.mc.angels.common.blocks.PlinthBlock.CLASSIC;
 
@@ -29,7 +29,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     private boolean hasSpawned = false;
     private String type = AngelType.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(RandomSource.create());
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
 
     public PlinthBlockEntity(BlockPos blockPos, BlockState state) {
         super(WAObjects.Tiles.PLINTH.get(), blockPos, state);
@@ -44,7 +44,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void load(CompoundTag compound) {
+    public void load(@NotNull CompoundTag compound) {
         super.load(compound);
 
         setHasSpawned(compound.getBoolean("hasSpawned"));
@@ -56,7 +56,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void saveAdditional(CompoundTag compound) {
+    public void saveAdditional(@NotNull CompoundTag compound) {
         super.saveAdditional(compound);
         compound.putBoolean("hasSpawned", hasSpawned);
         compound.putString("model", type);
@@ -94,7 +94,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putBoolean("hasSpawned", hasSpawned);
         compoundTag.putString("model", type);
@@ -121,7 +121,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, PlinthBlockEntity p_155256_) {
+    public void tick(@NotNull Level p_155253_, @NotNull BlockPos p_155254_, @NotNull BlockState p_155255_, @NotNull PlinthBlockEntity p_155256_) {
         if (level.isClientSide) return;
 
         boolean isClassic = getAngelType() == AngelType.A_DIZZLE;
@@ -157,7 +157,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
 
-    public void setAngelVarients(AbstractVariant angelVariants) {
+    public void setAngelVarients(AngelVariant angelVariants) {
         this.angelVariant = angelVariants;
     }
 
@@ -196,12 +196,12 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public AbstractVariant getVariant() {
+    public AngelVariant getVariant() {
         return angelVariant;
     }
 
     @Override
-    public void setAbstractVariant(AbstractVariant variant) {
+    public void setAbstractVariant(AngelVariant variant) {
         this.angelVariant = variant;
     }
 }

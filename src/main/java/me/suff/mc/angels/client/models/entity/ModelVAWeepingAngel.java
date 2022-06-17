@@ -9,14 +9,16 @@ import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import me.suff.mc.angels.utils.Pair;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IAngelModel {
 
@@ -88,7 +90,7 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@Nullable WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());
@@ -200,12 +202,11 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
             head.xRot = (float) Math.toRadians(20);
             head.yRot = (float) Math.toRadians(-40);
             head.zRot = (float) Math.toRadians(-20);
-            return;
         }
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         body.render(poseStack, buffer, packedLight, packedOverlay);
         head.render(poseStack, buffer, packedLight, packedOverlay);
         leftArm.render(poseStack, buffer, packedLight, packedOverlay);
@@ -221,13 +222,13 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
     }
 
     @Override
-    public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
-        String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
+    public ResourceLocation generateTex(WeepingAngelPose pose, AngelVariant angelVariant) {
+        String variant = angelVariant.getRegistryName().getPath() + "_angel_";
         String coreFolder = "textures/entities/spare_time/";
-        coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
+        coreFolder = coreFolder + angelVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
-        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
+        String suffix = angelVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
+        return new ResourceLocation(angelVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class WABiomeGen extends TagsProvider<Biome> {
 
@@ -32,7 +33,7 @@ public class WABiomeGen extends TagsProvider<Biome> {
         this.tag(branch).add(biome);
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return "Angel Structure - Biome Tags";
     }
 }

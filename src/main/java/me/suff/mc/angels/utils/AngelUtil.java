@@ -8,9 +8,8 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.level.WAFeatures;
-import me.suff.mc.angels.common.variants.AbstractVariant;
+import me.suff.mc.angels.common.variants.AngelVariant;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -178,7 +177,7 @@ public class AngelUtil {
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngel weepingAngel) {
             if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
-                AbstractVariant variant = weepingAngel.getVariant();
+                AngelVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
                     weepingAngel.spawnAtLocation(variant.stackDrop().getItem());
                 }
