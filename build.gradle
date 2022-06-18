@@ -25,7 +25,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 version = '41.0.1'
-group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'craig.software.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -166,7 +166,7 @@ curseforge {
             releaseType = 'release'
             addGameVersion '1.19'
             mainArtifact(jar) {
-                displayName = "[1.19.X] Weeping Angels - $project.version"
+                displayName = "[1.19] Weeping Angels - $project.version"
             }
         }
     } else {
