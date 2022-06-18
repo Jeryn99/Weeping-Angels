@@ -147,7 +147,7 @@ public class GraveyardStructure extends Structure {
                 StatueBlockEntity statueTile = (StatueBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelType.DISASTER_MC);
-                statueTile.setAngelVarients(AngelType.DISASTER_MC.getWeightedHandler().getRandom(null));
+                statueTile.setAngelVarients(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
                 statueTile.setChanged();
                 serverLevelAccessor.removeBlock(blockPos, false);
             }

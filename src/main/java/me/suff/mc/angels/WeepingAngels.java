@@ -93,6 +93,7 @@ public class WeepingAngels {
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         VR_REFLECTOR.init();
         init();
+        AngelTypes.updateWeighted();
     }
 
 

@@ -20,15 +20,21 @@ public class WeightedHandler {
         entries.add(e);
     }
 
-    public AngelVariant getRandom(WeepingAngel weepingAngel) {
+    public void addEntry(AngelVariant... angelVariants) {
+        for (AngelVariant angelVariant : angelVariants) {
+            accumulatedWeight += angelVariant.getRarity();
+            Entry e = new Entry();
+            e.angelVariant = angelVariant;
+            e.accumulatedWeight = accumulatedWeight;
+            entries.add(e);
+        }
+    }
+
+    public AngelVariant getRandom() {
         double r = AngelUtil.RAND.nextDouble() * accumulatedWeight;
         for (Entry entry : entries) {
             if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.angelVariant)) {
-                if (weepingAngel == null || weepingAngel.getVariant() == null) {
-                    return entry.angelVariant;
-                } else if (weepingAngel.getVariant().canVariantBeUsed(weepingAngel)) {
-                    return entry.angelVariant;
-                }
+                return entry.angelVariant;
             }
         }
         return AngelTypes.NORMAL.get();

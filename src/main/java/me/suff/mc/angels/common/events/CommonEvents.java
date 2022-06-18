@@ -85,7 +85,7 @@ public class CommonEvents {
         if (isPlinth && playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
-            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
+            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
             plinth.sendUpdatesToClient();
             PlayerUtil.sendMessageToPlayer(playerEntity, Component.translatable("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }

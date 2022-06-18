@@ -34,15 +34,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -63,7 +61,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static me.suff.mc.angels.utils.AngelUtil.updateBlock;
@@ -74,7 +71,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private static final EntityDataAccessor<String> CURRENT_POSE = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Float> LAUGH = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.FLOAT);
-    private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
     private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
     public long timeSincePlayedSound = 0;
 
@@ -85,13 +81,10 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public WeepingAngel(Level world) {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
         goalSelector.addGoal(0, new OpenDoorGoal(this, false));
-        goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-        goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-        goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
         goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(WeepingAngel.class));
+        goalSelector.addGoal(6, new MeleeAttackGoal(this, 0f, true));
 
         xpReward = WAConfig.CONFIG.xpGained.get();
     }
@@ -134,7 +127,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(random).name());
-        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom(null).getRegistryName().toString());
+        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom().getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -153,8 +146,9 @@ public class WeepingAngel extends QuantumLockedLifeform {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 
 
-        setVarient(getAngelType().getWeightedHandler().getRandom(this));
-
+        @NotNull AngelVariant variant = AngelTypes.getGoodVariant(this, serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
+        setVarient(variant);
+        System.out.println("I thought " + variant.getRegistryName() + " was a good idea for here!");
 
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
@@ -334,7 +328,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         super.onSyncedDataUpdated(key);
         if (TYPE.equals(key)) {
             refreshDimensions();
-            setVarient(getAngelType().getWeightedHandler().getRandom(this));
+            setVarient(getAngelType().getWeightedHandler().getRandom());
         }
 
     }
@@ -398,7 +392,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public void tick() {
 
         if (!WAConfig.CONFIG.isVariantPermitted(getVariant())) {
-            setVarient(getAngelType().getWeightedHandler().getRandom(this));
+            setVarient(getAngelType().getWeightedHandler().getRandom());
         }
 
         if (!WAConfig.CONFIG.isModelPermitted(getAngelType())) {

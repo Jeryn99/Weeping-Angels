@@ -54,7 +54,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
                 snowAngelBlockEntity.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowAngelBlockEntity.setRotation(rotation);
                 snowAngelBlockEntity.setHasSetup(true);
-                snowAngelBlockEntity.setVariant(AngelType.DISASTER_MC.getWeightedHandler().getRandom(null));
+                snowAngelBlockEntity.setVariant(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
                 snowAngelBlockEntity.sendUpdates();
             }
         }

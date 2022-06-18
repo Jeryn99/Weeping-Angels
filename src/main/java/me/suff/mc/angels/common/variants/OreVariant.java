@@ -11,16 +11,11 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class MiningVariant extends BaseVariant {
+public class OreVariant extends BaseVariant {
 
-    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngel> variantTest) {
-        super(itemStackSupplier, rarity, variantTest);
-    }
-
-    public MiningVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
+    public OreVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
         super(itemStackSupplier, rarity);
     }
-
     @Override
     public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
         if (damageSource.getEntity() instanceof Player playerEntity) {

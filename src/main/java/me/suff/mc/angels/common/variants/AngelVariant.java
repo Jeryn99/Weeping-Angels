@@ -11,12 +11,7 @@ import java.util.function.Predicate;
 
 public abstract class AngelVariant {
 
-    private final Predicate<WeepingAngel> variantAllowedOnSpawn;
     private boolean isHeadless = false;
-
-    public AngelVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
-        this.variantAllowedOnSpawn = weepingAngelEntityPredicate;
-    }
 
     public void tick(WeepingAngel weepingAngel) {
         if (weepingAngel.getVariant() == AngelTypes.RUSTED_NO_ARM.get()) {
@@ -28,10 +23,6 @@ public abstract class AngelVariant {
         } else {
             weepingAngel.setLeftHanded(false);
         }
-    }
-
-    public Predicate<WeepingAngel> getVariantAllowedOnSpawn() {
-        return variantAllowedOnSpawn;
     }
 
     public ItemStack stackDrop() {
@@ -52,13 +43,6 @@ public abstract class AngelVariant {
     }
 
     public abstract double getRarity();
-
-    public boolean canVariantBeUsed(WeepingAngel weepingAngel) {
-        if (variantAllowedOnSpawn == null) {
-            return true;
-        }
-        return variantAllowedOnSpawn.test(weepingAngel);
-    }
 
     public ResourceLocation getRegistryName(){
         return AngelTypes.VARIANTS_REGISTRY.get().getKey(this);
