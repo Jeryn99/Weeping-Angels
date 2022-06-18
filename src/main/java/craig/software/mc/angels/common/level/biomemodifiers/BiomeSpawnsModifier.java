@@ -34,7 +34,7 @@ public record BiomeSpawnsModifier(HolderSet<Biome> biomes, SpawnerData spawn) im
 
     @Override
     public Codec<? extends BiomeModifier> codec() {
-            return SERIALIZER.get();
-        }
+        return SERIALIZER.get();
+    }
 
 }

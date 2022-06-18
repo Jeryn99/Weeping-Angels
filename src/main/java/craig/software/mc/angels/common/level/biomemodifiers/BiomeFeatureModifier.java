@@ -16,7 +16,8 @@ import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public record BiomeFeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features) implements BiomeModifier {
+public record BiomeFeatureModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage,
+                                   HolderSet<PlacedFeature> features) implements BiomeModifier {
 
     public static final ResourceLocation ADD_FEATURE = new ResourceLocation(WeepingAngels.MODID, "feature_add");
     public static final String ORE_NAME = "kontron_ore";

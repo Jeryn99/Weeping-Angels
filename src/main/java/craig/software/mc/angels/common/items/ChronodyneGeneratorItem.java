@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.items;
 
 import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.misc.WATabs;
 import craig.software.mc.angels.common.entities.ChronodyneGeneratorProjectile;
+import craig.software.mc.angels.common.misc.WATabs;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;

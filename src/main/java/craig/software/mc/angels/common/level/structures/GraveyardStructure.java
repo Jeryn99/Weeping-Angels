@@ -54,6 +54,11 @@ public class GraveyardStructure extends Structure {
         super(structureSettings);
     }
 
+    private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, WorldgenRandom random) {
+        ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
+        structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
+    }
+
     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_230235_) {
         Rotation rotation = Rotation.getRandom(p_230235_.random());
         BlockPos blockpos = this.getLowestYIn5by5BoxOffset7Blocks(p_230235_, rotation);
@@ -65,12 +70,6 @@ public class GraveyardStructure extends Structure {
     private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext, BlockPos blockPos, Rotation rotation) {
         GraveyardStructure.addPiece(generationContext.structureTemplateManager(), blockPos, rotation, structurePiecesBuilder, generationContext.random());
     }
-
-    private static void addPiece(StructureTemplateManager structureManager, BlockPos blockPos, Rotation rotation, StructurePiecesBuilder structurePieceAccessor, WorldgenRandom random) {
-        ResourceLocation piece = GraveyardPiece.ALL_GRAVES[random.nextInt(GraveyardPiece.ALL_GRAVES.length)];
-        structurePieceAccessor.addPiece(new GraveyardPiece(0, structureManager, piece, piece.toString(), GraveyardPiece.makeSettings(rotation), blockPos));
-    }
-
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
@@ -122,6 +121,7 @@ public class GraveyardStructure extends Structure {
             return finalDate.getDayOfMonth() + "." + finalDate.getMonthValue() + "." + finalDate.getYear();
 
         }
+
         public static Block getRandomPottedPlant(RandomSource random) {
             Optional<Block> plant = ForgeRegistries.BLOCKS.tags().getTag(AngelUtil.POTTED_PLANTS).getRandomElement(random);
             return plant.get();

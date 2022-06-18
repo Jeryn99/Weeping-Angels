@@ -2,6 +2,7 @@ package craig.software.mc.angels.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.renders.Donator;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.GsonHelper;
@@ -66,16 +67,20 @@ public class PlayerUtil {
         try {
             result = getResponse(new URL("https://api.who-craft.com/get/vips"));
         } catch (IOException e) {
+            WeepingAngels.LOGGER.info("Issue retrieving Donators! Server may be down or overwhelmed");
             e.printStackTrace();
         }
 
         String[] categories = new String[]{"devs", "donators"};
 
         for (String category : categories) {
-            assert result != null;
-            for (JsonElement devs : result.getAsJsonArray(category)) {
-                JsonObject dev = devs.getAsJsonObject();
-                donators.add(new Donator(dev));
+            if(result != null){
+                for (JsonElement devs : result.getAsJsonArray(category)) {
+                    JsonObject dev = devs.getAsJsonObject();
+                    donators.add(new Donator(dev));
+                }
+            } else {
+                WeepingAngels.LOGGER.info("Issue retrieving Donators! Server may be down or overwhelmed");
             }
         }
 

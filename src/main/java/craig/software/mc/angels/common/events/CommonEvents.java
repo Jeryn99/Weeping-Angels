@@ -2,19 +2,19 @@ package craig.software.mc.angels.common.events;
 
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.common.items.ChiselItem;
-import craig.software.mc.angels.common.level.WAFeatures;
-import craig.software.mc.angels.utils.AngelUtil;
-import craig.software.mc.angels.utils.DamageType;
-import craig.software.mc.angels.utils.PlayerUtil;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
 import craig.software.mc.angels.common.blockentities.IPlinth;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
 import craig.software.mc.angels.common.entities.QuantumLockedLifeform;
+import craig.software.mc.angels.common.entities.WeepingAngel;
+import craig.software.mc.angels.common.items.ChiselItem;
+import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.network.Network;
 import craig.software.mc.angels.network.messages.MessageCatacomb;
+import craig.software.mc.angels.utils.AngelUtil;
+import craig.software.mc.angels.utils.DamageType;
+import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -30,6 +30,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.AttackDamageMobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,7 +69,6 @@ public class CommonEvents {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
         }
     }
-
 
     @SubscribeEvent
     public static void onBreak(BlockEvent.BreakEvent event) {
@@ -154,6 +154,11 @@ public class CommonEvents {
         Entity attacker = event.getSource().getEntity();
 
         if (source == DamageSource.OUT_OF_WORLD) {
+            return;
+        }
+
+        if(source.isProjectile() && configValue != DamageType.EVERYTHING){
+            event.setCanceled(true);
             return;
         }
 

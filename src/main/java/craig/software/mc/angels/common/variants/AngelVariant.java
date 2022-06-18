@@ -42,7 +42,7 @@ public abstract class AngelVariant {
 
     public abstract double getRarity();
 
-    public ResourceLocation getRegistryName(){
+    public ResourceLocation getRegistryName() {
         return AngelTypes.VARIANTS_REGISTRY.get().getKey(this);
     }
 }

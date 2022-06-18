@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.blocks;
 
-import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.entities.Portal;
+import craig.software.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

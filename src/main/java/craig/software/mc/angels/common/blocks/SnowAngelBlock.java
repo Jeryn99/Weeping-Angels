@@ -1,9 +1,9 @@
 package craig.software.mc.angels.common.blocks;
 
-import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngel;
+import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;

@@ -1,12 +1,12 @@
 package craig.software.mc.angels.utils;
 
-import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import craig.software.mc.angels.common.entities.AngelType;
 import craig.software.mc.angels.common.entities.QuantumLockedLifeform;
+import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import net.minecraft.core.BlockPos;

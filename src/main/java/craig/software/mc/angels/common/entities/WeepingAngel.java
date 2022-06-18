@@ -2,7 +2,6 @@ package craig.software.mc.angels.common.entities;
 
 import com.google.common.collect.ImmutableList;
 import craig.software.mc.angels.api.EventAngelBreakEvent;
-import craig.software.mc.angels.utils.WATeleporter;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.attributes.WAAttributes;
@@ -11,6 +10,7 @@ import craig.software.mc.angels.common.variants.AngelTypes;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.utils.AngelUtil;
+import craig.software.mc.angels.utils.WATeleporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -44,6 +44,7 @@ import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -84,7 +85,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(WeepingAngel.class));
-        goalSelector.addGoal(6, new MeleeAttackGoal(this, 0f, true));
+        goalSelector.addGoal(6, new MeleeAttackGoal(this, 0.5f, true));
 
         xpReward = WAConfig.CONFIG.xpGained.get();
     }
@@ -148,7 +149,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
         @NotNull AngelVariant variant = AngelTypes.getGoodVariant(this, serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
         setVarient(variant);
-        System.out.println("I thought " + variant.getRegistryName() + " was a good idea for here!");
 
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
@@ -278,7 +278,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void die(@NotNull DamageSource cause) {
-        super.die(cause);
         spawnAtLocation(getMainHandItem());
         spawnAtLocation(getOffhandItem());
 
@@ -288,6 +287,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
                 spawnAtLocation(variant.stackDrop().getItem());
             }
         }
+        super.die(cause);
 
     }
 
@@ -332,6 +332,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         }
 
     }
+
 
     @Override
     public void invokeSeen(Player player) {
@@ -448,8 +449,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
                 if (blockState.hasProperty(BlockStateProperties.LIT)) {
 
-                    if(blockState.getBlock() instanceof CandleBlock){
-                        if(!CandleBlock.canLight(blockState)) {
+                    if (blockState.getBlock() instanceof CandleBlock) {
+                        if (!CandleBlock.canLight(blockState)) {
                             CandleBlock.extinguish(null, blockState, level, pos);
                             return;
                         }
@@ -531,7 +532,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public boolean checkSpawnRules(LevelAccessor worldIn, @NotNull MobSpawnType spawnReasonIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && super.checkSpawnRules(worldIn, spawnReasonIn);
     }
-
 
 
     public String getAngelPose() {

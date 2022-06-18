@@ -3,8 +3,8 @@ package craig.software.mc.angels.client.models.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
-import craig.software.mc.angels.utils.Pair;
 import craig.software.mc.angels.common.variants.AngelVariant;
+import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 

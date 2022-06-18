@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.blocks;
 
-import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
+import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

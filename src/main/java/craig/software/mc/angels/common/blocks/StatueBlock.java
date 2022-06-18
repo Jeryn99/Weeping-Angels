@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.blocks;
 
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
-import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
+import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;

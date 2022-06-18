@@ -1,8 +1,8 @@
 package craig.software.mc.angels.data;
 
-import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
+import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
@@ -41,7 +41,8 @@ public class WABlockTags extends BlockTagsProvider {
 
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getNamespace().contains("tardis")) continue;
+            if (Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getNamespace().contains("tardis"))
+                continue;
 
             if (block.defaultBlockState().getMaterial() == Material.AIR || block instanceof FireBlock) {
                 add(AngelUtil.BANNED_BLOCKS, block);

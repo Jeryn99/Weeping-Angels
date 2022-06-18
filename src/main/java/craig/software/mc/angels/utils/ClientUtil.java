@@ -2,7 +2,6 @@ package craig.software.mc.angels.utils;
 
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.entity.*;
-import me.suff.mc.angels.client.models.entity.*;
 import craig.software.mc.angels.client.renders.blockentities.CoffinRenderer;
 import craig.software.mc.angels.client.renders.blockentities.PlinthRender;
 import craig.software.mc.angels.client.renders.blockentities.SnowAngelRenderer;

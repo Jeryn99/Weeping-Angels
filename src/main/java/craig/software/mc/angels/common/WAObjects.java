@@ -1,21 +1,20 @@
 package craig.software.mc.angels.common;
 
 import craig.software.mc.angels.WeepingAngels;
-import craig.software.mc.angels.common.blocks.*;
-import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.utils.WADamageSource;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
 import craig.software.mc.angels.common.blockentities.PlinthBlockEntity;
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
-import me.suff.mc.angels.common.blocks.*;
+import craig.software.mc.angels.common.blocks.*;
 import craig.software.mc.angels.common.entities.ChronodyneGeneratorProjectile;
 import craig.software.mc.angels.common.entities.Portal;
+import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.items.AngelSpawnerItem;
 import craig.software.mc.angels.common.items.ChiselItem;
 import craig.software.mc.angels.common.items.ChronodyneGeneratorItem;
 import craig.software.mc.angels.common.items.DetectorItem;
 import craig.software.mc.angels.common.misc.WATabs;
+import craig.software.mc.angels.utils.WADamageSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;

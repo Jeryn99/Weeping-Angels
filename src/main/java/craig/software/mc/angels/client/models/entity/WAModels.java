@@ -2,7 +2,6 @@ package craig.software.mc.angels.client.models.entity;
 
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.block.*;
-import me.suff.mc.angels.client.models.block.*;
 import craig.software.mc.angels.client.renders.MercyWings;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;

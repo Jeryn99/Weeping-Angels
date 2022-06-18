@@ -6,12 +6,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
-import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.utils.Pair;
 import craig.software.mc.angels.common.blockentities.PlinthBlockEntity;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
+import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.variants.AngelTypes;
 import craig.software.mc.angels.common.variants.AngelVariant;
+import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -37,9 +37,8 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
     private final ModelPart Head;
     private final ModelPart LeftWing;
     private final ModelPart RightWing;
-
-    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private final boolean showHurt = false;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private Pair<ModelPart, Vector3d> headData;
 
     /**

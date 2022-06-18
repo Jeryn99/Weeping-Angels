@@ -7,10 +7,10 @@ import com.mojang.math.Vector3d;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.utils.DateChecker;
-import craig.software.mc.angels.utils.Pair;
 import craig.software.mc.angels.common.variants.AngelTypes;
 import craig.software.mc.angels.common.variants.AngelVariant;
+import craig.software.mc.angels.utils.DateChecker;
+import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -52,9 +52,8 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
     private final ModelPart leftarm;
     private final ModelPart rightleg;
     private final ModelPart leftleg;
-
-    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private final boolean showHurt = false;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private Pair<ModelPart, Vector3d> headData;
 
     public ModelClassicAngel(ModelPart root) {

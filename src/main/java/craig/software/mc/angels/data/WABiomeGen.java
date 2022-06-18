@@ -21,7 +21,7 @@ public class WABiomeGen extends TagsProvider<Biome> {
     protected void addTags() {
         this.tag(AngelUtil.CATACOMB_STRUCTURE_BIOMES).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_TAIGA);
         this.tag(AngelUtil.GRAVEYARD_STRUCTURE_BIOMES).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_TAIGA);
-        this.tag(AngelUtil.ANGEL_SPAWNS).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_TAIGA);
+        this.tag(AngelUtil.ANGEL_SPAWNS).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_TAIGA, BiomeTags.IS_NETHER);
     }
 
 

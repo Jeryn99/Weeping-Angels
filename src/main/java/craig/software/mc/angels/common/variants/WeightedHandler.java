@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.variants;
 
-import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.utils.AngelUtil;
 
 import java.util.ArrayList;
 import java.util.List;

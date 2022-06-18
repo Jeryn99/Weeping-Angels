@@ -1,9 +1,9 @@
 package craig.software.mc.angels.common.entities;
 
-import craig.software.mc.angels.common.misc.WAConstants;
-import craig.software.mc.angels.utils.ViewUtil;
 import craig.software.mc.angels.common.entities.ai.BodyRotationAngel;
+import craig.software.mc.angels.common.misc.WAConstants;
 import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -89,13 +89,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
 
                 if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
                 snapLookToPlayer(targetPlayer);
-          /*      if (distanceTo(targetPlayer) < 2) {
-                    if (random.nextInt(50) < 30) {
-                        doHurtTarget(targetPlayer);
-                    }
-                } else {
-                    moveTowards(targetPlayer);
-                }*/
+                moveTowards(targetPlayer);
             }
         }
     }

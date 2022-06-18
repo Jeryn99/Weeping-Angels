@@ -15,6 +15,7 @@ public class OreVariant extends BaseVariant {
     public OreVariant(Supplier<ItemStack> itemStackSupplier, int rarity) {
         super(itemStackSupplier, rarity);
     }
+
     @Override
     public boolean shouldDrop(DamageSource damageSource, WeepingAngel quantumLockEntity) {
         if (damageSource.getEntity() instanceof Player playerEntity) {

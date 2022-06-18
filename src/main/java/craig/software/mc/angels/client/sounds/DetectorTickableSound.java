@@ -1,7 +1,7 @@
 package craig.software.mc.angels.client.sounds;
 
-import craig.software.mc.angels.utils.PlayerUtil;
 import craig.software.mc.angels.common.WAObjects;
+import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;

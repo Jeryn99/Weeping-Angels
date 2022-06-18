@@ -7,8 +7,8 @@ import com.mojang.math.Vector3d;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.utils.Pair;
 import craig.software.mc.angels.common.variants.AngelVariant;
+import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -30,8 +30,8 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
     private final ModelPart arms;
     private final ModelPart leg0;
     private final ModelPart leg1;
-    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private final boolean showHurt = false;
+    private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;
     private Pair<ModelPart, Vector3d> headData;
 
     public ModelWeepingVillager(ModelPart root) {

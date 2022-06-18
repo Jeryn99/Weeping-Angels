@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.items;
 
-import craig.software.mc.angels.utils.PlayerUtil;
 import craig.software.mc.angels.common.blockentities.IPlinth;
+import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;

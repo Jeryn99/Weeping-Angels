@@ -9,11 +9,12 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.common.world.ModifiableStructureInfo;
 import net.minecraftforge.common.world.StructureModifier;
 
-public record StructureSpawnModifer(HolderSet<Biome> biomes, MobSpawnSettings.SpawnerData spawn) implements StructureModifier {
+public record StructureSpawnModifer(HolderSet<Biome> biomes,
+                                    MobSpawnSettings.SpawnerData spawn) implements StructureModifier {
 
     @Override
     public void modify(Holder<Structure> structure, Phase phase, ModifiableStructureInfo.StructureInfo.Builder builder) {
-      //TODO
+        //TODO
          /*  if (phase == StructureModifier.Phase.ADD && this.biomes.contains(biome)) {
             builder.getMobSpawnSettings().addSpawn(this.spawn.type.getCategory(), this.spawn);
         }
