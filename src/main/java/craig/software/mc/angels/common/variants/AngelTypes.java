@@ -69,7 +69,7 @@ public class AngelTypes {
     }
 
 
-    public static @NotNull AngelVariant getGoodVariant(WeepingAngel weepingAngel, ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, SpawnGroupData livingEntityData, CompoundTag compoundNBT) {
+    public static @NotNull AngelVariant getGoodVariant(WeepingAngel weepingAngel, ServerLevelAccessor serverWorld) {
 
         Holder<Biome> biome = serverWorld.getLevel().getBiome(weepingAngel.blockPosition());
         RandomSource randomSource = weepingAngel.level.getRandom();

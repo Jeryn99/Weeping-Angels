@@ -29,14 +29,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -44,7 +42,6 @@ import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -82,7 +79,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public WeepingAngel(Level world) {
         super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
         goalSelector.addGoal(0, new OpenDoorGoal(this, false));
-        goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(WeepingAngel.class));
         goalSelector.addGoal(6, new MeleeAttackGoal(this, 0.5f, true));
@@ -147,7 +143,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
 
 
-        @NotNull AngelVariant variant = AngelTypes.getGoodVariant(this, serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
+        @NotNull AngelVariant variant = AngelTypes.getGoodVariant(this, serverWorld);
         setVarient(variant);
 
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
@@ -250,12 +246,13 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     private void stealItems(Player player) {
         // Steals items from the player
+
         if (getMainHandItem().isEmpty() && random.nextBoolean()) {
             for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                 ItemStack stack = player.getInventory().getItem(i);
                 if (stack.is(AngelUtil.THEFT)) {
-                    setItemInHand(InteractionHand.MAIN_HAND, player.getInventory().getItem(i).copy());
-                    player.getInventory().getItem(i).setCount(0);
+                    setItemSlotAndDropWhenKilled(EquipmentSlot.MAINHAND, player.getInventory().getItem(i).copy());
+                    player.getInventory().setItem(i, ItemStack.EMPTY);
                     player.inventoryMenu.broadcastChanges();
                     return;
                 }
@@ -278,8 +275,8 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public void die(@NotNull DamageSource cause) {
-        spawnAtLocation(getMainHandItem());
-        spawnAtLocation(getOffhandItem());
+        if (level.isClientSide) return;
+       // dropAngelStuff();
 
         if (getAngelType() == AngelType.DISASTER_MC) {
             AngelVariant variant = getVariant();
@@ -288,7 +285,6 @@ public class WeepingAngel extends QuantumLockedLifeform {
             }
         }
         super.die(cause);
-
     }
 
     @Override
@@ -392,14 +388,14 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Override
     public void tick() {
 
-        if (!WAConfig.CONFIG.isVariantPermitted(getVariant())) {
-            setVarient(getAngelType().getWeightedHandler().getRandom());
+        if (!level.isClientSide()) {
+            if (!WAConfig.CONFIG.isVariantPermitted(getVariant())) {
+                setVarient(AngelTypes.getGoodVariant(this, (ServerLevelAccessor) level));
+            }
         }
-
         if (!WAConfig.CONFIG.isModelPermitted(getAngelType())) {
             setType(AngelType.next(getAngelType()));
         }
-
 
         getVariant().tick(this);
         super.tick();
