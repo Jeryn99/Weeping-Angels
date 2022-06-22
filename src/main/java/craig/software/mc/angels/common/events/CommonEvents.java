@@ -157,14 +157,15 @@ public class CommonEvents {
             return;
         }
 
-        if(source.isProjectile() && configValue != DamageType.EVERYTHING){
-            event.setCanceled(true);
-            return;
-        }
-
         LivingEntity living = event.getEntityLiving();
 
+
         if (living instanceof WeepingAngel hurt) {
+
+            if(source.isProjectile() && configValue != DamageType.EVERYTHING){
+                event.setCanceled(true);
+                return;
+            }
 
             switch (configValue) {
                 case EVERYTHING:
