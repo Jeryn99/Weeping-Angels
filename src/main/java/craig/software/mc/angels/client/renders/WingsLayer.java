@@ -9,6 +9,7 @@ import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.variants.AngelTypes;
 import craig.software.mc.angels.utils.ClientUtil;
 import craig.software.mc.angels.utils.DateChecker;
+import craig.software.mc.angels.utils.DonationUtil;
 import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -25,21 +26,24 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-    protected static Donator[] people = new Donator[0];
+    protected static HashSet<Donator> modDonators = new HashSet<>();
     public final MercyWings mercyWings;
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/mercy_wings.png");
     private EntityModel<WeepingAngel> model;
 
     public WingsLayer(RenderLayerParent<T, M> p_117346_) {
         super(p_117346_);
-        DateChecker.update(true);
+        Minecraft.getInstance().submitAsync(DateChecker.DONATOR_RUNNABLE);
         mercyWings = new MercyWings(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.MERCY_WINGS));
     }
 
     public static Donator shouldDisplay(Player player) {
-        for (Donator person : people) {
+        for (Donator person : modDonators) {
             if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
                 return person;
             }
@@ -48,34 +52,35 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
     }
 
     public static void update() {
-        people = PlayerUtil.getDonators();
+        modDonators.addAll(DonationUtil.getDonators());
+        WeepingAngels.LOGGER.debug("Updated Donators: " + modDonators);
     }
 
     @Override
-    public void render(@NotNull PoseStack p_117349_, @NotNull MultiBufferSource p_117350_, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource p_117350_, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
         if (p_117352_.isInvisibleTo(Minecraft.getInstance().player)) return;
         if (p_117352_ instanceof Player player && shouldDisplay(player) != null) {
             Donator data = shouldDisplay(player);
-            p_117349_.pushPose();
+            poseStack.pushPose();
             if (data.getWings().equalsIgnoreCase("mercy")) {
-                getParentModel().body.translateAndRotate(p_117349_);
+                getParentModel().body.translateAndRotate(poseStack);
                 mercyWings.setupAnim(player, 0, 0, 0, 0, 0);
-                mercyWings.RWing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
-                mercyWings.Lwing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
+                mercyWings.RWing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
+                mercyWings.Lwing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
             } else {
                 model = ClientUtil.getModelForAngel(data.getPureWings());
                 if (model instanceof IAngelModel iAngelModel) {
-                    getParentModel().body.translateAndRotate(p_117349_);
+                    getParentModel().body.translateAndRotate(poseStack);
                     iAngelModel.setAngelPose(data.isPerked() ? WeepingAngelPose.ANGRY : WeepingAngelPose.IDLE);
                     model.setupAnim(null, 0, 0, 0, 0, 0);
-                    for (ModelPart wing : iAngelModel.wings(p_117349_)) {
+                    for (ModelPart wing : iAngelModel.wings(poseStack)) {
                         if (wing != null) {
-                            wing.render(p_117349_, p_117350_.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
+                            wing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
                         }
                     }
                 }
             }
-            p_117349_.popPose();
+            poseStack.popPose();
         }
     }
 }

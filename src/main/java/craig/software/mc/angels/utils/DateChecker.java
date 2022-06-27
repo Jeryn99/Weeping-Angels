@@ -1,8 +1,10 @@
 package craig.software.mc.angels.utils;
 
 import craig.software.mc.angels.client.renders.WingsLayer;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.TickEvent;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -11,25 +13,22 @@ import java.util.TimeZone;
 @OnlyIn(Dist.CLIENT)
 public class DateChecker {
 
-    static Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+    static Calendar calendar = Calendar.getInstance();
 
-    public static void tick() {
+    public static Runnable DONATOR_RUNNABLE = WingsLayer::update;
+
+
+    public static void tick(TickEvent.ClientTickEvent event) {
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (update(false)) {
-            Thread thread = new Thread(WingsLayer::update);
-            thread.start();
+        int minutes = calendar.get(Calendar.MINUTE);
+        int seconds = calendar.get(Calendar.SECOND);
+
+        if((minutes == 0 || minutes == 39) && seconds == 10) { //TODO download spam
+            Minecraft.getInstance().submitAsync(DONATOR_RUNNABLE);
         }
     }
 
     public static boolean isXmas() {
         return calendar.get(Calendar.MONTH) == Calendar.DECEMBER;
-    }
-
-    public static boolean update(boolean force) {
-        if (force) {
-            Thread thread = new Thread(WingsLayer::update);
-            thread.start();
-        }
-        return calendar.getTime().getMinutes() == 30;
     }
 }

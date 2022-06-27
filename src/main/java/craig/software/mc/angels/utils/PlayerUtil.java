@@ -61,32 +61,6 @@ public class PlayerUtil {
         player.displayClientMessage(textComponent, isHotBar);
     }
 
-    public static Donator[] getDonators() {
-        ArrayList<Donator> donators = new ArrayList<>();
-        JsonObject result = null;
-        try {
-            result = getResponse(new URL("https://api.who-craft.com/get/vips"));
-        } catch (IOException e) {
-            WeepingAngels.LOGGER.info("Issue retrieving Donators! Server may be down or overwhelmed");
-            e.printStackTrace();
-        }
-
-        String[] categories = new String[]{"devs", "donators"};
-
-        for (String category : categories) {
-            if(result != null){
-                for (JsonElement devs : result.getAsJsonArray(category)) {
-                    JsonObject dev = devs.getAsJsonObject();
-                    donators.add(new Donator(dev));
-                }
-            } else {
-                WeepingAngels.LOGGER.info("Issue retrieving Donators! Server may be down or overwhelmed");
-            }
-        }
-
-        return donators.toArray(new Donator[0]);
-    }
-
     public static String uuidToUsername(UUID uuid) {
         try {
             JsonObject response = getResponse(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString()));
@@ -104,6 +78,8 @@ public class PlayerUtil {
         uc.addRequestProperty("User-Agent", USER_AGENT);
         InputStream inputStream = uc.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        return GsonHelper.parse(br);
+        JsonObject finalData = GsonHelper.parse(br);
+        uc.disconnect();
+        return finalData;
     }
 }

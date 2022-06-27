@@ -3,13 +3,9 @@ package craig.software.mc.angels.common.variants;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -66,6 +62,7 @@ public class AngelTypes {
                 }
             }
         }
+
     }
 
 
