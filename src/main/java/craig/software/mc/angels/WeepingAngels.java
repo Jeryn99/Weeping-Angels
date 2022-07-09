@@ -1,8 +1,12 @@
 package craig.software.mc.angels;
 
+import craig.software.mc.angels.common.WAGlm;
+import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.WAPaintings;
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.entities.attributes.WAAttributes;
 import craig.software.mc.angels.common.variants.AngelVariants;
+import craig.software.mc.angels.compat.tardis.TardisMod;
 import craig.software.mc.angels.compat.tardis.datagen.TardisSchemGen;
 import craig.software.mc.angels.compat.tardis.datagen.TardisSpectroGen;
 import craig.software.mc.angels.compat.tardis.registry.NewTardisBlocks;
@@ -12,14 +16,9 @@ import craig.software.mc.angels.compat.vr.ServerReflector;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.data.*;
 import craig.software.mc.angels.network.Network;
-import craig.software.mc.angels.utils.FortuneEnchantBonus;
-import craig.software.mc.angels.common.WAGlm;
-import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
-import craig.software.mc.angels.compat.tardis.TardisMod;
-import me.suff.mc.angels.data.*;
 import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.ClientUtil;
+import craig.software.mc.angels.utils.FortuneEnchantBonus;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;

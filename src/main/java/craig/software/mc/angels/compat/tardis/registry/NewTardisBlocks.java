@@ -1,7 +1,7 @@
 package craig.software.mc.angels.compat.tardis.registry;
 
-import java.util.function.Supplier;
 import craig.software.mc.angels.WeepingAngels;
+import java.util.function.Supplier;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

@@ -1,12 +1,12 @@
 package craig.software.mc.angels.config;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.List;
-import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.DamageType;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;

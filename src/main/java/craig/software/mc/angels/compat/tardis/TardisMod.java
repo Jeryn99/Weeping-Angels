@@ -1,17 +1,16 @@
 package craig.software.mc.angels.compat.tardis;
 
 import com.google.common.collect.Lists;
-import java.util.*;
-
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.api.EventAngelBreakEvent;
+import craig.software.mc.angels.api.EventAngelTeportedPlayerCrossDim;
+import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.QuantumLockEntity;
 import craig.software.mc.angels.common.tileentities.IPlinth;
 import craig.software.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import craig.software.mc.angels.api.EventAngelTeportedPlayerCrossDim;
-import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.PlayerUtil;
+import java.util.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;

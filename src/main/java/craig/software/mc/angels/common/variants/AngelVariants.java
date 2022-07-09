@@ -1,10 +1,10 @@
 package craig.software.mc.angels.common.variants;
 
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.utils.AngelUtil;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

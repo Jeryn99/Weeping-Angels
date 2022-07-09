@@ -1,13 +1,13 @@
 package craig.software.mc.angels.client.renders.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.SantaHat;
 import craig.software.mc.angels.client.models.entity.IAngelModel;
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.utils.DateChecker;
-import craig.software.mc.angels.WeepingAngels;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;

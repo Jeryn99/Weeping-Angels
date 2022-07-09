@@ -1,11 +1,11 @@
 package craig.software.mc.angels.common.tileentities;
 
+import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.misc.WAConstants;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.variants.AngelVariants;
-import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

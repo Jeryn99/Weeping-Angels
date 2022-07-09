@@ -1,8 +1,8 @@
 package craig.software.mc.angels.compat.tardis;
 
+import craig.software.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import craig.software.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import craig.software.mc.angels.compat.tardis.registry.TardisTiles;
-import craig.software.mc.angels.compat.tardis.interiordoors.AbPropIntDoorModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.fml.client.registry.ClientRegistry;

@@ -1,10 +1,9 @@
 package craig.software.mc.angels.common.entities;
 
-import java.util.List;
-
 import craig.software.mc.angels.common.misc.WAConstants;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.utils.ViewUtil;
+import java.util.List;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.IMob;

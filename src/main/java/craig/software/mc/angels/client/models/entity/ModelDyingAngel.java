@@ -2,12 +2,11 @@ package craig.software.mc.angels.client.models.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import java.util.ArrayList;
-
-import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
+import craig.software.mc.angels.common.variants.AbstractVariant;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;

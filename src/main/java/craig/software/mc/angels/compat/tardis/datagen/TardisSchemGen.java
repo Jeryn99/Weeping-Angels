@@ -1,7 +1,7 @@
 package craig.software.mc.angels.compat.tardis.datagen;
 
-import java.io.IOException;
 import craig.software.mc.angels.compat.tardis.registry.TardisExteriorReg;
+import java.io.IOException;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.tardis.mod.datagen.TardisSchematicGen;

@@ -11,9 +11,16 @@ import craig.software.mc.angels.common.misc.WAConstants;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.NBTPatcher;
 import craig.software.mc.angels.utils.WATeleporter;
-import craig.software.mc.angels.utils.AngelUtil;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+import javax.annotation.Nullable;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -42,14 +49,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-
-import javax.annotation.Nullable;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static craig.software.mc.angels.utils.AngelUtil.updateBlock;
 

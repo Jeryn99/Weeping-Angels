@@ -1,9 +1,9 @@
 package craig.software.mc.angels.common.items;
 
-import java.util.List;
-import javax.annotation.Nullable;
 import craig.software.mc.angels.common.tileentities.IPlinth;
 import craig.software.mc.angels.utils.PlayerUtil;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

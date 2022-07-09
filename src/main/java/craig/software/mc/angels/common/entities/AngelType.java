@@ -1,9 +1,9 @@
 package craig.software.mc.angels.common.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.variants.AngelVariants;
+import java.util.ArrayList;
+import java.util.Arrays;
 import net.minecraftforge.fml.RegistryObject;
 
 public enum AngelType {

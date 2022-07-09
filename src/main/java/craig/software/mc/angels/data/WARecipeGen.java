@@ -1,8 +1,8 @@
 package craig.software.mc.angels.data;
 
-import java.util.function.Consumer;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
+import java.util.function.Consumer;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.Items;

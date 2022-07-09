@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.variants;
 
-import java.util.function.Predicate;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
+import java.util.function.Predicate;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
 
-    private Predicate<WeepingAngelEntity> variantTest;
+    private final Predicate<WeepingAngelEntity> variantTest;
     private boolean isHeadless = false;
 
     public AbstractVariant(Predicate<WeepingAngelEntity> weepingAngelEntityPredicate) {

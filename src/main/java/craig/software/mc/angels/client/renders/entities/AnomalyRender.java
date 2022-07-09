@@ -1,8 +1,8 @@
 package craig.software.mc.angels.client.renders.entities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import craig.software.mc.angels.client.models.entity.PortalModel;
 import craig.software.mc.angels.WeepingAngels;
+import craig.software.mc.angels.client.models.entity.PortalModel;
 import craig.software.mc.angels.common.entities.AnomalyEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;

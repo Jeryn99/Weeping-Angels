@@ -1,8 +1,7 @@
 package craig.software.mc.angels.common.blocks;
 
-import javax.annotation.Nullable;
-
 import craig.software.mc.angels.common.tileentities.CoffinTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;

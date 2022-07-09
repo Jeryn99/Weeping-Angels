@@ -1,8 +1,8 @@
 package craig.software.mc.angels.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.common.WAObjects;
+import craig.software.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SimpleSound;

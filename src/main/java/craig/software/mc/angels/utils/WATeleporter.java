@@ -2,11 +2,13 @@ package craig.software.mc.angels.utils;
 
 import com.google.common.collect.Lists;
 import craig.software.mc.angels.WeepingAngels;
+import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.compat.tardis.TardisMod;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.network.Network;
 import craig.software.mc.angels.network.messages.MessageSFX;
-import craig.software.mc.angels.common.WAObjects;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -17,9 +19,6 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class WATeleporter {
 

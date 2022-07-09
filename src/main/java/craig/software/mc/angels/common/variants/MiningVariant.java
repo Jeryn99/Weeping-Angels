@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.variants;
 
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;

@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.variants;
 
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -11,7 +11,7 @@ import static craig.software.mc.angels.common.variants.AngelVariants.BANNED_FROM
 public class BaseVariant extends AbstractVariant {
 
     private final int rarity;
-    private Supplier<ItemStack> dropStack;
+    private final Supplier<ItemStack> dropStack;
 
     public BaseVariant(Supplier<ItemStack> itemStackSupplier, int rarity, Predicate<WeepingAngelEntity> variantTest) {
         super(variantTest);

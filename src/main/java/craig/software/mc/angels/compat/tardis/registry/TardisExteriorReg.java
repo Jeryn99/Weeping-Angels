@@ -1,8 +1,8 @@
 package craig.software.mc.angels.compat.tardis.registry;
 
+import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.compat.tardis.EnumDoorTypes;
 import craig.software.mc.angels.compat.tardis.WATexVariants;
-import craig.software.mc.angels.WeepingAngels;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

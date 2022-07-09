@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.items;
 
-import craig.software.mc.angels.common.misc.WATabs;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.ChronodyneGeneratorEntity;
+import craig.software.mc.angels.common.misc.WATabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

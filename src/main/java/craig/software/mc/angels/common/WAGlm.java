@@ -1,10 +1,9 @@
 package craig.software.mc.angels.common;
 
 import com.google.gson.JsonObject;
+import craig.software.mc.angels.WeepingAngels;
 import java.util.List;
 import java.util.Random;
-
-import craig.software.mc.angels.WeepingAngels;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.conditions.ILootCondition;

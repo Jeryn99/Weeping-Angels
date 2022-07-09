@@ -2,9 +2,9 @@ package craig.software.mc.angels.client.renders.entities;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import java.util.Map;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
+import java.util.Map;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;

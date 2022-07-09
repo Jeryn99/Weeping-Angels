@@ -1,12 +1,12 @@
 package craig.software.mc.angels.common.blocks;
 
-import java.util.Random;
-import javax.annotation.Nullable;
 import craig.software.mc.angels.common.entities.AngelType;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.tileentities.SnowAngelStages;
 import craig.software.mc.angels.common.tileentities.SnowArmTile;
 import craig.software.mc.angels.utils.AngelUtil;
+import java.util.Random;
+import javax.annotation.Nullable;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

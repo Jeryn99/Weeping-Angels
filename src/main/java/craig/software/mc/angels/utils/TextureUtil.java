@@ -1,7 +1,7 @@
 package craig.software.mc.angels.utils;
 
-import craig.software.mc.angels.common.tileentities.CoffinTile;
 import craig.software.mc.angels.WeepingAngels;
+import craig.software.mc.angels.common.tileentities.CoffinTile;
 import net.minecraft.util.ResourceLocation;
 
 public class TextureUtil {

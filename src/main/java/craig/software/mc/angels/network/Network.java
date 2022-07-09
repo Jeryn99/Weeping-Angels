@@ -1,8 +1,8 @@
 package craig.software.mc.angels.network;
 
+import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.network.messages.MessageCatacomb;
 import craig.software.mc.angels.network.messages.MessageSFX;
-import craig.software.mc.angels.WeepingAngels;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.FakePlayer;

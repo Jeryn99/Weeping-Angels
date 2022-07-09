@@ -1,8 +1,8 @@
 package craig.software.mc.angels.data;
 
-import java.util.Objects;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.utils.AngelUtil;
+import java.util.Objects;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;

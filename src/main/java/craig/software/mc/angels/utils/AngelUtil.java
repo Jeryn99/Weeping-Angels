@@ -1,9 +1,5 @@
 package craig.software.mc.angels.utils;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
-
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.AngelType;
@@ -12,6 +8,9 @@ import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.tileentities.CoffinTile;
 import craig.software.mc.angels.common.tileentities.SnowAngelStages;
 import craig.software.mc.angels.common.variants.AbstractVariant;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;

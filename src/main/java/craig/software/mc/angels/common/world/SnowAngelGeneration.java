@@ -1,8 +1,8 @@
 package craig.software.mc.angels.common.world;
 
 import com.mojang.serialization.Codec;
-import java.util.Random;
 import craig.software.mc.angels.common.WAObjects;
+import java.util.Random;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;

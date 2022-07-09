@@ -3,14 +3,14 @@ package craig.software.mc.angels.client.models.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import craig.software.mc.angels.client.poses.WeepingAngelPose;
-import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.entity.arms.ModelArmsAngry;
 import craig.software.mc.angels.client.models.entity.arms.ModelArmsCovering;
 import craig.software.mc.angels.client.models.entity.arms.ModelArmsIdle;
 import craig.software.mc.angels.client.models.entity.arms.ModelArmsPointing;
+import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
+import craig.software.mc.angels.common.variants.AbstractVariant;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -91,9 +91,9 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
     ModelRenderer RightWing7;
 
     ModelArmsCovering armsCovering = new ModelArmsCovering();
-    private ModelArmsIdle armsIdle = new ModelArmsIdle();
-    private ModelArmsAngry armsAngry = new ModelArmsAngry();
-    private ModelArmsPointing armsPoint = new ModelArmsPointing();
+    private final ModelArmsIdle armsIdle = new ModelArmsIdle();
+    private final ModelArmsAngry armsAngry = new ModelArmsAngry();
+    private final ModelArmsPointing armsPoint = new ModelArmsPointing();
     private WeepingAngelEntity angel;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;

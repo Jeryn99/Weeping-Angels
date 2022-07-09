@@ -1,10 +1,9 @@
 package craig.software.mc.angels.utils;
 
-import java.util.function.Predicate;
-import javax.annotation.Nullable;
-
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.entities.QuantumLockEntity;
+import java.util.function.Predicate;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
@@ -75,7 +74,6 @@ public class ViewUtil {
 
     public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
         double dx = pos.getX() - viewer.getX();
-        ;
         double dz;
         for (dz = pos.getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
             dx = (Math.random() - Math.random()) * 0.01D;

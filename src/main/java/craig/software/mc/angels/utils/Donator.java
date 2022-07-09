@@ -2,7 +2,6 @@ package craig.software.mc.angels.utils;
 
 import com.google.gson.JsonObject;
 import craig.software.mc.angels.common.entities.AngelType;
-
 import java.util.Objects;
 import java.util.UUID;
 

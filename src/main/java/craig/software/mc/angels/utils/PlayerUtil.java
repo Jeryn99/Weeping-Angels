@@ -1,6 +1,7 @@
 package craig.software.mc.angels.utils;
 
 import com.google.gson.JsonObject;
+import craig.software.mc.angels.WeepingAngels;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
-import craig.software.mc.angels.WeepingAngels;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

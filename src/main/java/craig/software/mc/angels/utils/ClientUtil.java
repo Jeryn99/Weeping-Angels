@@ -1,7 +1,5 @@
 package craig.software.mc.angels.utils;
 
-import java.util.HashMap;
-import java.util.Map;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.entity.*;
 import craig.software.mc.angels.client.renders.entities.AnomalyRender;
@@ -18,7 +16,8 @@ import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.items.AngelSpawnerItem;
 import craig.software.mc.angels.common.items.DetectorItem;
 import craig.software.mc.angels.compat.tardis.TardisClientStuff;
-import me.suff.mc.angels.client.models.entity.*;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;

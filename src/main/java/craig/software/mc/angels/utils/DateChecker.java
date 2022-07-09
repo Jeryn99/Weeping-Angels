@@ -1,8 +1,8 @@
 package craig.software.mc.angels.utils;
 
 
-import java.util.Calendar;
 import craig.software.mc.angels.client.renders.layers.WingsLayer;
+import java.util.Calendar;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
 
@@ -19,7 +19,7 @@ public class DateChecker {
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
 
-        if((minutes == 0 || minutes == 39) && seconds == 10) {
+        if ((minutes == 0 || minutes == 39) && seconds == 10) {
             Minecraft.getInstance().submitAsync(DONATOR_RUNNABLE);
         }
     }

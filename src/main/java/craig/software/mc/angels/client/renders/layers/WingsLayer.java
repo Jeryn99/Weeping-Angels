@@ -1,18 +1,17 @@
 package craig.software.mc.angels.client.renders.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import java.util.HashSet;
-import craig.software.mc.angels.common.variants.AngelVariants;
-import craig.software.mc.angels.utils.ClientUtil;
-import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.models.entity.IAngelModel;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.AngelType;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
+import craig.software.mc.angels.common.variants.AngelVariants;
+import craig.software.mc.angels.utils.ClientUtil;
+import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.utils.DonationUtil;
 import craig.software.mc.angels.utils.Donator;
-import me.suff.mc.angels.utils.*;
+import java.util.HashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -40,6 +39,7 @@ public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, Player
         modDonators.addAll(DonationUtil.getDonators());
         WeepingAngels.LOGGER.debug("Updated Donators: " + modDonators);
     }
+
     public static Donator shouldDisplay(PlayerEntity player) {
         for (Donator person : modDonators) {
             if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {

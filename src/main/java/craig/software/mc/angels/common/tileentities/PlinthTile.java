@@ -1,16 +1,16 @@
 package craig.software.mc.angels.common.tileentities;
 
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
+import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blocks.PlinthBlock;
 import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.misc.WAConstants;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.config.WAConfig;
-import craig.software.mc.angels.utils.NBTPatcher;
-import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.utils.AngelUtil;
+import craig.software.mc.angels.utils.NBTPatcher;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;

@@ -1,13 +1,12 @@
 package craig.software.mc.angels.data;
 
 import com.google.gson.*;
+import craig.software.mc.angels.WeepingAngels;
+import craig.software.mc.angels.common.WAObjects;
+import craig.software.mc.angels.compat.tardis.registry.NewTardisBlocks;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Supplier;
-
-import craig.software.mc.angels.compat.tardis.registry.NewTardisBlocks;
-import craig.software.mc.angels.WeepingAngels;
-import craig.software.mc.angels.common.WAObjects;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;

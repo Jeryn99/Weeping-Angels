@@ -3,15 +3,14 @@ package craig.software.mc.angels.client.models.entity;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import java.util.ArrayList;
-
-import craig.software.mc.angels.common.variants.AbstractVariant;
-import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.tileentities.PlinthTile;
 import craig.software.mc.angels.common.tileentities.StatueTile;
+import craig.software.mc.angels.common.variants.AbstractVariant;
+import craig.software.mc.angels.common.variants.AngelVariants;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;

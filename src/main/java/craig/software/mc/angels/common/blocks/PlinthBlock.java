@@ -1,9 +1,9 @@
 package craig.software.mc.angels.common.blocks;
 
-import javax.annotation.Nullable;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.tileentities.PlinthTile;
 import craig.software.mc.angels.utils.AngelUtil;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;

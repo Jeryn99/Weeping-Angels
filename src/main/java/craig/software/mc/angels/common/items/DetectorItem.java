@@ -1,11 +1,11 @@
 package craig.software.mc.angels.common.items;
 
-import java.util.List;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.WeepingAngelEntity;
 import craig.software.mc.angels.common.misc.WATabs;
 import craig.software.mc.angels.config.WAConfig;
 import craig.software.mc.angels.utils.PlayerUtil;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
