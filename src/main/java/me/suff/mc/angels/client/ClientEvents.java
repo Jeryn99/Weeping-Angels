@@ -61,7 +61,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void tickDate(TickEvent.ClientTickEvent event) {
-        DateChecker.tick();
+        DateChecker.tick(event);
     }
 
     @SubscribeEvent

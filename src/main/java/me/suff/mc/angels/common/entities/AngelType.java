@@ -1,41 +1,38 @@
 package me.suff.mc.angels.common.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelVariants;
-import me.suff.mc.angels.common.variants.WeightedHandler;
 import net.minecraftforge.fml.RegistryObject;
 
-import static me.suff.mc.angels.common.variants.AngelVariants.*;
+import static me.suff.mc.angels.common.variants.AngelVariants.NORMAL;
+import static me.suff.mc.angels.common.variants.AngelVariants.RUSTED;
 
 public enum AngelType {
 
-    DISASTER_MC("Disaster", true, MOSSY.get()), DOCTOR("Doctor", true, NORMAL.get()), ED("Ed"), CHERUB("Cherub"), A_DIZZLE("A_Dizzle"), DYING("Dying"), SPARE_TIME("SpareTimeVA", true, NORMAL.get(), RUSTED.get()), VILLAGER("Villager"), VIO_1("Violet"), VIO_2("Violet");
+    DISASTER_MC("Disaster", true), DOCTOR("Doctor", true, NORMAL.get()), ED("Ed"), CHERUB("Cherub"), A_DIZZLE("A_Dizzle"), DYING("Dying"), SPARE_TIME("SpareTimeVA", true, NORMAL.get(), RUSTED.get()), VILLAGER("Villager"), VIO_1("Violet"), VIO_2("Violet");
 
     private final String readable;
     private final boolean canHold;
-    private final WeightedHandler weightedHandler;
+    private final ArrayList<AbstractVariant> data = new ArrayList();
 
     AngelType(String readable) {
         this.readable = readable;
         this.canHold = false;
-        WeightedHandler weightedHandler = new WeightedHandler();
-        weightedHandler.addEntry(NORMAL.get());
-        this.weightedHandler = weightedHandler;
+        data.add(NORMAL.get());
     }
 
     AngelType(String readable, boolean canHold, AbstractVariant... w) {
         this.readable = readable;
         this.canHold = canHold;
-        WeightedHandler weightedHandler = new WeightedHandler();
-        for (AbstractVariant types : w) {
-            weightedHandler.addEntry(types);
-        }
-        if (w[0] == MOSSY.get()) { //TODO Really need to make this not be...well this
+        data.addAll(Arrays.asList(w));
+
+        if (w.length == 0) {
             for (RegistryObject<AbstractVariant> entry : AngelVariants.VARIANTS.getEntries()) {
-                weightedHandler.addEntry(entry.get());
+                data.add(entry.get());
             }
         }
-        this.weightedHandler = weightedHandler;
     }
 
     public static AngelType next(AngelType type) {
@@ -55,8 +52,13 @@ public enum AngelType {
         return DISASTER_MC;
     }
 
-    public WeightedHandler getWeightedHandler() {
-        return weightedHandler;
+    public ArrayList<AbstractVariant> getSupportedVariants() {
+        return data;
+    }
+
+    public AbstractVariant getRandom() {
+        int index = (int) (Math.random() * data.size());
+        return data.get(index);
     }
 
     public String getReadable() {

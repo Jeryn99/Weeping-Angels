@@ -23,6 +23,7 @@ import me.suff.mc.angels.common.world.structures.GraveyardStructurePieces;
 import me.suff.mc.angels.utils.WADamageSource;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -97,8 +98,8 @@ public class WAObjects {
      * <br> Call this in CommonSetup in a deferred work task to reduce concurrent modification issues as we are modifying multiple maps we ATed
      */
     public static void setupStructures() {
-        setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(200, 100, 1234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
-        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(300, 100, 234567890), false); //Maximum of 200 chunks apart, minimum 100 chunks apart, chunk seed respectively
+        setupStructure(Structures.GRAVEYARD.get(), new StructureSeparationSettings(150, 100, 1234), false);
+        setupStructure(Structures.CATACOMBS.get(), new StructureSeparationSettings(270, 100, 1253), false);
     }
 
     private static <T extends Structure<?>> void registerConfiguredStructure(String registryName, Supplier<T> structure, StructureFeature<?, ?> configuredStructure) {
@@ -190,7 +191,8 @@ public class WAObjects {
         public static final RegistryObject<Block> SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowArmBlock()));
         public static final RegistryObject<Block> CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
         public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
-        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(null)));
+        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock()));
+
         public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
         public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(AbstractBlock.Properties.of(Material.WOOD).noOcclusion())));
 
@@ -275,7 +277,7 @@ public class WAObjects {
         /**
          * Static instance of our configured structure feature so we can reference it for registration
          */
-        public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().configured(new ProbabilityConfig(0.05F));
+        public static StructureFeature<?, ?> CONFIGURED_GRAVEYARD = Structures.GRAVEYARD.get().configured(new ProbabilityConfig(1F));
         public static StructureFeature<?, ?> CONFIGURED_CATACOMBS = Structures.CATACOMBS.get().configured(NoFeatureConfig.INSTANCE);
 
         public static void registerConfiguredStructures() {

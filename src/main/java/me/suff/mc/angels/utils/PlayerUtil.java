@@ -60,31 +60,6 @@ public class PlayerUtil {
         player.displayClientMessage(textComponent, isHotBar);
     }
 
-    public static Donator[] getDonators() {
-        ArrayList<Donator> donators = new ArrayList<>();
-        JsonObject result = null;
-        try {
-            result = getResponse(new URL("https://api.who-craft.com/get/vips"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (result == null) return WingsLayer.getPeople();
-
-        String[] categories = new String[]{"devs", "donators"};
-
-        for (String category : categories) {
-            if (result != null) {
-                for (JsonElement devs : result.getAsJsonArray(category)) {
-                    JsonObject dev = devs.getAsJsonObject();
-                    donators.add(new Donator(dev, category));
-                }
-            }
-        }
-
-        return donators.toArray(new Donator[0]);
-    }
-
     public static JsonObject getResponse(URL url) throws IOException {
         try {
             HttpsURLConnection uc = (HttpsURLConnection) url.openConnection();

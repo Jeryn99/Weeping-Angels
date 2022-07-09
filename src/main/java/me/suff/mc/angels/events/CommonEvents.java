@@ -92,7 +92,7 @@ public class CommonEvents {
         if (isPlinth && hasChisel) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
-            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom(null));
+            plinth.setAbstractVariant(plinth.getCurrentType().getRandom());
             plinth.sendUpdatesToClient();
             PlayerUtil.sendMessageToPlayer(playerEntity, new TranslationTextComponent("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }
@@ -281,16 +281,24 @@ public class CommonEvents {
         DamageType configValue = WAConfig.CONFIG.damageType.get();
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getEntity();
-        LivingEntity hurt = event.getEntityLiving();
 
-        if (source == DamageSource.OUT_OF_WORLD || source.isExplosion()) {
+        if (source == DamageSource.OUT_OF_WORLD) {
             return;
         }
 
-        if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
-            WeepingAngelEntity weepingAngelEntity = (WeepingAngelEntity) hurt;
+        LivingEntity living = event.getEntityLiving();
+
+
+        if (living instanceof WeepingAngelEntity) {
+            WeepingAngelEntity hurt = (WeepingAngelEntity) living;
+            if (source.isProjectile() && configValue != DamageType.EVERYTHING) {
+                event.setCanceled(true);
+                return;
+            }
 
             switch (configValue) {
+                case EVERYTHING:
+                    break;
                 case NOTHING:
                     event.setCanceled(true);
                     break;
@@ -301,7 +309,7 @@ public class CommonEvents {
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         event.setCanceled(false);
-                        doHurt(weepingAngelEntity, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
+                        doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
                     } else {
                         event.setCanceled(true);
                     }
@@ -311,8 +319,11 @@ public class CommonEvents {
                     if (isAttackerHoldingPickaxe(attacker)) {
                         LivingEntity livingEntity = (LivingEntity) attacker;
                         event.setCanceled(false);
-                        doHurt(weepingAngelEntity, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
+                        doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
+                        return;
                     }
+                    //Generator
+                    event.setCanceled(source != WAObjects.GENERATOR);
                     break;
                 case DIAMOND_AND_ABOVE_PICKAXE_ONLY:
                     if (isAttackerHoldingPickaxe(attacker)) {
@@ -320,7 +331,7 @@ public class CommonEvents {
                         PickaxeItem pickaxe = (PickaxeItem) livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND).getItem();
                         boolean isDiamondAndAbove = pickaxe.getTier().getLevel() >= 3;
                         if (isDiamondAndAbove) {
-                            doHurt(weepingAngelEntity, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
+                            doHurt(hurt, attacker, livingEntity.getItemBySlot(EquipmentSlotType.MAINHAND));
                         }
                         event.setCanceled(!isDiamondAndAbove);
                     }
@@ -328,8 +339,8 @@ public class CommonEvents {
             }
 
             if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
-                if (weepingAngelEntity.level.random.nextInt(100) <= 20) {
-                    weepingAngelEntity.playSound(weepingAngelEntity.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngelEntity.getLaugh());
+                if (hurt.level.random.nextInt(100) <= 10) {
+                    hurt.playSound(hurt.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, hurt.getLaugh());
                 }
                 if (attacker != null) {
                     attacker.hurt(WAObjects.STONE, 2F);

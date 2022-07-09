@@ -25,7 +25,7 @@ import net.minecraft.world.server.ServerWorld;
 public class SnowArmBlock extends SnowBlock {
 
     public SnowArmBlock() {
-        super(AbstractBlock.Properties.of(Material.CORAL).randomTicks().noOcclusion().strength(3).sound(SoundType.SNOW).requiresCorrectToolForDrops());
+        super(AbstractBlock.Properties.copy(Blocks.STONE).randomTicks().noOcclusion().sound(SoundType.SNOW));
     }
 
     @Nullable
@@ -57,7 +57,7 @@ public class SnowArmBlock extends SnowBlock {
                 snowArmTile.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowArmTile.setRotation(rotation);
                 snowArmTile.setHasSetup(true);
-                snowArmTile.setVariant(AngelType.DISASTER_MC.getWeightedHandler().getRandom(null));
+                snowArmTile.setVariant(AngelType.DISASTER_MC.getRandom());
                 snowArmTile.sendUpdates();
             }
         }

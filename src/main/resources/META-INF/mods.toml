@@ -5,13 +5,13 @@ issueTrackerURL = "https://github.com/WhoCraft/Weeping-Angels/issues"
 [[mods]]
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod"
 logoFile = "logo.png"
-credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, DisasterGae, DocArcane, Dhi_awesome, ConnorDawn, Classic, The_MidFord, Hiveius"
+credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, t__cup, DocArcane, Dhi_awesome, ConnorDawn, Classic, The_MidFord, Hiveius"
 authors = "Suff99, 50ap5ud5"
 itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
-version = "3.0.1"
+version = "32.0.0"
 displayName = "Weeping Angels"
-updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
+updateJSONURL = "https://mc-api.craig.software/update?mod=weeping_angels" #optional
 description = '''
 Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]

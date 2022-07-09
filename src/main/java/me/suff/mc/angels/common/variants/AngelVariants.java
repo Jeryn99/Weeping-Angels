@@ -23,7 +23,7 @@ public class AngelVariants {
     public static final RegistryObject<AbstractVariant> NORMAL = VARIANTS.register("normal", () -> new BaseVariant(() -> new ItemStack(Blocks.COBBLESTONE), 45));
     public static Predicate<WeepingAngelEntity> BANNED_FROM_OVERWORLD = weepingAngelEntity -> {
         if (weepingAngelEntity.level.dimension() != World.NETHER) {
-            weepingAngelEntity.setVarient(weepingAngelEntity.getAngelType().getWeightedHandler().getRandom(weepingAngelEntity));
+            weepingAngelEntity.setVarient(weepingAngelEntity.getAngelType().getRandom());
         }
         return false;
     };
@@ -45,6 +45,5 @@ public class AngelVariants {
         return false;
     };
     public static Supplier<IForgeRegistry<AbstractVariant>> VARIANTS_REGISTRY = VARIANTS.makeRegistry("angel_types", () -> new RegistryBuilder<AbstractVariant>().setMaxID(Integer.MAX_VALUE - 1));
-
 
 }

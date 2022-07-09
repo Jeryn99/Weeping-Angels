@@ -109,7 +109,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         super.defineSynchedData();
         getEntityData().define(TYPE, AngelUtil.randomType().name());
         getEntityData().define(CURRENT_POSE, WeepingAngelPose.getRandomPose(AngelUtil.RAND).name());
-        getEntityData().define(VARIANT, getAngelType().getWeightedHandler().getRandom(null).getRegistryName().toString());
+        getEntityData().define(VARIANT, getAngelType().getRandom().getRegistryName().toString());
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
@@ -125,6 +125,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld serverWorld, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT compoundNBT) {
         playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
+
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
 
@@ -359,6 +360,7 @@ public class WeepingAngelEntity extends QuantumLockEntity {
     @Override
     public void tick() {
         modelCheck();
+
         super.tick();
         if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
             setNoAi(false);
@@ -377,6 +379,12 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         if (!WAConfig.CONFIG.isModelPermitted(getAngelType())) {
             setType(WAConfig.CONFIG.genAngelTypes().get(random.nextInt(WAConfig.CONFIG.genAngelTypes().size())));
         }
+
+        AngelType angelType = getAngelType();
+        if (!angelType.getSupportedVariants().contains(getVariant())) {
+            setVarient(angelType.getRandom());
+        }
+
     }
 
     @Override

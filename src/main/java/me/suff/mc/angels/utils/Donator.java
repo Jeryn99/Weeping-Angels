@@ -3,30 +3,33 @@ package me.suff.mc.angels.utils;
 import com.google.gson.JsonObject;
 import me.suff.mc.angels.common.entities.AngelType;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Donator {
 
-    private String cate;
-    private String uuid;
-    private String variant;
-    private String wings;
-    private String name;
-    private boolean perked;
+    private final String name;
+    public UUID uuid;
+    public String variant;
+    public String wings;
+    public boolean perked;
 
     public Donator(JsonObject jsonObject) {
-        this.uuid = jsonObject.get("uuid").getAsString();
-        this.variant = jsonObject.get("variant").getAsString();
-        this.wings = jsonObject.get("wings").getAsString();
-        this.perked = jsonObject.get("perked").getAsBoolean();
-        this.name = jsonObject.get("name").getAsString();
+        try {
+            this.uuid = UUID.fromString(jsonObject.get("uuid").getAsString());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        JsonObject wingData = jsonObject.getAsJsonObject("wings");
+        this.variant = wingData.get("variant").getAsString();
+        this.wings = wingData.get("model").getAsString();
+        this.perked = wingData.get("perked").getAsBoolean();
+        this.name = jsonObject.get("mc_name").getAsString();
     }
 
-    public Donator(JsonObject dev, String category) {
-        this(dev);
-        this.cate = category;
-    }
-
-    public String getCate() {
-        return cate;
+    public String getName() {
+        return name;
     }
 
     public AngelType getPureWings() {
@@ -38,11 +41,7 @@ public class Donator {
         return AngelType.DISASTER_MC;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -54,11 +53,35 @@ public class Donator {
         return wings;
     }
 
-    public void setWings(String wings) {
-        this.wings = wings;
-    }
-
     public boolean isPerked() {
         return perked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Donator donator = (Donator) o;
+        return perked == donator.perked && name.equals(donator.name) && uuid.equals(donator.uuid) && variant.equals(donator.variant) && wings.equals(donator.wings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, uuid, variant, wings, perked);
+    }
+
+    @Override
+    public String toString() {
+        return "Donator{" +
+                "name='" + name + '\'' +
+                ", uuid=" + uuid +
+                ", variant='" + variant + '\'' +
+                ", wings='" + wings + '\'' +
+                ", perked=" + perked +
+                '}';
+    }
+
+    public void setWings(String name) {
+        this.wings = name;
     }
 }

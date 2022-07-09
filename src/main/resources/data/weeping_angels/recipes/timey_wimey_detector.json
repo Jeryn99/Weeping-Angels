@@ -16,7 +16,7 @@
       "item": "minecraft:clock"
     },
     "O": {
-      "item": "minecraft:spruce_planks"
+      "tag": "minecraft:planks"
     },
     "V": {
       "item": "minecraft:redstone"

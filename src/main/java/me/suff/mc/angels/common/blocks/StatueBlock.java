@@ -98,7 +98,7 @@ public class StatueBlock extends Block implements IWaterLoggable {
                 } else {
                     statue.setAngelType(AngelUtil.randomType().name());
                     statue.setPose(WeepingAngelPose.getRandomPose(world.random));
-                    statue.setAngelVarients(statue.getAngelType().getWeightedHandler().getRandom(null));
+                    statue.setAngelVarients(statue.getAngelType().getRandom());
                 }
             }
         }

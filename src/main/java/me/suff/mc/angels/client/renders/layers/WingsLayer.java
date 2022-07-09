@@ -1,16 +1,16 @@
 package me.suff.mc.angels.client.renders.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import java.util.HashSet;
 import java.util.UUID;
+import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.entity.IAngelModel;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import me.suff.mc.angels.common.variants.AngelVariants;
-import me.suff.mc.angels.utils.ClientUtil;
-import me.suff.mc.angels.utils.DateChecker;
-import me.suff.mc.angels.utils.Donator;
-import me.suff.mc.angels.utils.PlayerUtil;
+import me.suff.mc.angels.utils.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -26,24 +26,20 @@ import net.minecraft.util.ResourceLocation;
 
 public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
 
-    protected static Donator[] people = new Donator[0];
+    protected static HashSet<Donator> modDonators = new HashSet<>();
 
-    public WingsLayer(IEntityRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> p_i50926_1_) {
-        super(p_i50926_1_);
-        DateChecker.update(true);
-    }
-
-    public static Donator[] getPeople() {
-        return people;
+    public WingsLayer(IEntityRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> renderer) {
+        super(renderer);
+        Minecraft.getInstance().submitAsync(DateChecker.DONATOR_RUNNABLE);
     }
 
     public static void update() {
-        people = PlayerUtil.getDonators();
+        modDonators.addAll(DonationUtil.getDonators());
+        WeepingAngels.LOGGER.debug("Updated Donators: " + modDonators);
     }
-
     public static Donator shouldDisplay(PlayerEntity player) {
-        for (Donator person : people) {
-            if (player.getUUID().equals(UUID.fromString(person.getUuid())) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
+        for (Donator person : modDonators) {
+            if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
                 return person;
             }
         }

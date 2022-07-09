@@ -5,8 +5,8 @@ import me.suff.mc.angels.common.entities.WeepingAngelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResultType;
@@ -25,7 +25,7 @@ public class ChronodyneGeneratorBlock extends Block {
     private static final VoxelShape CG_AABB = VoxelShapes.create(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 
     public ChronodyneGeneratorBlock() {
-        super(Properties.of(Material.STONE).noOcclusion().strength(3).sound(SoundType.STONE).requiresCorrectToolForDrops());
+        super(Block.Properties.of(Material.DECORATION, MaterialColor.SAND).noOcclusion().strength(0.1F).noOcclusion());
     }
 
     @Override

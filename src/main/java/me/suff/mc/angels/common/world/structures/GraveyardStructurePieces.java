@@ -141,7 +141,7 @@ public class GraveyardStructurePieces {
                 StatueTile statueTile = (StatueTile) worldIn.getBlockEntity(pos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
                 statueTile.setAngelType(AngelType.DISASTER_MC);
-                statueTile.setAngelVarients(statueTile.getAngelType().getWeightedHandler().getRandom(null));
+                statueTile.setAngelVarients(statueTile.getAngelType().getRandom());
                 statueTile.setChanged();
                 worldIn.removeBlock(pos, false);
             }
