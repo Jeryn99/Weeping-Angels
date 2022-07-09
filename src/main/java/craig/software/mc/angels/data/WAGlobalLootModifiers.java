@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import static craig.software.mc.angels.WeepingAngels.MODID;
 
 /* Created by Craig on 10/03/2021 */
-public class WAGlobalLoot {
+public class WAGlobalLootModifiers {
     public static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, MODID);
 
     public static final RegistryObject<DiscLoot.Serializer> ANGEL_LOOT = GLM.register("loot", DiscLoot.Serializer::new);

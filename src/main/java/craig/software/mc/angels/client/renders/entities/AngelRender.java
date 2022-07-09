@@ -4,11 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import craig.software.mc.angels.client.models.entity.IAngelModel;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
-import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.utils.ClientUtil;
-import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAngel>> implements EntityRendererProvider<WeepingAngel> {
     public AngelRender(EntityRendererProvider.Context context) {
-        super(context, ClientUtil.getModelForAngel(AngelType.DISASTER_MC), 0.5F);
+        super(context, ClientUtil.getModelForAngel(WeepingAngelTypes.DISASTER_MC), 0.5F);
         addLayer(new AngelCrackedLayer(this));
         addLayer(new AngelHeldLayer(this));
         addLayer(new SeasonalLayer(this));

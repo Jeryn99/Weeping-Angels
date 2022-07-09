@@ -4,7 +4,7 @@ import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.QuantumLockedLifeform;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.level.WAFeatures;
@@ -144,9 +144,9 @@ public class AngelUtil {
         return false;
     }
 
-    public static AngelType randomType() {
-        int pick = RAND.nextInt(AngelType.values().length);
-        return AngelType.values()[pick];
+    public static WeepingAngelTypes randomType() {
+        int pick = RAND.nextInt(WeepingAngelTypes.values().length);
+        return WeepingAngelTypes.values()[pick];
     }
 
     public static SnowAngelBlockEntity.SnowAngelStages randowSnowStage() {
@@ -176,7 +176,7 @@ public class AngelUtil {
         LootContext ctx = lootContextBuilder.create(LootContextParamSets.ENTITY);
         List<ItemStack> generatedTable = loot_table.getRandomItems(ctx);
         if (target instanceof WeepingAngel weepingAngel) {
-            if (weepingAngel.getAngelType() == AngelType.DISASTER_MC) {
+            if (weepingAngel.getAngelType() == WeepingAngelTypes.DISASTER_MC) {
                 AngelVariant variant = weepingAngel.getVariant();
                 if (variant.shouldDrop(DamageSource.playerAttack(attacker), weepingAngel)) {
                     weepingAngel.spawnAtLocation(variant.stackDrop().getItem());

@@ -1,10 +1,10 @@
 package craig.software.mc.angels.common.blockentities;
 
 import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.misc.WAConstants;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
     private final AABB AABB = new AABB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelVariants.NORMAL.get();
     private boolean hasSetup = false;
     private int rotation = 0;
 
@@ -61,7 +61,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         super.load(nbt);
 
         if (nbt.contains(WAConstants.VARIENT)) {
-            setVariant(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
+            setVariant(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(nbt.getString(WAConstants.VARIENT))));
         }
 
         if (nbt.contains(WAConstants.SNOW_STAGE)) {
@@ -140,7 +140,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         if (snowAngelStages == SnowAngelStages.ARM) return;
         if (level != null && !level.getEntitiesOfClass(Player.class, AABB.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);
-            angel.setType(AngelType.DISASTER_MC);
+            angel.setType(WeepingAngelTypes.DISASTER_MC);
             angel.setVarient(angelVariant);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);

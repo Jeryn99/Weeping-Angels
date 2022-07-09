@@ -7,7 +7,7 @@ import com.mojang.math.Vector3d;
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.utils.Pair;
@@ -272,7 +272,7 @@ public class ModelClassicAngel extends ListModel<WeepingAngel> implements IAngel
 
     @Override
     public ResourceLocation getTextureForPose(Object angel, WeepingAngelPose pose) {
-        return generateTex(pose, AngelTypes.NORMAL.get());
+        return generateTex(pose, AngelVariants.NORMAL.get());
     }
 
     protected ModelPart getArm(HumanoidArm handSide) {

@@ -6,11 +6,10 @@ import craig.software.mc.angels.client.models.entity.IAngelModel;
 import craig.software.mc.angels.client.models.entity.WAModels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.utils.ClientUtil;
 import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.utils.DonationUtil;
-import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -26,7 +25,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
@@ -75,7 +73,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
                     model.setupAnim(null, 0, 0, 0, 0, 0);
                     for (ModelPart wing : iAngelModel.wings(poseStack)) {
                         if (wing != null) {
-                            wing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
+                            wing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
                         }
                     }
                 }

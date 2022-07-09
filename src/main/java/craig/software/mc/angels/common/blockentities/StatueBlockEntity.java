@@ -3,13 +3,13 @@ package craig.software.mc.angels.common.blockentities;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blocks.StatueBlock;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.common.misc.WAConstants;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
@@ -31,9 +31,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, IPlinth {
 
-    private String type = AngelType.DISASTER_MC.name();
+    private String type = WeepingAngelTypes.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(RandomSource.create());
-    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelVariants.NORMAL.get();
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
@@ -47,7 +47,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
+            setAngelVarients(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
         }
     }
 
@@ -59,26 +59,26 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
     }
 
-    public AngelType getAngelType() {
+    public WeepingAngelTypes getAngelType() {
         boolean found = false;
-        for (AngelType value : AngelType.values()) {
+        for (WeepingAngelTypes value : WeepingAngelTypes.values()) {
             if (value.name().equals(type)) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            type = AngelType.DISASTER_MC.name();
+            type = WeepingAngelTypes.DISASTER_MC.name();
         }
 
-        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
+        return WeepingAngelTypes.valueOf(type.isEmpty() ? WeepingAngelTypes.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {
         this.type = type;
     }
 
-    public void setAngelType(AngelType type) {
+    public void setAngelType(WeepingAngelTypes type) {
         this.type = type.name();
     }
 
@@ -124,7 +124,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
-        if (level.getDifficulty() != Difficulty.PEACEFUL && WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
+        if (level.getDifficulty() != Difficulty.PEACEFUL && WAConfiguration.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
             WeepingAngel angel = new WeepingAngel(level);
             angel.setVarient(angelVariant);
             angel.setType(type);
@@ -163,7 +163,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeModel() {
-        setAngelType(AngelType.next(getAngelType()));
+        setAngelType(WeepingAngelTypes.next(getAngelType()));
     }
 
     @Override
@@ -179,7 +179,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public AngelType getCurrentType() {
+    public WeepingAngelTypes getCurrentType() {
         return getAngelType();
     }
 

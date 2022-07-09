@@ -12,7 +12,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -25,7 +28,7 @@ public class ChronodyneGeneratorBlock extends Block {
     private static final VoxelShape CG_AABB = Shapes.create(new AABB(0.0D, 0.0D, 0.0D, 1.0D, 0.09375D, 1.0D));
 
     public ChronodyneGeneratorBlock() {
-        super(Properties.copy(Blocks.STONE).noOcclusion());
+        super(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SAND).noOcclusion().strength(0.1F).noOcclusion());
     }
 
     @Override

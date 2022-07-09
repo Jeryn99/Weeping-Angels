@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static craig.software.mc.angels.common.variants.AngelTypes.NORMAL;
+import static craig.software.mc.angels.common.variants.AngelVariants.NORMAL;
 
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {
@@ -44,7 +44,7 @@ public class ChiselItem extends Item {
                     PlayerUtil.sendMessageToPlayer(player, Component.translatable("Changed model to " + plinth.getCurrentType()), true);
                 } else {
                     player.swing(context.getHand());
-                    plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
+                    plinth.setAbstractVariant(plinth.getCurrentType().getRandom());
                     plinth.sendUpdatesToClient();
                     PlayerUtil.sendMessageToPlayer(player, Component.translatable("Changed variant to " + plinth.getVariant().getRegistryName()), true);
                 }

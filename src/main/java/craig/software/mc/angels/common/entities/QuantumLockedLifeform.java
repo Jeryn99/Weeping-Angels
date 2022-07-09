@@ -2,7 +2,7 @@ package craig.software.mc.angels.common.entities;
 
 import craig.software.mc.angels.common.entities.ai.BodyRotationAngel;
 import craig.software.mc.angels.common.misc.WAConstants;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -55,11 +55,11 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
 
         super.aiStep();
         if (!level.isClientSide) {
-            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfiguration.CONFIG.stalkRange.get()));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
 
-            if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List<WeepingAngel> angels = level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            if (WAConfiguration.CONFIG.freezeOnAngel.get()) {
+                List<WeepingAngel> angels = level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(WAConfiguration.CONFIG.stalkRange.get()));
                 for (WeepingAngel angel : angels) {
                     if (angel.getUUID() != getUUID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
@@ -87,7 +87,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                     }
                 }
 
-                if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
+                if (isSeen() || !WAConfiguration.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
                 snapLookToPlayer(targetPlayer);
                 moveTowards(targetPlayer);
             }

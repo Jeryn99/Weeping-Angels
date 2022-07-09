@@ -16,13 +16,13 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-public class WALootTables extends LootTableProvider {
+public class BlockLootTableProvider extends LootTableProvider {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final DataGenerator generator;
 
 
-    public WALootTables(DataGenerator gen) {
+    public BlockLootTableProvider(DataGenerator gen) {
         super(gen);
         this.generator = gen;
     }
@@ -36,7 +36,7 @@ public class WALootTables extends LootTableProvider {
         Path path = this.generator.getOutputFolder();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (ForgeRegistries.BLOCKS.getKey(block).getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get()) {
+            if (ForgeRegistries.BLOCKS.getKey(block).getNamespace().equalsIgnoreCase(WeepingAngels.MODID) && block != WAObjects.Blocks.KONTRON_ORE.get() && block != WAObjects.Blocks.KONTRON_ORE_DEEPSLATE.get()) {
 
                 try {
                     this.generateSelfTable(block, cache, path);

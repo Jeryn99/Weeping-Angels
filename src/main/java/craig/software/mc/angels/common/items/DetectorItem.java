@@ -3,7 +3,7 @@ package craig.software.mc.angels.common.items;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.misc.WATabs;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.utils.PlayerUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -61,7 +61,7 @@ public class DetectorItem extends Item {
                             worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING.get(), SoundSource.PLAYERS, 0.2F, 1.0F);
                         }
 
-                        if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
+                        if (worldIn.random.nextInt(5) == 3 && WAConfiguration.CONFIG.chickenGoboom.get()) {
                             for (Chicken chick : entityIn.level.getEntitiesOfClass(Chicken.class, entityIn.getBoundingBox().inflate(30, 30, 30))) {
                                 if (entityIn.level.random.nextInt(100) < 5) {
                                     chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.BlockInteraction.NONE);

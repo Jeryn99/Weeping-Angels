@@ -1,7 +1,7 @@
 package craig.software.mc.angels.client.renders;
 
 import com.google.gson.JsonObject;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -32,13 +32,13 @@ public class Donator {
         return name;
     }
 
-    public AngelType getPureWings() {
-        for (AngelType value : AngelType.values()) {
+    public WeepingAngelTypes getPureWings() {
+        for (WeepingAngelTypes value : WeepingAngelTypes.values()) {
             if (wings.equalsIgnoreCase(value.name())) {
                 return value;
             }
         }
-        return AngelType.DISASTER_MC;
+        return WeepingAngelTypes.DISASTER_MC;
     }
 
     public UUID getUuid() {

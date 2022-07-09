@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -136,7 +137,7 @@ public class WAObjects {
             return false;
         }))));
 
-        public static final RegistryObject<Block> WALL_ARM = BLOCKS.register("wall_arm", () -> setUpBlock(new ArmBlock(BlockBehaviour.Properties.copy(net.minecraft.world.level.block.Blocks.STONE).noCollission())));
+        public static final RegistryObject<Block> WALL_ARM = BLOCKS.register("wall_arm", () -> setUpBlock(new ArmBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(2.0f, 2).noOcclusion().noCollission())));
 
     }
 

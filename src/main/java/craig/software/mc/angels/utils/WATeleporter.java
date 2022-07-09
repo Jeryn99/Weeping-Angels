@@ -2,7 +2,7 @@ package craig.software.mc.angels.utils;
 
 import com.google.common.collect.Lists;
 import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.network.Network;
 import craig.software.mc.angels.network.messages.MessageSFX;
 import net.minecraft.core.BlockPos;
@@ -45,7 +45,7 @@ public class WATeleporter {
         ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerLevel dimension : dimensions) {
-            for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
+            for (String dimName : WAConfiguration.CONFIG.notAllowedDimensions.get()) {
                 if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
                 }

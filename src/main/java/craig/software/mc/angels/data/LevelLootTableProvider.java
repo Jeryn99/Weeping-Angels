@@ -9,8 +9,8 @@ import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 
 /* Created by Craig on 10/03/2021 */
-public class LootTablesForDrops extends GlobalLootModifierProvider {
-    public LootTablesForDrops(DataGenerator gen) {
+public class LevelLootTableProvider extends GlobalLootModifierProvider {
+    public LevelLootTableProvider(DataGenerator gen) {
         super(gen, WeepingAngels.MODID);
     }
 
@@ -28,7 +28,7 @@ public class LootTablesForDrops extends GlobalLootModifierProvider {
         };
 
         for (ResourceLocation currentTable : specificTables) {
-            add(currentTable.getPath(), WAGlobalLoot.ANGEL_LOOT.get(), new WAGlobalLoot.DiscLoot(
+            add(currentTable.getPath(), WAGlobalLootModifiers.ANGEL_LOOT.get(), new WAGlobalLootModifiers.DiscLoot(
                     new LootItemCondition[]{LootTableIdCondition.builder(currentTable).build()}, 15)
             );
         }
@@ -36,7 +36,7 @@ public class LootTablesForDrops extends GlobalLootModifierProvider {
         for (ResourceLocation resourceLocation : BuiltInLootTables.all()) {
             //Fob Treasure
             if (resourceLocation.getPath().contains("treasure")) {
-                add(resourceLocation.getPath(), WAGlobalLoot.ANGEL_LOOT.get(), new WAGlobalLoot.DiscLoot(
+                add(resourceLocation.getPath(), WAGlobalLootModifiers.ANGEL_LOOT.get(), new WAGlobalLootModifiers.DiscLoot(
                         new LootItemCondition[]{LootTableIdCondition.builder(resourceLocation).build()}, 40)
                 );
             }

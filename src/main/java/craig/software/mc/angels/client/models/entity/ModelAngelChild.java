@@ -9,7 +9,7 @@ import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.blockentities.PlinthBlockEntity;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.ListModel;
@@ -225,7 +225,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getVariant());
         }
 
-        return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());
+        return generateTex(WeepingAngelPose.APPROACH, AngelVariants.NORMAL.get());
     }
 
     @Override

@@ -11,9 +11,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
-public class WABiomeGen extends TagsProvider<Biome> {
+public class BiomeTagProvider extends TagsProvider<Biome> {
 
-    public WABiomeGen(DataGenerator generator, ExistingFileHelper helper) {
+    public BiomeTagProvider(DataGenerator generator, ExistingFileHelper helper) {
         super(generator, BuiltinRegistries.BIOME, WeepingAngels.MODID, helper);
     }
 

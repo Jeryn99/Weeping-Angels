@@ -1,6 +1,6 @@
 package craig.software.mc.angels.common.items;
 
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.misc.WATabs;
 import net.minecraft.core.BlockPos;
@@ -22,25 +22,25 @@ public class AngelSpawnerItem extends Item {
         super(new Properties().tab(WATabs.MAIN_TAB));
     }
 
-    public static ItemStack setType(ItemStack stack, AngelType type) {
+    public static ItemStack setType(ItemStack stack, WeepingAngelTypes type) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString("type", type.name());
         return stack;
     }
 
-    public static AngelType getType(ItemStack stack) {
+    public static WeepingAngelTypes getType(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         String angelType = tag.getString("type");
-        angelType = angelType.isEmpty() ? AngelType.DISASTER_MC.name() : angelType;
-        return AngelType.valueOf(angelType);
+        angelType = angelType.isEmpty() ? WeepingAngelTypes.DISASTER_MC.name() : angelType;
+        return WeepingAngelTypes.valueOf(angelType);
     }
 
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         if (allowedIn(group)) {
-            for (AngelType angelType : AngelType.values()) {
+            for (WeepingAngelTypes weepingAngelTypes : WeepingAngelTypes.values()) {
                 ItemStack itemstack = new ItemStack(this);
-                setType(itemstack, angelType);
+                setType(itemstack, weepingAngelTypes);
                 items.add(itemstack);
             }
         }

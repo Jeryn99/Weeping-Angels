@@ -17,9 +17,9 @@ import java.util.Objects;
 
 import static craig.software.mc.angels.utils.AngelUtil.THEFT;
 
-public class WAItemTags extends ItemTagsProvider {
+public class ItemTagProvider extends ItemTagsProvider {
 
-    public WAItemTags(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+    public ItemTagProvider(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
         super(dataGenerator, blockTagProvider, WeepingAngels.MODID, existingFileHelper);
     }
 

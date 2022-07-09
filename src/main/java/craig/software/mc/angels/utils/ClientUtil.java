@@ -8,7 +8,7 @@ import craig.software.mc.angels.client.renders.blockentities.SnowAngelRenderer;
 import craig.software.mc.angels.client.renders.blockentities.StatueRender;
 import craig.software.mc.angels.client.sounds.EchoSound;
 import craig.software.mc.angels.common.WAObjects;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.items.AngelSpawnerItem;
 import net.minecraft.client.Minecraft;
@@ -39,21 +39,21 @@ import java.util.Map;
 public class ClientUtil {
 
 
-    public static final Map<AngelType, EntityModel<WeepingAngel>> MODEL_MAP = new HashMap<>();
+    public static final Map<WeepingAngelTypes, EntityModel<WeepingAngel>> MODEL_MAP = new HashMap<>();
 
-    public static EntityModel<WeepingAngel> getModelForAngel(AngelType angelType) {
+    public static EntityModel<WeepingAngel> getModelForAngel(WeepingAngelTypes weepingAngelTypes) {
         if (MODEL_MAP.isEmpty()) {
             EntityModelSet theBakerMan = Minecraft.getInstance().getEntityModels();
-            MODEL_MAP.put(AngelType.ED_ANGEL_CHILD, new ModelAngelChild(theBakerMan.bakeLayer(WAModels.ANGEL_CHERUB)));
-            MODEL_MAP.put(AngelType.DISASTER_MC, new ModelDisasterAngel(theBakerMan.bakeLayer(WAModels.ANGEL_DISASTER))); //DISASTER
-            MODEL_MAP.put(AngelType.ED, new ModelAngelEd(theBakerMan.bakeLayer(WAModels.ANGEL_ED))); //ED
-            MODEL_MAP.put(AngelType.A_DIZZLE, new ModelClassicAngel(theBakerMan.bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
-            MODEL_MAP.put(AngelType.VILLAGER, new ModelWeepingVillager(theBakerMan.bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
-            MODEL_MAP.put(AngelType.DYING, new ModelAplan(theBakerMan.bakeLayer(WAModels.DYING_ANGEL), true));
-            MODEL_MAP.put(AngelType.DOCTOR, new ModelDoctorAngel(theBakerMan.bakeLayer(WAModels.DOCTOR_ANGEL)));
-            MODEL_MAP.put(AngelType.SPARE_TIME, new ModelVAWeepingAngel(theBakerMan.bakeLayer(WAModels.ANGEL_SPARE)));
+            MODEL_MAP.put(WeepingAngelTypes.ED_ANGEL_CHILD, new ModelAngelChild(theBakerMan.bakeLayer(WAModels.ANGEL_CHERUB)));
+            MODEL_MAP.put(WeepingAngelTypes.DISASTER_MC, new ModelDisasterAngel(theBakerMan.bakeLayer(WAModels.ANGEL_DISASTER))); //DISASTER
+            MODEL_MAP.put(WeepingAngelTypes.ED, new ModelAngelEd(theBakerMan.bakeLayer(WAModels.ANGEL_ED))); //ED
+            MODEL_MAP.put(WeepingAngelTypes.A_DIZZLE, new ModelClassicAngel(theBakerMan.bakeLayer(WAModels.ANGEL_CLASSIC))); //CLASSIC
+            MODEL_MAP.put(WeepingAngelTypes.VILLAGER, new ModelWeepingVillager(theBakerMan.bakeLayer(WAModels.ANGEL_VILLAGER))); //DOC
+            MODEL_MAP.put(WeepingAngelTypes.DYING, new ModelAplan(theBakerMan.bakeLayer(WAModels.DYING_ANGEL), true));
+            MODEL_MAP.put(WeepingAngelTypes.DOCTOR, new ModelDoctorAngel(theBakerMan.bakeLayer(WAModels.DOCTOR_ANGEL)));
+            MODEL_MAP.put(WeepingAngelTypes.SPARE_TIME, new ModelVAWeepingAngel(theBakerMan.bakeLayer(WAModels.ANGEL_SPARE)));
         }
-        return MODEL_MAP.get(angelType);
+        return MODEL_MAP.get(weepingAngelTypes);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -130,7 +130,7 @@ public class ClientUtil {
                 return 0;
             }
 
-            AngelType type = AngelSpawnerItem.getType(itemStack);
+            WeepingAngelTypes type = AngelSpawnerItem.getType(itemStack);
             return type.ordinal();
         });
 

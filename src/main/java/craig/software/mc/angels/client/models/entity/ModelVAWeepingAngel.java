@@ -9,7 +9,7 @@ import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.blockentities.PlinthBlockEntity;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
 import craig.software.mc.angels.common.entities.WeepingAngel;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.model.EntityModel;
@@ -245,7 +245,7 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
         if (angel instanceof PlinthBlockEntity plinthBlockEntity) {
             return generateTex(plinthBlockEntity.getPose(), plinthBlockEntity.getVariant());
         }
-        return generateTex(WeepingAngelPose.ANGRY, AngelTypes.NORMAL.get());
+        return generateTex(WeepingAngelPose.ANGRY, AngelVariants.NORMAL.get());
     }
 
     @Override

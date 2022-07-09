@@ -31,7 +31,7 @@ import java.nio.file.Path;
 
 import static craig.software.mc.angels.WeepingAngels.MODID;
 
-public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvider {
+public record BiomeModifierProvider(DataGenerator dataGenerator) implements DataProvider {
 
     public static void generate(RegistryOps<JsonElement> ops, BiomeModifier modifier, Path outputFolder, String saveName, CachedOutput cache) {
         final String directory = PackType.SERVER_DATA.getDirectory();
@@ -58,7 +58,7 @@ public record WABiomeModifiers(DataGenerator dataGenerator) implements DataProvi
         final Path outputFolder = this.dataGenerator.getOutputFolder();
 
         // Biome Modifiers
-        BiomeModifier spawnsModifier = new BiomeSpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 35, 1, 1));
+        BiomeModifier spawnsModifier = new BiomeSpawnsModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), AngelUtil.ANGEL_SPAWNS), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), 10, 1, 4));
         BiomeFeatureModifier snowAngel = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), GenerationStep.Decoration.RAW_GENERATION, HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())));
         BiomeFeatureModifier oreModifer = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())));
         BiomeFeatureModifier oreModiferSmall = new BiomeFeatureModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD), GenerationStep.Decoration.UNDERGROUND_ORES, HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())));

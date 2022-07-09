@@ -1,6 +1,6 @@
 package craig.software.mc.angels.common.variants;
 
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.utils.AngelUtil;
 
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ public class WeightedHandler {
     public AngelVariant getRandom() {
         double r = AngelUtil.RAND.nextDouble() * accumulatedWeight;
         for (Entry entry : entries) {
-            if (entry.accumulatedWeight >= r && WAConfig.CONFIG.isVariantPermitted(entry.angelVariant)) {
+            if (entry.accumulatedWeight >= r && WAConfiguration.CONFIG.isVariantPermitted(entry.angelVariant)) {
                 return entry.angelVariant;
             }
         }
-        return AngelTypes.NORMAL.get();
+        return AngelVariants.NORMAL.get();
     }
 
     public boolean isEmpty() {

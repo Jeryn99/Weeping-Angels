@@ -6,7 +6,7 @@ import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blockentities.CoffinBlockEntity;
 import craig.software.mc.angels.common.blockentities.StatueBlockEntity;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.common.level.WAPieces;
 import craig.software.mc.angels.utils.AngelUtil;
@@ -144,8 +144,8 @@ public class GraveyardStructure extends Structure {
             if ("angel".equals(function)) {
                 StatueBlockEntity statueTile = (StatueBlockEntity) serverLevelAccessor.getBlockEntity(blockPos.below());
                 statueTile.setPose(WeepingAngelPose.HIDING);
-                statueTile.setAngelType(AngelType.DISASTER_MC);
-                statueTile.setAngelVarients(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
+                statueTile.setAngelType(WeepingAngelTypes.DISASTER_MC);
+                statueTile.setAngelVarients(WeepingAngelTypes.DISASTER_MC.getRandom());
                 statueTile.setChanged();
                 serverLevelAccessor.removeBlock(blockPos, false);
             }

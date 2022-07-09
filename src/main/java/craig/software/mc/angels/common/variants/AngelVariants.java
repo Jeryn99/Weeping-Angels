@@ -2,11 +2,13 @@ package craig.software.mc.angels.common.variants;
 
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.entities.WeepingAngel;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -18,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class AngelTypes {
+public class AngelVariants {
 
     public static final DeferredRegister<AngelVariant> VARIANTS = DeferredRegister.create(new ResourceLocation(WeepingAngels.MODID, "angel_types"), WeepingAngels.MODID);
     public static final RegistryObject<AngelVariant> GOLD = VARIANTS.register("gold", () -> new OreVariant(() -> new ItemStack(Blocks.GOLD_ORE), 25));
@@ -45,7 +47,7 @@ public class AngelTypes {
     public static void updateWeighted() {
 
         // Nether Variants
-        NETHER_WEIGHTED.addEntry(AngelTypes.BASALT.get(), AngelTypes.QUARTZ.get());
+        NETHER_WEIGHTED.addEntry(AngelVariants.BASALT.get(), AngelVariants.QUARTZ.get());
 
         // Ore Variants
         for (RegistryObject<AngelVariant> object : VARIANTS.getEntries()) {
@@ -66,21 +68,30 @@ public class AngelTypes {
     }
 
 
-    public static @NotNull AngelVariant getGoodVariant(WeepingAngel weepingAngel, ServerLevelAccessor serverWorld) {
+    public static @NotNull AngelVariant getGoodVariant(WeepingAngel weepingAngel, Level level) {
 
-        Holder<Biome> biome = serverWorld.getLevel().getBiome(weepingAngel.blockPosition());
+        Holder<Biome> biome = level.getBiome(weepingAngel.blockPosition());
         RandomSource randomSource = weepingAngel.level.getRandom();
 
         // If Angel spawns in the nether, we want only nether variants
         if (biome.is(BiomeTags.IS_NETHER)) {
-            return NETHER_WEIGHTED.getRandom();
+            AngelVariant netherVariant = NETHER_WEIGHTED.getRandom();
+            WeepingAngelTypes angelType = weepingAngel.getAngelType();
+            if (angelType.getSupportedVariants().contains(netherVariant)) {
+                return netherVariant;
+            }
         }
 
         if (biome.is(BiomeTags.IS_OVERWORLD)) {
             boolean oreChance = randomSource.nextBoolean() && weepingAngel.blockPosition().getY() < 200;
-            return oreChance ? ORE_WEIGHTED.getRandom() : NORMAL_VARIANTS.getRandom();
+            AngelVariant overworldVariant = oreChance ? ORE_WEIGHTED.getRandom() : NORMAL_VARIANTS.getRandom();
+            WeepingAngelTypes angelType = weepingAngel.getAngelType();
+            if (angelType.getSupportedVariants().contains(overworldVariant)) {
+                return overworldVariant;
+            }
         }
 
-        return AngelTypes.NORMAL.get();
+
+        return AngelVariants.NORMAL.get();
     }
 }

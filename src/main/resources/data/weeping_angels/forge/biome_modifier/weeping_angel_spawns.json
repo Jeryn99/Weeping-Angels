@@ -3,8 +3,8 @@
   "biomes": "#weeping_angels:spawns/weeping_angels",
   "spawn": {
     "type": "weeping_angels:weeping_angel",
-    "maxCount": 1,
+    "maxCount": 4,
     "minCount": 1,
-    "weight": 1
+    "weight": 10
   }
 }

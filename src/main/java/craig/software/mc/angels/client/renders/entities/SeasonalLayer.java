@@ -9,7 +9,7 @@ import craig.software.mc.angels.client.models.entity.SantaHat;
 import craig.software.mc.angels.client.models.entity.WAModels;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.variants.AngelVariant;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.utils.DateChecker;
 import craig.software.mc.angels.utils.Pair;
 import net.minecraft.client.Minecraft;
@@ -41,7 +41,7 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, EntityModel<Weeping
         if (angelVariant.isHeadless()) return;
         if (model instanceof IAngelModel iAngelModel) {
             Pair<ModelPart, Vector3d> santaHead = iAngelModel.getHeadData(HeadPlacement.SANTA);
-            if (DateChecker.isXmas() && santaHead != null && WAConfig.CONFIG.showSantaHatsAtXmas.get()) {
+            if (DateChecker.isXmas() && santaHead != null && WAConfiguration.CONFIG.showSantaHatsAtXmas.get()) {
                 pMatrixStack.pushPose();
                 santaHead.getFirst().translateAndRotate(pMatrixStack);
                 pMatrixStack.translate(santaHead.getSecond().x, santaHead.getSecond().y, santaHead.getSecond().z);

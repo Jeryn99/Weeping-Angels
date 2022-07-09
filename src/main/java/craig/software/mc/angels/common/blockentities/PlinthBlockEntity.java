@@ -3,12 +3,12 @@ package craig.software.mc.angels.common.blockentities;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.blocks.PlinthBlock;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.misc.WAConstants;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.common.variants.AngelVariant;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -26,9 +26,9 @@ import org.jetbrains.annotations.NotNull;
 public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<PlinthBlockEntity>, IPlinth {
 
     private boolean hasSpawned = false;
-    private String type = AngelType.DISASTER_MC.name();
+    private String type = WeepingAngelTypes.DISASTER_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(RandomSource.create());
-    private AngelVariant angelVariant = AngelTypes.NORMAL.get();
+    private AngelVariant angelVariant = AngelVariants.NORMAL.get();
 
     public PlinthBlockEntity(BlockPos blockPos, BlockState state) {
         super(WAObjects.Tiles.PLINTH.get(), blockPos, state);
@@ -50,7 +50,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
+            setAngelVarients(AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
         }
     }
 
@@ -63,27 +63,27 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         compound.putString(WAConstants.VARIENT, angelVariant.getRegistryName().toString());
     }
 
-    public AngelType getAngelType() {
+    public WeepingAngelTypes getAngelType() {
         boolean found = false;
-        for (AngelType value : AngelType.values()) {
+        for (WeepingAngelTypes value : WeepingAngelTypes.values()) {
             if (value.name().equals(type)) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            type = AngelType.DISASTER_MC.name();
+            type = WeepingAngelTypes.DISASTER_MC.name();
         }
 
 
-        return AngelType.valueOf(type.isEmpty() ? AngelType.DISASTER_MC.name() : type);
+        return WeepingAngelTypes.valueOf(type.isEmpty() ? WeepingAngelTypes.DISASTER_MC.name() : type);
     }
 
     public void setAngelType(String type) {
         this.type = type;
     }
 
-    public void setAngelType(AngelType type) {
+    public void setAngelType(WeepingAngelTypes type) {
         this.type = type.name();
     }
 
@@ -123,7 +123,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     public void tick(@NotNull Level p_155253_, @NotNull BlockPos p_155254_, @NotNull BlockState p_155255_, @NotNull PlinthBlockEntity p_155256_) {
         if (level.isClientSide) return;
 
-        boolean isClassic = getAngelType() == AngelType.A_DIZZLE;
+        boolean isClassic = getAngelType() == WeepingAngelTypes.A_DIZZLE;
         boolean current = getBlockState().getValue(PlinthBlock.CLASSIC);
 
         if (isClassic && !current) {
@@ -133,7 +133,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
 
-        if (level.getDifficulty() != Difficulty.PEACEFUL && WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthBlockEntity plinth) {
+        if (level.getDifficulty() != Difficulty.PEACEFUL && WAConfiguration.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthBlockEntity plinth) {
             if (!plinth.getHasSpawned()) {
                 WeepingAngel angel = new WeepingAngel(level);
                 angel.setType(type);
@@ -169,7 +169,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeModel() {
-        setAngelType(AngelType.next(getAngelType()));
+        setAngelType(WeepingAngelTypes.next(getAngelType()));
     }
 
     @Override
@@ -185,7 +185,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public AngelType getCurrentType() {
+    public WeepingAngelTypes getCurrentType() {
         return getAngelType();
     }
 

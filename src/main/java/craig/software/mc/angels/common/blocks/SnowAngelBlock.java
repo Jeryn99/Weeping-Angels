@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.blocks;
 
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -54,7 +54,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
                 snowAngelBlockEntity.setSnowAngelStage(AngelUtil.randowSnowStage());
                 snowAngelBlockEntity.setRotation(rotation);
                 snowAngelBlockEntity.setHasSetup(true);
-                snowAngelBlockEntity.setVariant(AngelType.DISASTER_MC.getWeightedHandler().getRandom());
+                snowAngelBlockEntity.setVariant(WeepingAngelTypes.DISASTER_MC.getRandom());
                 snowAngelBlockEntity.sendUpdates();
             }
         }
@@ -74,7 +74,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
             BlockEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
                 WeepingAngel angel = new WeepingAngel(worldIn);
-                angel.setType(AngelType.DISASTER_MC);
+                angel.setType(WeepingAngelTypes.DISASTER_MC);
                 angel.setVarient(snowAngelBlockEntity.getVariant());
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);

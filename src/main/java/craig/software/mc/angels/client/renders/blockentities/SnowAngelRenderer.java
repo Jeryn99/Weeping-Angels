@@ -6,7 +6,7 @@ import craig.software.mc.angels.client.models.entity.IAngelModel;
 import craig.software.mc.angels.client.models.entity.WAModels;
 import craig.software.mc.angels.client.poses.WeepingAngelPose;
 import craig.software.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.utils.ClientUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,7 +32,7 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     public static ResourceLocation getTexture(SnowAngelBlockEntity snowAngelBlockEntity) {
-        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(AngelType.DISASTER_MC);
+        IAngelModel iAngelModel = (IAngelModel) ClientUtil.getModelForAngel(WeepingAngelTypes.DISASTER_MC);
         return iAngelModel.generateTex(WeepingAngelPose.APPROACH, snowAngelBlockEntity.getVariant());
     }
 

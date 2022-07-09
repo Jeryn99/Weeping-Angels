@@ -9,7 +9,7 @@ import craig.software.mc.angels.common.entities.QuantumLockedLifeform;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.items.ChiselItem;
 import craig.software.mc.angels.common.level.WAFeatures;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.network.Network;
 import craig.software.mc.angels.network.messages.MessageCatacomb;
 import craig.software.mc.angels.utils.AngelUtil;
@@ -30,7 +30,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.AttackDamageMobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -82,7 +81,7 @@ public class CommonEvents {
         if (isPlinth && playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ChiselItem) {
             IPlinth plinth = (IPlinth) world.getBlockEntity(pos);
             event.setCanceled(true);
-            plinth.setAbstractVariant(plinth.getCurrentType().getWeightedHandler().getRandom());
+            plinth.setAbstractVariant(plinth.getCurrentType().getRandom());
             plinth.sendUpdatesToClient();
             PlayerUtil.sendMessageToPlayer(playerEntity, Component.translatable("Changed variant to " + plinth.getVariant().getRegistryName()), true);
         }
@@ -149,7 +148,7 @@ public class CommonEvents {
     public static void onDamage(LivingAttackEvent event) {
         if (event.getEntityLiving().level.isClientSide) return;
 
-        DamageType configValue = WAConfig.CONFIG.damageType.get();
+        DamageType configValue = WAConfiguration.CONFIG.damageType.get();
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getEntity();
 

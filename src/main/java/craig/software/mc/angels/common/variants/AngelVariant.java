@@ -12,7 +12,7 @@ public abstract class AngelVariant {
     private boolean isHeadless = false;
 
     public void tick(WeepingAngel weepingAngel) {
-        if (weepingAngel.getVariant() == AngelTypes.RUSTED_NO_ARM.get()) {
+        if (weepingAngel.getVariant() == AngelVariants.RUSTED_NO_ARM.get()) {
             weepingAngel.setLeftHanded(true);
             if (!weepingAngel.getOffhandItem().isEmpty()) {
                 weepingAngel.spawnAtLocation(weepingAngel.getOffhandItem());
@@ -43,6 +43,6 @@ public abstract class AngelVariant {
     public abstract double getRarity();
 
     public ResourceLocation getRegistryName() {
-        return AngelTypes.VARIANTS_REGISTRY.get().getKey(this);
+        return AngelVariants.VARIANTS_REGISTRY.get().getKey(this);
     }
 }

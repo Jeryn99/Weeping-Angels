@@ -10,9 +10,9 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
-public class WAStructureTagGen extends TagsProvider<Structure> {
+public class StructureTagProvider extends TagsProvider<Structure> {
 
-    public WAStructureTagGen(DataGenerator generator, ExistingFileHelper helper) {
+    public StructureTagProvider(DataGenerator generator, ExistingFileHelper helper) {
         super(generator, BuiltinRegistries.STRUCTURES, WeepingAngels.MODID, helper);
     }
 

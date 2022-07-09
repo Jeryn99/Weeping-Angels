@@ -12,9 +12,9 @@ import craig.software.mc.angels.common.entities.attributes.WAAttributes;
 import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.common.level.biomemodifiers.BiomeFeatureModifier;
 import craig.software.mc.angels.common.level.biomemodifiers.BiomeSpawnsModifier;
-import craig.software.mc.angels.common.variants.AngelTypes;
+import craig.software.mc.angels.common.variants.AngelVariants;
 import craig.software.mc.angels.compat.vivecraft.ServerReflector;
-import craig.software.mc.angels.config.WAConfig;
+import craig.software.mc.angels.config.WAConfiguration;
 import craig.software.mc.angels.data.*;
 import craig.software.mc.angels.network.Network;
 import craig.software.mc.angels.utils.AngelUtil;
@@ -62,7 +62,7 @@ public class WeepingAngels {
         modBus.addListener(this::onAttributeAssign);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        AngelTypes.VARIANTS.register(modBus);
+        AngelVariants.VARIANTS.register(modBus);
         WAObjects.Sounds.SOUNDS.register(bus);
         WAObjects.Blocks.BLOCKS.register(bus);
         WAObjects.Blocks.BLOCK_ITEMS.register(bus);
@@ -72,7 +72,7 @@ public class WeepingAngels {
         WAFeatures.STRUCTURES.register(bus);
         WAPaintings.PAINTINGS.register(bus);
         WAAttributes.ATTRIBUTES.register(bus);
-        WAGlobalLoot.GLM.register(modBus);
+        WAGlobalLootModifiers.GLM.register(modBus);
 
         WAFeatures.CONFIGURED_FEATURES.register(modBus);
         WAFeatures.PLACED_FEATURES.register(modBus);
@@ -83,7 +83,7 @@ public class WeepingAngels {
         serializers.register(BiomeFeatureModifier.ADD_FEATURE.getPath(), BiomeFeatureModifier::makeCodec);
 
         MinecraftForge.EVENT_BUS.register(this);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfig.CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
         StartupMessageManager.addModMessage("Don't Blink!");
     }
@@ -93,7 +93,7 @@ public class WeepingAngels {
         AngelUtil.registerFunction(new ResourceLocation(MODID, "fortune_enchant"), new FortuneBonusEnchant.Serializer()); //registerFunction
         VR_REFLECTOR.init();
         init();
-        AngelTypes.updateWeighted();
+        AngelVariants.updateWeighted();
     }
 
 
@@ -117,15 +117,16 @@ public class WeepingAngels {
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(true, new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
-        generator.addProvider(true, new WABlockTags(generator, existingFileHelper));
-        generator.addProvider(true, new LootTablesForDrops(generator));
-        generator.addProvider(true, new WALangEnglish());
-        generator.addProvider(true, new WABiomeGen(generator, existingFileHelper));
-        generator.addProvider(true, new WAStructureTagGen(generator, existingFileHelper));
-        generator.addProvider(true, new WARecipeGen(generator));
-        generator.addProvider(true, new WABiomeModifiers(generator));
-        // generator.addProvider(new WALootTables(generator));
+        generator.addProvider(true, new ItemTagProvider(generator, new BlockTagProvider(generator, existingFileHelper), existingFileHelper));
+        generator.addProvider(true, new BlockTagProvider(generator, existingFileHelper));
+        generator.addProvider(true, new LevelLootTableProvider(generator));
+        generator.addProvider(true, new LangEnglishProvider());
+        generator.addProvider(true, new BiomeTagProvider(generator, existingFileHelper));
+        generator.addProvider(true, new StructureTagProvider(generator, existingFileHelper));
+        generator.addProvider(true, new RecipesProvider(generator));
+        generator.addProvider(true, new BiomeModifierProvider(generator));
+        generator.addProvider(true, new BlockLootTableProvider(generator));
+        generator.addProvider(true, new PaintingsTagProvider(generator, existingFileHelper));
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {

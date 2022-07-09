@@ -1,7 +1,7 @@
 package craig.software.mc.angels.config;
 
 import com.google.common.collect.Lists;
-import craig.software.mc.angels.common.entities.AngelType;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.variants.AngelVariant;
 import craig.software.mc.angels.utils.AngelUtil;
 import craig.software.mc.angels.utils.DamageType;
@@ -12,12 +12,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WAConfig {
-    public static final WAConfig CONFIG;
+public class WAConfiguration {
+    public static final WAConfiguration CONFIG;
     public static final ForgeConfigSpec CONFIG_SPEC;
 
     static {
-        final Pair<WAConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfig::new);
+        final Pair<WAConfiguration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfiguration::new);
         CONFIG = specPair.getLeft();
         CONFIG_SPEC = specPair.getRight();
     }
@@ -54,7 +54,7 @@ public class WAConfig {
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedVariants;
 
 
-    public WAConfig(ForgeConfigSpec.Builder builder) {
+    public WAConfiguration(ForgeConfigSpec.Builder builder) {
 
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
@@ -93,18 +93,18 @@ public class WAConfig {
     }
 
 
-    public boolean isModelPermitted(AngelType angelType) {
+    public boolean isModelPermitted(WeepingAngelTypes weepingAngelTypes) {
         for (String s : allowedAngelTypes.get()) {
-            if (s.equalsIgnoreCase(angelType.name())) {
+            if (s.equalsIgnoreCase(weepingAngelTypes.name())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isVariantPermitted(AngelVariant angelType) {
+    public boolean isVariantPermitted(AngelVariant angelVariant) {
         for (String s : allowedVariants.get()) {
-            if (s.equalsIgnoreCase(angelType.getRegistryName().toString())) {
+            if (s.equalsIgnoreCase(angelVariant.getRegistryName().toString())) {
                 return true;
             }
         }

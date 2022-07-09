@@ -20,10 +20,10 @@ import java.util.Objects;
 
 import static net.minecraft.tags.BlockTags.NEEDS_STONE_TOOL;
 
-public class WABlockTags extends BlockTagsProvider {
+public class BlockTagProvider extends BlockTagsProvider {
 
 
-    public WABlockTags(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
+    public BlockTagProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
         super(generatorIn, WeepingAngels.MODID, existingFileHelper);
     }
 
