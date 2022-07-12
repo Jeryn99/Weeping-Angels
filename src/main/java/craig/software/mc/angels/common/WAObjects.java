@@ -112,7 +112,7 @@ public class WAObjects {
     }
 
     public static class Tiles {
-        public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, WeepingAngels.MODID);
+        public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, WeepingAngels.MODID);
 
         public static RegistryObject<BlockEntityType<SnowAngelBlockEntity>> SNOW_ANGEL = TILES.register("snow_angel", () -> registerTiles(SnowAngelBlockEntity::new, Blocks.SNOW_ANGEL.get()));
         public static RegistryObject<BlockEntityType<PlinthBlockEntity>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthBlockEntity::new, Blocks.PLINTH.get()));
@@ -184,7 +184,7 @@ public class WAObjects {
 
     // Entities
     public static class EntityEntries {
-        public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
+        public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, WeepingAngels.MODID);
 
         public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngel::new, WeepingAngel::new, MobCategory.MONSTER, 0.6F, 1.95F, "weeping_angel", false));
         public static final RegistryObject<EntityType<Portal>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(Portal::new, Portal::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));

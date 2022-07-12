@@ -1,7 +1,7 @@
 package craig.software.mc.angels.common.items;
 
-import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.entities.WeepingAngel;
+import craig.software.mc.angels.common.entities.WeepingAngelTypes;
 import craig.software.mc.angels.common.misc.WATabs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

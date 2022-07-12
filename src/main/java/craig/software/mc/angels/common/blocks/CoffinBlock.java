@@ -35,7 +35,6 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.world.level.block.SculkSensorBlock.WATERLOGGED;
 
-
 public class CoffinBlock extends BaseEntityBlock {
 
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");

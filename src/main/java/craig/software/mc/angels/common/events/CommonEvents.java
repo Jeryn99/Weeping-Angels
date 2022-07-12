@@ -47,7 +47,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
@@ -62,7 +62,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {
-        LivingEntity killed = event.getEntityLiving();
+        LivingEntity killed = event.getEntity();
         DamageSource damageSource = event.getSource();
         if (damageSource == WAObjects.ANGEL_NECK_SNAP) {
             killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
@@ -72,7 +72,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onBreak(BlockEvent.BreakEvent event) {
         Player playerEntity = event.getPlayer();
-        LevelAccessor world = event.getWorld();
+        LevelAccessor world = event.getLevel();
         BlockPos pos = event.getPos();
 
         // Plinth
@@ -99,10 +99,10 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onOpenChestInGraveYard(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getWorld().isClientSide) return;
-        ServerLevel world = (ServerLevel) event.getWorld();
+        if (event.getLevel().isClientSide) return;
+        ServerLevel world = (ServerLevel) event.getLevel();
         BlockPos pos = event.getPos();
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
 
         boolean isGraveYard = world.structureManager().getStructureAt(pos, AngelUtil.getConfigured(world, WAFeatures.GRAVEYARD.getId())).isValid();
 
@@ -134,8 +134,8 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onLive(LivingEvent.LivingUpdateEvent livingUpdateEvent) {
-        LivingEntity living = livingUpdateEvent.getEntityLiving();
+    public static void onLive(LivingEvent.LivingTickEvent livingUpdateEvent) {
+        LivingEntity living = livingUpdateEvent.getEntity();
         if (living instanceof Player && !living.level.isClientSide()) {
             ServerPlayer serverPlayerEntity = (ServerPlayer) living;
             if (serverPlayerEntity.tickCount % 40 == 0) {
@@ -146,7 +146,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onDamage(LivingAttackEvent event) {
-        if (event.getEntityLiving().level.isClientSide) return;
+        if (event.getEntity().level.isClientSide) return;
 
         DamageType configValue = WAConfiguration.CONFIG.damageType.get();
         DamageSource source = event.getSource();
@@ -156,7 +156,7 @@ public class CommonEvents {
             return;
         }
 
-        LivingEntity living = event.getEntityLiving();
+        LivingEntity living = event.getEntity();
 
 
         if (living instanceof WeepingAngel hurt) {
@@ -237,9 +237,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onLoad(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof Player playerEntity) {
-            versionCheck(playerEntity);
-        }
+        versionCheck(event.getEntity());
     }
 
     public static void versionCheck(Player playerEntity) {
