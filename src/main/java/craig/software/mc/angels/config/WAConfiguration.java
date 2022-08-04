@@ -26,10 +26,9 @@ public class WAConfiguration {
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
     public final ForgeConfigSpec.BooleanValue playScrapeSounds;
     public final ForgeConfigSpec.BooleanValue playSeenSounds;
-    public final ForgeConfigSpec.DoubleValue damage;
+
     public final ForgeConfigSpec.IntValue xpGained;
     public final ForgeConfigSpec.BooleanValue blockBreaking;
-    public final ForgeConfigSpec.IntValue blockBreakRange;
     public final ForgeConfigSpec.BooleanValue chickenGoboom;
     public final ForgeConfigSpec.BooleanValue torchBlowOut;
     public final ForgeConfigSpec.BooleanValue freezeOnAngel;
@@ -60,7 +59,6 @@ public class WAConfiguration {
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);
         playScrapeSounds = builder.translation("config.weeping_angels.angel_move_sound").comment("Non-child angels play scraping sounds when moving, this toggles that").define("playScrapeSound", true);
         playSeenSounds = builder.translation("config.weeping_angels.angel_seen_sound").comment("Toggle seen sounds").define("playSeenSounds", true);
-        damage = builder.translation("config.weeping_angels.angel_damage").comment("The damage dealt by an angel").defineInRange("damage", 8.0D, 1.0D, Double.MAX_VALUE);
         xpGained = builder.translation("config.weeping_angels.angel_xp_value").comment("XP gained from angels").defineInRange("xpGained", 25, 1, Integer.MAX_VALUE);
         chickenGoboom = builder.translation("config.weeping_angels.chicken_go_boom").comment("If this is enabled, the timey wimey detector can blow up chickens when in use randomly").define("chickenGoboom", true);
         torchBlowOut = builder.translation("config.weeping_angels.blowout_torch").comment("If this is enabled, baby angels will blow out light items from the players hand").define("torchBlowOut", true);
@@ -68,7 +66,6 @@ public class WAConfiguration {
         stalkRange = builder.translation("config.weeping_angels.around_player_range").comment("Determines the range the angels will look for players within, personally, I'd stay under 100").defineInRange("stalkRange", 65, 1, 100);
         moveSpeed = builder.translation("config.weeping_angels.moveSpeed").comment("Determines the angels move speed").defineInRange("angelMovementSpeed", 0.2, 0.1, Double.MAX_VALUE);
         blockBreaking = builder.translation("config.weeping_angels.angel.block_break").comment("If mobGriefing is enabled, angels will break blocks [You may be looking for a config option in order to stop certain blocks from being broken. You can do this with a data-pack using weeping_angels:unbreakable_blocks]").define("blockBreaking", true);
-        blockBreakRange = builder.translation("config.weeping_angels.block_break_range").comment("The maximum range a angel can break blocks within").defineInRange("blockBreakRange", 15, 1, 120);
         aggroCreative = builder.translation("config.weeping_angels.aggroCreative").comment("Should Angels target creative players?").define("aggroCreative", false);
         builder.pop();
 

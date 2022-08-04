@@ -1,6 +1,6 @@
 package craig.software.mc.angels.network.messages;
 
-import craig.software.mc.angels.common.events.ClientEvents;
+import craig.software.mc.angels.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

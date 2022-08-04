@@ -1,4 +1,4 @@
-package craig.software.mc.angels.common.events;
+package craig.software.mc.angels.events;
 
 import craig.software.mc.angels.WeepingAngels;
 import craig.software.mc.angels.common.WAObjects;

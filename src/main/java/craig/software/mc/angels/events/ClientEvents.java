@@ -1,4 +1,4 @@
-package craig.software.mc.angels.common.events;
+package craig.software.mc.angels.events;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import craig.software.mc.angels.client.renders.WingsLayer;

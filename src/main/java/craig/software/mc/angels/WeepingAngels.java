@@ -9,6 +9,8 @@ import craig.software.mc.angels.common.WAObjects;
 import craig.software.mc.angels.common.WAPaintings;
 import craig.software.mc.angels.common.entities.WeepingAngel;
 import craig.software.mc.angels.common.entities.attributes.WAAttributes;
+import craig.software.mc.angels.data.LevelLootTableProvider;
+import craig.software.mc.angels.common.glm.WAGlobalLootModifiers;
 import craig.software.mc.angels.common.level.WAFeatures;
 import craig.software.mc.angels.common.level.biomemodifiers.BiomeFeatureModifier;
 import craig.software.mc.angels.common.level.biomemodifiers.BiomeSpawnsModifier;
@@ -59,7 +61,6 @@ public class WeepingAngels {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.register(this);
         modBus.addListener(this::setup);
-        modBus.addListener(this::onAttributeAssign);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         AngelVariants.VARIANTS.register(modBus);
@@ -86,6 +87,8 @@ public class WeepingAngels {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(this::doClientStuff));
         StartupMessageManager.addModMessage("Don't Blink!");
+        modBus.addListener(this::onAttributeAssign);
+
     }
 
     private void setup(final @NotNull FMLCommonSetupEvent event) {

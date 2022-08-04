@@ -1,0 +1,9 @@
+// 1.19	2022-08-04T18:02:11.5206501	Tags for minecraft:block
+a0d82e3c959ad2c0a2a4e2bd61540536dbbb5ecb data/forge/tags/blocks/ores.json
+a0d82e3c959ad2c0a2a4e2bd61540536dbbb5ecb data/forge/tags/blocks/ores_in_ground/stone.json
+0e2722cb0fed0ba107b8e0680d7a0a4e139b873e data/minecraft/tags/blocks/mineable/pickaxe.json
+a0d82e3c959ad2c0a2a4e2bd61540536dbbb5ecb data/minecraft/tags/blocks/needs_stone_tool.json
+37451e129d90e1d8c499c1b788af40809d68754c data/minecraft/tags/blocks/stone_bricks.json
+8fdb1b794d58745a8703e307c08ad1d95cfa7b56 data/weeping_angels/tags/blocks/angel_occulude_blocks.json
+3ab7e9cd938fe1194e3cf5fb664be3eff239c612 data/weeping_angels/tags/blocks/grave_plants.json
+d174f76a4984f4e09efef4db46e35f34c2f4a9b5 data/weeping_angels/tags/blocks/unbreakable_blocks.json

@@ -1,6 +1,7 @@
 package craig.software.mc.angels.data;
 
 import craig.software.mc.angels.WeepingAngels;
+import craig.software.mc.angels.common.glm.WAGlobalLootModifiers;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -17,7 +18,6 @@ public class LevelLootTableProvider extends GlobalLootModifierProvider {
     @Override
     protected void start() {
 
-        //FOB WATCH
         ResourceLocation[] specificTables = new ResourceLocation[]{
                 BuiltInLootTables.ABANDONED_MINESHAFT,
                 BuiltInLootTables.BASTION_BRIDGE,
@@ -27,8 +27,9 @@ public class LevelLootTableProvider extends GlobalLootModifierProvider {
                 BuiltInLootTables.SHIPWRECK_SUPPLY
         };
 
+
         for (ResourceLocation currentTable : specificTables) {
-            add(currentTable.getPath(), WAGlobalLootModifiers.ANGEL_LOOT.get(), new WAGlobalLootModifiers.DiscLoot(
+            add(currentTable.getPath(), new WAGlobalLootModifiers.RegenerationLoot(
                     new LootItemCondition[]{LootTableIdCondition.builder(currentTable).build()}, 15)
             );
         }
@@ -36,7 +37,7 @@ public class LevelLootTableProvider extends GlobalLootModifierProvider {
         for (ResourceLocation resourceLocation : BuiltInLootTables.all()) {
             //Fob Treasure
             if (resourceLocation.getPath().contains("treasure")) {
-                add(resourceLocation.getPath(), WAGlobalLootModifiers.ANGEL_LOOT.get(), new WAGlobalLootModifiers.DiscLoot(
+                add(resourceLocation.getPath(), new WAGlobalLootModifiers.RegenerationLoot(
                         new LootItemCondition[]{LootTableIdCondition.builder(resourceLocation).build()}, 40)
                 );
             }

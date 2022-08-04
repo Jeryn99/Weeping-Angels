@@ -1,7 +1,7 @@
 package craig.software.mc.angels.client.sounds;
 
 import craig.software.mc.angels.WeepingAngels;
-import craig.software.mc.angels.common.events.ClientEvents;
+import craig.software.mc.angels.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;

@@ -89,11 +89,11 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public static AttributeSupplier.Builder createAttributes() {
         return createMonsterAttributes().
-                add(Attributes.ATTACK_DAMAGE, WAConfiguration.CONFIG.damage.get()).
+                add(Attributes.ATTACK_DAMAGE, 8D).
                 add(Attributes.MAX_HEALTH, 50D).
                 add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).
                 add(Attributes.MOVEMENT_SPEED, 0.8D).
-                add(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfiguration.CONFIG.blockBreakRange.get()).
+                add(WAAttributes.BLOCK_BREAK_RANGE.get(), 15D).
                 add(Attributes.ARMOR, 2.0D);
     }
 
@@ -101,6 +101,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     public void knockback(double p_147241_, double p_147242_, double p_147243_) {
 
     }
+
 
     @Override
     public boolean isPersistenceRequired() {
