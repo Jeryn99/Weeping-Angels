@@ -1,4 +1,4 @@
-// 1.19	2022-08-04T18:02:11.5201493	Global Loot Modifiers : weeping_angels
+// 1.19.2	2022-08-08T16:25:49.1829373	Global Loot Modifiers : weeping_angels
 b9f2e16e441364dca2dac1c1d82cfec79267a556 data/forge/loot_modifiers/global_loot_modifiers.json
 eeb07f5847dfc8b3eac6631b681ce5dfd74d0c76 data/weeping_angels/loot_modifiers/chests/abandoned_mineshaft.json
 562528338624535955ad01a94aaa128737fdedd0 data/weeping_angels/loot_modifiers/chests/bastion_bridge.json

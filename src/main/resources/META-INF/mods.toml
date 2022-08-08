@@ -9,7 +9,7 @@ credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, Disast
 authors = "Suff99, 50ap5ud5"
 itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
-version = "41.0.4"
+version = "43.0.5"
 displayName = "Weeping Angels"
 updateJSONURL = "https://mc-api.craig.software/update?mod=weeping_angels" #optional
 description = '''
@@ -17,12 +17,12 @@ Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally 
 [[dependencies.weeping_angels]]
 modId = "forge"
 mandatory = true
-versionRange = "[38,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.weeping_angels]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19, ]"
+versionRange = "[1.19.2, ]"
 ordering = "NONE"
 side = "BOTH"
