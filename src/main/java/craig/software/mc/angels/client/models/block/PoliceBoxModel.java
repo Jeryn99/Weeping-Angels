@@ -138,13 +138,13 @@ public class PoliceBoxModel extends EntityModel<Entity> {
 
     @Override
     public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Posts.render(matrixStack, buffer, packedLight, packedOverlay);
-        Panels.render(matrixStack, buffer, packedLight, packedOverlay);
-        PPCB.render(matrixStack, buffer, packedLight, packedOverlay);
-        Roof.render(matrixStack, buffer, packedLight, packedOverlay);
-        Lamp.render(matrixStack, buffer, packedLight, packedOverlay);
-        Doors.render(matrixStack, buffer, packedLight, packedOverlay);
-        bb_main.render(matrixStack, buffer, packedLight, packedOverlay);
+        Posts.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Panels.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        PPCB.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Roof.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Lamp.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        Doors.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        bb_main.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

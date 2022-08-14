@@ -125,6 +125,8 @@ dependencies {
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
     implementation fg.deobf("com.gitlab.Spectre0987:TardisMod-1-14:${tm_version}")
     implementation fg.deobf("curse.maven:terraforged-363820:3451426")
+    implementation fg.deobf("curse.maven:the-afterlight-499469:3646154")
+    implementation fg.deobf("curse.maven:patchouli-306770:3459118")
 
 }
 
