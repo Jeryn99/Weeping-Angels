@@ -26,27 +26,29 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
     protected static HashSet<Donator> modDonators = new HashSet<>();
     public final MercyWings mercyWings;
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/mercy_wings.png");
+    private final ResourceLocation TEXTURE_LIGHTMAP = new ResourceLocation(WeepingAngels.MODID, "textures/entities/mercy_wings_lightmap.png");
     private EntityModel<WeepingAngel> model;
 
-    public WingsLayer(RenderLayerParent<T, M> p_117346_) {
-        super(p_117346_);
+    public WingsLayer(RenderLayerParent<T, M> renderLayerParent) {
+        super(renderLayerParent);
         Minecraft.getInstance().submitAsync(DateChecker.DONATOR_RUNNABLE);
         mercyWings = new MercyWings(Minecraft.getInstance().getEntityModels().bakeLayer(WAModels.MERCY_WINGS));
     }
 
-    public static Donator shouldDisplay(Player player) {
+    public static Optional<Donator> getDonatorData(Player player) {
         for (Donator person : modDonators) {
             if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
-                return person;
+                return Optional.of(person);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public static void update() {
@@ -55,30 +57,34 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
     }
 
     @Override
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource p_117350_, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int p_117351_, T p_117352_, float p_117353_, float p_117354_, float p_117355_, float p_117356_, float p_117357_, float p_117358_) {
         if (p_117352_.isInvisibleTo(Minecraft.getInstance().player)) return;
-        if (p_117352_ instanceof Player player && shouldDisplay(player) != null) {
-            Donator data = shouldDisplay(player);
-            poseStack.pushPose();
-            if (data.getWings().equalsIgnoreCase("mercy")) {
-                getParentModel().body.translateAndRotate(poseStack);
-                mercyWings.setupAnim(player, 0, 0, 0, 0, 0);
-                mercyWings.RWing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
-                mercyWings.Lwing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY);
-            } else {
-                model = ClientUtil.getModelForAngel(data.getPureWings());
-                if (model instanceof IAngelModel iAngelModel) {
+        if (p_117352_ instanceof Player player) {
+            getDonatorData(player).ifPresent(data -> {
+                poseStack.pushPose();
+                if (data.getWings().equalsIgnoreCase("mercy")) {
                     getParentModel().body.translateAndRotate(poseStack);
-                    iAngelModel.setAngelPose(data.isPerked() ? WeepingAngelPose.ANGRY : WeepingAngelPose.IDLE);
-                    model.setupAnim(null, 0, 0, 0, 0, 0);
-                    for (ModelPart wing : iAngelModel.wings(poseStack)) {
-                        if (wing != null) {
-                            wing.render(poseStack, p_117350_.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
+                    mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+
+                    mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.5F);
+
+                } else {
+                    model = ClientUtil.getModelForAngel(data.getPureWings());
+                    if (model instanceof IAngelModel iAngelModel) {
+                        getParentModel().body.translateAndRotate(poseStack);
+                        iAngelModel.setAngelPose(data.isPerked() ? WeepingAngelPose.ANGRY : WeepingAngelPose.IDLE);
+                        model.setupAnim(null, 0, 0, 0, 0, 0);
+                        for (ModelPart wing : iAngelModel.wings(poseStack)) {
+                            if (wing != null) {
+                                wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityTranslucent(iAngelModel.generateTex(WeepingAngelPose.HIDING, AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(data.getVariant()))))), p_117351_, OverlayTexture.NO_OVERLAY);
+                            }
                         }
                     }
                 }
-            }
-            poseStack.popPose();
+                poseStack.popPose();
+            });
         }
     }
 }

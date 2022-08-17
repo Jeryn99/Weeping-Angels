@@ -212,11 +212,6 @@ public class AngelUtil {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
 
-    public static boolean isHalloween() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) == Calendar.OCTOBER;
-    }
-
     public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
         Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
         return registry.get(resourceLocation);

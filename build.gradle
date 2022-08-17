@@ -22,8 +22,6 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'org.spongepowered.mixin'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemapper/main/remapper.gradle'
-
 
 version = '41.0.5'
 group = 'craig.software.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html

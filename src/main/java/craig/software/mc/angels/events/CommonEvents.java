@@ -30,6 +30,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,6 +60,9 @@ import java.util.Objects;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
+
+    public static AnimationState openState = new AnimationState();
+    public static AnimationState closeState = new AnimationState();
 
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {
@@ -136,11 +140,26 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onLive(LivingEvent.LivingTickEvent livingUpdateEvent) {
         LivingEntity living = livingUpdateEvent.getEntity();
-        if (living instanceof Player && !living.level.isClientSide()) {
+        if (living instanceof Player player && !living.level.isClientSide()) {
             ServerPlayer serverPlayerEntity = (ServerPlayer) living;
             if (serverPlayerEntity.tickCount % 40 == 0) {
                 Network.sendTo(new MessageCatacomb(AngelUtil.isInCatacomb(serverPlayerEntity)), serverPlayerEntity);
             }
+
+            if (player.isFallFlying()) {
+                closeState.stop();
+                if (!openState.isStarted()) {
+                    openState.start(player.tickCount);
+                }
+            }
+
+            if (player.isOnGround()) {
+                openState.stop();
+                if (!closeState.isStarted()) {
+                    closeState.start(player.tickCount);
+                }
+            }
+
         }
     }
 
