@@ -2,6 +2,7 @@ package mc.craig.software.angels.common.entity.angel;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,7 @@ public class BlockBehaviour {
     };
 
     public static BlockReaction BREAK_BLOCKS = (weepingAngel, blockState, level, blockPos) -> {
-        if (blockState.getLightEmission(level, blockPos) > 0) {
+        if (blockState.getLightEmission(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance() ) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);
                 serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState, level, blockPos, weepingAngel).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -47,6 +48,7 @@ public class BlockBehaviour {
 
     public static BlockReaction BLOWOUT_CANDLES = (weepingAngel, blockState, level, blockPos) -> {
         if (blockState.getBlock() instanceof CandleBlock) {
+            weepingAngel.playSound(WASounds.BLOW.get());
             AbstractCandleBlock.extinguish(null, blockState, level, blockPos);
             return true;
         }
@@ -61,11 +63,10 @@ public class BlockBehaviour {
     });
 
     public static void registerBehavior(Block block, BlockReaction pBehavior) {
+        if(BLOCK_BEHAVIOUR.containsKey(block)){
+            BLOCK_BEHAVIOUR.replace(block, pBehavior);
+        }
         BLOCK_BEHAVIOUR.put(block, pBehavior);
-    }
-
-    public static void unregisterBehavior(Block block) {
-        BLOCK_BEHAVIOUR.remove(block);
     }
 
     public static void init() {

@@ -1,6 +1,5 @@
 package mc.craig.software.angels.client.render;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
@@ -28,6 +27,12 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
     @Override
     protected RenderType getRenderType(WeepingAngel pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
         return RenderType.entityTranslucentCull(getTextureLocation(pLivingEntity));
+    }
+
+    @Override
+    protected void setupRotations(WeepingAngel pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        if (pEntityLiving.deathTime < 0) return;
+        super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
     }
 
     @Override

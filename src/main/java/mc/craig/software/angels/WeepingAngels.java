@@ -2,6 +2,8 @@ package mc.craig.software.angels;
 
 import com.mojang.logging.LogUtils;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.BlockBehaviour;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
@@ -41,6 +43,8 @@ public class WeepingAngels {
 
         MinecraftForge.EVENT_BUS.register(this);
         WAItems.ITEMS.register(modEventBus);
+        WASounds.SOUNDS.register(modEventBus);
+        WABlocks.BLOCKS.register(modEventBus);
         WAEntities.ENTITY_TYPES.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
@@ -55,6 +59,7 @@ public class WeepingAngels {
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new LootProvider(generator));
         generator.addProvider(true, new WABiomeMods(generator));
+        generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
         generator.addProvider(true, new BlockTagsProvider(generator, existingFileHelper));
         generator.addProvider(true, new ItemTags(generator, new BlockTagsProvider(generator, existingFileHelper), existingFileHelper));
 

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -43,6 +44,7 @@ public class AnomalyEntity extends Mob {
             lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPosition()));
             lightningbolt.setVisualOnly(true);
             level.addFreshEntity(lightningbolt);
+            playSound(SoundEvents.END_PORTAL_SPAWN);
         }
         if (!level.isClientSide) {
             setNoAi(true);
@@ -55,12 +57,6 @@ public class AnomalyEntity extends Mob {
                 Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngel.setNoAi(false);
                 weepingAngel.setDeltaMovement(vec.scale(0.15D));
-
-                if(distanceTo(weepingAngel) < 2) {
-                    weepingAngel.setSilent(true);
-                    weepingAngel.hurt(WADamageSources.GENERATOR, Integer.MAX_VALUE);
-                }
-
             }
         } else {
             if (!SPIN_STATE.isStarted()) {
@@ -72,6 +68,9 @@ public class AnomalyEntity extends Mob {
 
     @Override
     protected void doPush(@NotNull Entity entityIn) {
-
+        if (entityIn instanceof WeepingAngel weepingAngel) {
+            weepingAngel.setSilent(true);
+            weepingAngel.actuallyHurt(WADamageSources.GENERATOR, Integer.MAX_VALUE);
+        }
     }
 }

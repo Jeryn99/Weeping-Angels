@@ -1,11 +1,9 @@
 package mc.craig.software.angels.common.items;
 
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,12 +24,8 @@ public class DetectorItem extends Item {
         if (!pEntity.level.isClientSide) {
             List<WeepingAngel> angels = pEntity.level.getEntitiesOfClass(WeepingAngel.class, pEntity.getBoundingBox().inflate(64, 64, 64));
             if (pEntity instanceof Player player) {
-                if (!angels.isEmpty() && pIsSelected) {
-                    {
-                        if (pEntity.tickCount % 20 == 0) {
-                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_BURN, SoundSource.PLAYERS, 0.2F, 1.0F);
-                        }
-                    }
+                if (!angels.isEmpty() && pIsSelected && pEntity.tickCount % 20 == 0) {
+                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), WASounds.DING.get(), SoundSource.PLAYERS, 0.2F, 1.0F);
                 }
             }
         }
