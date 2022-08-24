@@ -1,8 +1,8 @@
-package mc.craig.software.angels.common.entity;
+package mc.craig.software.angels.common.entity.angel;
 
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.entity.misc.BodyRotationAngel;
+import mc.craig.software.angels.common.entity.angel.misc.BodyRotationAngel;
 import mc.craig.software.angels.util.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,8 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public abstract class AbstractWeepingAngel extends Monster implements Enemy {
-
-    private static final EntityDataAccessor<Boolean> IS_SEEN = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BLOCK_POS);
 
@@ -73,25 +71,26 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
             if (players.isEmpty()) {
                 setSeenTime(0);
                 setSpeed(0.5F);
-            } else {
-                Player targetPlayer = null;
-                for (Player player : players) {
-                    if (ViewUtil.isInSight(player, this) && isOnGround()) {
-                        setSeenTime(getSeenTime() + 1);
-                        invokeSeen(player);
-                        return;
-                    }
-                    if (targetPlayer == null) {
-                        targetPlayer = player;
-                        setSeenTime(0);
-                        setSpeed(0.5F);
-                    }
-                }
-
-                if (isSeen() || targetPlayer.isCreative()) return;
-                snapLookToPlayer(targetPlayer);
-                moveTowards(targetPlayer);
+                return;
             }
+
+            Player targetPlayer = null;
+            for (Player player : players) {
+                if (ViewUtil.isInSight(player, this) && isOnGround()) {
+                    setSeenTime(getSeenTime() + 1);
+                    invokeSeen(player);
+                    return;
+                }
+                if (targetPlayer == null) {
+                    targetPlayer = player;
+                    setSeenTime(0);
+                    setSpeed(0.5F);
+                }
+            }
+
+            if (isSeen()) return;
+            snapLookToPlayer(targetPlayer);
+            moveTowards(targetPlayer);
         }
     }
 
@@ -109,7 +108,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        getEntityData().define(IS_SEEN, false);
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
     }

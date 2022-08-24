@@ -1,0 +1,8 @@
+{
+  "death.attack.generator": "%s somehow got caught up in a generator",
+  "death.attack.punch_stone": "%s punched stone too hard...",
+  "entity.weeping_angels.anomaly": "Anomaly",
+  "entity.weeping_angels.weeping_angel": "Weeping Angel",
+  "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detector",
+  "itemGroup.weeping_angels": "Weeping Angels"
+}

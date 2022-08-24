@@ -1,6 +1,6 @@
-package mc.craig.software.angels.common.entity.misc;
+package mc.craig.software.angels.common.entity.angel.misc;
 
-import mc.craig.software.angels.common.entity.AbstractWeepingAngel;
+import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 

@@ -1,7 +1,7 @@
 package mc.craig.software.angels.util;
 
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.entity.AbstractWeepingAngel;
+import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -130,6 +130,9 @@ public class ViewUtil {
      * @param angel      The entity being watched by viewer
      */
     public static boolean isInSight(LivingEntity livingBase, AbstractWeepingAngel angel) {
+
+        if(isPlayerBlind(livingBase)) return false;
+
         if (viewBlocked(livingBase, angel)) {
             return false;
         }
@@ -182,6 +185,13 @@ public class ViewUtil {
         return true;
     }
 
+    public static boolean isDarkForPlayer(AbstractWeepingAngel angel, LivingEntity living) {
+        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getLightEmission(angel.blockPosition()) <= 0 && !angel.level.dimensionType().hasCeiling();
+    }
+
+    public static boolean isPlayerBlind(LivingEntity living) {
+        return living.hasEffect(MobEffects.BLINDNESS);
+    }
 
     @Nullable
     private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 vec31, Vec3 vec32, Predicate<BlockPos> stopOn) {
@@ -320,11 +330,9 @@ public class ViewUtil {
             return blockState.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER;
         }
 
-        // Config
-        // TODO
-     /*   if (blockState.is(AngelUtil.ANGEL_IGNORE)) {
+        if(!block.defaultBlockState().canOcclude()){
             return true;
-        }*/
+        }
 
         return blockState.getCollisionShape(world, pos) == Shapes.empty();
     }

@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#weeping_angels:spawns/weeping_angels",
+  "spawners": {
+    "type": "weeping_angels:weeping_angel",
+    "maxCount": 4,
+    "minCount": 1,
+    "weight": 10
+  }
+}

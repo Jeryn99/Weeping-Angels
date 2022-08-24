@@ -18,7 +18,6 @@ description = '''${mod_description}'''
 # NONE means that no display test is set on your mod. You need to do this yourself, see IExtensionPoint.DisplayTest for more information. You can define any scheme you wish with this value.
 # IMPORTANT NOTE: this is NOT an instruction as to which environments (CLIENT or DEDICATED SERVER) your mod loads on. Your mod should load (and maybe do nothing!) whereever it finds itself.
 displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
-itemIcon = "${item_icon}"
 
 [[dependencies.${mod_id}]]
 modId = "forge"

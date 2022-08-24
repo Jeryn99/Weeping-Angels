@@ -1,0 +1,9 @@
+{
+  "parent": "weeping_angels:item/timey_wimey_detector",
+  "textures": {
+    "base": "weeping_angels:item/timewimebase",
+    "hand": "weeping_angels:item/timeywime_hands/timeypoint_2",
+    "anim": "weeping_angels:item/timeyanim",
+    "particle": "weeping_angels:item/timewimebase"
+  }
+}
