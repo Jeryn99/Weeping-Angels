@@ -150,15 +150,16 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
-        boolean isHurt = HurtHelper.handleAngelHurt(this, pSource, pAmount);
         if (!level.isClientSide()) {
+            boolean isHurt = HurtHelper.handleAngelHurt(this, pSource, pAmount);
             ServerLevel serverLevel = (ServerLevel) level;
             if (isHurt) {
                 playSound(SoundEvents.STONE_BREAK);
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), getX(), getY(0.5D), getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
+                return true;
             }
         }
-        return isHurt;
+        return false;
     }
 
     @Override

@@ -10,6 +10,9 @@
   "death.attack.snapped_neck": "%s had their neck snapped by a Weeping Angel...",
   "entity.weeping_angels.anomaly": "Anomaly",
   "entity.weeping_angels.weeping_angel": "Weeping Angel",
-  "item.weeping_angels.timey_wimey_detector": "Timey Wimey Detector",
+  "item.weeping_angels.music_disc_sally": "Music Disc",
+  "item.weeping_angels.music_disc_sally.desc": "Sally Sparrow",
+  "item.weeping_angels.music_disc_time_prevails": "Music Disc",
+  "item.weeping_angels.music_disc_time_prevails.desc": "Time Prevails",
   "itemGroup.weeping_angels": "Weeping Angels"
 }

@@ -48,6 +48,7 @@ public class HurtHelper {
             boolean hasPickAxe = HurtHelper.validatePickaxe(player, predicate);
             if (!hasPickAxe) {
                 player.hurt(WADamageSources.PUNCH_STONE, weepingAngel.level.random.nextInt(5));
+                return false;
             }
             return true;
         }
