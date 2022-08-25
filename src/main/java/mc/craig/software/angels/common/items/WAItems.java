@@ -2,8 +2,10 @@ package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.blocks.WABlocks;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;

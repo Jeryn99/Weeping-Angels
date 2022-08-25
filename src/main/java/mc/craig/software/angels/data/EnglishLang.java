@@ -3,9 +3,11 @@ package mc.craig.software.angels.data;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -37,6 +39,16 @@ public class EnglishLang extends LanguageProvider {
         add(WADamageSources.PUNCH_STONE, "%s punched stone too hard...");
         add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel...");
 
+        // ==== Sounds ====
+        addSound(WASounds.ANGEL_MOCKING.get(), "Angel mocks");
+        addSound(WASounds.BLOW.get(), "Angel blows");
+        addSound(WASounds.DING.get(), "Ding!");
+        addSound(WASounds.DISC_SALLY.get(), "Sally");
+        addSound(WASounds.DISC_TIME_PREVAILS.get(), "Time prevails");
+        addSound(WASounds.KNOCK.get(), "Knocking");
+        addSound(WASounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
+        addSound(WASounds.PROJECTOR.get(), "Whirr");
+
         // ==== Config Values ====
         addConfig(WAConfiguration.CONFIG.hurtType, "Hurt Type?");
         addConfig(WAConfiguration.CONFIG.stalkRange, "Stalk Range");
@@ -47,6 +59,10 @@ public class EnglishLang extends LanguageProvider {
 
     }
 
+    public void addSound(SoundEvent soundEvent, String lang) {
+        add("subtitle." + WeepingAngels.MODID + "." + soundEvent.getLocation().getPath(), lang);
+    }
+    
     public void addConfig(ForgeConfigSpec.ConfigValue waConfiguration, String message){
         add("config.weeping_angels." + waConfiguration.getPath().get(1), message);
     }
