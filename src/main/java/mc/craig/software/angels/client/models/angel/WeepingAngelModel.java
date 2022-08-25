@@ -8,14 +8,16 @@ import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implements AngelModel {
+public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implements AngelModel, ArmedModel {
 
 
     public static final AnimationDefinition IDLE1 = AnimationDefinition.Builder.withLength(0f).addAnimation("leftArm", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 15f), AnimationChannel.Interpolations.LINEAR))).addAnimation("rightArm", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(-22.5f, -32.5f, -32.5f), AnimationChannel.Interpolations.LINEAR))).addAnimation("head", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(-17.5f, -25f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("leftWing", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -17.5f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("rightWing", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -15f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("Body", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.LINEAR))).build();
@@ -36,12 +38,16 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     private final ModelPart root;
     private final ModelPart leftWing;
     private final ModelPart rightWing;
+    private final ModelPart leftArm;
+    private final ModelPart rightArm;
 
     public WeepingAngelModel(ModelPart root) {
         this.root = root;
         this.Angel = root.getChild("Angel");
         this.leftWing = root.getChild("Angel").getChild("Body").getChild("leftWing");
         this.rightWing = root.getChild("Angel").getChild("Body").getChild("rightWing");
+        this.leftArm = root.getChild("Angel").getChild("Body").getChild("leftArm");
+        this.rightArm = root.getChild("Angel").getChild("Body").getChild("rightArm");
     }
 
     public static LayerDefinition meshLayer() {
@@ -99,5 +105,17 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     @Override
     public Iterable<ModelPart> getWings() {
         return ImmutableList.of(rightWing, leftWing);
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm pSide, PoseStack pPoseStack) {
+        ModelPart hand = this.getArm(pSide);
+        pPoseStack.translate(0.2,0.9,1.1);
+        hand.translateAndRotate(pPoseStack); //TODO
+
+    }
+
+    protected ModelPart getArm(HumanoidArm pSide) {
+        return pSide == HumanoidArm.LEFT ? this.leftArm : this.rightArm;
     }
 }

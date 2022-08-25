@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +17,7 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
         super(context, new WeepingAngelModel(context.bakeLayer(ModelRegistration.WEEPING_ANGEL)), 0F);
+        this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     @Override
     public ResourceLocation getTextureLocation(WeepingAngel weepingAngel) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/alice.png");
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/normal/normal_angel_" + weepingAngel.getEmotion().getId() + ".png");
     }
 
     @Override

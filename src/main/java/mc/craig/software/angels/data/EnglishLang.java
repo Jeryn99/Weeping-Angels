@@ -37,6 +37,10 @@ public class EnglishLang extends LanguageProvider {
         // ==== Config Values ====
         addConfig(WAConfiguration.CONFIG.hurtType, "Hurt Type?");
         addConfig(WAConfiguration.CONFIG.stalkRange, "Stalk Range");
+        addConfig(WAConfiguration.CONFIG.teleportChance, "Teleport Chance");
+        addConfig(WAConfiguration.CONFIG.teleportRange, "Teleport Range");
+        addConfig(WAConfiguration.CONFIG.bannedDimensions, "Banned Dimensions");
+        addConfig(WAConfiguration.CONFIG.blockBreaking, "Block Griefing?");
 
     }
 

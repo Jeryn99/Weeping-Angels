@@ -32,6 +32,7 @@ import java.util.List;
 public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<String> EMOTION = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
 
     public AbstractWeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
@@ -114,13 +115,28 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         super.defineSynchedData();
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
+        getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
+    }
+
+    public AngelEmotion getEmotion() {
+        String emotion = getEntityData().get(EMOTION);
+        for (AngelEmotion angelEmotion : AngelEmotion.values()) {
+            if(emotion.equalsIgnoreCase(angelEmotion.getId())){
+                return angelEmotion;
+            }
+        }
+        return AngelEmotion.IDLE;
+    }
+
+    public void setEmotion(AngelEmotion angelEmotion){
+        getEntityData().set(EMOTION, angelEmotion.getId());
     }
 
     @Override
     public void deserializeNBT(CompoundTag compound) {
         super.deserializeNBT(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
-        if (compound.contains(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
+        if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
     }
 
     @Override
@@ -128,7 +144,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         super.addAdditionalSaveData(compound);
         compound.putBoolean(WAConstants.IS_SEEN, isSeen());
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
-        compound.putLong(WAConstants.PREVPOS, getPrevPos().asLong());
+        compound.putString(WAConstants.EMOTION, getEmotion().getId());
     }
 
     @Override
@@ -151,14 +167,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
 
     public void setSeenTime(int time) {
         getEntityData().set(TIME_VIEWED, time);
-    }
-
-    public BlockPos getPrevPos() {
-        return getEntityData().get(PREVBLOCKPOS);
-    }
-
-    public void setPrevPos(BlockPos pos) {
-        getEntityData().set(PREVBLOCKPOS, pos);
     }
 
     @Override

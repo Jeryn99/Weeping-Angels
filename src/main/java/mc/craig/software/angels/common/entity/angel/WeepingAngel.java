@@ -1,21 +1,20 @@
 package mc.craig.software.angels.common.entity.angel;
 
-import com.google.common.collect.Lists;
+import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.util.HurtHelper;
 import mc.craig.software.angels.util.Teleporter;
 import mc.craig.software.angels.util.WADamageSources;
+import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -24,13 +23,16 @@ import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.minecraft.world.level.levelgen.Heightmap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class WeepingAngel extends AbstractWeepingAngel {
@@ -55,17 +57,32 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Override
     public boolean doHurtTarget(Entity pEntity) {
         float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+        // Teleporting
+        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
+        if (shouldTeleport && pEntity.level instanceof ServerLevel) {
+            ServerLevel chosenDimension = Teleporter.getRandomDimension(random);
+            double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
+            double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
+
+            for (int i = 0; i < 10; i++) {
+                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot());
+                if (successfulTeleport) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Theft
+        if (pEntity instanceof Player player) {
+            stealItems(player);
+        }
+
+        // Hurt
         boolean didHurt = pEntity.hurt(WADamageSources.SNAPPED_NECK, attackDamage);
         this.doEnchantDamageEffects(this, pEntity);
         this.setLastHurtMob(pEntity);
-        if(pEntity.level instanceof ServerLevel) {
-
-            Iterable<ServerLevel> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
-            ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
-            allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
-
-            Teleporter.performTeleport(pEntity, allowedDimensions.get(level.random.nextInt(allowedDimensions.size())), random.nextInt(100), random.nextInt(100), random.nextInt(100), 1, 1);
-        }
         return didHurt;
     }
 
@@ -86,13 +103,30 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Override
     public void tick() {
         super.tick();
-
+        setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.COOKED_BEEF));
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
         }
 
         if (tickCount % 400 == 0) {
-            investigateBlocks();
+            if (isSeen()) {
+                investigateBlocks();
+            } else {
+                setEmotion(AngelEmotion.values()[random.nextInt(AngelEmotion.values().length)]);
+            }
+        }
+    }
+
+    public void stealItems(Player player) {
+        if (!getMainHandItem().isEmpty()) return;
+        Inventory playerInv = player.getInventory();
+        for (int i = 0; i < playerInv.items.size(); i++) {
+            ItemStack item = playerInv.items.get(i);
+            if (item.is(WATags.STEALABLE_ITEMS)) {
+                setItemInHand(InteractionHand.MAIN_HAND, item.copy());
+                setGuaranteedDrop(EquipmentSlot.MAINHAND);
+                playerInv.setItem(0, ItemStack.EMPTY);
+            }
         }
     }
 
@@ -137,6 +171,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void investigateBlocks() {
+        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
+            return;
         for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             BlockState blockState = level.getBlockState(pos);
