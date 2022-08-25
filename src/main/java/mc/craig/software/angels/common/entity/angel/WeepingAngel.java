@@ -103,7 +103,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Override
     public void tick() {
         super.tick();
-        setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.COOKED_BEEF));
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
         }
@@ -112,7 +111,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             if (isSeen()) {
                 investigateBlocks();
             } else {
-                setEmotion(AngelEmotion.values()[random.nextInt(AngelEmotion.values().length)]);
+                setEmotion(AngelEmotion.randomEmotion(random));
             }
         }
     }
