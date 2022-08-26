@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.entity.angel;
 
+import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.util.HurtHelper;
@@ -26,14 +27,16 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class WeepingAngel extends AbstractWeepingAngel {
 
@@ -156,7 +159,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             if (isHurt) {
                 playSound(SoundEvents.STONE_BREAK);
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), getX(), getY(0.5D), getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
-                return true;
+                return super.hurt(pSource, pAmount);
             }
         }
         return false;
@@ -179,6 +182,34 @@ public class WeepingAngel extends AbstractWeepingAngel {
             BlockBehaviour.BlockReaction blockBehaviour = BlockBehaviour.BLOCK_BEHAVIOUR.get(blockState.getBlock());
             boolean completed = blockBehaviour.interact(this, blockState, level, pos);
             if (completed) return;
+        }
+    }
+
+    public Crackiness getCrackiness() {
+        return WeepingAngel.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
+    }
+
+    public enum Crackiness {
+        NONE(1.0F),
+        LOW(0.75F),
+        MEDIUM(0.5F),
+        HIGH(0.25F);
+
+        private static final List<WeepingAngel.Crackiness> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((crackiness) -> crackiness.fraction)).collect(ImmutableList.toImmutableList());
+        private final float fraction;
+
+        private Crackiness(float pFraction) {
+            this.fraction = pFraction;
+        }
+
+        public static WeepingAngel.Crackiness byFraction(float pFraction) {
+            for (WeepingAngel.Crackiness crackiness : BY_DAMAGE) {
+                if (pFraction < crackiness.fraction) {
+                    return crackiness;
+                }
+            }
+
+            return NONE;
         }
     }
 }

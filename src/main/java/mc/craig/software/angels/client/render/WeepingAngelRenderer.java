@@ -2,6 +2,7 @@ package mc.craig.software.angels.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.angel.WeepingAngelModel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
@@ -18,6 +19,7 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
         super(context, new WeepingAngelModel(context.bakeLayer(ModelRegistration.WEEPING_ANGEL)), 0F);
         this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
+        this.addLayer(new WeepingAngelCrackinessLayer(this));
     }
 
     @Override

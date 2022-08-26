@@ -58,7 +58,9 @@ public class WeepingAngels {
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
+        generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
         generator.addProvider(true, new LootProvider(generator));
+        generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
         generator.addProvider(true, new BlockTagsProvider(generator, existingFileHelper));

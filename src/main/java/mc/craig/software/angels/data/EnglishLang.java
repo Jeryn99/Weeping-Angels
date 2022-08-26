@@ -2,8 +2,10 @@ package mc.craig.software.angels.data;
 
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
@@ -21,11 +23,19 @@ public class EnglishLang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        // ==== Messages/UI ====
+        add(WAConstants.ANOMALIES_DETECTED, "Anomalies Detected: %s");
+
         // ==== Entity ====
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
         add(WAEntities.ANOMALY.get(), "Anomaly");
 
+        // ==== Blocks =====
+        add(WABlocks.KONTRON_ORE.get(), "Kontron Ore");
+        add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), "Kontron Ore (Deepslate)");
+
         // ==== Items ====
+        add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
         add(WAItems.DISC_SALLY.get(), "Music Disc");
         add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
         add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");

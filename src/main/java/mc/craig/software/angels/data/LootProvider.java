@@ -3,6 +3,7 @@ package mc.craig.software.angels.data;
 import com.mojang.datafixers.util.Pair;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
+import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.EntityLoot;
@@ -54,7 +55,8 @@ public class LootProvider extends LootTableProvider {
     public static class ModBlockLoot extends BlockLoot {
         @Override
         protected void addTables() {
-
+            this.add(WABlocks.KONTRON_ORE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
+            this.add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
         }
 
         @Override

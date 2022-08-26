@@ -25,6 +25,7 @@ public class WAItems {
     public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", () -> new DetectorItem(new Item.Properties().stacksTo(1).tab(MAIN_TAB)));
     public static final RegistryObject<Item> DISC_TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> new RecordItem(88, WASounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(MAIN_TAB).rarity(Rarity.RARE), 320));
     public static final RegistryObject<Item> DISC_SALLY = ITEMS.register("music_disc_sally", () -> new RecordItem(1, WASounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(MAIN_TAB).rarity(Rarity.RARE), 1300));
+    public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> new Item(new Item.Properties().tab(WAItems.MAIN_TAB)));
 
 
 }
