@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +17,6 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
         super(context, new WeepingAngelModel(context.bakeLayer(ModelRegistration.WEEPING_ANGEL)), 0F);
-        this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
         this.addLayer(new WeepingAngelCrackinessLayer(this));
     }
 
@@ -35,7 +33,7 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     @Override
     protected void setupRotations(WeepingAngel pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        if (pEntityLiving.deathTime < 0) return;
+        if (pEntityLiving.deathTime > 0) return;
         super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
     }
 

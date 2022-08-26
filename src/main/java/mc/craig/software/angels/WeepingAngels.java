@@ -70,6 +70,7 @@ public class WeepingAngels {
     private void commonSetup(final FMLCommonSetupEvent event) {
         BlockBehaviour.init();
         SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        VR_REFLECTOR.init();
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {

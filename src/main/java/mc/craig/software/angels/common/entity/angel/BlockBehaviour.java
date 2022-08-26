@@ -33,8 +33,18 @@ public class BlockBehaviour {
         return false;
     };
 
+    public static BlockReaction TOGGLE_POWER = (weepingAngel, blockState, level, blockPos) -> {
+        if (blockState.hasProperty(BlockStateProperties.POWERED)) {
+            if (level.getBlockState(blockPos).getValue(BlockStateProperties.POWERED)) {
+                level.setBlock(blockPos, blockState.setValue(BlockStateProperties.POWERED, false), 16);
+                return true;
+            }
+        }
+        return false;
+    };
+
     public static BlockReaction BREAK_BLOCKS = (weepingAngel, blockState, level, blockPos) -> {
-        if (blockState.getLightEmission(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance() ) {
+        if (blockState.getLightEmission(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance()) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);
                 serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState, level, blockPos, weepingAngel).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -88,6 +98,12 @@ public class BlockBehaviour {
                         registerBehavior(entry.getValue(), TOGGLE_LIGHTS);
                         WeepingAngels.LOGGER.debug("{} was registered as a light toggle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
                     }
+                }
+
+                // Toggle Power
+                if (blockState.hasProperty(BlockStateProperties.POWERED)) {
+                    registerBehavior(entry.getValue(), TOGGLE_POWER);
+                    WeepingAngels.LOGGER.debug("{} was registered as a power toggle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
                 }
 
                 // Candles

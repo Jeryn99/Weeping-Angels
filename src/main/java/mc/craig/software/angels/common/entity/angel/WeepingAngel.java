@@ -18,7 +18,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -27,6 +26,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -109,8 +109,14 @@ public class WeepingAngel extends AbstractWeepingAngel {
             POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
         }
 
+        // Ensure angels do not lock in the air or walk through water
+        if (isSeen() && (!isOnGround() || isInFluidType()) && !isHooked()) {
+            setSeenTime(0);
+            setNoAi(false);
+        }
+
         if (tickCount % 400 == 0) {
-            if(isHooked()) {
+            if (isHooked()) {
                 setHooked(false);
             }
             if (isSeen()) {
@@ -200,7 +206,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         private static final List<WeepingAngel.Crackiness> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((crackiness) -> crackiness.fraction)).collect(ImmutableList.toImmutableList());
         private final float fraction;
 
-        private Crackiness(float pFraction) {
+        Crackiness(float pFraction) {
             this.fraction = pFraction;
         }
 

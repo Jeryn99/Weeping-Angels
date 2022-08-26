@@ -16,14 +16,14 @@ public class WAEntities {
 
     public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITY_TYPES.register("weeping_angel", () -> EntityType.Builder.of((EntityType.EntityFactory<WeepingAngel>) (entityType, level) -> new WeepingAngel(level, entityType), MobCategory.CREATURE)
             .setTrackingRange(80)
-            .setUpdateInterval(3)
+            .setUpdateInterval(3).sized(0.6F, 2.9F)
             .setCustomClientFactory((ent, world) -> WAEntities.WEEPING_ANGEL.get().create(world))
             .setShouldReceiveVelocityUpdates(true)
             .build(MODID + ":weeping_angel"));
 
     public static final RegistryObject<EntityType<AnomalyEntity>> ANOMALY = ENTITY_TYPES.register("anomaly", () -> EntityType.Builder.of(AnomalyEntity::new, MobCategory.CREATURE)
             .setTrackingRange(80)
-            .setUpdateInterval(3)
+            .setUpdateInterval(3).sized(5F, 5F)
             .setCustomClientFactory((ent, world) -> WAEntities.ANOMALY.get().create(world))
             .setShouldReceiveVelocityUpdates(true)
             .build(MODID + ":anomaly"));

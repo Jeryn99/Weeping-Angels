@@ -17,7 +17,7 @@ public class ModelRegistration {
     public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
         definitions.registerLayerDefinition(WEEPING_ANGEL, WeepingAngelModel::meshLayer);
         definitions.registerLayerDefinition(ANOMALY, AnomalyModel::meshLayer);
-        definitions.registerLayerDefinition(MERCY_WINGS, MercyWings::meshLayer);
+        definitions.registerLayerDefinition(MERCY_WINGS, MercyWingsModel::meshLayer);
     }
 
 }

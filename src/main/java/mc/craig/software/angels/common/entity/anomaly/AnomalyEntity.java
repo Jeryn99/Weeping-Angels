@@ -3,6 +3,7 @@ package mc.craig.software.angels.common.entity.anomaly;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,8 +47,6 @@ public class AnomalyEntity extends Mob {
             level.addFreshEntity(lightningbolt);
             playSound(SoundEvents.END_PORTAL_SPAWN);
         }
-        if (!level.isClientSide) {
-            setNoAi(true);
             if (tickCount > lifeSpan()) {
                 remove(RemovalReason.DISCARDED);
             }
@@ -58,11 +57,15 @@ public class AnomalyEntity extends Mob {
                 weepingAngel.setNoAi(false);
                 weepingAngel.setHooked(true);
                 weepingAngel.setDeltaMovement(vec.scale(0.15D));
+
+                for (int i = 0; i < 2; ++i) {
+                    this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, weepingAngel.getRandomX(0.5D), weepingAngel.getRandomY(), weepingAngel.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
+                }
+
             }
-        } else {
-            if (!SPIN_STATE.isStarted()) {
-                SPIN_STATE.start(tickCount);
-            }
+
+        if (!SPIN_STATE.isStarted()) {
+            SPIN_STATE.start(tickCount);
         }
     }
 

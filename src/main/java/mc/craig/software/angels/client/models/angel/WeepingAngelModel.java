@@ -44,10 +44,11 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     public WeepingAngelModel(ModelPart root) {
         this.root = root;
         this.Angel = root.getChild("Angel");
-        this.leftWing = root.getChild("Angel").getChild("Body").getChild("leftWing");
-        this.rightWing = root.getChild("Angel").getChild("Body").getChild("rightWing");
-        this.leftArm = root.getChild("Angel").getChild("Body").getChild("leftArm");
-        this.rightArm = root.getChild("Angel").getChild("Body").getChild("rightArm");
+        ModelPart body = Angel.getChild("Body");
+        this.leftWing = body.getChild("leftWing");
+        this.rightWing = body.getChild("rightWing");
+        this.leftArm = body.getChild("leftArm");
+        this.rightArm = body.getChild("rightArm");
     }
 
     public static LayerDefinition meshLayer() {
@@ -116,8 +117,10 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     @Override
     public void translateToHand(HumanoidArm pSide, PoseStack pPoseStack) {
         ModelPart hand = this.getArm(pSide);
-        pPoseStack.translate(0.2,0.9,1.1);
-        hand.translateAndRotate(pPoseStack); //TODO
+        boolean wasVisible = hand.visible;
+        hand.visible = true;
+        hand.translateAndRotate(pPoseStack);
+        hand.visible = wasVisible;
 
     }
 

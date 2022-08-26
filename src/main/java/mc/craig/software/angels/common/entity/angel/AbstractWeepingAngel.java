@@ -57,7 +57,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     @Override
     public void tick() {
         super.tick();
-        if (getSeenTime() == 0 || level.isEmptyBlock(blockPosition().below())) {
+        if (getSeenTime() == 0) {
             setNoAi(false);
         }
     }
@@ -81,7 +81,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
 
             Player targetPlayer = null;
             for (Player player : players) {
-                //TODO Deal with water!
                 if (ViewUtil.isInSight(player, this)) {
                     setSeenTime(getSeenTime() + 1);
                     invokeSeen(player);
