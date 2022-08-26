@@ -5,7 +5,6 @@ import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -16,9 +15,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 
-public class BlockTagsProvider extends net.minecraft.data.tags.BlockTagsProvider {
+public class BlockTags extends net.minecraft.data.tags.BlockTagsProvider {
 
-    public BlockTagsProvider(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
+    public BlockTags(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
         super(dataGenerator, WeepingAngels.MODID, existingFileHelper);
     }
 
@@ -33,7 +32,7 @@ public class BlockTagsProvider extends net.minecraft.data.tags.BlockTagsProvider
             }
         }
 
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(WABlocks.KONTRON_ORE.get(), WABlocks.KONTRON_ORE_DEEPSLATE.get());
+        tag(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE).add(WABlocks.KONTRON_ORE.get(), WABlocks.KONTRON_ORE_DEEPSLATE.get());
         tag(Tags.Blocks.NEEDS_WOOD_TOOL).add(WABlocks.KONTRON_ORE.get(), WABlocks.KONTRON_ORE_DEEPSLATE.get());
         tag(WATags.NO_BREAKING).add(Blocks.GLOWSTONE, Blocks.LAVA, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK);
 

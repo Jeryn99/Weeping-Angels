@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -16,6 +17,7 @@ public class WATags {
     public static TagKey<Block> NO_BREAKING = makeBlock(WeepingAngels.MODID, "no_breaking");
     public static TagKey<Item> STEALABLE_ITEMS = makeItem(WeepingAngels.MODID, "stealable_items");
     public static TagKey<Biome> ANGEL_SPAWNS = makeBiome(WeepingAngels.MODID, "spawns/weeping_angels");
+    public static TagKey<EntityType<?>> ANOMALYS = makeEntityType(WeepingAngels.MODID, "anomaly");
 
 
     private static TagKey<Item> makeItem(String domain, String path) {
@@ -24,6 +26,10 @@ public class WATags {
 
     private static TagKey<Block> makeBlock(String domain, String path) {
         return BlockTags.create(new ResourceLocation(domain, path));
+    }
+
+    private static TagKey<EntityType<?>> makeEntityType(String domain, String path) {
+        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(domain, path));
     }
 
     private static TagKey<Structure> makeStructure(String domain, String path) {

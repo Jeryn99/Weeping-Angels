@@ -99,7 +99,13 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, weepingAngel.getSeenTime() > 0 ? 0 : Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7));
+
+        int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
+        if(weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0) {
+            playbackSpeed = 0;
+        }
+
+        animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
     }
 
     @Override

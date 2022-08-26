@@ -56,6 +56,7 @@ public class AnomalyEntity extends Mob {
                 BlockPos pos = blockPosition().subtract(weepingAngel.blockPosition());
                 Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngel.setNoAi(false);
+                weepingAngel.setHooked(true);
                 weepingAngel.setDeltaMovement(vec.scale(0.15D));
             }
         } else {

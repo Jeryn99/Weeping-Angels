@@ -7,9 +7,12 @@ import mc.craig.software.angels.client.overlays.TimeyWimeyOverlay;
 import mc.craig.software.angels.client.render.AnomalyRenderer;
 import mc.craig.software.angels.client.render.WeepingAngelRenderer;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -36,6 +39,11 @@ public class ClientModBus {
     @SubscribeEvent
     public static void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
         ModelRegistration.registerModels(definitions);
+    }
+
+    @SubscribeEvent
+    public static void doClientStuff(FMLClientSetupEvent event) {
+        ItemBlockRenderTypes.setRenderLayer(WABlocks.CHRONODYNE_GENERATOR.get(), RenderType.cutout());
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)

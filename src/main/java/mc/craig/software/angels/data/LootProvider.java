@@ -10,7 +10,6 @@ import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
@@ -47,9 +45,9 @@ public class LootProvider extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationContext) {
         for (Map.Entry<ResourceLocation, LootTable> entry : map.entrySet())
-            LootTables.validate(validationtracker, entry.getKey(), entry.getValue());
+            LootTables.validate(validationContext, entry.getKey(), entry.getValue());
     }
 
     public static class ModBlockLoot extends BlockLoot {
@@ -57,6 +55,7 @@ public class LootProvider extends LootTableProvider {
         protected void addTables() {
             this.add(WABlocks.KONTRON_ORE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
             this.add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
+            dropSelf(WABlocks.CHRONODYNE_GENERATOR.get());
         }
 
         @Override

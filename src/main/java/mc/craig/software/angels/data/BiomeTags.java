@@ -4,7 +4,6 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -12,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class BiomeTagsProvider extends net.minecraft.data.tags.BiomeTagsProvider {
+public class BiomeTags extends net.minecraft.data.tags.BiomeTagsProvider {
 
-    public BiomeTagsProvider(DataGenerator dataGenerator, @Nullable ExistingFileHelper existingFileHelper) {
+    public BiomeTags(DataGenerator dataGenerator, @Nullable ExistingFileHelper existingFileHelper) {
         super(dataGenerator, WeepingAngels.MODID, existingFileHelper);
     }
 
@@ -27,6 +26,6 @@ public class BiomeTagsProvider extends net.minecraft.data.tags.BiomeTagsProvider
             }
         }
 
-        tag(WATags.ANGEL_SPAWNS).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_TAIGA);
+        tag(WATags.ANGEL_SPAWNS).addTags(net.minecraft.tags.BiomeTags.IS_FOREST, net.minecraft.tags.BiomeTags.IS_TAIGA);
     }
 }

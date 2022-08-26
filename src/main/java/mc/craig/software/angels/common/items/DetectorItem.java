@@ -2,6 +2,7 @@ package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +23,7 @@ public class DetectorItem extends Item {
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
 
         if (!pEntity.level.isClientSide) {
-            List<WeepingAngel> angels = pEntity.level.getEntitiesOfClass(WeepingAngel.class, pEntity.getBoundingBox().inflate(64, 64, 64));
+            List<Entity> angels = WAHelper.getAnomaliesAroundEntity(pEntity, 64);
             if (pEntity instanceof Player player) {
                 if (!angels.isEmpty() && pIsSelected && pEntity.tickCount % 20 == 0) {
                     pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), WASounds.DING.get(), SoundSource.PLAYERS, 0.2F, 1.0F);

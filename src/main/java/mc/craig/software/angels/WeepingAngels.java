@@ -10,7 +10,6 @@ import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.compat.vivecraft.ServerReflector;
 import mc.craig.software.angels.data.*;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -19,7 +18,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.StartupMessageManager;
 import net.minecraftforge.fml.common.Mod;
@@ -60,11 +58,12 @@ public class WeepingAngels {
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
         generator.addProvider(true, new LootProvider(generator));
-        generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
+        generator.addProvider(true, new BiomeTags(generator, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
-        generator.addProvider(true, new BlockTagsProvider(generator, existingFileHelper));
-        generator.addProvider(true, new ItemTags(generator, new BlockTagsProvider(generator, existingFileHelper), existingFileHelper));
+        generator.addProvider(true, new BlockTags(generator, existingFileHelper));
+        generator.addProvider(true, new EntityTypeTags(generator, existingFileHelper));
+        generator.addProvider(true, new ItemTags(generator, new BlockTags(generator, existingFileHelper), existingFileHelper));
 
     }
 

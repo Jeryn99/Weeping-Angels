@@ -1,4 +1,5 @@
 {
+  "block.weeping_angels.chronodyne_generator": "Chronodyne Generator",
   "block.weeping_angels.deepslate_kontron_ore": "Kontron Ore (Deepslate)",
   "block.weeping_angels.kontron_ore": "Kontron Ore",
   "config.weeping_angels.banned_dimensions": "Banned Dimensions",
@@ -12,6 +13,7 @@
   "death.attack.snapped_neck": "%s had their neck snapped by a Weeping Angel...",
   "entity.weeping_angels.anomaly": "Anomaly",
   "entity.weeping_angels.weeping_angel": "Weeping Angel",
+  "item.weeping_angels.kontron_ingot": "Kontron Ingot",
   "item.weeping_angels.music_disc_sally": "Music Disc",
   "item.weeping_angels.music_disc_sally.desc": "Sally Sparrow",
   "item.weeping_angels.music_disc_time_prevails": "Music Disc",

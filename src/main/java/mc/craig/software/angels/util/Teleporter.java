@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -49,7 +50,7 @@ public class Teleporter {
         }
     }
 
-    public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, double pX, double pY, double pZ, float pYaw, float pPitch) {
+    public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, double pX, double pY, double pZ, float pYaw, float pPitch, boolean playSound) {
         WeepingAngels.LOGGER.debug("Teleported {} to {} {} {}", pEntity.getDisplayName().getString(), pX, pY, pZ);
         BlockPos blockpos = new BlockPos(pX, pY, pZ);
 
@@ -75,6 +76,8 @@ public class Teleporter {
                 } else {
                     serverPlayer.teleportTo(pLevel, pX, pY, pZ, f, f1);
                 }
+
+                serverPlayer.playSound(SoundEvents.PORTAL_TRAVEL);
 
                 pEntity.setYHeadRot(f);
             } else {

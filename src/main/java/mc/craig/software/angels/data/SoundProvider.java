@@ -23,12 +23,9 @@ public class SoundProvider extends SoundDefinitionsProvider {
 
     @Override
     public void registerSounds() {
-
         for (RegistryObject<SoundEvent> entry : WASounds.SOUNDS.getEntries()) {
             createDefinitionAndAdd(entry.get(), SoundDefinition.SoundType.SOUND, entry.get().getLocation().getPath(), entry.get().getLocation().getPath());
-
         }
-
     }
 
     public void createDefinitionAndAdd(SoundEvent mainSound, SoundDefinition.SoundType soundType, String subtitle, String... soundEvent) {

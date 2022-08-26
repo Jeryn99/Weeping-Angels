@@ -50,7 +50,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
         goalSelector.addGoal(id++, new OpenDoorGoal(this, false));
         goalSelector.addGoal(id++, new MeleeAttackGoal(this, 0.5f, true));
         goalSelector.addGoal(id++, new ClimbOnTopOfPowderSnowGoal(this, this.level));
-        goalSelector.addGoal(id++, new FloatGoal(this));
 
         // Targeting
         targetSelector.addGoal(id++, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -69,7 +68,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
 
             for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot());
+                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot(), true);
                 if (successfulTeleport) {
                     return true;
                 }
@@ -111,6 +110,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         if (tickCount % 400 == 0) {
+            if(isHooked()) {
+                setHooked(false);
+            }
             if (isSeen()) {
                 investigateBlocks();
             } else {

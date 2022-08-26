@@ -31,8 +31,8 @@ import java.util.List;
 
 public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<BlockPos> PREVBLOCKPOS = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<String> EMOTION = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Boolean> IS_HOOKED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
 
     public AbstractWeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
@@ -81,7 +81,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
 
             Player targetPlayer = null;
             for (Player player : players) {
-                if (ViewUtil.isInSight(player, this) && isOnGround()) {
+                //TODO Deal with water!
+                if (ViewUtil.isInSight(player, this)) {
                     setSeenTime(getSeenTime() + 1);
                     invokeSeen(player);
                     return;
@@ -114,8 +115,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     protected void defineSynchedData() {
         super.defineSynchedData();
         getEntityData().define(TIME_VIEWED, 0);
-        getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
         getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
+        getEntityData().define(IS_HOOKED, false);
     }
 
     public AngelEmotion getEmotion() {
@@ -132,11 +133,20 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         getEntityData().set(EMOTION, angelEmotion.getId());
     }
 
+    public boolean isHooked() {
+        return getEntityData().get(IS_HOOKED);
+    }
+
+    public void setHooked(boolean hooked){
+        getEntityData().set(IS_HOOKED, hooked);
+    }
+
     @Override
     public void deserializeNBT(CompoundTag compound) {
         super.deserializeNBT(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
         if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
+        if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
     }
 
     @Override

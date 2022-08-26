@@ -2,25 +2,19 @@ package mc.craig.software.angels.client.overlays;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.math.Transformation;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.entity.angel.WeepingAngel;
-import mc.craig.software.angels.common.entity.anomaly.AnomalyEntity;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.HandUtil;
-import net.minecraft.ChatFormatting;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +31,6 @@ public class TimeyWimeyOverlay implements @NotNull IGuiOverlay {
     public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int screenWidth, int screenHeight) {
         if (!HandUtil.isInEitherHand(Minecraft.getInstance().player, WAItems.TIMEY_WIMEY_DETECTOR.get())) return;
 
-        Level clientLevel = Minecraft.getInstance().player.level;
 
         // Texture
         poseStack.pushPose();
@@ -50,9 +43,9 @@ public class TimeyWimeyOverlay implements @NotNull IGuiOverlay {
         poseStack.popPose();
 
         // Text
-        int angelsAmount = clientLevel.getEntitiesOfClass(WeepingAngel.class, Minecraft.getInstance().player.getBoundingBox().inflate(64, 64, 64)).size();
-        int anomalyLevel = clientLevel.getEntitiesOfClass(AnomalyEntity.class, Minecraft.getInstance().player.getBoundingBox().inflate(64, 64, 64)).size();
-        String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(angelsAmount + anomalyLevel)).getString();
+        int anomalies = WAHelper.getAnomaliesAroundEntity(Minecraft.getInstance().player, 64).size();
+
+        String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
 
         renderWidthScaledText(warning, poseStack, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
 
