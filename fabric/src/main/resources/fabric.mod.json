@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
-  "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Me!"
+    "${credits}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "${display_url}",
+    "sources": "${issue_tracker_url}"
   },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+  "license": "${license}",
+  "icon": "${logo_file}",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -20,8 +20,7 @@
     ]
   },
   "mixins": [
-    "examplemod.mixins.json",
-    "examplemod-common.mixins.json"
+    "weeping_angels.mixins.json"
   ],
   "depends": {
     "fabric": "*",
