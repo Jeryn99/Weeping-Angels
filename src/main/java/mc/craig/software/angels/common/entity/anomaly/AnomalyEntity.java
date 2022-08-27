@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public class AnomalyEntity extends Mob {
     @Override
     public void tick() {
         super.tick();
-
+        setNoGravity(true);
         if (tickCount == 1) {
             LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(level);
             lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPosition()));
@@ -69,9 +70,20 @@ public class AnomalyEntity extends Mob {
         }
     }
 
+    @Override
+    public boolean isInvulnerable() {
+        return true;
+    }
+
+    @Override
+    protected boolean isImmobile() {
+        return true;
+    }
+
 
     @Override
     protected void doPush(@NotNull Entity entityIn) {
+        super.push(entityIn);
         if (entityIn instanceof WeepingAngel weepingAngel) {
             weepingAngel.setSilent(true);
             weepingAngel.actuallyHurt(WADamageSources.GENERATOR, Integer.MAX_VALUE);

@@ -1,8 +1,8 @@
-package mc.craig.software.angels.client.render;
+package mc.craig.software.angels.client.render.entity;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.models.angel.AnomalyModel;
+import mc.craig.software.angels.client.models.entity.angel.AnomalyModel;
 import mc.craig.software.angels.common.entity.anomaly.AnomalyEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

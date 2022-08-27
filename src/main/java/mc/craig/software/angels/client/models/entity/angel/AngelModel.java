@@ -1,4 +1,4 @@
-package mc.craig.software.angels.client.models.angel;
+package mc.craig.software.angels.client.models.entity.angel;
 
 import net.minecraft.client.model.geom.ModelPart;
 

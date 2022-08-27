@@ -1,4 +1,4 @@
-package mc.craig.software.angels.client.models.angel;
+package mc.craig.software.angels.client.models.entity.angel;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

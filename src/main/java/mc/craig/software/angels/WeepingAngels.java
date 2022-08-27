@@ -3,8 +3,9 @@ package mc.craig.software.angels;
 import com.mojang.logging.LogUtils;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
-import mc.craig.software.angels.common.entity.angel.BlockBehaviour;
+import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.compat.vivecraft.ServerReflector;
@@ -44,6 +45,7 @@ public class WeepingAngels {
         WASounds.SOUNDS.register(modEventBus);
         WABlocks.BLOCKS.register(modEventBus);
         WAEntities.ENTITY_TYPES.register(modEventBus);
+        WABlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         StartupMessageManager.addModMessage("Don't Blink!");
@@ -68,7 +70,7 @@ public class WeepingAngels {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        BlockBehaviour.init();
+        BlockReactions.init();
         SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         VR_REFLECTOR.init();
     }

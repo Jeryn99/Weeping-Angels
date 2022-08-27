@@ -3,7 +3,7 @@ package mc.craig.software.angels.client.models;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import mc.craig.software.angels.client.models.angel.AngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;

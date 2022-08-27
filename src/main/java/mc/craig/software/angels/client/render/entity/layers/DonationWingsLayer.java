@@ -1,11 +1,11 @@
-package mc.craig.software.angels.client.layers;
+package mc.craig.software.angels.client.render.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.MercyWingsModel;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.models.angel.AngelModel;
-import mc.craig.software.angels.client.models.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AngelModel;
+import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;

@@ -56,6 +56,7 @@ public class LootProvider extends LootTableProvider {
             this.add(WABlocks.KONTRON_ORE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
             this.add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
             dropSelf(WABlocks.CHRONODYNE_GENERATOR.get());
+            dropSelf(WABlocks.COFFIN.get());
         }
 
         @Override

@@ -8,15 +8,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 public class GeneratorBlock extends Block {
 
@@ -40,11 +39,6 @@ public class GeneratorBlock extends Block {
         }
     }
 
- /*   @Override
-    public RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.MODEL;
-    }*/
-
     @Override
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
         super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
@@ -57,10 +51,19 @@ public class GeneratorBlock extends Block {
     }
 
     @Override
+    public void onProjectileHit(Level pLevel, BlockState pState, BlockHitResult pHit, Projectile pProjectile) {
+        super.onProjectileHit(pLevel, pState, pHit, pProjectile);
+        if (pLevel.isClientSide()) return;
+        WAHelper.spawnBlackHole((ServerLevel) pLevel, pHit.getBlockPos());
+        pLevel.removeBlock(pHit.getBlockPos(), false);
+    }
+
+    @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             WAHelper.spawnBlackHole((ServerLevel) pLevel, pPos);
             pLevel.removeBlock(pPos, false);
+            pPlayer.swing(pHand);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;

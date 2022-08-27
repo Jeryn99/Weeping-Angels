@@ -1,15 +1,20 @@
 package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class WAItems {
 
@@ -26,6 +31,7 @@ public class WAItems {
     public static final RegistryObject<Item> DISC_TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> new RecordItem(88, WASounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(MAIN_TAB).rarity(Rarity.RARE), 320));
     public static final RegistryObject<Item> DISC_SALLY = ITEMS.register("music_disc_sally", () -> new RecordItem(89, WASounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(MAIN_TAB).rarity(Rarity.RARE), 1300));
     public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> new Item(new Item.Properties().tab(WAItems.MAIN_TAB)));
+    public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("angel_spawner", () -> new SpawnerItem(WAEntities.WEEPING_ANGEL::get, new Item.Properties().tab(WAItems.MAIN_TAB)));
 
 
 }

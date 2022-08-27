@@ -1,6 +1,7 @@
 package mc.craig.software.angels.data;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.DetectorItem;
 import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.data.DataGenerator;
@@ -26,14 +27,18 @@ public class ModelProviderItem extends ItemModelProvider {
     @Override
     protected void registerModels() {
         for (RegistryObject<Item> entry : WAItems.ITEMS.getEntries()) {
-            if (entry.get() instanceof ForgeSpawnEggItem) continue;
             if (entry.get() instanceof DetectorItem) continue;
 
+            if(entry.get() == WABlocks.COFFIN.get().asItem()){
+                basicItem(entry.get());
+                continue;
+            }
 
             if (entry.get() instanceof BlockItem) {
                 blockItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(entry.get())));
                 continue;
             }
+
             basicItem(entry.get());
         }
     }

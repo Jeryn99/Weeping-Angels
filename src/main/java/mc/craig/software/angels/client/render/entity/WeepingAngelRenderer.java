@@ -1,16 +1,19 @@
-package mc.craig.software.angels.client.render;
+package mc.craig.software.angels.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.client.layers.WeepingAngelCrackinessLayer;
+import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.models.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
 public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, WeepingAngelModel> {
@@ -22,6 +25,12 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     @Override
     public void render(WeepingAngel pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
+        if (pEntity.deathTime > 0) {
+            for (int i = 0; i < 10; i++) {
+                pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+            }
+            return;
+        }
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
 

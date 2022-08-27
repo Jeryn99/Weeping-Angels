@@ -1,9 +1,9 @@
-package mc.craig.software.angels.client.layers;
+package mc.craig.software.angels.client.render.entity.layers;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.client.models.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;

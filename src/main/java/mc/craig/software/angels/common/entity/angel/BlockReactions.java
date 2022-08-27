@@ -21,7 +21,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 
-public class BlockBehaviour {
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
+
+public class BlockReactions {
 
     public static BlockReaction TOGGLE_LIGHTS = (weepingAngel, blockState, level, blockPos) -> {
         if (blockState.hasProperty(BlockStateProperties.LIT)) {
@@ -34,9 +36,11 @@ public class BlockBehaviour {
     };
 
     public static BlockReaction TOGGLE_POWER = (weepingAngel, blockState, level, blockPos) -> {
-        if (blockState.hasProperty(BlockStateProperties.POWERED)) {
-            if (level.getBlockState(blockPos).getValue(BlockStateProperties.POWERED)) {
-                level.setBlock(blockPos, blockState.setValue(BlockStateProperties.POWERED, false), 16);
+        if (blockState.hasProperty(POWERED)) {
+            BlockState newState = blockState.cycle(POWERED);
+            // Lever
+            if (newState.getBlock() instanceof LeverBlock leverBlock && level.random.nextBoolean()) {
+                leverBlock.pull(blockState, level, blockPos);
                 return true;
             }
         }
@@ -101,7 +105,7 @@ public class BlockBehaviour {
                 }
 
                 // Toggle Power
-                if (blockState.hasProperty(BlockStateProperties.POWERED)) {
+                if (blockState.hasProperty(POWERED)) {
                     registerBehavior(entry.getValue(), TOGGLE_POWER);
                     WeepingAngels.LOGGER.debug("{} was registered as a power toggle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
                 }
