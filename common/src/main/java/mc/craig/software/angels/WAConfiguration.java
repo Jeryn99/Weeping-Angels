@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 
 public class WAConfiguration {
+
     public static final WAConfiguration CONFIG;
     public static final ForgeConfigSpec CONFIG_SPEC;
 

@@ -25,6 +25,8 @@
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.19.2",
-    "architectury": ">=6.2.43"
+    "architectury": ">=6.2.43",
+    "com_electronwill_night-config_core": "*",
+    "com_electronwill_night-config_toml": "*"
   }
 }
