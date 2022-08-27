@@ -32,7 +32,7 @@ public class ClientModBus {
 
     @SubscribeEvent
     public static void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
-        ModelRegistration.registerModels(definitions);
+     //   ModelRegistration.registerModels(definitions);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)

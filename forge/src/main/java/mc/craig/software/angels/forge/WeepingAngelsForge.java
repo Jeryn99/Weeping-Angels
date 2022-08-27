@@ -1,16 +1,11 @@
 package mc.craig.software.angels.forge;
 
-import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
-import mc.craig.software.angels.common.WASounds;
-import mc.craig.software.angels.common.blockentity.WABlockEntities;
-import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
-import mc.craig.software.angels.common.items.WAItems;
-import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import mc.craig.software.angels.data.forge.*;
+import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -20,10 +15,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.StartupMessageManager;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -44,11 +37,6 @@ public class WeepingAngelsForge {
 
 
         MinecraftForge.EVENT_BUS.register(this);
-        WAItems.ITEMS.register(modEventBus);
-        WASounds.SOUNDS.register(modEventBus);
-        WABlocks.BLOCKS.register(modEventBus);
-        WAEntities.ENTITY_TYPES.register(modEventBus);
-        WABlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
 
         StartupMessageManager.addModMessage("Don't Blink!");
 

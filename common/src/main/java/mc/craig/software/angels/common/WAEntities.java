@@ -1,31 +1,26 @@
 package mc.craig.software.angels.common;
 
+import com.google.common.base.Supplier;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.anomaly.AnomalyEntity;
+import mc.craig.software.angels.registry.DeferredRegistry;
+import mc.craig.software.angels.registry.RegistrySupplier;
+import net.minecraft.core.Registry;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 import static mc.craig.software.angels.WeepingAngels.MODID;
 
 public class WAEntities {
 
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+    public static final DeferredRegistry<EntityType<?>> ENTITY_TYPES = DeferredRegistry.create(MODID, Registry.ENTITY_TYPE_REGISTRY);
 
-    public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITY_TYPES.register("weeping_angel", () -> EntityType.Builder.of((EntityType.EntityFactory<WeepingAngel>) (entityType, level) -> new WeepingAngel(level, entityType), MobCategory.CREATURE)
-            .setTrackingRange(80)
-            .setUpdateInterval(3).sized(0.6F, 2.9F)
-            .setCustomClientFactory((ent, world) -> WAEntities.WEEPING_ANGEL.get().create(world))
-            .setShouldReceiveVelocityUpdates(true)
-            .build(MODID + ":weeping_angel"));
+    public static final RegistrySupplier<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITY_TYPES.register("weeping_angel", () -> EntityType.Builder.of((EntityType.EntityFactory<WeepingAngel>) (entityType, level) -> new WeepingAngel(level, entityType), MobCategory.CREATURE).sized(0.6F, 2.9F).build(MODID + ":weeping_angel"));
+    public static final RegistrySupplier<EntityType<AnomalyEntity>> ANOMALY = ENTITY_TYPES.register("anomaly", () -> EntityType.Builder.of(AnomalyEntity::new, MobCategory.CREATURE).sized(5F, 5F).build(MODID + ":anomaly"));
 
-    public static final RegistryObject<EntityType<AnomalyEntity>> ANOMALY = ENTITY_TYPES.register("anomaly", () -> EntityType.Builder.of(AnomalyEntity::new, MobCategory.CREATURE)
-            .setTrackingRange(80)
-            .setUpdateInterval(3).sized(5F, 5F)
-            .setCustomClientFactory((ent, world) -> WAEntities.ANOMALY.get().create(world))
-            .setShouldReceiveVelocityUpdates(true)
-            .build(MODID + ":anomaly"));
+    public static <T extends Entity> RegistrySupplier<EntityType<T>> register(String id, Supplier<EntityType.Builder<T>> builderSupplier) {
+        return ENTITY_TYPES.register(id, () -> builderSupplier.get().build(MODID + ":" + id));
+    }
 
 }

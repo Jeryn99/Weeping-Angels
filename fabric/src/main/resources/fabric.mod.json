@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}",
-  "version": "${mod_version}",
-  "name": "${mod_name}",
-  "description": "${mod_description}",
+  "id": "weeping_angels",
+  "version": "1",
+  "name": "{mod_name}",
+  "description": "{mod_description}",
   "authors": [
-    "${credits}"
+    "{credits}"
   ],
   "contact": {
-    "homepage": "${display_url}",
-    "sources": "${issue_tracker_url}"
+    "homepage": "{display_url}",
+    "sources": "{issue_tracker_url}"
   },
-  "license": "${license}",
-  "icon": "${logo_file}",
+  "license": "{license}",
+  "icon": "{logo_file}",
   "environment": "*",
   "entrypoints": {
     "main": [

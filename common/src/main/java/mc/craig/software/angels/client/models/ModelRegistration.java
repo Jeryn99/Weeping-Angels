@@ -15,11 +15,11 @@ public class ModelRegistration {
     public static ModelLayerLocation COFFIN = new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "coffin");
 
 
-    public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
+/*    public static void registerModels(RegisterLayerDefinitions definitions) {
         definitions.registerLayerDefinition(WEEPING_ANGEL, WeepingAngelModel::meshLayer);
         definitions.registerLayerDefinition(ANOMALY, AnomalyModel::meshLayer);
         definitions.registerLayerDefinition(MERCY_WINGS, MercyWingsModel::meshLayer);
         definitions.registerLayerDefinition(COFFIN, CoffinModel::meshLayer);
-    }
+    }*/
 
 }

@@ -1,6 +1,5 @@
 package mc.craig.software.angels.util;
 
-import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
@@ -33,13 +31,14 @@ public class ViewUtil {
         Vec3 vecTargetsPos = target.position();
         Vec3 vecLook;
 
-        if (vr) {
+      /*  if (vr) {
             if (entity instanceof Player) {
                 vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((Player) entity);
             } else {
-                throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
+                throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getName().getString());
             }
-        } else {
+        } else*/
+        {
             vecLook = entity.getLookAngle();
         }
         Vec3 vecFinal = vecTargetsPos.vectorTo(new Vec3(entity.getX(), entity.getY(), entity.getZ())).normalize();
@@ -62,7 +61,7 @@ public class ViewUtil {
             return false;
         }
         if (livingBase instanceof Player) {
-            return isInFrontOfEntity(livingBase, angel, WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) livingBase));
+            return isInFrontOfEntity(livingBase, angel, false); //WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) livingBase));
         }
         return isInFrontOfEntity(livingBase, angel, false);
     }
@@ -74,9 +73,9 @@ public class ViewUtil {
 
         if (viewer instanceof Player) {
             Vec3 pos;
-            if (WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) viewer))
+         /*   if (WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) viewer))
                 pos = WeepingAngels.VR_REFLECTOR.getHMDPos((Player) viewer);
-            else
+            else*/
                 pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);

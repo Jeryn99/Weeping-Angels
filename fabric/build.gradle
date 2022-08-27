@@ -74,35 +74,6 @@ components.java {
     }
 }
 
-def resourceTargets = ['fabric.mod.json', 'pack.mcmeta']
-def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
-def replaceProperties = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
-                         mod_authors: mod_authors, credits:credits, mod_description: mod_description,
-                         display_url:display_url, logo_file:logo_file,
-                         issue_tracker_url: issue_tracker_url,
-                         update_json_url: update_json_url,
-                         license: license]
-processResources {
-    inputs.properties replaceProperties
-    replaceProperties.put 'project', project
-
-    filesMatching(resourceTargets) {
-        expand replaceProperties
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
-    }
-}
-
 
 publishing {
     publications {
