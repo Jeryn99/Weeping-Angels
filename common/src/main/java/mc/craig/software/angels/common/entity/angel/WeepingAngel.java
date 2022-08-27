@@ -61,13 +61,13 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
         // Teleporting
         boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
-        if (shouldTeleport && pEntity.level instanceof ServerLevel) {
-            ServerLevel chosenDimension = Teleporter.getRandomDimension(random);
+        if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
+            ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
             double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
             double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
 
             for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot(), true);
+                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot(), true);
                 if (successfulTeleport) {
                     return true;
                 }
@@ -109,7 +109,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Ensure angels do not lock in the air or walk through water
-        if (isSeen() && (!isOnGround() || isInFluidType()) && !isHooked()) {
+        if (isSeen() && (!isOnGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
             setSeenTime(0);
             setNoAi(false);
         }

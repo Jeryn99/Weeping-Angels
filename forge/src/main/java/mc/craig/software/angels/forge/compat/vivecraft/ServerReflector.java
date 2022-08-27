@@ -1,4 +1,4 @@
-package mc.craig.software.angels.compat.vivecraft;
+package mc.craig.software.angels.forge.compat.vivecraft;
 
 import mc.craig.software.angels.WeepingAngels;
 import net.minecraft.world.entity.player.Player;

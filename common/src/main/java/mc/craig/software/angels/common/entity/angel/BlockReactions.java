@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.entity.angel;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
@@ -48,7 +49,7 @@ public class BlockReactions {
     };
 
     public static BlockReaction BREAK_BLOCKS = (weepingAngel, blockState, level, blockPos) -> {
-        if (blockState.getLightEmission(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance()) {
+        if (blockState.getLightBlock(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance()) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);
                 serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState, level, blockPos, weepingAngel).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -83,40 +84,9 @@ public class BlockReactions {
         BLOCK_BEHAVIOUR.put(block, pBehavior);
     }
 
+    @ExpectPlatform
     public static void init() {
-        for (Map.Entry<ResourceKey<Block>, Block> entry : ForgeRegistries.BLOCKS.getEntries()) {
-            BlockState blockState = entry.getValue().defaultBlockState();
-            Block block = entry.getValue();
-            if (!block.defaultBlockState().is(WATags.NO_BREAKING)) {
 
-                // Destroy Lights
-                if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
-                    registerBehavior(entry.getValue(), BREAK_BLOCKS);
-                    WeepingAngels.LOGGER.debug("{} was registered as a breaking block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
-                }
-
-                // Toggle Lights
-                if (blockState.hasProperty(BlockStateProperties.LIT)) {
-                    boolean shouldSkip = entry.getValue() instanceof CandleBlock;
-                    if (!shouldSkip) {
-                        registerBehavior(entry.getValue(), TOGGLE_LIGHTS);
-                        WeepingAngels.LOGGER.debug("{} was registered as a light toggle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
-                    }
-                }
-
-                // Toggle Power
-                if (blockState.hasProperty(POWERED)) {
-                    registerBehavior(entry.getValue(), TOGGLE_POWER);
-                    WeepingAngels.LOGGER.debug("{} was registered as a power toggle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
-                }
-
-                // Candles
-                if (block instanceof CandleBlock candleBlock) {
-                    registerBehavior(candleBlock, BLOWOUT_CANDLES);
-                    WeepingAngels.LOGGER.debug("{} was registered as a candle block", ForgeRegistries.BLOCKS.getKey(entry.getValue()));
-                }
-            }
-        }
     }
 
     public interface BlockReaction {

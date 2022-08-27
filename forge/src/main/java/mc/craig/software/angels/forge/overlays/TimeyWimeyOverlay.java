@@ -1,4 +1,4 @@
-package mc.craig.software.angels.client.overlays;
+package mc.craig.software.angels.forge.overlays;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;

@@ -7,7 +7,6 @@ import mc.craig.software.angels.WeepingAngels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -15,7 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Optional;
 
 public class DonationChecker {
 
@@ -44,12 +46,12 @@ public class DonationChecker {
 
     public static Runnable DONATOR_RUNNABLE = DonationChecker::update;
 
-    public static void checkForUpdate(TickEvent.ClientTickEvent event) {
+    public static void checkForUpdate() {
         Calendar rightNow = Calendar.getInstance();
         int minutes = rightNow.get(Calendar.MINUTE);
         int second = rightNow.get(Calendar.SECOND);
         if ((minutes == 0 || minutes == 39) && second == 1) {
-            Minecraft.getInstance().submitAsync(DONATOR_RUNNABLE);
+            Minecraft.getInstance().submit(DONATOR_RUNNABLE);
         }
     }
 

@@ -27,8 +27,6 @@ import java.util.HashSet;
 import java.util.Optional;
 
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
-
-    protected static HashSet<Donator> modDonators = new HashSet<>();
     public final MercyWingsModel mercyWings;
     public final AngelModel angelModel;
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
@@ -37,14 +35,13 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
 
     public DonationWingsLayer(RenderLayerParent<T, M> renderLayerParent) {
         super(renderLayerParent);
-        Minecraft.getInstance().submitAsync(DonationChecker.DONATOR_RUNNABLE);
+        Minecraft.getInstance().submit(DonationChecker.DONATOR_RUNNABLE);
         mercyWings = new MercyWingsModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.MERCY_WINGS));
         angelModel = new WeepingAngelModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.WEEPING_ANGEL));
     }
 
     public static Optional<Donator> getDonatorData(Player player) {
         for (Donator person : DonationChecker.getModDonators()) {
-            System.out.println("donating: " + player.getStringUUID());
             if (player.getStringUUID().equals(person.getUuid())) {
                 return Optional.of(person);
             }

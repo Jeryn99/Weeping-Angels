@@ -1,4 +1,4 @@
-package mc.craig.software.angels.handlers;
+package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
 import net.minecraftforge.fml.common.Mod;

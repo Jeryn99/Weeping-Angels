@@ -21,11 +21,11 @@ public class WATags {
 
 
     private static TagKey<Item> makeItem(String domain, String path) {
-        return ItemTags.create(new ResourceLocation(domain, path));
+        return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(domain, path));
     }
 
     private static TagKey<Block> makeBlock(String domain, String path) {
-        return BlockTags.create(new ResourceLocation(domain, path));
+        return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(domain, path));
     }
 
     private static TagKey<EntityType<?>> makeEntityType(String domain, String path) {

@@ -9,7 +9,7 @@ import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
-import mc.craig.software.angels.compat.vivecraft.ServerReflector;
+import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import mc.craig.software.angels.data.forge.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -50,7 +50,6 @@ public class WeepingAngelsForge {
         WAEntities.ENTITY_TYPES.register(modEventBus);
         WABlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         StartupMessageManager.addModMessage("Don't Blink!");
 
     }

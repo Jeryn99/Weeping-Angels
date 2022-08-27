@@ -9,12 +9,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public class WeepingAngelCrackinessLayer extends RenderLayer<WeepingAngel, WeepingAngelModel> {
     private static final Map<WeepingAngel.Crackiness, ResourceLocation> resourceLocations = ImmutableMap.of(WeepingAngel.Crackiness.LOW, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/low_cracks.png"), WeepingAngel.Crackiness.MEDIUM, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/medium_cracks.png"), WeepingAngel.Crackiness.HIGH, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/high_cracks.png"));
 

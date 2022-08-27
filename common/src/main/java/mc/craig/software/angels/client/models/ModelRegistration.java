@@ -6,7 +6,6 @@ import mc.craig.software.angels.client.models.entity.angel.AnomalyModel;
 import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ModelRegistration {
 

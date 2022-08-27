@@ -1,7 +1,6 @@
 package mc.craig.software.angels.util;
 
-import com.google.common.collect.Lists;
-import mc.craig.software.angels.WAConfiguration;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.WeepingAngels;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -13,31 +12,17 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
-import net.minecraftforge.server.ServerLifecycleHooks;
-
-import java.util.ArrayList;
 
 public class Teleporter {
 
 
-    public static ServerLevel getRandomDimension(RandomSource rand) {
-        Iterable<ServerLevel> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
-        ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
-
-        for (ServerLevel dimension : dimensions) {
-            for (String dimName : WAConfiguration.CONFIG.bannedDimensions.get()) {
-                if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
-                    allowedDimensions.remove(dimension);
-                }
-            }
-        }
-        allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
-        return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
+    @ExpectPlatform
+    public static ServerLevel getRandomDimension(RandomSource rand, ServerLevel serverLevel) {
+        throw new RuntimeException("Dang");
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {

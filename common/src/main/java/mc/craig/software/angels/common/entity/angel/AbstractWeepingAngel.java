@@ -141,8 +141,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
     @Override
-    public void deserializeNBT(CompoundTag compound) {
-        super.deserializeNBT(compound);
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
         if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));

@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 public class HurtHelper {
     public static boolean validatePickaxe(Player player, Predicate<ItemStack> predicate) {
         ItemStack heldItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
-        return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(heldItem, Blocks.STONE.defaultBlockState());
+        return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState());
     }
 
     public static boolean handleAngelHurt(WeepingAngel weepingAngel, DamageSource pSource, float pAmount) {
