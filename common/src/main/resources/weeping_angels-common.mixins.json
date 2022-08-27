@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "mc.craig.software.angels.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ElytraLayerMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

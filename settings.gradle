@@ -1,20 +1,14 @@
 pluginManagement {
     repositories {
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.minecraftforge.net/" }
         gradlePluginPortal()
-        maven {
-            name 'MinecraftForge'
-            url 'https://maven.minecraftforge.net/'
-        }
-        maven {
-            name 'ParchmentMC'
-            url 'https://maven.parchmentmc.org'
-        }
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.toString() == 'org.spongepowered.mixin') {
-                useModule("org.spongepowered:mixingradle:${requested.version}")
-            }
-        }
     }
 }
+
+include("common")
+include("fabric")
+include("forge")
+
+rootProject.name = "WeepingAngels"

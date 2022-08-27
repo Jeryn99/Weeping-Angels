@@ -1,9 +1,0 @@
-{
-  "required": true,
-  "package": "mc.craig.software.angels.mixin",
-  "refmap": "weeping_angels.refmap.json",
-  "client": [
-    "ElytraLayerMixin"
-  ],
-  "minVersion": "0.8"
-}
