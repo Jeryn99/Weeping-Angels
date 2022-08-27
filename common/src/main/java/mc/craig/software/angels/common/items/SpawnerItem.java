@@ -35,8 +35,8 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class SpawnerItem extends Item {
-    private final Supplier<EntityType<? extends Mob>> defaultType;
 
+    private final Supplier<EntityType<? extends Mob>> defaultType;
 
     public SpawnerItem(Supplier<EntityType<? extends Mob>> pDefaultType, Item.Properties pProperties) {
         super(pProperties);

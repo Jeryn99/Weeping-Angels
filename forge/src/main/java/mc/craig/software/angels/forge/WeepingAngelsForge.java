@@ -44,11 +44,6 @@ public class WeepingAngelsForge {
 
 
         MinecraftForge.EVENT_BUS.register(this);
-        WAItems.ITEMS.register(modEventBus);
-        WASounds.SOUNDS.register(modEventBus);
-        WABlocks.BLOCKS.register(modEventBus);
-        WAEntities.ENTITY_TYPES.register(modEventBus);
-        WABlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         StartupMessageManager.addModMessage("Don't Blink!");

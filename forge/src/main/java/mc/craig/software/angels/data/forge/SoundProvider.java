@@ -2,6 +2,7 @@ package mc.craig.software.angels.data.forge;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -23,7 +24,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
 
     @Override
     public void registerSounds() {
-        for (RegistryObject<SoundEvent> entry : WASounds.SOUNDS.getEntries()) {
+        for (RegistrySupplier<SoundEvent> entry : WASounds.SOUNDS.getEntries()) {
             createDefinitionAndAdd(entry.get(), SoundDefinition.SoundType.SOUND, entry.get().getLocation().getPath(), entry.get().getLocation().getPath());
         }
     }
