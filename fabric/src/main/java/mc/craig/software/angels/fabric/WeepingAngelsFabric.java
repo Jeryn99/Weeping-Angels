@@ -10,8 +10,8 @@ public class WeepingAngelsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        WeepingAngels.init();
         ModLoadingContext.registerConfig(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
+        WeepingAngels.init();
     }
 
 }

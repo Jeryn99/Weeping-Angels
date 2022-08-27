@@ -4,6 +4,7 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.DetectorItem;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -11,10 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Objects;
 
@@ -26,7 +25,7 @@ public class ModelProviderItem extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (RegistryObject<Item> entry : WAItems.ITEMS.getEntries()) {
+        for (RegistrySupplier<Item> entry : WAItems.ITEMS.getEntries()) {
             if (entry.get() instanceof DetectorItem) continue;
 
             if(entry.get() == WABlocks.COFFIN.get().asItem()){

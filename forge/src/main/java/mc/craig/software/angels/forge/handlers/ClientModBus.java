@@ -1,16 +1,19 @@
 package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.models.MercyWingsModel;
+import mc.craig.software.angels.client.models.blockentity.CoffinModel;
+import mc.craig.software.angels.client.models.entity.angel.AnomalyModel;
+import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
-import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
-import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.forge.overlays.TimeyWimeyOverlay;
 import mc.craig.software.angels.client.render.entity.AnomalyRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
+import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.forge.overlays.TimeyWimeyOverlay;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -27,13 +30,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import static mc.craig.software.angels.client.models.ModelRegistration.*;
+
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientModBus {
-
-    @SubscribeEvent
-    public static void regModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
-     //   ModelRegistration.registerModels(definitions);
-    }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
@@ -64,6 +64,13 @@ public class ClientModBus {
         }));
     }
 
+    @SubscribeEvent
+    public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
+        definitions.registerLayerDefinition(WEEPING_ANGEL, WeepingAngelModel::meshLayer);
+        definitions.registerLayerDefinition(ANOMALY, AnomalyModel::meshLayer);
+        definitions.registerLayerDefinition(MERCY_WINGS, MercyWingsModel::meshLayer);
+        definitions.registerLayerDefinition(COFFIN, CoffinModel::meshLayer);
+    }
 
     @SubscribeEvent
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {

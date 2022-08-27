@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.EntityLoot;
@@ -62,7 +63,7 @@ public class LootProvider extends LootTableProvider {
         @Override
         protected Iterable<Block> getKnownBlocks() {
             ArrayList<@NotNull Block> blocks = new ArrayList<>();
-            for (RegistryObject<Block> entry : WABlocks.BLOCKS.getEntries()) {
+            for (RegistrySupplier<Block> entry : WABlocks.BLOCKS.getEntries()) {
                 blocks.add(entry.get());
             }
             return blocks;
@@ -79,7 +80,7 @@ public class LootProvider extends LootTableProvider {
         @Override
         protected Iterable<EntityType<?>> getKnownEntities() {
             ArrayList<EntityType<?>> entityTypes = new ArrayList<>();
-            for (RegistryObject<EntityType<?>> entry : WAEntities.ENTITY_TYPES.getEntries()) {
+            for (RegistrySupplier<EntityType<?>> entry : WAEntities.ENTITY_TYPES.getEntries()) {
                 entityTypes.add(entry.get());
             }
             return entityTypes;
