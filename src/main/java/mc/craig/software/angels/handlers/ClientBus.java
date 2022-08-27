@@ -25,7 +25,7 @@ public class ClientBus {
     public static void onPlayerTick(LivingEvent.LivingTickEvent tickEvent) {
         if (tickEvent.getEntity() instanceof Player player) {
             for (Donator donator : DonationChecker.getModDonators()) {
-                if (player.getUUID().equals(donator.getUuid())) {
+                if (player.getStringUUID().equals(donator.getUuid())) {
                     donator.tick(player);
                 }
             }

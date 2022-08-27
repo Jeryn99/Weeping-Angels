@@ -43,8 +43,9 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
     }
 
     public static Optional<Donator> getDonatorData(Player player) {
-        for (Donator person : modDonators) {
-            if (player.getUUID().equals(person.getUuid()) && !player.isModelPartShown(PlayerModelPart.CAPE)) {
+        for (Donator person : DonationChecker.getModDonators()) {
+            System.out.println("donating: " + player.getStringUUID());
+            if (player.getStringUUID().equals(person.getUuid())) {
                 return Optional.of(person);
             }
         }

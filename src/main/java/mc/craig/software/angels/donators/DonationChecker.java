@@ -32,7 +32,8 @@ public class DonationChecker {
     }
 
     public static Optional<Donator> getDonatorData(Player player) {
-        UUID playersUuid = player.getUUID();
+        String playersUuid = player.getStringUUID();
+
         for (Donator person : modDonators) {
             if (playersUuid.equals(person.getUuid())) {
                 return Optional.of(person);

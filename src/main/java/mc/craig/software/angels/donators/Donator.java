@@ -5,12 +5,11 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Donator {
 
-    private final String name;
-    public UUID uuid;
+    private String name;
+    public String uuid;
     public String variant;
     public String wings;
     public boolean perked;
@@ -19,12 +18,7 @@ public class Donator {
     public AnimationState openState = new AnimationState(), closeState = new AnimationState();
 
     public Donator(JsonObject jsonObject) {
-        try {
-            this.uuid = UUID.fromString(jsonObject.get("uuid").getAsString());
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
+        this.uuid = jsonObject.get("uuid").getAsString();
         JsonObject wingData = jsonObject.getAsJsonObject("wings");
         this.variant = wingData.get("variant").getAsString();
         this.wings = wingData.get("model").getAsString();
@@ -58,7 +52,7 @@ public class Donator {
         return animationTime;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
