@@ -7,6 +7,7 @@ import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
+import mc.craig.software.angels.forge.network.Networking;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -42,6 +43,7 @@ public class WeepingAngelsForge {
         MinecraftForge.EVENT_BUS.register(this);
 
         StartupMessageManager.addModMessage("Don't Blink!");
+        Networking.init();
 
     }
 

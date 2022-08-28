@@ -9,6 +9,7 @@ import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.fabric.networking.Networking;
 import mc.craig.software.angels.util.WAHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -31,6 +32,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         itemPredicates();
         ModelRegistration.init();
         overlay();
+        Networking.init();
     }
 
     private void overlay() {

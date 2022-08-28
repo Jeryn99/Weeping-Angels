@@ -78,6 +78,7 @@ public class DonationChecker {
     public static JsonObject getResponse(URL url) throws IOException {
         HttpsURLConnection uc = (HttpsURLConnection) url.openConnection();
         uc.connect();
+        uc.setConnectTimeout(120000);
         uc = (HttpsURLConnection) url.openConnection();
         uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36");
         InputStream inputStream = uc.getInputStream();
