@@ -1,6 +1,7 @@
 package mc.craig.software.angels.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
 import mc.craig.software.angels.client.models.ModelRegistration;
@@ -9,6 +10,7 @@ import mc.craig.software.angels.client.render.entity.AnomalyRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
+import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WAHelper;
 import net.fabricmc.api.ClientModInitializer;
@@ -33,6 +35,8 @@ public class WeepingAngelsClient implements ClientModInitializer {
         itemPredicates();
         ModelRegistration.init();
         overlay();
+        CrowdinTranslate.downloadTranslations("weeping-angels", WeepingAngels.MODID);
+
     }
 
     private void overlay() {

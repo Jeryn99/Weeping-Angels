@@ -82,7 +82,7 @@ public class BlockReactions {
 
     @ExpectPlatform
     public static void init() {
-
+        throw new RuntimeException("Wrong platform!");
     }
 
     public interface BlockReaction {
