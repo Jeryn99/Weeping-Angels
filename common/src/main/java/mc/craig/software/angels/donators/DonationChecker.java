@@ -65,6 +65,7 @@ public class DonationChecker {
             e.printStackTrace();
         }
 
+        if (result == null) return donators;
         JsonArray vips = result.getAsJsonArray("data");
         for (JsonElement vip : vips) {
             Donator donator = new Donator(vip.getAsJsonObject());

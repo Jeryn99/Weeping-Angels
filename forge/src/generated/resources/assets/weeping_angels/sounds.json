@@ -35,6 +35,12 @@
     ],
     "subtitle": "subtitle.weeping_angels.knock"
   },
+  "locked": {
+    "sounds": [
+      "weeping_angels:locked"
+    ],
+    "subtitle": "subtitle.weeping_angels.locked"
+  },
   "neck_snap": {
     "sounds": [
       "weeping_angels:neck_snap"

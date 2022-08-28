@@ -1,11 +1,11 @@
 package mc.craig.software.angels.common.level.structures;
 
 import com.mojang.serialization.Codec;
-import craig.software.mc.angels.common.level.structures.CatacombStructure;
 import mc.craig.software.angels.WeepingAngels;
-import net.minecraft.core.Registry;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
+import mc.craig.software.common.level.structures.CatacombStructure;
+import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 

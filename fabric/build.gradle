@@ -36,8 +36,6 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modImplementation "de.guntram.mcmod:crowdin-translate:1.4+1.19"
-    include "de.guntram.mcmod:crowdin-translate:1.4+1.19"
 }
 
 processResources {

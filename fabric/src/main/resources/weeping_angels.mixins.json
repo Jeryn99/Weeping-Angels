@@ -3,9 +3,11 @@
   "package": "mc.craig.software.angels.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "EntityRenderDispatcherMixin"
+    "EntityRenderDispatcherMixin",
+    "FogMixin"
   ],
   "mixins": [
+    "PlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

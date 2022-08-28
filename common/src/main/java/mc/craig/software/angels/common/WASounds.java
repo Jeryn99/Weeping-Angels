@@ -20,6 +20,7 @@ public class WASounds {
     public static final RegistrySupplier<SoundEvent> DISC_SALLY = SOUNDS.register("disc_sally", () -> setUpSound("disc_sally"));
     public static final RegistrySupplier<SoundEvent> DISC_TIME_PREVAILS = SOUNDS.register("disc_time_prevails", () -> setUpSound("disc_time_prevails"));
     public static final RegistrySupplier<SoundEvent> KNOCK = SOUNDS.register("knock", () -> setUpSound("knock"));
+    public static final RegistrySupplier<SoundEvent> LOCKED = SOUNDS.register("locked", () -> setUpSound("locked"));
 
     private static SoundEvent setUpSound(String soundName) {
         return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));

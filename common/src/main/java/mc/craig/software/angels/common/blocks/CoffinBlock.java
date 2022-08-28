@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.blocks;
 
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -10,6 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -49,10 +51,39 @@ public class CoffinBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(pHand == InteractionHand.OFF_HAND) return InteractionResult.FAIL;
+        if (pHand == InteractionHand.OFF_HAND) return InteractionResult.FAIL;
+        pPlayer.swing(pHand);
+
+        if (pLevel.getBlockEntity(pPos) instanceof CoffinBlockEntity coffinBlockEntity) {
+            if (coffinBlockEntity.getCoffinType().isTardis()) {
+
+                if (pPlayer.getMainHandItem().getItem() instanceof RecordItem) {
+                    pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
+                    coffinBlockEntity.demat();
+                    coffinBlockEntity.sendUpdates();
+
+
+                   /* int add = 0;
+                    for (CoffinType value : CoffinType.values()) {
+                        add = add + 2;
+                        pLevel.setBlock(pPos.east(add), WABlocks.COFFIN.get().defaultBlockState(), 3);
+                        BlockEntity be = pLevel.getBlockEntity(pPos.east(add));
+                        if (be instanceof CoffinBlockEntity coffinBlockEntity1) {
+                            coffinBlockEntity1.setCoffinType(value);
+                            coffinBlockEntity1.sendUpdates();
+                        }
+                    }*/
+
+                    return InteractionResult.SUCCESS;
+                } else {
+                    pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.LOCKED.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
+                    coffinBlockEntity.sendUpdates();
+                }
+            }
+        }
+
         pLevel.setBlock(pPos, pState.cycle(OPEN), 3);
         pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, pLevel.getBlockState(pPos).getValue(OPEN) ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
-        pPlayer.swing(pHand);
         return InteractionResult.SUCCESS;
     }
 

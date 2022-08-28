@@ -10,6 +10,9 @@ public class WAConstants {
     public static final String IS_HOOKED = "isHooked";
     public static final String IS_SEEN = "isSeen";
     public static final String COFFIN_TYPE = "coffinType";
+    public static final String IS_DEMAT = "isDemat";
+    public static final String ALPHA = "alpha";
+
 
     // Messages/UI
     public static final String ANOMALIES_DETECTED = createMessage("anomalies_detected");

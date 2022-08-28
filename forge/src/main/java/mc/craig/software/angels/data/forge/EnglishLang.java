@@ -6,7 +6,6 @@ import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blocks.WABlocks;
-import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
@@ -61,6 +60,7 @@ public class EnglishLang extends LanguageProvider {
         addSound(WASounds.DING.get(), "Ding!");
         addSound(WASounds.DISC_SALLY.get(), "Sally");
         addSound(WASounds.DISC_TIME_PREVAILS.get(), "Time prevails");
+        addSound(WASounds.LOCKED.get(), "Locked");
         addSound(WASounds.KNOCK.get(), "Knocking");
         addSound(WASounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
         addSound(WASounds.PROJECTOR.get(), "Whirr");

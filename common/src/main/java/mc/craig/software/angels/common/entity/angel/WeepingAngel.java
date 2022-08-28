@@ -3,6 +3,7 @@ package mc.craig.software.angels.common.entity.angel;
 import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.HurtHelper;
 import mc.craig.software.angels.util.Teleporter;
 import mc.craig.software.angels.util.WADamageSources;
@@ -64,6 +65,13 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         setVariant(AngelVariant.getVariantForPos(this));
         return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
+    }
+
+
+    @Nullable
+    @Override
+    public ItemStack getPickResult() {
+        return new ItemStack(WAItems.ANGEL_SPAWNER.get());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package craig.software.mc.angels.common.level.structures;
+package mc.craig.software.common.level.structures;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
