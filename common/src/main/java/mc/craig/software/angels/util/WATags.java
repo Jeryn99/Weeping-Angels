@@ -19,6 +19,7 @@ public class WATags {
     public static TagKey<Biome> ANGEL_SPAWNS = makeBiome(WeepingAngels.MODID, "spawns/weeping_angels");
     public static TagKey<EntityType<?>> ANOMALYS = makeEntityType(WeepingAngels.MODID, "anomaly");
 
+    public static TagKey<Biome> CATACOMB_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/catacombs");
 
     private static TagKey<Item> makeItem(String domain, String path) {
         return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(domain, path));

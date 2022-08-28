@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -33,6 +34,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     private static final EntityDataAccessor<Integer> TIME_VIEWED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<String> EMOTION = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Boolean> IS_HOOKED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
 
     public AbstractWeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
@@ -116,6 +118,15 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
         getEntityData().define(IS_HOOKED, false);
+        getEntityData().define(VARIANT, AngelVariant.BASALT.location().toString());
+    }
+
+    public void setVariant(AngelVariant angelVariant){
+        getEntityData().set(VARIANT, angelVariant.location().toString());
+    }
+
+    public AngelVariant getVariant() {
+        return AngelVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
     public AngelEmotion getEmotion() {

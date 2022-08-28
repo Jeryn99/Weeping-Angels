@@ -5,11 +5,15 @@ import mc.craig.software.angels.util.WATags;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 public class EntitySpawns {
 
     public static void init() {
         BiomeModifications.addSpawn(EntitySpawns::canSpawn, MobCategory.CREATURE, WAEntities.WEEPING_ANGEL.get(), 10, 1, 4);
+        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
     public static boolean canSpawn(BiomeSelectionContext biome) {

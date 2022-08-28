@@ -27,5 +27,6 @@ public class BiomeTags extends net.minecraft.data.tags.BiomeTagsProvider {
         }
 
         tag(WATags.ANGEL_SPAWNS).addTags(net.minecraft.tags.BiomeTags.IS_FOREST, net.minecraft.tags.BiomeTags.IS_TAIGA);
+        tag(WATags.CATACOMB_STRUCTURE_BIOMES).addTags(net.minecraft.tags.BiomeTags.IS_FOREST, net.minecraft.tags.BiomeTags.IS_TAIGA);
     }
 }

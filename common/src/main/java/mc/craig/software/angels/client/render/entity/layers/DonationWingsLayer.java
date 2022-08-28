@@ -5,7 +5,7 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.MercyWingsModel;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
-import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
@@ -20,10 +20,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.PlayerModelPart;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
 import java.util.Optional;
 
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
@@ -37,7 +35,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
         super(renderLayerParent);
         Minecraft.getInstance().submit(DonationChecker.DONATOR_RUNNABLE);
         mercyWings = new MercyWingsModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.MERCY_WINGS));
-        angelModel = new WeepingAngelModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.WEEPING_ANGEL));
+        angelModel = new AliceAngelModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.ALICE_ANGEL));
     }
 
     public static Optional<Donator> getDonatorData(Player player) {

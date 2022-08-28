@@ -3,7 +3,7 @@ package mc.craig.software.angels.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,10 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
-public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, WeepingAngelModel> {
+public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, AliceAngelModel> {
 
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
-        super(context, new WeepingAngelModel(context.bakeLayer(ModelRegistration.WEEPING_ANGEL)), 0F);
+        super(context, new AliceAngelModel(context.bakeLayer(ModelRegistration.ALICE_ANGEL)), 0F);
         this.addLayer(new WeepingAngelCrackinessLayer(this));
     }
 
@@ -55,11 +55,12 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
 
     @Override
     public ResourceLocation getTextureLocation(WeepingAngel weepingAngel) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/normal/normal_angel_" + weepingAngel.getEmotion().getId() + ".png");
+        ResourceLocation variant = weepingAngel.getVariant().location();
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + variant.getPath() + "/" + variant.getPath() + "_angel_" + weepingAngel.getEmotion().getId() + ".png");
     }
 
     @Override
-    protected boolean shouldShowName(WeepingAngel p_115333_) {
+    protected boolean shouldShowName(WeepingAngel weepingAngel) {
         return false;
     }
 }

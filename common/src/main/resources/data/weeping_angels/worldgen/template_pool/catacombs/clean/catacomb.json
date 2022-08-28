@@ -1,0 +1,42 @@
+{
+  "name": "weeping_angels:catacombs/clean/catacomb",
+  "fallback": "weeping_angels:catacombs/clean/dead_ends",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_4",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_3",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/clean/catacomb_hallway_clean_1",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

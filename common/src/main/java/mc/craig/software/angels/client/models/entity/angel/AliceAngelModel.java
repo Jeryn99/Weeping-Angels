@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implements AngelModel, ArmedModel {
+public class AliceAngelModel extends HierarchicalModel<WeepingAngel> implements AngelModel, ArmedModel {
 
 
     public static final AnimationDefinition IDLE1 = AnimationDefinition.Builder.withLength(0f).addAnimation("leftArm", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 15f), AnimationChannel.Interpolations.LINEAR))).addAnimation("rightArm", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(-22.5f, -32.5f, -32.5f), AnimationChannel.Interpolations.LINEAR))).addAnimation("head", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(-17.5f, -25f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("leftWing", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -17.5f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("rightWing", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -15f, 0f), AnimationChannel.Interpolations.LINEAR))).addAnimation("Body", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.LINEAR))).build();
@@ -41,7 +41,7 @@ public class WeepingAngelModel extends HierarchicalModel<WeepingAngel> implement
     private final ModelPart leftArm;
     private final ModelPart rightArm;
 
-    public WeepingAngelModel(ModelPart root) {
+    public AliceAngelModel(ModelPart root) {
         this.root = root;
         this.Angel = root.getChild("Angel");
         ModelPart body = Angel.getChild("Body");

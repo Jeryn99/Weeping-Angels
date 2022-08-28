@@ -39,10 +39,6 @@ public class WeepingAngelsForge {
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
 
-        // TODO - Fabric
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
-
-
         MinecraftForge.EVENT_BUS.register(this);
 
         StartupMessageManager.addModMessage("Don't Blink!");
@@ -55,7 +51,7 @@ public class WeepingAngelsForge {
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
-        //generator.addProvider(true, new LootProvider(generator));
+        generator.addProvider(true, new LootProvider(generator));
         generator.addProvider(true, new BiomeTags(generator, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));

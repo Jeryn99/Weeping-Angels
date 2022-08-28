@@ -10,9 +10,11 @@ import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -28,9 +30,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -53,6 +57,13 @@ public class WeepingAngel extends AbstractWeepingAngel {
         // Targeting
         targetSelector.addGoal(id++, new NearestAttackableTargetGoal<>(this, Player.class, true));
         targetSelector.addGoal(id++, (new HurtByTargetGoal(this)).setAlertOthers(WeepingAngel.class));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+        setVariant(AngelVariant.getVariantForPos(this));
+        return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
     @Override
@@ -123,8 +134,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
             }
             if (isSeen()) {
                 investigateBlocks();
-            } else {
-                setEmotion(AngelEmotion.randomEmotion(random));
             }
         }
     }
@@ -146,6 +155,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void invokeSeen(Player player) {
         super.invokeSeen(player);
         if (getSeenTime() == 1) {
+            setEmotion(AngelEmotion.randomEmotion(random));
             playSound(SoundEvents.STONE_PLACE);
         }
     }

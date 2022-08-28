@@ -1,0 +1,24 @@
+{
+  "name": "weeping_angels:catacombs/flat/loot_1",
+  "fallback": "weeping_angels:catacombs/flat/loot_1",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/loot/chest_2",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 9,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "weeping_angels:catacomb/loot/empty_1",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}
