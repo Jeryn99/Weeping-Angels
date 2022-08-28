@@ -19,13 +19,13 @@ public class DeferredRegistryImpl {
         return new Impl<>(modid, resourceKey);
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static class Impl<T> extends DeferredRegistry<T> {
 
         private final String modid;
         private final Registry<T> registry;
         private final List<RegistrySupplier<T>> entries;
 
-        @SuppressWarnings({"unchecked", "ConstantConditions"})
         public Impl(String modid, ResourceKey<? extends Registry<T>> resourceKey) {
             this.modid = modid;
             this.registry = (Registry<T>) MoreObjects.firstNonNull(Registry.REGISTRY.get(resourceKey.location()), BuiltinRegistries.REGISTRY.get(resourceKey.location()));
@@ -40,7 +40,9 @@ public class DeferredRegistryImpl {
         @Override
         public <R extends T> RegistrySupplier<R> register(String id, Supplier<R> supplier) {
             ResourceLocation registeredId = new ResourceLocation(this.modid, id);
-            return new RegistrySupplier<>(registeredId, Registry.register(this.registry, registeredId, supplier.get()));
+            RegistrySupplier<R> registrySupplier = new RegistrySupplier<>(registeredId, Registry.register(this.registry, registeredId, supplier.get()));
+            this.entries.add((RegistrySupplier<T>) registrySupplier);
+            return registrySupplier;
         }
 
         @Override
