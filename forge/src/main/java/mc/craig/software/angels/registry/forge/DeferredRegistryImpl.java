@@ -18,6 +18,7 @@ public class DeferredRegistryImpl {
         return new Impl<>(modid, resourceKey);
     }
 
+    @SuppressWarnings("unchecked")
     public static class Impl<T> extends DeferredRegistry<T> {
 
         private final DeferredRegister<T> register;
@@ -37,7 +38,9 @@ public class DeferredRegistryImpl {
         @Override
         public <R extends T> RegistrySupplier<R> register(String id, Supplier<R> supplier) {
             var orig = this.register.register(id, supplier);
-            return new RegistrySupplier<>(orig.getId(), orig);
+            var registrySupplier = new RegistrySupplier<>(orig.getId(), orig);
+            this.entries.add((RegistrySupplier<T>) registrySupplier);
+            return registrySupplier;
         }
 
         @Override

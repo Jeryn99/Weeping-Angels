@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:clock",
+    "minecraft:torch",
+    "minecraft:compass",
+    "minecraft:recovery_compass",
+    "#forge:tools/pickaxes"
+  ]
+}
