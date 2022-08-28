@@ -3,6 +3,7 @@ package mc.craig.software.angels.forge.network.messages;
 import mc.craig.software.angels.common.CatacombTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

@@ -12,6 +12,7 @@ public class WAConstants {
     public static final String COFFIN_TYPE = "coffinType";
     public static final String IS_DEMAT = "isDemat";
     public static final String ALPHA = "alpha";
+    public static final String VARIANT = "variant";
 
 
     // Messages/UI

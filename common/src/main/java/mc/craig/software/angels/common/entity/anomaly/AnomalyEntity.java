@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,6 +28,11 @@ public class AnomalyEntity extends Mob {
     protected void defineSynchedData() {
         super.defineSynchedData();
         getEntityData().define(TIME_ALIVE, 100);
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return true;
     }
 
     public int lifeSpan() {
@@ -57,7 +63,7 @@ public class AnomalyEntity extends Mob {
                 Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngel.setNoAi(false);
                 weepingAngel.setHooked(true);
-                weepingAngel.setDeltaMovement(vec.scale(0.15D));
+                weepingAngel.setDeltaMovement(vec.scale(0.25D));
 
                 for (int i = 0; i < 2; ++i) {
                     this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, weepingAngel.getRandomX(0.5D), weepingAngel.getRandomY(), weepingAngel.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
@@ -83,7 +89,6 @@ public class AnomalyEntity extends Mob {
 
     @Override
     protected void doPush(@NotNull Entity entityIn) {
-        super.push(entityIn);
         if (entityIn instanceof WeepingAngel weepingAngel) {
             weepingAngel.setSilent(true);
             weepingAngel.actuallyHurt(WADamageSources.GENERATOR, Integer.MAX_VALUE);

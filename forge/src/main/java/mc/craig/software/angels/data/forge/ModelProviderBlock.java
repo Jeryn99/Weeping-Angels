@@ -17,6 +17,7 @@ public class ModelProviderBlock extends BlockStateProvider {
         simpleBlock(WABlocks.KONTRON_ORE.get());
         simpleBlock(WABlocks.KONTRON_ORE_DEEPSLATE.get());
         simpleBlock(WABlocks.COFFIN.get());
+        simpleBlock(WABlocks.STATUE.get());
 
     }
 }

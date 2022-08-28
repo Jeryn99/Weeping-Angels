@@ -35,6 +35,7 @@ public class EnglishLang extends LanguageProvider {
         add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), "Kontron Ore (Deepslate)");
         add(WABlocks.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WABlocks.COFFIN.get(), "Coffin");
+        add(WABlocks.STATUE.get(), "Statue");
 
         // ==== Items ====
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");

@@ -4,6 +4,7 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.AnomalyRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
@@ -59,7 +60,10 @@ public class ClientModBus {
     public static void onClientSetup(FMLClientSetupEvent event) {
 
         BlockEntityRenderers.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
+        BlockEntityRenderers.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
+
         ItemBlockRenderTypes.setRenderLayer(WABlocks.COFFIN.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());
 
 
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {

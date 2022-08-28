@@ -3,6 +3,9 @@ package mc.craig.software.angels.client.models.entity.angel;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.entity.angel.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.AngelVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -14,6 +17,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
@@ -112,6 +116,11 @@ public class AliceAngelModel extends HierarchicalModel<WeepingAngel> implements 
     @Override
     public Iterable<ModelPart> getWings() {
         return ImmutableList.of(rightWing, leftWing);
+    }
+
+    @Override
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }
 
     @Override

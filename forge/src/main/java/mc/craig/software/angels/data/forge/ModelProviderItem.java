@@ -28,7 +28,7 @@ public class ModelProviderItem extends ItemModelProvider {
         for (RegistrySupplier<Item> entry : WAItems.ITEMS.getEntries()) {
             if (entry.get() instanceof DetectorItem) continue;
 
-            if(entry.get() == WABlocks.COFFIN.get().asItem()){
+            if (entry.get() == WABlocks.COFFIN.get().asItem() || entry.get() == WABlocks.STATUE.get().asItem()) {
                 basicItem(entry.get());
                 continue;
             }

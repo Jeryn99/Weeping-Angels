@@ -1,10 +1,10 @@
 package mc.craig.software.angels.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
+import mc.craig.software.angels.common.entity.angel.AngelVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -55,8 +55,8 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ali
 
     @Override
     public ResourceLocation getTextureLocation(WeepingAngel weepingAngel) {
-        ResourceLocation variant = weepingAngel.getVariant().location();
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + variant.getPath() + "/" + variant.getPath() + "_angel_" + weepingAngel.getEmotion().getId() + ".png");
+        AngelVariant variant = weepingAngel.getVariant();
+        return getModel().texture(weepingAngel.getEmotion(), variant);
     }
 
     @Override

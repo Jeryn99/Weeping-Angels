@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "weeping_angels:block/deepslate_kontron_ore"
+    "all": "weeping_angels:block/statue"
   }
 }

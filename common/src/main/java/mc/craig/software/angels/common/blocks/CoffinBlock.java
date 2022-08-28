@@ -61,19 +61,6 @@ public class CoffinBlock extends BaseEntityBlock {
                     pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
                     coffinBlockEntity.demat();
                     coffinBlockEntity.sendUpdates();
-
-
-                   /* int add = 0;
-                    for (CoffinType value : CoffinType.values()) {
-                        add = add + 2;
-                        pLevel.setBlock(pPos.east(add), WABlocks.COFFIN.get().defaultBlockState(), 3);
-                        BlockEntity be = pLevel.getBlockEntity(pPos.east(add));
-                        if (be instanceof CoffinBlockEntity coffinBlockEntity1) {
-                            coffinBlockEntity1.setCoffinType(value);
-                            coffinBlockEntity1.sendUpdates();
-                        }
-                    }*/
-
                     return InteractionResult.SUCCESS;
                 } else {
                     pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.LOCKED.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
