@@ -16,6 +16,10 @@ loom {
 
         mixinConfig "weeping_angels-common.mixins.json"
         mixinConfig "weeping_angels.mixins.json"
+
+        dataGen {
+            mod "weeping_angels"
+        }
     }
 
     launches {
