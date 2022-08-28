@@ -23,6 +23,7 @@
     ]
   },
   "mixins": [
-    "weeping_angels.mixins.json"
+    "weeping_angels.mixins.json",
+    "weeping_angels-common.mixins.json"
   ]
 }
