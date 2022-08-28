@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "mc.craig.software.angels.fabric.WeepingAngelsFabric"
+    ],
+    "client": [
+      "mc.craig.software.angels.fabric.WeepingAngelsClient"
     ]
   },
   "mixins": [

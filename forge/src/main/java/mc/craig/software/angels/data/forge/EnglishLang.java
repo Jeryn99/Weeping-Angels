@@ -6,6 +6,7 @@ import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blocks.WABlocks;
+import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
@@ -47,6 +48,7 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Creative Tab ====
         add("itemGroup." + WeepingAngels.MODID, "Weeping Angels");
+        add("itemGroup." + WeepingAngels.MODID + "." + WeepingAngels.MODID, "Weeping Angels"); //Fabric one
 
         // ==== Damage Sources =====
         add(WADamageSources.GENERATOR, "%s somehow got caught up in a generator");

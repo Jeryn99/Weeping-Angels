@@ -13,6 +13,7 @@ dependencies {
     modCompileOnlyApi "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 }
 
+
 publishing {
     publications {
         mavenCommon(MavenPublication) {

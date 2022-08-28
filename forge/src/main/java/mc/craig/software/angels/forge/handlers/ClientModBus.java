@@ -65,14 +65,6 @@ public class ClientModBus {
     }
 
     @SubscribeEvent
-    public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
-        definitions.registerLayerDefinition(WEEPING_ANGEL, WeepingAngelModel::meshLayer);
-        definitions.registerLayerDefinition(ANOMALY, AnomalyModel::meshLayer);
-        definitions.registerLayerDefinition(MERCY_WINGS, MercyWingsModel::meshLayer);
-        definitions.registerLayerDefinition(COFFIN, CoffinModel::meshLayer);
-    }
-
-    @SubscribeEvent
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(WAEntities.WEEPING_ANGEL.get(), WeepingAngelRenderer::new);
         event.registerEntityRenderer(WAEntities.ANOMALY.get(), AnomalyRenderer::new);

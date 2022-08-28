@@ -1,4 +1,4 @@
-package mc.craig.software.angels.fabric.util;
+package mc.craig.software.angels.util.fabric;
 
 import com.google.common.collect.Lists;
 import mc.craig.software.angels.WAConfiguration;
