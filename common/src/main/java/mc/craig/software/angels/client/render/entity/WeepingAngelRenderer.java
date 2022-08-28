@@ -2,9 +2,9 @@ package mc.craig.software.angels.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.WeepingAngelModel;
+import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -26,6 +26,13 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
     @Override
     public void render(WeepingAngel pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         if (pEntity.deathTime > 0) {
+
+            if (pEntity.deathTime < 10) {
+                for (int i = 0; i < 10; i++) {
+                    pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), pEntity.getX(), pEntity.getY() + 1, pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                }
+            }
+
             for (int i = 0; i < 10; i++) {
                 pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
             }
@@ -37,7 +44,7 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Wee
     @Nullable
     @Override
     protected RenderType getRenderType(WeepingAngel pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-        return RenderType.entityTranslucentCull(getTextureLocation(pLivingEntity));
+        return pGlowing ? RenderType.outline(getTextureLocation(pLivingEntity)) : RenderType.entityTranslucentCull(getTextureLocation(pLivingEntity));
     }
 
     @Override

@@ -104,6 +104,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Override
     public void tick() {
         super.tick();
+
+        setGlowingTag(false);
+
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
         }

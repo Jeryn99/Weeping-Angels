@@ -27,7 +27,9 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -62,7 +64,7 @@ public class LootProvider extends LootTableProvider {
 
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            ArrayList<@NotNull Block> blocks = new ArrayList<>();
+            ArrayList<Block> blocks = new ArrayList<>();
             for (RegistrySupplier<Block> entry : WABlocks.BLOCKS.getEntries()) {
                 blocks.add(entry.get());
             }

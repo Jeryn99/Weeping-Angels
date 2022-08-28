@@ -1,7 +1,6 @@
 package mc.craig.software.angels;
 
 import com.mojang.logging.LogUtils;
-import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
