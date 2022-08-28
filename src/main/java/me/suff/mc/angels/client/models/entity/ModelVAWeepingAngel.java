@@ -12,13 +12,15 @@ import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.Pair;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IAngelModel {
+public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IAngelModel, ArmedModel {
 
 
     private final ModelPart body;
@@ -268,5 +270,10 @@ public class ModelVAWeepingAngel extends EntityModel<WeepingAngel> implements IA
     @Override
     public Iterable<ModelPart> wings(PoseStack pose) {
         return ImmutableList.of(leftWing, rightWing);
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm p_102108_, PoseStack p_102109_) {
+
     }
 }

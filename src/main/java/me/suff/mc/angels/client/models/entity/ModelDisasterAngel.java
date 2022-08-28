@@ -91,6 +91,10 @@ public class ModelDisasterAngel extends ListModel<WeepingAngel> implements IAnge
 
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+
+        leftWing.visible = false;
+        rightWing.visible = false;
+
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());

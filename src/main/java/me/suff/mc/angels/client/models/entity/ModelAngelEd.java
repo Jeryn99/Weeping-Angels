@@ -26,7 +26,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_ed.png");
 
-    private final ModelPart Head;
+    private final ModelPart head;
     private final ModelPart right_eyebrow;
     private final ModelPart left_eyebrow;
     private final ModelPart angry_mouth;
@@ -76,13 +76,13 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
      * Angel Type: 1
      */
     public ModelAngelEd(ModelPart root) {
-        this.Head = root.getChild("Head");
+        this.head = root.getChild("head");
 
-        this.right_eyebrow = Head.getChild("right_eyebrow");
+        this.right_eyebrow = head.getChild("right_eyebrow");
 
-        this.left_eyebrow = Head.getChild("left_eyebrow");
+        this.left_eyebrow = head.getChild("left_eyebrow");
 
-        this.angry_mouth = Head.getChild("angry_mouth");
+        this.angry_mouth = head.getChild("angry_mouth");
 
         this.teeth1 = angry_mouth.getChild("teeth1");
 
@@ -96,7 +96,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
         this.teeth6 = angry_mouth.getChild("teeth6");
 
-        this.Other = Head.getChild("Other");
+        this.Other = head.getChild("Other");
 
         this.nose = Other.getChild("nose");
 
@@ -161,14 +161,14 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition Head = partdefinition.addOrReplaceChild("Head", CubeListBuilder.create().mirror(false).texOffs(0, 16).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().mirror(false).texOffs(0, 16).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
                 .mirror(false).texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition right_eyebrow = Head.addOrReplaceChild("right_eyebrow", CubeListBuilder.create().mirror(false).texOffs(54, 32).addBox(-2.5F, -1.0F, -0.02F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -4.5F, -4.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition right_eyebrow = head.addOrReplaceChild("right_eyebrow", CubeListBuilder.create().mirror(false).texOffs(54, 32).addBox(-2.5F, -1.0F, -0.02F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -4.5F, -4.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition left_eyebrow = Head.addOrReplaceChild("left_eyebrow", CubeListBuilder.create().mirror(false).texOffs(62, 32).addBox(-0.5F, -1.0F, -0.02F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -4.5F, -4.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition left_eyebrow = head.addOrReplaceChild("left_eyebrow", CubeListBuilder.create().mirror(false).texOffs(62, 32).addBox(-0.5F, -1.0F, -0.02F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, -4.5F, -4.0F, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition angry_mouth = Head.addOrReplaceChild("angry_mouth", CubeListBuilder.create().mirror(false).texOffs(63, 36).addBox(-2.0F, -1.8F, -0.02F, 4.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -4.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition angry_mouth = head.addOrReplaceChild("angry_mouth", CubeListBuilder.create().mirror(false).texOffs(63, 36).addBox(-2.0F, -1.8F, -0.02F, 4.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -4.0F, 0.0F, 0.0F, 0.0F));
 
         PartDefinition teeth1 = angry_mouth.addOrReplaceChild("teeth1", CubeListBuilder.create().mirror(false).texOffs(63, 39).addBox(-1.2021F, 0.2121F, -0.03F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.8F, -3.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
 
@@ -182,7 +182,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
         PartDefinition teeth6 = angry_mouth.addOrReplaceChild("teeth6", CubeListBuilder.create().mirror(false).texOffs(63, 39).addBox(-1.2021F, 0.2121F, -0.03F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.15F, -3.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
 
-        PartDefinition Other = Head.addOrReplaceChild("Other", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition Other = head.addOrReplaceChild("Other", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
 
         PartDefinition nose = Other.addOrReplaceChild("nose", CubeListBuilder.create().mirror(false).texOffs(32, 0).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -28.5F, -4.0F, -0.2246F, 0.0F, 0.0F));
 
@@ -228,7 +228,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
     }
 
     @Override
-    public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float HeadPitch) {
+    public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadYaw, float headPitch) {
 
         WeepingAngelPose pose = weepingAngelPose;
         if (weepingAngel != null) {
@@ -239,9 +239,9 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
             angry_mouth.visible = pose.getEmotion() == WeepingAngelPose.Emotion.ANGRY || pose.getEmotion() == WeepingAngelPose.Emotion.SCREAM;
 
-            Head.xRot = (float) Math.toRadians(0);
-            Head.yRot = (float) Math.toRadians(0);
-            Head.zRot = (float) Math.toRadians(0);
+            head.xRot = (float) Math.toRadians(0);
+            head.yRot = (float) Math.toRadians(0);
+            head.zRot = (float) Math.toRadians(0);
 
             if (pose == WeepingAngelPose.FURIOUS) {
                 right_arm.xRot = (float) Math.toRadians(-115);
@@ -252,33 +252,33 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
                 left_arm.yRot = (float) Math.toRadians(0);
                 left_arm.zRot = (float) Math.toRadians(0);
 
-                Head.xRot = (float) Math.toRadians(17.5);
-                Head.yRot = (float) Math.toRadians(0);
-                Head.zRot = (float) Math.toRadians(-10);
+                head.xRot = (float) Math.toRadians(17.5);
+                head.yRot = (float) Math.toRadians(0);
+                head.zRot = (float) Math.toRadians(-10);
                 return;
             }
 
 
             if (pose == WeepingAngelPose.ANGRY) {
                 right_arm.xRot = (float) Math.toRadians(-90);
-                right_arm.yRot = (float) Math.toRadians(-20);
-                right_arm.zRot = (float) Math.toRadians(30);
+                right_arm.yRot = (float) Math.toRadians(25);
+                right_arm.zRot = (float) Math.toRadians(17.5);
 
                 left_arm.xRot = (float) Math.toRadians(-90);
-                left_arm.yRot = (float) Math.toRadians(25);
+                left_arm.yRot = (float) Math.toRadians(-25);
                 left_arm.zRot = (float) Math.toRadians(-17.5);
 
-                Head.xRot = (float) Math.toRadians(0);
-                Head.yRot = (float) Math.toRadians(-12.5);
-                Head.zRot = (float) Math.toRadians(0);
+                head.xRot = (float) Math.toRadians(10);
+                head.yRot = (float) Math.toRadians(0);
+                head.zRot = (float) Math.toRadians(0);
                 return;
             }
 
 
             if (pose == WeepingAngelPose.HIDING) {
-                Head.xRot = (float) Math.toRadians(20);
-                Head.yRot = (float) Math.toRadians(0);
-                Head.zRot = (float) Math.toRadians(0);
+                head.xRot = (float) Math.toRadians(20);
+                head.yRot = (float) Math.toRadians(0);
+                head.zRot = (float) Math.toRadians(0);
 
                 right_arm.xRot = (float) Math.toRadians(-105);
                 right_arm.yRot = (float) Math.toRadians(20);
@@ -301,9 +301,9 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
             }
 
             if (pose == WeepingAngelPose.IDLE) {
-                Head.xRot = (float) Math.toRadians(0);
-                Head.yRot = (float) Math.toRadians(0);
-                Head.zRot = (float) Math.toRadians(0);
+                head.xRot = (float) Math.toRadians(0);
+                head.yRot = (float) Math.toRadians(0);
+                head.zRot = (float) Math.toRadians(0);
 
                 right_arm.xRot = (float) Math.toRadians(0);
                 right_arm.yRot = (float) Math.toRadians(0);
@@ -324,9 +324,9 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
                 left_arm.yRot = (float) Math.toRadians(-36);
                 left_arm.zRot = (float) Math.toRadians(10);
 
-                Head.xRot = (float) Math.toRadians(20);
-                Head.yRot = (float) Math.toRadians(-40);
-                Head.zRot = (float) Math.toRadians(-20);
+                head.xRot = (float) Math.toRadians(20);
+                head.yRot = (float) Math.toRadians(-40);
+                head.zRot = (float) Math.toRadians(-20);
                 return;
             }
         }
@@ -334,7 +334,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
 
     @Override
     public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Head.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
+        head.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         Wings.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
         Body.render(matrixStack, buffer, packedLight, showHurt ? packedOverlay : OverlayTexture.NO_OVERLAY);
     }
@@ -346,7 +346,7 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
                 back_cloth_2,
                 Body,
                 body_2,
-                Head,
+                head,
                 left_arm,
                 right_arm,
                 cloth_0,
@@ -388,11 +388,10 @@ public class ModelAngelEd extends ListModel<WeepingAngel> implements IAngelModel
         this.weepingAngelPose = angelPose;
     }
 
-
     @Override
     public Pair<ModelPart, Vector3d> getHeadData(HeadPlacement placement) {
         if (headData == null) {
-            headData = new Pair<>(Head, new Vector3d(0, 0, 0));
+            headData = new Pair<>(head, new Vector3d(0, 0, 0));
         }
         return headData;
     }
