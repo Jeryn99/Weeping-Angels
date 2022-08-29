@@ -1,13 +1,17 @@
 package mc.craig.software.angels.util;
 
 import mc.craig.software.angels.WAConfiguration;
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class HurtHelper {
@@ -50,9 +54,17 @@ public class HurtHelper {
         if (pSource.getEntity() instanceof Player player) {
             boolean hasPickAxe = HurtHelper.validatePickaxe(player, weepingAngel, predicate);
             if (!hasPickAxe) {
+                if (weepingAngel.level.random.nextInt(100) <= 10) {
+                    weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
+                }
                 player.hurt(WADamageSources.PUNCH_STONE, weepingAngel.level.random.nextInt(5));
                 return false;
             }
+            ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);
+            stack.hurtAndBreak(weepingAngel.level.random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
+                weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
+                livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
+            });
             return true;
         }
         return false;

@@ -18,7 +18,7 @@ public class PlayerMixin {
         Player player = (Player) (Object) this;
 
         if (!player.level.isClientSide) {
-            if (player.tickCount % 100 == 0) {
+            if (player.tickCount % 40 == 0) {
                 boolean isInCatacomb = CatacombTracker.isInCatacomb(player);
                 CatacombTracker.tellClient((ServerPlayer) player, isInCatacomb);
             }

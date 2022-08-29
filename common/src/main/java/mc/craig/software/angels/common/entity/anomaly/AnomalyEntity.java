@@ -46,6 +46,7 @@ public class AnomalyEntity extends Mob {
     @Override
     public void tick() {
         super.tick();
+
         setNoGravity(true);
         if (tickCount == 1) {
             LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(level);

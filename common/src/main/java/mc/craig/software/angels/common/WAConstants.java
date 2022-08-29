@@ -19,6 +19,8 @@ public class WAConstants {
 
     // Messages/UI
     public static final String ANOMALIES_DETECTED = createMessage("anomalies_detected");
+    public static final String CHISEL_POSE = createMessage("chisel_pose");
+    public static final String CHISEL_VARIANT = createMessage("chisel_variant");
 
     private static String createMessage(String s) {
         return "message." + WeepingAngels.MODID + "." + s;

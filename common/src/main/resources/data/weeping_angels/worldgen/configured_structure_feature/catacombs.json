@@ -4,7 +4,7 @@
     "start_pool": "weeping_angels:catacombs/catacombs",
     "size": 17
   },
-  "biomes": "#weeping_angels:has_structure/angel_structure_biomes",
+  "biomes": "#weeping_angels:has_structure/catacombs",
   "adapt_noise": false,
   "spawn_overrides": {
     "monster": {
@@ -12,9 +12,9 @@
       "spawns": [
         {
           "type": "weeping_angels:weeping_angel",
-          "weight": 5,
+          "weight": 30,
           "minCount": 1,
-          "maxCount": 2
+          "maxCount": 4
         }
       ]
     }

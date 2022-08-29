@@ -25,6 +25,8 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Messages/UI ====
         add(WAConstants.ANOMALIES_DETECTED, "Anomalies Detected: %s");
+        add(WAConstants.CHISEL_POSE, "* Interact to change pose");
+        add(WAConstants.CHISEL_VARIANT, "* Sneak + Interact to change variant");
 
         // ==== Entity ====
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
@@ -41,6 +43,7 @@ public class EnglishLang extends LanguageProvider {
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
         add(WAItems.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
+        add(WAItems.CHISEL.get(), "Chisel");
         add(WAItems.DISC_SALLY.get(), "Music Disc");
         add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
         add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");

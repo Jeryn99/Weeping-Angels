@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Inventory;
@@ -214,8 +215,15 @@ public class WeepingAngel extends AbstractWeepingAngel {
     protected void tickDeath() {
         ++this.deathTime;
         if (this.deathTime == 20 && !this.level.isClientSide()) {
+            if(shouldDropLoot()) {
+                ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
+                itemEntity.setItem(getVariant().getDrops());
+                itemEntity.setPos(getX(), getY(), getZ());
+                level.addFreshEntity(itemEntity);
+            }
             this.remove(Entity.RemovalReason.KILLED);
         }
+
     }
 
     public void investigateBlocks() {

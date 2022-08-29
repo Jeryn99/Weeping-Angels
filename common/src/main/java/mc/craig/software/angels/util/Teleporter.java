@@ -2,6 +2,8 @@ package mc.craig.software.angels.util;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.WASounds;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -94,6 +96,7 @@ public class Teleporter {
             if (pEntity instanceof PathfinderMob) {
                 ((PathfinderMob) pEntity).getNavigation().stop();
             }
+            pEntity.playSound(SoundEvents.PORTAL_TRAVEL);
             return true;
         }
     }
