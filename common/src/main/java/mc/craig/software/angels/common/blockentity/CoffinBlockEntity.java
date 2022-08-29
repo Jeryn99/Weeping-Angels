@@ -35,12 +35,21 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         return tag;
     }
 
+    public void sendUpdates() {
+        if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
+            level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+            level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        }
+        setChanged();
+    }
+
     public CoffinBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(WABlockEntities.COFFIN.get(), pPos, pBlockState);
     }
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, CoffinBlockEntity pBlockEntity) {
+
         if (pLevel.isClientSide()) {
             animationTimer++;
             if (isOpen()) {
@@ -89,13 +98,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         //TODO Implement
     }
 
-    public void sendUpdates() {
-        if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
-            level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
-            level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
-        }
-        setChanged();
-    }
+
 
     public boolean isOpen() {
         BlockState state = level.getBlockState(getBlockPos());
@@ -128,7 +131,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public CoffinType getCoffinType() {
 
         if (coffinType == null) {
-            coffinType = CoffinType.random(RandomSource.create());
+            coffinType = CoffinType.randomCoffin(RandomSource.create());
             sendUpdates();
         }
 

@@ -1,8 +1,11 @@
 package mc.craig.software.angels.common.blockentity;
 
-import mc.craig.software.angels.common.entity.angel.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -10,7 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, Plinth {
 
-    private AngelVariant currentVariant = AngelVariant.STONE;
+    private AngelTextureVariant currentVariant = null;
+    private int animation = 1;
 
     public StatueBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WABlockEntities.STATUE.get(), blockPos, blockState);
@@ -18,23 +22,54 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeVariant(Plinth plinth) {
-        setSpecificVariant(AngelVariant.getVariantForPos(null)); //TODO this is bad!!!!!!!!
+        setSpecificVariant(AngelTextureVariant.getRandomVariant(AngelTextureVariant.VARIANTS, level.random));
     }
 
     @Override
-    public void setSpecificVariant(AngelVariant angelVariant) {
-        this.currentVariant = angelVariant;
+    public void setSpecificVariant(AngelTextureVariant angelTextureVariant) {
+        this.currentVariant = angelTextureVariant;
     }
 
     @Override
-    public AngelVariant getVariant() {
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public AngelTextureVariant getVariant() {
+        if(currentVariant == null) return AngelTextureVariant.STONE;
         return currentVariant;
+    }
+
+    @Override
+    public void setAnimation(int animation) {
+        this.animation = animation;
+    }
+
+    @Override
+    public int getAnimation() {
+        return animation;
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         serializeNBT(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    public void sendUpdates() {
+        if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
+            level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+            level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        }
+        setChanged();
     }
 
     @Override
@@ -45,6 +80,15 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, StatueBlockEntity blockEntity) {
+        if (!getAnimationState().isStarted()) {
+            getAnimationState().start(12);
+        }
 
+        if (!level.isClientSide()) {
+            if (level.hasNeighborSignal(blockPos)) {
+                WAHelper.spawnWeepingAngel((ServerLevel) level, blockPos, currentVariant, false);
+                level.removeBlock(blockPos, false);
+            }
+        }
     }
 }

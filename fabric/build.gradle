@@ -23,6 +23,10 @@ repositories {
     maven {
         url = "https://minecraft.guntram.de/maven/"
     }
+
+    repositories {
+        maven { url "https://maven.shedaniel.me" }
+    }
 }
 
 dependencies {

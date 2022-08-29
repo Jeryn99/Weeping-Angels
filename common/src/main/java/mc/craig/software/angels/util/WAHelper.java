@@ -1,6 +1,8 @@
 package mc.craig.software.angels.util;
 
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.level.features.WAFeatures;
 import mc.craig.software.angels.common.level.structures.WAStructures;
 import net.minecraft.core.BlockPos;
@@ -29,6 +31,14 @@ public class WAHelper {
         Entity anomalyEntity = WAEntities.ANOMALY.get().create(serverLevel);
         anomalyEntity.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         return serverLevel.addFreshEntity(anomalyEntity);
+    }
+
+    public static boolean spawnWeepingAngel(ServerLevel serverLevel, BlockPos blockPos, AngelTextureVariant angelTextureVariant, boolean dropsLoot) {
+        WeepingAngel weepingAngel = WAEntities.WEEPING_ANGEL.get().create(serverLevel);
+        weepingAngel.setVariant(angelTextureVariant);
+        weepingAngel.setDrops(false);
+        weepingAngel.moveTo(Vec3.atBottomCenterOf(blockPos));
+        return serverLevel.addFreshEntity(weepingAngel);
     }
 
     public static Vec3 fogColor() {

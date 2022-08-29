@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
@@ -19,6 +21,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.HumanoidArm;
 
 public class AliceAngelModel extends HierarchicalModel<WeepingAngel> implements AngelModel, ArmedModel {
@@ -119,9 +122,36 @@ public class AliceAngelModel extends HierarchicalModel<WeepingAngel> implements 
     }
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelTextureVariant.location().getPath() + "/" + angelTextureVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }
+
+    @Override
+    public void animateTile(StatueBlockEntity statueBlockEntity) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+        animate(statueBlockEntity.getAnimationState(), poseForId(statueBlockEntity.getAnimation()), Minecraft.getInstance().player.tickCount);
+    }
+
+    @Override
+    public AnimationDefinition poseForId(int index) {
+        return switch (index) {
+            case 1 -> IDLE1;
+            case 2 -> IDLE2;
+            case 3 -> IDLE3;
+            case 4 -> IDLE4;
+            case 5 -> IDLE5;
+            case 6 -> IDLE6;
+            case 7 -> IDLE7;
+            case 8 -> ANGRY1;
+            case 9 -> ANGRY2;
+            case 10 -> ANGRY3;
+            case 11 -> ANGRY4;
+            case 12 -> ANGRY5;
+            case 0 -> ANGRY6;
+            default -> IDLE2;
+        };
+    }
+
 
     @Override
     public void translateToHand(HumanoidArm pSide, PoseStack pPoseStack) {

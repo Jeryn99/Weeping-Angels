@@ -13,7 +13,7 @@ import static mc.craig.software.angels.util.WAHelper.intersects;
 
 public class CatacombTracker {
 
-    private static boolean isInCatacomb = true;
+    private static boolean isInCatacomb = false;
 
     public static void setIsInCatacomb(boolean isInCatacomb) {
         CatacombTracker.isInCatacomb = isInCatacomb;

@@ -4,15 +4,11 @@ import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.entity.angel.misc.BodyRotationAngel;
 import mc.craig.software.angels.util.ViewUtil;
-import mc.craig.software.angels.util.WADamageSources;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -22,7 +18,6 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
@@ -35,6 +30,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     private static final EntityDataAccessor<String> EMOTION = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Boolean> IS_HOOKED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Boolean> SHOULD_DROP_LOOT = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
 
     public AbstractWeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
@@ -118,15 +114,21 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
         getEntityData().define(IS_HOOKED, false);
-        getEntityData().define(VARIANT, AngelVariant.BASALT.location().toString());
+        getEntityData().define(VARIANT, AngelTextureVariant.BASALT.location().toString());
+        getEntityData().define(SHOULD_DROP_LOOT, true);
     }
 
-    public void setVariant(AngelVariant angelVariant){
-        getEntityData().set(VARIANT, angelVariant.location().toString());
+    @Override
+    protected boolean shouldDropLoot() {
+        return getEntityData().get(SHOULD_DROP_LOOT);
     }
 
-    public AngelVariant getVariant() {
-        return AngelVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
+    public void setVariant(AngelTextureVariant angelTextureVariant){
+        getEntityData().set(VARIANT, angelTextureVariant.location().toString());
+    }
+
+    public AngelTextureVariant getVariant() {
+        return AngelTextureVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
     public AngelEmotion getEmotion() {
@@ -157,6 +159,11 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
         if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
+        if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
+    }
+
+    public void setDrops(boolean drops) {
+        getEntityData().set(SHOULD_DROP_LOOT, drops);
     }
 
     @Override
@@ -165,6 +172,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         compound.putBoolean(WAConstants.IS_SEEN, isSeen());
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
         compound.putString(WAConstants.EMOTION, getEmotion().getId());
+        compound.putBoolean(WAConstants.DROPS_LOOT, shouldDropLoot());
     }
 
     @Override

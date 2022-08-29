@@ -2,6 +2,7 @@ package mc.craig.software.angels.common.entity.angel;
 
 import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WAConfiguration;
+import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.HurtHelper;
@@ -15,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,6 +36,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +67,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-        setVariant(AngelVariant.getVariantForPos(this));
+        setVariant(AngelTextureVariant.getVariantForPos(this));
         return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
@@ -121,10 +125,23 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!state.getMaterial().isLiquid()) {
+            BlockState blockState = Blocks.STONE.defaultBlockState();
+            SoundType soundType = blockState.is(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundType() : state.getSoundType();
+            this.playSound(soundType.getStepSound(), soundType.getVolume() * 0.15F, soundType.getPitch());
+        }
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
-        setGlowingTag(false);
+        if (!level.isClientSide()) {
+            if (CatacombTracker.isInCatacomb(this)) {
+                Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
+            }
+        }
 
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));

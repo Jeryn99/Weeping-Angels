@@ -5,7 +5,7 @@ import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
-import mc.craig.software.angels.common.entity.angel.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.features.WAFeatures;
@@ -26,8 +26,8 @@ public class WeepingAngels {
         WAStructures.STRUCTURES.register();
         WAFeatures.CONFIGURED_FEATURES.register();
         WAFeatures.PLACED_FEATURES.register();
-        BlockReactions.init(); //TODO Move to later
-        AngelVariant.init();
+        BlockReactions.init();
+        AngelTextureVariant.init();
     }
 
 }

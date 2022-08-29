@@ -1,7 +1,8 @@
 package mc.craig.software.angels.common.entity.anomaly;
 
+import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
-import mc.craig.software.angels.util.WADamageSources;
+import mc.craig.software.angels.util.HurtHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -11,7 +12,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,7 +58,7 @@ public class AnomalyEntity extends Mob {
                 remove(RemovalReason.DISCARDED);
             }
 
-            for (WeepingAngel weepingAngel : level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(15))) {
+            for (WeepingAngel weepingAngel : level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(64))) {
                 BlockPos pos = blockPosition().subtract(weepingAngel.blockPosition());
                 Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 weepingAngel.setNoAi(false);
@@ -89,9 +89,11 @@ public class AnomalyEntity extends Mob {
 
     @Override
     protected void doPush(@NotNull Entity entityIn) {
-        if (entityIn instanceof WeepingAngel weepingAngel) {
-            weepingAngel.setSilent(true);
-            weepingAngel.actuallyHurt(WADamageSources.GENERATOR, Integer.MAX_VALUE);
+        if (WAConfiguration.CONFIG.hurtType.get() == HurtHelper.HurtType.GENERATOR || WAConfiguration.CONFIG.hurtType.get() == HurtHelper.HurtType.PICKAXE_AND_GENERATOR) {
+            if (entityIn instanceof WeepingAngel weepingAngel) {
+                weepingAngel.setSilent(true);
+                weepingAngel.remove(RemovalReason.KILLED);
+            }
         }
     }
 }

@@ -33,6 +33,11 @@ public class ModelProviderItem extends ItemModelProvider {
                 continue;
             }
 
+            if (entry.get() == WAItems.CHISEL.get()) {
+                toolItem(entry.get());
+                continue;
+            }
+
             if (entry.get() instanceof BlockItem) {
                 blockItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(entry.get())));
                 continue;
@@ -41,6 +46,17 @@ public class ModelProviderItem extends ItemModelProvider {
             basicItem(entry.get());
         }
     }
+
+    public ItemModelBuilder toolItem(Item item) {
+        return toolItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)));
+    }
+
+    public ItemModelBuilder toolItem(ResourceLocation item) {
+        return getBuilder(item.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", new ResourceLocation(item.getNamespace(), "item/" + item.getPath()));
+    }
+
 
     public ItemModelBuilder blockItem(ResourceLocation item) {
         return getBuilder(item.toString())

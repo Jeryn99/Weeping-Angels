@@ -29,6 +29,7 @@ public class WAItems {
     public static final RegistrySupplier<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> new Item(new Item.Properties().tab(MAIN_TAB)));
     public static final RegistrySupplier<Item> ANGEL_SPAWNER = ITEMS.register("angel_spawner", () -> new SpawnerItem(WAEntities.WEEPING_ANGEL::get, new Item.Properties().tab(MAIN_TAB)));
 
+    public static final RegistrySupplier<Item> CHISEL = ITEMS.register("chisel", () -> new ChiselItem(new Item.Properties().tab(MAIN_TAB)));
 
     @ExpectPlatform
     public static CreativeModeTab getCreativeTab() {

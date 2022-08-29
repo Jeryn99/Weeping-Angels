@@ -7,6 +7,7 @@ import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
 import net.minecraft.client.Minecraft;
@@ -27,8 +28,6 @@ import java.util.Optional;
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
     public final MercyWingsModel mercyWings;
     public final AngelModel angelModel;
-    private final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
-    private final ResourceLocation NORMAL_WINGS = new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/normal/normal_angel_" + AngelEmotion.ANGRY.getId() + ".png");
     private final ResourceLocation TEXTURE_LIGHTMAP = new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings_lightmap.png");
 
     public DonationWingsLayer(RenderLayerParent<T, M> renderLayerParent) {
@@ -59,7 +58,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                     poseStack.pushPose();
                     getParentModel().body.translateAndRotate(poseStack);
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
-                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelTextureVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
                     mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.5F);
@@ -72,7 +71,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                 getParentModel().body.translateAndRotate(poseStack);
                 poseStack.translate(0, 0.5, 0);
                 for (ModelPart wing : angelModel.getWings()) {
-                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(NORMAL_WINGS)), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelTextureVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 }
                 poseStack.popPose();
             });

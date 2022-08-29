@@ -7,7 +7,7 @@ import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -31,7 +31,8 @@ public class StatueRenderer implements BlockEntityRenderer<StatueBlockEntity>, B
         BlockState blockstate = blockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(StatueBaseBlock.ROTATION);
         poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        aliceAngel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutout(aliceAngel.texture(AngelEmotion.IDLE, AngelVariant.STONE))), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        aliceAngel.animateTile(blockEntity);
+        aliceAngel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutout(aliceAngel.texture(AngelEmotion.IDLE, blockEntity.getVariant()))), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         poseStack.popPose();
     }
 

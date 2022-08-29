@@ -29,6 +29,16 @@ public class StatueBaseBlock extends BaseEntityBlock {
         super(properties.noOcclusion());
     }
 
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onPlace(state, level, pos, oldState, isMoving);
+        if (level.getBlockEntity(pos) instanceof StatueBlockEntity statueBlockEntity) {
+            statueBlockEntity.changeVariant(statueBlockEntity);
+            statueBlockEntity.sendUpdates();
+        }
+    }
+
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;

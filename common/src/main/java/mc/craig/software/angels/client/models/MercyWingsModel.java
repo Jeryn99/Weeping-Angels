@@ -3,9 +3,11 @@ package mc.craig.software.angels.client.models;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
+import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -145,7 +147,17 @@ public class MercyWingsModel extends HierarchicalModel<LivingEntity> implements 
     }
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
+    }
+
+    @Override
+    public void animateTile(StatueBlockEntity statueBlockEntity) {
+
+    }
+
+    @Override
+    public AnimationDefinition poseForId(int index) {
         return null;
     }
 }
