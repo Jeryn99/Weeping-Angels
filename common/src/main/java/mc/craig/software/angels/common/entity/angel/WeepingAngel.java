@@ -13,9 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -27,11 +30,14 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -40,6 +46,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -71,7 +79,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
         setVariant(AngelTextureVariant.getVariantForPos(this));
         return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
-
 
     @Nullable
     @Override
@@ -177,12 +184,38 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
     }
 
+
+    @Override
+    protected @NotNull PathNavigation createNavigation(@NotNull Level worldIn) {
+        WallClimberNavigation navigator = new WallClimberNavigation(this, worldIn);
+        navigator.setCanFloat(false);
+        navigator.setCanOpenDoors(true);
+        navigator.setAvoidSun(false);
+        navigator.setSpeedModifier(1.0D);
+        return navigator;
+    }
+
+    @Override
+    public void kill() {
+        remove(RemovalReason.KILLED);
+    }
+
+    @Override
+    public boolean onClimbable() {
+        return horizontalCollision;
+    }
+
     @Override
     public void invokeSeen(Player player) {
         super.invokeSeen(player);
-        if (getSeenTime() == 1) {
+        if (getSeenTime() == 1 && System.currentTimeMillis() - timeSincePlayedSound > 5000) {
             setEmotion(AngelEmotion.randomEmotion(random));
             playSound(SoundEvents.STONE_PLACE);
+
+            if (player instanceof ServerPlayer serverPlayer && player.distanceTo(this) < 15) {
+                setTimeSincePlayedSound(System.currentTimeMillis());
+                serverPlayer.connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
+            }
         }
     }
 
@@ -193,7 +226,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.STONE_BREAK;
+        return WASounds.CRUMBLING.get();
     }
 
 
@@ -203,7 +236,10 @@ public class WeepingAngel extends AbstractWeepingAngel {
             boolean isHurt = HurtHelper.handleAngelHurt(this, pSource, pAmount);
             ServerLevel serverLevel = (ServerLevel) level;
             if (isHurt) {
-                playSound(SoundEvents.STONE_BREAK);
+                if (getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
+                    BlockState defaultState = blockItem.getBlock().defaultBlockState();
+                    playSound(defaultState.getSoundType().getHitSound());
+                }
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), getX(), getY(0.5D), getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
                 return super.hurt(pSource, pAmount);
             }
@@ -227,14 +263,17 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void investigateBlocks() {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
+        if (level.isClientSide() || !level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
             return;
         for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             BlockState blockState = level.getBlockState(pos);
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());
             boolean completed = blockBehaviour.interact(this, blockState, level, pos);
-            if (completed) return;
+            if (completed) {
+                Warden.applyDarknessAround((ServerLevel) level, Vec3.atBottomCenterOf(blockPosition()), this, 64);
+                return;
+            }
         }
     }
 

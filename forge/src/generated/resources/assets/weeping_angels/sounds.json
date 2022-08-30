@@ -11,6 +11,18 @@
     ],
     "subtitle": "subtitle.weeping_angels.blow"
   },
+  "catacomb": {
+    "sounds": [
+      "weeping_angels:catacomb"
+    ],
+    "subtitle": "subtitle.weeping_angels.catacomb"
+  },
+  "crumbling": {
+    "sounds": [
+      "weeping_angels:crumbling"
+    ],
+    "subtitle": "subtitle.weeping_angels.crumbling"
+  },
   "ding": {
     "sounds": [
       "weeping_angels:ding"

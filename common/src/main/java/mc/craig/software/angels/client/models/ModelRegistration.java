@@ -5,17 +5,18 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.blockentity.CoffinModel;
 import mc.craig.software.angels.client.models.blockentity.TardisModel;
-import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
-import mc.craig.software.angels.client.models.entity.angel.AnomalyModel;
-import mc.craig.software.angels.client.models.entity.angel.GasAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.*;
+import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 public class ModelRegistration {
 
-    public static ModelLayerLocation COFFIN, MERCY_WINGS, ANOMALY, ALICE_ANGEL, GAS_ANGEL, TARDIS;
-
+    public static ModelLayerLocation COFFIN, MERCY_WINGS, ANOMALY, ALICE_ANGEL, GAS_ANGEL, TARDIS, A_DIZZLE_ANGEL;
+    private static AngelModel GAS_MODEL, ALICE_MODEL, A_DIZZLE_MODEL;
 
     public static void init() {
         ALICE_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "alice_angel"), AliceAngelModel::meshLayer);
@@ -24,7 +25,29 @@ public class ModelRegistration {
         MERCY_WINGS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "mercy_wings"), MercyWingsModel::meshLayer);
         COFFIN = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "coffin"), CoffinModel::meshLayer);
         TARDIS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "tardis"), TardisModel::meshLayer);
+        A_DIZZLE_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "a_dizzle_model"), ADizzleAngelModel::createBodyLayer);
     }
+
+    public static void regModels(BlockEntityRendererProvider.Context context) {
+        EntityModelSet entityModels = context.getModelSet();
+        GAS_MODEL = new GasAngelModel(entityModels.bakeLayer(GAS_ANGEL));
+        ALICE_MODEL = new AliceAngelModel(entityModels.bakeLayer(ALICE_ANGEL));
+        A_DIZZLE_MODEL = new ADizzleAngelModel(entityModels.bakeLayer(A_DIZZLE_ANGEL));
+    }
+
+    public static AngelModel getModelFor(AngelTextureVariant angelTextureVariant) {
+
+        if (angelTextureVariant == AngelTextureVariant.A_DIZZLE) {
+            return A_DIZZLE_MODEL;
+        }
+
+        if (angelTextureVariant == AngelTextureVariant.GAS_RUSTED || angelTextureVariant == AngelTextureVariant.GAS_STONE) {
+            return GAS_MODEL;
+        }
+
+        return ALICE_MODEL;
+    }
+
 
     @ExpectPlatform
     public static ModelLayerLocation register(ModelLayerLocation location, Supplier<LayerDefinition> definition) {

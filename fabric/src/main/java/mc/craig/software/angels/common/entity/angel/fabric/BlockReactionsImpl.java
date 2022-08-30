@@ -1,7 +1,6 @@
 package mc.craig.software.angels.common.entity.angel.fabric;
 
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
@@ -17,12 +16,11 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 public class BlockReactionsImpl {
 
     public static void init() {
-        WeepingAngels.LOGGER.debug("HMMMMMMMMMMMMMMMMMMMMMMM");
         for (Block block : Registry.BLOCK) {
             BlockState blockState = block.defaultBlockState();
             WeepingAngels.LOGGER.debug(blockState.toString());
 
-            if (!block.defaultBlockState().is(WATags.NO_BREAKING)) {
+            if (!block.defaultBlockState().is(WATags.NO_BREAKING) && !block.defaultBlockState().getMaterial().isLiquid()) {
 
                 // Destroy Lights
                 if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {

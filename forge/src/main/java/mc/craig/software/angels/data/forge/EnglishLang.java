@@ -68,6 +68,7 @@ public class EnglishLang extends LanguageProvider {
         addSound(WASounds.KNOCK.get(), "Knocking");
         addSound(WASounds.TARDIS_TAKEOFF.get(), "Tardis Takeoff");
         addSound(WASounds.PROJECTOR.get(), "Whirr");
+        addSound(WASounds.CRUMBLING.get(), "Crumbling");
 
         // ==== Config Values ====
         addConfig(WAConfiguration.CONFIG.hurtType, "Hurt Type?");
@@ -88,6 +89,7 @@ public class EnglishLang extends LanguageProvider {
     }
 
     public void add(DamageSource damageSource, String message){
-         add("death.attack." + damageSource.getMsgId(), message);
+        add("death.attack." + damageSource.getMsgId(), message);
+        add("death.attack." + damageSource.getMsgId() + ".player", message);
     }
 }

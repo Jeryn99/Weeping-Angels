@@ -1,7 +1,6 @@
 package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.common.WASounds;
-import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;

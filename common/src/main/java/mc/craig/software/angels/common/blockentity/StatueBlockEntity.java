@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.blockentity;
 
+import mc.craig.software.angels.common.blocks.StatueBaseBlock;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
@@ -54,7 +55,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        serializeNBT(tag);
+        writeNbt(tag);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         return tag;
     }
 
+    @Override
     public void sendUpdates() {
         if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
             level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
@@ -75,18 +77,18 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        deserializeNBT(tag);
+        readNbt(tag);
     }
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, StatueBlockEntity blockEntity) {
         if (!getAnimationState().isStarted()) {
-            getAnimationState().start(12);
+            getAnimationState().start(level.getBlockTicks().count());
         }
 
         if (!level.isClientSide()) {
             if (level.hasNeighborSignal(blockPos)) {
-                WAHelper.spawnWeepingAngel((ServerLevel) level, blockPos, currentVariant, false);
+                WAHelper.spawnWeepingAngel((ServerLevel) level, blockPos, currentVariant, false, (float) Math.toRadians(22.5F * blockState.getValue(StatueBaseBlock.ROTATION)));
                 level.removeBlock(blockPos, false);
             }
         }

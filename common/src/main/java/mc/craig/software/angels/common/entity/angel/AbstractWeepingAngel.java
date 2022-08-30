@@ -4,11 +4,15 @@ import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.entity.angel.misc.BodyRotationAngel;
 import mc.craig.software.angels.util.ViewUtil;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -18,7 +22,12 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +40,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     private static final EntityDataAccessor<Boolean> IS_HOOKED = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Boolean> SHOULD_DROP_LOOT = SynchedEntityData.defineId(AbstractWeepingAngel.class, EntityDataSerializers.BOOLEAN);
+
+    public long timeSincePlayedSound = 0;
 
     public AbstractWeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
         super(entityType, worldIn);
@@ -45,7 +56,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     public static AttributeSupplier.Builder createAttributes() {
         return createMonsterAttributes().
                 add(Attributes.ATTACK_DAMAGE, 8D).
-                add(Attributes.MAX_HEALTH, 50D).
+                add(Attributes.MAX_HEALTH, 20D).
                 add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).
                 add(Attributes.MOVEMENT_SPEED, 0.8D).
                 add(Attributes.ARMOR, 2.0D);
@@ -94,6 +105,14 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
             if (isSeen()) return;
             snapLookToPlayer(targetPlayer);
             moveTowards(targetPlayer);
+        }
+    }
+
+
+    @Override
+    public void makeStuckInBlock(BlockState state, @NotNull Vec3 motionMultiplierIn) {
+        if (!state.is(Blocks.COBWEB)) {
+            super.makeStuckInBlock(state, motionMultiplierIn);
         }
     }
 
@@ -160,6 +179,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
+        if (compound.contains(WAConstants.VARIANT))
+            setVariant(AngelTextureVariant.getVariant(new ResourceLocation(compound.getString(WAConstants.VARIANT))));
     }
 
     public void setDrops(boolean drops) {
@@ -173,6 +194,23 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         compound.putInt(WAConstants.TIME_SEEN, getSeenTime());
         compound.putString(WAConstants.EMOTION, getEmotion().getId());
         compound.putBoolean(WAConstants.DROPS_LOOT, shouldDropLoot());
+        compound.putString(WAConstants.VARIANT, getVariant().location().toString());
+    }
+
+
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return WAHelper.spawnPacket(this);
+    }
+
+    public SoundEvent getSeenSound() {
+        AngelTextureVariant angelVariant = getVariant();
+        ItemStack itemStack = angelVariant.getDrops();
+        if (itemStack.getItem() instanceof BlockItem blockItem) {
+            Block block = blockItem.getBlock();
+            return block.defaultBlockState().getSoundType().getBreakSound();
+        }
+        return SoundEvents.STONE_PLACE;
     }
 
     @Override
@@ -185,6 +223,14 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         return false;
     }
 
+    public long getTimeSincePlayedSound() {
+        return timeSincePlayedSound;
+    }
+
+    public void setTimeSincePlayedSound(long timeSincePlayedSound) {
+        this.timeSincePlayedSound = timeSincePlayedSound;
+    }
+
     public boolean isSeen() {
         return getSeenTime() > 0;
     }
@@ -195,6 +241,11 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
 
     public void setSeenTime(int time) {
         getEntityData().set(TIME_VIEWED, time);
+    }
+
+    @Override
+    public void knockback(double strength, double x, double z) {
+
     }
 
     @Override

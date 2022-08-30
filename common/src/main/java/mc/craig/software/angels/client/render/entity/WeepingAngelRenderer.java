@@ -3,6 +3,7 @@ package mc.craig.software.angels.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
@@ -16,7 +17,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
-public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, AliceAngelModel> {
+public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, AngelModel> {
+
+    private AngelTextureVariant textureVariant = AngelTextureVariant.STONE;
 
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
         super(context, new AliceAngelModel(context.bakeLayer(ModelRegistration.ALICE_ANGEL)), 0F);
@@ -25,6 +28,8 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ali
 
     @Override
     public void render(WeepingAngel pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
+        this.textureVariant = pEntity.getVariant();
+        this.model = getModel();
         if (pEntity.deathTime > 0) {
 
             if (pEntity.deathTime < 10) {
@@ -45,6 +50,11 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ali
     @Override
     protected RenderType getRenderType(WeepingAngel pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
         return pGlowing ? RenderType.outline(getTextureLocation(pLivingEntity)) : RenderType.entityTranslucentCull(getTextureLocation(pLivingEntity));
+    }
+
+    @Override
+    public AngelModel getModel() {
+        return ModelRegistration.getModelFor(textureVariant);
     }
 
     @Override

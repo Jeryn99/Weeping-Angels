@@ -1,6 +1,7 @@
 package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
@@ -71,6 +72,8 @@ public class ClientModBus {
             if (anomaliesAround.isEmpty()) return null;
             return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
         }));
+
+        WAMusic.init();
     }
 
     @SubscribeEvent

@@ -11,19 +11,22 @@ public class WASounds {
 
     public static final DeferredRegistry<SoundEvent> SOUNDS = DeferredRegistry.create(WeepingAngels.MODID, Registry.SOUND_EVENT_REGISTRY);
 
-    public static final RegistrySupplier<SoundEvent> DING = SOUNDS.register("ding", () -> setUpSound("ding"));
-    public static final RegistrySupplier<SoundEvent> BLOW = SOUNDS.register("blow", () -> setUpSound("blow"));
-    public static final RegistrySupplier<SoundEvent> NECK_SNAP = SOUNDS.register("neck_snap", () -> setUpSound("neck_snap"));
-    public static final RegistrySupplier<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
-    public static final RegistrySupplier<SoundEvent> ANGEL_MOCKING = SOUNDS.register("angel_mocking", () -> setUpSound("angel_mocking"));
-    public static final RegistrySupplier<SoundEvent> TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> setUpSound("tardis_takeoff"));
-    public static final RegistrySupplier<SoundEvent> DISC_SALLY = SOUNDS.register("disc_sally", () -> setUpSound("disc_sally"));
-    public static final RegistrySupplier<SoundEvent> DISC_TIME_PREVAILS = SOUNDS.register("disc_time_prevails", () -> setUpSound("disc_time_prevails"));
-    public static final RegistrySupplier<SoundEvent> KNOCK = SOUNDS.register("knock", () -> setUpSound("knock"));
-    public static final RegistrySupplier<SoundEvent> LOCKED = SOUNDS.register("locked", () -> setUpSound("locked"));
+    public static final RegistrySupplier<SoundEvent> DING = setUpSound("ding");
+    public static final RegistrySupplier<SoundEvent> BLOW = setUpSound("blow");
+    public static final RegistrySupplier<SoundEvent> NECK_SNAP = setUpSound("neck_snap");
+    public static final RegistrySupplier<SoundEvent> PROJECTOR = setUpSound("projector");
+    public static final RegistrySupplier<SoundEvent> ANGEL_MOCKING = setUpSound("angel_mocking");
+    public static final RegistrySupplier<SoundEvent> TARDIS_TAKEOFF = setUpSound("tardis_takeoff");
+    public static final RegistrySupplier<SoundEvent> DISC_SALLY = setUpSound("disc_sally");
+    public static final RegistrySupplier<SoundEvent> DISC_TIME_PREVAILS = setUpSound("disc_time_prevails");
+    public static final RegistrySupplier<SoundEvent> KNOCK = setUpSound("knock");
+    public static final RegistrySupplier<SoundEvent> LOCKED = setUpSound("locked");
+    public static final RegistrySupplier<SoundEvent> CRUMBLING = setUpSound("crumbling");
+    public static final RegistrySupplier<SoundEvent> CATACOMB = setUpSound("catacomb");
 
-    private static SoundEvent setUpSound(String soundName) {
-        return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
+    private static RegistrySupplier<SoundEvent> setUpSound(String soundName) {
+        SoundEvent sound = new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
+        return SOUNDS.register(soundName, () -> sound);
     }
 
 }

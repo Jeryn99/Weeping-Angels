@@ -21,7 +21,7 @@ public class BlockReactionsImpl {
         for (Map.Entry<ResourceKey<Block>, Block> entry : ForgeRegistries.BLOCKS.getEntries()) {
             BlockState blockState = entry.getValue().defaultBlockState();
             Block block = entry.getValue();
-            if (!block.defaultBlockState().is(WATags.NO_BREAKING)) {
+            if (!block.defaultBlockState().is(WATags.NO_BREAKING) && !block.defaultBlockState().getMaterial().isLiquid()) {
 
                 // Destroy Lights
                 if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {

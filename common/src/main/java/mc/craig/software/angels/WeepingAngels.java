@@ -10,12 +10,15 @@ import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.features.WAFeatures;
 import mc.craig.software.angels.common.level.structures.WAStructures;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 public class WeepingAngels {
 
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MODID = "weeping_angels";
+
+    public static ResourceLocation CRYPT_LOOT = new ResourceLocation("weeping_angels:chests/catacombs");
 
     public static void init() {
         WAItems.ITEMS.register();
@@ -28,6 +31,7 @@ public class WeepingAngels {
         WAFeatures.PLACED_FEATURES.register();
         BlockReactions.init();
         AngelTextureVariant.init();
+
     }
 
 }

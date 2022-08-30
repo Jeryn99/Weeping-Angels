@@ -9,6 +9,22 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    runs {
+        // client or server both work
+        client {
+            if (project.hasProperty('mc_uuid')) {
+                programArgs '--uuid', project.getProperty('mc_uuid')
+            }
+            if (project.hasProperty('mc_username')) {
+                programArgs '--username', project.getProperty('mc_username')
+            }
+            if (project.hasProperty('mc_accessToken')) {
+                programArgs '--accessToken', project.getProperty('mc_accessToken')
+            }
+        }
+    }
+
 }
 
 configurations {
@@ -24,18 +40,26 @@ repositories {
         url = "https://minecraft.guntram.de/maven/"
     }
 
-    repositories {
-        maven { url "https://maven.shedaniel.me" }
-    }
+    maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.terraformersmc.com/releases/" }
+    maven { url "<https://maven.architectury.dev/>" }
 }
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+
     // Forge Config API Port
     modApi "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
     include "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+
+    // Roughly Enough Items
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
+
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

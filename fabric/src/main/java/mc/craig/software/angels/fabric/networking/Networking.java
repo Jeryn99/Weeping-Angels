@@ -9,7 +9,6 @@ public class Networking {
 
     public static final ResourceLocation UPDATE_CATACOMB = new ResourceLocation(WeepingAngels.MODID, "update_catacomb");
 
-
     public static void init() {
         ClientPlayNetworking.registerGlobalReceiver(UPDATE_CATACOMB, (client, handler, buf, responseSender) -> {
             CatacombTracker.setIsInCatacomb(buf.readBoolean());

@@ -15,6 +15,7 @@ public class WAConstants {
     public static final String VARIANT = "variant";
     public static final String ANIMATION = "animation";
     public static final String DROPS_LOOT = "dropsLoot";
+    public static final String NEEDS_BOX = "needsBox";
 
 
     // Messages/UI

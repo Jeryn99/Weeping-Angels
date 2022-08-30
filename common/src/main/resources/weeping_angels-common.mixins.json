@@ -3,7 +3,8 @@
   "package": "mc.craig.software.angels.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "ElytraLayerMixin"
+    "ElytraLayerMixin",
+    "MinecraftMixin"
   ],
   "mixins": [
   ],

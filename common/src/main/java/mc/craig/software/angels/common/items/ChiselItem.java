@@ -31,10 +31,12 @@ public class ChiselItem extends Item {
             player.swing(context.getHand());
             if (player.isCrouching()) {
                 plinth.changeVariant(plinth);
+                plinth.sendUpdates();
                 return super.useOn(context);
             }
             if (plinth.getAnimation() == 12) {
                 plinth.setAnimation(0);
+                plinth.sendUpdates();
                 return InteractionResult.SUCCESS;
             }
             plinth.setAnimation(Mth.clamp(plinth.getAnimation() + 1, 0, 12));

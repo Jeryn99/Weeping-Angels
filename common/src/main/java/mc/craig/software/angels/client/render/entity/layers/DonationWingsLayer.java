@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.MercyWingsModel;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
+import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.donators.DonationChecker;
@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
     public final MercyWingsModel mercyWings;
@@ -40,6 +41,15 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
     public static Optional<Donator> getDonatorData(Player player) {
         for (Donator person : DonationChecker.getModDonators()) {
             if (player.getStringUUID().equals(person.getUuid())) {
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<Donator> getDonatorData(UUID uuid) {
+        for (Donator person : DonationChecker.getModDonators()) {
+            if (uuid.toString().equals(person.getUuid())) {
                 return Optional.of(person);
             }
         }
@@ -71,7 +81,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                 getParentModel().body.translateAndRotate(poseStack);
                 poseStack.translate(0, 0.5, 0);
                 for (ModelPart wing : angelModel.getWings()) {
-                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelTextureVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelTextureVariant.getVariant(new ResourceLocation(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 }
                 poseStack.popPose();
             });

@@ -20,8 +20,8 @@ public interface Plinth  {
     void setSpecificVariant(AngelTextureVariant angelTextureVariant);
     AngelTextureVariant getVariant();
 
-    default CompoundTag serializeNBT(CompoundTag compoundTag) {
-        if(getVariant() == null) {
+    default CompoundTag writeNbt(CompoundTag compoundTag) {
+        if (getVariant() == null) {
             setSpecificVariant(AngelTextureVariant.getRandomVariant(AngelTextureVariant.VARIANTS, RandomSource.create()));
         }
         compoundTag.putString(WAConstants.VARIANT, getVariant().location().toString());
@@ -29,7 +29,7 @@ public interface Plinth  {
         return compoundTag;
     }
 
-    default void deserializeNBT(CompoundTag compoundTag){
+    default void readNbt(CompoundTag compoundTag) {
         setSpecificVariant(AngelTextureVariant.getVariant(new ResourceLocation(compoundTag.getString(WAConstants.VARIANT))));
         setAnimation(Mth.clamp(compoundTag.getInt(WAConstants.ANIMATION), 0, 12));
     }
@@ -37,6 +37,7 @@ public interface Plinth  {
     void setAnimation(int animation);
     int getAnimation();
 
+    void sendUpdates();
 
 
 }

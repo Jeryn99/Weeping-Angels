@@ -59,9 +59,11 @@ public class BlockReactions {
 
     public static BlockReaction BLOWOUT_CANDLES = (weepingAngel, blockState, level, blockPos) -> {
         if (blockState.getBlock() instanceof CandleBlock) {
-            weepingAngel.playSound(WASounds.BLOW.get());
-            AbstractCandleBlock.extinguish(null, blockState, level, blockPos);
-            return true;
+            if (blockState.getValue(BlockStateProperties.LIT)) {
+                weepingAngel.playSound(WASounds.BLOW.get());
+                AbstractCandleBlock.extinguish(null, blockState, level, blockPos);
+                return true;
+            }
         }
         return false;
     };

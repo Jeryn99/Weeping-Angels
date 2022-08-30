@@ -23,6 +23,7 @@ public class AngelTextureVariant {
     public static final Map<ResourceLocation, AngelTextureVariant> ORE_VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelTextureVariant.IRON));
 
     public static AngelTextureVariant STONE, BASALT, DIRT, COPPER, MOSSY, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_NO_HEAD, QUARTZ, LAPIS_LAZULI, IRON, GOLD, EMERALD, DIAMOND;
+    public static AngelTextureVariant GAS_STONE, GAS_RUSTED, A_DIZZLE;
 
     public static void init() {
         STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "normal"), new ItemStack(Blocks.STONE), false);
@@ -40,6 +41,10 @@ public class AngelTextureVariant {
         GOLD = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gold"), new ItemStack(Blocks.GOLD_ORE), true);
         EMERALD = registerVariant(new ResourceLocation(WeepingAngels.MODID, "emerald"), new ItemStack(Blocks.EMERALD_ORE), true);
         DIAMOND = registerVariant(new ResourceLocation(WeepingAngels.MODID, "diamond"), new ItemStack(Blocks.DIAMOND_ORE), true);
+
+        GAS_RUSTED = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gas_rusted"), new ItemStack(Blocks.STONE), false);
+        GAS_STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gas_stone"), new ItemStack(Blocks.GRANITE), false);
+        A_DIZZLE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "a_dizzle"), new ItemStack(Blocks.GRANITE), false);
     }
 
     private final ItemStack drops;

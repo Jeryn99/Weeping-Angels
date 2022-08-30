@@ -1,8 +1,7 @@
-package mc.craig.software.common.level.structures;
+package mc.craig.software.angels.common.level.structures;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import mc.craig.software.angels.common.level.structures.WAStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -72,18 +71,15 @@ public class CatacombStructure extends Structure {
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
 
-        Optional<Structure.GenerationStub> structurePiecesGenerator =
-                JigsawPlacement.addPieces(
-                        context,
-                        this.startPool,
-                        this.startJigsawName,
-                        this.size,
-                        blockPos,
-                        false,
-                        this.projectStartToHeightmap,
-                        this.maxDistanceFromCenter);
-
-        return structurePiecesGenerator;
+        return JigsawPlacement.addPieces(
+                context,
+                this.startPool,
+                this.startJigsawName,
+                this.size,
+                blockPos,
+                false,
+                this.projectStartToHeightmap,
+                this.maxDistanceFromCenter);
     }
 
     @Override

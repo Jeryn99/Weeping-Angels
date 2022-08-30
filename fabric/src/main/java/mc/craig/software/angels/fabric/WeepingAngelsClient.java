@@ -2,6 +2,7 @@ package mc.craig.software.angels.fabric;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
+import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
@@ -18,10 +19,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
@@ -42,6 +39,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         ModelRegistration.init();
         overlay();
         Networking.init();
+        WAMusic.init();
     }
 
     private void overlay() {

@@ -1,17 +1,24 @@
 package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.WAConstants;
+import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
+import mc.craig.software.angels.common.blocks.StatueBaseBlock;
+import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.Iterator;
 
 public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<CoffinBlockEntity> {
 
@@ -23,7 +30,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public AnimationState COFFIN_CLOSE = new AnimationState();
 
     public int animationTimer = 0;
-    private boolean isDemat = false;
+    private boolean isDemat = false, needsBox = false;
     private int ticks, pulses, knockTime;
     private float alpha = 1;
 
@@ -65,6 +72,11 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
+        if (needsBox) {
+            needsBox = false;
+            setCoffinType(CoffinType.randomTardis(level.random));
+        }
+
         if (isDemat && coffinType.isTardis()) {
             if (ticks % 60 < 30) {
                 if (pulses <= 2)
@@ -95,7 +107,17 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     private void activateAngels(int range) {
-        //TODO Implement
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(worldPosition, range, range, range).iterator(); iterator.hasNext(); ) {
+            BlockPos pos = iterator.next();
+            ServerLevel serverWorld = (ServerLevel) level;
+            if (level.getDifficulty() != Difficulty.PEACEFUL && serverWorld.getBlockEntity(pos) instanceof StatueBlockEntity statueBlockEntity) {
+                WeepingAngel angel = new WeepingAngel(level, WAEntities.WEEPING_ANGEL.get());
+                angel.setVariant(statueBlockEntity.getVariant());
+                angel.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, (float) Math.toRadians(22.5F * statueBlockEntity.getBlockState().getValue(StatueBaseBlock.ROTATION)), 0);
+                level.addFreshEntity(angel);
+                level.removeBlock(pos, false);
+            }
+        }
     }
 
 
@@ -113,6 +135,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         setCoffinType(CoffinType.find(pTag.getString(WAConstants.COFFIN_TYPE)));
         alpha = pTag.getFloat(WAConstants.ALPHA);
         isDemat = pTag.getBoolean(WAConstants.IS_DEMAT);
+        needsBox = pTag.getBoolean(WAConstants.NEEDS_BOX);
     }
 
     @Override
@@ -121,6 +144,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         pTag.putString(WAConstants.COFFIN_TYPE, getCoffinType().getId());
         pTag.putBoolean(WAConstants.IS_DEMAT, isDemat);
         pTag.putFloat(WAConstants.ALPHA, alpha);
+        pTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
     }
 
     @Override
