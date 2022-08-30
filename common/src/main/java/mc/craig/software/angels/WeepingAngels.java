@@ -10,6 +10,7 @@ import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.features.WAFeatures;
 import mc.craig.software.angels.common.level.structures.WAStructures;
+import mc.craig.software.angels.network.WANetwork;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
@@ -31,6 +32,7 @@ public class WeepingAngels {
         WAFeatures.PLACED_FEATURES.register();
         BlockReactions.init();
         AngelTextureVariant.init();
+        WANetwork.init();
     }
 
 }
