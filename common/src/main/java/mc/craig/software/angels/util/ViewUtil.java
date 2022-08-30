@@ -1,5 +1,6 @@
 package mc.craig.software.angels.util;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,21 +30,29 @@ public class ViewUtil {
 
     public static boolean isInFrontOfEntity(LivingEntity entity, Entity target, boolean vr) {
         Vec3 vecTargetsPos = target.position();
-        Vec3 vecLook;
-
-      /*  if (vr) {
-            if (entity instanceof Player) {
-                vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((Player) entity);
-            } else {
-                throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getName().getString());
-            }
-        } else*/
-        {
-            vecLook = entity.getLookAngle();
+        Vec3 vecLook = entity.getLookAngle();
+        if (entity instanceof Player player && vr) {
+            vecLook = manipulateVrRotation(player, entity.getLookAngle());
         }
         Vec3 vecFinal = vecTargetsPos.vectorTo(new Vec3(entity.getX(), entity.getY(), entity.getZ())).normalize();
         vecFinal = new Vec3(vecFinal.x, 0.0D, vecFinal.z);
         return vecFinal.dot(vecLook) < 0.0;
+    }
+
+
+    @ExpectPlatform
+    public static Vec3 manipulateVrRotation(Player player, Vec3 vec3) {
+        throw new RuntimeException("VR");
+    }
+
+    @ExpectPlatform
+    public static Vec3 manipulateVrPosition(Player player, Vec3 vec3) {
+        throw new RuntimeException("VR");
+    }
+
+    @ExpectPlatform
+    public static boolean isVrPlayer(Player player) {
+        throw new RuntimeException("VR");
     }
 
 
@@ -55,13 +64,13 @@ public class ViewUtil {
      */
     public static boolean isInSight(LivingEntity livingBase, AbstractWeepingAngel angel) {
 
-        if(isPlayerBlind(livingBase)) return false;
+        if (isPlayerBlind(livingBase)) return false;
 
         if (viewBlocked(livingBase, angel)) {
             return false;
         }
-        if (livingBase instanceof Player) {
-            return isInFrontOfEntity(livingBase, angel, false); //WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) livingBase));
+        if (livingBase instanceof Player player) {
+            return isInFrontOfEntity(livingBase, angel, isVrPlayer(player));
         }
         return isInFrontOfEntity(livingBase, angel, false);
     }
@@ -71,12 +80,13 @@ public class ViewUtil {
         AABB angelBoundingBox = angel.getBoundingBox();
         Vec3[] viewerPoints = {new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
-        if (viewer instanceof Player) {
-            Vec3 pos;
-         /*   if (WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) viewer))
-                pos = WeepingAngels.VR_REFLECTOR.getHMDPos((Player) viewer);
-            else*/
-                pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
+        if (viewer instanceof Player player) {
+            Vec3 pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
+
+            if (isVrPlayer(player)) {
+                pos = ViewUtil.manipulateVrPosition(player, pos);
+            }
+
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);

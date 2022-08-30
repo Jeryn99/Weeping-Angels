@@ -3,10 +3,8 @@ package mc.craig.software.angels.mixin;
 import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.common.CatacombTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.sounds.Music;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,9 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    @Shadow
-    @Nullable
-    public LocalPlayer player;
     @Shadow
     @Final
     private MusicManager musicManager;
