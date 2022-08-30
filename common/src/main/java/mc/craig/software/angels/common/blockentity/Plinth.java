@@ -25,7 +25,7 @@ public interface Plinth  {
             setSpecificVariant(AngelTextureVariant.getRandomVariant(AngelTextureVariant.VARIANTS, RandomSource.create()));
         }
         compoundTag.putString(WAConstants.VARIANT, getVariant().location().toString());
-        compoundTag.putInt(WAConstants.ANIMATION, compoundTag.getInt(WAConstants.ANIMATION));
+        compoundTag.putInt(WAConstants.ANIMATION, getAnimation());
         return compoundTag;
     }
 

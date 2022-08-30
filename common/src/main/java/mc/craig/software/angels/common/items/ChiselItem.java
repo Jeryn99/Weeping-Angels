@@ -26,6 +26,7 @@ public class ChiselItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
+        if(level.isClientSide()) return InteractionResult.FAIL;
         Player player = context.getPlayer();
         if (level.getBlockEntity(pos) instanceof Plinth plinth) {
             player.swing(context.getHand());
@@ -40,6 +41,7 @@ public class ChiselItem extends Item {
                 return InteractionResult.SUCCESS;
             }
             plinth.setAnimation(Mth.clamp(plinth.getAnimation() + 1, 0, 12));
+            plinth.sendUpdates();
             return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
