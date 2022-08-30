@@ -62,7 +62,7 @@ public class WingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A ex
         if (p_117352_ instanceof Player player) {
             getDonatorData(player).ifPresent(data -> {
                 poseStack.pushPose();
-                if (data.getWings().equalsIgnoreCase("mercy")) {
+                if (data.getWings().equalsIgnoreCase("mercy") || true) {
                     getParentModel().body.translateAndRotate(poseStack);
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
                     mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), p_117351_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
