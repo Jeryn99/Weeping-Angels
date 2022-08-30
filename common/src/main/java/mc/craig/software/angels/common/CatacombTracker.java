@@ -2,6 +2,7 @@ package mc.craig.software.angels.common;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.level.structures.WAStructures;
+import mc.craig.software.angels.network.UpdateCatacombMessage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,9 +21,8 @@ public class CatacombTracker {
     }
 
 
-    @ExpectPlatform
     public static void tellClient(ServerPlayer serverPlayer, boolean isInCatacomb){
-        throw new RuntimeException("Oopsie!!!!!!");
+        new UpdateCatacombMessage(isInCatacomb).send(serverPlayer);
     }
 
     public static boolean isInCatacomb() {

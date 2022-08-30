@@ -1,4 +1,4 @@
-package mc.craig.software.angels.fabric.mixin;
+package mc.craig.software.angels.mixin;
 
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.donators.DonationChecker;

@@ -31,7 +31,6 @@ public class WeepingAngels {
         WAFeatures.PLACED_FEATURES.register();
         BlockReactions.init();
         AngelTextureVariant.init();
-
     }
 
 }
