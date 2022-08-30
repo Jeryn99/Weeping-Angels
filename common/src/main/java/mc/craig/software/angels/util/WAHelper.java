@@ -2,6 +2,7 @@ package mc.craig.software.angels.util;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -59,4 +63,8 @@ public class WAHelper {
         return registry.get(resourceLocation);
     }
 
+    public static SoundEvent getRandomSounds(RandomSource randomSource) {
+        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11, SoundEvents.SCULK_SHRIEKER_SHRIEK, WASounds.ANGEL_MOCKING.get()};
+        return soundEvents[randomSource.nextInt(soundEvents.length)];
+    }
 }

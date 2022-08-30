@@ -104,9 +104,7 @@ public class TardisModel extends HierarchicalModel {
     }
 
     @Override
-    public void setupAnim(@NotNull Entity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
     }
-
-
 }

@@ -1,6 +1,5 @@
 package mc.craig.software.angels.common;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.network.UpdateCatacombMessage;
 import net.minecraft.server.level.ServerLevel;
