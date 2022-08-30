@@ -1,3 +1,0 @@
-files:
-  - source: /crowdin
-    translation: /src/main/resources/assets/weeping_angels/lang/%locale_with_underscore%.json
