@@ -31,7 +31,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     public int animationTimer = 0;
     private boolean isDemat = false, needsBox = false;
-    private int ticks, pulses, knockTime;
+    private int ticks, pulses;
     private float alpha = 1;
 
 

@@ -16,7 +16,6 @@
   "death.attack.punch_stone.player": "%s punched stone too hard...",
   "death.attack.snapped_neck": "%s had their neck snapped by a Weeping Angel...",
   "death.attack.snapped_neck.player": "%s had their neck snapped by a Weeping Angel...",
-  "entity.weeping_angels.anomaly": "Anomaly",
   "entity.weeping_angels.weeping_angel": "Weeping Angel",
   "item.weeping_angels.angel_spawner": "Spawn Weeping Angel",
   "item.weeping_angels.chisel": "Chisel",

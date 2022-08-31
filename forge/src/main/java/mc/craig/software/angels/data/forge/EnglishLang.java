@@ -30,7 +30,6 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Entity ====
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
-        add(WAEntities.ANOMALY.get(), "Anomaly");
 
         // ==== Blocks =====
         add(WABlocks.KONTRON_ORE.get(), "Kontron Ore");

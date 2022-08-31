@@ -90,7 +90,7 @@ public class GasAngelModel extends AngelModel {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
-        if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0) {
+        if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
         animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
@@ -114,21 +114,6 @@ public class GasAngelModel extends AngelModel {
 
     @Override
     public AnimationDefinition poseForId(int index) {
-        return switch (index) {
-            case 1 -> AliceAngelModel.IDLE1;
-            case 2 -> IDLE2;
-            case 3 -> IDLE3;
-            case 4 -> IDLE4;
-            case 5 -> IDLE5;
-            case 6 -> IDLE6;
-            case 7 -> IDLE7;
-            case 8 -> ANGRY1;
-            case 9 -> ANGRY2;
-            case 10 -> ANGRY3;
-            case 11 -> ANGRY4;
-            case 12 -> ANGRY5;
-            case 0 -> ANGRY6;
-            default -> IDLE2;
-        };
+        return getAnimationDefinition(index);
     }
 }

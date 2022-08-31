@@ -23,10 +23,11 @@ public class AngelTextureVariant {
     public static final Map<ResourceLocation, AngelTextureVariant> ORE_VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelTextureVariant.IRON));
 
     public static AngelTextureVariant STONE, BASALT, DIRT, COPPER, MOSSY, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_NO_HEAD, QUARTZ, LAPIS_LAZULI, IRON, GOLD, EMERALD, DIAMOND;
-    public static AngelTextureVariant GAS_STONE, GAS_RUSTED, A_DIZZLE;
+    public static AngelTextureVariant GAS_STONE, GAS_RUSTED, A_DIZZLE, DOCTOR;
 
     public static void init() {
         STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "normal"), new ItemStack(Blocks.STONE), false);
+        DOCTOR = registerVariant(new ResourceLocation(WeepingAngels.MODID, "doctor"), new ItemStack(Blocks.STONE), false);
         BASALT = registerVariant(new ResourceLocation(WeepingAngels.MODID, "basalt"), new ItemStack(Blocks.BASALT), false);
         COPPER = registerVariant(new ResourceLocation(WeepingAngels.MODID, "copper"), new ItemStack(Blocks.COPPER_ORE), true);
         DIRT = registerVariant(new ResourceLocation(WeepingAngels.MODID, "dirt"), new ItemStack(Blocks.DIRT), false);

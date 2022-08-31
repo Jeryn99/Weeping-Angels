@@ -70,5 +70,11 @@
       "weeping_angels:tardis_takeoff"
     ],
     "subtitle": "subtitle.weeping_angels.tardis_takeoff"
+  },
+  "teleport": {
+    "sounds": [
+      "weeping_angels:teleport"
+    ],
+    "subtitle": "subtitle.weeping_angels.teleport"
   }
 }

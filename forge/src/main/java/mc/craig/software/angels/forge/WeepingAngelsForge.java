@@ -63,7 +63,6 @@ public class WeepingAngelsForge {
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAEntities.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
-        event.put(WAEntities.ANOMALY.get(), WeepingAngel.createAttributes().build());
     }
 
 }

@@ -32,7 +32,7 @@ public class StatueRenderer implements BlockEntityRenderer<StatueBlockEntity>, B
 
         AngelModel model = ModelRegistration.getModelFor(blockEntity.getVariant());
         model.animateTile(blockEntity);
-        model.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutout(model.texture(AngelEmotion.IDLE, blockEntity.getVariant()))), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        model.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutout(model.texture(blockEntity.getEmotion(), blockEntity.getVariant()))), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         poseStack.popPose();
     }
 

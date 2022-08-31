@@ -15,4 +15,13 @@ public enum AngelEmotion {
         int pick = randomSource.nextInt(AngelEmotion.values().length);
         return AngelEmotion.values()[pick];
     }
+
+    public static AngelEmotion find(String id){
+        for (AngelEmotion value : values()) {
+            if(value.getId().equalsIgnoreCase(id)){
+                return value;
+            }
+        }
+        return AngelEmotion.ANGRY;
+    }
 }

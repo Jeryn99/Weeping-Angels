@@ -26,7 +26,6 @@ public class WeepingAngelsFabric implements ModInitializer {
         ModLoadingContext.registerConfig(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         WeepingAngels.init();
         FabricDefaultAttributeRegistry.register(WEEPING_ANGEL.get(), WeepingAngel.createAttributes());
-        FabricDefaultAttributeRegistry.register(WAEntities.ANOMALY.get(), Mob.createMobAttributes());
         EntitySpawns.init();
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron_small")));

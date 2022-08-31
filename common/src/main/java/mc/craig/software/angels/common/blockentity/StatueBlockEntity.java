@@ -1,6 +1,7 @@
 package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
+import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     private AngelTextureVariant currentVariant = null;
     private int animation = 1;
+    private AngelEmotion emotion = AngelEmotion.IDLE;
 
     public StatueBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WABlockEntities.STATUE.get(), blockPos, blockState);
@@ -59,6 +61,12 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        readNbt(tag);
+    }
+
+    @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
         saveAdditional(tag);
@@ -75,10 +83,15 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        readNbt(tag);
+    public void setEmotion(AngelEmotion value) {
+        this.emotion = value;
     }
+
+    @Override
+    public AngelEmotion getEmotion() {
+        return emotion;
+    }
+
 
 
     @Override

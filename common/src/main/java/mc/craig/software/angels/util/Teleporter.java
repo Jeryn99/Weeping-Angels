@@ -3,12 +3,14 @@ package mc.craig.software.angels.util;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
-import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -51,6 +53,10 @@ public class Teleporter {
             float f = Mth.wrapDegrees(pYaw);
             float f1 = Mth.wrapDegrees(pPitch);
             if (pEntity instanceof ServerPlayer serverPlayer) {
+                if (playSound) {
+                    RandomSource randomSource = serverPlayer.level.getRandom();
+                    serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                }
                 ChunkPos chunkpos = new ChunkPos(new BlockPos(pX, pY, pZ));
                 pLevel.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, pEntity.getId());
                 pEntity.stopRiding();
@@ -63,9 +69,6 @@ public class Teleporter {
                 } else {
                     serverPlayer.teleportTo(pLevel, pX, pY, pZ, f, f1);
                 }
-
-                serverPlayer.playSound(SoundEvents.PORTAL_TRAVEL);
-
                 pEntity.setYHeadRot(f);
             } else {
                 float f2 = Mth.clamp(f1, -90.0F, 90.0F);
@@ -96,7 +99,7 @@ public class Teleporter {
             if (pEntity instanceof PathfinderMob) {
                 ((PathfinderMob) pEntity).getNavigation().stop();
             }
-            pEntity.playSound(SoundEvents.PORTAL_TRAVEL);
+
             return true;
         }
     }

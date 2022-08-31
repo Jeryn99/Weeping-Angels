@@ -16,7 +16,10 @@ public class WAConstants {
     public static final String ANIMATION = "animation";
     public static final String DROPS_LOOT = "dropsLoot";
     public static final String NEEDS_BOX = "needsBox";
-
+    public static final String TICK_COUNT = "tickCount";
+    public static final String LIFE_SPAN = "lifeSpan";
+    public static final String ACTIVATED = "activated";
+    public static final String SPAWNED = "hasSpawned";
 
     // Messages/UI
     public static final String ANOMALIES_DETECTED = createMessage("anomalies_detected");

@@ -14,6 +14,6 @@ public class EntityTypeTags extends net.minecraft.data.tags.EntityTypeTagsProvid
 
     @Override
     protected void addTags() {
-        tag(WATags.ANOMALYS).add(WAEntities.ANOMALY.get(), WAEntities.WEEPING_ANGEL.get());
+        tag(WATags.ANOMALYS).add(WAEntities.WEEPING_ANGEL.get());
     }
 }

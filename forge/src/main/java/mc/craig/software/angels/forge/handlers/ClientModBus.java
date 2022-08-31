@@ -4,9 +4,9 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
+import mc.craig.software.angels.client.render.blockentity.BlackHoleRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
-import mc.craig.software.angels.client.render.entity.AnomalyRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
 import mc.craig.software.angels.common.WAEntities;
@@ -63,6 +63,7 @@ public class ClientModBus {
 
         BlockEntityRenderers.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
         BlockEntityRenderers.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
+        BlockEntityRenderers.register(WABlockEntities.GENERATOR.get(), BlackHoleRenderer::new);
 
         ItemBlockRenderTypes.setRenderLayer(WABlocks.COFFIN.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());
@@ -80,7 +81,6 @@ public class ClientModBus {
     @SubscribeEvent
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(WAEntities.WEEPING_ANGEL.get(), WeepingAngelRenderer::new);
-        event.registerEntityRenderer(WAEntities.ANOMALY.get(), AnomalyRenderer::new);
     }
 
 }

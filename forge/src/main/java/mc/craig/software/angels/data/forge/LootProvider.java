@@ -86,7 +86,6 @@ public class LootProvider extends LootTableProvider {
         @Override
         protected void addTables() {
             this.add(WAEntities.WEEPING_ANGEL.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(UniformGenerator.between(1.0F, 6.0F)).add(LootItem.lootTableItem(Blocks.STONE).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))).when(LootItemKilledByPlayerCondition.killedByPlayer())));
-            this.add(WAEntities.ANOMALY.get(), LootTable.lootTable());
         }
 
         @Override

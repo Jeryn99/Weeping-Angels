@@ -23,6 +23,7 @@ public class WASounds {
     public static final RegistrySupplier<SoundEvent> LOCKED = setUpSound("locked");
     public static final RegistrySupplier<SoundEvent> CRUMBLING = setUpSound("crumbling");
     public static final RegistrySupplier<SoundEvent> CATACOMB = setUpSound("catacomb");
+    public static final RegistrySupplier<SoundEvent> TELEPORT = setUpSound("teleport");
 
     private static RegistrySupplier<SoundEvent> setUpSound(String soundName) {
         SoundEvent sound = new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
