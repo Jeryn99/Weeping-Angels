@@ -5,6 +5,9 @@ import mc.craig.software.angels.network.MessageC2S;
 import mc.craig.software.angels.network.MessageS2C;
 import mc.craig.software.angels.network.MessageType;
 import mc.craig.software.angels.network.NetworkManager;
+import mc.craig.software.angels.util.Platform;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -20,19 +23,6 @@ public class NetworkManagerImpl extends NetworkManager {
 
     public NetworkManagerImpl(ResourceLocation channelName) {
         super(channelName);
-        ClientPlayNetworking.registerGlobalReceiver(channelName, (client, handler, buf, responseSender) -> {
-            var msgId = buf.readUtf();
-
-            if (!this.toClient.containsKey(msgId)) {
-                WeepingAngels.LOGGER.warn("Unknown message id received on client: " + msgId);
-                return;
-            }
-
-            MessageType type = this.toClient.get(msgId);
-            MessageS2C message = (MessageS2C) type.getDecoder().decode(buf);
-            client.execute(message::handle);
-        });
-
         ServerPlayNetworking.registerGlobalReceiver(channelName, (server, player, handler, buf, responseSender) -> {
             var msgId = buf.readUtf();
 
@@ -44,6 +34,26 @@ public class NetworkManagerImpl extends NetworkManager {
             MessageType type = this.toServer.get(msgId);
             MessageC2S message = (MessageC2S) type.getDecoder().decode(buf);
             server.execute(message::handle);
+        });
+
+        if(Platform.isClient()) {
+            this.registerClient();
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private void registerClient() {
+        ClientPlayNetworking.registerGlobalReceiver(channelName, (client, handler, buf, responseSender) -> {
+            var msgId = buf.readUtf();
+
+            if (!this.toClient.containsKey(msgId)) {
+                WeepingAngels.LOGGER.warn("Unknown message id received on client: " + msgId);
+                return;
+            }
+
+            MessageType type = this.toClient.get(msgId);
+            MessageS2C message = (MessageS2C) type.getDecoder().decode(buf);
+            client.execute(message::handle);
         });
     }
 

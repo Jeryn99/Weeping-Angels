@@ -65,6 +65,8 @@ public class NetworkManagerImpl extends NetworkManager {
 
             if (!NetworkManagerImpl.this.toServer.containsKey(msgId)) {
                 WeepingAngels.LOGGER.warn("Unknown message id received on server: " + msgId);
+                this.message = null;
+                return;
             }
 
             MessageType type = NetworkManagerImpl.this.toServer.get(msgId);
@@ -77,7 +79,9 @@ public class NetworkManagerImpl extends NetworkManager {
         }
 
         public static void handle(ToServer msg, Supplier<NetworkEvent.Context> ctx) {
-            ctx.get().enqueueWork(msg.message::handle);
+            if(msg.message != null) {
+                ctx.get().enqueueWork(msg.message::handle);
+            }
             ctx.get().setPacketHandled(true);
         }
 
@@ -96,6 +100,8 @@ public class NetworkManagerImpl extends NetworkManager {
 
             if (!NetworkManagerImpl.this.toClient.containsKey(msgId)) {
                 WeepingAngels.LOGGER.warn("Unknown message id received on client: " + msgId);
+                this.message = null;
+                return;
             }
 
             MessageType type = NetworkManagerImpl.this.toClient.get(msgId);
@@ -108,7 +114,9 @@ public class NetworkManagerImpl extends NetworkManager {
         }
 
         public static void handle(ToClient msg, Supplier<NetworkEvent.Context> ctx) {
-            ctx.get().enqueueWork(msg.message::handle);
+            if(msg.message != null) {
+                ctx.get().enqueueWork(msg.message::handle);
+            }
             ctx.get().setPacketHandled(true);
         }
 
