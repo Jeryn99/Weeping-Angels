@@ -38,7 +38,7 @@ public enum CoffinType {
     }
 
     public static CoffinType randomTardis(RandomSource randomSource) {
-        CoffinType[] coffinTypes = new CoffinType[]{POLICE_BOX, POLICE_BOX_2, POLICE_BOX_3, POLICE_BOX_4, POLICE_BOX_5};
+        CoffinType[] coffinTypes = new CoffinType[]{POLICE_BOX, POLICE_BOX_2, POLICE_BOX_3, POLICE_BOX_4, POLICE_BOX_5, POLICE_BOX_6, POLICE_BOX_7, POLICE_BOX_8};
         int pick = randomSource.nextInt(coffinTypes.length);
         return coffinTypes[pick];
     }

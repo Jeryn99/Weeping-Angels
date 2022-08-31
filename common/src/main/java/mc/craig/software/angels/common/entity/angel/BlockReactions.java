@@ -34,9 +34,8 @@ public class BlockReactions {
 
     public static BlockReaction TOGGLE_POWER = (weepingAngel, blockState, level, blockPos) -> {
         if (blockState.hasProperty(POWERED)) {
-            BlockState newState = blockState.cycle(POWERED);
             // Lever
-            if (newState.getBlock() instanceof LeverBlock leverBlock && level.random.nextBoolean()) {
+            if (blockState.getBlock() instanceof LeverBlock leverBlock && level.random.nextBoolean()) {
                 leverBlock.pull(blockState, level, blockPos);
                 return true;
             }
@@ -49,9 +48,9 @@ public class BlockReactions {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);
                 serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                Containers.dropItemStack(weepingAngel.level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockState.getBlock()));
+                level.removeBlock(blockPos, true);
             }
-            Containers.dropItemStack(weepingAngel.level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockState.getBlock()));
-            level.removeBlock(blockPos, true);
             return true;
         }
         return false;

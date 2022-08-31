@@ -80,6 +80,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         readNbt(tag);
     }
 
+
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, StatueBlockEntity blockEntity) {
         if (!getAnimationState().isStarted()) {

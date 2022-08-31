@@ -61,6 +61,9 @@ public class CoffinBlock extends BaseEntityBlock {
                     pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
                     coffinBlockEntity.demat();
                     coffinBlockEntity.sendUpdates();
+                    if(!pPlayer.isCreative()) {
+                        pPlayer.getMainHandItem().shrink(1);
+                    }
                     return InteractionResult.SUCCESS;
                 } else {
                     pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.LOCKED.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
@@ -107,7 +110,7 @@ public class CoffinBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
-        return state.setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER)).setValue(UPRIGHT, context.getPlayer().isShiftKeyDown());
+        return state.setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER)).setValue(UPRIGHT, !context.getPlayer().isShiftKeyDown());
     }
 
     @Override

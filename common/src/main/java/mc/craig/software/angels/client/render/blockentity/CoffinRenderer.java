@@ -26,22 +26,28 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
     }
 
     @Override
-    public void render(CoffinBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+    public void render(CoffinBlockEntity coffinBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
 
         pPoseStack.pushPose();
         pPoseStack.translate(0.5F, 0.5F, 0.5F);
-        BlockState blockstate = pBlockEntity.getBlockState();
+        BlockState blockstate = coffinBlockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
         pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
         pPoseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        pPoseStack.translate(0F, -1F, 0F);
-        if (pBlockEntity.getCoffinType().isTardis()) {
+
+        if (!coffinBlockEntity.getBlockState().getValue(CoffinBlock.UPRIGHT)) {
+            pPoseStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
+        } else {
+            pPoseStack.translate(0F, -1F, 0F);
+        }
+        
+        if (coffinBlockEntity.getCoffinType().isTardis()) {
             pPoseStack.translate(0, 0.5, 0);
             pPoseStack.scale(0.7F, 0.7F, 0.7F);
-            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(pBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, pBlockEntity.getAlpha());
+            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, coffinBlockEntity.getAlpha());
         } else {
-            coffinModel.animateTile(pBlockEntity);
-            coffinModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityCutout(pBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            coffinModel.animateTile(coffinBlockEntity);
+            coffinModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityCutout(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
 
         pPoseStack.popPose();
