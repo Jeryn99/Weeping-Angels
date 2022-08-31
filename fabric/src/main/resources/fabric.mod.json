@@ -1,18 +1,19 @@
 {
   "schemaVersion": 1,
   "id": "weeping_angels",
-  "version": "1",
-  "name": "{mod_name}",
-  "description": "{mod_description}",
+  "version": "${version}",
+  "name": "Weeping Angels",
+  "description": "Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5",
   "authors": [
-    "{credits}"
+    "Suff", "50ap5ud5", "Ed", "Violet", "Rolf", "Nictogen", "Lukas", "ShadowBolt", "teacup", "DocArcane", "Dhi_awesome", "ConnorDawn", "Classic", "The_MidFord", "Hiveius"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod",
-    "sources": "{issue_tracker_url}"
+    "sources": "https://github.com/Suff99/Weeping-Angels",
+    "issues": "https://github.com/Suff99/Weeping-Angels/issues"
   },
-  "license": "{license}",
-  "icon": "{logo_file}",
+  "license": "https://github.com/Suff99/Weeping-Angels/blob/architectury/1.19/LICENSE",
+  "icon": "weeping_angels.png",
   "environment": "*",
   "entrypoints": {
     "main": [

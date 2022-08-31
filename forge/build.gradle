@@ -72,7 +72,6 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
@@ -80,6 +79,9 @@ dependencies {
 processResources {
     inputs.property "version", project.version
 
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
 }
 
 shadowJar {

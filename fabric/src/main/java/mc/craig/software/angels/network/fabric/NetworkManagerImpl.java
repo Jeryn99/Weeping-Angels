@@ -25,6 +25,7 @@ public class NetworkManagerImpl extends NetworkManager {
 
             if (!this.toClient.containsKey(msgId)) {
                 WeepingAngels.LOGGER.warn("Unknown message id received on client: " + msgId);
+                return;
             }
 
             MessageType type = this.toClient.get(msgId);
@@ -37,6 +38,7 @@ public class NetworkManagerImpl extends NetworkManager {
 
             if (!this.toServer.containsKey(msgId)) {
                 WeepingAngels.LOGGER.warn("Unknown message id received on server: " + msgId);
+                return;
             }
 
             MessageType type = this.toServer.get(msgId);
