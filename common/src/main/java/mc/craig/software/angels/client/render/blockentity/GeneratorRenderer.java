@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlackHoleRenderer implements BlockEntityRenderer<GeneratorBlockEntity>, BlockEntityRendererProvider<GeneratorBlockEntity> {
+public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEntity>, BlockEntityRendererProvider<GeneratorBlockEntity> {
 
 
     private static final ResourceLocation GENERATOR_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entity/generator/vortex_generator.png");
@@ -25,7 +25,7 @@ public class BlackHoleRenderer implements BlockEntityRenderer<GeneratorBlockEnti
     private final PortalModel vortexModel;
     private final GeneratorModel generatorModel;
 
-    public BlackHoleRenderer(BlockEntityRendererProvider.Context context) {
+    public GeneratorRenderer(BlockEntityRendererProvider.Context context) {
         vortexModel = new PortalModel(context.bakeLayer(ModelRegistration.PORTAL));
         generatorModel = new GeneratorModel(context.bakeLayer(ModelRegistration.GENERATOR));
     }
@@ -42,9 +42,9 @@ public class BlackHoleRenderer implements BlockEntityRenderer<GeneratorBlockEnti
 
         if (!blockEntity.hasSpawned()) {
             generatorModel.animateTile(blockEntity);
-            generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutoutNoCull(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX :  GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX :  GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         } else {
-            vortexModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutoutNoCull(VORTEX_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            vortexModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(VORTEX_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
 
         poseStack.popPose();
@@ -52,6 +52,6 @@ public class BlackHoleRenderer implements BlockEntityRenderer<GeneratorBlockEnti
 
     @Override
     public BlockEntityRenderer<GeneratorBlockEntity> create(Context context) {
-        return new BlackHoleRenderer(context);
+        return new GeneratorRenderer(context);
     }
 }

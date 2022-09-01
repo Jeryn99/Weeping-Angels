@@ -9,24 +9,24 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 public class PortalModel extends HierarchicalModel {
-    private final ModelPart bb_main;
+    private final ModelPart Portal;
     private final ModelPart root;
 
     public PortalModel(ModelPart root) {
         this.root = root;
-        this.bb_main = root.getChild("bb_main");
+        this.Portal = root.getChild("Portal");
     }
 
     public static LayerDefinition meshLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 0).addBox(-13.0F, -0.05F, -16.0F, 26.0F, 0.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
-        return LayerDefinition.create(meshdefinition, 128, 128);
+        PartDefinition Portal = partdefinition.addOrReplaceChild("Portal", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -22.0F, 0.0F, 32.0F, 44.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 23.9F, 0.0F, -1.5708F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+        Portal.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override

@@ -42,6 +42,7 @@ public class EnglishLang extends LanguageProvider {
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
         add(WAItems.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
+        add(WAItems.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAItems.CHISEL.get(), "Chisel");
         add(WAItems.DISC_SALLY.get(), "Music Disc");
         add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
@@ -53,9 +54,9 @@ public class EnglishLang extends LanguageProvider {
         add("itemGroup." + WeepingAngels.MODID + "." + WeepingAngels.MODID, "Weeping Angels"); //Fabric one
 
         // ==== Damage Sources =====
-        add(WADamageSources.GENERATOR, "%s somehow got caught up in a generator");
+        add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
         add(WADamageSources.PUNCH_STONE, "%s punched stone too hard...");
-        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel...");
+        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel");
 
         // ==== Sounds ====
         addSound(WASounds.ANGEL_MOCKING.get(), "Angel mocks");

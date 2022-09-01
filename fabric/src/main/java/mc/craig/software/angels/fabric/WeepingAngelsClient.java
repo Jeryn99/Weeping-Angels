@@ -4,9 +4,10 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
 import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.render.blockentity.BlackHoleRenderer;
+import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
+import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
@@ -47,7 +48,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
     private void beRenders() {
         BlockEntityRendererRegistry.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
         BlockEntityRendererRegistry.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
-        BlockEntityRendererRegistry.register(WABlockEntities.GENERATOR.get(), BlackHoleRenderer::new);
+        BlockEntityRendererRegistry.register(WABlockEntities.GENERATOR.get(), GeneratorRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.COFFIN.get(), cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.STATUE.get(), cutout());
     }
@@ -62,5 +63,6 @@ public class WeepingAngelsClient implements ClientModInitializer {
 
     private void entityRenders() {
         EntityRendererRegistry.register(WAEntities.WEEPING_ANGEL.get(), WeepingAngelRenderer::new);
+        EntityRendererRegistry.register(WAEntities.GENERATOR.get(), ThrowableGeneratorRenderer::new);
     }
 }

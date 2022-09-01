@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "weeping_angels:chronodyne_generator"
+          "name": "minecraft:air"
         }
       ],
       "rolls": 1.0

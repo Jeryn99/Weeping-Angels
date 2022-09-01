@@ -26,7 +26,7 @@ public class ModelProviderItem extends ItemModelProvider {
     @Override
     protected void registerModels() {
         for (RegistrySupplier<Item> entry : WAItems.ITEMS.getEntries()) {
-            if (entry.get() instanceof DetectorItem) continue;
+            if (entry.get() instanceof DetectorItem || entry.get() == WAItems.CHRONODYNE_GENERATOR.get()) continue;
 
             if (entry.get() == WABlocks.COFFIN.get().asItem() || entry.get() == WABlocks.STATUE.get().asItem()) {
                 basicItem(entry.get());

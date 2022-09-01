@@ -6,7 +6,7 @@
   ],
   "textures": {
     "base": "weeping_angels:item/timewimebase",
-    "hand": "weeping_angels:item/timeywime_hands/timeypoint_0",
+    "hand": "weeping_angels:item/detector_hands/timeypoint_0",
     "anim": "weeping_angels:item/timeyanim",
     "particle": "weeping_angels:item/timewimebase"
   },

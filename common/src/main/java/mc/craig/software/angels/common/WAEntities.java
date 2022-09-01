@@ -1,6 +1,7 @@
 package mc.craig.software.angels.common;
 
 import com.google.common.base.Supplier;
+import mc.craig.software.angels.common.entity.angel.ThrowableGenerator;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
@@ -16,6 +17,8 @@ public class WAEntities {
     public static final DeferredRegistry<EntityType<?>> ENTITY_TYPES = DeferredRegistry.create(MODID, Registry.ENTITY_TYPE_REGISTRY);
 
     public static final RegistrySupplier<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITY_TYPES.register("weeping_angel", () -> EntityType.Builder.of((EntityType.EntityFactory<WeepingAngel>) (entityType, level) -> new WeepingAngel(level, entityType), MobCategory.CREATURE).sized(0.6F, 2.9F).build(MODID + ":weeping_angel"));
+    public static final RegistrySupplier<EntityType<ThrowableGenerator>> GENERATOR = ENTITY_TYPES.register("generator", () -> EntityType.Builder.of((EntityType.EntityFactory<ThrowableGenerator>) (entityType, level) -> new ThrowableGenerator(level), MobCategory.MISC).sized(0.25F, 0.25F).updateInterval(10).clientTrackingRange(4).build(MODID + ":generator"));
+
     public static <T extends Entity> RegistrySupplier<EntityType<T>> register(String id, Supplier<EntityType.Builder<T>> builderSupplier) {
         return ENTITY_TYPES.register(id, () -> builderSupplier.get().build(MODID + ":" + id));
     }

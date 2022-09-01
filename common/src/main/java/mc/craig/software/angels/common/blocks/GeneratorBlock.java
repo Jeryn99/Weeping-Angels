@@ -1,20 +1,26 @@
 package mc.craig.software.angels.common.blocks;
 
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -40,6 +46,18 @@ public class GeneratorBlock extends BaseEntityBlock {
 
     public GeneratorBlock(Properties pProperties) {
         super(pProperties.noOcclusion());
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
+            if (!generatorBlockEntity.hasSpawned()) return;
+            double d = (double) pos.getX() + random.nextDouble();
+            double e = (double) pos.getY() + 0.8;
+            double f = (double) pos.getZ() + random.nextDouble();
+            level.addParticle(ParticleTypes.SMOKE, d, e, f, 0.0, 0.0, 0.0);
+        }
     }
 
     @Override
@@ -93,51 +111,63 @@ public class GeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-        if (!pLevel.isClientSide() && pEntity instanceof AbstractWeepingAngel) {
-            activateFromPos(pPos, pLevel);
-        }
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return canSupportCenter(level, pos.below(), Direction.UP);
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        super.entityInside(state, level, pos, entity);
-        if (entity instanceof WeepingAngel weepingAngel) {
-            weepingAngel.remove(Entity.RemovalReason.KILLED);
-        } else {
-            entity.hurt(WADamageSources.GENERATOR, 3F);
-        }
+    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
+        return new ItemStack(WAItems.CHRONODYNE_GENERATOR.get());
     }
+
+    public static boolean canSupportCenter(LevelReader level, BlockPos pos, Direction direction) {
+        BlockState blockState = level.getBlockState(pos);
+        return (direction != Direction.DOWN || !blockState.is(BlockTags.UNSTABLE_BOTTOM_CENTER)) && blockState.isFaceSturdy(level, pos, direction, SupportType.CENTER);
+    }
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
+        return direction == Direction.DOWN && !this.canSurvive(state, level, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
+    }
+
 
     @Override
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
         super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
+
         if (!pLevel.isClientSide()) {
             if (pLevel.hasNeighborSignal(pPos)) {
-                activateFromPos(pPos, pLevel);
+                activateFromPos(pPos, pLevel, true);
             }
         }
     }
 
-    private void activateFromPos(BlockPos pos, Level level) {
+    private boolean activateFromPos(BlockPos pos, Level level, boolean activated) {
         if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
-            generatorBlockEntity.setActivated(true);
-            generatorBlockEntity.sendUpdates();
+            if (!generatorBlockEntity.isActivated()) {
+                generatorBlockEntity.setActivated(activated);
+                generatorBlockEntity.sendUpdates();
+                return true;
+            }
         }
-    }
-
-    @Override
-    public void onProjectileHit(Level pLevel, BlockState pState, BlockHitResult pHit, Projectile pProjectile) {
-        super.onProjectileHit(pLevel, pState, pHit, pProjectile);
-        if (pLevel.isClientSide()) return;
-        activateFromPos(pHit.getBlockPos(), pLevel);
+        return false;
     }
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
-            activateFromPos(pPos, pLevel);
-            pPlayer.swing(pHand);
+
+            ItemStack handItem = pPlayer.getItemInHand(pHand);
+            if (handItem.is(WAItems.KONTRON_INGOT.get())) {
+                handItem.shrink(1);
+                activateFromPos(pPos, pLevel, true);
+                pPlayer.swing(pHand);
+            }
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;

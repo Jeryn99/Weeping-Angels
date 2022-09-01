@@ -35,6 +35,7 @@ public class BlockTags extends net.minecraft.data.tags.BlockTagsProvider {
         tag(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE).add(WABlocks.KONTRON_ORE.get(), WABlocks.KONTRON_ORE_DEEPSLATE.get());
         tag(Tags.Blocks.NEEDS_WOOD_TOOL).add(WABlocks.KONTRON_ORE.get(), WABlocks.KONTRON_ORE_DEEPSLATE.get());
         tag(WATags.NO_BREAKING).add(Blocks.GLOWSTONE, Blocks.LAVA, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK);
+        tag(net.minecraft.tags.BlockTags.UNSTABLE_BOTTOM_CENTER).add(WABlocks.CHRONODYNE_GENERATOR.get());
 
 
     }

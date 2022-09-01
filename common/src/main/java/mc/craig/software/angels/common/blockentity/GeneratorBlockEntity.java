@@ -7,9 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -21,7 +24,10 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
 
     public final AnimationState ANIMATION = new AnimationState();
     private int tickCount = 0;
-    private boolean activated = false, hasSpawned = false;
+    private boolean activated = false;
+    private boolean hasSpawned = false;
+    private final boolean hasEnergy = false;
+
 
     public GeneratorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WABlockEntities.GENERATOR.get(), blockPos, blockState);
@@ -102,6 +108,8 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
 
         if (tickCount > 100 && !hasSpawned()) {
             setHasSpawned(true);
+            level.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), SoundEvents.END_PORTAL_SPAWN, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat()));
+            tickCount = 0;
             sendUpdates();
         }
 
@@ -109,20 +117,23 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
             dragEntitiesAround(level);
         }
 
-        if (tickCount > 600) {
+
+        if (tickCount > 200) {
             level.removeBlock(blockPos, false);
         }
     }
 
+
+
     private void dragEntitiesAround(Level level) {
-        for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, createBoundingBox(worldPosition).inflate(64))) {
+        for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, createBoundingBox(worldPosition).inflate(32))) {
 
             if (entity instanceof WeepingAngel weepingAngel) {
                 weepingAngel.setNoAi(false);
                 weepingAngel.setHooked(true);
             }
 
-            if(entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4){
+            if (entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4) {
                 if (entity instanceof WeepingAngel weepingAngel) {
                     weepingAngel.remove(Entity.RemovalReason.KILLED);
                 } else {
@@ -139,6 +150,7 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
             }
         }
     }
+
 
     public static AABB createBoundingBox(BlockPos tilePos) {
         int i = tilePos.getX();

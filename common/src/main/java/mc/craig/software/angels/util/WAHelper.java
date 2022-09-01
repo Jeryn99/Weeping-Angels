@@ -38,7 +38,7 @@ public class WAHelper {
     }
 
     @ExpectPlatform
-    public static Packet<?> spawnPacket(LivingEntity livingEntity) {
+    public static Packet<?> spawnPacket(Entity livingEntity) {
         throw new RuntimeException("This isn't where you get the packet! tut tut!");
     }
 
