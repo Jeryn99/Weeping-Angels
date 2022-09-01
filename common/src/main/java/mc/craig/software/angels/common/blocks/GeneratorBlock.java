@@ -1,9 +1,7 @@
 package mc.craig.software.angels.common.blocks;
 
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
-import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.items.WAItems;
-import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,7 +11,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -73,6 +70,12 @@ public class GeneratorBlock extends BaseEntityBlock {
         builder.add(ROTATION, WATERLOGGED);
     }
 
+    public static boolean isBreakable(LevelAccessor level, BlockPos blockPos) {
+        if (level.getBlockEntity(blockPos) instanceof GeneratorBlockEntity generatorBlockEntity) {
+            return !generatorBlockEntity.isActivated();
+        }
+        return true;
+    }
 
     @Override
     public @NotNull FluidState getFluidState(BlockState state) {

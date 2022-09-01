@@ -3,6 +3,7 @@ package mc.craig.software.angels.common.entity.angel;
 import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.CatacombTracker;
+import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.HurtHelper;
@@ -59,8 +60,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     public AnimationState POSE_ANIMATION_STATE = new AnimationState();
 
-    public WeepingAngel(Level worldIn, EntityType<? extends Monster> entityType) {
-        super(worldIn, entityType);
+    public WeepingAngel(Level worldIn) {
+        super(worldIn, WAEntities.WEEPING_ANGEL.get());
         int id = 0;
 
         // Goals

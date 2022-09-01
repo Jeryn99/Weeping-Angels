@@ -6,6 +6,7 @@ import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.SnowAngelRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
@@ -49,6 +50,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
         BlockEntityRendererRegistry.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
         BlockEntityRendererRegistry.register(WABlockEntities.GENERATOR.get(), GeneratorRenderer::new);
+        BlockEntityRendererRegistry.register(WABlockEntities.SNOW_ANGEL.get(), SnowAngelRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.COFFIN.get(), cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.STATUE.get(), cutout());
     }

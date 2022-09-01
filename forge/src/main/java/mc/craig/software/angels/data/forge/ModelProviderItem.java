@@ -28,6 +28,7 @@ public class ModelProviderItem extends ItemModelProvider {
         for (RegistrySupplier<Item> entry : WAItems.ITEMS.getEntries()) {
             if (entry.get() instanceof DetectorItem || entry.get() == WAItems.CHRONODYNE_GENERATOR.get()) continue;
 
+
             if (entry.get() == WABlocks.COFFIN.get().asItem() || entry.get() == WABlocks.STATUE.get().asItem()) {
                 basicItem(entry.get());
                 continue;
@@ -38,7 +39,12 @@ public class ModelProviderItem extends ItemModelProvider {
                 continue;
             }
 
-            if (entry.get() instanceof BlockItem) {
+            if (entry.get() instanceof BlockItem blockItem) {
+                if(blockItem.getBlock() == WABlocks.SNOW_ANGEL.get()){
+                    basicItem(entry.get());
+                    continue;
+                }
+
                 blockItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(entry.get())));
                 continue;
             }

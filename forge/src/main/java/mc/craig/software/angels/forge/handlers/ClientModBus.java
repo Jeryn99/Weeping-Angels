@@ -6,6 +6,7 @@ import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
 import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.SnowAngelRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
@@ -66,6 +67,7 @@ public class ClientModBus {
         BlockEntityRenderers.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
         BlockEntityRenderers.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
         BlockEntityRenderers.register(WABlockEntities.GENERATOR.get(), GeneratorRenderer::new);
+        BlockEntityRenderers.register(WABlockEntities.SNOW_ANGEL.get(), SnowAngelRenderer::new);
 
         ItemBlockRenderTypes.setRenderLayer(WABlocks.COFFIN.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());

@@ -20,6 +20,9 @@ public class WAConstants {
     public static final String ACTIVATED = "activated";
     public static final String SPAWNED = "hasSpawned";
 
+    public static final String SNOW_STAGE = "snowStage";
+
+
     // Messages/UI
     public static final String ANOMALIES_DETECTED = createMessage("anomalies_detected");
     public static final String CHISEL_POSE = createMessage("chisel_pose");

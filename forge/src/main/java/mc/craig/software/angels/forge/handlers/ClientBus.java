@@ -47,9 +47,6 @@ public class ClientBus {
     @SubscribeEvent
     public static void onSetupFogColor(ViewportEvent.RenderFog.ComputeFogColor event) {
         if (Minecraft.getInstance().level != null && CatacombTracker.isInCatacomb()) {
-        /*   event.setRed(105 / 255F);
-            event.setGreen(105 / 255F);
-            event.setBlue(105 / 255F);*/
             event.setRed((float) WAHelper.fogColor().x);
             event.setGreen((float) WAHelper.fogColor().y);
             event.setBlue((float) WAHelper.fogColor().z);

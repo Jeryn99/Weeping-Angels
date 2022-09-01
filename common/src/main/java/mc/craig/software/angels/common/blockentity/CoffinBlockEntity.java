@@ -111,7 +111,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             BlockPos pos = iterator.next();
             ServerLevel serverWorld = (ServerLevel) level;
             if (level.getDifficulty() != Difficulty.PEACEFUL && serverWorld.getBlockEntity(pos) instanceof StatueBlockEntity statueBlockEntity) {
-                WeepingAngel angel = new WeepingAngel(level, WAEntities.WEEPING_ANGEL.get());
+                WeepingAngel angel = new WeepingAngel(level);
                 angel.setVariant(statueBlockEntity.getVariant());
                 angel.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, (float) Math.toRadians(22.5F * statueBlockEntity.getBlockState().getValue(StatueBaseBlock.ROTATION)), 0);
                 level.addFreshEntity(angel);

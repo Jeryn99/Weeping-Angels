@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -26,8 +25,6 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
     private int tickCount = 0;
     private boolean activated = false;
     private boolean hasSpawned = false;
-    private final boolean hasEnergy = false;
-
 
     public GeneratorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(WABlockEntities.GENERATOR.get(), blockPos, blockState);

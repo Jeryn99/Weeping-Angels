@@ -37,6 +37,7 @@ public class EnglishLang extends LanguageProvider {
         add(WABlocks.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WABlocks.COFFIN.get(), "Coffin");
         add(WABlocks.STATUE.get(), "Statue");
+        add(WABlocks.SNOW_ANGEL.get(), "Snow Angel");
 
         // ==== Items ====
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");

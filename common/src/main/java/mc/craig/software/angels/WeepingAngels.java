@@ -33,6 +33,8 @@ public class WeepingAngels {
         BlockReactions.init();
         AngelTextureVariant.init();
         WANetwork.init();
+
+
     }
 
 }

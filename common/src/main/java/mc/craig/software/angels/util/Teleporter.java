@@ -1,15 +1,15 @@
 package mc.craig.software.angels.util;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.google.common.collect.Lists;
+import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -21,12 +21,27 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
+import java.util.ArrayList;
+
 public class Teleporter {
 
 
-    @ExpectPlatform
     public static ServerLevel getRandomDimension(RandomSource rand, ServerLevel serverLevel) {
-        throw new RuntimeException("Dang");
+
+        MinecraftServer server = serverLevel.getServer();
+
+        Iterable<ServerLevel> dimensions = server.getAllLevels();
+        ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
+
+        for (ServerLevel dimension : dimensions) {
+            for (String dimName : WAConfiguration.CONFIG.bannedDimensions.get()) {
+                if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
+                    allowedDimensions.remove(dimension);
+                }
+            }
+        }
+        allowedDimensions.remove(server.getLevel(Level.NETHER));
+        return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
@@ -38,12 +53,11 @@ public class Teleporter {
             return level.noCollision(entity, entity.getBoundingBox().move(blockpos));
         }
     }
-
     public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, double pX, double pY, double pZ, float pYaw, float pPitch, boolean playSound) {
         WeepingAngels.LOGGER.debug("Teleported {} to {} {} {}", pEntity.getDisplayName().getString(), pX, pY, pZ);
         BlockPos blockpos = new BlockPos(pX, pY, pZ);
 
-        if(!canTeleportTo(blockpos, pLevel, pEntity)){
+        if (!canTeleportTo(blockpos, pLevel, pEntity)) {
             return false;
         }
 
@@ -54,7 +68,6 @@ public class Teleporter {
             float f1 = Mth.wrapDegrees(pPitch);
             if (pEntity instanceof ServerPlayer serverPlayer) {
                 if (playSound) {
-                    RandomSource randomSource = serverPlayer.level.getRandom();
                     serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
                 }
                 ChunkPos chunkpos = new ChunkPos(new BlockPos(pX, pY, pZ));

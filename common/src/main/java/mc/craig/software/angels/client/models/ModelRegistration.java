@@ -7,6 +7,10 @@ import mc.craig.software.angels.client.models.blockentity.CoffinModel;
 import mc.craig.software.angels.client.models.blockentity.GeneratorModel;
 import mc.craig.software.angels.client.models.blockentity.PortalModel;
 import mc.craig.software.angels.client.models.blockentity.TardisModel;
+import mc.craig.software.angels.client.models.blockentity.snow.SnowArmModel;
+import mc.craig.software.angels.client.models.blockentity.snow.SnowBodyModel;
+import mc.craig.software.angels.client.models.blockentity.snow.SnowHeadModel;
+import mc.craig.software.angels.client.models.blockentity.snow.SnowWingsModel;
 import mc.craig.software.angels.client.models.entity.angel.*;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -17,7 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModelRegistration {
 
-    public static ModelLayerLocation COFFIN, MERCY_WINGS, PORTAL, ALICE_ANGEL, GAS_ANGEL, TARDIS, A_DIZZLE_ANGEL, DOCTOR_ANGEL, GENERATOR;
+    public static ModelLayerLocation COFFIN, MERCY_WINGS, PORTAL, ALICE_ANGEL, GAS_ANGEL, TARDIS, A_DIZZLE_ANGEL, DOCTOR_ANGEL, GENERATOR, SNOW_ARM, SNOW_BODY, SNOW_WINGS, SNOW_HEAD;
     private static AngelModel GAS_MODEL, ALICE_MODEL, A_DIZZLE_MODEL, DOCTOR_ANGEL_MODEL;
 
     public static void init() {
@@ -30,6 +34,12 @@ public class ModelRegistration {
         DOCTOR_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel"), DoctorAngelModel::meshLayer);
         PORTAL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "portal"), PortalModel::meshLayer);
         GENERATOR = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "generator"), GeneratorModel::meshLayer);
+
+        // Snow Models
+        SNOW_ARM = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_arm"), SnowArmModel::meshLayer);
+        SNOW_BODY = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_body"), SnowBodyModel::meshLayer);
+        SNOW_WINGS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_wings"), SnowWingsModel::meshLayer);
+        SNOW_HEAD = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_head"), SnowHeadModel::meshLayer);
     }
 
     public static void regModels(BlockEntityRendererProvider.Context context) {
