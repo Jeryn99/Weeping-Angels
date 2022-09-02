@@ -3,7 +3,6 @@ package mc.craig.software.angels.util;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.common.WAEntities;
-import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.donators.DonationChecker;
@@ -20,7 +19,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.AABB;
@@ -42,6 +40,7 @@ public class WAHelper {
         throw new RuntimeException("This isn't where you get the packet! tut tut!");
     }
 
+    //TODO Clean this up
     public static void onPlayerTick(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
             if (!player.level.isClientSide) {

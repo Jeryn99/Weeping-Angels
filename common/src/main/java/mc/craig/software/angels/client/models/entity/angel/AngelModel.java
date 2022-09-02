@@ -17,6 +17,8 @@ public abstract class AngelModel extends HierarchicalModel<WeepingAngel> {
         return null;
     }
 
+    public abstract ModelPart getHead();
+
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
         return DefaultPlayerSkin.getDefaultSkin();
     }

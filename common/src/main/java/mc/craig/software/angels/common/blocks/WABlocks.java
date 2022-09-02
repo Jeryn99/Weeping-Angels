@@ -25,6 +25,7 @@ public class WABlocks {
     public static final RegistrySupplier<Block> CHRONODYNE_GENERATOR = register("chronodyne_generator", () -> new GeneratorBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.METAL)), WAItems.getCreativeTab(), false);
     public static final RegistrySupplier<Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)), WAItems.getCreativeTab());
     public static final RegistrySupplier<Block> STATUE = register("statue", () -> new StatueBaseBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)), WAItems.getCreativeTab());
+    public static final RegistrySupplier<Block> PLINTH = register("plinth", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)), WAItems.getCreativeTab());
     public static final RegistrySupplier<Block> SNOW_ANGEL = register("snow_angel", SnowAngelBlock::new, WAItems.getCreativeTab());
 
     private static <T extends Block> RegistrySupplier<T> register(String id, Supplier<T> blockSupplier, CreativeModeTab itemGroup, boolean needsItem) {

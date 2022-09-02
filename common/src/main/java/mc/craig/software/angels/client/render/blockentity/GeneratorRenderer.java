@@ -39,11 +39,11 @@ public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEnti
         BlockState blockstate = blockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
         poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-
         if (!blockEntity.hasSpawned()) {
             generatorModel.animateTile(blockEntity);
             generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX :  GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         } else {
+
             vortexModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(VORTEX_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
 

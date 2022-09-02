@@ -16,7 +16,7 @@
                   "Properties": {
                     "layers": "1",
                     "rotation": "1",
-                    "waterlogged": "true"
+                    "waterlogged": "false"
                   }
                 }
               }

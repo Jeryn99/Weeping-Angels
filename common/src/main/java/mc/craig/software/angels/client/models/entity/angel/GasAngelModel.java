@@ -1,5 +1,6 @@
 package mc.craig.software.angels.client.models.entity.angel;
 
+import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
@@ -27,11 +28,15 @@ public class GasAngelModel extends AngelModel {
     private final ModelPart body;
     private final ModelPart Legs;
     private final ModelPart root;
+    private final ModelPart leftWing;
+    private final ModelPart rightWing;
 
     public GasAngelModel(ModelPart root) {
         this.root = root;
         this.body = root.getChild("Body");
         this.Legs = root.getChild("Legs");
+        this.leftWing = body.getChild("leftWing");
+        this.rightWing = body.getChild("rightWing");
     }
 
     public static LayerDefinition meshLayer() {
@@ -98,8 +103,14 @@ public class GasAngelModel extends AngelModel {
 
     @Override
     public Iterable<ModelPart> getWings() {
-        return Collections.emptyList(); //TODO
+        return ImmutableList.of(rightWing, leftWing);
     }
+
+    @Override
+    public ModelPart getHead() {
+        return body.getChild("head");
+    }
+
 
     @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {

@@ -88,4 +88,8 @@ public class DonationChecker {
         return finalData;
     }
 
+    public static boolean isXmas() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26;
+    }
 }

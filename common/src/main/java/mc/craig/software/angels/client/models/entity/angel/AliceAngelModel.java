@@ -116,6 +116,11 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
     }
 
     @Override
+    public ModelPart getHead() {
+        return body.getChild("head");
+    }
+
+    @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelTextureVariant.location().getPath() + "/" + angelTextureVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }

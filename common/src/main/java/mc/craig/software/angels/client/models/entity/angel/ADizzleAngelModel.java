@@ -1,6 +1,7 @@
 package mc.craig.software.angels.client.models.entity.angel;
 
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.WeepingAngels;
@@ -8,6 +9,7 @@ import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,16 +18,20 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import static mc.craig.software.angels.client.models.entity.angel.AliceAngelModel.*;
+import static mc.craig.software.angels.client.models.entity.angel.AliceAngelModel.ANIMATION_STREAM;
 
 public class ADizzleAngelModel extends AngelModel {
 
     private final ModelPart Angel;
     private final ModelPart root;
+    private final ModelPart leftWing;
+    private final ModelPart rightWing;
 
     public ADizzleAngelModel(ModelPart root) {
         this.root = root;
         this.Angel = root.getChild("Angel");
+        this.leftWing = Angel.getChild("Body").getChild("leftWing");
+        this.rightWing = Angel.getChild("Body").getChild("rightWing");
     }
 
     public static LayerDefinition meshLayer() {
@@ -62,6 +68,11 @@ public class ADizzleAngelModel extends AngelModel {
 
 
     @Override
+    public Iterable<ModelPart> getWings() {
+        return ImmutableList.of(rightWing, leftWing);
+    }
+
+    @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Angel.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
@@ -73,8 +84,16 @@ public class ADizzleAngelModel extends AngelModel {
 
 
     @Override
+    public ModelPart getHead() {
+        return Angel.getChild("Body").getChild("head");
+    }
+
+    @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/a_dizzle/variants/a_dizzle_" + angelEmotion.getId() + ".png");
+
+        String seasonal = DonationChecker.isXmas() ? "_xmas" : "";
+
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/a_dizzle/variants/a_dizzle_" + angelEmotion.getId() + seasonal + ".png");
     }
 
     @Override

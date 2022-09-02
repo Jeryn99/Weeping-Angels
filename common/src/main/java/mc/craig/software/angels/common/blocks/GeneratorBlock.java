@@ -166,7 +166,7 @@ public class GeneratorBlock extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
 
             ItemStack handItem = pPlayer.getItemInHand(pHand);
-            if (handItem.is(WAItems.KONTRON_INGOT.get())) {
+            if (handItem.is(WAItems.KONTRON_INGOT.get()) && isBreakable(pLevel, pPos)) {
                 handItem.shrink(1);
                 activateFromPos(pPos, pLevel, true);
                 pPlayer.swing(pHand);

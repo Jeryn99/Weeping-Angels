@@ -76,8 +76,6 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
             blockEntity.sendUpdates();
         }
 
-        System.out.println(blockEntity.getBlockPos());
-
         if (snowAngelStages == SnowStage.ARM) return;
         if (!level.getEntitiesOfClass(Player.class, collisionAabb.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);

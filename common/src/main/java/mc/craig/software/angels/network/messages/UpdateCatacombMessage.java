@@ -1,6 +1,9 @@
-package mc.craig.software.angels.network;
+package mc.craig.software.angels.network.messages;
 
 import mc.craig.software.angels.common.CatacombTracker;
+import mc.craig.software.angels.network.MessageS2C;
+import mc.craig.software.angels.network.MessageType;
+import mc.craig.software.angels.network.WANetwork;
 import net.minecraft.network.FriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 

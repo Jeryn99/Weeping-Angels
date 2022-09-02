@@ -137,7 +137,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (!state.getMaterial().isLiquid()) {
             BlockState blockState = Blocks.STONE.defaultBlockState();
-            SoundType soundType = blockState.is(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundType() : state.getSoundType();
+            SoundType soundType = blockState.getSoundType();
             this.playSound(soundType.getStepSound(), soundType.getVolume() * 0.15F, soundType.getPitch());
         }
     }

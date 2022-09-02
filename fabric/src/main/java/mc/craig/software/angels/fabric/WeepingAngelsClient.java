@@ -44,6 +44,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
 
     private void overlay() {
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> DectectorOverlay.renderOverlay(matrixStack));
+
     }
 
     private void beRenders() {

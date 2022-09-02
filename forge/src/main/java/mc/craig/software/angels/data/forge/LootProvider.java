@@ -64,6 +64,7 @@ public class LootProvider extends LootTableProvider {
             dropSelf(WABlocks.COFFIN.get());
             dropSelf(WABlocks.STATUE.get());
             dropSelf(WABlocks.SNOW_ANGEL.get());
+            dropSelf(WABlocks.PLINTH.get());
         }
 
         @Override

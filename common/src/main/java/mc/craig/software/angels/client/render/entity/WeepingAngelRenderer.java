@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
+import mc.craig.software.angels.client.render.entity.layers.AngelItemLayer;
+import mc.craig.software.angels.client.render.entity.layers.SeasonalLayer;
 import mc.craig.software.angels.client.render.entity.layers.WeepingAngelCrackinessLayer;
 import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +27,8 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ang
     public WeepingAngelRenderer(EntityRendererProvider.Context context) {
         super(context, new AliceAngelModel(context.bakeLayer(ModelRegistration.ALICE_ANGEL)), 0F);
         this.addLayer(new WeepingAngelCrackinessLayer(this));
+        this.addLayer(new AngelItemLayer(this)); //TODO arms...
+      //TODO Rotations & Positions  this.addLayer(new SeasonalLayer(this));
     }
 
     @Override

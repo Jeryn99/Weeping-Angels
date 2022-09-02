@@ -12,7 +12,7 @@ public class WAConstants {
     public static final String COFFIN_TYPE = "coffinType";
     public static final String IS_DEMAT = "isDemat";
     public static final String ALPHA = "alpha";
-    public static final String VARIANT = "variant";
+    public static final String VARIANT = "angelVariant";
     public static final String ANIMATION = "animation";
     public static final String DROPS_LOOT = "dropsLoot";
     public static final String NEEDS_BOX = "needsBox";

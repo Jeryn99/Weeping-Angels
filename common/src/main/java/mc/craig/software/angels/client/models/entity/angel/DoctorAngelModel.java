@@ -1,6 +1,7 @@
 package mc.craig.software.angels.client.models.entity.angel;
 
 
+import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.AngelEmotion;
@@ -19,10 +20,14 @@ import static mc.craig.software.angels.client.models.entity.angel.AliceAngelMode
 public class DoctorAngelModel extends AngelModel {
     private final ModelPart Angel;
     private final ModelPart root;
+    private final ModelPart leftWing;
+    private final ModelPart rightWing;
 
     public DoctorAngelModel(ModelPart root) {
         this.root = root;
         this.Angel = root.getChild("Angel");
+        this.leftWing = Angel.getChild("Body").getChild("leftWing");
+        this.rightWing = Angel.getChild("Body").getChild("rightWing");
     }
 
     public static LayerDefinition meshLayer() {
@@ -72,6 +77,16 @@ public class DoctorAngelModel extends AngelModel {
     @Override
     public ModelPart root() {
         return root;
+    }
+    @Override
+    public ModelPart getHead() {
+        return Angel.getChild("Body").getChild("head");
+    }
+
+
+    @Override
+    public Iterable<ModelPart> getWings() {
+        return ImmutableList.of(rightWing, leftWing);
     }
 
     @Override

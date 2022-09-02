@@ -1,7 +1,7 @@
 package mc.craig.software.angels.common;
 
 import mc.craig.software.angels.common.level.structures.WAStructures;
-import mc.craig.software.angels.network.UpdateCatacombMessage;
+import mc.craig.software.angels.network.messages.UpdateCatacombMessage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
