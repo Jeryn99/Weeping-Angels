@@ -26,9 +26,7 @@ public class ThrowableGeneratorItem extends Item {
             if(offHand.is(WAItems.KONTRON_INGOT.get()) && !player.isCreative()){
                 offHand.shrink(1);
             }
-
             level.addFreshEntity(throwableGenerator);
-            offHand.shrink(1);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
