@@ -2,6 +2,7 @@ package mc.craig.software.angels.common.entity.angel;
 
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
+import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WAHelper;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -47,7 +49,7 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
         BlockState blockState = level.getBlockState(pos);
 
         if(blockState.getMaterial().isReplaceable()) {
-            level.setBlock(pos, WABlocks.CHRONODYNE_GENERATOR.get().defaultBlockState(), 3);
+            level.setBlock(pos, WABlocks.CHRONODYNE_GENERATOR.get().defaultBlockState().setValue(GeneratorBlock.ROTATION, random.nextInt(15)), 3);
             if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
                 generatorBlockEntity.setActivated(isActivated);
                 generatorBlockEntity.sendUpdates();

@@ -8,12 +8,15 @@ import mc.craig.software.angels.client.models.blockentity.GeneratorModel;
 import mc.craig.software.angels.client.models.blockentity.PortalModel;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
+import mc.craig.software.angels.common.blocks.GeneratorBlock;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEntity>, BlockEntityRendererProvider<GeneratorBlockEntity> {
@@ -33,18 +36,22 @@ public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEnti
 
     @Override
     public void render(GeneratorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        poseStack.pushPose();
-        poseStack.translate(0.5F, 1.5F, 0.5F);
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
-        BlockState blockstate = blockEntity.getBlockState();
-        float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        if (!blockEntity.hasSpawned()) {
-            generatorModel.animateTile(blockEntity);
-            generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX :  GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-        } else {
 
+        poseStack.pushPose();
+
+        BlockState blockstate = blockEntity.getBlockState();
+        float rotation = 22.5F * (float) blockstate.getValue(GeneratorBlock.ROTATION);
+
+        if (!blockEntity.hasSpawned()) {
+            poseStack.translate(0.5F, -0.3F, 0.5F);
+            poseStack.scale(2,0.3F,2);
+            poseStack.mulPose(Vector3f.YP.rotationDegrees(Minecraft.getInstance().player.tickCount * 20));
             vortexModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(VORTEX_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        } else {
+            poseStack.translate(0.5F, 1.5F, 0.5F);
+            poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+            generatorModel.animateTile(blockEntity);
+            generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX : GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
 
         poseStack.popPose();

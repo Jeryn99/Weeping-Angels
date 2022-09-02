@@ -23,6 +23,7 @@ subprojects {
     }
 }
 
+
 allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"

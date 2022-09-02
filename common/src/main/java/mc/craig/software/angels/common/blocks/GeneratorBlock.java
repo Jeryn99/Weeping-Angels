@@ -43,7 +43,7 @@ public class GeneratorBlock extends BaseEntityBlock {
 
     public GeneratorBlock(Properties pProperties) {
         super(pProperties.noOcclusion());
-        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(ROTATION, 0));
     }
 
     @Override
