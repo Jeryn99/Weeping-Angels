@@ -143,6 +143,18 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     @Override
+    public void push(Entity entity) {
+        super.push(entity);
+        doHurtTarget(entity);
+    }
+
+    @Override
+    protected void doPush(Entity entity) {
+        super.doPush(entity);
+        doHurtTarget(entity);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
