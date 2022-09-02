@@ -75,6 +75,7 @@ public class ModelWeepingVillager extends EntityModel<WeepingAngel> implements I
 
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float v, float v1, float v2, float v3, float v4) {
+
         WeepingAngelPose pose = getAngelPose();
         if (weepingAngel != null) {
             pose = WeepingAngelPose.getPose(weepingAngel.getAngelPose());

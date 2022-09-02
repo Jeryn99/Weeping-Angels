@@ -8,6 +8,7 @@ import me.suff.mc.angels.common.entities.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -41,7 +42,7 @@ public class AngelRender extends MobRenderer<WeepingAngel, EntityModel<WeepingAn
             iAngelModel.toggleHurt(false);
         }
 
-        if (!weepingAngel.getAngelType().canHoldThings()) {
+        if (!weepingAngel.getAngelType().canHoldThings() && model instanceof ArmedModel) {
             ItemStack key = weepingAngel.getMainHandItem();
             pMatrixStackIn.pushPose();
             float offset = Mth.cos(weepingAngel.tickCount * 0.1F) * -0.09F;
