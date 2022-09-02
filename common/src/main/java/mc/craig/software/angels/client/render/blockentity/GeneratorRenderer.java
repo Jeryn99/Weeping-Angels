@@ -42,8 +42,9 @@ public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEnti
         BlockState blockstate = blockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(GeneratorBlock.ROTATION);
 
+        System.out.println(blockEntity);
 
-        if (blockEntity.hasSpawned()) {
+        if (blockEntity.hasSpawned() && blockEntity.isActivated()) {
             poseStack.translate(0.5F, -0.3F, 0.5F);
             poseStack.scale(2,0.3F,2);
             poseStack.mulPose(Vector3f.YP.rotationDegrees(Minecraft.getInstance().player.tickCount * 20));

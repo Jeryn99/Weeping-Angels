@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.entity.angel;
 
+import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
@@ -7,6 +8,7 @@ import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,10 +45,23 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
     }
 
     @Override
+    public boolean save(CompoundTag compound) {
+        compound.putBoolean(WAConstants.ACTIVATED, isActivated);
+        return super.save(compound);
+    }
+
+    @Override
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        setActivated(compound.getBoolean(WAConstants.ACTIVATED));
+    }
+
+    @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         BlockPos pos = result.getBlockPos().above();
         BlockState blockState = level.getBlockState(pos);
+
 
         if(blockState.getMaterial().isReplaceable()) {
             level.setBlock(pos, WABlocks.CHRONODYNE_GENERATOR.get().defaultBlockState().setValue(GeneratorBlock.ROTATION, random.nextInt(15)), 3);
@@ -56,10 +71,12 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
             }
             remove(RemovalReason.DISCARDED);
         } else {
-            ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
-            itemEntity.setItem(new ItemStack(WAItems.CHRONODYNE_GENERATOR.get()));
-            itemEntity.moveTo(pos.getX(), pos.getY(), pos.getZ());
-            level.addFreshEntity(itemEntity);
+            if(!level.isClientSide) {
+                ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
+                itemEntity.setItem(new ItemStack(WAItems.CHRONODYNE_GENERATOR.get()));
+                itemEntity.moveTo(pos.getX(), pos.getY(), pos.getZ());
+                level.addFreshEntity(itemEntity);
+            }
         }
     }
 
