@@ -10,13 +10,13 @@ import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -63,19 +63,25 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
         BlockState blockState = level.getBlockState(pos);
 
 
-        if(blockState.getMaterial().isReplaceable()) {
+        if (blockState.getMaterial().isReplaceable()) {
             level.setBlock(pos, WABlocks.CHRONODYNE_GENERATOR.get().defaultBlockState().setValue(GeneratorBlock.ROTATION, random.nextInt(15)), 3);
             if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
                 generatorBlockEntity.setActivated(isActivated);
                 generatorBlockEntity.sendUpdates();
             }
             remove(RemovalReason.DISCARDED);
-        } else {
-            if(!level.isClientSide) {
-                ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
-                itemEntity.setItem(new ItemStack(WAItems.CHRONODYNE_GENERATOR.get()));
-                itemEntity.moveTo(pos.getX(), pos.getY(), pos.getZ());
-                level.addFreshEntity(itemEntity);
+            return;
+        }
+
+
+        if (!level.isClientSide) {
+            Entity thrower = getOwner();
+            if (thrower instanceof ServerPlayer serverPlayer) {
+                ItemStack stack = new ItemStack(WAItems.CHRONODYNE_GENERATOR.get());
+                if (!serverPlayer.getInventory().add(stack)) {
+                    serverPlayer.spawnAtLocation(stack);
+                }
+                remove(RemovalReason.DISCARDED);
             }
         }
     }
