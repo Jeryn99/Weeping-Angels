@@ -3,8 +3,8 @@ package mc.craig.software.angels.client.models;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -138,7 +138,7 @@ public class MercyWingsModel extends HierarchicalModel<LivingEntity> {
         return root;
     }
 
-    public static ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+    public static ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
     }
 

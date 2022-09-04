@@ -3,8 +3,8 @@ package mc.craig.software.angels.util;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.common.WAEntities;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
 import net.minecraft.core.BlockPos;
@@ -67,9 +67,9 @@ public class WAHelper {
         }
     }
 
-    public static boolean spawnWeepingAngel(ServerLevel serverLevel, BlockPos blockPos, AngelTextureVariant angelTextureVariant, boolean dropsLoot, float rotation) {
+    public static boolean spawnWeepingAngel(ServerLevel serverLevel, BlockPos blockPos, AngelVariant angelVariant, boolean dropsLoot, float rotation) {
         WeepingAngel weepingAngel = WAEntities.WEEPING_ANGEL.get().create(serverLevel);
-        weepingAngel.setVariant(angelTextureVariant);
+        weepingAngel.setVariant(angelVariant);
         weepingAngel.setDrops(dropsLoot);
         weepingAngel.absMoveTo(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, rotation, 0);
         return serverLevel.addFreshEntity(weepingAngel);

@@ -6,7 +6,6 @@ import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

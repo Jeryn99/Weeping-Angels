@@ -6,7 +6,6 @@ import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
-import mc.craig.software.angels.glm.WAGlobalLootModifiers;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -36,8 +35,6 @@ public class WeepingAngelsForge {
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
 
-        WAGlobalLootModifiers.GLM.register(modEventBus);
-
         MinecraftForge.EVENT_BUS.register(this);
 
         StartupMessageManager.addModMessage("Don't Blink!");
@@ -52,7 +49,6 @@ public class WeepingAngelsForge {
         generator.addProvider(true, new LootProvider(generator));
         generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
-        generator.addProvider(true, new LevelLootTableProvider(generator));
         generator.addProvider(true, new RecipeProvider(generator));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
         generator.addProvider(true, new BlockTags(generator, existingFileHelper));

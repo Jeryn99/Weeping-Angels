@@ -1,8 +1,8 @@
 package mc.craig.software.angels.common;
 
 import com.google.common.base.Supplier;
-import mc.craig.software.angels.common.entity.angel.ThrowableGenerator;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.projectile.ThrowableGenerator;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.core.Registry;

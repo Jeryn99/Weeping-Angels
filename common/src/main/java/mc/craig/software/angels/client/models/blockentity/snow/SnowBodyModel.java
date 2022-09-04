@@ -2,14 +2,10 @@ package mc.craig.software.angels.client.models.blockentity.snow;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 

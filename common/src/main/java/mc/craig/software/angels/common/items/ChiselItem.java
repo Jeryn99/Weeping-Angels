@@ -1,10 +1,11 @@
 package mc.craig.software.angels.common.items;
 
+import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.blockentity.Plinth;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,25 +25,17 @@ public class ChiselItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+
+
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
-        if(level.isClientSide()) return InteractionResult.FAIL;
+
+        if (!level.isClientSide()) return InteractionResult.FAIL;
         Player player = context.getPlayer();
         if (level.getBlockEntity(pos) instanceof Plinth plinth) {
-            player.swing(context.getHand());
-            if (player.isCrouching()) {
-                plinth.changeVariant(plinth);
-                plinth.sendUpdates();
-                return super.useOn(context);
+            if (level.isClientSide()) { //TODO bad bad bad bad
+                Minecraft.getInstance().setScreen(new ChiselScreen(Component.literal("Chisel"), context.getClickedPos(), level.dimension()));
             }
-            if (plinth.getAnimation() == 12) {
-                plinth.setAnimation(0);
-                plinth.sendUpdates();
-                return InteractionResult.SUCCESS;
-            }
-            plinth.setAnimation(Mth.clamp(plinth.getAnimation() + 1, 0, 12));
-            plinth.sendUpdates();
-            return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }

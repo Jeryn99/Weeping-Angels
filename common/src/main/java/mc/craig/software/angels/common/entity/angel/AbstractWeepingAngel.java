@@ -2,7 +2,9 @@ package mc.craig.software.angels.common.entity.angel;
 
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.entity.angel.misc.BodyRotationAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
+import mc.craig.software.angels.common.entity.angel.ai.BodyRotationAngel;
 import mc.craig.software.angels.util.ViewUtil;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -133,7 +135,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
         getEntityData().define(IS_HOOKED, false);
-        getEntityData().define(VARIANT, AngelTextureVariant.BASALT.location().toString());
+        getEntityData().define(VARIANT, AngelVariant.BASALT.location().toString());
         getEntityData().define(SHOULD_DROP_LOOT, true);
     }
 
@@ -142,18 +144,18 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         return getEntityData().get(SHOULD_DROP_LOOT);
     }
 
-    public void setVariant(AngelTextureVariant angelTextureVariant){
-        getEntityData().set(VARIANT, angelTextureVariant.location().toString());
+    public AngelVariant getVariant() {
+        return AngelVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
-    public AngelTextureVariant getVariant() {
-        return AngelTextureVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
+    public void setVariant(AngelVariant angelVariant) {
+        getEntityData().set(VARIANT, angelVariant.location().toString());
     }
 
     public AngelEmotion getEmotion() {
         String emotion = getEntityData().get(EMOTION);
         for (AngelEmotion angelEmotion : AngelEmotion.values()) {
-            if(emotion.equalsIgnoreCase(angelEmotion.getId())){
+            if (emotion.equalsIgnoreCase(angelEmotion.getId())) {
                 return angelEmotion;
             }
         }
@@ -180,7 +182,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
         if (compound.contains(WAConstants.VARIANT))
-            setVariant(AngelTextureVariant.getVariant(new ResourceLocation(compound.getString(WAConstants.VARIANT))));
+            setVariant(AngelVariant.getVariant(new ResourceLocation(compound.getString(WAConstants.VARIANT))));
     }
 
     public void setDrops(boolean drops) {
@@ -204,7 +206,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
     public SoundEvent getSeenSound() {
-        AngelTextureVariant angelVariant = getVariant();
+        AngelVariant angelVariant = getVariant();
         ItemStack itemStack = angelVariant.getDrops();
         if (itemStack.getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();

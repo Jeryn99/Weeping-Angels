@@ -6,6 +6,7 @@ import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blocks.WABlocks;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
@@ -27,6 +28,30 @@ public class EnglishLang extends LanguageProvider {
         add(WAConstants.ANOMALIES_DETECTED, "Anomalies Detected: %s");
         add(WAConstants.CHISEL_POSE, "* Interact to change pose");
         add(WAConstants.CHISEL_VARIANT, "* Sneak + Interact to change variant");
+        add(WAConstants.ANGEL_EMOTION, "Emotion");
+        add(WAConstants.ANGEL_VARIANT, "Variant");
+        add(WAConstants.ANGEL_POSES, "Pose");
+
+        // ==== Angel Variants =====
+        addAngelVariant(AngelVariant.BASALT, "Alice (Basalt)");
+        addAngelVariant(AngelVariant.STONE, "Alice (Stone)");
+        addAngelVariant(AngelVariant.COPPER, "Alice (Copper Ore)");
+        addAngelVariant(AngelVariant.DIAMOND, "Alice (Diamond Ore)");
+        addAngelVariant(AngelVariant.EMERALD, "Alice (Emerald Ore)");
+        addAngelVariant(AngelVariant.GOLD, "Alice (Gold Ore)");
+        addAngelVariant(AngelVariant.IRON, "Alice (Iron Ore)");
+        addAngelVariant(AngelVariant.LAPIS_LAZULI, "Alice (Lapis Ore)");
+        addAngelVariant(AngelVariant.MOSSY, "Alice (Mossy)");
+        addAngelVariant(AngelVariant.QUARTZ, "Alice (Quartz)");
+        addAngelVariant(AngelVariant.RUSTED, "Alice (Rusted)");
+        addAngelVariant(AngelVariant.RUSTED_NO_ARM, "Alice (Rusted - No Arm)");
+        addAngelVariant(AngelVariant.RUSTED_NO_HEAD, "Alice (Rusted - No Head)");
+        addAngelVariant(AngelVariant.RUSTED_NO_WING, "Alice (Rusted - Missing Wing)");
+        addAngelVariant(AngelVariant.DIRT, "Alice (Dirt)");
+        addAngelVariant(AngelVariant.GAS_RUSTED, "SpareTime (Rusted)");
+        addAngelVariant(AngelVariant.GAS_STONE, "SpareTime (Stone)");
+        addAngelVariant(AngelVariant.DOCTOR, "The Doctor");
+        addAngelVariant(AngelVariant.A_DIZZLE, "a_dizzle");
 
         // ==== Entity ====
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
@@ -82,15 +107,19 @@ public class EnglishLang extends LanguageProvider {
 
     }
 
+    public void addAngelVariant(AngelVariant angelVariant, String lang) {
+        add("variant." + WeepingAngels.MODID + "." + angelVariant.location().getPath(), lang);
+    }
+
     public void addSound(SoundEvent soundEvent, String lang) {
         add("subtitle." + WeepingAngels.MODID + "." + soundEvent.getLocation().getPath(), lang);
     }
-    
-    public void addConfig(ForgeConfigSpec.ConfigValue waConfiguration, String message){
+
+    public void addConfig(ForgeConfigSpec.ConfigValue waConfiguration, String message) {
         add("config.weeping_angels." + waConfiguration.getPath().get(1), message);
     }
 
-    public void add(DamageSource damageSource, String message){
+    public void add(DamageSource damageSource, String message) {
         add("death.attack." + damageSource.getMsgId(), message);
         add("death.attack." + damageSource.getMsgId() + ".player", message);
     }

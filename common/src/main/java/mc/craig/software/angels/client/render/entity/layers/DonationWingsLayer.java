@@ -6,8 +6,8 @@ import mc.craig.software.angels.client.models.MercyWingsModel;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AliceAngelModel;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
 import net.minecraft.client.Minecraft;
@@ -68,7 +68,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                     poseStack.pushPose();
                     getParentModel().body.translateAndRotate(poseStack);
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
-                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelTextureVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
                     mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.5F);
@@ -81,7 +81,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                 getParentModel().body.translateAndRotate(poseStack);
                 poseStack.translate(0, 0.5, 0);
                 for (ModelPart wing : angelModel.getWings()) {
-                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelTextureVariant.getVariant(new ResourceLocation(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelVariant.getVariant(new ResourceLocation(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 }
                 poseStack.popPose();
             });

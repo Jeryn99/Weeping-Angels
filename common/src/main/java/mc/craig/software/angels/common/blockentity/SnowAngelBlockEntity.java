@@ -1,8 +1,8 @@
 package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -79,7 +79,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         if (snowAngelStages == SnowStage.ARM) return;
         if (!level.getEntitiesOfClass(Player.class, collisionAabb.move(getBlockPos())).isEmpty() && !level.isClientSide) {
             WeepingAngel angel = new WeepingAngel(level);
-            angel.setVariant(AngelTextureVariant.STONE);
+            angel.setVariant(AngelVariant.STONE);
             BlockPos newPos = getBlockPos();
             angel.setPos(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D);
             level.addFreshEntity(angel);

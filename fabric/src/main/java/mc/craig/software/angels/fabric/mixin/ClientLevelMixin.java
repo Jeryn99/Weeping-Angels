@@ -1,4 +1,4 @@
-package mc.craig.software.angels.mixin;
+package mc.craig.software.angels.fabric.mixin;
 
 import mc.craig.software.angels.util.ClientUtil;
 import net.minecraft.client.multiplayer.ClientLevel;

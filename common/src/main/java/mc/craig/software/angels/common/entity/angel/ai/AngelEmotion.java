@@ -1,4 +1,4 @@
-package mc.craig.software.angels.common.entity.angel;
+package mc.craig.software.angels.common.entity.angel.ai;
 
 import net.minecraft.util.RandomSource;
 

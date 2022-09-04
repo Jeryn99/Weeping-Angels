@@ -5,12 +5,14 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
+import mc.craig.software.angels.util.ClientUtil;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,7 +26,15 @@ public class ClientBus {
     }
 
     @SubscribeEvent
+    public static void onPlayerJoin(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            ClientUtil.playDectorSound(player);
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerTick(LivingEvent.LivingTickEvent tickEvent) {
+        // Tick Donations
         if (tickEvent.getEntity() instanceof Player player) {
             for (Donator donator : DonationChecker.getModDonators()) {
                 if (player.getStringUUID().equals(donator.getUuid())) {

@@ -2,7 +2,7 @@ package mc.craig.software.angels.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import mc.craig.software.angels.common.entity.angel.ThrowableGenerator;
+import mc.craig.software.angels.common.entity.projectile.ThrowableGenerator;
 import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

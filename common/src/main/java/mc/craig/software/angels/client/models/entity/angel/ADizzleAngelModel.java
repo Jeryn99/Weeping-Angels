@@ -5,10 +5,11 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -89,7 +90,7 @@ public class ADizzleAngelModel extends AngelModel {
     }
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
 
         String seasonal = DonationChecker.isXmas() ? "_xmas" : "";
 
@@ -110,6 +111,11 @@ public class ADizzleAngelModel extends AngelModel {
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        if (weepingAngel.getFakeAnimation() != -1) {
+            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount, 1000);
+            return;
+        }
 
         int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
         if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {

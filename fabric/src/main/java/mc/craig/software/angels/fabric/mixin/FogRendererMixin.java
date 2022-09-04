@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FogRenderer.class)
-public class FogMixin {
+public class FogRendererMixin {
 
     @Inject(at = @At("TAIL"), method = "setupFog(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/FogRenderer$FogMode;FZF)V")
     private static void setupFog(Camera camera, FogRenderer.FogMode fogMode, float farPlaneDistance, boolean bl, float f, CallbackInfo ci) {
@@ -31,10 +31,5 @@ public class FogMixin {
             callbackInfo.cancel();
         }
     }
-
-   /* @Inject(at = @At("RETURN"), cancellable = true, method = "isFoggyAt(II)Z")
-    private void isFoggy(CallbackInfoReturnable<Boolean> ci) {
-        ci.setReturnValue(true);
-    }*/
 
 }

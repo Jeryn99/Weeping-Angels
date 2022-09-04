@@ -1,8 +1,8 @@
 package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<StatueBlockEntity>, Plinth {
 
-    private AngelTextureVariant currentVariant = null;
+    private AngelVariant currentVariant = null;
     private int animation = 1;
     private AngelEmotion emotion = AngelEmotion.IDLE;
 
@@ -25,12 +25,12 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void changeVariant(Plinth plinth) {
-        setSpecificVariant(AngelTextureVariant.getRandomVariant(AngelTextureVariant.VARIANTS, level.random));
+        setSpecificVariant(AngelVariant.getRandomVariant(AngelVariant.VARIANTS, level.random));
     }
 
     @Override
-    public void setSpecificVariant(AngelTextureVariant angelTextureVariant) {
-        this.currentVariant = angelTextureVariant;
+    public void setSpecificVariant(AngelVariant angelVariant) {
+        this.currentVariant = angelVariant;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public AngelTextureVariant getVariant() {
-        if(currentVariant == null) return AngelTextureVariant.STONE;
+    public AngelVariant getVariant() {
+        if (currentVariant == null) return AngelVariant.STONE;
         return currentVariant;
     }
 

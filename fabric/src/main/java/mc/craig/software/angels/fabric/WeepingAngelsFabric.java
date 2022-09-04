@@ -6,6 +6,7 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.util.Platform;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -33,10 +34,8 @@ public class WeepingAngelsFabric implements ModInitializer {
         WeepingAngels.init();
         FabricDefaultAttributeRegistry.register(WEEPING_ANGEL.get(), WeepingAngel.createAttributes());
         EntitySpawns.init();
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron")));
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron_small")));
-        BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "snow_angel")));
-        LootModifying.init();
+        levelManipulation();
+        Platform.init();
 
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 
@@ -47,6 +46,12 @@ public class WeepingAngelsFabric implements ModInitializer {
             }
             return InteractionResult.PASS;
         });
+    }
+
+    private void levelManipulation() {
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "ore_kontron_small")));
+        BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(WeepingAngels.MODID, "snow_angel")));
     }
 
     private Predicate<BiomeSelectionContext> isSnowy() {

@@ -3,10 +3,11 @@ package mc.craig.software.angels.client.models.entity.angel;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -94,19 +95,22 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
     public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
         // TODO Store these in AngelTexVariants
-        body.getChild("head").visible = weepingAngel.getVariant() != AngelTextureVariant.RUSTED_NO_HEAD;
-        body.getChild("rightArm").visible = weepingAngel.getVariant() != AngelTextureVariant.RUSTED_NO_ARM;
-        body.getChild("leftWing").visible = weepingAngel.getVariant() != AngelTextureVariant.RUSTED_NO_WING;
+        body.getChild("head").visible = weepingAngel.getVariant() != AngelVariant.RUSTED_NO_HEAD;
+        body.getChild("rightArm").visible = weepingAngel.getVariant() != AngelVariant.RUSTED_NO_ARM;
+        body.getChild("leftWing").visible = weepingAngel.getVariant() != AngelVariant.RUSTED_NO_WING;
 
         this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        if (weepingAngel.getFakeAnimation() != -1) {
+            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount);
+            return;
+        }
 
         int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
         if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
         animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
-     /*   this.body.getChild("head").xRot = headPitch * 0.017453292F;
-        this.body.getChild("head").yRot = netHeadYaw * 0.017453292F;*/
 
     }
 
@@ -121,8 +125,8 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
     }
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelTextureVariant.location().getPath() + "/" + angelTextureVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }
 
     @Override

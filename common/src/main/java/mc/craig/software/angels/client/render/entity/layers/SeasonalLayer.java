@@ -5,8 +5,8 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.SantaHat;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -29,8 +29,8 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, AngelModel> {
         model = new SantaHat<>(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.SANTA_HAT));
     }
 
-    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, SantaHat<Entity> santa, EntityModel model, AngelTextureVariant angelVariant) {
-        if (angelVariant == AngelTextureVariant.RUSTED_NO_HEAD) return;
+    public static void santaHat(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, SantaHat<Entity> santa, EntityModel model, AngelVariant angelVariant) {
+        if (angelVariant == AngelVariant.RUSTED_NO_HEAD) return;
         if (model instanceof AngelModel angelModel) {
             if (DonationChecker.isXmas()) {
                 pMatrixStack.pushPose();

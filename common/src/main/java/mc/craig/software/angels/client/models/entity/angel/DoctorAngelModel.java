@@ -3,10 +3,11 @@ package mc.craig.software.angels.client.models.entity.angel;
 
 import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.geom.ModelPart;
@@ -90,7 +91,7 @@ public class DoctorAngelModel extends AngelModel {
     }
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
         return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/doctor/doctor_angel_idle.png");
     }
 
@@ -109,6 +110,11 @@ public class DoctorAngelModel extends AngelModel {
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        if (weepingAngel.getFakeAnimation() != -1) {
+            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount, 1000);
+            return;
+        }
 
         int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
         if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {

@@ -5,6 +5,8 @@ import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.HurtHelper;
 import mc.craig.software.angels.util.Teleporter;
@@ -20,7 +22,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -34,7 +35,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -60,6 +60,16 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     public AnimationState POSE_ANIMATION_STATE = new AnimationState();
 
+    private int fakeAnimation = -1;
+
+    public int getFakeAnimation() {
+        return fakeAnimation;
+    }
+
+    public void setFakeAnimation(int fakeAnimation) {
+        this.fakeAnimation = fakeAnimation;
+    }
+
     public WeepingAngel(Level worldIn) {
         super(worldIn, WAEntities.WEEPING_ANGEL.get());
         int id = 0;
@@ -77,7 +87,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-        setVariant(AngelTextureVariant.getVariantForPos(this));
+        setVariant(AngelVariant.getVariantForPos(this));
         return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
@@ -99,7 +109,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
 
             for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getXRot(), pEntity.getYRot(), true);
+                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
                 if (successfulTeleport) {
                     return true;
                 }

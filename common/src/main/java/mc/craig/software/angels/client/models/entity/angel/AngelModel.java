@@ -1,9 +1,9 @@
 package mc.craig.software.angels.client.models.entity.angel;
 
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,7 +19,7 @@ public abstract class AngelModel extends HierarchicalModel<WeepingAngel> {
 
     public abstract ModelPart getHead();
 
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
         return DefaultPlayerSkin.getDefaultSkin();
     }
 

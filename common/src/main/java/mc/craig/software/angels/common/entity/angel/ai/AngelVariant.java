@@ -1,7 +1,8 @@
-package mc.craig.software.angels.common.entity.angel;
+package mc.craig.software.angels.common.entity.angel.ai;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -14,16 +15,14 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.Collection;
 import java.util.Map;
 
-public class AngelTextureVariant {
-
-    // Main Variant Registry
-    public static final Map<ResourceLocation, AngelTextureVariant> VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelTextureVariant.STONE));
+public class AngelVariant {
 
     // Ore Variants
-    public static final Map<ResourceLocation, AngelTextureVariant> ORE_VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelTextureVariant.IRON));
-
-    public static AngelTextureVariant STONE, BASALT, DIRT, COPPER, MOSSY, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_NO_HEAD, QUARTZ, LAPIS_LAZULI, IRON, GOLD, EMERALD, DIAMOND;
-    public static AngelTextureVariant GAS_STONE, GAS_RUSTED, A_DIZZLE, DOCTOR;
+    public static final Map<ResourceLocation, AngelVariant> ORE_VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelVariant.IRON));
+    public static AngelVariant STONE, BASALT, DIRT, COPPER, MOSSY, RUSTED, RUSTED_NO_ARM, RUSTED_NO_WING, RUSTED_NO_HEAD, QUARTZ, LAPIS_LAZULI, IRON, GOLD, EMERALD, DIAMOND;
+    // Main Variant Registry
+    public static final Map<ResourceLocation, AngelVariant> VARIANTS = Util.make(new Object2ObjectOpenHashMap<>(), (objectOpenHashMap) -> objectOpenHashMap.defaultReturnValue(AngelVariant.STONE));
+    public static AngelVariant GAS_STONE, GAS_RUSTED, A_DIZZLE, DOCTOR;
 
     public static void init() {
         STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "normal"), new ItemStack(Blocks.STONE), false);
@@ -51,7 +50,7 @@ public class AngelTextureVariant {
     private final ItemStack drops;
     private final ResourceLocation regName;
 
-    public AngelTextureVariant(ResourceLocation resourceLocation, ItemStack drops) {
+    public AngelVariant(ResourceLocation resourceLocation, ItemStack drops) {
         this.drops = drops;
         this.regName = resourceLocation;
     }
@@ -66,7 +65,7 @@ public class AngelTextureVariant {
 
 
     // TODO Nicer way
-    public static AngelTextureVariant getVariantForPos(WeepingAngel weepingAngel) {
+    public static AngelVariant getVariantForPos(WeepingAngel weepingAngel) {
         RandomSource randomSource = weepingAngel.level.random;
 
         boolean isOrePosition = weepingAngel.blockPosition().getY() < 50 && !weepingAngel.level.canSeeSky(weepingAngel.blockPosition());
@@ -90,38 +89,38 @@ public class AngelTextureVariant {
         }
 
         // Random value after conditions
-        Collection<AngelTextureVariant> variants = VARIANTS.values();
+        Collection<AngelVariant> variants = VARIANTS.values();
         variants.removeIf(angelTextureVariant -> angelTextureVariant == QUARTZ || angelTextureVariant == MOSSY || angelTextureVariant == BASALT || ORE_VARIANTS.containsKey(angelTextureVariant.regName));
         return variants.stream().skip((int) (variants.size() * Math.random())).findFirst().get();
     }
 
-    public static AngelTextureVariant getRandomVariant(Map<ResourceLocation, AngelTextureVariant> variantMap, RandomSource randomSource) {
+    public static AngelVariant getRandomVariant(Map<ResourceLocation, AngelVariant> variantMap, RandomSource randomSource) {
         int index = randomSource.nextInt(variantMap.size());
-        return variantMap.values().toArray(new AngelTextureVariant[0])[index];
+        return variantMap.values().toArray(new AngelVariant[0])[index];
     }
 
-    public static AngelTextureVariant getVariant(ResourceLocation resourceLocation) {
+    public static AngelVariant getVariant(ResourceLocation resourceLocation) {
         if (VARIANTS.containsKey(resourceLocation)) {
             return VARIANTS.get(resourceLocation);
         }
         return STONE;
     }
 
-    public static AngelTextureVariant registerVariant(ResourceLocation resourceLocation, ItemStack itemStack, boolean isOre) {
-        return registerVariant(resourceLocation, new AngelTextureVariant(resourceLocation, itemStack), isOre);
+    public static AngelVariant registerVariant(ResourceLocation resourceLocation, ItemStack itemStack, boolean isOre) {
+        return registerVariant(resourceLocation, new AngelVariant(resourceLocation, itemStack), isOre);
     }
 
-    public static AngelTextureVariant registerVariant(ResourceLocation resourceLocation, AngelTextureVariant angelTextureVariant, boolean isOre) {
+    public static AngelVariant registerVariant(ResourceLocation resourceLocation, AngelVariant angelVariant, boolean isOre) {
 
         if (isOre) {
-            ORE_VARIANTS.put(resourceLocation, angelTextureVariant);
+            ORE_VARIANTS.put(resourceLocation, angelVariant);
         }
 
         if (VARIANTS.containsKey(resourceLocation)) {
-            VARIANTS.replace(resourceLocation, angelTextureVariant);
+            VARIANTS.replace(resourceLocation, angelVariant);
         }
-        VARIANTS.put(resourceLocation, angelTextureVariant);
-        return angelTextureVariant;
+        VARIANTS.put(resourceLocation, angelVariant);
+        return angelVariant;
     }
 
 

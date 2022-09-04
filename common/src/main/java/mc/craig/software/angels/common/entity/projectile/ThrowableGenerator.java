@@ -1,4 +1,4 @@
-package mc.craig.software.angels.common.entity.angel;
+package mc.craig.software.angels.common.entity.projectile;
 
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.WAEntities;
@@ -14,7 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

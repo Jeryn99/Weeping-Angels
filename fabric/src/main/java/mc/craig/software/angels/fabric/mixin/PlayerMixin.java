@@ -1,4 +1,4 @@
-package mc.craig.software.angels.mixin;
+package mc.craig.software.angels.fabric.mixin;
 
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.world.entity.player.Player;

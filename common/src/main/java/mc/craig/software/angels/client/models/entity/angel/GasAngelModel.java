@@ -2,10 +2,11 @@ package mc.craig.software.angels.client.models.entity.angel;
 
 import com.google.common.collect.ImmutableList;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -16,10 +17,6 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-
-import java.util.Collections;
-
-import static mc.craig.software.angels.client.models.entity.angel.AliceAngelModel.*;
 
 public class GasAngelModel extends AngelModel {
 
@@ -94,6 +91,11 @@ public class GasAngelModel extends AngelModel {
     public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
+        if (weepingAngel.getFakeAnimation() != -1) {
+            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount, 1000);
+            return;
+        }
+
         int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
         if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
@@ -113,8 +115,8 @@ public class GasAngelModel extends AngelModel {
 
 
     @Override
-    public ResourceLocation texture(AngelEmotion angelEmotion, AngelTextureVariant angelTextureVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/spare_time/variants/" + angelTextureVariant.location().getPath() + "/" + angelTextureVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+    public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/spare_time/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }
 
     @Override

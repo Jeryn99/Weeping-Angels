@@ -7,7 +7,6 @@ import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.blockentity.GeneratorModel;
 import mc.craig.software.angels.client.models.blockentity.PortalModel;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
-import mc.craig.software.angels.common.blocks.CoffinBlock;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,7 +15,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEntity>, BlockEntityRendererProvider<GeneratorBlockEntity> {
@@ -41,8 +39,6 @@ public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEnti
 
         BlockState blockstate = blockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(GeneratorBlock.ROTATION);
-
-        System.out.println(blockEntity);
 
         if (blockEntity.hasSpawned() && blockEntity.isActivated()) {
             poseStack.translate(0.5F, -0.3F, 0.5F);

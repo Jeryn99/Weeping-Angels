@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Minecraft.class)
-public abstract class MinecraftMixin {
+public class MinecraftMixin {
 
     @Inject(at = @At("HEAD"), method = "getSituationalMusic()Lnet/minecraft/sounds/Music;", cancellable = true)
     private void getSituationalMusic(CallbackInfoReturnable<Music> musicCallbackInfoReturnable) {

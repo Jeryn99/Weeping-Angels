@@ -1,4 +1,4 @@
-package mc.craig.software.angels.common.entity.angel.misc;
+package mc.craig.software.angels.common.entity.angel.ai;
 
 import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.world.entity.Mob;

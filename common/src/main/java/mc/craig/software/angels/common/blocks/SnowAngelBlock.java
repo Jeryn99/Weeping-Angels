@@ -1,8 +1,8 @@
 package mc.craig.software.angels.common.blocks;
 
 import mc.craig.software.angels.common.blockentity.SnowAngelBlockEntity;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -104,7 +104,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
             BlockEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof SnowAngelBlockEntity snowAngelBlockEntity) {
                 WeepingAngel angel = new WeepingAngel(worldIn);
-                angel.setVariant(AngelTextureVariant.STONE);
+                angel.setVariant(AngelVariant.STONE);
                 angel.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 worldIn.addFreshEntity(angel);
                 worldIn.removeBlock(pos, false);

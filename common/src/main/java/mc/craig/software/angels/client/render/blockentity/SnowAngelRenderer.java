@@ -5,8 +5,8 @@ import com.mojang.math.Vector3f;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.common.blockentity.SnowAngelBlockEntity;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
-import mc.craig.software.angels.common.entity.angel.AngelEmotion;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -32,7 +32,7 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
     }
 
     public static ResourceLocation getTexture(SnowAngelBlockEntity snowAngelBlockEntity) {
-        return ModelRegistration.getModelFor(AngelTextureVariant.STONE).texture(AngelEmotion.ANGRY, AngelTextureVariant.STONE);
+        return ModelRegistration.getModelFor(AngelVariant.STONE).texture(AngelEmotion.ANGRY, AngelVariant.STONE);
     }
 
     @Override

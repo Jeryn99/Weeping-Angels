@@ -13,7 +13,7 @@ import mc.craig.software.angels.client.models.blockentity.snow.SnowHeadModel;
 import mc.craig.software.angels.client.models.blockentity.snow.SnowWingsModel;
 import mc.craig.software.angels.client.models.entity.SantaHat;
 import mc.craig.software.angels.client.models.entity.angel.*;
-import mc.craig.software.angels.common.entity.angel.AngelTextureVariant;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -53,17 +53,17 @@ public class ModelRegistration {
         DOCTOR_ANGEL_MODEL = new DoctorAngelModel(entityModels.bakeLayer(DOCTOR_ANGEL));
     }
 
-    public static AngelModel getModelFor(AngelTextureVariant angelTextureVariant) {
+    public static AngelModel getModelFor(AngelVariant angelVariant) {
 
-        if(angelTextureVariant == AngelTextureVariant.DOCTOR){
+        if (angelVariant == AngelVariant.DOCTOR) {
             return DOCTOR_ANGEL_MODEL;
         }
 
-        if (angelTextureVariant == AngelTextureVariant.A_DIZZLE) {
+        if (angelVariant == AngelVariant.A_DIZZLE) {
             return A_DIZZLE_MODEL;
         }
 
-        if (angelTextureVariant == AngelTextureVariant.GAS_RUSTED || angelTextureVariant == AngelTextureVariant.GAS_STONE) {
+        if (angelVariant == AngelVariant.GAS_RUSTED || angelVariant == AngelVariant.GAS_STONE) {
             return GAS_MODEL;
         }
 
