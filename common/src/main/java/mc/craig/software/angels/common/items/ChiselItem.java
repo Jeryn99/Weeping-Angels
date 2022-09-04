@@ -2,12 +2,13 @@ package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.client.screen.ChiselScreen;
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.blockentity.Plinth;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -25,19 +26,16 @@ public class ChiselItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-
-
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
-
         if (!level.isClientSide()) return InteractionResult.FAIL;
-        Player player = context.getPlayer();
-        if (level.getBlockEntity(pos) instanceof Plinth plinth) {
-            if (level.isClientSide()) { //TODO bad bad bad bad
-                Minecraft.getInstance().setScreen(new ChiselScreen(Component.literal("Chisel"), context.getClickedPos(), level.dimension()));
-            }
-        }
+        createUi(pos, level.dimension());
         return super.useOn(context);
+    }
+
+    @Environment(value = EnvType.CLIENT)
+    public static void createUi(BlockPos blockPos, ResourceKey<Level> levelResourceKey) {
+        Minecraft.getInstance().setScreen(new ChiselScreen(Component.literal("Chisel"), blockPos, levelResourceKey));
     }
 
     @Override
@@ -47,4 +45,5 @@ public class ChiselItem extends Item {
         tooltip.add(Component.translatable(WAConstants.CHISEL_VARIANT));
 
     }
+
 }
