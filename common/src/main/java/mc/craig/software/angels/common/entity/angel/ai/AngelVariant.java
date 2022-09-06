@@ -107,6 +107,7 @@ public class AngelVariant {
     }
 
     public static AngelVariant registerVariant(ResourceLocation resourceLocation, ItemStack itemStack, boolean isOre) {
+        WeepingAngels.LOGGER.info("Registered: {}", resourceLocation);
         return registerVariant(resourceLocation, new AngelVariant(resourceLocation, itemStack), isOre);
     }
 

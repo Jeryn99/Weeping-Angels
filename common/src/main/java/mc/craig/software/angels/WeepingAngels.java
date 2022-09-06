@@ -34,7 +34,6 @@ public class WeepingAngels {
         AngelVariant.init();
         WANetwork.init();
 
-
     }
 
 }

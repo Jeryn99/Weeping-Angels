@@ -4,6 +4,7 @@ import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.data.DataGenerator;
@@ -59,6 +60,7 @@ public class WeepingAngelsForge {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         VR_REFLECTOR.init();
+        AngelVariant.init();
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {

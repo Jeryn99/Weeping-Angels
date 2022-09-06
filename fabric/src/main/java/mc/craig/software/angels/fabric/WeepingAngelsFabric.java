@@ -6,16 +6,19 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.util.Platform;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -46,6 +49,8 @@ public class WeepingAngelsFabric implements ModInitializer {
             }
             return InteractionResult.PASS;
         });
+
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> AngelVariant.init());
     }
 
     private void levelManipulation() {

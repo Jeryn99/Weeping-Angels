@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,16 +36,19 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ang
         this.model = getModel();
         if (pEntity.deathTime > 0) {
 
-            if (pEntity.deathTime < 10) {
-                for (int i = 0; i < 10; i++) {
-                    pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), pEntity.getX(), pEntity.getY() + 1, pEntity.getZ(), 0.0D, 0.1D, 0.2D);
-                }
-            }
+            if (textureVariant.getDrops().getItem() instanceof BlockItem blockItem) {
 
-            for (int i = 0; i < 10; i++) {
-                pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                if (pEntity.deathTime < 10) {
+                    for (int i = 0; i < 10; i++) {
+                        pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY() + 1, pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                    }
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                }
+                return;
             }
-            return;
         }
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
