@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class BlockReactions {
         if (blockState.hasProperty(BlockStateProperties.LIT)) {
             if (level.getBlockState(blockPos).getValue(BlockStateProperties.LIT)) {
                 level.setBlock(blockPos, blockState.setValue(BlockStateProperties.LIT, false), 16);
+                level.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
                 return true;
             }
         }
@@ -37,6 +39,7 @@ public class BlockReactions {
             // Lever
             if (blockState.getBlock() instanceof LeverBlock leverBlock && level.random.nextBoolean()) {
                 leverBlock.pull(blockState, level, blockPos);
+                level.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
                 return true;
             }
         }
@@ -50,6 +53,7 @@ public class BlockReactions {
                 serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 Containers.dropItemStack(weepingAngel.level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockState.getBlock()));
                 level.removeBlock(blockPos, true);
+                level.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
             }
             return true;
         }

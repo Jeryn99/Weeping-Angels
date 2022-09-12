@@ -13,6 +13,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class UpdateStatueMessage extends MessageC2S {
@@ -62,6 +63,7 @@ public class UpdateStatueMessage extends MessageC2S {
             statueBlockEntity.setSpecificVariant(angelVariant);
             statueBlockEntity.setEmotion(angelEmotion);
             statueBlockEntity.sendUpdates();
+            mcLevel.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
         }
     }
 }

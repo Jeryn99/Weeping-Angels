@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -73,6 +74,7 @@ public class CoffinBlock extends BaseEntityBlock {
         }
 
         pLevel.setBlock(pPos, pState.cycle(OPEN), 3);
+        pLevel.gameEvent(pPlayer, GameEvent.BLOCK_OPEN, pPos);
         pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, pLevel.getBlockState(pPos).getValue(OPEN) ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
         return InteractionResult.SUCCESS;
     }
