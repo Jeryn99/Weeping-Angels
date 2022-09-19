@@ -12,8 +12,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
+    public boolean hasCatacombMusicSetUp = false;
+
     @Inject(at = @At("HEAD"), method = "getSituationalMusic()Lnet/minecraft/sounds/Music;", cancellable = true)
     private void getSituationalMusic(CallbackInfoReturnable<Music> musicCallbackInfoReturnable) {
+        if(!hasCatacombMusicSetUp){
+            WAMusic.init();
+        }
+        hasCatacombMusicSetUp = true;
         Minecraft minecraft = Minecraft.getInstance();
         if (CatacombTracker.isInCatacomb() && Minecraft.getInstance().level != null) {
             musicCallbackInfoReturnable.setReturnValue(WAMusic.CATACOMB_MUSIC);

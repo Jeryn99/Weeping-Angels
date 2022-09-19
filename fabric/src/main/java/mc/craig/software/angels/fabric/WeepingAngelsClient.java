@@ -39,7 +39,6 @@ public class WeepingAngelsClient implements ClientModInitializer {
         itemPredicates();
         ModelRegistration.init();
         overlay();
-        WAMusic.init();
     }
 
     private void overlay() {

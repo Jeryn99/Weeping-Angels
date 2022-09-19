@@ -78,8 +78,6 @@ public class ClientModBus {
             if (anomaliesAround.isEmpty()) return null;
             return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
         }));
-
-        WAMusic.init();
     }
 
     @SubscribeEvent
