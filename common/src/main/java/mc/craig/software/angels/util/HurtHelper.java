@@ -20,7 +20,7 @@ public class HurtHelper {
         if (weepingAngel.getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
             return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(blockItem.getBlock().defaultBlockState());
         }
-        return false;
+        return heldItem.is(WATags.ATTACK_OVERRIDES);
     }
 
     public static boolean handleAngelHurt(WeepingAngel weepingAngel, DamageSource pSource, float pAmount) {

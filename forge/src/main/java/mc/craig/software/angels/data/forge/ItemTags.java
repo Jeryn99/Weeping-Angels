@@ -20,5 +20,6 @@ public class ItemTags extends ItemTagsProvider {
     protected void addTags() {
         tag(WATags.STEALABLE_ITEMS).add(Items.CLOCK, Items.TORCH, Items.COMPASS, Items.RECOVERY_COMPASS);
         tag(WATags.STEALABLE_ITEMS).addOptionalTag(Tags.Items.TOOLS_PICKAXES.location());
+        tag(WATags.ATTACK_OVERRIDES).addOptionalTag(Tags.Items.TOOLS_PICKAXES.location());
     }
 }

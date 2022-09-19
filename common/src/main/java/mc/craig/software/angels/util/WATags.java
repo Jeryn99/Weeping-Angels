@@ -16,6 +16,7 @@ public class WATags {
 
     public static TagKey<Block> NO_BREAKING = makeBlock(WeepingAngels.MODID, "no_breaking");
     public static TagKey<Item> STEALABLE_ITEMS = makeItem(WeepingAngels.MODID, "stealable_items");
+    public static TagKey<Item> ATTACK_OVERRIDES = makeItem(WeepingAngels.MODID, "attack/weeping_angels");
     public static TagKey<Biome> ANGEL_SPAWNS = makeBiome(WeepingAngels.MODID, "spawns/weeping_angels");
     public static TagKey<EntityType<?>> ANOMALYS = makeEntityType(WeepingAngels.MODID, "anomaly");
 

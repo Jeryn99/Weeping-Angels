@@ -139,11 +139,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     @Override
-    public void actuallyHurt(DamageSource pDamageSource, float pDamageAmount) {
-        super.actuallyHurt(pDamageSource, pDamageAmount);
-    }
-
-    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (!state.getMaterial().isLiquid()) {
             BlockState blockState = Blocks.STONE.defaultBlockState();
