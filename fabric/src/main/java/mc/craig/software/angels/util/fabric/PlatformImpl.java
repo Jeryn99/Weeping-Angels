@@ -40,7 +40,7 @@ public class PlatformImpl {
 
     public static MinecraftServer getServer() {
         MinecraftServer server;
-        if (Platform.getEnvironment() == Env.CLIENT) {
+        if (isClient()) {
             server = getServerFromClient();
         } else {
             server = MINECRAFT_SERVER;
