@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -62,6 +63,9 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
         if (pLivingEntity.isInvisibleTo(Minecraft.getInstance().player)) return;
         if (pLivingEntity instanceof Player player) {
             getDonatorData(player).ifPresent(data -> {
+
+
+                if (player.isModelPartShown(PlayerModelPart.CAPE)) return;
 
                 // tCups Mercy Wings
                 if (data.getWings().equalsIgnoreCase("mercy")) {
