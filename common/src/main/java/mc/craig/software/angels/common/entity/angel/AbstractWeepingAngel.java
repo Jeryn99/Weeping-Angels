@@ -178,8 +178,8 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
-        if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
-        if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.valueOf(compound.getString(WAConstants.EMOTION).toUpperCase()));
+        if (compound.contains(WAConstants.EMOTION)) setEmotion(AngelEmotion.find(compound.getString(WAConstants.EMOTION).toUpperCase()));
+        if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.find(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
         if (compound.contains(WAConstants.VARIANT))
             setVariant(AngelVariant.getVariant(new ResourceLocation(compound.getString(WAConstants.VARIANT))));
