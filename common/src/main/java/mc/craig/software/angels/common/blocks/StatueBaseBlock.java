@@ -94,10 +94,10 @@ public class StatueBaseBlock extends BaseEntityBlock {
             }
         };
     }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> GameEventListener getListener(ServerLevel level, T blockEntity) {
-        return super.getListener(level, blockEntity);
-    }
+//TODO: Fix this
+//    @Nullable
+//    @Override
+//    public <T extends BlockEntity> GameEventListener getListener(ServerLevel level, T blockEntity) {
+//        return super.getListener(level, blockEntity);
+//    }
 }

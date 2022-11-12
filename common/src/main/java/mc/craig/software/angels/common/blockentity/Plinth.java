@@ -6,16 +6,16 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.AnimationState;
+
+import java.util.Random;
 
 public interface Plinth {
-
-    AnimationState animationState = new AnimationState();
-
-    default AnimationState getAnimationState() {
-        return animationState;
-    }
+//TODO: Fix this
+//    AnimationState animationState = new AnimationState();
+//TODO: Fix this
+//    default AnimationState getAnimationState() {
+//        return animationState;
+//    }
 
     void changeVariant(Plinth plinth);
 
@@ -25,7 +25,7 @@ public interface Plinth {
 
     default CompoundTag writeNbt(CompoundTag compoundTag) {
         if (getVariant() == null) {
-            setSpecificVariant(AngelVariant.getRandomVariant(AngelVariant.VARIANTS, RandomSource.create()));
+            setSpecificVariant(AngelVariant.getRandomVariant(AngelVariant.VARIANTS, new Random()));
         }
         compoundTag.putString(WAConstants.VARIANT, getVariant().location().toString());
         compoundTag.putInt(WAConstants.ANIMATION, getAnimation());

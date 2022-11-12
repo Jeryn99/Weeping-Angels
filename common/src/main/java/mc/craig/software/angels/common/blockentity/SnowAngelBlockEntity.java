@@ -5,7 +5,6 @@ import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.Locale;
+import java.util.Random;
 
 import static net.minecraft.world.level.block.SnowLayerBlock.LAYERS;
 
@@ -37,7 +37,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
             return name().toLowerCase(Locale.ROOT);
         }
 
-        public static SnowStage randomStage(RandomSource randomSource) {
+        public static SnowStage randomStage(Random randomSource) {
             int pick = randomSource.nextInt(SnowStage.values().length);
             return SnowStage.values()[pick];
         }

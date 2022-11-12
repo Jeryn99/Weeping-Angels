@@ -17,14 +17,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class WAHelper {
@@ -45,14 +44,14 @@ public class WAHelper {
         if (player instanceof ServerPlayer serverPlayer) {
             if (!player.level.isClientSide) {
                 boolean isInCatacomb = CatacombTracker.isInCatacomb(player);
-                RandomSource randomSource = serverPlayer.level.getRandom();
+                Random randomSource = serverPlayer.level.getRandom();
 
                 if (player.tickCount % 40 == 0) {
                     CatacombTracker.tellClient(serverPlayer, isInCatacomb);
                 }
 
                 if (isInCatacomb && serverPlayer.tickCount % 200 == 0) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(WAHelper.getRandomSounds(randomSource), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(WAHelper.getRandomSounds(randomSource), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F));
                 }
             }
 
@@ -83,14 +82,14 @@ public class WAHelper {
     public static boolean intersects(AABB bb, Vec3 min, Vec3 max) {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
+//TODO: Fix this
+//    public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
+//        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUC );
+//        return registry.get(resourceLocation);
+//    }
 
-    public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
-        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
-        return registry.get(resourceLocation);
-    }
-
-    public static SoundEvent getRandomSounds(RandomSource randomSource) {
-        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11, SoundEvents.SCULK_SHRIEKER_SHRIEK};
+    public static SoundEvent getRandomSounds(Random randomSource) {
+        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11};// SoundEvents.SCULK_SHRIEKER_SHRIEK
         return soundEvents[randomSource.nextInt(soundEvents.length)];
     }
 }

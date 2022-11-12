@@ -10,7 +10,8 @@ import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
+//TODO: Fix this
+//import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -34,28 +35,29 @@ public class WeepingAngelsForge {
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
-        modEventBus.addListener(this::onGatherData);
+//TODO: Fix this
+//        modEventBus.addListener(this::onGatherData);
 
         MinecraftForge.EVENT_BUS.register(this);
 
         StartupMessageManager.addModMessage("Don't Blink!");
     }
-
-    public void onGatherData(GatherDataEvent e) {
-        DataGenerator generator = e.getGenerator();
-        ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(true, new EnglishLang(generator));
-        generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
-        generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
-        generator.addProvider(true, new LootProvider(generator));
-        generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
-        generator.addProvider(true, new WABiomeMods(generator));
-        generator.addProvider(true, new RecipeProvider(generator));
-        generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
-        generator.addProvider(true, new BlockTags(generator, existingFileHelper));
-        generator.addProvider(true, new EntityTypeTags(generator, existingFileHelper));
-        generator.addProvider(true, new ItemTags(generator, new BlockTags(generator, existingFileHelper), existingFileHelper));
-    }
+//TODO: Fix this
+//    public void onGatherData(GatherDataEvent e) {
+//        DataGenerator generator = e.getGenerator();
+//        ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
+//        generator.addProvider(true, new EnglishLang(generator));
+//        generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
+//        generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
+//        generator.addProvider(true, new LootProvider(generator));
+//        generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
+//        generator.addProvider(true, new WABiomeMods(generator));
+//        generator.addProvider(true, new RecipeProvider(generator));
+//        generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
+//        generator.addProvider(true, new BlockTags(generator, existingFileHelper));
+//        generator.addProvider(true, new EntityTypeTags(generator, existingFileHelper));
+//        generator.addProvider(true, new ItemTags(generator, new BlockTags(generator, existingFileHelper), existingFileHelper));
+//    }
 
 
     private void commonSetup(final FMLCommonSetupEvent event) {

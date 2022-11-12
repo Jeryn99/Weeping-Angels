@@ -55,14 +55,14 @@ public class HurtHelper {
             boolean hasPickAxe = HurtHelper.validatePickaxe(player, weepingAngel, predicate);
             if (!hasPickAxe) {
                 if (weepingAngel.level.random.nextInt(100) <= 10) {
-                    weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
+                    weepingAngel.playSound(WASounds.ANGEL_MOCKING.get(), 1F, 1F);
                 }
                 player.hurt(WADamageSources.PUNCH_STONE, weepingAngel.level.random.nextInt(5));
                 return false;
             }
             ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);
             stack.hurtAndBreak(weepingAngel.level.random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
-                weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
+                weepingAngel.playSound(WASounds.ANGEL_MOCKING.get(), 1F, 1F);
                 livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
             });
             return true;

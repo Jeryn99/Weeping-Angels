@@ -4,10 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.animation.AnimationChannel;
-import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.animation.Keyframe;
-import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -15,8 +11,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 public class GeneratorModel extends HierarchicalModel {
-
-    public static final AnimationDefinition CHARGE_TIMER = AnimationDefinition.Builder.withLength(5f).looping().addAnimation("Needle", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(5f, KeyframeAnimations.degreeVec(0f, 300f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
+//TODO: Fix this
+//    public static final AnimationDefinition CHARGE_TIMER = AnimationDefinition.Builder.withLength(5f).looping().addAnimation("Needle", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(5f, KeyframeAnimations.degreeVec(0f, 300f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
     private final ModelPart Generator;
     private final ModelPart root;
 
@@ -59,10 +55,11 @@ public class GeneratorModel extends HierarchicalModel {
     }
 
     public void animateTile(GeneratorBlockEntity generatorBlockEntity){
-        this.root().getAllParts().forEach(ModelPart::resetPose);
-        if(generatorBlockEntity.isActivated()) {
-            animate(generatorBlockEntity.ANIMATION, CHARGE_TIMER, Minecraft.getInstance().player.tickCount);
-        }
+//TODO: Fix this
+//        this.root().getAllParts().forEach(ModelPart::resetPose);
+//        if(generatorBlockEntity.isActivated()) {
+//            animate(generatorBlockEntity.ANIMATION, CHARGE_TIMER, Minecraft.getInstance().player.tickCount);
+//        }
     }
 
     @Override

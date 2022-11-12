@@ -4,10 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.animation.AnimationChannel;
-import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.animation.Keyframe;
-import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -19,9 +15,9 @@ public class CoffinModel extends HierarchicalModel {
     private final ModelPart Door;
     private final ModelPart root;
 
-
-    public static final AnimationDefinition OPEN = AnimationDefinition.Builder.withLength(1.125f).addAnimation("Door", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(1.125f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
-    public static final AnimationDefinition CLOSE = AnimationDefinition.Builder.withLength(1.125f).addAnimation("Door", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(0.375f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(1.125f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
+//TODO: Fix this
+//    public static final AnimationDefinition OPEN = AnimationDefinition.Builder.withLength(1.125f).addAnimation("Door", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(1.125f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
+//    public static final AnimationDefinition CLOSE = AnimationDefinition.Builder.withLength(1.125f).addAnimation("Door", new AnimationChannel(AnimationChannel.Targets.ROTATION, new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(0.375f, KeyframeAnimations.degreeVec(0f, -115f, 0f), AnimationChannel.Interpolations.CATMULLROM), new Keyframe(1.125f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.CATMULLROM))).build();
 
     public CoffinModel(ModelPart root) {
         this.root = root;
@@ -71,13 +67,14 @@ public class CoffinModel extends HierarchicalModel {
     }
 
     public void animateTile(CoffinBlockEntity coffinBlockEntity){
-        this.root().getAllParts().forEach(ModelPart::resetPose);
-
-        if(coffinBlockEntity.isOpen()){
-            animate(coffinBlockEntity.COFFIN_OPEN, OPEN, coffinBlockEntity.animationTimer);
-            return;
-        }
-
-        animate(coffinBlockEntity.COFFIN_CLOSE, CLOSE, coffinBlockEntity.animationTimer);
+//TODO: Fix this
+//        this.root().getAllParts().forEach(ModelPart::resetPose);
+//TODO: Fix this
+//        if(coffinBlockEntity.isOpen()){
+//            animate(coffinBlockEntity.COFFIN_OPEN, OPEN, coffinBlockEntity.animationTimer);
+//            return;
+//        }
+//TODO: Fix this
+//        animate(coffinBlockEntity.COFFIN_CLOSE, CLOSE, coffinBlockEntity.animationTimer);
     }
 }

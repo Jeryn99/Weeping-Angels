@@ -108,7 +108,7 @@ public class SpawnerItem extends Item {
                     }
 
                     pPlayer.awardStat(Stats.ITEM_USED.get(this));
-                    pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, entity.position());
+                    pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, entity.getOnPos()); //getOnPos?
                     return InteractionResultHolder.consume(itemstack);
                 }
             } else {

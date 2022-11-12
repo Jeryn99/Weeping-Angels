@@ -42,9 +42,10 @@ public class DectectorOverlay {
         // Text
         int anomalies = WAHelper.getAnomaliesAroundEntity(Minecraft.getInstance().player, 64).size();
 
-        String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
-
-        renderWidthScaledText(warning, poseStack, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
+//TODO: Fix this
+//        String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
+//TODO: Fix this
+//        renderWidthScaledText(warning, poseStack, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
     }
 
 

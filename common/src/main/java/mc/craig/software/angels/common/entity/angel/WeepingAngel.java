@@ -35,7 +35,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -57,8 +56,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class WeepingAngel extends AbstractWeepingAngel {
-
-    public AnimationState POSE_ANIMATION_STATE = new AnimationState();
+    //TODO: Fix this
+    //public AnimationState POSE_ANIMATION_STATE = new AnimationState();
 
     private int fakeAnimation = -1;
 
@@ -128,15 +127,15 @@ public class WeepingAngel extends AbstractWeepingAngel {
         this.setLastHurtMob(pEntity);
         return didHurt;
     }
-
-    @Override
-    public boolean wasKilled(ServerLevel serverLevel, LivingEntity livingEntity) {
-        boolean wasKilled = super.wasKilled(serverLevel, livingEntity);
-        if (wasKilled) {
-            playSound(WASounds.NECK_SNAP.get());
-        }
-        return wasKilled;
-    }
+//TODO: Fix this
+//    @Override
+//    public boolean wasKilled(ServerLevel serverLevel, LivingEntity livingEntity) {
+//        boolean wasKilled = super.wasKilled(serverLevel, livingEntity);
+//        if (wasKilled) {
+//            playSound(WASounds.NECK_SNAP.get(), 1F, 1F);
+//        }
+//        return wasKilled;
+//    }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -165,13 +164,14 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
         if (!level.isClientSide()) {
             if (CatacombTracker.isInCatacomb(this)) {
-                Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
+// TODO: Fix this
+//                Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
             }
         }
-
-        if (!POSE_ANIMATION_STATE.isStarted()) {
-            POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
-        }
+//TODO: Fix this
+//        if (!POSE_ANIMATION_STATE.isStarted()) {
+//            POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
+//        }
 
         // Ensure angels do not lock in the air or walk through water
         if (isSeen() && (!isOnGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
@@ -228,11 +228,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
         super.invokeSeen(player);
         if (getSeenTime() == 1 && System.currentTimeMillis() - timeSincePlayedSound > 5000) {
             setEmotion(AngelEmotion.randomEmotion(random));
-            playSound(SoundEvents.STONE_PLACE);
+            playSound(SoundEvents.STONE_PLACE, 1F, 1F);
 
             if (player instanceof ServerPlayer serverPlayer && player.distanceTo(this) < 15) {
                 setTimeSincePlayedSound(System.currentTimeMillis());
-                serverPlayer.connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
+                serverPlayer.connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F));
             }
         }
     }
@@ -256,7 +256,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             if (isHurt) {
                 if (getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
                     BlockState defaultState = blockItem.getBlock().defaultBlockState();
-                    playSound(defaultState.getSoundType().getHitSound());
+                    playSound(defaultState.getSoundType().getHitSound(), 1F, 1F);
                 }
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState()), getX(), getY(0.5D), getZ(), 5, 0.1D, 0.0D, 0.1D, 0.2D);
                 return super.hurt(pSource, pAmount);
@@ -289,7 +289,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());
             boolean completed = blockBehaviour.interact(this, blockState, level, pos);
             if (completed) {
-                Warden.applyDarknessAround((ServerLevel) level, Vec3.atBottomCenterOf(blockPosition()), this, 64);
+                //TODO: Fix this
+                //Warden.applyDarknessAround((ServerLevel) level, Vec3.atBottomCenterOf(blockPosition()), this, 64);
                 return;
             }
         }
