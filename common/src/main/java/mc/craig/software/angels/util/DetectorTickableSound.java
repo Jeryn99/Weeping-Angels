@@ -5,15 +5,17 @@ import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.entity.player.Player;
+
+import java.util.Random;
 
 public class DetectorTickableSound extends AbstractTickableSoundInstance {
     private final Player playerEntity;
     private float pitch = 0.0F;
 
     public DetectorTickableSound(Player playerEntity) {
-        super(WASounds.PROJECTOR.get(), SoundSource.PLAYERS, RandomSource.create());
+        super(WASounds.PROJECTOR.get(), SoundSource.PLAYERS);
         this.playerEntity = playerEntity;
         this.looping = true;
         this.delay = 0;

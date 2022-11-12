@@ -8,7 +8,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +33,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Random;
+
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
 public class GeneratorBlock extends BaseEntityBlock {
@@ -47,7 +48,7 @@ public class GeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
         if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
             if (!generatorBlockEntity.hasSpawned()) return;
             double d = (double) pos.getX() + random.nextDouble();

@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
@@ -22,11 +21,12 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Teleporter {
 
 
-    public static ServerLevel getRandomDimension(RandomSource rand, ServerLevel serverLevel) {
+    public static ServerLevel getRandomDimension(Random rand, ServerLevel serverLevel) {
 
         MinecraftServer server = serverLevel.getServer();
 
@@ -68,7 +68,7 @@ public class Teleporter {
             float f1 = Mth.wrapDegrees(pPitch);
             if (pEntity instanceof ServerPlayer serverPlayer) {
                 if (playSound) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F));
                 }
                 ChunkPos chunkpos = new ChunkPos(new BlockPos(pX, pY, pZ));
                 pLevel.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, pEntity.getId());

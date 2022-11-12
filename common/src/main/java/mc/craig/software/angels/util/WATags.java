@@ -10,7 +10,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.structure.Structure;
 
 public class WATags {
 
@@ -34,9 +33,9 @@ public class WATags {
         return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(domain, path));
     }
 
-    private static TagKey<Structure> makeStructure(String domain, String path) {
-        return TagKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(domain, path));
-    }
+//    private static TagKey<Structure> makeStructure(String domain, String path) {
+//        return TagKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(domain, path));
+//    }
 
     private static TagKey<Biome> makeBiome(String domain, String path) {
         return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(domain, path));

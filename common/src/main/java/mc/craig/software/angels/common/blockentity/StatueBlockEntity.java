@@ -96,9 +96,10 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, StatueBlockEntity blockEntity) {
-        if (!getAnimationState().isStarted()) {
-            getAnimationState().start(level.getBlockTicks().count());
-        }
+//TODO: Fix this
+//        if (!getAnimationState().isStarted()) {
+//            getAnimationState().start(level.getBlockTicks().count());
+//        }
 
         if (!level.isClientSide()) {
             if (level.hasNeighborSignal(blockPos)) {

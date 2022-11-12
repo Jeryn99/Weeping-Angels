@@ -9,9 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<CoffinBlockEntity> {
 
@@ -26,8 +25,9 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     private CoffinType coffinType = null;
 
     // Animation States
-    public AnimationState COFFIN_OPEN = new AnimationState();
-    public AnimationState COFFIN_CLOSE = new AnimationState();
+//TODO: Fix this
+//    public AnimationState COFFIN_OPEN = new AnimationState();
+//    public AnimationState COFFIN_CLOSE = new AnimationState();
 
     public int animationTimer = 0;
     private boolean isDemat = false, needsBox = false;
@@ -59,17 +59,18 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
         if (pLevel.isClientSide()) {
             animationTimer++;
-            if (isOpen()) {
-                if (!COFFIN_OPEN.isStarted()) {
-                    COFFIN_CLOSE.stop();
-                    COFFIN_OPEN.start(animationTimer);
-                }
-            } else {
-                if (!COFFIN_CLOSE.isStarted()) {
-                    COFFIN_OPEN.stop();
-                    COFFIN_CLOSE.start(animationTimer);
-                }
-            }
+//TODO: Fix this
+//            if (isOpen()) {
+//                if (!COFFIN_OPEN.isStarted()) {
+//                    COFFIN_CLOSE.stop();
+//                    COFFIN_OPEN.start(animationTimer);
+//                }
+//            } else {
+//                if (!COFFIN_CLOSE.isStarted()) {
+//                    COFFIN_OPEN.stop();
+//                    COFFIN_CLOSE.start(animationTimer);
+//                }
+//            }
         }
 
         if (needsBox) {
@@ -155,7 +156,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public CoffinType getCoffinType() {
 
         if (coffinType == null) {
-            coffinType = CoffinType.randomCoffin(RandomSource.create());
+            coffinType = CoffinType.randomCoffin(new Random());
             sendUpdates();
         }
 

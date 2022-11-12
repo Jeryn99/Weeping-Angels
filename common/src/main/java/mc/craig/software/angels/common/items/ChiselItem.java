@@ -35,14 +35,15 @@ public class ChiselItem extends Item {
 
     @Environment(value = EnvType.CLIENT)
     public static void createUi(BlockPos blockPos, ResourceKey<Level> levelResourceKey) {
-        Minecraft.getInstance().setScreen(new ChiselScreen(Component.literal("Chisel"), blockPos, levelResourceKey));
+        Minecraft.getInstance().setScreen(new ChiselScreen(Component.nullToEmpty("Chisel"), blockPos, levelResourceKey));
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(Component.translatable(WAConstants.CHISEL_POSE));
-        tooltip.add(Component.translatable(WAConstants.CHISEL_VARIANT));
+//TODO: Fix this
+//        tooltip.add(Component.translatable(WAConstants.CHISEL_POSE));
+//        tooltip.add(Component.translatable(WAConstants.CHISEL_VARIANT));
 
     }
 

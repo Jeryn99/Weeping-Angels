@@ -12,14 +12,14 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import static mc.craig.software.angels.client.models.entity.angel.AliceAngelModel.ANIMATION_STREAM;
+//TODO: Fix this
+//  import static mc.craig.software.angels.client.models.entity.angel.AliceAngelModel.ANIMATION_STREAM;
 
 public class ADizzleAngelModel extends AngelModel {
 
@@ -99,21 +99,24 @@ public class ADizzleAngelModel extends AngelModel {
 
     @Override
     public void animateTile(StatueBlockEntity statueBlockEntity) {
-        this.root().getAllParts().forEach(ModelPart::resetPose);
-        animate(statueBlockEntity.getAnimationState(), poseForId(statueBlockEntity.getAnimation()), Minecraft.getInstance().player.tickCount);
+//TODO: Fix this
+//        this.root().getAllParts().forEach(ModelPart::resetPose);
+//        animate(statueBlockEntity.getAnimationState(), poseForId(statueBlockEntity.getAnimation()), Minecraft.getInstance().player.tickCount);
     }
-
-    @Override
-    public AnimationDefinition poseForId(int index) {
-        return getAnimationDefinition(index);
-    }
+//TODO: Fix this
+//    @Override
+//    public AnimationDefinition poseForId(int index) {
+//        return getAnimationDefinition(index);
+//    }
 
     @Override
     public void setupAnim(WeepingAngel weepingAngel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.root().getAllParts().forEach(ModelPart::resetPose);
+        //TODO: Fix this
+        //        this.root().getAllParts().forEach(ModelPart::resetPose);
 
         if (weepingAngel.getFakeAnimation() != -1) {
-            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount, 1000);
+//TODO: Fix this
+//            animate(ChiselScreen.POSE_ANIMATION_STATE, getAnimationDefinition(weepingAngel.getFakeAnimation()), Minecraft.getInstance().player.tickCount, 1000);
             return;
         }
 
@@ -121,7 +124,7 @@ public class ADizzleAngelModel extends AngelModel {
         if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
-
-        animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
+//TODO: Fix this
+//        animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
     }
 }

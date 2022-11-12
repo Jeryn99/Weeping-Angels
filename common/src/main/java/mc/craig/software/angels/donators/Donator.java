@@ -1,7 +1,6 @@
 package mc.craig.software.angels.donators;
 
 import com.google.gson.JsonObject;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
@@ -15,7 +14,8 @@ public class Donator {
     public boolean perked;
 
     public int animationTime = 0;
-    public AnimationState openState = new AnimationState(), closeState = new AnimationState();
+//TODO: Fix this
+//    public AnimationState openState = new AnimationState(), closeState = new AnimationState();
 
     public Donator(JsonObject jsonObject) {
         this.uuid = jsonObject.get("uuid").getAsString();
@@ -32,20 +32,20 @@ public class Donator {
 
     public void tick(Player player) {
         animationTime++;
-
-        if (player.isFallFlying()) {
-            closeState.stop();
-            if (!openState.isStarted()) {
-                openState.start(player.tickCount);
-            }
-        }
-
-        if (player.isOnGround()) {
-            openState.stop();
-            if (!closeState.isStarted()) {
-                closeState.start(player.tickCount);
-            }
-        }
+//TODO: Fix this
+//        if (player.isFallFlying()) {
+//            closeState.stop();
+//            if (!openState.isStarted()) {
+//                openState.start(player.tickCount);
+//            }
+//        }
+//TODO: Fix this
+//        if (player.isOnGround()) {
+//            openState.stop();
+//            if (!closeState.isStarted()) {
+//                closeState.start(player.tickCount);
+//            }
+//        }
     }
 
     public int getAnimationTime() {

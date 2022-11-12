@@ -9,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -20,8 +19,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTicker<GeneratorBlockEntity> {
-
-    public final AnimationState ANIMATION = new AnimationState();
+//TODO: Fix this
+//    public final AnimationState ANIMATION = new AnimationState();
     private int tickCount = 0;
     private boolean activated = false;
     private boolean hasSpawned = false;
@@ -94,10 +93,10 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
 
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, GeneratorBlockEntity blockEntity) {
-
-        if (!ANIMATION.isStarted()) {
-            ANIMATION.start(tickCount);
-        }
+//TODO: Fix this
+//        if (!ANIMATION.isStarted()) {
+//            ANIMATION.start(tickCount);
+//        }
 
         if (isActivated()) {
             tickCount++;

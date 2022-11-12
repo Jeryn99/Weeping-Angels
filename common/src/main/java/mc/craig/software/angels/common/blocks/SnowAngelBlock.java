@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
 
@@ -98,7 +98,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
     @Override
-    public void randomTick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull Random random) {
         if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 11) {
             Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.SNOW));
             BlockEntity tile = worldIn.getBlockEntity(pos);

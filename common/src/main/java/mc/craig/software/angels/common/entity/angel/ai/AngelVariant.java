@@ -7,13 +7,13 @@ import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Random;
 
 public class AngelVariant {
 
@@ -66,7 +66,7 @@ public class AngelVariant {
 
     // TODO Nicer way
     public static AngelVariant getVariantForPos(WeepingAngel weepingAngel) {
-        RandomSource randomSource = weepingAngel.level.random;
+        Random randomSource = weepingAngel.level.random;
 
         boolean isOrePosition = weepingAngel.blockPosition().getY() < 50 && !weepingAngel.level.canSeeSky(weepingAngel.blockPosition());
 
@@ -94,7 +94,7 @@ public class AngelVariant {
         return variants.stream().skip((int) (variants.size() * Math.random())).findFirst().get();
     }
 
-    public static AngelVariant getRandomVariant(Map<ResourceLocation, AngelVariant> variantMap, RandomSource randomSource) {
+    public static AngelVariant getRandomVariant(Map<ResourceLocation, AngelVariant> variantMap, Random randomSource) {
         int index = randomSource.nextInt(variantMap.size());
         return variantMap.values().toArray(new AngelVariant[0])[index];
     }

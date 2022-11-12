@@ -7,8 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
-
-import static mc.craig.software.angels.util.WAHelper.getConfigured;
+//TODO: Fix this
+//  import static mc.craig.software.angels.util.WAHelper.getConfigured;
 import static mc.craig.software.angels.util.WAHelper.intersects;
 
 public class CatacombTracker {
@@ -30,12 +30,13 @@ public class CatacombTracker {
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).isValid();
-
-            if (isCatacomb) {
-                BoundingBox box = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).getBoundingBox();
-                return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
-            }
+//TODO: Fix this
+//            boolean isCatacomb = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).isValid();
+//TODO: Fix this
+//            if (isCatacomb) {
+//                BoundingBox box = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).getBoundingBox();
+//                return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
+//            }
         }
         return false;
     }

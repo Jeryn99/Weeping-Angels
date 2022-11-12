@@ -20,7 +20,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
@@ -56,11 +55,12 @@ public class WeepingAngelsClient implements ClientModInitializer {
     }
 
     private void itemPredicates() {
-        ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
-            List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
-            if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
-        }));
+//TODO: Fix this
+//        ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
+//            List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
+//            if (anomaliesAround.isEmpty()) return null;
+//            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
+//        }));
     }
 
     private void entityRenders() {
