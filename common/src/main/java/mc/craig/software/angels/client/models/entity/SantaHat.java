@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class SantaHat<T extends Entity> extends EntityModel<T> {
-    private final ModelPart head;
+    public final ModelPart head;
 
     public SantaHat(ModelPart root) {
         this.head = root.getChild("head");

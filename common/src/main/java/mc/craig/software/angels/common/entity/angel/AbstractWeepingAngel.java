@@ -49,12 +49,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         super(entityType, worldIn);
     }
 
-
-    @Override
-    public @NotNull AttributeMap getAttributes() {
-        return new AttributeMap(createAttributes().build());
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return createMonsterAttributes().
                 add(Attributes.ATTACK_DAMAGE, 8D).

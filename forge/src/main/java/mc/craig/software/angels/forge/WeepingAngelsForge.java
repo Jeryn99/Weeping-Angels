@@ -29,6 +29,7 @@ public class WeepingAngelsForge {
     public WeepingAngelsForge() {
         WeepingAngels.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

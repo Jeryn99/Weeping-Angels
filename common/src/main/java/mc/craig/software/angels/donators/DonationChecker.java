@@ -90,6 +90,6 @@ public class DonationChecker {
 
     public static boolean isXmas() {
         Calendar calendar = Calendar.getInstance();
-        return calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26;
+        return true;//calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26;
     }
 }

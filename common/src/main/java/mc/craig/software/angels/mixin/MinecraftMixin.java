@@ -19,15 +19,18 @@ public class MinecraftMixin {
         if(!hasCatacombMusicSetUp){
             WAMusic.init();
         }
-        hasCatacombMusicSetUp = true;
         Minecraft minecraft = Minecraft.getInstance();
-        if (CatacombTracker.isInCatacomb() && Minecraft.getInstance().level != null) {
-            musicCallbackInfoReturnable.setReturnValue(WAMusic.CATACOMB_MUSIC);
-        } else {
-            if (minecraft.getMusicManager().isPlayingMusic(WAMusic.CATACOMB_MUSIC)) {
-                minecraft.getMusicManager().stopPlaying();
+        boolean inAWorld = minecraft.level != null;
+        if(inAWorld) {
+            if (CatacombTracker.isInCatacomb()) {
+                musicCallbackInfoReturnable.setReturnValue(WAMusic.CATACOMB_MUSIC);
+            } else {
+                if (minecraft.getMusicManager().isPlayingMusic(WAMusic.CATACOMB_MUSIC)) {
+                    minecraft.getMusicManager().stopPlaying();
+                }
             }
         }
+
     }
 
 }

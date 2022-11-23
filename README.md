@@ -18,6 +18,6 @@ This mod was created for <a href="https://www.curseforge.com/minecraft/modpacks/
 <h3>Server Sponsorship:</h3>
 <center>
   <a href="https://www.bisecthosting.com/clients/aff.php?aff=3107">
-    <img src="https://www.bisecthosting.com/partners/custom-banners/93a09616-0303-43e9-9d7f-039e21e51ae7.png" alt="Bisect Sponsership">
+    <img src="https://mc.craig.software/media/angels_sponser.png" alt="Bisect Sponsership">
   </a>
 </center>

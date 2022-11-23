@@ -1,6 +1,7 @@
 package mc.craig.software.angels.client.render.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.SantaHat;
@@ -35,7 +36,10 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, AngelModel> {
             if (DonationChecker.isXmas()) {
                 pMatrixStack.pushPose();
                 angelModel.getHead().translateAndRotate(pMatrixStack);
-                //  pMatrixStack.translate(santaHead.getSecond().x, santaHead.getSecond().y, santaHead.getSecond().z);
+              /*  santa.head.x = ((AngelModel) model).getHead().x;
+                santa.head.y = ((AngelModel) model).getHead().y + 18;
+                santa.head.z = ((AngelModel) model).getHead().z - 10*/;
+
                 santa.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(SANTA)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
                 pMatrixStack.popPose();
             }

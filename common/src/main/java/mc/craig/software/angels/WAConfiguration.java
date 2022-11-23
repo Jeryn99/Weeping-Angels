@@ -13,10 +13,17 @@ public class WAConfiguration {
     public static final WAConfiguration CONFIG;
     public static final ForgeConfigSpec CONFIG_SPEC;
 
+    public static Client CLIENT;
+    public static ForgeConfigSpec CLIENT_SPEC;
+
     static {
         final Pair<WAConfiguration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfiguration::new);
         CONFIG = specPair.getLeft();
         CONFIG_SPEC = specPair.getRight();
+
+        Pair<Client, ForgeConfigSpec> specClientPair = new ForgeConfigSpec.Builder().configure(Client::new);
+        CLIENT_SPEC = specClientPair.getRight();
+        CLIENT = specClientPair.getLeft();
     }
 
     // Behaviour
@@ -30,8 +37,19 @@ public class WAConfiguration {
     // Teleport
     public final ForgeConfigSpec.IntValue teleportRange;
     public final ForgeConfigSpec.IntValue teleportChance;
+
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> bannedDimensions;
 
+    public static class Client {
+        // Seasonal
+        public final ForgeConfigSpec.BooleanValue santaHats;
+
+        Client(ForgeConfigSpec.Builder builder) {
+            builder.push("seasonal");
+            santaHats = builder.translation("config.weeping_angels.santa_hats").comment("Show Santa hats on angels at xmas?").define("santa_hats", true);
+            builder.pop();
+        }
+    }
 
 
     public WAConfiguration(ForgeConfigSpec.Builder builder) {
