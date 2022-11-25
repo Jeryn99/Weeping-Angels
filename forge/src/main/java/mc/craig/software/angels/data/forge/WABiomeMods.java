@@ -5,6 +5,7 @@ import com.mojang.serialization.JsonOps;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.level.features.WAFeatures;
+import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -57,7 +58,7 @@ public record WABiomeMods(DataGenerator dataGenerator) implements DataProvider {
         final Path outputFolder = this.dataGenerator.getOutputFolder();
 
         // Biome Modifiers
-        BiomeModifier spawnsModifier = new ForgeBiomeModifiers.AddSpawnsBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), WATags.ANGEL_SPAWNS), List.of(new MobSpawnSettings.SpawnerData(WAEntities.WEEPING_ANGEL.get(), 10, 1, 4)));
+        BiomeModifier spawnsModifier = new AddAngelSpawns(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), WATags.ANGEL_SPAWNS));
         ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModifer = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), net.minecraft.tags.BiomeTags.IS_OVERWORLD), HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())), GenerationStep.Decoration.UNDERGROUND_ORES);
         ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModiferSmall = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), net.minecraft.tags.BiomeTags.IS_OVERWORLD), HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())), GenerationStep.Decoration.UNDERGROUND_ORES);
         ForgeBiomeModifiers.AddFeaturesBiomeModifier snowAngel = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())), GenerationStep.Decoration.RAW_GENERATION);

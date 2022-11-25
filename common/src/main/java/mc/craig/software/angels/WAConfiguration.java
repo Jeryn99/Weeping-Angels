@@ -2,6 +2,7 @@ package mc.craig.software.angels;
 
 import com.google.common.collect.Lists;
 import mc.craig.software.angels.util.HurtHelper;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,6 +17,9 @@ public class WAConfiguration {
     public static Client CLIENT;
     public static ForgeConfigSpec CLIENT_SPEC;
 
+    public static Spawns SPAWNS;
+    public static ForgeConfigSpec SPAWNS_SPEC;
+
     static {
         final Pair<WAConfiguration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WAConfiguration::new);
         CONFIG = specPair.getLeft();
@@ -24,6 +28,10 @@ public class WAConfiguration {
         Pair<Client, ForgeConfigSpec> specClientPair = new ForgeConfigSpec.Builder().configure(Client::new);
         CLIENT_SPEC = specClientPair.getRight();
         CLIENT = specClientPair.getLeft();
+
+        Pair<Spawns, ForgeConfigSpec> spawns = new ForgeConfigSpec.Builder().configure(Spawns::new);
+        SPAWNS_SPEC = spawns.getRight();
+        SPAWNS = spawns.getLeft();
     }
 
     // Behaviour
@@ -51,6 +59,22 @@ public class WAConfiguration {
         }
     }
 
+
+    public static class Spawns{
+
+        public final ForgeConfigSpec.IntValue maxCount;
+        public final ForgeConfigSpec.IntValue spawnWeight;
+        public final ForgeConfigSpec.IntValue minCount;
+        public final ForgeConfigSpec.EnumValue<MobCategory> spawnType;
+        public Spawns(ForgeConfigSpec.Builder builder){
+            builder.push("spawn");
+            minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
+            maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 4, 1, 100);
+            spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 8, 1, Integer.MAX_VALUE);
+            spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
+            builder.pop();
+        }
+    }
 
     public WAConfiguration(ForgeConfigSpec.Builder builder) {
         builder.push("behaviour").comment("This section determines the behaviour of the Weeping Angels - if you wish to ban a block from being interacted with by Weeping Angels, you will need to create a datapack and edit weeping_angels:no_breaking");

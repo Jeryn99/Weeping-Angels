@@ -16,12 +16,14 @@ public class MinecraftMixin {
 
     @Inject(at = @At("HEAD"), method = "getSituationalMusic()Lnet/minecraft/sounds/Music;", cancellable = true)
     private void getSituationalMusic(CallbackInfoReturnable<Music> musicCallbackInfoReturnable) {
-        if(!hasCatacombMusicSetUp){
-            WAMusic.init();
-        }
         Minecraft minecraft = Minecraft.getInstance();
         boolean inAWorld = minecraft.level != null;
         if(inAWorld) {
+
+            if(!hasCatacombMusicSetUp){
+                WAMusic.init();
+            }
+
             if (CatacombTracker.isInCatacomb()) {
                 musicCallbackInfoReturnable.setReturnValue(WAMusic.CATACOMB_MUSIC);
             } else {

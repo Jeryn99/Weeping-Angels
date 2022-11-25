@@ -1,11 +1,10 @@
 package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
-import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.SnowAngelRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
@@ -22,7 +21,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;

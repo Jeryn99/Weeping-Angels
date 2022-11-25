@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 public class EntitySpawns {
 
     public static void init() {
-        BiomeModifications.addSpawn(EntitySpawns::canSpawn, MobCategory.CREATURE, WAEntities.WEEPING_ANGEL.get(), 10, 1, 4);
+        BiomeModifications.addSpawn(EntitySpawns::canSpawn, WAConfiguration.SPAWNS.spawnType.get(), WAEntities.WEEPING_ANGEL.get(), WAConfiguration.SPAWNS.spawnWeight.get(), WAConfiguration.SPAWNS.minCount.get(), WAConfiguration.SPAWNS.maxCount.get());
         SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
