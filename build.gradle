@@ -23,6 +23,11 @@ subprojects {
     }
 }
 
+task publishMeEverywhere(){
+    dependsOn ':forge:publishUnified'
+    dependsOn ':fabric:publishUnified'
+}
+
 
 allprojects {
     apply plugin: "java"
