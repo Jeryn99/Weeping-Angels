@@ -37,8 +37,7 @@ public class UpdateStatueMessage extends MessageC2S {
         this.angelVariant = AngelVariant.getVariant(buf.readResourceLocation());
         this.pose = buf.readInt();
         this.blockPos = buf.readBlockPos();
-//TODO: Fix this
-//        this.level = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
+        this.level = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
     }
 
     @NotNull
@@ -53,8 +52,7 @@ public class UpdateStatueMessage extends MessageC2S {
         buf.writeResourceLocation(angelVariant.location());
         buf.writeInt(this.pose);
         buf.writeBlockPos(blockPos);
-//TODO: Fix this
-//        buf.writeResourceKey(level);
+        buf.writeResourceKey(level);
     }
 
     @Override

@@ -7,6 +7,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -35,15 +37,14 @@ public class ChiselItem extends Item {
 
     @Environment(value = EnvType.CLIENT)
     public static void createUi(BlockPos blockPos, ResourceKey<Level> levelResourceKey) {
-        Minecraft.getInstance().setScreen(new ChiselScreen(Component.nullToEmpty("Chisel"), blockPos, levelResourceKey));
+        Minecraft.getInstance().setScreen(new ChiselScreen(new TextComponent("Chisel"), blockPos, levelResourceKey));
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-//TODO: Fix this
-//        tooltip.add(Component.translatable(WAConstants.CHISEL_POSE));
-//        tooltip.add(Component.translatable(WAConstants.CHISEL_VARIANT));
+        tooltip.add(new TranslatableComponent(WAConstants.CHISEL_POSE));
+        tooltip.add(new TranslatableComponent(WAConstants.CHISEL_VARIANT));
 
     }
 

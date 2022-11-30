@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -82,11 +83,10 @@ public class WAHelper {
     public static boolean intersects(AABB bb, Vec3 min, Vec3 max) {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
-//TODO: Fix this
-//    public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
-//        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUC );
-//        return registry.get(resourceLocation);
-//    }
+    public static StructureFeature<?> getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
+        Registry<StructureFeature<?>> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_FEATURE_REGISTRY);
+        return registry.get(resourceLocation);
+    }
 
     public static SoundEvent getRandomSounds(Random randomSource) {
         SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11};// SoundEvents.SCULK_SHRIEKER_SHRIEK

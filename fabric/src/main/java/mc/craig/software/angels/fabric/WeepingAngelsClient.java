@@ -2,10 +2,9 @@ package mc.craig.software.angels.fabric;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
-import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
-import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.SnowAngelRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
@@ -20,6 +19,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
@@ -55,12 +55,11 @@ public class WeepingAngelsClient implements ClientModInitializer {
     }
 
     private void itemPredicates() {
-//TODO: Fix this
-//        ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
-//            List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
-//            if (anomaliesAround.isEmpty()) return null;
-//            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
-//        }));
+        ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
+            List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
+            if (anomaliesAround.isEmpty()) return null;
+            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
+        }));
     }
 
     private void entityRenders() {

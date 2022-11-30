@@ -1,6 +1,7 @@
 package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.DectectorOverlay;
 import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
@@ -18,24 +19,30 @@ import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.forge.overlays.TimeyWimeyOverlay;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -43,8 +50,8 @@ import java.util.List;
 public class ClientModBus {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("angel", new TimeyWimeyOverlay());
+    public static void onRenderOverlay(RenderGameOverlayEvent event) {
+        DectectorOverlay.renderOverlay(event.getMatrixStack());
     }
 
     @SubscribeEvent
@@ -73,11 +80,15 @@ public class ClientModBus {
         ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());
 
 
-        ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
-            List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
-            if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
-        }));
+        //TODO FIX THIS
+     /*   ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new Compass() {
+            @Override
+            public float unclampedCall(ItemStack arg, @Nullable ClientLevel arg2, @Nullable LivingEntity arg3, int i) {
+                List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(arg3, 64);
+                if (anomaliesAround.isEmpty()) return 0;
+                return GlobalPos.of(arg2.dimension(), anomaliesAround.get(0).blockPosition());
+            }
+        });*/
     }
 
     @SubscribeEvent

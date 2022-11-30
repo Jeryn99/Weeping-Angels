@@ -129,10 +129,4 @@ public class CoffinBlock extends BaseEntityBlock {
     public @NotNull BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
-//TODO: Fix this
-//    @Nullable
-//    @Override
-//    public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity) {
-//        return super.getListener(pLevel, pBlockEntity);
-//    }
 }

@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -42,10 +42,8 @@ public class DectectorOverlay {
         // Text
         int anomalies = WAHelper.getAnomaliesAroundEntity(Minecraft.getInstance().player, 64).size();
 
-//TODO: Fix this
-//        String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
-//TODO: Fix this
-//        renderWidthScaledText(warning, poseStack, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
+        String warning = new TranslatableComponent(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
+        renderWidthScaledText(warning, poseStack, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
     }
 
 
