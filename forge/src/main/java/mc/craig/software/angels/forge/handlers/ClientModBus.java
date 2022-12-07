@@ -2,11 +2,10 @@ package mc.craig.software.angels.forge.handlers;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
-import mc.craig.software.angels.client.WAMusic;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.forge.ModelRegistrationImpl;
-import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
+import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.SnowAngelRenderer;
 import mc.craig.software.angels.client.render.blockentity.StatueRenderer;
 import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
@@ -15,36 +14,19 @@ import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
-import mc.craig.software.angels.common.items.WAItems;
-import mc.craig.software.angels.forge.overlays.TimeyWimeyOverlay;
-import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {

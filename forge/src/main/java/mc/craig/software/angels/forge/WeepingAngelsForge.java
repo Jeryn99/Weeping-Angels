@@ -49,7 +49,6 @@ public class WeepingAngelsForge {
         generator.addProvider(new ModelProviderBlock(generator, existingFileHelper));
         generator.addProvider(new LootProvider(generator));
         generator.addProvider(new BiomeTagsProvider(generator, existingFileHelper));
-        //TODO   generator.addProvider(new WABiomeMods(generator));
         generator.addProvider(new RecipeProvider(generator));
         generator.addProvider(new SoundProvider(generator, existingFileHelper));
         generator.addProvider(new BlockTags(generator, existingFileHelper));

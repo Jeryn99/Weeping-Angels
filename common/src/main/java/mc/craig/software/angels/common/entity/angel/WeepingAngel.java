@@ -164,12 +164,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void tick() {
         super.tick();
 
-        if (!level.isClientSide()) {
-            if (CatacombTracker.isInCatacomb(this)) {
-// TODO: Fix this
-//                Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
-            }
-        }
 //TODO: Fix this
 //        if (!POSE_ANIMATION_STATE.isStarted()) {
 //            POSE_ANIMATION_STATE.start(tickCount - random.nextInt(10000));
@@ -291,8 +285,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());
             boolean completed = blockBehaviour.interact(this, blockState, level, pos);
             if (completed) {
-                //TODO: Fix this
-                //Warden.applyDarknessAround((ServerLevel) level, Vec3.atBottomCenterOf(blockPosition()), this, 64);
                 return;
             }
         }

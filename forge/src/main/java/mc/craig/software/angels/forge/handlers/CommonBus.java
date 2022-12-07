@@ -4,7 +4,7 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -13,7 +13,7 @@ public class CommonBus {
 
     @SubscribeEvent
     public static void onBreakBlock(BlockEvent.BreakEvent event) {
-        if (!GeneratorBlock.isBreakable(event.getLevel(), event.getPos())) {
+        if (!GeneratorBlock.isBreakable(event.getWorld(), event.getPos())) {
             event.setCanceled(true);
         }
     }

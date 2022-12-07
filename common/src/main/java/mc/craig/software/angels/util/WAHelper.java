@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -30,6 +31,7 @@ import java.util.function.Predicate;
 public class WAHelper {
 
     public static Predicate<? super Entity> ANOMALY_ENTITIES = input -> input.getType().is(WATags.ANOMALYS);
+    public static Random RAND = new Random();
 
     public static List<Entity> getAnomaliesAroundEntity(Entity entity, int radius) {
         return entity.level.getEntities((Entity) null, entity.getBoundingBox().inflate(radius, radius, radius), ANOMALY_ENTITIES);
@@ -83,11 +85,10 @@ public class WAHelper {
     public static boolean intersects(AABB bb, Vec3 min, Vec3 max) {
         return bb.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
     }
-    public static StructureFeature<?> getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
-        Registry<StructureFeature<?>> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_FEATURE_REGISTRY);
+    public static ConfiguredStructureFeature<?, ?> getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
+        Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
         return registry.get(resourceLocation);
     }
-
     public static SoundEvent getRandomSounds(Random randomSource) {
         SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11};// SoundEvents.SCULK_SHRIEKER_SHRIEK
         return soundEvents[randomSource.nextInt(soundEvents.length)];

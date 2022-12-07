@@ -10,9 +10,9 @@ import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,14 +26,14 @@ public class ClientBus {
     }
 
     @SubscribeEvent
-    public static void onPlayerJoin(EntityJoinLevelEvent event) {
+    public static void onPlayerJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof Player player) {
             ClientUtil.playDectorSound(player);
         }
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(LivingEvent.LivingTickEvent tickEvent) {
+    public static void onPlayerTick(LivingEvent.LivingUpdateEvent tickEvent) {
         // Tick Donations
         if (tickEvent.getEntity() instanceof Player player) {
             for (Donator donator : DonationChecker.getModDonators()) {
@@ -45,7 +45,7 @@ public class ClientBus {
     }
 
     @SubscribeEvent
-    public static void onSetupFogDensity(ViewportEvent.RenderFog event) {
+    public static void onSetupFogDensity(EntityViewRenderEvent.RenderFogEvent event) {
         if (Minecraft.getInstance().level != null && CatacombTracker.isInCatacomb()) {
             event.setCanceled(true);
             event.setNearPlaneDistance(-8);
@@ -55,7 +55,7 @@ public class ClientBus {
     }
 
     @SubscribeEvent
-    public static void onSetupFogColor(ViewportEvent.RenderFog.ComputeFogColor event) {
+    public static void onSetupFogColor(EntityViewRenderEvent.FogColors event) {
         if (Minecraft.getInstance().level != null && CatacombTracker.isInCatacomb()) {
             event.setRed((float) WAHelper.fogColor().x);
             event.setGreen((float) WAHelper.fogColor().y);

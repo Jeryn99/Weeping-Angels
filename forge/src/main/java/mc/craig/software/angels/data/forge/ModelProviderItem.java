@@ -63,11 +63,24 @@ public class ModelProviderItem extends ItemModelProvider {
                 .texture("layer0", new ResourceLocation(item.getNamespace(), "item/" + item.getPath()));
     }
 
+    public ItemModelBuilder basicItem(Item item) {
+        return basicItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)));
+    }
+
+
+    public ItemModelBuilder basicItem(ResourceLocation item) {
+        return getBuilder(item.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", new ResourceLocation(item.getNamespace(), "item/" + item.getPath()));
+    }
+
 
     public ItemModelBuilder blockItem(ResourceLocation item) {
         return getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(item.getNamespace(), "block/" + item.getPath())));
     }
+
+
 
     public ItemModelBuilder layeredItem(ResourceLocation destination, ResourceLocation item, ResourceLocation resourceLocation) {
         return getBuilder(destination.toString())

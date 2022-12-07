@@ -1,14 +1,14 @@
 package mc.craig.software.angels.common;
 
+import mc.craig.software.angels.common.level.features.WAFeatures;
 import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.network.messages.UpdateCatacombMessage;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
-//TODO: Fix this
-//  import static mc.craig.software.angels.util.WAHelper.getConfigured;
 import static mc.craig.software.angels.util.WAHelper.intersects;
 
 public class CatacombTracker {
@@ -30,13 +30,12 @@ public class CatacombTracker {
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
-//TODO: Fix this
-//            boolean isCatacomb = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).isValid();
-//TODO: Fix this
-//            if (isCatacomb) {
-//                BoundingBox box = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).getBoundingBox();
-//                return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
-//            }
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAHelper.getConfigured(serverWorld, WAStructures.CATACOMB.getId())).isValid();
+
+            if (isCatacomb) {
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), WAHelper.getConfigured(serverWorld, WAStructures.CATACOMB.getId())).getBoundingBox();
+                return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
+            }
         }
         return false;
     }

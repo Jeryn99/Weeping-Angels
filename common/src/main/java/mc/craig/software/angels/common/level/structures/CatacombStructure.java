@@ -1,92 +1,66 @@
 package mc.craig.software.angels.common.level.structures;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import mc.craig.software.angels.WAConfiguration;
+import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.core.QuartPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
-public class CatacombStructure extends StructureFeature {
-    public CatacombStructure(Codec codec, PieceGeneratorSupplier pieceGeneratorSupplier) {
-        super(codec, pieceGeneratorSupplier);
+public class CatacombStructure extends StructureFeature<JigsawConfiguration> {
+
+    protected static final String[] variants = new String[]{"flat", "clean", "broken", "normal", "classic"};
+
+    public CatacombStructure() {
+        super(JigsawConfiguration.CODEC, CatacombStructure::createPiecesGenerator, PostPlacementProcessor.NONE);
     }
-//TODO: Fix this
-//    public static final Codec<CatacombStructure> CODEC = RecordCodecBuilder.<CatacombStructure>mapCodec(instance ->
-//            instance.group(CatacombStructure.settingsCodec(instance),
-//                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
-//                    ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
-//                    Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
-//                    HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
-//                    Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
-//                    Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
-//            ).apply(instance, CatacombStructure::new)).codec();
-//
-//    private final Holder<StructureTemplatePool> startPool;
-//    private final Optional<ResourceLocation> startJigsawName;
-//    private final int size;
-//    private final HeightProvider startHeight;
-//    private final Optional<Heightmap.Types> projectStartToHeightmap;
-//    private final int maxDistanceFromCenter;
-//
-//    public CatacombStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter) {
-//        super(config);
-//        this.startPool = startPool;
-//        this.startJigsawName = startJigsawName;
-//        this.size = size;
-//        this.startHeight = startHeight;
-//        this.projectStartToHeightmap = projectStartToHeightmap;
-//        this.maxDistanceFromCenter = maxDistanceFromCenter;
-//    }
-//
-//
-//    private static boolean extraSpawningChecks(Structure.GenerationContext context) {
-//
-//        ChunkPos chunkpos = context.chunkPos();
-//
-//        return context.chunkGenerator().getFirstOccupiedHeight(
-//                chunkpos.getMinBlockX(),
-//                chunkpos.getMinBlockZ(),
-//                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-//                context.heightAccessor(),
-//                context.randomState()) < 150;
-//    }
-//
-//    @Override
-//    public @NotNull Optional<Structure.GenerationStub> findGenerationPoint(Structure.@NotNull GenerationContext context) {
-//
-//
-//        if (!CatacombStructure.extraSpawningChecks(context)) {
-//            return Optional.empty();
-//        }
-//
-//        int startY = context.random().nextInt(60) * -1;
-//
-//        ChunkPos chunkPos = context.chunkPos();
-//        BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
-//
-//        return JigsawPlacement.addPieces(
-//                context,
-//                this.startPool,
-//                this.startJigsawName,
-//                this.size,
-//                blockPos,
-//                false,
-//                this.projectStartToHeightmap,
-//                this.maxDistanceFromCenter);
-//    }
-//
-//    @Override
-//    public @NotNull StructureType<?> type() {
-//        return WAStructures.CATACOMB.get();
-//    }
+
+
+    private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
+        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+
+        Holder<Predicate<Holder<Biome>>> biome = Holder.direct(context.validBiome());
+        return context.validBiome().test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(context.chunkPos().getMiddleBlockX()), QuartPos.fromBlock(50), QuartPos.fromBlock(context.chunkPos().getMiddleBlockZ())));
+    }
+
+
+    private static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> jigsawConfigurationContext) {
+
+        // Check if the spot is valid for our structure. This is just as another method for cleanness.
+        // Returning an empty optional tells the game to skip this spot as it will not generate the structure.
+        if (!CatacombStructure.isFeatureChunk(jigsawConfigurationContext)) {
+            return Optional.empty();
+        }
+
+        // Turns the chunk coordinates into actual coordinates we can use. (Gets center of that chunk)
+        BlockPos blockpos = jigsawConfigurationContext.chunkPos().getMiddleBlockPosition(0);
+
+        // Random Y value between -30, -40
+        int yPos = Mth.randomBetweenInclusive(WAHelper.RAND, 30, 40) * -1;
+
+        return JigsawPlacement.addPieces(jigsawConfigurationContext, PoolElementStructurePiece::new, blockpos.atY(yPos), false, false
+        );
+    }
+
+
+    @Override
+    public GenerationStep.Decoration step() {
+        return GenerationStep.Decoration.UNDERGROUND_STRUCTURES;
+    }
 }

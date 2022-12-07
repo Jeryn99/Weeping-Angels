@@ -3,7 +3,7 @@ package mc.craig.software.angels.util.forge;
 import com.google.common.collect.Lists;
 import mc.craig.software.angels.WAConfiguration;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
