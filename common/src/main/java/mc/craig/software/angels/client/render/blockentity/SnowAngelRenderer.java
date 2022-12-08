@@ -1,7 +1,8 @@
 package mc.craig.software.angels.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
+import com.mojang.math.Axis;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.common.blockentity.SnowAngelBlockEntity;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
@@ -45,25 +46,25 @@ public class SnowAngelRenderer implements BlockEntityRenderer<SnowAngelBlockEnti
         switch (snowAngelBlockEntity.getSnowAngelStages()) {
             case ARM -> {
                 matrixStack.translate(0.5F, -1.1F, 0.5F);
-                matrixStack.mulPose(Vector3f.YN.rotationDegrees(rotation));
+                matrixStack.mulPose(Axis.YN.rotationDegrees(rotation));
                 this.armModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
             }
             case HEAD -> {
                 matrixStack.translate(0.5F, 1.6F, 0.5F);
-                matrixStack.mulPose(Vector3f.YN.rotationDegrees(rotation));
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                matrixStack.mulPose(Axis.YN.rotationDegrees(rotation));
+                matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
                 this.headModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             case BODY -> {
                 matrixStack.translate(0.5F, 1.7F, 0.5F);
-                matrixStack.mulPose(Vector3f.YN.rotationDegrees(rotation));
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                matrixStack.mulPose(Axis.YN.rotationDegrees(rotation));
+                matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
                 this.bodyModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             case WINGS -> {
                 matrixStack.translate(0.5F, 1.5F, 0.5F);
-                matrixStack.mulPose(Vector3f.YN.rotationDegrees(rotation));
-                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+                matrixStack.mulPose(Axis.YN.rotationDegrees(rotation));
+                matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
                 this.wingsModel.render(matrixStack, bufferIn.getBuffer(RenderType.entityTranslucent(getTexture(snowAngelBlockEntity))), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
         }

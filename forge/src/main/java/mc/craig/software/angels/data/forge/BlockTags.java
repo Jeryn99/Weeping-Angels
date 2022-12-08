@@ -21,6 +21,9 @@ public class BlockTags extends net.minecraft.data.tags.BlockTagsProvider {
         super(dataGenerator, WeepingAngels.MODID, existingFileHelper);
     }
 
+
+
+
     @Override
     protected void addTags() {
 

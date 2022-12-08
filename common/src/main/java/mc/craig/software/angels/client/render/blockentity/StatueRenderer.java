@@ -1,7 +1,7 @@
 package mc.craig.software.angels.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
@@ -24,10 +24,10 @@ public class StatueRenderer implements BlockEntityRenderer<StatueBlockEntity>, B
     public void render(StatueBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         poseStack.pushPose();
         poseStack.translate(0.5F, 1.5F, 0.5F);
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180F));
         BlockState blockstate = blockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(StatueBaseBlock.ROTATION);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
 
         AngelModel model = ModelRegistration.getModelFor(blockEntity.getVariant());
         model.animateTile(blockEntity);

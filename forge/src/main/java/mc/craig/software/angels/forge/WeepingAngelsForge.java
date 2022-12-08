@@ -9,6 +9,7 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -27,6 +28,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod(WeepingAngels.MODID)
 public class WeepingAngelsForge {
@@ -58,11 +61,13 @@ public class WeepingAngelsForge {
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookup = e.getLookupProvider();
+
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
         generator.addProvider(true, new LootProvider(generator));
-        generator.addProvider(true, new BiomeTagsProvider(generator, existingFileHelper));
+        generator.addProvider(true, new BiomeTagsProvider(generator,lookup, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new RecipeProvider(generator));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));

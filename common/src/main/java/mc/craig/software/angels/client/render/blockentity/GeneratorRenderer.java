@@ -1,7 +1,7 @@
 package mc.craig.software.angels.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.models.blockentity.GeneratorModel;
@@ -42,13 +42,13 @@ public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEnti
 
         if (blockEntity.hasSpawned() && blockEntity.isActivated()) {
             poseStack.translate(0.5F, -0.3F, 0.5F);
-            poseStack.scale(2,0.3F,2);
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(Minecraft.getInstance().player.tickCount * 20));
+            poseStack.scale(2, 0.3F, 2);
+            poseStack.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.tickCount * 20));
             vortexModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(VORTEX_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         } else {
             poseStack.translate(0.5F, 1.5F, 0.5F);
-            poseStack.mulPose(Vector3f.XP.rotationDegrees(180));
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+            poseStack.mulPose(Axis.XP.rotationDegrees(180));
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
             generatorModel.animateTile(blockEntity);
             generatorModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(blockEntity.isActivated() ? GENERATOR_ACTIVATED_TEX : GENERATOR_TEX)), packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
