@@ -6,6 +6,7 @@ import mc.craig.software.angels.common.entity.projectile.ThrowableGenerator;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -14,7 +15,7 @@ import static mc.craig.software.angels.WeepingAngels.MODID;
 
 public class WAEntities {
 
-    public static final DeferredRegistry<EntityType<?>> ENTITY_TYPES = DeferredRegistry.create(MODID, Registry.ENTITY_TYPE_REGISTRY);
+    public static final DeferredRegistry<EntityType<?>> ENTITY_TYPES = DeferredRegistry.create(MODID, Registries.ENTITY_TYPE);
 
     public static final RegistrySupplier<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITY_TYPES.register("weeping_angel", () -> EntityType.Builder.of((EntityType.EntityFactory<WeepingAngel>) (entityType, level) -> new WeepingAngel(level), MobCategory.CREATURE).sized(0.6F, 1.95F).build(MODID + ":weeping_angel"));
     public static final RegistrySupplier<EntityType<ThrowableGenerator>> GENERATOR = ENTITY_TYPES.register("generator", () -> EntityType.Builder.of((EntityType.EntityFactory<ThrowableGenerator>) (entityType, level) -> new ThrowableGenerator(level), MobCategory.MISC).sized(0.25F, 0.25F).updateInterval(10).clientTrackingRange(4).build(MODID + ":generator"));

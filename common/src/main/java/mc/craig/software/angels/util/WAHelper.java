@@ -8,8 +8,11 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.donators.Donator;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +39,7 @@ public class WAHelper {
     }
 
     @ExpectPlatform
-    public static Packet<?> spawnPacket(Entity livingEntity) {
+    public static Packet<ClientGamePacketListener> spawnPacket(Entity livingEntity) {
         throw new RuntimeException("This isn't where you get the packet! tut tut!");
     }
 
@@ -52,7 +55,7 @@ public class WAHelper {
                 }
 
                 if (isInCatacomb && serverPlayer.tickCount % 200 == 0) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(WAHelper.getRandomSounds(randomSource), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WAHelper.getRandomSounds(randomSource)), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level.random.nextLong()));
                 }
             }
 
@@ -85,12 +88,12 @@ public class WAHelper {
     }
 
     public static Structure getConfigured(ServerLevel level, ResourceLocation resourceLocation) {
-        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         return registry.get(resourceLocation);
     }
 
     public static SoundEvent getRandomSounds(RandomSource randomSource) {
-        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE, SoundEvents.MUSIC_DISC_11, SoundEvents.SCULK_SHRIEKER_SHRIEK};
+        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE.value(), SoundEvents.MUSIC_DISC_11, SoundEvents.SCULK_SHRIEKER_SHRIEK};
         return soundEvents[randomSource.nextInt(soundEvents.length)];
     }
 }

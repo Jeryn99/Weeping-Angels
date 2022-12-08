@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
@@ -28,7 +28,7 @@ public class DeferredRegistryImpl {
 
         public Impl(String modid, ResourceKey<? extends Registry<T>> resourceKey) {
             this.modid = modid;
-            this.registry = (Registry<T>) MoreObjects.firstNonNull(Registry.REGISTRY.get(resourceKey.location()), BuiltinRegistries.REGISTRY.get(resourceKey.location()));
+            this.registry = (Registry<T>) MoreObjects.firstNonNull(Registry.REGISTRY.get(resourceKey.location()), BuiltInRegistries.REGISTRY.get(resourceKey.location()));
             this.entries = new ArrayList<>();
         }
 

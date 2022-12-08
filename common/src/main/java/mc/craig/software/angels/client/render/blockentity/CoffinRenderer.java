@@ -32,15 +32,15 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         pPoseStack.translate(0.5F, 0.5F, 0.5F);
         BlockState blockstate = coffinBlockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
-        pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
-        pPoseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+        pPoseStack.mulPose(Vec3f.ZP.rotationDegrees(180F));
+        pPoseStack.mulPose(Vec3f.YP.rotationDegrees(rotation));
 
         if (!coffinBlockEntity.getBlockState().getValue(CoffinBlock.UPRIGHT)) {
             pPoseStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
         } else {
             pPoseStack.translate(0F, -1F, 0F);
         }
-        
+
         if (coffinBlockEntity.getCoffinType().isTardis()) {
             pPoseStack.translate(0, 0.5, 0);
             pPoseStack.scale(0.7F, 0.7F, 0.7F);

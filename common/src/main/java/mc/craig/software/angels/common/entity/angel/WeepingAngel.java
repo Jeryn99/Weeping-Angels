@@ -13,6 +13,7 @@ import mc.craig.software.angels.util.Teleporter;
 import mc.craig.software.angels.util.WADamageSources;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -232,7 +233,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
             if (player instanceof ServerPlayer serverPlayer && player.distanceTo(this) < 15) {
                 setTimeSincePlayedSound(System.currentTimeMillis());
-                serverPlayer.connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
+                serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(getSeenSound()), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
             }
         }
     }

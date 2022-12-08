@@ -7,6 +7,7 @@ import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -21,7 +22,7 @@ public class WAItems {
         }
     }
 
-    public static final DeferredRegistry<Item> ITEMS = DeferredRegistry.create(WeepingAngels.MODID, Registry.ITEM_REGISTRY);
+    public static final DeferredRegistry<Item> ITEMS = DeferredRegistry.create(WeepingAngels.MODID, Registries.ITEM);
 
     public static final RegistrySupplier<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", () -> new DetectorItem(new Item.Properties().stacksTo(1).tab(MAIN_TAB)));
     public static final RegistrySupplier<Item> DISC_TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> new DiscItem(88, WASounds.DISC_TIME_PREVAILS.get(), (new Item.Properties()).stacksTo(1).tab(MAIN_TAB).rarity(Rarity.RARE), 320));

@@ -9,6 +9,7 @@ import mc.craig.software.angels.network.WANetwork;
 import mc.craig.software.angels.util.Platform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -37,7 +38,7 @@ public class UpdateStatueMessage extends MessageC2S {
         this.angelVariant = AngelVariant.getVariant(buf.readResourceLocation());
         this.pose = buf.readInt();
         this.blockPos = buf.readBlockPos();
-        this.level = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
+        this.level = buf.readResourceKey(Registries.DIMENSION);
     }
 
     @NotNull

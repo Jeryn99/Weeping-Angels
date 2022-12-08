@@ -5,6 +5,7 @@ import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WASounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -68,7 +69,7 @@ public class Teleporter {
             float f1 = Mth.wrapDegrees(pPitch);
             if (pEntity instanceof ServerPlayer serverPlayer) {
                 if (playSound) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WASounds.TELEPORT.get()), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
                 }
                 ChunkPos chunkpos = new ChunkPos(new BlockPos(pX, pY, pZ));
                 pLevel.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, pEntity.getId());
