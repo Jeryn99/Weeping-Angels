@@ -17,6 +17,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Locale;
+
 public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> implements IAngelModel, IHasHead, IHasArm {
 
     public static final ResourceLocation ANGRY = new ResourceLocation(WeepingAngels.MODID, "textures/entities/disaster/normal/normal_angel_angry.png");
@@ -275,8 +277,8 @@ public class ModelDisasterAngel extends SegmentedModel<WeepingAngelEntity> imple
         String coreFolder = "textures/entities/disaster/";
         coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
-        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
+        String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name();
+        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix.toLowerCase(Locale.ENGLISH) + ".png");
     }
 
     @Override

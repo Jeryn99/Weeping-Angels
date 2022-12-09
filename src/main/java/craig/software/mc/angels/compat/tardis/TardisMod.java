@@ -105,7 +105,7 @@ public class TardisMod {
     @SubscribeEvent
     public void onAngelBlockBreak(EventAngelBreakEvent breakBlockEvent) {
         boolean isTardisDim = WorldHelper.areDimensionTypesSame(breakBlockEvent.getWorld(), TDimensions.DimensionTypes.TARDIS_TYPE);
-        boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase().contains("tardis:");
+        boolean isTardisBlock = breakBlockEvent.getBlockState().getBlock().getRegistryName().toString().toLowerCase(Locale.ENGLISH).contains("tardis:");
         breakBlockEvent.setCanceled(isTardisDim || isTardisBlock);
     }
 

@@ -11,6 +11,8 @@ import craig.software.mc.angels.common.tileentities.StatueTile;
 import craig.software.mc.angels.common.variants.AbstractVariant;
 import craig.software.mc.angels.common.variants.AngelVariants;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -243,7 +245,7 @@ public class ModelAngelChild extends SegmentedModel<WeepingAngelEntity> implemen
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant angelVariants) {
         String location = "textures/entities/cherub/angel_cherub_";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
-        String suffix = emotion.name().toLowerCase();
+        String suffix = emotion.name().toLowerCase(Locale.ENGLISH);
         return new ResourceLocation(WeepingAngels.MODID, location + suffix + ".png");
     }
 
