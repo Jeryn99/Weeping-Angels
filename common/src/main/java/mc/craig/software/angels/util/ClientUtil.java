@@ -7,7 +7,7 @@ public class ClientUtil {
 
     public static void playDectorSound(Player player){
         Minecraft mc = Minecraft.getInstance();
-        mc.getSoundManager().play(new DetectorTickableSound(player));
+        mc.getSoundManager().playDelayed(new DetectorTickableSound(player), 100);
     }
 
 }

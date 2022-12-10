@@ -55,10 +55,9 @@ public class SpawnerItem extends Item {
             BlockState blockstate = level.getBlockState(blockpos);
             if (blockstate.is(Blocks.SPAWNER)) {
                 BlockEntity blockentity = level.getBlockEntity(blockpos);
-                if (blockentity instanceof SpawnerBlockEntity) {
-                    BaseSpawner basespawner = ((SpawnerBlockEntity) blockentity).getSpawner();
+                if (blockentity instanceof SpawnerBlockEntity block) {
                     EntityType<?> entitytype1 = this.getType(itemstack.getTag());
-                    basespawner.setEntityId(entitytype1);
+                    block.setEntityId(entitytype1, level.getRandom());
                     blockentity.setChanged();
                     level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
                     level.gameEvent(pContext.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);

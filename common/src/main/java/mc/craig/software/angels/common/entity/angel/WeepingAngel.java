@@ -198,7 +198,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             if (item.is(WATags.STEALABLE_ITEMS)) {
                 setItemInHand(InteractionHand.MAIN_HAND, item.copy());
                 setGuaranteedDrop(EquipmentSlot.MAINHAND);
-                playerInv.setItem(0, ItemStack.EMPTY);
+                playerInv.setItem(i, ItemStack.EMPTY);
             }
         }
     }

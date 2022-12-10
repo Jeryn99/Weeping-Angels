@@ -66,14 +66,17 @@ public class WeepingAngelsForge {
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
-        generator.addProvider(true, new LootProvider(generator));
-        generator.addProvider(true, new BiomeTagsProvider(generator,lookup, existingFileHelper));
+      //TODO   generator.addProvider(true, new LootProvider(generator));
+        generator.addProvider(true, new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(true, new WABiomeMods(generator));
-        generator.addProvider(true, new RecipeProvider(generator));
+        generator.addProvider(true, new RecipeProvider(generator.getPackOutput()));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
-        generator.addProvider(true, new BlockTags(generator, existingFileHelper));
-        generator.addProvider(true, new EntityTypeTags(generator, existingFileHelper));
-        generator.addProvider(true, new ItemTags(generator, new BlockTags(generator, existingFileHelper), existingFileHelper));
+
+        BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
+
+        generator.addProvider(true, new BlockTags(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(true, new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(true, new ItemTags(generator.getPackOutput(), lookup, blocktags, existingFileHelper));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

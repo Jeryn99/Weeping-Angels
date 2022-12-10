@@ -3,6 +3,8 @@ package mc.craig.software.angels.common.entity.angel.fabric;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.EndPortalBlock;
@@ -16,7 +18,7 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 public class BlockReactionsImpl {
 
     public static void init() {
-        for (Block block : Registry.BLOCK) {
+        for (Block block : BuiltInRegistries.BLOCK) {
             BlockState blockState = block.defaultBlockState();
             WeepingAngels.LOGGER.debug(blockState.toString());
 
@@ -25,7 +27,7 @@ public class BlockReactionsImpl {
                 // Destroy Lights
                 if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
                     registerBehavior(block, BREAK_BLOCKS);
-                    WeepingAngels.LOGGER.debug("{} was registered as a breaking block", Registry.BLOCK.getKey(block));
+                    WeepingAngels.LOGGER.debug("{} was registered as a breaking block", BuiltInRegistries.BLOCK.getKey(block));
                 }
 
                 // Toggle Lights
@@ -33,20 +35,20 @@ public class BlockReactionsImpl {
                     boolean shouldSkip = block instanceof CandleBlock;
                     if (!shouldSkip) {
                         registerBehavior(block, TOGGLE_LIGHTS);
-                        WeepingAngels.LOGGER.debug("{} was registered as a light toggle block", Registry.BLOCK.getKey(block));
+                        WeepingAngels.LOGGER.debug("{} was registered as a light toggle block", BuiltInRegistries.BLOCK.getKey(block));
                     }
                 }
 
                 // Toggle Power
                 if (blockState.hasProperty(POWERED)) {
                     registerBehavior(block, TOGGLE_POWER);
-                    WeepingAngels.LOGGER.debug("{} was registered as a power toggle block", Registry.BLOCK.getKey(block));
+                    WeepingAngels.LOGGER.debug("{} was registered as a power toggle block", BuiltInRegistries.BLOCK.getKey(block));
                 }
 
                 // Candles
                 if (block instanceof CandleBlock candleBlock) {
                     registerBehavior(candleBlock, BLOWOUT_CANDLES);
-                    WeepingAngels.LOGGER.debug("{} was registered as a candle block", Registry.BLOCK.getKey(block));
+                    WeepingAngels.LOGGER.debug("{} was registered as a candle block", BuiltInRegistries.BLOCK.getKey(block));
                 }
             }
         }

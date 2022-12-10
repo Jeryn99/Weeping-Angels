@@ -3,7 +3,6 @@ package mc.craig.software.angels.data.forge;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.level.features.WAFeatures;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
 import mc.craig.software.angels.util.WATags;
@@ -17,7 +16,6 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.world.BiomeModifier;
@@ -25,9 +23,8 @@ import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static mc.craig.software.angels.WeepingAngels.MODID;
 
@@ -41,21 +38,17 @@ public record WABiomeMods(DataGenerator dataGenerator) implements DataProvider {
 
         BiomeModifier.DIRECT_CODEC.encodeStart(ops, modifier).resultOrPartial(msg -> WeepingAngels.LOGGER.error("Failed to encode {}: {}", biomeModifierPathString, msg)).ifPresent(json ->
         {
-            try {
-                final Path biomeModifierPath = outputFolder.resolve(biomeModifierPathString);
-                DataProvider.saveStable(cache, json, biomeModifierPath);
-            } catch (
-                    IOException e) {
-                WeepingAngels.LOGGER.error("Failed to save " + biomeModifierPathString, e);
-            }
+            final Path biomeModifierPath = outputFolder.resolve(biomeModifierPathString);
+            DataProvider.saveStable(cache, json, biomeModifierPath);
         });
     }
 
     @Override
-    public void run(@NotNull CachedOutput cachedOutput) {
+    public CompletableFuture<?> run(@NotNull CachedOutput cachedOutput) {
 
-        RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
-        final Path outputFolder = this.dataGenerator.getOutputFolder();
+        //TODO
+/*        RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
+        final Path outputFolder = this.dataGenerator.getPackOutput().getOutputFolder();
 
         // Biome Modifiers
         BiomeModifier spawnsModifier = new AddAngelSpawns(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), WATags.ANGEL_SPAWNS));
@@ -67,7 +60,8 @@ public record WABiomeMods(DataGenerator dataGenerator) implements DataProvider {
         generate(ops, spawnsModifier, outputFolder, "weeping_angel_spawns", cachedOutput);
         generate(ops, oreModifer, outputFolder, "kontron", cachedOutput);
         generate(ops, oreModiferSmall, outputFolder, "kontron_small", cachedOutput);
-        generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);
+        generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);*/
+        return null;
     }
 
     @Override

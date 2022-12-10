@@ -27,9 +27,9 @@ public class WeepingAngels {
         WABlocks.BLOCKS.register();
         WAEntities.ENTITY_TYPES.register();
         WABlockEntities.BLOCK_ENTITY_TYPES.register();
-        WAStructures.STRUCTURES.register();
-        WAFeatures.CONFIGURED_FEATURES.register();
-        WAFeatures.PLACED_FEATURES.register();
+      //TODO  WAStructures.STRUCTURES.register();
+    //TODO    WAFeatures.CONFIGURED_FEATURES.register();
+       //TODO WAFeatures.PLACED_FEATURES.register();
         BlockReactions.init();
         AngelVariant.init();
         WANetwork.init();

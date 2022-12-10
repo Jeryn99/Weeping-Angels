@@ -70,12 +70,12 @@ public class ChiselScreen extends Screen {
             Minecraft.getInstance().setScreen(null);
         }
 
-
-        this.addRenderableWidget(new Button(this.width / 2 + 4 + 15, this.height / 4 + 120 + -16, 98, 20, Component.translatable("Chisel"), (buttonx) -> {
+        Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
             new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
             Minecraft.getInstance().setScreen(null);
-        }));
+        }).build();
 
+        addWidget(quitButton);
     }
 
     @Override

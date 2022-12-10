@@ -28,7 +28,7 @@ public class DeferredRegistryImpl {
 
         public Impl(String modid, ResourceKey<? extends Registry<T>> resourceKey) {
             this.modid = modid;
-            this.registry = (Registry<T>) MoreObjects.firstNonNull(Registry.REGISTRY.get(resourceKey.location()), BuiltInRegistries.REGISTRY.get(resourceKey.location()));
+            this.registry = (Registry<T>) MoreObjects.firstNonNull(BuiltInRegistries.REGISTRY.get(resourceKey.location()), BuiltInRegistries.REGISTRY.get(resourceKey.location()));
             this.entries = new ArrayList<>();
         }
 
