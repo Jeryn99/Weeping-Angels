@@ -24,26 +24,54 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {
+
+    private static CreativeModeTab tab;
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
         event.registerAboveAll("angel", new TimeyWimeyOverlay());
     }
+
+
+    @SubscribeEvent
+    public static void on(CreativeModeTabEvent.Register event) {
+        tab = event.registerCreativeModeTab(new ResourceLocation(WeepingAngels.MODID, "creative_tab"), builder -> builder.title(Component.literal("Weeping Angels")).icon(() -> new ItemStack(WAItems.TIMEY_WIMEY_DETECTOR.get())).build());
+    }
+
+    @SubscribeEvent
+    public static void on(CreativeModeTabEvent.BuildContents event) {
+
+        @NotNull Collection<Item> values = ForgeRegistries.ITEMS.getValues();
+        values.removeIf(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
+
+        event.registerSimple(tab, values.toArray(value1 -> new ItemLike[0]));
+    }
+
 
     @SubscribeEvent
     public static void renderLayers(EntityRenderersEvent.AddLayers addLayers) {

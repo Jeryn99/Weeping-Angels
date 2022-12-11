@@ -1,7 +1,5 @@
 package mc.craig.software.angels.util.fabric;
 
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
