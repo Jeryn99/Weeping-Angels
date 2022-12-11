@@ -1,0 +1,34 @@
+package mc.craig.software.angels.client.renders.entities;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.client.models.entity.PortalModel;
+import mc.craig.software.angels.common.entities.AnomalyEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.util.ResourceLocation;
+
+public class AnomalyRender extends MobRenderer<AnomalyEntity, EntityModel<AnomalyEntity>> {
+
+    private static final ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID, "textures/entities/anomaly.png");
+
+    public AnomalyRender(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new PortalModel(), 0);
+    }
+
+    @Override
+    public void render(AnomalyEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        ActiveRenderInfo activerenderinfo = Minecraft.getInstance().gameRenderer.getMainCamera();
+        matrixStackIn.mulPose(activerenderinfo.rotation());
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(AnomalyEntity entity) {
+        return TEXTURE;
+    }
+}
