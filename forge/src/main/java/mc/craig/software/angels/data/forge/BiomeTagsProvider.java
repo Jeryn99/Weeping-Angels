@@ -24,7 +24,6 @@ public class BiomeTagsProvider extends net.minecraft.data.tags.BiomeTagsProvider
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        super.addTags(arg);
         for (Map.Entry<ResourceKey<Biome>, Biome> biomesEntry : ForgeRegistries.BIOMES.getEntries()) {
             if(biomesEntry.getValue().getPrecipitation() == Biome.Precipitation.SNOW) {
                 tag(WATags.ANGEL_SPAWNS).add(biomesEntry.getKey());

@@ -1,6 +1,5 @@
 package mc.craig.software.angels.registry.fabric;
 
-import com.google.common.base.MoreObjects;
 import mc.craig.software.angels.registry.DeferredRegistry;
 import mc.craig.software.angels.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
@@ -11,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class DeferredRegistryImpl {
@@ -28,7 +28,7 @@ public class DeferredRegistryImpl {
 
         public Impl(String modid, ResourceKey<? extends Registry<T>> resourceKey) {
             this.modid = modid;
-            this.registry = (Registry<T>) MoreObjects.firstNonNull(BuiltInRegistries.REGISTRY.get(resourceKey.location()), BuiltInRegistries.REGISTRY.get(resourceKey.location()));
+            this.registry = (Registry<T>) Objects.requireNonNull(BuiltInRegistries.REGISTRY.get(resourceKey.location()), "Registry " + resourceKey + " not found!");
             this.entries = new ArrayList<>();
         }
 

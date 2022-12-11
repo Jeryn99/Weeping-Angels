@@ -11,9 +11,12 @@ import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.world.BiomeModifier;
@@ -29,6 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mod(WeepingAngels.MODID)
@@ -66,9 +70,9 @@ public class WeepingAngelsForge {
         generator.addProvider(true, new EnglishLang(generator));
         generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
-      //TODO   generator.addProvider(true, new LootProvider(generator));
-     //TODO   generator.addProvider(true, new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
-     //TODO   generator.addProvider(true, new WABiomeMods(generator));
+        generator.addProvider(true, new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
+        generator.addProvider(true, new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
+        //TODO   generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new RecipeProvider(generator.getPackOutput()));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
 
