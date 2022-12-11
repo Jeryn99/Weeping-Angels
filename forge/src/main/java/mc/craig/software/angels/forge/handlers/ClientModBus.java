@@ -31,7 +31,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -45,7 +44,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {
@@ -69,7 +67,11 @@ public class ClientModBus {
         @NotNull Collection<Item> values = ForgeRegistries.ITEMS.getValues();
         values.removeIf(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
 
-        event.registerSimple(tab, values.toArray(value1 -> new ItemLike[0]));
+        if (event.getTab() == tab) {
+            for (Item item : values) {
+                event.accept(item);
+            }
+        }
     }
 
 

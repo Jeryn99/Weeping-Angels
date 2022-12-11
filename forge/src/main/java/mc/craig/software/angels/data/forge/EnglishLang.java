@@ -77,8 +77,7 @@ public class EnglishLang extends LanguageProvider {
         add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
 
         // ==== Creative Tab ====
-        add("itemGroup." + WeepingAngels.MODID, "Weeping Angels");
-        add("itemGroup." + WeepingAngels.MODID + "." + WeepingAngels.MODID, "Weeping Angels"); //Fabric one
+        add("itemGroup." + WeepingAngels.MODID + "." + "creative_tab", "Weeping Angels");
 
         // ==== Damage Sources =====
         add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
