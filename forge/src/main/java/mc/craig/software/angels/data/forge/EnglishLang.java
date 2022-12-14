@@ -18,7 +18,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 public class EnglishLang extends LanguageProvider {
 
     public EnglishLang(DataGenerator dataGenerator) {
-        super(dataGenerator, WeepingAngels.MODID, "en_us");
+        super(dataGenerator.getPackOutput(), WeepingAngels.MODID, "en_us");
     }
 
     @Override

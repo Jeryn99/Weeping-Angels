@@ -40,10 +40,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {
@@ -64,11 +64,10 @@ public class ClientModBus {
     @SubscribeEvent
     public static void on(CreativeModeTabEvent.BuildContents event) {
 
-        @NotNull Collection<Item> values = ForgeRegistries.ITEMS.getValues();
-        values.removeIf(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
+        Stream<Item> values = ForgeRegistries.ITEMS.getValues().stream().filter(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
 
         if (event.getTab() == tab) {
-            for (Item item : values) {
+            for (Item item : values.toList()) {
                 event.accept(item);
             }
         }

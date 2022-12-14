@@ -56,7 +56,7 @@ public class WeepingAngelsFabric implements ModInitializer {
         ModLoadingContext.registerConfig(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns");
         WeepingAngels.init();
         EntitySpawns.init();
-        //TODO  levelManipulation();
+        levelManipulation();
         Platform.init();
 
         entityAttributes();

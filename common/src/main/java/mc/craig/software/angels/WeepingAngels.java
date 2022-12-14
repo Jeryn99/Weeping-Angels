@@ -8,6 +8,7 @@ import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.network.WANetwork;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ public class WeepingAngels {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MODID = "weeping_angels";
 
-    public static ResourceLocation CRYPT_LOOT = new ResourceLocation("weeping_angels:chests/catacombs");
+    public static ResourceLocation CRYPT_LOOT = new ResourceLocation(WeepingAngels.MODID, "chests/catacombs");
 
     public static void init() {
         WAItems.ITEMS.register();
@@ -25,9 +26,9 @@ public class WeepingAngels {
         WABlocks.BLOCKS.register();
         WAEntities.ENTITY_TYPES.register();
         WABlockEntities.BLOCK_ENTITY_TYPES.register();
-/*        WAStructures.STRUCTURES.register();
-        WAFeatures.CONFIGURED_FEATURES.register();
-        WAFeatures.PLACED_FEATURES.register();*/
+        WAStructures.STRUCTURES.register();
+ /*       WAFeatures.PLACED_FEATURES.register();
+        WAFeatures.CONFIGURED_FEATURES.register();*/
         BlockReactions.init();
         AngelVariant.init();
         WANetwork.init();

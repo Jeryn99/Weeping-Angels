@@ -8,8 +8,10 @@ import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
+import mc.craig.software.angels.data.forge.level.ProviderConfiguredFeatures;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -60,6 +62,7 @@ public class WeepingAngelsForge {
         serializers.register(AddAngelSpawns.WEEPING_ANGEL_SPAWNS.getPath(), AddAngelSpawns::makeCodec);
 
         StartupMessageManager.addModMessage("Don't Blink!");
+
     }
 
     public void onGatherData(GatherDataEvent e) {
@@ -72,6 +75,7 @@ public class WeepingAngelsForge {
         generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
         generator.addProvider(true, new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
         generator.addProvider(true, new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(true, new WorldGenProvider(generator.getPackOutput()));
         //TODO   generator.addProvider(true, new WABiomeMods(generator));
         generator.addProvider(true, new RecipeProvider(generator.getPackOutput()));
         generator.addProvider(true, new SoundProvider(generator, existingFileHelper));

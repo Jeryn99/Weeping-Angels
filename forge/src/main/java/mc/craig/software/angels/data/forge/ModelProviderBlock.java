@@ -9,7 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class ModelProviderBlock extends BlockStateProvider {
 
     public ModelProviderBlock(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, WeepingAngels.MODID, existingFileHelper);
+        super(generator.getPackOutput(), WeepingAngels.MODID, existingFileHelper);
     }
 
     @Override

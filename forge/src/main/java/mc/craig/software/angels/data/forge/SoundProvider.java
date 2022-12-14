@@ -19,7 +19,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
      * @param helper    The existing file helper provided by the event you are initializing this provider in.
      */
     public SoundProvider(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator, WeepingAngels.MODID, helper);
+        super(generator.getPackOutput(), WeepingAngels.MODID, helper);
     }
 
     @Override
