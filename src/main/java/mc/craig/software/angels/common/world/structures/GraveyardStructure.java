@@ -3,8 +3,6 @@ package mc.craig.software.angels.common.world.structures;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
-import java.util.Collections;
-import java.util.List;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +17,9 @@ import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+
+import java.util.Collections;
+import java.util.List;
 
 public class GraveyardStructure extends Structure<ProbabilityConfig> {
 

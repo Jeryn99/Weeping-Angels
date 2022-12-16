@@ -1,8 +1,6 @@
 package mc.craig.software.angels.common.blocks;
 
 import mc.craig.software.angels.common.tileentities.CoffinTile;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -24,6 +22,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 

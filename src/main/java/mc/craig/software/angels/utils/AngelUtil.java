@@ -8,10 +8,6 @@ import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.common.tileentities.CoffinTile;
 import mc.craig.software.angels.common.tileentities.SnowAngelStages;
 import mc.craig.software.angels.common.variants.AbstractVariant;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -43,6 +39,10 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 public class AngelUtil {
 

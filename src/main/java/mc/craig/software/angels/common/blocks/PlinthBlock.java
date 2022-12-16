@@ -3,8 +3,6 @@ package mc.craig.software.angels.common.blocks;
 import mc.craig.software.angels.client.poses.WeepingAngelPose;
 import mc.craig.software.angels.common.tileentities.PlinthTile;
 import mc.craig.software.angels.utils.AngelUtil;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -30,6 +28,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class PlinthBlock extends Block implements IWaterLoggable {
 

@@ -2,8 +2,6 @@ package mc.craig.software.angels.utils;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.entities.QuantumLockEntity;
-import java.util.function.Predicate;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
@@ -19,6 +17,9 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class ViewUtil {
 

@@ -7,9 +7,6 @@ import mc.craig.software.angels.compat.tardis.TardisMod;
 import mc.craig.software.angels.config.WAConfig;
 import mc.craig.software.angels.network.Network;
 import mc.craig.software.angels.network.messages.MessageSFX;
-import java.util.ArrayList;
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -20,6 +17,9 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class WATeleporter {
 

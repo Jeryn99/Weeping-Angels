@@ -4,16 +4,16 @@ import com.google.gson.*;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAObjects;
 import mc.craig.software.angels.compat.tardis.registry.NewTardisBlocks;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.function.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.function.Supplier;
 
 public class WALootTables implements IDataProvider {
 

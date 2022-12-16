@@ -3,7 +3,6 @@ package mc.craig.software.angels.common;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import mc.craig.software.angels.WeepingAngels;
-import craig.software.mc.angels.common.blocks.*;
 import mc.craig.software.angels.common.blocks.*;
 import mc.craig.software.angels.common.entities.AnomalyEntity;
 import mc.craig.software.angels.common.entities.ChronodyneGeneratorEntity;
@@ -22,9 +21,6 @@ import mc.craig.software.angels.common.world.structures.CatacombStructure;
 import mc.craig.software.angels.common.world.structures.GraveyardStructure;
 import mc.craig.software.angels.common.world.structures.GraveyardStructurePieces;
 import mc.craig.software.angels.utils.WADamageSource;
-import java.util.Collection;
-import java.util.function.Supplier;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -54,6 +50,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Collection;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {

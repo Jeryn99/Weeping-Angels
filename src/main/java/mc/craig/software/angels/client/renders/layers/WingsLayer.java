@@ -11,8 +11,6 @@ import mc.craig.software.angels.utils.ClientUtil;
 import mc.craig.software.angels.utils.DateChecker;
 import mc.craig.software.angels.utils.DonationUtil;
 import mc.craig.software.angels.utils.Donator;
-import java.util.HashSet;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -26,6 +24,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.HashSet;
 
 public class WingsLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
 

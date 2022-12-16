@@ -20,7 +20,9 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
 
     public static ResourceLocation TEXTURE = new ResourceLocation(WeepingAngels.MODID,
             "textures/entities/angel_4.png");
-
+    private final ModelArmsIdle armsIdle = new ModelArmsIdle();
+    private final ModelArmsAngry armsAngry = new ModelArmsAngry();
+    private final ModelArmsPointing armsPoint = new ModelArmsPointing();
     ModelRenderer Eye1;
     ModelRenderer Eye2;
     ModelRenderer EyeBacking;
@@ -89,11 +91,7 @@ public class ModelAngelMel extends EntityModel<WeepingAngelEntity> implements IA
     ModelRenderer RightWing5;
     ModelRenderer RightWing6;
     ModelRenderer RightWing7;
-
     ModelArmsCovering armsCovering = new ModelArmsCovering();
-    private final ModelArmsIdle armsIdle = new ModelArmsIdle();
-    private final ModelArmsAngry armsAngry = new ModelArmsAngry();
-    private final ModelArmsPointing armsPoint = new ModelArmsPointing();
     private WeepingAngelEntity angel;
 
     private WeepingAngelPose weepingAngelPose = WeepingAngelPose.ANGRY;

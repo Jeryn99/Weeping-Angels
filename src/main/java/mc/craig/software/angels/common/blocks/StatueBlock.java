@@ -3,8 +3,6 @@ package mc.craig.software.angels.common.blocks;
 import mc.craig.software.angels.client.poses.WeepingAngelPose;
 import mc.craig.software.angels.common.tileentities.StatueTile;
 import mc.craig.software.angels.utils.AngelUtil;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -23,6 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by Craig on 17/02/2020 @ 12:19

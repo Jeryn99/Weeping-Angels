@@ -2,6 +2,7 @@ package mc.craig.software.angels.utils;
 
 import com.google.gson.JsonObject;
 import mc.craig.software.angels.common.entities.AngelType;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -52,6 +53,10 @@ public class Donator {
         return wings;
     }
 
+    public void setWings(String name) {
+        this.wings = name;
+    }
+
     public boolean isPerked() {
         return perked;
     }
@@ -78,9 +83,5 @@ public class Donator {
                 ", wings='" + wings + '\'' +
                 ", perked=" + perked +
                 '}';
-    }
-
-    public void setWings(String name) {
-        this.wings = name;
     }
 }

@@ -14,12 +14,6 @@ import mc.craig.software.angels.network.messages.MessageCatacomb;
 import mc.craig.software.angels.utils.AngelUtil;
 import mc.craig.software.angels.utils.DamageType;
 import mc.craig.software.angels.utils.PlayerUtil;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
@@ -66,6 +60,12 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {

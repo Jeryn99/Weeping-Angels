@@ -1,11 +1,11 @@
 package mc.craig.software.angels.network.messages;
 
 import mc.craig.software.angels.client.ClientEvents;
-import java.util.function.Supplier;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 /**
  * Created by Craig on 20/01/2019.

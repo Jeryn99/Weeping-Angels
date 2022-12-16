@@ -5,9 +5,6 @@ import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.common.tileentities.SnowAngelStages;
 import mc.craig.software.angels.common.tileentities.SnowArmTile;
 import mc.craig.software.angels.utils.AngelUtil;
-import java.util.Random;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -21,6 +18,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class SnowArmBlock extends SnowBlock {
 

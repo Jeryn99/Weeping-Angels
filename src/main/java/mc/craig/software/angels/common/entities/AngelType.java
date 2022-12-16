@@ -2,10 +2,10 @@ package mc.craig.software.angels.common.entities;
 
 import mc.craig.software.angels.common.variants.AbstractVariant;
 import mc.craig.software.angels.common.variants.AngelVariants;
+import net.minecraftforge.fml.RegistryObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import net.minecraftforge.fml.RegistryObject;
 
 public enum AngelType {
 

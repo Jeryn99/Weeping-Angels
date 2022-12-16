@@ -10,13 +10,13 @@ import mc.craig.software.angels.common.tileentities.PlinthTile;
 import mc.craig.software.angels.common.tileentities.StatueTile;
 import mc.craig.software.angels.common.variants.AbstractVariant;
 import mc.craig.software.angels.common.variants.AngelVariants;
-import java.util.ArrayList;
-import java.util.Locale;
-
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Angel Type: Child

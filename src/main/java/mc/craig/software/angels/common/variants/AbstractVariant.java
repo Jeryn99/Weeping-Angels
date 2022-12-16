@@ -1,11 +1,12 @@
 package mc.craig.software.angels.common.variants;
 
 import mc.craig.software.angels.common.entities.WeepingAngelEntity;
-import java.util.function.Predicate;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+
+import java.util.function.Predicate;
 
 public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
 

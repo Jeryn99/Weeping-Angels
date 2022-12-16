@@ -2,8 +2,6 @@ package mc.craig.software.angels.common;
 
 import com.google.gson.JsonObject;
 import mc.craig.software.angels.WeepingAngels;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.conditions.ILootCondition;
@@ -14,6 +12,9 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
+import java.util.Random;
 
 /* Created by Craig on 10/03/2021 */
 public class WAGlm {

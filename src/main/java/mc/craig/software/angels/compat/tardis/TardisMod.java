@@ -10,8 +10,6 @@ import mc.craig.software.angels.common.tileentities.IPlinth;
 import mc.craig.software.angels.compat.tardis.registry.NewTardisBlocks;
 import mc.craig.software.angels.utils.AngelUtil;
 import mc.craig.software.angels.utils.PlayerUtil;
-import java.util.*;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -55,6 +53,8 @@ import net.tardis.mod.tileentities.console.misc.AlarmType;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
 import net.tardis.mod.tileentities.exteriors.ExteriorTile;
 import net.tardis.mod.world.dimensions.TDimensions;
+
+import java.util.*;
 
 /* Created by Craig on 11/02/2021 */
 public class TardisMod {

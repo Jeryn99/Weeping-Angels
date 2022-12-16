@@ -2,13 +2,6 @@ package mc.craig.software.angels.utils;
 
 import com.google.gson.JsonObject;
 import mc.craig.software.angels.WeepingAngels;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,6 +9,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.text.TranslationTextComponent;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.ConnectException;
+import java.net.URL;
 
 import static org.apache.http.HttpHeaders.USER_AGENT;
 

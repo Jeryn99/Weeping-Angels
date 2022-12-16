@@ -1,7 +1,6 @@
 package mc.craig.software.angels.utils;
 
 import mc.craig.software.angels.WeepingAngels;
-import craig.software.mc.angels.client.models.entity.*;
 import mc.craig.software.angels.client.models.entity.*;
 import mc.craig.software.angels.client.renders.entities.AnomalyRender;
 import mc.craig.software.angels.client.renders.entities.CGRender;
@@ -17,9 +16,6 @@ import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.common.items.AngelSpawnerItem;
 import mc.craig.software.angels.common.items.DetectorItem;
 import mc.craig.software.angels.compat.tardis.TardisClientStuff;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.renderer.RenderType;
@@ -35,6 +31,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClientUtil {
 

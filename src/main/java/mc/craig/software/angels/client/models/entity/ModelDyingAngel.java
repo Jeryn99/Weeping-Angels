@@ -6,12 +6,12 @@ import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.poses.WeepingAngelPose;
 import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.common.variants.AbstractVariant;
-import java.util.ArrayList;
-
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.ArrayList;
 
 public class ModelDyingAngel extends PlayerModel<WeepingAngelEntity> implements IAngelModel {
 

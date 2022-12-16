@@ -14,7 +14,6 @@ import mc.craig.software.angels.compat.tardis.registry.TardisExteriorReg;
 import mc.craig.software.angels.compat.tardis.registry.TardisTiles;
 import mc.craig.software.angels.compat.vr.ServerReflector;
 import mc.craig.software.angels.config.WAConfig;
-import craig.software.mc.angels.data.*;
 import mc.craig.software.angels.data.*;
 import mc.craig.software.angels.network.Network;
 import mc.craig.software.angels.utils.AngelUtil;

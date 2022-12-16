@@ -1,10 +1,11 @@
 package mc.craig.software.angels.compat.tardis;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
 import net.tardis.mod.client.models.interiordoors.IInteriorDoorRenderer;
 import net.tardis.mod.enums.EnumDoorState;
 import net.tardis.mod.misc.IDoorType;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public enum EnumDoorTypes implements IDoorType {
 

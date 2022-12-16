@@ -14,14 +14,6 @@ import mc.craig.software.angels.config.WAConfig;
 import mc.craig.software.angels.utils.AngelUtil;
 import mc.craig.software.angels.utils.NBTPatcher;
 import mc.craig.software.angels.utils.WATeleporter;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -50,6 +42,14 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+
+import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static mc.craig.software.angels.utils.AngelUtil.updateBlock;
 

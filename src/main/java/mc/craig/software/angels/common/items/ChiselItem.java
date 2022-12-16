@@ -1,11 +1,8 @@
 package mc.craig.software.angels.common.items;
 
 import mc.craig.software.angels.common.tileentities.IPlinth;
-import mc.craig.software.angels.utils.PlayerUtil;
-import java.util.List;
-import javax.annotation.Nullable;
-
 import mc.craig.software.angels.common.variants.AngelVariants;
+import mc.craig.software.angels.utils.PlayerUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,6 +14,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 /* Created by Craig on 13/02/2021 */
 public class ChiselItem extends Item {

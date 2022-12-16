@@ -1,11 +1,11 @@
 package mc.craig.software.angels.common.variants;
 
 import mc.craig.software.angels.common.entities.WeepingAngelEntity;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static mc.craig.software.angels.common.variants.AngelVariants.BANNED_FROM_NETHER;
 

@@ -3,9 +3,6 @@ package mc.craig.software.angels.common.variants;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.utils.AngelUtil;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -13,6 +10,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class AngelVariants {
 
@@ -22,13 +22,6 @@ public class AngelVariants {
     public static final RegistryObject<AbstractVariant> IRON = VARIANTS.register("iron", () -> new MiningVariant(() -> new ItemStack(Blocks.IRON_ORE), 50));
     public static final RegistryObject<AbstractVariant> MOSSY = VARIANTS.register("mossy", () -> new BaseVariant(() -> new ItemStack(Blocks.MOSSY_COBBLESTONE), 45));
     public static final RegistryObject<AbstractVariant> NORMAL = VARIANTS.register("normal", () -> new BaseVariant(() -> new ItemStack(Blocks.COBBLESTONE), 45));
-    public static Predicate<WeepingAngelEntity> BANNED_FROM_OVERWORLD = weepingAngelEntity -> {
-        if (weepingAngelEntity.level.dimension() != World.NETHER) {
-            weepingAngelEntity.setVarient(weepingAngelEntity.getAngelType().getRandom());
-        }
-        return false;
-    };
-    public static final RegistryObject<AbstractVariant> BASALT = VARIANTS.register("basalt", () -> new MiningVariant(() -> new ItemStack(Blocks.BASALT), 30, BANNED_FROM_OVERWORLD));
     public static final RegistryObject<AbstractVariant> RUSTED = VARIANTS.register("rusted", () -> new BaseVariant(() -> new ItemStack(Blocks.GRANITE), 45));
     public static final RegistryObject<AbstractVariant> RUSTED_NO_ARM = VARIANTS.register("rusted_no_arm", () -> new BaseVariant(() -> new ItemStack(Blocks.GRANITE), 45));
     public static final RegistryObject<AbstractVariant> RUSTED_NO_WING = VARIANTS.register("rusted_no_wing", () -> new BaseVariant(() -> new ItemStack(Blocks.GRANITE), 45));
@@ -37,6 +30,13 @@ public class AngelVariants {
     public static final RegistryObject<AbstractVariant> EMERALD = VARIANTS.register("emerald", () -> new MiningVariant(() -> new ItemStack(Blocks.EMERALD_ORE), 20));
     public static final RegistryObject<AbstractVariant> COPPER = VARIANTS.register("copper", () -> new MiningVariant(() -> new ItemStack(Blocks.IRON_ORE), 20));
     public static final RegistryObject<AbstractVariant> LAPIS = VARIANTS.register("lapis_lazuli", () -> new MiningVariant(() -> new ItemStack(Blocks.LAPIS_ORE), 10));
+    public static Predicate<WeepingAngelEntity> BANNED_FROM_OVERWORLD = weepingAngelEntity -> {
+        if (weepingAngelEntity.level.dimension() != World.NETHER) {
+            weepingAngelEntity.setVarient(weepingAngelEntity.getAngelType().getRandom());
+        }
+        return false;
+    };
+    public static final RegistryObject<AbstractVariant> BASALT = VARIANTS.register("basalt", () -> new MiningVariant(() -> new ItemStack(Blocks.BASALT), 30, BANNED_FROM_OVERWORLD));
     public static Predicate<WeepingAngelEntity> FREE_REIGN = weepingAngelEntity -> true;
     public static final RegistryObject<AbstractVariant> QUARTZ = VARIANTS.register("quartz", () -> new MiningVariant(() -> new ItemStack(Blocks.NETHER_QUARTZ_ORE), 30, FREE_REIGN));
     public static Predicate<WeepingAngelEntity> BANNED_FROM_NETHER = weepingAngelEntity -> {

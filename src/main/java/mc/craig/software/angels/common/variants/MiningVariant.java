@@ -1,15 +1,15 @@
 package mc.craig.software.angels.common.variants;
 
 import mc.craig.software.angels.common.entities.WeepingAngelEntity;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.DamageSource;
+
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class MiningVariant extends BaseVariant {
 

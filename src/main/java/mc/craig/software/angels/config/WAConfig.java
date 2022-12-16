@@ -5,14 +5,15 @@ import mc.craig.software.angels.common.entities.AngelType;
 import mc.craig.software.angels.common.variants.AbstractVariant;
 import mc.craig.software.angels.utils.AngelUtil;
 import mc.craig.software.angels.utils.DamageType;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WAConfig {
     public static final WAConfig CONFIG;

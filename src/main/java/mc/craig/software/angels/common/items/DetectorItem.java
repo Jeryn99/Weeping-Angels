@@ -5,8 +5,6 @@ import mc.craig.software.angels.common.entities.WeepingAngelEntity;
 import mc.craig.software.angels.common.misc.WATabs;
 import mc.craig.software.angels.config.WAConfig;
 import mc.craig.software.angels.utils.PlayerUtil;
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -20,6 +18,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class DetectorItem extends Item {
 
