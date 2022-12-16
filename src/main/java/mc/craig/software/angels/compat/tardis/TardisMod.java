@@ -134,42 +134,7 @@ public class TardisMod {
                     }
                 }
 
-                if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
-
-                    RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
-
-                    ServerWorld destWorld = console.getLevel().getServer().getLevel(console.getDestinationDimension());
-                    BlockPos pos = destWorld.findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), console.getDestinationPosition(), 100, false);
-                    List<BlockPos> viablePoses = BlockPosHelper.getFilteredBlockPositionsInStructure(pos, destWorld, destWorld.structureFeatureManager(), WAObjects.Structures.CATACOMBS.get(), Blocks.COBWEB);
-                    Collections.shuffle(viablePoses);
-                    if (!viablePoses.isEmpty() && spaceTimeDim != null) {
-                        console.setDestination(new SpaceTimeCoord(spaceTimeDim, viablePoses.get(0)));
-                        TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
-                        console.getInteriorManager().soundAlarm(AlarmType.LOW);
-                        console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
-
-                        console.getControl(HandbrakeControl.class).ifPresent(sys -> {
-                            sys.setFree(true);
-                            sys.markDirty();
-                            sys.startAnimation();
-                        });
-
-
-                        console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
-                            landingTypeControl.setLandType(LandingTypeControl.EnumLandType.DOWN);
-                            landingTypeControl.markDirty();
-                            landingTypeControl.startAnimation();
-                        });
-
-
-                        console.getControl(ThrottleControl.class).ifPresent(sys -> {
-                            sys.setAmount(1F);
-                            sys.startAnimation();
-                            sys.markDirty();
-                        });
-                        console.takeoff(false);
-                    }
-                }
+                 relocateTardis(world, console);
             }
 
             // Drain Fuel
@@ -236,6 +201,50 @@ public class TardisMod {
                     }))
             );
         }
+    }
+
+    private static boolean relocateTardis(World world, ConsoleTile console) {
+        if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
+
+            RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
+
+            ServerWorld destWorld = console.getLevel().getServer().getLevel(console.getDestinationDimension());
+            BlockPos pos = destWorld.findNearestMapFeature(WAObjects.Structures.CATACOMBS.get(), console.getDestinationPosition(), 100, false);
+
+            if(pos == null) return true;
+
+            List<BlockPos> viablePoses = BlockPosHelper.getFilteredBlockPositionsInStructure(pos, destWorld, destWorld.structureFeatureManager(), WAObjects.Structures.CATACOMBS.get(), Blocks.COBWEB);
+
+            Collections.shuffle(viablePoses);
+            if (!viablePoses.isEmpty() && spaceTimeDim != null && !viablePoses.isEmpty()) {
+                console.setDestination(new SpaceTimeCoord(spaceTimeDim, viablePoses.get(0)));
+                TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
+                console.getInteriorManager().soundAlarm(AlarmType.LOW);
+                console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
+
+                console.getControl(HandbrakeControl.class).ifPresent(sys -> {
+                    sys.setFree(true);
+                    sys.markDirty();
+                    sys.startAnimation();
+                });
+
+
+                console.getControl(LandingTypeControl.class).ifPresent(landingTypeControl -> {
+                    landingTypeControl.setLandType(LandingTypeControl.EnumLandType.DOWN);
+                    landingTypeControl.markDirty();
+                    landingTypeControl.startAnimation();
+                });
+
+
+                console.getControl(ThrottleControl.class).ifPresent(sys -> {
+                    sys.setAmount(1F);
+                    sys.startAnimation();
+                    sys.markDirty();
+                });
+                console.takeoff(false);
+            }
+        }
+        return false;
     }
 
     @SubscribeEvent
