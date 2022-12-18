@@ -70,21 +70,22 @@ public class WeepingAngelsForge {
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookup = e.getLookupProvider();
 
-        generator.addProvider(true, new EnglishLang(generator));
-        generator.addProvider(true, new ModelProviderItem(generator, existingFileHelper));
-        generator.addProvider(true, new ModelProviderBlock(generator, existingFileHelper));
-        generator.addProvider(true, new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
-        generator.addProvider(true, new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
-        generator.addProvider(true, new WorldGenProvider(generator.getPackOutput()));
-        //TODO   generator.addProvider(true, new WABiomeMods(generator));
-        generator.addProvider(true, new RecipeProvider(generator.getPackOutput()));
-        generator.addProvider(true, new SoundProvider(generator, existingFileHelper));
+        /*Resource Pack*/
+        generator.addProvider(e.includeClient(), new EnglishLang(generator));
+        generator.addProvider(e.includeClient(), new ModelProviderItem(generator, existingFileHelper));
+        generator.addProvider(e.includeClient(), new ModelProviderBlock(generator, existingFileHelper));
+        generator.addProvider(e.includeClient(), new SoundProvider(generator, existingFileHelper));
+
+        /*Data Pack*/
+        generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
+        generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput()));
+        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput()));
+        generator.addProvider(e.includeServer(), new BlockTags(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
         BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
-
-        generator.addProvider(true, new BlockTags(generator.getPackOutput(), lookup, existingFileHelper));
-        generator.addProvider(true, new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
-        generator.addProvider(true, new ItemTags(generator.getPackOutput(), lookup, blocktags, existingFileHelper));
+        generator.addProvider(e.includeServer(), new ItemTags(generator.getPackOutput(), lookup, blocktags, existingFileHelper));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -5,6 +5,12 @@ pluginManagement {
         maven { url "https://maven.minecraftforge.net/" }
         maven { url "https://maven.architectury.dev/" }
         gradlePluginPortal()
+        maven {
+            url = 'https://maven.parchmentmc.net/'
+            content {
+                includeGroup 'org.parchmentmc.data'
+            }
+        }
     }
 }
 
