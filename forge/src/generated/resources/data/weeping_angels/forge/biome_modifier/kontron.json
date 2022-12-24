@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#weeping_angels:spawns/weeping_angels",
+  "features": "weeping_angels:ore_kontron",
+  "step": "underground_ores"
+}

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:is_snowy",
+  "features": "weeping_angels:snow_angel",
+  "step": "raw_generation"
+}

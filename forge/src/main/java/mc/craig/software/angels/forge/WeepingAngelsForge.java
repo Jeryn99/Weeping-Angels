@@ -79,7 +79,7 @@ public class WeepingAngelsForge {
         /*Data Pack*/
         generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
         generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
-        generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput()));
+        generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
         generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput()));
         generator.addProvider(e.includeServer(), new BlockTags(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));

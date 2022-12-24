@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "weeping_angels:ore_kontron_small",
+  "step": "underground_ores"
+}
