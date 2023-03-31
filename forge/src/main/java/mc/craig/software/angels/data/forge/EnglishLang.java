@@ -10,8 +10,9 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -80,10 +81,10 @@ public class EnglishLang extends LanguageProvider {
         add("itemGroup." + WeepingAngels.MODID + "." + "creative_tab", "Weeping Angels");
 
         // ==== Damage Sources =====
-   //TODO Lang
-        /*     add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
+
+        add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
         add(WADamageSources.PUNCH_STONE, "%s punched stone too hard...");
-        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel");*/
+        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel");
 
         // ==== Sounds ====
         addSound(WASounds.ANGEL_MOCKING.get(), "Angel mocks");
@@ -119,8 +120,8 @@ public class EnglishLang extends LanguageProvider {
         add("config.weeping_angels." + waConfiguration.getPath().get(1), message);
     }
 
-    public void add(DamageSource damageSource, String message) {
-        add("death.attack." + damageSource.getMsgId(), message);
-        add("death.attack." + damageSource.getMsgId() + ".player", message);
+    public void add(ResourceKey<DamageType> damageSource, String message) {
+        add("death.attack." + damageSource.location().getPath(), message);
+        add("death.attack." + damageSource.location().getPath() + ".player", message);
     }
 }
