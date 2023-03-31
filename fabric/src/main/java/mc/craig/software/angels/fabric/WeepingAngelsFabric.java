@@ -40,7 +40,7 @@ import static mc.craig.software.angels.common.WAEntities.WEEPING_ANGEL;
 public class WeepingAngelsFabric implements ModInitializer {
 
 
-    private static final CreativeModeTab ITEM_GROUP = FabricItemGroup.builder(new ResourceLocation(WeepingAngels.MODID, "creative_tab")).icon(() -> new ItemStack(WAItems.ANGEL_SPAWNER.get())).displayItems((enabledFeatures, entries, operatorEnabled) -> {
+    private static final CreativeModeTab ITEM_GROUP = FabricItemGroup.builder(new ResourceLocation(WeepingAngels.MODID, "creative_tab")).icon(() -> new ItemStack(WAItems.ANGEL_SPAWNER.get())).displayItems((enabledFeatures, entries) -> {
 
         BuiltInRegistries.ITEM.iterator().forEachRemaining(item -> {
             if (BuiltInRegistries.ITEM.getKey(item).getNamespace().matches(WeepingAngels.MODID)) {
@@ -87,7 +87,7 @@ public class WeepingAngelsFabric implements ModInitializer {
     }
 
     private Predicate<BiomeSelectionContext> isSnowy() {
-        return biomeSelectionContext -> biomeSelectionContext.getBiome().getPrecipitation() == Biome.Precipitation.SNOW;
+        return biomeSelectionContext -> biomeSelectionContext.getBiomeKey().location().getPath().contains("snow");
     }
 
 }

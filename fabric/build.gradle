@@ -17,7 +17,7 @@ unifiedPublishing {
         displayName = "[$rootProject.minecraft_version - Weeping Angels - Fabric] - v$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.19.3"]
+        gameVersions = ["1.19.4"]
         mainPublication tasks.remapJar
         gameLoaders = ["fabric"]
         relations {
@@ -32,7 +32,7 @@ unifiedPublishing {
             curseforge {
                 token = CURSE_API_KEY
                 id = "291249"
-                gameVersions.addAll "Java 17", "1.19.3"
+                gameVersions.addAll "Java 17", "1.19.4"
             }
         }
 
@@ -59,6 +59,10 @@ repositories {
     maven { url "https://minecraft.guntram.de/maven/" }
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
 }
 
 dependencies {
@@ -66,8 +70,8 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     // Forge Config API Port
-    modApi "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
-    include "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
     
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

@@ -5,10 +5,10 @@ import mc.craig.software.angels.client.models.entity.angel.AngelModel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
 
 public class AngelItemLayer extends RenderLayer<WeepingAngel, AngelModel> {
 
@@ -23,7 +23,7 @@ public class AngelItemLayer extends RenderLayer<WeepingAngel, AngelModel> {
         float height = livingEntity.getBbHeight() - 1;
         poseStack.translate(0.0, -height, 0.0);
         poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-        Minecraft.getInstance().getItemRenderer().renderStatic(livingEntity.getMainHandItem(), ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, livingEntity.getId());
+        Minecraft.getInstance().getItemRenderer().renderStatic(livingEntity.getMainHandItem(), ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, livingEntity.level, livingEntity.getId());
         poseStack.popPose();
     }
 }

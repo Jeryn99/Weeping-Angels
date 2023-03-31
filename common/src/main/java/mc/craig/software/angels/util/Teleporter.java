@@ -54,7 +54,7 @@ public class Teleporter {
             return level.noCollision(entity, entity.getBoundingBox().move(blockpos));
         }
     }
-    public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, double pX, double pY, double pZ, float pYaw, float pPitch, boolean playSound) {
+    public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, int pX, int pY, int pZ, float pYaw, float pPitch, boolean playSound) {
         WeepingAngels.LOGGER.debug("Teleported {} to {} {} {}", pEntity.getDisplayName().getString(), pX, pY, pZ);
         BlockPos blockpos = new BlockPos(pX, pY, pZ);
 

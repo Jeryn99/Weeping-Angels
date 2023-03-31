@@ -85,7 +85,7 @@ public class WeepingAngelsForge {
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
         BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
-        generator.addProvider(e.includeServer(), new ItemTags(generator.getPackOutput(), lookup, blocktags, existingFileHelper));
+        generator.addProvider(e.includeServer(), new ItemTags(generator.getPackOutput(), lookup, blocktags.contentsGetter(), existingFileHelper));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

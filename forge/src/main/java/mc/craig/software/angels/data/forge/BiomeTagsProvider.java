@@ -24,12 +24,7 @@ public class BiomeTagsProvider extends net.minecraft.data.tags.BiomeTagsProvider
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        for (Map.Entry<ResourceKey<Biome>, Biome> biomesEntry : ForgeRegistries.BIOMES.getEntries()) {
-            if(biomesEntry.getValue().getPrecipitation() == Biome.Precipitation.SNOW) {
-                tag(WATags.ANGEL_SPAWNS).add(biomesEntry.getKey());
-            }
-        }
-
+        tag(WATags.ANGEL_SPAWNS).addTags(BiomeTags.HAS_VILLAGE_SNOWY, BiomeTags.SNOW_GOLEM_MELTS);
         tag(WATags.ANGEL_SPAWNS).addTags(BiomeTags.IS_NETHER, BiomeTags.IS_FOREST, BiomeTags.IS_TAIGA, BiomeTags.IS_JUNGLE);
         tag(WATags.CATACOMB_STRUCTURE_BIOMES).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_TAIGA, BiomeTags.IS_JUNGLE);
 

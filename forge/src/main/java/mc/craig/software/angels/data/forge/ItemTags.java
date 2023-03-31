@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
@@ -17,8 +18,12 @@ import java.util.concurrent.CompletableFuture;
 public class ItemTags extends ItemTagsProvider {
 
 
-    public ItemTags(PackOutput arg, CompletableFuture<HolderLookup.Provider> completableFuture, TagsProvider<Block> arg2, @Nullable ExistingFileHelper existingFileHelper) {
-        super(arg, completableFuture, arg2, WeepingAngels.MODID, existingFileHelper);
+    public ItemTags(PackOutput arg, CompletableFuture<HolderLookup.Provider> completableFuture, CompletableFuture<TagLookup<Block>> completableFuture2, @Nullable ExistingFileHelper existingFileHelper) {
+        super(arg, completableFuture, completableFuture2, WeepingAngels.MODID, existingFileHelper);
+    }
+
+    public ItemTags(PackOutput arg, CompletableFuture<HolderLookup.Provider> completableFuture, CompletableFuture<TagLookup<Item>> completableFuture2, CompletableFuture<TagLookup<Block>> completableFuture3, @Nullable ExistingFileHelper existingFileHelper) {
+        super(arg, completableFuture, completableFuture2, completableFuture3, WeepingAngels.MODID, existingFileHelper);
     }
 
     @Override

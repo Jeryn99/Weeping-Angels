@@ -4,11 +4,15 @@ import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -134,7 +138,10 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
                 if (entity instanceof WeepingAngel weepingAngel) {
                     weepingAngel.remove(Entity.RemovalReason.KILLED);
                 } else {
-                    entity.hurt(WADamageSources.GENERATOR, 5F);
+                    Holder.Reference<DamageType> damageType = level.registryAccess()
+                            .registryOrThrow(Registries.DAMAGE_TYPE)
+                            .getHolderOrThrow(WADamageSources.GENERATOR);
+                    entity.hurt(new DamageSource(damageType), 5F);
                 }
             }
 

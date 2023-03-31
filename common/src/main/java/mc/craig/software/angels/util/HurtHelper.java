@@ -3,8 +3,11 @@ package mc.craig.software.angels.util;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +28,7 @@ public class HurtHelper {
 
     public static boolean handleAngelHurt(WeepingAngel weepingAngel, DamageSource pSource, float pAmount) {
 
-        if(pSource == DamageSource.OUT_OF_WORLD){
+        if(pSource.is(DamageTypes.OUT_OF_WORLD)){
             return true; // Required for /kill command else...yeah
         }
 
@@ -38,10 +41,10 @@ public class HurtHelper {
                 return hasPickAxe(weepingAngel, pSource, itemStack -> true);
             }
             case GENERATOR -> {
-                return pSource == WADamageSources.GENERATOR;
+                return pSource.is(WADamageSources.GENERATOR);
             }
             case PICKAXE_AND_GENERATOR -> {
-                return pSource == WADamageSources.GENERATOR || hasPickAxe(weepingAngel, pSource, itemStack -> true);
+                return pSource.is(WADamageSources.GENERATOR) || hasPickAxe(weepingAngel, pSource, itemStack -> true);
             }
             case ANYTHING -> {
                 return true;
@@ -57,7 +60,9 @@ public class HurtHelper {
                 if (weepingAngel.level.random.nextInt(100) <= 10) {
                     weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
                 }
-                player.hurt(WADamageSources.PUNCH_STONE, weepingAngel.level.random.nextInt(5));
+                if(player.level instanceof ServerLevel serverLevel) {
+                    player.hurt(WADamageSources.getSource(serverLevel, WADamageSources.PUNCH_STONE), weepingAngel.level.random.nextInt(5));
+                }
                 return false;
             }
             ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);

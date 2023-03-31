@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class ThrowableGeneratorRenderer extends ThrownItemRenderer<ThrowableGenerator> {
@@ -29,7 +30,7 @@ public class ThrowableGeneratorRenderer extends ThrownItemRenderer<ThrowableGene
             poseStack.pushPose();
             poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
             poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-            Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(WAItems.CHRONODYNE_GENERATOR.get()), ItemTransforms.TransformType.GROUND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.getId());
+            Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(WAItems.CHRONODYNE_GENERATOR.get()), ItemDisplayContext.GROUND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level, entity.getId());
             poseStack.popPose();
             super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
         }

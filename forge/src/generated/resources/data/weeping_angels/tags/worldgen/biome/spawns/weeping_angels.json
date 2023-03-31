@@ -1,5 +1,7 @@
 {
   "values": [
+    "#minecraft:has_structure/village_snowy",
+    "#minecraft:snow_golem_melts",
     "#minecraft:is_nether",
     "#minecraft:is_forest",
     "#minecraft:is_taiga",

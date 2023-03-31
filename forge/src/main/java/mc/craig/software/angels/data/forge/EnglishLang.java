@@ -80,9 +80,10 @@ public class EnglishLang extends LanguageProvider {
         add("itemGroup." + WeepingAngels.MODID + "." + "creative_tab", "Weeping Angels");
 
         // ==== Damage Sources =====
-        add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
+   //TODO Lang
+        /*     add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
         add(WADamageSources.PUNCH_STONE, "%s punched stone too hard...");
-        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel");
+        add(WADamageSources.SNAPPED_NECK, "%s had their neck snapped by a Weeping Angel");*/
 
         // ==== Sounds ====
         addSound(WASounds.ANGEL_MOCKING.get(), "Angel mocks");

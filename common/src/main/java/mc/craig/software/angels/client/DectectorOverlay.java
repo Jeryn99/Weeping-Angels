@@ -36,7 +36,7 @@ public class DectectorOverlay {
 
         // Item
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        itemRenderer.renderAndDecorateItem(new ItemStack(WAItems.TIMEY_WIMEY_DETECTOR.get()), 7, 6);
+        itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(WAItems.TIMEY_WIMEY_DETECTOR.get()), 7, 6);
         poseStack.popPose();
 
         // Text

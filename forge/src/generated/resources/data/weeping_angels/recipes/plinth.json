@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "weeping_angels:plinth"
-  }
+  },
+  "show_notification": true
 }

@@ -35,7 +35,7 @@ unifiedPublishing {
         displayName = "[$rootProject.minecraft_version - Weeping Angels - Forge] - v$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.19.3"]
+        gameVersions = ["1.19.4"]
         mainPublication tasks.remapJar
         gameLoaders = ["forge"]
         relations {
@@ -47,7 +47,7 @@ unifiedPublishing {
             curseforge {
                 token = CURSE_API_KEY
                 id = "291249"
-                gameVersions.addAll "Java 17", "1.19.3"
+                gameVersions.addAll "Java 17", "1.19.4"
             }
         }
 

@@ -15,5 +15,6 @@
   ],
   "result": {
     "item": "weeping_angels:statue"
-  }
+  },
+  "show_notification": true
 }

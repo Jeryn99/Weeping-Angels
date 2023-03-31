@@ -88,7 +88,7 @@ public class ChiselScreen extends Screen {
         }
 
         poseStack.pushPose();
-        InventoryScreen.renderEntityInInventory(guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
         poseStack.popPose();
         font.draw(poseStack, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
 

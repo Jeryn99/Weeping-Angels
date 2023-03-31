@@ -106,11 +106,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
         boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
         if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
             ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
-            double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
-            double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
+            int xCoord = (int) (getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
+            int zCoord = (int) (getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
 
             for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
+                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, xCoord, zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
                 if (successfulTeleport) {
                     return true;
                 }
@@ -124,10 +124,14 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Hurt
-        boolean didHurt = pEntity.hurt(WADamageSources.SNAPPED_NECK, attackDamage);
-        this.doEnchantDamageEffects(this, pEntity);
-        this.setLastHurtMob(pEntity);
-        return didHurt;
+        if (pEntity.level instanceof ServerLevel serverLevel) {
+            boolean didHurt = pEntity.hurt(WADamageSources.getSource(serverLevel, WADamageSources.SNAPPED_NECK), attackDamage);
+
+            this.doEnchantDamageEffects(this, pEntity);
+            this.setLastHurtMob(pEntity);
+            return didHurt;
+        }
+        return false;
     }
 
     @Override

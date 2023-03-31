@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "weeping_angels:coffin"
-  }
+  },
+  "show_notification": true
 }

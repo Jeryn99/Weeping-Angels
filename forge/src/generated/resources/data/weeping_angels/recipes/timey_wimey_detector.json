@@ -28,5 +28,6 @@
   ],
   "result": {
     "item": "weeping_angels:timey_wimey_detector"
-  }
+  },
+  "show_notification": true
 }
