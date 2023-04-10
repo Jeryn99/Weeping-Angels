@@ -80,6 +80,10 @@ public class EnglishLang extends LanguageProvider {
         add("itemGroup." + WeepingAngels.MODID, "Weeping Angels");
         add("itemGroup." + WeepingAngels.MODID + "." + WeepingAngels.MODID, "Weeping Angels"); //Fabric one
 
+        // ==== Exteriors ====
+        add("exterior.weeping_angels.2005_exterior", "2005 Exterior");
+        add("exterior.weeping_angels.2005exterior", "2005 Exterior");
+
         // ==== Damage Sources =====
         add(WADamageSources.GENERATOR, "%s was sucked into the vortex...");
         add(WADamageSources.PUNCH_STONE, "%s punched stone too hard...");

@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mc.craig.software.angels.common.WASounds;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 
+import java.util.Locale;
 import java.util.Map;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
@@ -47,6 +49,11 @@ public class BlockReactions {
     };
 
     public static BlockReaction BREAK_BLOCKS = (weepingAngel, blockState, level, blockPos) -> {
+
+        if(Registry.BLOCK.getKey(blockState.getBlock()).toString().toLowerCase(Locale.ENGLISH).contains("tardis:") || level.dimensionTypeId().location().toString().toLowerCase(Locale.ENGLISH).contains("tardis:")){
+            return false;
+        }
+
         if (blockState.getLightBlock(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance()) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);

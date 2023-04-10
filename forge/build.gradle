@@ -30,38 +30,6 @@ loom {
     }
 }
 
-unifiedPublishing {
-    project {
-        displayName = "[Forge - Weeping Angels - $rootProject.minecraft_version] - v$project.version"
-        releaseType = "release"
-        changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.19.2"]
-        mainPublication tasks.remapJar
-        gameLoaders = ["forge"]
-        relations {
-
-        }
-
-        var CURSE_API_KEY = project.findProperty("curseforge") ?: System.getenv("curseforge")
-        if (CURSE_API_KEY != null) {
-            curseforge {
-                token = CURSE_API_KEY
-                id = "291249"
-                gameVersions.addAll "Java 17", "1.19.2"
-            }
-        }
-
-        var MODRINTH_TOKEN = project.findProperty("modrinth") ?: System.getenv("modrinth")
-        if (MODRINTH_TOKEN != null) {
-            modrinth {
-                token = MODRINTH_TOKEN
-                id = "TEzJJY7H"
-                version = "$project.version+$project.name"
-            }
-        }
-    }
-}
-
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
@@ -74,6 +42,8 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    modImplementation "net.tardis.mod:Tardis-Mod-1.19.2:${tardis_version}"
 }
 
 processResources {

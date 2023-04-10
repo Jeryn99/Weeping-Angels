@@ -39,8 +39,15 @@ public class Teleporter {
                     allowedDimensions.remove(dimension);
                 }
             }
+
+            String dimensionType = dimension.dimensionTypeId().location().toString();
+
+            if(dimensionType.equalsIgnoreCase("tardis:tardis") || dimensionType.equalsIgnoreCase("tardis:moon") || dimensionType.equalsIgnoreCase("tardis:space") || dimensionType.equalsIgnoreCase("tardis:vortex")){
+                allowedDimensions.remove(dimension);
+            }
         }
         allowedDimensions.remove(server.getLevel(Level.NETHER));
+
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 

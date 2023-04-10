@@ -1,0 +1,9 @@
+{
+  "type": "tardis:spectrometer",
+  "download_ticks": 200,
+  "ingredient": {
+    "item": "weeping_angels:kontron_ingot"
+  },
+  "processing_ticks": 200,
+  "result": "weeping_angels:exteriors/2005exterior"
+}

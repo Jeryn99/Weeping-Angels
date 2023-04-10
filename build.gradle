@@ -51,6 +51,10 @@ allprojects {
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
         }
 
+        flatDir {
+            dirs '../libs'
+        }
+
         maven { url "https://cursemaven.com" }
 
     }

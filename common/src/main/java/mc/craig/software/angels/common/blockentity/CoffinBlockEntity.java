@@ -174,4 +174,14 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public void demat() {
         isDemat = true;
     }
+
+    public enum Coffin {
+        PTB(true), PTB_2(true), PTB_3(true), PTB_4(true), PTB_5(true);
+
+        private final boolean isPoliceBox;
+
+        Coffin(boolean isPoliceBox) {
+            this.isPoliceBox = isPoliceBox;
+        }
+    }
 }
