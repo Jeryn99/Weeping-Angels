@@ -253,6 +253,7 @@ public class TardisMod {
                 iSonic.sync(event.getEntity(), event.getHand());
                 event.getEntity().displayClientMessage(Component.translatable("message.weeping_angels.2005_schematic"), true);
 
+                blockEntity.getLevel().removeBlock(blockEntity.getBlockPos(), false);
                 WAHelper.spawnWeepingAngel((ServerLevel) event.getLevel(), event.getPos(), iPlinth.getVariant(), true, (float) Math.toRadians(22.5F * blockEntity.getBlockState().getValue(StatueBaseBlock.ROTATION)));
             });
         }

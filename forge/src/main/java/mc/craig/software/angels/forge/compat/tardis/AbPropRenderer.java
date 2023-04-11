@@ -1,11 +1,13 @@
 package mc.craig.software.angels.forge.compat.tardis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
 import mc.craig.software.angels.forge.compat.tardis.exteriors.AbPropModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.tardis.mod.Tardis;
 import net.tardis.mod.client.TRenderTypes;
 import net.tardis.mod.client.renderers.exteriors.ExteriorRenderer;
 

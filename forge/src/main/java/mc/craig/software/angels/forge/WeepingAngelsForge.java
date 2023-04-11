@@ -99,7 +99,6 @@ public class WeepingAngelsForge {
     }
     private void doClientStuff(final FMLClientSetupEvent event) {
         if (ModList.get().isLoaded("tardis")) {
-            MinecraftForge.EVENT_BUS.register(TardisClient.class);
             DistExecutor.runWhenOn(Dist.CLIENT, () -> TardisClient::clientStuff);
         }
     }
