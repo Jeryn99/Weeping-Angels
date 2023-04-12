@@ -201,12 +201,11 @@ public class TardisMod {
             ResourceKey<Level> spaceTimeDim = console.getCurrentDimension();
 
             ServerLevel destWorld = console.getLevel().getServer().getLevel(console.getDestinationDimension());
-            BlockPos pos = destWorld.findNearestMapStructure(WATags.CATACOMBS, console.getDestinationPosition(), 100, false);
+            BlockPos pos = destWorld.findNearestMapStructure(WATags.CATACOMBS, console.getDestinationPosition(), 25, false);
 
             if(pos == null) return true;
 
             List<BlockPos> viablePoses = getFilteredBlockPositionsInStructure(new Pair<>(pos, world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).get(new ResourceLocation(WeepingAngels.MODID, "catacombs"))), destWorld, destWorld.structureManager(), Blocks.WATER);
-            WeepingAngels.LOGGER.info(String.valueOf(viablePoses));
 
             Collections.shuffle(viablePoses);
             if (!viablePoses.isEmpty() && spaceTimeDim != null) {
