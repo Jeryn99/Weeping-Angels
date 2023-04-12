@@ -201,7 +201,7 @@ public class TardisMod {
             ResourceKey<Level> spaceTimeDim = console.getCurrentDimension();
 
             ServerLevel destWorld = console.getLevel().getServer().getLevel(console.getDestinationDimension());
-            BlockPos pos = destWorld.findNearestMapStructure(WATags.CATACOMBS, console.getDestinationPosition(), 25, false);
+            BlockPos pos = destWorld.findNearestMapStructure(WATags.CATACOMBS, console.getDestinationPosition(), 10, false);
 
             if(pos == null) return true;
 
