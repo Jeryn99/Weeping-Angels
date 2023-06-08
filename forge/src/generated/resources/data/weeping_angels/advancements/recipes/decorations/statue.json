@@ -28,5 +28,6 @@
     "recipes": [
       "weeping_angels:statue"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

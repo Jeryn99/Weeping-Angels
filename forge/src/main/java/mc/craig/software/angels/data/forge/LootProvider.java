@@ -14,10 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
@@ -60,8 +57,9 @@ public class LootProvider extends LootTableProvider {
      */
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationContext) {
-        for (Map.Entry<ResourceLocation, LootTable> entry : map.entrySet())
-            LootTables.validate(validationContext, entry.getKey(), entry.getValue());
+        map.forEach((arg, arg2) -> {
+            arg2.validate(validationContext.setParams(arg2.getParamSet()).enterElement("{" + arg + "}", new LootDataId(LootDataType.TABLE, arg)));
+        });
     }
 
     /**

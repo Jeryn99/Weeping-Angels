@@ -29,7 +29,8 @@ public class ItemTags extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider arg) {
         tag(WATags.STEALABLE_ITEMS).add(Items.CLOCK, Items.TORCH, Items.COMPASS, Items.RECOVERY_COMPASS);
-        tag(WATags.STEALABLE_ITEMS).addOptionalTag(Tags.Items.TOOLS_PICKAXES.location());
-        tag(WATags.ATTACK_OVERRIDES).addOptionalTag(Tags.Items.TOOLS_PICKAXES.location());
+        //TODO Validate whether tools = pickaxes?
+        tag(WATags.STEALABLE_ITEMS).addOptionalTag(Tags.Items.TOOLS.location());
+        tag(WATags.ATTACK_OVERRIDES).addOptionalTag(Tags.Items.TOOLS.location());
     }
 }

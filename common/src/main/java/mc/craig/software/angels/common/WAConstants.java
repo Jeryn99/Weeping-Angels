@@ -30,6 +30,7 @@ public class WAConstants {
     public static final String ANGEL_EMOTION = createMessage("angel_emotion");
     public static final String ANGEL_VARIANT = createMessage("angel_variant");
     public static final String ANGEL_POSES = createMessage("angel_poses");
+    public static final String CREATIVE_TAB = "tab." + WeepingAngels.MODID + ".main";
 
     private static String createMessage(String s) {
         return "message." + WeepingAngels.MODID + "." + s;

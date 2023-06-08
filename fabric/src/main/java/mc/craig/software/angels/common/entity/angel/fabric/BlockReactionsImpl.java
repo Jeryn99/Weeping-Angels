@@ -22,7 +22,7 @@ public class BlockReactionsImpl {
             BlockState blockState = block.defaultBlockState();
             WeepingAngels.LOGGER.debug(blockState.toString());
 
-            if (!block.defaultBlockState().is(WATags.NO_BREAKING) && !block.defaultBlockState().getMaterial().isLiquid()) {
+            if (!block.defaultBlockState().is(WATags.NO_BREAKING) && !block.defaultBlockState().liquid()) {
 
                 // Destroy Lights
                 if (blockState.getLightEmission() > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {

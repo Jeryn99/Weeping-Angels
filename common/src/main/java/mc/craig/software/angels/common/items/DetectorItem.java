@@ -21,7 +21,7 @@ public class DetectorItem extends Item {
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
 
-        if (!pEntity.level.isClientSide) {
+        if (!pEntity.level().isClientSide) {
             List<Entity> angels = WAHelper.getAnomaliesAroundEntity(pEntity, 64);
             if (pEntity instanceof Player player) {
                 if (!angels.isEmpty() && pIsSelected && pEntity.tickCount % 20 == 0) {

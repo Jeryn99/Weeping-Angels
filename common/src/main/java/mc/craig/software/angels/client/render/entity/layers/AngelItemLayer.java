@@ -23,7 +23,7 @@ public class AngelItemLayer extends RenderLayer<WeepingAngel, AngelModel> {
         float height = livingEntity.getBbHeight() - 1;
         poseStack.translate(0.0, -height, 0.0);
         poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-        Minecraft.getInstance().getItemRenderer().renderStatic(livingEntity.getMainHandItem(), ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, livingEntity.level, livingEntity.getId());
+        Minecraft.getInstance().getItemRenderer().renderStatic(livingEntity.getMainHandItem(), ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, livingEntity.level(), livingEntity.getId());
         poseStack.popPose();
     }
 }

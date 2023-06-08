@@ -8,10 +8,8 @@ import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
-import mc.craig.software.angels.data.forge.level.ProviderConfiguredFeatures;
 import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -65,6 +63,7 @@ public class WeepingAngelsForge {
 
     }
 
+
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
@@ -93,6 +92,7 @@ public class WeepingAngelsForge {
         AngelVariant.init();
         SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
+
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAEntities.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());

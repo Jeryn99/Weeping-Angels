@@ -11,6 +11,7 @@ import mc.craig.software.angels.client.render.entity.ThrowableGeneratorRenderer;
 import mc.craig.software.angels.client.render.entity.WeepingAngelRenderer;
 import mc.craig.software.angels.client.render.entity.layers.DonationWingsLayer;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.WATabs;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
@@ -29,12 +30,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -42,37 +44,27 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {
 
-    private static CreativeModeTab tab;
-
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("angel", new TimeyWimeyOverlay());
-    }
-
 
     @SubscribeEvent
-    public static void on(CreativeModeTabEvent.Register event) {
-        tab = event.registerCreativeModeTab(new ResourceLocation(WeepingAngels.MODID, "creative_tab"), builder -> builder.title(Component.literal("Weeping Angels")).icon(() -> new ItemStack(WAItems.TIMEY_WIMEY_DETECTOR.get())).build());
-    }
-
-    @SubscribeEvent
-    public static void on(CreativeModeTabEvent.BuildContents event) {
-
+    public static void on(BuildCreativeModeTabContentsEvent event) {
         Stream<Item> values = ForgeRegistries.ITEMS.getValues().stream().filter(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
 
-        if (event.getTab() == tab) {
+        if (event.getTab() == WATabs.MAIN_TAB.get()) {
             for (Item item : values.toList()) {
                 event.accept(item);
             }
         }
     }
 
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll("angel", new TimeyWimeyOverlay());
+    }
 
     @SubscribeEvent
     public static void renderLayers(EntityRenderersEvent.AddLayers addLayers) {
@@ -103,7 +95,7 @@ public class ClientModBus {
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
             List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
             if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
+            return GlobalPos.of(entity.level().dimension(), anomaliesAround.get(0).blockPosition());
         }));
     }
 

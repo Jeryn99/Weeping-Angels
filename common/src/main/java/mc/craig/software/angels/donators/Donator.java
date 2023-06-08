@@ -40,7 +40,7 @@ public class Donator {
             }
         }
 
-        if (player.isOnGround()) {
+        if (player.onGround()) {
             openState.stop();
             if (!closeState.isStarted()) {
                 closeState.start(player.tickCount);

@@ -30,5 +30,6 @@
     "recipes": [
       "weeping_angels:chronodyne_generator"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

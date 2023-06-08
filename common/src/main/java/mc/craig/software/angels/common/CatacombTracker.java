@@ -54,7 +54,7 @@ public class CatacombTracker {
      * @return `true` if the player is inside a catacomb, `false` otherwise
      */
     public static boolean isInCatacomb(LivingEntity playerEntity) {
-        if (playerEntity.level instanceof ServerLevel serverWorld) {
+        if (playerEntity.level() instanceof ServerLevel serverWorld) {
             boolean isCatacomb = serverWorld.structureManager().getStructureAt(playerEntity.blockPosition(), getConfigured(serverWorld, WAStructures.CATACOMB.getId())).isValid();
 
             if (isCatacomb) {

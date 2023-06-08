@@ -60,10 +60,10 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         BlockPos pos = result.getBlockPos().above();
-        BlockState blockState = level.getBlockState(pos);
+        BlockState blockState = level().getBlockState(pos);
+        Level level = level();
 
-
-        if (blockState.getMaterial().isReplaceable()) {
+        if (blockState.canBeReplaced()) {
             level.setBlock(pos, WABlocks.CHRONODYNE_GENERATOR.get().defaultBlockState().setValue(GeneratorBlock.ROTATION, random.nextInt(15)), 3);
             if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
                 generatorBlockEntity.setActivated(isActivated);

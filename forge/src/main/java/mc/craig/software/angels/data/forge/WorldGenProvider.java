@@ -26,13 +26,10 @@ public class WorldGenProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ProviderConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ProviderPlacedFeatures::bootstrap)
-            .add(Registries.DAMAGE_TYPE, new RegistrySetBuilder.RegistryBootstrap<DamageType>() {
-                @Override
-                public void run(BootstapContext<DamageType> arg) {
-                    arg.register(WADamageSources.GENERATOR, new DamageType("generator", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
-                    arg.register(WADamageSources.PUNCH_STONE, new DamageType("punch_stone", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
-                    arg.register(WADamageSources.SNAPPED_NECK, new DamageType("snapped_neck", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
-                }
+            .add(Registries.DAMAGE_TYPE, arg -> {
+                arg.register(WADamageSources.GENERATOR, new DamageType("generator", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
+                arg.register(WADamageSources.PUNCH_STONE, new DamageType("punch_stone", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
+                arg.register(WADamageSources.SNAPPED_NECK, new DamageType("snapped_neck", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
             })
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ProviderBiomeModifiers::bootstrap);
 

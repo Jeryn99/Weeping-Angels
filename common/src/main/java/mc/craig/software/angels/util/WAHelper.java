@@ -35,7 +35,7 @@ public class WAHelper {
     public static Predicate<? super Entity> ANOMALY_ENTITIES = input -> input.getType().is(WATags.ANOMALYS);
 
     public static List<Entity> getAnomaliesAroundEntity(Entity entity, int radius) {
-        return entity.level.getEntities((Entity) null, entity.getBoundingBox().inflate(radius, radius, radius), ANOMALY_ENTITIES);
+        return entity.level().getEntities((Entity) null, entity.getBoundingBox().inflate(radius, radius, radius), ANOMALY_ENTITIES);
     }
 
     @ExpectPlatform
@@ -46,21 +46,21 @@ public class WAHelper {
     //TODO Clean this up
     public static void onPlayerTick(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
-            if (!player.level.isClientSide) {
+            if (!player.level().isClientSide) {
                 boolean isInCatacomb = CatacombTracker.isInCatacomb(player);
-                RandomSource randomSource = serverPlayer.level.getRandom();
+                RandomSource randomSource = serverPlayer.level().getRandom();
 
                 if (player.tickCount % 40 == 0) {
                     CatacombTracker.tellClient(serverPlayer, isInCatacomb);
                 }
 
                 if (isInCatacomb && serverPlayer.tickCount % 200 == 0) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WAHelper.getRandomSounds(randomSource)), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level.random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WAHelper.getRandomSounds(randomSource)), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level().random.nextLong()));
                 }
             }
 
             // Update Donators
-            if (player.level.isClientSide()) {
+            if (player.level().isClientSide()) {
                 for (Donator donator : DonationChecker.getModDonators()) {
                     if (player.getStringUUID().equals(donator.getUuid())) {
                         donator.tick(player);

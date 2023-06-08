@@ -40,12 +40,12 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ang
 
                 if (pEntity.deathTime < 10) {
                     for (int i = 0; i < 10; i++) {
-                        pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY() + 1, pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                        pEntity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY() + 1, pEntity.getZ(), 0.0D, 0.1D, 0.2D);
                     }
                 }
 
                 for (int i = 0; i < 10; i++) {
-                    pEntity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
+                    pEntity.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockItem.getBlock().defaultBlockState()), pEntity.getX(), pEntity.getY(), pEntity.getZ(), 0.0D, 0.1D, 0.2D);
                 }
                 return;
             }

@@ -1,8 +1,7 @@
 package mc.craig.software.angels.fabric;
 
 import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.client.DectectorOverlay;
-import mc.craig.software.angels.client.WAMusic;
+import mc.craig.software.angels.client.DetectorOverlay;
 import mc.craig.software.angels.client.models.ModelRegistration;
 import mc.craig.software.angels.client.render.blockentity.GeneratorRenderer;
 import mc.craig.software.angels.client.render.blockentity.CoffinRenderer;
@@ -42,7 +41,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
     }
 
     private void overlay() {
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> DectectorOverlay.renderOverlay(matrixStack));
+        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> DetectorOverlay.renderOverlay(matrixStack));
 
     }
 
@@ -59,7 +58,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
             List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
             if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
+            return GlobalPos.of(entity.level().dimension(), anomaliesAround.get(0).blockPosition());
         }));
     }
 

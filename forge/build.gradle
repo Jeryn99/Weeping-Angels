@@ -23,36 +23,40 @@ loom {
         }
     }
 
-    launches {
+    print(project(":common").file("src/main/resources/").absolutePath)
+
+    runs {
         data {
-            arg "--existing", project(":common").file("src/main/resources/").absolutePath
+            data()
+            programArgs "--all", "--mod", "weeping_angels"
+            programArgs "--output", project(":common").file("src/main/resources/").absolutePath
         }
     }
 }
 
 unifiedPublishing {
     project {
-        displayName = "[$rootProject.minecraft_version - Weeping Angels - Forge] - v$project.version"
+        displayName = "[Forge - Weeping Angels - $rootProject.minecraft_version] - v$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.19.4"]
+        gameVersions = ["1.20"]
         mainPublication tasks.remapJar
         gameLoaders = ["forge"]
         relations {
 
         }
 
-        var CURSE_API_KEY = project.findProperty("curseforge") ?: System.getenv("curseforge")
-        if (CURSE_API_KEY != null) {
+        var CURSE_API_KEY = project.findProperty("curseforge")?.apiKey ?: System.getenv("curseforge") ?: ""
+        if (CURSE_API_KEY != "") {
             curseforge {
                 token = CURSE_API_KEY
                 id = "291249"
-                gameVersions.addAll "Java 17", "1.19.4"
+                gameVersions.addAll "Java 17", "1.20"
             }
         }
 
-        var MODRINTH_TOKEN = project.findProperty("modrinth") ?: System.getenv("modrinth")
-        if (MODRINTH_TOKEN != null) {
+        var MODRINTH_TOKEN = project.findProperty("modrinth")?.apiKey ?: System.getenv("modrinth") ?: ""
+        if (MODRINTH_TOKEN != "") {
             modrinth {
                 token = MODRINTH_TOKEN
                 id = "TEzJJY7H"

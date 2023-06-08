@@ -78,7 +78,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         // Goals
         goalSelector.addGoal(id++, new OpenDoorGoal(this, false));
         goalSelector.addGoal(id++, new MeleeAttackGoal(this, 0.5f, true));
-        goalSelector.addGoal(id++, new ClimbOnTopOfPowderSnowGoal(this, this.level));
+        goalSelector.addGoal(id++, new ClimbOnTopOfPowderSnowGoal(this, this.level()));
 
         // Targeting
         targetSelector.addGoal(id++, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -104,7 +104,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
         // Teleporting
         boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
-        if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
+        if (shouldTeleport && pEntity.level() instanceof ServerLevel serverLevel) {
             ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
             int xCoord = (int) (getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
             int zCoord = (int) (getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
@@ -124,7 +124,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Hurt
-        if (pEntity.level instanceof ServerLevel serverLevel) {
+        if (pEntity.level() instanceof ServerLevel serverLevel) {
             boolean didHurt = pEntity.hurt(WADamageSources.getSource(serverLevel, WADamageSources.SNAPPED_NECK), attackDamage);
 
             this.doEnchantDamageEffects(this, pEntity);
@@ -134,18 +134,18 @@ public class WeepingAngel extends AbstractWeepingAngel {
         return false;
     }
 
+
     @Override
-    public boolean wasKilled(ServerLevel serverLevel, LivingEntity livingEntity) {
-        boolean wasKilled = super.wasKilled(serverLevel, livingEntity);
+    public boolean killedEntity(ServerLevel serverLevel, LivingEntity livingEntity) {
+        boolean wasKilled = super.killedEntity(serverLevel, livingEntity);
         if (wasKilled) {
             playSound(WASounds.NECK_SNAP.get());
         }
-        return wasKilled;
-    }
+        return wasKilled;    }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if (!state.getMaterial().isLiquid()) {
+        if (!state.liquid()) {
             BlockState blockState = Blocks.STONE.defaultBlockState();
             SoundType soundType = blockState.getSoundType();
             this.playSound(soundType.getStepSound(), soundType.getVolume() * 0.15F, soundType.getPitch());
@@ -168,6 +168,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void tick() {
         super.tick();
 
+        Level level = level();
+
         if (!level.isClientSide()) {
             if (CatacombTracker.isInCatacomb(this)) {
                 Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
@@ -179,7 +181,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Ensure angels do not lock in the air or walk through water
-        if (isSeen() && (!isOnGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
+        if (isSeen() && (!onGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
             setSeenTime(0);
             setNoAi(false);
         }
@@ -255,6 +257,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
+        Level level = level();
         if (!level.isClientSide()) {
             boolean isHurt = HurtHelper.handleAngelHurt(this, pSource, pAmount);
             ServerLevel serverLevel = (ServerLevel) level;
@@ -272,8 +275,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     protected void tickDeath() {
+        Level level = level();
         ++this.deathTime;
-        if (this.deathTime == 20 && !this.level.isClientSide()) {
+        if (this.deathTime == 20 && !level.isClientSide()) {
             if(shouldDropLoot()) {
                 ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
                 itemEntity.setItem(getVariant().getDrops());
@@ -286,6 +290,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void investigateBlocks() {
+        Level level = level();
         if (level.isClientSide() || !level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
             return;
         for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {

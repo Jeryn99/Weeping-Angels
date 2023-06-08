@@ -74,9 +74,9 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         }
 
         super.aiStep();
-        if (!level.isClientSide) {
-            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfiguration.CONFIG.stalkRange.get()));
-            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
+        if (!level().isClientSide) {
+            List<Player> players = level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfiguration.CONFIG.stalkRange.get()));
+            players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level() != level());
 
             if (players.isEmpty()) {
                 setSeenTime(0);

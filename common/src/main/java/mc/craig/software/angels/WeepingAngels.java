@@ -3,6 +3,7 @@ package mc.craig.software.angels;
 import com.mojang.logging.LogUtils;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
+import mc.craig.software.angels.common.WATabs;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.BlockReactions;
@@ -27,6 +28,7 @@ public class WeepingAngels {
         WAEntities.ENTITY_TYPES.register();
         WABlockEntities.BLOCK_ENTITY_TYPES.register();
         WAStructures.STRUCTURES.register();
+        WATabs.TABS.register();
  /*       WAFeatures.PLACED_FEATURES.register();
         WAFeatures.CONFIGURED_FEATURES.register();*/
         BlockReactions.init();

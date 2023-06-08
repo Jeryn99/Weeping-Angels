@@ -28,7 +28,7 @@ public class HurtHelper {
 
     public static boolean handleAngelHurt(WeepingAngel weepingAngel, DamageSource pSource, float pAmount) {
 
-        if(pSource.is(DamageTypes.OUT_OF_WORLD)){
+        if(pSource.is(DamageTypes.FELL_OUT_OF_WORLD)){
             return true; // Required for /kill command else...yeah
         }
 
@@ -57,16 +57,16 @@ public class HurtHelper {
         if (pSource.getEntity() instanceof Player player) {
             boolean hasPickAxe = HurtHelper.validatePickaxe(player, weepingAngel, predicate);
             if (!hasPickAxe) {
-                if (weepingAngel.level.random.nextInt(100) <= 10) {
+                if (weepingAngel.level().random.nextInt(100) <= 10) {
                     weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
                 }
-                if(player.level instanceof ServerLevel serverLevel) {
-                    player.hurt(WADamageSources.getSource(serverLevel, WADamageSources.PUNCH_STONE), weepingAngel.level.random.nextInt(5));
+                if(player.level() instanceof ServerLevel serverLevel) {
+                    player.hurt(WADamageSources.getSource(serverLevel, WADamageSources.PUNCH_STONE), weepingAngel.level().random.nextInt(5));
                 }
                 return false;
             }
             ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);
-            stack.hurtAndBreak(weepingAngel.level.random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
+            stack.hurtAndBreak(weepingAngel.level().random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
                 weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
                 livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
             });

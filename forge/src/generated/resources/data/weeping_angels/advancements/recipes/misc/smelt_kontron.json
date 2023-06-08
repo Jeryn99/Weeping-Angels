@@ -30,5 +30,6 @@
     "recipes": [
       "weeping_angels:smelt_kontron"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

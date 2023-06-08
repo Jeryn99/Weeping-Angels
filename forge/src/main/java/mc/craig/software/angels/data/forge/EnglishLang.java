@@ -78,7 +78,7 @@ public class EnglishLang extends LanguageProvider {
         add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
 
         // ==== Creative Tab ====
-        add("itemGroup." + WeepingAngels.MODID + "." + "creative_tab", "Weeping Angels");
+        add(WAConstants.CREATIVE_TAB, "Weeping Angels");
 
         // ==== Damage Sources =====
 

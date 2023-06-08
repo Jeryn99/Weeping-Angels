@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
@@ -66,11 +67,12 @@ public class AngelVariant {
 
     // TODO Nicer way
     public static AngelVariant getVariantForPos(WeepingAngel weepingAngel) {
-        RandomSource randomSource = weepingAngel.level.random;
+        Level level = weepingAngel.level();
+        RandomSource randomSource = level.random;
 
-        boolean isOrePosition = weepingAngel.blockPosition().getY() < 50 && !weepingAngel.level.canSeeSky(weepingAngel.blockPosition());
+        boolean isOrePosition = weepingAngel.blockPosition().getY() < 50 && !level.canSeeSky(weepingAngel.blockPosition());
 
-        Holder<Biome> currentBiome = weepingAngel.level.getBiome(weepingAngel.blockPosition());
+        Holder<Biome> currentBiome = level.getBiome(weepingAngel.blockPosition());
         boolean isNether = currentBiome.is(BiomeTags.IS_NETHER);
         boolean isJungle = currentBiome.is(BiomeTags.IS_JUNGLE);
 

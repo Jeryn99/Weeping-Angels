@@ -11,6 +11,7 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.network.messages.UpdateStatueMessage;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
@@ -79,21 +80,20 @@ public class ChiselScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        RenderSystem.setShaderTexture(0, BACKGROUND);
-        blit(poseStack, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+       // RenderSystem.setShaderTexture(0, BACKGROUND);
+        guiGraphics.blit(BACKGROUND, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
 
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(12);
         }
 
-        poseStack.pushPose();
-        InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
-        poseStack.popPose();
-        font.draw(poseStack, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
+        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
+
+        guiGraphics.drawString(font, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
 
 
-        super.render(poseStack, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
 
     }
 }

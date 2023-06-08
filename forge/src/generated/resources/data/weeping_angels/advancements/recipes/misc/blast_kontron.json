@@ -30,5 +30,6 @@
     "recipes": [
       "weeping_angels:blast_kontron"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

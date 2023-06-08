@@ -82,4 +82,6 @@ public class ModelProviderItem extends ItemModelProvider {
                 .texture("layer0", new ResourceLocation(item.getNamespace(), "item/" + item.getPath()))
                 .texture("layer1", new ResourceLocation(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath()));
     }
+
+
 }

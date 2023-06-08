@@ -21,7 +21,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class ViewUtil {
@@ -101,12 +100,12 @@ public class ViewUtil {
         Vec3[] angelPoints = {new Vec3(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.minX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.minZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.maxY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.maxZ), new Vec3(angelBoundingBox.maxX, angelBoundingBox.minY, angelBoundingBox.minZ),};
 
         for (int i = 0; i < viewerPoints.length; i++) {
-            if (viewer.level.clip(new ClipContext(viewerPoints[i], angelPoints[i], ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, viewer)).getType() == HitResult.Type.MISS) {
+            if (viewer.level().clip(new ClipContext(viewerPoints[i], angelPoints[i], ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, viewer)).getType() == HitResult.Type.MISS) {
                 return false;
             }
-            if (rayTraceBlocks(viewer, viewer.level, viewerPoints[i], angelPoints[i], pos -> {
-                BlockState state = viewer.level.getBlockState(pos);
-                return !canSeeThrough(state, viewer.level, pos);
+            if (rayTraceBlocks(viewer, viewer.level(), viewerPoints[i], angelPoints[i], pos -> {
+                BlockState state = viewer.level().getBlockState(pos);
+                return !canSeeThrough(state, viewer.level(), pos);
             }) == null) return false;
         }
 
@@ -120,133 +119,134 @@ public class ViewUtil {
     }
 
     public static boolean isDarkForPlayer(AbstractWeepingAngel angel, LivingEntity living) {
-        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getLightEmission(angel.blockPosition()) <= 0 && !angel.level.dimensionType().hasCeiling();
+        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level().getLightEmission(angel.blockPosition()) <= 0 && !angel.level().dimensionType().hasCeiling();
     }
 
     public static boolean isPlayerBlind(LivingEntity living) {
         return living.hasEffect(MobEffects.BLINDNESS);
     }
 
-    @Nullable
-    private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 vec31, Vec3 vec32, Predicate<BlockPos> stopOn) {
-        if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
-            if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {
-                int i = Mth.floor(vec32.x);
-                int j = Mth.floor(vec32.y);
-                int k = Mth.floor(vec32.z);
-                int l = Mth.floor(vec31.x);
-                int i1 = Mth.floor(vec31.y);
-                int j1 = Mth.floor(vec31.z);
-                BlockPos blockpos = new BlockPos(l, i1, j1);
-                if (stopOn.test(blockpos)) {
-                    HitResult raytraceresult = world.clip(new ClipContext(vec31, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
-                    if (raytraceresult != null) {
-                        return raytraceresult;
-                    }
-                }
+    private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 startVec, Vec3 endVec, Predicate<BlockPos> stopOn) {
+        // Check for NaN values in the input vectors
+        if (hasNaN(startVec) || hasNaN(endVec)) {
+            return null;
+        }
 
-                int k1 = 200;
+        // Convert start and end vectors to integer coordinates
+        int startX = Mth.floor(startVec.x);
+        int startY = Mth.floor(startVec.y);
+        int startZ = Mth.floor(startVec.z);
+        int endX = Mth.floor(endVec.x);
+        int endY = Mth.floor(endVec.y);
+        int endZ = Mth.floor(endVec.z);
 
-                while (k1-- >= 0) {
-                    if (Double.isNaN(vec31.x) || Double.isNaN(vec31.y) || Double.isNaN(vec31.z)) {
-                        return null;
-                    }
+        // Create a block position from the start coordinates
+        BlockPos currentPos = new BlockPos(startX, startY, startZ);
 
-                    if (l == i && i1 == j && j1 == k) {
-                        return null;
-                    }
+        // Check if the block at the start position satisfies the stop condition
+        if (stopOn.test(currentPos)) {
+            HitResult result = world.clip(new ClipContext(startVec, endVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
+            if (result != null) {
+                return result;
+            }
+        }
 
-                    boolean flag2 = true;
-                    boolean flag = true;
-                    boolean flag1 = true;
-                    double d0 = 999.0D;
-                    double d1 = 999.0D;
-                    double d2 = 999.0D;
+        int maxIterations = 200;
 
-                    if (i > l) {
-                        d0 = (double) l + 1.0D;
-                    } else if (i < l) {
-                        d0 = (double) l + 0.0D;
-                    } else {
-                        flag2 = false;
-                    }
+        while (maxIterations-- >= 0) {
+            // Check if the current position is equal to the end position
+            if (startX == endX && startY == endY && startZ == endZ) {
+                return null;
+            }
 
-                    if (j > i1) {
-                        d1 = (double) i1 + 1.0D;
-                    } else if (j < i1) {
-                        d1 = (double) i1 + 0.0D;
-                    } else {
-                        flag = false;
-                    }
+            // Variables to determine the next position to check
+            boolean stepX = true;
+            boolean stepY = true;
+            boolean stepZ = true;
+            double nextX = Double.POSITIVE_INFINITY;
+            double nextY = Double.POSITIVE_INFINITY;
+            double nextZ = Double.POSITIVE_INFINITY;
 
-                    if (k > j1) {
-                        d2 = (double) j1 + 1.0D;
-                    } else if (k < j1) {
-                        d2 = (double) j1 + 0.0D;
-                    } else {
-                        flag1 = false;
-                    }
+            // Calculate the distances to the next positions in each axis
+            if (endX > startX) {
+                nextX = (double) startX + 1.0D;
+            } else if (endX < startX) {
+                nextX = (double) startX + 0.0D;
+            } else {
+                stepX = false;
+            }
 
-                    double d3 = 999.0D;
-                    double d4 = 999.0D;
-                    double d5 = 999.0D;
-                    double d6 = vec32.x - vec31.x;
-                    double d7 = vec32.y - vec31.y;
-                    double d8 = vec32.z - vec31.z;
+            if (endY > startY) {
+                nextY = (double) startY + 1.0D;
+            } else if (endY < startY) {
+                nextY = (double) startY + 0.0D;
+            } else {
+                stepY = false;
+            }
 
-                    if (flag2) {
-                        d3 = (d0 - vec31.x) / d6;
-                    }
+            if (endZ > startZ) {
+                nextZ = (double) startZ + 1.0D;
+            } else if (endZ < startZ) {
+                nextZ = (double) startZ + 0.0D;
+            } else {
+                stepZ = false;
+            }
 
-                    if (flag) {
-                        d4 = (d1 - vec31.y) / d7;
-                    }
+            // Calculate the ratios between the distances and the differences in positions
+            double deltaX = endVec.x - startVec.x;
+            double deltaY = endVec.y - startVec.y;
+            double deltaZ = endVec.z - startVec.z;
+            double ratioX = stepX ? (nextX - startVec.x) / deltaX : Double.POSITIVE_INFINITY;
+            double ratioY = stepY ? (nextY - startVec.y) / deltaY : Double.POSITIVE_INFINITY;
+            double ratioZ = stepZ ? (nextZ - startVec.z) / deltaZ : Double.POSITIVE_INFINITY;
 
-                    if (flag1) {
-                        d5 = (d2 - vec31.z) / d8;
-                    }
+            // Handle negative zero values
+            if (ratioX == -0.0D) {
+                ratioX = -1.0E-4D;
+            }
 
-                    if (d3 == -0.0D) {
-                        d3 = -1.0E-4D;
-                    }
+            if (ratioY == -0.0D) {
+                ratioY = -1.0E-4D;
+            }
 
-                    if (d4 == -0.0D) {
-                        d4 = -1.0E-4D;
-                    }
+            if (ratioZ == -0.0D) {
+                ratioZ = -1.0E-4D;
+            }
 
-                    if (d5 == -0.0D) {
-                        d5 = -1.0E-4D;
-                    }
+            Direction direction;
 
-                    Direction enumfacing;
+            // Determine the direction and update the next position accordingly
+            if (ratioX < ratioY && ratioX < ratioZ) {
+                direction = endX > startX ? Direction.WEST : Direction.EAST;
+                startVec = new Vec3(nextX, startVec.y + deltaY * ratioX, startVec.z + deltaZ * ratioX);
+            } else if (ratioY < ratioZ) {
+                direction = endY > startY ? Direction.DOWN : Direction.UP;
+                startVec = new Vec3(startVec.x + deltaX * ratioY, nextY, startVec.z + deltaZ * ratioY);
+            } else {
+                direction = endZ > startZ ? Direction.NORTH : Direction.SOUTH;
+                startVec = new Vec3(startVec.x + deltaX * ratioZ, startVec.y + deltaY * ratioZ, nextZ);
+            }
 
-                    if (d3 < d4 && d3 < d5) {
-                        enumfacing = i > l ? Direction.WEST : Direction.EAST;
-                        vec31 = new Vec3(d0, vec31.y + d7 * d3, vec31.z + d8 * d3);
-                    } else if (d4 < d5) {
-                        enumfacing = j > i1 ? Direction.DOWN : Direction.UP;
-                        vec31 = new Vec3(vec31.x + d6 * d4, d1, vec31.z + d8 * d4);
-                    } else {
-                        enumfacing = k > j1 ? Direction.NORTH : Direction.SOUTH;
-                        vec31 = new Vec3(vec31.x + d6 * d5, vec31.y + d7 * d5, d2);
-                    }
+            // Update the current position based on the direction
+            startX = Mth.floor(startVec.x) - (direction == Direction.EAST ? 1 : 0);
+            startY = Mth.floor(startVec.y) - (direction == Direction.UP ? 1 : 0);
+            startZ = Mth.floor(startVec.z) - (direction == Direction.SOUTH ? 1 : 0);
 
-                    l = Mth.floor(vec31.x) - (enumfacing == Direction.EAST ? 1 : 0);
-                    i1 = Mth.floor(vec31.y) - (enumfacing == Direction.UP ? 1 : 0);
-                    j1 = Mth.floor(vec31.z) - (enumfacing == Direction.SOUTH ? 1 : 0);
-                    blockpos = new BlockPos(l, i1, j1);
-                    if (stopOn.test(blockpos)) {
-                        HitResult raytraceresult1 = world.clip(new ClipContext(vec31, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
-
-                        if (raytraceresult1 != null) {
-                            return raytraceresult1;
-                        }
-                    }
+            // Check if the new current position satisfies the stop condition
+            currentPos = new BlockPos(startX, startY, startZ);
+            if (stopOn.test(currentPos)) {
+                HitResult result = world.clip(new ClipContext(startVec, endVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity));
+                if (result != null) {
+                    return result;
                 }
             }
         }
 
         return null;
+    }
+
+    private static boolean hasNaN(Vec3 vec) {
+        return Double.isNaN(vec.x) || Double.isNaN(vec.y) || Double.isNaN(vec.z);
     }
 
     // This is bloated, I know, but I want to make sure I cover EVERY basis :/
