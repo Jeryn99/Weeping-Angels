@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:magma_block",
+    "minecraft:glowstone",
+    "minecraft:sea_lantern",
+    "minecraft:air",
+    "minecraft:fire",
+    "minecraft:light",
+    "minecraft:void_air",
+    "minecraft:cave_air"
+  ]
+}

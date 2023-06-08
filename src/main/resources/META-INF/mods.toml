@@ -9,9 +9,9 @@ credits = "Suff, 50ap5ud5, Ed, Violet, Rolf, Nictogen, Lukas, ShadowBolt, Disast
 authors = "Suff99, 50ap5ud5"
 itemIcon = "weeping_angels:timey_wimey_detector"
 modId = "weeping_angels"
-version = "1.0.0"
+version = "1.0.1"
 displayName = "Weeping Angels"
-updateJSONURL = "https://api.who-craft.com/get/angels/update" #optional
+updateJSONURL = "https://api.modrinth.com/updates/weeping-angels/forge_updates.json"
 description = '''
 Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]

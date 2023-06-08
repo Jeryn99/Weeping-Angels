@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "me.suff.mc.angels.mixin",
+  "package": "mc.craig.software.angels.mixin",
   "refmap": "weeping_angels.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "client": [
