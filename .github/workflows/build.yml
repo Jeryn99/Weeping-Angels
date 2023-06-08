@@ -1,0 +1,71 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+    - name: Build
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
+    - name: Build common
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: common:build
+    - name: Build forge
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: forge:build
+    - name: Build fabric
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: fabric:build
+    - name: Upload Artfiacts
+      uses: actions/upload-artifact@v3
+      with: 
+        name: build
+        path: |
+          build/
+          forge/build/
+          fabric/build/
+          common/build/
+    #- uses: Kir-Antipov/mc-publish@v3.2
+      #with:
+        # You don't need this section if you don't want to publish
+        # your assets to Modrinth
+        #modrinth-id: AANobbMI
+        #modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+        # You don't need this section if you don't want to publish
+        # your assets to CurseForge
+        #curseforge-id: 394468
+        #curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+        # You don't need this section if you don't want to publish
+        # your assets to GitHub
+        #github-token: ${{ secrets.GITHUB_TOKEN }}
