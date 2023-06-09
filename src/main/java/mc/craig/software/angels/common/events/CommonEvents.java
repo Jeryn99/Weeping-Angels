@@ -23,6 +23,7 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -45,6 +46,7 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -57,6 +59,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -65,7 +68,7 @@ import java.util.Objects;
 @Mod.EventBusSubscriber
 public class CommonEvents {
 
-    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
+    public static BiomeDictionary.Type[] BIOME_TYPES = new BiomeDictionary.Type[]{BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.SPOOKY};
 
     @SubscribeEvent
     public static void onKilled(LivingDeathEvent event) {
@@ -232,13 +235,16 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
+        MobSpawnSettingsBuilder spawns = biomeLoadingEvent.getSpawns();
+        ResourceLocation biomeName = biomeLoadingEvent.getName();
+        ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), biomeName);
+
+        Biome biome = ForgeRegistries.BIOMES.getValue(biomeName);
 
         for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
-            for (ResourceKey<Biome> biome : BiomeDictionary.getBiomes(biomeType)) {
-                if (BiomeDictionary.hasType(biome, biomeType)) {
-                    WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biome.location(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
-                    biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
-                }
+            if (BiomeDictionary.hasType(key, biomeType)) {
+                WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biomeName, WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
+                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
             }
         }
     }
