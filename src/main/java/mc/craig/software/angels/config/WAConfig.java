@@ -11,6 +11,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class WAConfig {
@@ -33,6 +35,8 @@ public class WAConfig {
     public final ForgeConfigSpec.IntValue spawnWeight;
     public final ForgeConfigSpec.IntValue minCount;
     public final ForgeConfigSpec.EnumValue<MobCategory> spawnType;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> spawnBiomes;
+
 
     // Angel
     public final ForgeConfigSpec.EnumValue<DamageType> damageType;
@@ -76,6 +80,14 @@ public class WAConfig {
         maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 3, 1, 100);
         spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 25, 1, Integer.MAX_VALUE);
         spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
+        spawnBiomes = builder
+                .comment("List of biomes where Weeping Angels can spawn").worldRestart()
+                .defineList("biomes", List.of("minecraft:ocean",
+                        "minecraft:plains",
+                        "minecraft:desert",
+                        "minecraft:mountains",
+                        "minecraft:forest"), o -> o instanceof String);
+
         builder.pop();
         builder.push("angel");
         damageType = builder.translation("config.weeping_angels.damageType").comment("Damage Type For Angels").defineEnum("damageType", DamageType.ANY_PICKAXE_AND_GENERATOR_ONLY);

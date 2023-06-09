@@ -235,17 +235,10 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
-        MobSpawnSettingsBuilder spawns = biomeLoadingEvent.getSpawns();
-        ResourceLocation biomeName = biomeLoadingEvent.getName();
-        ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), biomeName);
 
-        Biome biome = ForgeRegistries.BIOMES.getValue(biomeName);
-
-        for (BiomeDictionary.Type biomeType : BIOME_TYPES) {
-            if (BiomeDictionary.hasType(key, biomeType)) {
-                WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biomeName, WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
-                biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
-            }
+        if (WAConfig.spawnBiomes.get().contains(biomeLoadingEvent.getName().toString())) {
+            WeepingAngels.LOGGER.info("Added Weeping Angel Spawns to {} with min {} & max {} with weight {} || Type {}", biomeLoadingEvent.getName().toString(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.spawnType.get());
+            biomeLoadingEvent.getSpawns().getSpawner(WAConfig.CONFIG.spawnType.get()).add(new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
         }
     }
 
