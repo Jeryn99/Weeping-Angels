@@ -4,6 +4,7 @@ import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import mc.craig.software.angels.EntitySpawns;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.blocks.GeneratorBlock;
 import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
@@ -20,13 +21,13 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraftforge.api.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.function.Predicate;
@@ -36,14 +37,14 @@ import static mc.craig.software.angels.common.WAEntities.WEEPING_ANGEL;
 public class WeepingAngelsFabric implements ModInitializer {
 
 
-    private static final CreativeModeTab ITEM_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(WAItems.ANGEL_SPAWNER.get())).displayItems((enabledFeatures, entries) -> {
+    public static final CreativeModeTab ITEM_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(WAItems.ANGEL_SPAWNER.get())).displayItems((enabledFeatures, entries) -> {
 
         BuiltInRegistries.ITEM.iterator().forEachRemaining(item -> {
             if (BuiltInRegistries.ITEM.getKey(item).getNamespace().matches(WeepingAngels.MODID)) {
                 entries.accept(item);
             }
         });
-    }).build();
+    }).title(Component.translatable(WAConstants.CREATIVE_TAB)).build();
 
     @Override
     public void onInitialize() {
