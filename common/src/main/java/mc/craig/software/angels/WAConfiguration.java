@@ -37,7 +37,7 @@ public class WAConfiguration {
     // Behaviour
     public final ForgeConfigSpec.IntValue stalkRange;
     public final ForgeConfigSpec.BooleanValue blockBreaking;
-
+    public final ForgeConfigSpec.BooleanValue interdimensionalTeleporting;
 
     // Damage
     public final ForgeConfigSpec.EnumValue<HurtHelper.HurtType> hurtType;
@@ -88,6 +88,7 @@ public class WAConfiguration {
 
         builder.push("teleporting");
         teleportRange = builder.translation("config.weeping_angels.teleport_range").comment("Determines the range that a player can be teleported from their current location").defineInRange("teleport_range", 400, 1, Integer.MAX_VALUE);
+        interdimensionalTeleporting = builder.translation("config.weeping_angels.interdimensional_teleporting").comment("Determines whether angels can teleport players across dimensions").define("interdimensional_teleporting", true);
         teleportChance = builder.translation("config.weeping_angels.teleport_chance").comment("Determines the chance a player will be teleported").defineInRange("teleport_chance", 50, 1, 100);
         bannedDimensions = builder.translation("config.weeping_angels.banned_dimensions").comment("A list of Dimensions that angels cannot teleport players to").defineList("banned_dimensions", Lists.newArrayList(Level.END.location().toString()), String.class::isInstance);
         builder.pop();
