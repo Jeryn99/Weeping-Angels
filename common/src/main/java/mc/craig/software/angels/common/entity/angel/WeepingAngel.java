@@ -100,39 +100,46 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean doHurtTarget(Entity pEntity) {
+        if (!(pEntity instanceof Player player))
+            return false;
+
         float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        ServerLevel serverLevel = pEntity.level() instanceof ServerLevel ? (ServerLevel) pEntity.level() : null;
 
         // Teleporting
-        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
-        if (shouldTeleport && pEntity.level() instanceof ServerLevel serverLevel) {
-            ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
-            int xCoord = (int) (getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
-            int zCoord = (int) (getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get()));
+        if (serverLevel != null) {
+            boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
+            if (shouldTeleport) {
+                ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
+                int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
+                int xCoord = (int) (getX() + random.nextInt(teleportRange));
+                int zCoord = (int) (getZ() + random.nextInt(teleportRange));
 
-            for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, xCoord, zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
-                if (successfulTeleport) {
-                    return true;
+                for (int i = 0; i < 10; i++) {
+                    int destinationY = chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, xCoord, zCoord);
+                    boolean successfulTeleport = Teleporter.performTeleport(pEntity, chosenDimension, xCoord, destinationY, zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
+                    if (successfulTeleport) {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
         }
 
         // Theft
-        if (pEntity instanceof Player player) {
-            stealItems(player);
-        }
+        stealItems(player);
 
         // Hurt
-        if (pEntity.level() instanceof ServerLevel serverLevel) {
+        if (serverLevel != null) {
             boolean didHurt = pEntity.hurt(WADamageSources.getSource(serverLevel, WADamageSources.SNAPPED_NECK), attackDamage);
-
             this.doEnchantDamageEffects(this, pEntity);
             this.setLastHurtMob(pEntity);
             return didHurt;
         }
+
         return false;
     }
+
 
 
     @Override
@@ -201,10 +208,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
         Inventory playerInv = player.getInventory();
         for (int i = 0; i < playerInv.items.size(); i++) {
             ItemStack item = playerInv.items.get(i);
-            if (item.is(WATags.STEALABLE_ITEMS)) {
+            if (item.is(WATags.STEALABLE_ITEMS) && getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
                 setItemInHand(InteractionHand.MAIN_HAND, item.copy());
                 setGuaranteedDrop(EquipmentSlot.MAINHAND);
                 playerInv.setItem(i, ItemStack.EMPTY);
+                return;
             }
         }
     }

@@ -12,7 +12,7 @@
     "sources": "https://github.com/Suff99/Weeping-Angels",
     "issues": "https://github.com/Suff99/Weeping-Angels/issues"
   },
-  "license": "https://github.com/Suff99/Weeping-Angels/blob/architectury/1.19/LICENSE",
+  "license": "https://github.com/Suff99/Weeping-Angels/blob/architectury/1.20/LICENSE",
   "icon": "weeping_angels.png",
   "environment": "*",
   "entrypoints": {
