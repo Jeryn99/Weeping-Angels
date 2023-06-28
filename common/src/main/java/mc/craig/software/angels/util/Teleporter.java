@@ -28,13 +28,7 @@ public class Teleporter {
 
 
     public static ServerLevel getRandomDimension(RandomSource rand, ServerLevel serverLevel) {
-
-        if (!WAConfiguration.CONFIG.interdimensionalTeleporting.get()) {
-            return serverLevel;
-        }
-
         MinecraftServer server = serverLevel.getServer();
-
         Iterable<ServerLevel> dimensions = server.getAllLevels();
         ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 

@@ -1,6 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
 architectury {
@@ -26,6 +27,37 @@ subprojects {
 task publishMeEverywhere(){
     dependsOn ':forge:publishUnified'
     dependsOn ':fabric:publishUnified'
+}
+
+def version = rootProject.mod_version
+
+def forgeDir = new File(project.projectDir, 'forge/build/libs/')
+def fabricDir = new File(project.projectDir, 'fabric/build/libs/')
+def commonDir = new File(project.projectDir, 'common/build/libs/')
+
+def filter = { File file -> file.getName().contains(version) } as FileFilter
+
+def forgeFiles = forgeDir.listFiles(filter)
+def fabricFiles = fabricDir.listFiles(filter)
+def commonFiles = commonDir.listFiles(filter)
+
+githubRelease {
+    token project.findProperty("github") ?: System.getenv("github") ?: ""
+    owner "Suff99"
+    repo "weeping_angels"
+    tagName "v$rootProject.minecraft_version-${version}"
+    targetCommitish "1.20"
+    releaseName "[$rootProject.minecraft_version] Weeping Angels - v$version"
+    generateReleaseNotes true
+    body new File("${rootProject.projectDir}/changelog.html").text
+    draft false
+    prerelease false
+    releaseAssets(forgeFiles + fabricFiles + commonFiles)
+    allowUploadToExisting.set false
+    overwrite true
+    dryRun false
+    apiEndpoint "https://api.github.com"
+    client
 }
 
 

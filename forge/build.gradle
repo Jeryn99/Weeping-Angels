@@ -30,8 +30,6 @@ loom {
         }
     }
 
-    print(project(":common").file("src/main/resources/").absolutePath)
-
     runs {
         data {
             data()
@@ -43,7 +41,7 @@ loom {
 
 unifiedPublishing {
     project {
-        displayName = "[Forge - Weeping Angels - $rootProject.minecraft_version] - v$project.version"
+        displayName = "[Forge $rootProject.minecraft_version] Weeping Angels - v$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
         gameVersions = ["1.20", "1.20.1"]
@@ -72,6 +70,8 @@ unifiedPublishing {
         }
     }
 }
+
+
 
 configurations {
     common

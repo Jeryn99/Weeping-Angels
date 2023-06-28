@@ -14,7 +14,7 @@
       "bounding_box": "full",
       "spawns": [
         {
-          "type": "weeping-angels:weeping_angel",
+          "type": "weeping_angels:weeping_angel",
           "weight": 30,
           "minCount": 1,
           "maxCount": 4

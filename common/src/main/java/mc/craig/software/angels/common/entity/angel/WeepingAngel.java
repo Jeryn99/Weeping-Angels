@@ -110,7 +110,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         if (serverLevel != null) {
             boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
             if (shouldTeleport) {
-                ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
+                ServerLevel chosenDimension = WAConfiguration.CONFIG.interdimensionalTeleporting.get() ? Teleporter.getRandomDimension(random, serverLevel) : serverLevel;
                 int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
                 int xCoord = (int) (getX() + random.nextInt(teleportRange));
                 int zCoord = (int) (getZ() + random.nextInt(teleportRange));
