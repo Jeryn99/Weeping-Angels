@@ -37,6 +37,7 @@ import net.tardis.mod.controls.HandbrakeControl;
 import net.tardis.mod.controls.LandingTypeControl;
 import net.tardis.mod.controls.ThrottleControl;
 import net.tardis.mod.enums.EnumDoorState;
+import net.tardis.mod.enums.EnumSubsystemType;
 import net.tardis.mod.helper.BlockPosHelper;
 import net.tardis.mod.helper.TardisHelper;
 import net.tardis.mod.helper.WorldHelper;
@@ -45,9 +46,7 @@ import net.tardis.mod.misc.SpaceTimeCoord;
 import net.tardis.mod.schematics.ExteriorUnlockSchematic;
 import net.tardis.mod.schematics.Schematics;
 import net.tardis.mod.sounds.TSounds;
-import net.tardis.mod.subsystem.NavComSubsystem;
-import net.tardis.mod.subsystem.StabilizerSubsystem;
-import net.tardis.mod.subsystem.Subsystem;
+import net.tardis.mod.subsystem.IStabilizerSubsystem;
 import net.tardis.mod.tileentities.ConsoleTile;
 import net.tardis.mod.tileentities.console.misc.AlarmType;
 import net.tardis.mod.tileentities.console.misc.DistressSignal;
@@ -129,8 +128,11 @@ public class TardisMod {
 
             if (world instanceof ServerWorld) {
                 if (console.isLanding()) {
-                    for (Subsystem system : console.getSubSystems()) {
-                        system.setActivated(false);
+                    EnumSubsystemType[] enumValues = EnumSubsystemType.values();
+                    for (int i = 0; i < enumValues.length-2; i++) {
+                        console.getSubsystem(enumValues[i]).ifPresent(sys -> {
+                            sys.setActive(false);
+                        });
                     }
                 }
 
@@ -160,9 +162,9 @@ public class TardisMod {
 
                     //No Fuel? No Problem, we'll just rip your systems apart to find some
                     if (console.getArtron() <= 0 && console.getLevel().getGameTime() % 120 == 0) {
-                        List<Subsystem> subsystems = console.getSubSystems();
-                        if (!subsystems.isEmpty()) {
-                            Subsystem randomSubsystem = subsystems.get(world.random.nextInt(subsystems.size()));
+                        EnumSubsystemType[] enumValues = EnumSubsystemType.values();
+                        int rand = world.getRandom().nextInt(enumValues.length-2);
+                        console.getSubsystem(enumValues[rand]).ifPresent(sys -> {
                             if (world.random.nextBoolean()) {
                                 for (int i = 0; i < 18; ++i) {
                                     double angle = Math.toRadians(i * 20);
@@ -172,11 +174,11 @@ public class TardisMod {
                                     world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), TSounds.ELECTRIC_SPARK.get(), SoundCategory.BLOCKS, 0.05F, 1.0F, false);
                                     world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5D + x, (double) pos.getY() + world.random.nextDouble(), (double) pos.getZ() + 0.5D + z, 0.0D, 0.0D, 0.0D);
                                 }
-                                if (randomSubsystem.getHealth() > 0) {
-                                    randomSubsystem.damage(null, world.random.nextInt(5));
+                                if (sys.getDamage(sys.getItem(console)) > 0) {
+                                    sys.damage(null, world.random.nextInt(5), console);
                                 }
                             }
-                        }
+                        });
                     }
                 }
             }
@@ -204,7 +206,7 @@ public class TardisMod {
     }
 
     private static boolean relocateTardis(World world, ConsoleTile console) {
-        if (!console.isInFlight() && console.canFly() && console.getSubsystem(NavComSubsystem.class).orElseGet(null).isActivated()) {
+        if (!console.isInFlight() && console.canFly() && console.getSubsystem(EnumSubsystemType.NAVCOM).orElseGet(null).isActive()) {
 
             RegistryKey<World> spaceTimeDim = console.getCurrentDimension();
 
@@ -220,7 +222,7 @@ public class TardisMod {
                 console.setDestination(new SpaceTimeCoord(spaceTimeDim, viablePoses.get(0)));
                 TardisMod.create(world.getServer(), console.getDestinationPosition(), console.getDestinationDimension());
                 console.getInteriorManager().soundAlarm(AlarmType.LOW);
-                console.getSubsystem(StabilizerSubsystem.class).ifPresent(sys -> sys.setControlActivated(true));
+                console.getSubsystem(EnumSubsystemType.STABILIZER).ifPresent(sys -> ((IStabilizerSubsystem)sys).setControlActivated(true, console));
 
                 console.getControl(HandbrakeControl.class).ifPresent(sys -> {
                     sys.setFree(true);

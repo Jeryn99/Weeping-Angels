@@ -123,7 +123,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.20'
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
-    implementation fg.deobf("com.gitlab.Spectre0987:TardisMod-1-14:${tm_version}")
+    implementation fg.deobf('com.gitlab.mistersecret312:TardisMod:1.5.5-beta')
     implementation fg.deobf("curse.maven:terraforged-363820:3451426")
     implementation fg.deobf("curse.maven:the-afterlight-499469:3646154")
     implementation fg.deobf("curse.maven:patchouli-306770:3459118")
