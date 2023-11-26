@@ -8,7 +8,6 @@ import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
-import mc.craig.software.angels.forge.compat.vivecraft.ServerReflector;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
@@ -37,9 +36,6 @@ import java.util.concurrent.CompletableFuture;
 
 @Mod(WeepingAngels.MODID)
 public class WeepingAngelsForge {
-
-    public static final ServerReflector VR_REFLECTOR = new ServerReflector();
-
 
     public WeepingAngelsForge() {
         WeepingAngels.init();
@@ -88,7 +84,6 @@ public class WeepingAngelsForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        VR_REFLECTOR.init();
         AngelVariant.init();
         SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }

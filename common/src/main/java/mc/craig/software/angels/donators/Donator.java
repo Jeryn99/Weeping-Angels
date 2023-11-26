@@ -18,12 +18,43 @@ public class Donator {
     public AnimationState openState = new AnimationState(), closeState = new AnimationState();
 
     public Donator(JsonObject jsonObject) {
-        this.uuid = jsonObject.get("uuid").getAsString();
+        if (jsonObject.has("uuid") && !jsonObject.get("uuid").isJsonNull()) {
+            this.uuid = jsonObject.get("uuid").getAsString();
+        } else {
+            this.uuid = "";
+        }
+
         JsonObject wingData = jsonObject.getAsJsonObject("wings");
-        this.variant = wingData.get("variant").getAsString();
-        this.wings = wingData.get("model").getAsString();
-        this.perked = wingData.get("perked").getAsBoolean();
-        this.name = jsonObject.get("mc_name").getAsString();
+
+        if (wingData != null) {
+            if (wingData.has("variant") && !wingData.get("variant").isJsonNull()) {
+                this.variant = wingData.get("variant").getAsString();
+            } else {
+                this.variant = "";
+            }
+
+            if (wingData.has("model") && !wingData.get("model").isJsonNull()) {
+                this.wings = wingData.get("model").getAsString();
+            } else {
+                this.wings = "";
+            }
+
+            if (wingData.has("perked") && !wingData.get("perked").isJsonNull()) {
+                this.perked = wingData.get("perked").getAsBoolean();
+            } else {
+                this.perked = false;
+            }
+        } else {
+            this.variant = "";
+            this.wings = "";
+            this.perked = false;
+        }
+
+        if (jsonObject.has("mc_name") && !jsonObject.get("mc_name").isJsonNull()) {
+            this.name = jsonObject.get("mc_name").getAsString();
+        } else {
+            this.name = "";
+        }
     }
 
     public String getName() {

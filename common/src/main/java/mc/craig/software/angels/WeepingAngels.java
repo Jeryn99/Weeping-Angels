@@ -10,6 +10,7 @@ import mc.craig.software.angels.common.entity.angel.BlockReactions;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.structures.WAStructures;
+import mc.craig.software.angels.forge.compat.vivecraft.WAVRPluginHandler;
 import mc.craig.software.angels.network.WANetwork;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ public class WeepingAngels {
 
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MODID = "weeping_angels";
+
+    public static final WAVRPluginHandler VR_REFLECTOR = new WAVRPluginHandler();
 
     public static ResourceLocation CRYPT_LOOT = new ResourceLocation(WeepingAngels.MODID, "chests/catacombs");
 

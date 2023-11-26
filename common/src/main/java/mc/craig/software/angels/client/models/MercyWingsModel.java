@@ -120,7 +120,10 @@ public class MercyWingsModel extends HierarchicalModel<LivingEntity> {
 
         if (teacup instanceof Player player) {
             DonationChecker.getDonatorData(player).ifPresent(donator -> {
-                this.animate(donator.openState, OPEN, ageInTicks, 1.6F);
+                if(player.isFallFlying()) {
+                    this.animate(donator.openState, OPEN, ageInTicks, 1.6F);
+                    return;
+                }
                 this.animate(donator.closeState, CLOSE, ageInTicks, 3F);
             });
         }
