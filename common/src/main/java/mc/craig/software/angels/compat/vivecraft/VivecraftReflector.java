@@ -1,10 +1,11 @@
-package mc.craig.software.angels.forge.compat.vivecraft;
+package mc.craig.software.angels.compat.vivecraft;
 
+import net.blf02.vrapi.api.IVRAPI;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class VivecraftReflector {
-    public abstract boolean init();
+    public abstract boolean init(IVRAPI ivrapi);
 
     public abstract boolean isVRPlayer(Player player);
 
