@@ -18,6 +18,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -182,7 +183,7 @@ public class CommonEvents {
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
                     if (rl.equalsIgnoreCase(biomeRegistryKey.location().toString())) {
                         WeepingAngels.LOGGER.debug("Added Angels to: " + biomeRegistryKey.location());
-                        biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
+                        biomeLoadingEvent.getSpawns().addSpawn(AngelUtil.ANGEL, new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
                     }
                 });
             }

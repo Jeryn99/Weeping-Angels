@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -52,6 +53,7 @@ public class AngelUtil {
     public static ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
     public static ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "translucent_blocks");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
+    public static EntityClassification ANGEL = EntityClassification.create("angel", "angel", 10, false, false, 48);
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
             Structure.PILLAGER_OUTPOST,
