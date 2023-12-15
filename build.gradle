@@ -18,7 +18,7 @@ apply plugin: 'maven-publish'
 apply plugin: "com.matthewprenger.cursegradle"
 
 version = "${mod_version}"
-group = 'me.suff.mc.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'mc.craig.software.angels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'weeping_angels'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
@@ -120,7 +120,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.20'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
     implementation fg.deobf("curse.maven:configured-457570:3340535")
     implementation fg.deobf("curse.maven:catalogue-459701:3335979")
     implementation fg.deobf("com.gitlab.Spectre0987:TardisMod-1-14:${tm_version}")
