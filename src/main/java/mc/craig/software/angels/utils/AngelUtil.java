@@ -53,7 +53,7 @@ public class AngelUtil {
     public static ITag.INamedTag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
     public static ITag.INamedTag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "translucent_blocks");
     public static Structure[] END_STRUCTURES = new Structure[]{Structure.END_CITY};
-    public static EntityClassification ANGEL = EntityClassification.create("angel", "angel", 10, false, false, 48);
+    public static EntityClassification ANGEL = EntityClassification.create("angel", "angel", 8, false, false, 48);
     public static Structure[] OVERWORLD_STRUCTURES = new Structure[]{
 
             Structure.PILLAGER_OUTPOST,

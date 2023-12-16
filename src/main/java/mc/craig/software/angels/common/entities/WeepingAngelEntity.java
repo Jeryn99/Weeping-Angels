@@ -113,6 +113,11 @@ public class WeepingAngelEntity extends QuantumLockEntity {
         getEntityData().define(LAUGH, random.nextFloat());
     }
 
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 6;
+    }
+
     public AbstractVariant getVariant() {
         return AngelVariants.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
     }

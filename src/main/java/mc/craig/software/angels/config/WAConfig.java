@@ -74,8 +74,8 @@ public class WAConfig {
 
         builder.push("spawn");
         minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
-        maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 2, 1, 100);
-        spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 3, 1, Integer.MAX_VALUE);
+        maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 1, 1, 100);
+        spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 1, 1, Integer.MAX_VALUE);
         allowedBiomes = builder.translation("config.weeping_angels.spawnBiomes").comment("Note: A list of biomes where angels should spawn.").defineList("spawnBiomes", genBiomesForSpawn(), String.class::isInstance);
         builder.pop();
 

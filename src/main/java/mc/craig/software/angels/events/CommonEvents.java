@@ -183,7 +183,7 @@ public class CommonEvents {
                 WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
                     if (rl.equalsIgnoreCase(biomeRegistryKey.location().toString())) {
                         WeepingAngels.LOGGER.debug("Added Angels to: " + biomeRegistryKey.location());
-                        biomeLoadingEvent.getSpawns().addSpawn(AngelUtil.ANGEL, new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
+                        biomeLoadingEvent.getSpawns().addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minCount.get(), WAConfig.CONFIG.maxCount.get()));
                     }
                 });
             }
