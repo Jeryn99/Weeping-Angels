@@ -24,6 +24,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
@@ -111,6 +114,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
             for (int i = 0; i < 10; i++) {
                 boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
                 if (successfulTeleport) {
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION));
                     return true;
                 }
             }
@@ -209,7 +213,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         navigator.setCanFloat(false);
         navigator.setCanOpenDoors(true);
         navigator.setAvoidSun(false);
-        navigator.setSpeedModifier(1.0D);
+        navigator.setSpeedModifier(1.5D);
         return navigator;
     }
 
