@@ -23,7 +23,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -99,10 +98,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean doHurtTarget(Entity pEntity) {
+        if (!(pEntity instanceof Player player)) return false;
         float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
         // Teleporting
-        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
+        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get() && WAConfiguration.CONFIG.teleportEnabled.get();
         if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
             ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
             double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
@@ -118,7 +118,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Theft
-        if (pEntity instanceof Player player) {
+        if(WAConfiguration.CONFIG.stealItems.get()) {
             stealItems(player);
         }
 

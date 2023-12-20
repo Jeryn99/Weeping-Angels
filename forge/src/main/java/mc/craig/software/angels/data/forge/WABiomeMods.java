@@ -59,14 +59,10 @@ public record WABiomeMods(DataGenerator dataGenerator) implements DataProvider {
 
         // Biome Modifiers
         BiomeModifier spawnsModifier = new AddAngelSpawns(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), WATags.ANGEL_SPAWNS));
-        ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModifer = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), net.minecraft.tags.BiomeTags.IS_OVERWORLD), HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON.get())), GenerationStep.Decoration.UNDERGROUND_ORES);
-        ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModiferSmall = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), net.minecraft.tags.BiomeTags.IS_OVERWORLD), HolderSet.direct(Holder.direct(WAFeatures.ORE_KONTRON_SMALL.get())), GenerationStep.Decoration.UNDERGROUND_ORES);
         ForgeBiomeModifiers.AddFeaturesBiomeModifier snowAngel = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SNOWY), HolderSet.direct(Holder.direct(WAFeatures.SNOW_ANGEL.get())), GenerationStep.Decoration.RAW_GENERATION);
 
         // Generate BiomeModiers
         generate(ops, spawnsModifier, outputFolder, "weeping_angel_spawns", cachedOutput);
-        generate(ops, oreModifer, outputFolder, "kontron", cachedOutput);
-        generate(ops, oreModiferSmall, outputFolder, "kontron_small", cachedOutput);
         generate(ops, snowAngel, outputFolder, "snow_angel", cachedOutput);
     }
 

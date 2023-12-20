@@ -5,15 +5,18 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class CatacombStructure extends Structure {
@@ -45,6 +48,10 @@ public class CatacombStructure extends Structure {
         this.maxDistanceFromCenter = maxDistanceFromCenter;
     }
 
+    @Override
+    public Map<MobCategory, StructureSpawnOverride> spawnOverrides() {
+        return super.spawnOverrides();
+    }
 
     private static boolean extraSpawningChecks(Structure.GenerationContext context) {
 

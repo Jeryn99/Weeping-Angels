@@ -1,10 +1,8 @@
-// 1.19.2	2022-09-06T19:43:36.5089231	Item Models: weeping_angels
+// 1.19.2	2023-12-20T00:12:33.6503927	Item Models: weeping_angels
 4bf0907656b6584d78caf0dbefc34e5fe6023325 assets/weeping_angels/models/item/angel_spawner.json
 b21372473bb972a8005a4b2b99971f6914dc3a31 assets/weeping_angels/models/item/chisel.json
 7459e32569d47fca459a8169e877e8da31e92807 assets/weeping_angels/models/item/coffin.json
-5762c6e3b3bd7a7357aaf0c4e07c55119462002b assets/weeping_angels/models/item/deepslate_kontron_ore.json
 625ed030bbe33859a532652abb5d8eb117834b2f assets/weeping_angels/models/item/kontron_ingot.json
-ca2964d9840547cdf650b2fd880351df1f8f6fea assets/weeping_angels/models/item/kontron_ore.json
 7cc83b77d2ad6971bfc817e42856fc9d19833d03 assets/weeping_angels/models/item/music_disc_sally.json
 a10e59cafeff3882634200f0dda6a89f48043e10 assets/weeping_angels/models/item/music_disc_time_prevails.json
 ee60431cdf3fceab02b4eb0b3799741eee359a2f assets/weeping_angels/models/item/plinth.json
