@@ -266,6 +266,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     @Override
+    public int getMaxSpawnClusterSize() {
+        return 4;
+    }
+
+    @Override
     protected void tickDeath() {
         ++this.deathTime;
         if (this.deathTime == 20 && !this.level.isClientSide()) {
