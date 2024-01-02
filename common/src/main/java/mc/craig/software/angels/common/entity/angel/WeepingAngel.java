@@ -114,11 +114,10 @@ public class WeepingAngel extends AbstractWeepingAngel {
             for (int i = 0; i < 10; i++) {
                 boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
                 if (successfulTeleport) {
-                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION));
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 1200));
                     return true;
                 }
             }
-            return false;
         }
 
         // Theft
@@ -287,7 +286,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void investigateBlocks() {
         if (level.isClientSide() || !level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
             return;
-        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 15, 3, 15).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             BlockState blockState = level.getBlockState(pos);
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());

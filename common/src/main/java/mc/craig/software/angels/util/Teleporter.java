@@ -41,7 +41,10 @@ public class Teleporter {
             }
         }
         allowedDimensions.remove(server.getLevel(Level.NETHER));
-        return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
+        if(!allowedDimensions.isEmpty()) {
+            return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
+        }
+        return serverLevel;
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
@@ -109,8 +112,8 @@ public class Teleporter {
                 pEntity.setOnGround(true);
             }
 
-            if (pEntity instanceof PathfinderMob) {
-                ((PathfinderMob) pEntity).getNavigation().stop();
+            if (pEntity instanceof PathfinderMob pathfinderMob) {
+                pathfinderMob.getNavigation().stop();
             }
 
             return true;
