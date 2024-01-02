@@ -23,8 +23,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
@@ -99,10 +101,11 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean doHurtTarget(Entity pEntity) {
+        if (!(pEntity instanceof Player player)) return false;
         float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
         // Teleporting
-        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get();
+        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get() && WAConfiguration.CONFIG.teleportEnabled.get();
         if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
             ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
             double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
@@ -111,14 +114,14 @@ public class WeepingAngel extends AbstractWeepingAngel {
             for (int i = 0; i < 10; i++) {
                 boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
                 if (successfulTeleport) {
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 1200));
                     return true;
                 }
             }
-            return false;
         }
 
         // Theft
-        if (pEntity instanceof Player player) {
+        if(WAConfiguration.CONFIG.stealItems.get()) {
             stealItems(player);
         }
 
@@ -209,7 +212,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         navigator.setCanFloat(false);
         navigator.setCanOpenDoors(true);
         navigator.setAvoidSun(false);
-        navigator.setSpeedModifier(1.0D);
+        navigator.setSpeedModifier(1.5D);
         return navigator;
     }
 
@@ -288,7 +291,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void investigateBlocks() {
         if (level.isClientSide() || !level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
             return;
-        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 15, 3, 15).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             BlockState blockState = level.getBlockState(pos);
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());

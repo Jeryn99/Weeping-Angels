@@ -2,7 +2,6 @@ package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
-import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -121,29 +120,25 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
 
-
     private void dragEntitiesAround(Level level) {
         for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, createBoundingBox(worldPosition).inflate(32))) {
 
             if (entity instanceof WeepingAngel weepingAngel) {
                 weepingAngel.setNoAi(false);
                 weepingAngel.setHooked(true);
-            }
 
-            if (entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4) {
-                if (entity instanceof WeepingAngel weepingAngel) {
+
+                if (entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4) {
                     weepingAngel.remove(Entity.RemovalReason.KILLED);
-                } else {
-                    entity.hurt(WADamageSources.GENERATOR, 5F);
                 }
-            }
 
-            BlockPos pos = worldPosition.subtract(entity.blockPosition());
-            Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
-            entity.setDeltaMovement(vec.scale(0.25D));
+                BlockPos pos = worldPosition.subtract(entity.blockPosition());
+                Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                entity.setDeltaMovement(vec.scale(0.25D));
 
-            for (int i = 0; i < 2; ++i) {
-                this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
+                for (int i = 0; i < 2; ++i) {
+                    this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
+                }
             }
         }
     }

@@ -26,15 +26,22 @@ dependencies {
 
 
 
+
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name
+        mavenFabric(MavenPublication) {
+            artifactId = archives_base_name + "_" + project.name
             from components.java
         }
     }
 
     repositories {
-        // Add repositories to publish to here.
+        maven {
+            url = "https://maven.craig.software/repository/whocraft/"
+            credentials {
+                username = project.findProperty("MAVEN_REPO_USERNAME") ?: System.getenv("MAVEN_REPO_USERNAME") ?: ""
+                password = project.findProperty("MAVEN_REPO_PASSWORD") ?: System.getenv("MAVEN_REPO_PASSWORD") ?: ""
+            }
+        }
     }
 }

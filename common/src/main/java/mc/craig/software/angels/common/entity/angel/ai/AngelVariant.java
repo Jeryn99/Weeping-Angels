@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AngelVariant {
 
@@ -64,35 +65,34 @@ public class AngelVariant {
     }
 
 
-    // TODO Nicer way
     public static AngelVariant getVariantForPos(WeepingAngel weepingAngel) {
         RandomSource randomSource = weepingAngel.level.random;
+        int yPosition = weepingAngel.blockPosition().getY();
 
-        boolean isOrePosition = weepingAngel.blockPosition().getY() < 50 && !weepingAngel.level.canSeeSky(weepingAngel.blockPosition());
-
-        Holder<Biome> currentBiome = weepingAngel.level.getBiome(weepingAngel.blockPosition());
-        boolean isNether = currentBiome.is(BiomeTags.IS_NETHER);
-        boolean isJungle = currentBiome.is(BiomeTags.IS_JUNGLE);
-
-        if (isJungle) {
+        // Check for Jungle biome
+        if (weepingAngel.level.getBiome(weepingAngel.blockPosition()).is(BiomeTags.IS_JUNGLE)) {
             return MOSSY;
         }
 
-        // Nether Related
-        if (isNether) {
+        // Check for Nether biome
+        if (weepingAngel.level.getBiome(weepingAngel.blockPosition()).is(BiomeTags.IS_NETHER)) {
             return randomSource.nextBoolean() ? QUARTZ : BASALT;
         }
 
-        // Ores
-        if (isOrePosition && randomSource.nextInt(100) < 10) {
+        // Check for ore position
+        if (yPosition < 50 && !weepingAngel.level.canSeeSky(weepingAngel.blockPosition()) && randomSource.nextInt(100) < 10) {
             return getRandomVariant(ORE_VARIANTS, randomSource);
         }
 
-        // Random value after conditions
-        Collection<AngelVariant> variants = VARIANTS.values();
-        variants.removeIf(angelTextureVariant -> angelTextureVariant == QUARTZ || angelTextureVariant == MOSSY || angelTextureVariant == BASALT || ORE_VARIANTS.containsKey(angelTextureVariant.regName));
-        return variants.stream().skip((int) (variants.size() * Math.random())).findFirst().get();
+        // Filter out specific variants
+        Collection<AngelVariant> variants = VARIANTS.values().stream()
+                .filter(v -> v != QUARTZ && v != MOSSY && v != BASALT && !ORE_VARIANTS.containsKey(v.regName))
+                .toList();
+
+        // Return a random variant from the filtered list
+        return variants.stream().skip((int) (variants.size() * Math.random())).findFirst().orElse(null);
     }
+
 
     public static AngelVariant getRandomVariant(Map<ResourceLocation, AngelVariant> variantMap, RandomSource randomSource) {
         int index = randomSource.nextInt(variantMap.size());

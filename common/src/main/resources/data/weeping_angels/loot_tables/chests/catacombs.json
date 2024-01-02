@@ -84,20 +84,6 @@
         },
         {
           "type": "item",
-          "name": "weeping_angels:kontron_ingot",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "item",
           "name": "weeping_angels:music_disc_sally",
           "weight": 1
         },
@@ -149,6 +135,20 @@
               "count": {
                 "min": 1,
                 "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "weeping_angels:chronodyne_generator",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
               }
             }
           ]
