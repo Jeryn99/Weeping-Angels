@@ -10,6 +10,7 @@ import mc.craig.software.angels.data.forge.*;
 import mc.craig.software.angels.data.forge.biome.AddAngelSpawns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -31,7 +32,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -66,6 +66,7 @@ public class WeepingAngelsForge {
         DataGenerator generator = e.getGenerator();
         ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookup = e.getLookupProvider();
+        PackOutput packOutput = e.getGenerator().getPackOutput();
 
         /*Resource Pack*/
         generator.addProvider(e.includeClient(), new EnglishLang(generator));
@@ -75,19 +76,15 @@ public class WeepingAngelsForge {
 
         /*Data Pack*/
 
-        var disabledHelper = new ExistingFileHelper(Collections.emptyList(), Collections.emptySet(), false, null, null);
+        var registries = e.getLookupProvider();
 
-
-        BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
-
-        generator.addProvider(e.includeServer(), new WAItemTags(generator.getPackOutput(), lookup, blocktags.contentsGetter(), disabledHelper));
-
+        var blockTagsProvider = generator.addProvider(e.includeServer(), new BlockTags(packOutput, registries, existingFileHelper));
+        generator.addProvider(e.includeServer(), new AngelItemTags(packOutput, registries, blockTagsProvider.contentsGetter(), existingFileHelper));
 
         generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
         generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
         generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput()));
-        generator.addProvider(e.includeServer(), blocktags);
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
     }
