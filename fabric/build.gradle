@@ -73,8 +73,8 @@ dependencies {
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
     include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 
-    modImplementation "curse.maven:mc-vr-api-591092:4648733"
-
+    modApi "curse.maven:mc-vr-api-591092:4648733"
+    modApi "curse.maven:architectury-api-419699:4663009"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

@@ -13,6 +13,7 @@ import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.compat.vivecraft.WAVRPluginHandler;
 import mc.craig.software.angels.network.WANetwork;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.RecordItem;
 import org.slf4j.Logger;
 
 public class WeepingAngels {
@@ -38,7 +39,6 @@ public class WeepingAngels {
         BlockReactions.init();
         AngelVariant.init();
         WANetwork.init();
-
     }
 
 }
