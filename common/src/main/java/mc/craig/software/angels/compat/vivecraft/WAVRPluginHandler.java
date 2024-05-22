@@ -8,9 +8,6 @@ import net.minecraft.world.phys.Vec3;
 
 public class WAVRPluginHandler extends VivecraftReflector {
 
-  
-    public static IVRAPI ivrapi;
-    
     @Override
     public boolean init(IVRAPI ivrapi) {
         
@@ -18,7 +15,9 @@ public class WAVRPluginHandler extends VivecraftReflector {
 
         if(WAVRPluginStatus.hasPlugin){
             WeepingAngels.LOGGER.info("Vivecraft Compatibility enabled");
-            WAVRPluginHandler.ivrapi = ivrapi;
+            VRInstance.ivrapi = ivrapi;
+        } else {
+            WeepingAngels.LOGGER.info("Vivecraft Compatibility disabled as it was not detected");
         }
 
         return WAVRPluginStatus.hasPlugin;
@@ -32,7 +31,10 @@ public class WAVRPluginHandler extends VivecraftReflector {
      */
     @Override
     public boolean isVRPlayer(Player player) {
-        return ivrapi.playerInVR(player);
+        if(WAVRPluginStatus.hasPlugin) {
+            return VRInstance.ivrapi.playerInVR(player);
+        }
+        return false;
     }
 
     /**
@@ -44,7 +46,7 @@ public class WAVRPluginHandler extends VivecraftReflector {
     @Override
     public Vec3 getHMDPos(Player player) {
         if (isVRPlayer(player)) {
-            IVRPlayer vrPlayer = ivrapi.getVRPlayer(player);
+            IVRPlayer vrPlayer = VRInstance.ivrapi.getVRPlayer(player);
             return vrPlayer.getHMD().position();
         }
         return player.position().add(0, 1.62, 0);
@@ -61,7 +63,7 @@ public class WAVRPluginHandler extends VivecraftReflector {
     public Vec3 getHMDRot(Player player) {
 
         if (isVRPlayer(player)) {
-            IVRPlayer vrPlayer = ivrapi.getVRPlayer(player);
+            IVRPlayer vrPlayer = VRInstance.ivrapi.getVRPlayer(player);
             return vrPlayer.getHMD().getLookAngle();
         }
 
