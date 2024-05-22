@@ -1,5 +1,6 @@
 package mc.craig.software.angels.util.forge;
 
+import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.forge.WeepingAngelsForge;
 import mc.craig.software.angels.util.ViewUtil;
 import net.minecraft.world.entity.player.Player;
@@ -9,19 +10,19 @@ public class ViewUtilImpl {
 
     public static Vec3 manipulateVrRotation(Player player, Vec3 vec3) {
         if (ViewUtil.isVrPlayer(player)) {
-            return WeepingAngelsForge.VR_REFLECTOR.getHMDRot(player);
+            return WeepingAngels.VR_HANDLER.getHMDRot(player);
         }
         return vec3;
     }
 
     public static Vec3 manipulateVrPosition(Player player, Vec3 vec3) {
         if (ViewUtil.isVrPlayer(player)) {
-            return WeepingAngelsForge.VR_REFLECTOR.getHMDPos(player);
+            return WeepingAngels.VR_HANDLER.getHMDPos(player);
         }
         return vec3;
     }
 
     public static boolean isVrPlayer(Player player) {
-        return WeepingAngelsForge.VR_REFLECTOR.isVRPlayer(player);
+        return WeepingAngels.VR_HANDLER.isVRPlayer(player);
     }
 }

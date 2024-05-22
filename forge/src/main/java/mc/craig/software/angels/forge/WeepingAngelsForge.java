@@ -31,11 +31,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mod(WeepingAngels.MODID)
 public class WeepingAngelsForge {
+
 
     public WeepingAngelsForge() {
         WeepingAngels.init();
@@ -72,15 +74,22 @@ public class WeepingAngelsForge {
         generator.addProvider(e.includeClient(), new SoundProvider(generator, existingFileHelper));
 
         /*Data Pack*/
+
+        var disabledHelper = new ExistingFileHelper(Collections.emptyList(), Collections.emptySet(), false, null, null);
+
+
+        BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
+
+        generator.addProvider(e.includeServer(), new WAItemTags(generator.getPackOutput(), lookup, blocktags.contentsGetter(), disabledHelper));
+
+
         generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
         generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
         generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput()));
-        generator.addProvider(e.includeServer(), new BlockTags(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(e.includeServer(), blocktags);
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
-        BlockTags blocktags = new BlockTags(generator.getPackOutput(), lookup, existingFileHelper);
-        generator.addProvider(e.includeServer(), new WAItemTags(generator.getPackOutput(), lookup, blocktags.contentsGetter(), existingFileHelper));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

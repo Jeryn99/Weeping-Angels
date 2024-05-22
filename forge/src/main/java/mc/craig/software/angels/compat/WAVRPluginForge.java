@@ -1,5 +1,6 @@
 package mc.craig.software.angels.compat;
 
+import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.compat.vivecraft.WAVRPluginStatus;
 import net.blf02.forge.VRAPIPlugin;
 import net.blf02.forge.VRAPIPluginProvider;
@@ -14,5 +15,6 @@ public class WAVRPluginForge implements VRAPIPluginProvider {
     public void getVRAPI(IVRAPI ivrapi) {
         vrAPI = ivrapi;
         WAVRPluginStatus.hasPlugin = true;
+        WeepingAngels.VR_HANDLER.init(vrAPI);
     }
 }

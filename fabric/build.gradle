@@ -14,7 +14,7 @@ loom {
 
 unifiedPublishing {
     project {
-        displayName = "[Fabric $rootProject.minecraft_version] Weeping Angels - v$project.version"
+        displayName = "[Fabric] Weeping Angels - v$rootProject.minecraft_version-$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
         gameVersions = ["1.20", "1.20.1"]
@@ -56,12 +56,13 @@ configurations {
 }
 
 repositories {
-  /*  maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://minecraft.guntram.de/maven/" }
+    maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
-    }*/
+    }
 }
 
 dependencies {
@@ -72,7 +73,9 @@ dependencies {
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
     include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 
-    compileOnly "curse.maven:mc-vr-api-591092:4648733"
+    modApi "curse.maven:mc-vr-api-591092:4648733"
+    modImplementation "curse.maven:mc-vr-api-591092:4648733"
+    modApi "curse.maven:architectury-api-419699:4663009"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

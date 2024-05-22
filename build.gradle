@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.3-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
     id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
@@ -29,16 +29,10 @@ task publishMeEverywhere(){
     dependsOn ':fabric:publishUnified'
 }
 
-def version = rootProject.mod_version
 
 def forgeDir = new File(project.projectDir, 'forge/build/libs/')
 def fabricDir = new File(project.projectDir, 'fabric/build/libs/')
 def commonDir = new File(project.projectDir, 'common/build/libs/')
-
-// Ensure that the directories exist, and create them if they don't.
-forgeDir.mkdirs()
-fabricDir.mkdirs()
-commonDir.mkdirs()
 
 def filter = { File file -> file.getName().contains(version) } as FileFilter
 
@@ -89,7 +83,6 @@ allprojects {
         }
 
         maven { url "https://cursemaven.com" }
-
 
     }
 

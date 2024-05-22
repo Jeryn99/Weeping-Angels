@@ -24,9 +24,17 @@ loom {
         }
     }
 
+    launches {
+        data {
+            arg "--existing", project(":common").file("src/main/resources/").absolutePath
+        }
+    }
+
     runs {
         data {
-            programArgs "--existing", project(":common").file("src/main/resources/").absolutePath
+            data()
+            programArgs "--all", "--mod", "weeping_angels"
+            programArgs "--output", project(":common").file("src/main/resources/").absolutePath
         }
     }
 }
@@ -75,7 +83,7 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    compileOnly "curse.maven:mc-vr-api-591092:4648734"
+    modCompileOnly "curse.maven:mc-vr-api-591092:4648734"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

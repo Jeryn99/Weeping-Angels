@@ -8,7 +8,7 @@ public enum AngelEmotion {
     ANGRY, IDLE, SCREAM;
 
     public String getId(){
-        return name().toLowerCase();
+        return name().toLowerCase(Locale.ENGLISH);
     }
 
     public static AngelEmotion randomEmotion(RandomSource randomSource) {

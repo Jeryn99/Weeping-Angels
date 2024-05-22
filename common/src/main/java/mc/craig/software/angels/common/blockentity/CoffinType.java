@@ -4,6 +4,8 @@ import mc.craig.software.angels.WeepingAngels;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 
+import java.util.Locale;
+
 public enum CoffinType {
     NEW(false), SEMI_WEATHERED(false), WEATHERED(false), HEAVILY_WEATHERED(false),
     POLICE_BOX(true), POLICE_BOX_2(true), POLICE_BOX_3(true), POLICE_BOX_4(true), POLICE_BOX_5(true), POLICE_BOX_6(true), POLICE_BOX_7(true), POLICE_BOX_8(true);
@@ -24,7 +26,7 @@ public enum CoffinType {
     }
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/blockentity/coffin_" + name().toLowerCase() + ".png");
+        return new ResourceLocation(WeepingAngels.MODID, "textures/blockentity/coffin_" + name().toLowerCase(Locale.ENGLISH) + ".png");
     }
 
     public boolean isTardis() {
@@ -44,6 +46,6 @@ public enum CoffinType {
     }
 
     public String getId() {
-        return name().toLowerCase();
+        return name().toLowerCase(Locale.ENGLISH);
     }
 }
