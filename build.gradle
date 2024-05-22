@@ -29,7 +29,6 @@ task publishMeEverywhere(){
     dependsOn ':fabric:publishUnified'
 }
 
-def version = rootProject.mod_version
 
 def forgeDir = new File(project.projectDir, 'forge/build/libs/')
 def fabricDir = new File(project.projectDir, 'fabric/build/libs/')
