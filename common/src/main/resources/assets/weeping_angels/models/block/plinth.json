@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type" : "cutout",
 	"textures": {
 		"0": "block/quartz_pillar",
 		"1": "block/quartz_block_top",

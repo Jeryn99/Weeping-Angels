@@ -34,7 +34,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         ARM, HEAD, BODY, WINGS;
 
         public String getId() {
-            return name().toLowerCase(Locale.ROOT);
+            return name().toLowerCase(Locale.ENGLISH);
         }
 
         public static SnowStage randomStage(RandomSource randomSource) {

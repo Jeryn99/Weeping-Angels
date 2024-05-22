@@ -21,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
+import java.util.Locale;
+
 public class AliceAngelModel extends AngelModel implements ArmedModel {
 
 
@@ -126,7 +128,7 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
 
     @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId().toLowerCase(Locale.ENGLISH) + ".png");
     }
 
     @Override

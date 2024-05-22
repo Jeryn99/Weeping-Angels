@@ -52,6 +52,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(WABlockEntities.SNOW_ANGEL.get(), SnowAngelRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.COFFIN.get(), cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.STATUE.get(), cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.PLINTH.get(), cutout());
     }
 
     private void itemPredicates() {

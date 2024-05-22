@@ -3,12 +3,12 @@ package mc.craig.software.angels.common.entity.angel.ai;
 import net.minecraft.util.RandomSource;
 
 import java.util.Locale;
-
+R
 public enum AngelEmotion {
     ANGRY, IDLE, SCREAM;
 
     public String getId(){
-        return name().toLowerCase();
+        return name().toLowerCase(Locale.ENGLISH);
     }
 
     public static AngelEmotion randomEmotion(RandomSource randomSource) {
