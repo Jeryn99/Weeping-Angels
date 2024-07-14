@@ -17,7 +17,7 @@ unifiedPublishing {
         displayName = "[Fabric] Weeping Angels - v$rootProject.minecraft_version-$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.20", "1.20.1"]
+        gameVersions = ["1.21"]
         mainPublication tasks.remapJar
         gameLoaders = ["fabric"]
         relations {
@@ -32,7 +32,7 @@ unifiedPublishing {
             curseforge {
                 token = CURSE_API_KEY
                 id = "291249"
-                gameVersions.addAll "Java 17", "1.20", "1.20.1"
+                gameVersions.addAll "Java 17", "1.21"
             }
         }
 
@@ -48,27 +48,29 @@ unifiedPublishing {
 }
 
 configurations {
-    common
-    shadowCommon
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
-}
 
-repositories {
-    maven { url "https://minecraft.guntram.de/maven/" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.terraformersmc.com/releases/" }
-    maven {
-        name = "Fuzs Mod Resources"
-        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    // Files in this configuration will be bundled into your mod using the Shadow plugin.
+    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
     }
+}
+repositories {
+
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     // Forge Config API Port
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
     include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
@@ -77,9 +79,8 @@ dependencies {
     modImplementation "curse.maven:mc-vr-api-591092:4648733"
     modApi "curse.maven:architectury-api-419699:4663009"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
+    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
 
 processResources {
@@ -95,17 +96,13 @@ sourceSets.main.resources {
 }
 
 shadowJar {
-    exclude "weeping_angels.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier = 'fabric'
 }
 
 jar {
@@ -124,16 +121,3 @@ components.java {
     }
 }
 
-
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-
-    repositories {
-        // Add repositories to publish to here.
-    }
-}

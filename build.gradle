@@ -1,6 +1,6 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.2+" apply false
+    id "architectury-plugin" version "3.4+"
+    id "dev.architectury.loom" version "1.7+" apply false
     id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
@@ -34,6 +34,10 @@ def forgeDir = new File(project.projectDir, 'forge/build/libs/')
 def fabricDir = new File(project.projectDir, 'fabric/build/libs/')
 def commonDir = new File(project.projectDir, 'common/build/libs/')
 
+forgeDir.mkdirs()
+fabricDir.mkdirs()
+commonDir.mkdirs()
+
 def filter = { File file -> file.getName().contains(version) } as FileFilter
 
 def forgeFiles = forgeDir.listFiles(filter)
@@ -42,7 +46,7 @@ def commonFiles = commonDir.listFiles(filter)
 
 githubRelease {
     token project.findProperty("github") ?: System.getenv("github") ?: ""
-    owner "Suff99"
+    owner "Jeryn99"
     repo "weeping_angels"
     tagName "v$rootProject.minecraft_version-${version}"
     targetCommitish "1.20"
@@ -88,7 +92,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {

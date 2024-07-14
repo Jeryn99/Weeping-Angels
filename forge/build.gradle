@@ -5,25 +5,11 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge();
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-
-        mixinConfig "weeping_angels-common.mixins.json"
-        mixinConfig "weeping_angels.mixins.json"
-
-        dataGen {
-            mod "weeping_angels"
-
-        }
-    }
-
 
     runs {
         data {
@@ -39,9 +25,9 @@ unifiedPublishing {
         displayName = "[Forge] Weeping Angels - v$rootProject.minecraft_version-$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
-        gameVersions = ["1.20", "1.20.1"]
+        gameVersions = ["1.21"]
         mainPublication tasks.remapJar
-        gameLoaders = ["forge"]
+        gameLoaders = ["neoforge"]
         relations {
 
         }
@@ -51,7 +37,7 @@ unifiedPublishing {
             curseforge {
                 token = CURSE_API_KEY
                 id = "291249"
-                gameVersions.addAll "Java 17", "1.20", "1.20.1"
+                gameVersions.addAll "Java 17", "1.21"
             }
         }
 
@@ -66,24 +52,27 @@ unifiedPublishing {
     }
 }
 
-
+repositories {
+    maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+    maven { url "https://maven.neoforged.net/releases/" }
+}
 
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
     modImplementation "curse.maven:mc-vr-api-591092:4648734"
     modApi "curse.maven:architectury-api-419699:5137938"
 
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 }
 
 processResources {
