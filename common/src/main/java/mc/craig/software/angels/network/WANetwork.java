@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class WANetwork {
 
-    public static final NetworkManager NETWORK = NetworkManager.create(new ResourceLocation(WeepingAngels.MODID, "channel"));
+    public static final NetworkManager NETWORK = NetworkManager.create(ResourceLocation.tryBuild(WeepingAngels.MODID, "channel"));
 
     public static MessageType UPDATE_CATACOMB, UPDATE_STATUE;
 

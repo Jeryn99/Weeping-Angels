@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class DetectorOverlay {
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(WeepingAngels.MODID, "textures/ui/detector_backdrop.png");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/ui/detector_backdrop.png");
 
 
     public static void renderOverlay(GuiGraphics guiGraphics) {

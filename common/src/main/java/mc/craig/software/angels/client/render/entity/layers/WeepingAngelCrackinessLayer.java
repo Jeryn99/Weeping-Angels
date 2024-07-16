@@ -19,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.Map;
 
 public class WeepingAngelCrackinessLayer extends RenderLayer<WeepingAngel, AngelModel> {
-    private static final Map<WeepingAngel.Crackiness, ResourceLocation> resourceLocations = ImmutableMap.of(WeepingAngel.Crackiness.LOW, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/low_cracks.png"), WeepingAngel.Crackiness.MEDIUM, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/medium_cracks.png"), WeepingAngel.Crackiness.HIGH, new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/high_cracks.png"));
+    private static final Map<WeepingAngel.Crackiness, ResourceLocation> resourceLocations = ImmutableMap.of(WeepingAngel.Crackiness.LOW, ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/low_cracks.png"), WeepingAngel.Crackiness.MEDIUM, ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/medium_cracks.png"), WeepingAngel.Crackiness.HIGH, ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/alice/cracks/high_cracks.png"));
 
     public WeepingAngelCrackinessLayer(RenderLayerParent<WeepingAngel, AngelModel> pRenderer) {
         super(pRenderer);

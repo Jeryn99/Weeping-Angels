@@ -139,7 +139,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
     public AngelVariant getVariant() {
-        return AngelVariant.getVariant(new ResourceLocation(getEntityData().get(VARIANT)));
+        return AngelVariant.getVariant(ResourceLocation.tryBuild(getEntityData().get(VARIANT)));
     }
 
     public void setVariant(AngelVariant angelVariant) {
@@ -176,7 +176,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.find(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
         if (compound.contains(WAConstants.VARIANT))
-            setVariant(AngelVariant.getVariant(new ResourceLocation(compound.getString(WAConstants.VARIANT))));
+            setVariant(AngelVariant.getVariant(ResourceLocation.tryBuild(compound.getString(WAConstants.VARIANT))));
     }
 
     public void setDrops(boolean drops) {

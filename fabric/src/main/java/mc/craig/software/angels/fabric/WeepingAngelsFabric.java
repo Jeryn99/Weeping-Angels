@@ -1,6 +1,6 @@
 package mc.craig.software.angels.fabric;
 
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import mc.craig.software.angels.EntitySpawns;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
@@ -28,7 +28,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfig;
 
 import java.util.function.Predicate;
 
@@ -48,9 +48,9 @@ public class WeepingAngelsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
-        ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
-        ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns");
+        NeoForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns");
         WeepingAngels.init();
         EntitySpawns.init();
         levelManipulation();
@@ -78,9 +78,9 @@ public class WeepingAngelsFabric implements ModInitializer {
     }
 
     private void levelManipulation() {
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(WeepingAngels.MODID, "ore_kontron")));
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(WeepingAngels.MODID, "ore_kontron_small")));
-        BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(WeepingAngels.MODID, "snow_angel")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(WeepingAngels.MODID, "ore_kontron")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(WeepingAngels.MODID, "ore_kontron_small")));
+        BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(WeepingAngels.MODID, "snow_angel")));
     }
 
     private Predicate<BiomeSelectionContext> isSnowy() {

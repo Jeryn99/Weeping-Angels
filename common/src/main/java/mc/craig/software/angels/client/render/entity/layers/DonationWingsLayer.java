@@ -30,7 +30,7 @@ import java.util.UUID;
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
     public final MercyWingsModel mercyWings;
     public final AngelModel angelModel;
-    private final ResourceLocation TEXTURE_LIGHTMAP = new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings_lightmap.png");
+    private final ResourceLocation TEXTURE_LIGHTMAP = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/wings/mercy_wings_lightmap.png");
 
     public DonationWingsLayer(RenderLayerParent<T, M> renderLayerParent) {
         super(renderLayerParent);
@@ -85,7 +85,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                 getParentModel().body.translateAndRotate(poseStack);
                 poseStack.translate(0, 0.5, 0);
                 for (ModelPart wing : angelModel.getWings()) {
-                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelVariant.getVariant(new ResourceLocation(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelVariant.getVariant(ResourceLocation.tryBuild(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 }
                 poseStack.popPose();
             });

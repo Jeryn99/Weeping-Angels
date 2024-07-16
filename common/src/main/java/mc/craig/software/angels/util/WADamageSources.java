@@ -11,9 +11,9 @@ import net.minecraft.world.damagesource.DamageType;
 
 public class WADamageSources {
 
-    public static final ResourceKey<DamageType> GENERATOR = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(WeepingAngels.MODID, "generator"));
-    public static final ResourceKey<DamageType> PUNCH_STONE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(WeepingAngels.MODID, "punch_stone"));
-    public static final ResourceKey<DamageType> SNAPPED_NECK = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(WeepingAngels.MODID, "snapped_neck"));
+    public static final ResourceKey<DamageType> GENERATOR = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.tryBuild(WeepingAngels.MODID, "generator"));
+    public static final ResourceKey<DamageType> PUNCH_STONE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.tryBuild(WeepingAngels.MODID, "punch_stone"));
+    public static final ResourceKey<DamageType> SNAPPED_NECK = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.tryBuild(WeepingAngels.MODID, "snapped_neck"));
 
     public static DamageSource getSource(ServerLevel level, ResourceKey<DamageType> damageTypeResourceKey) {
         Holder.Reference<DamageType> damageType = level.registryAccess()

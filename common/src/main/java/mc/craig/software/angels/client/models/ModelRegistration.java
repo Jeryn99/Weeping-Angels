@@ -27,22 +27,22 @@ public class ModelRegistration {
     private static AngelModel GAS_MODEL, ALICE_MODEL, A_DIZZLE_MODEL, DOCTOR_ANGEL_MODEL;
 
     public static void init() {
-        ALICE_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "alice_angel"), AliceAngelModel::meshLayer);
-        GAS_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "gas_angel"), GasAngelModel::meshLayer);
-        MERCY_WINGS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "mercy_wings"), MercyWingsModel::meshLayer);
-        COFFIN = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "coffin"), CoffinModel::meshLayer);
-        TARDIS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "tardis"), TardisModel::meshLayer);
-        A_DIZZLE_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "a_dizzle_model"), ADizzleAngelModel::meshLayer);
-        DOCTOR_ANGEL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "doctor_angel"), DoctorAngelModel::meshLayer);
-        PORTAL = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "portal"), PortalModel::meshLayer);
-        GENERATOR = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "generator"), GeneratorModel::meshLayer);
-        SANTA_HAT = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "santa_hat"), SantaHat::meshLayer);
+        ALICE_ANGEL = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "alice_angel"), AliceAngelModel::meshLayer);
+        GAS_ANGEL = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "gas_angel"), GasAngelModel::meshLayer);
+        MERCY_WINGS = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "mercy_wings"), MercyWingsModel::meshLayer);
+        COFFIN = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "coffin"), CoffinModel::meshLayer);
+        TARDIS = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "tardis"), TardisModel::meshLayer);
+        A_DIZZLE_ANGEL = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "a_dizzle_model"), ADizzleAngelModel::meshLayer);
+        DOCTOR_ANGEL = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "doctor_angel"), DoctorAngelModel::meshLayer);
+        PORTAL = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "portal"), PortalModel::meshLayer);
+        GENERATOR = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "generator"), GeneratorModel::meshLayer);
+        SANTA_HAT = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "santa_hat"), SantaHat::meshLayer);
 
         // Snow Models
-        SNOW_ARM = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_arm"), SnowArmModel::meshLayer);
-        SNOW_BODY = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_body"), SnowBodyModel::meshLayer);
-        SNOW_WINGS = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_wings"), SnowWingsModel::meshLayer);
-        SNOW_HEAD = register(new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model"), "snow_head"), SnowHeadModel::meshLayer);
+        SNOW_ARM = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "snow_arm"), SnowArmModel::meshLayer);
+        SNOW_BODY = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "snow_body"), SnowBodyModel::meshLayer);
+        SNOW_WINGS = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "snow_wings"), SnowWingsModel::meshLayer);
+        SNOW_HEAD = register(new ModelLayerLocation(ResourceLocation.tryBuild(WeepingAngels.MODID, "model"), "snow_head"), SnowHeadModel::meshLayer);
     }
 
     public static void regModels(BlockEntityRendererProvider.Context context) {

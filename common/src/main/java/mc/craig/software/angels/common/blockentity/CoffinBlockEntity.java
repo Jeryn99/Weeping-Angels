@@ -1,7 +1,6 @@
 package mc.craig.software.angels.common.blockentity;
 
 import mc.craig.software.angels.common.WAConstants;
-import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;

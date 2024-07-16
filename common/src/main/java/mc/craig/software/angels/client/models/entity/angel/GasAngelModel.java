@@ -116,7 +116,7 @@ public class GasAngelModel extends AngelModel {
 
     @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/spare_time/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+        return ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/spare_time/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
     }
 
     @Override

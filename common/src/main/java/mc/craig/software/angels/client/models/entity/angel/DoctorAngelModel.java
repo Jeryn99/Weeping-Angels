@@ -92,7 +92,7 @@ public class DoctorAngelModel extends AngelModel {
 
     @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/doctor/doctor_angel_idle.png");
+        return ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/doctor/doctor_angel_idle.png");
     }
 
     @Override

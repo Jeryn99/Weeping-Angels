@@ -23,7 +23,7 @@ public class WeepingAngels {
     public static final WAVRPluginHandler VR_HANDLER = new WAVRPluginHandler();
 
 
-    public static ResourceLocation CRYPT_LOOT = new ResourceLocation(WeepingAngels.MODID, "chests/catacombs");
+    public static ResourceLocation CRYPT_LOOT = ResourceLocation.tryBuild(WeepingAngels.MODID, "chests/catacombs");
 
     public static void init() {
         WAItems.ITEMS.register();

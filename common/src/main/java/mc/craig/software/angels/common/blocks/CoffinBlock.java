@@ -1,8 +1,10 @@
 package mc.craig.software.angels.common.blocks;
 
+import com.mojang.serialization.MapCodec;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -10,8 +12,9 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -45,39 +48,45 @@ public class CoffinBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(OPEN, ROTATION, WATERLOGGED, UPRIGHT);
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pHand == InteractionHand.OFF_HAND) return InteractionResult.FAIL;
-        pPlayer.swing(pHand);
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if (interactionHand == InteractionHand.OFF_HAND) return ItemInteractionResult.FAIL;
+        player.swing(interactionHand);
 
-        if (pLevel.getBlockEntity(pPos) instanceof CoffinBlockEntity coffinBlockEntity) {
+        if (level.getBlockEntity(blockPos) instanceof CoffinBlockEntity coffinBlockEntity) {
             if (coffinBlockEntity.getCoffinType().isTardis()) {
 
-                if (pPlayer.getMainHandItem().getItem() instanceof RecordItem) {
-                    pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
+                if (player.getMainHandItem().get(DataComponents.JUKEBOX_PLAYABLE) != null) {
+                    level.playSound(null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, WASounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
                     coffinBlockEntity.demat();
                     coffinBlockEntity.sendUpdates();
-                    if(!pPlayer.isCreative()) {
-                        pPlayer.getMainHandItem().shrink(1);
+                    if (!player.isCreative()) {
+                        player.getMainHandItem().shrink(1);
                     }
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else {
-                    pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, WASounds.LOCKED.get(), SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
+                    level.playSound(null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, WASounds.LOCKED.get(), SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
                     coffinBlockEntity.sendUpdates();
                 }
             }
         }
 
-        pLevel.setBlock(pPos, pState.cycle(OPEN), 3);
-        pLevel.gameEvent(pPlayer, GameEvent.BLOCK_OPEN, pPos);
-        pLevel.playSound(null, pPos.getX() + 0.5D, (double) pPos.getY() + 0.5D, pPos.getZ() + 0.5D, pLevel.getBlockState(pPos).getValue(OPEN) ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, pLevel.random.nextFloat() * 0.1F + 0.9F);
-        return InteractionResult.SUCCESS;
+        level.setBlock(blockPos, blockState.cycle(OPEN), 3);
+        level.gameEvent(player, GameEvent.BLOCK_OPEN, blockPos);
+        level.playSound(null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, level.getBlockState(blockPos).getValue(OPEN) ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+        return ItemInteractionResult.SUCCESS;
     }
+
 
     @Nullable
     @Override

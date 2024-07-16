@@ -26,7 +26,7 @@ public enum CoffinType {
     }
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/blockentity/coffin_" + name().toLowerCase(Locale.ENGLISH) + ".png");
+        return ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/blockentity/coffin_" + name().toLowerCase(Locale.ENGLISH) + ".png");
     }
 
     public boolean isTardis() {

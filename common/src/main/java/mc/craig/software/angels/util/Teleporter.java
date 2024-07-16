@@ -19,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 import java.util.ArrayList;
@@ -44,14 +44,15 @@ public class Teleporter {
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
-        BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(level, pPos.mutable());
-        if (blockpathtypes != BlockPathTypes.WALKABLE) {
+        PathType blockpathtypes = WalkNodeEvaluator.getPathTypeStatic(entity, pPos.mutable());
+        if (blockpathtypes != PathType.WALKABLE) {
             return false;
         } else {
             BlockPos blockpos = pPos.subtract(entity.blockPosition());
             return level.noCollision(entity, entity.getBoundingBox().move(blockpos));
         }
     }
+
     public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, int pX, int pY, int pZ, float pYaw, float pPitch, boolean playSound) {
         WeepingAngels.LOGGER.debug("Teleported {} to {} {} {}", pEntity.getDisplayName().getString(), pX, pY, pZ);
         BlockPos blockpos = new BlockPos(pX, pY, pZ);

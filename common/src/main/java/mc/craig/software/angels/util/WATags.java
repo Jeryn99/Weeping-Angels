@@ -24,23 +24,23 @@ public class WATags {
     public static TagKey<Biome> CATACOMB_STRUCTURE_BIOMES = makeBiome(WeepingAngels.MODID, "has_structure/catacombs");
 
     private static TagKey<Item> makeItem(String domain, String path) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation(domain, path));
+        return TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(domain, path));
     }
 
     private static TagKey<Block> makeBlock(String domain, String path) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation(domain, path));
+        return TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(domain, path));
     }
 
     private static TagKey<EntityType<?>> makeEntityType(String domain, String path) {
-        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(domain, path));
+        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(domain, path));
     }
 
     private static TagKey<Structure> makeStructure(String domain, String path) {
-        return TagKey.create(Registries.STRUCTURE, new ResourceLocation(domain, path));
+        return TagKey.create(Registries.STRUCTURE, ResourceLocation.tryBuild(domain, path));
     }
 
     private static TagKey<Biome> makeBiome(String domain, String path) {
-        return TagKey.create(Registries.BIOME, new ResourceLocation(domain, path));
+        return TagKey.create(Registries.BIOME, ResourceLocation.tryBuild(domain, path));
     }
 
 }

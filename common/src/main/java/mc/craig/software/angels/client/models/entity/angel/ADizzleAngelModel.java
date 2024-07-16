@@ -94,7 +94,7 @@ public class ADizzleAngelModel extends AngelModel {
 
         String seasonal = DonationChecker.isXmas() ? "_xmas" : "";
 
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/a_dizzle/variants/a_dizzle_" + angelEmotion.getId() + seasonal + ".png");
+        return ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/angel/a_dizzle/variants/a_dizzle_" + angelEmotion.getId() + seasonal + ".png");
     }
 
     @Override

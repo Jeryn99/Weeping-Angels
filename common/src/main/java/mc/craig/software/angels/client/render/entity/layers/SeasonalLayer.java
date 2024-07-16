@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SeasonalLayer extends RenderLayer<WeepingAngel, AngelModel> {
 
-    public static final ResourceLocation SANTA = new ResourceLocation(WeepingAngels.MODID, "textures/entity/wearables/santa_hat.png");
+    public static final ResourceLocation SANTA = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/wearables/santa_hat.png");
     private final SantaHat<Entity> model;
 
     public SeasonalLayer(RenderLayerParent<WeepingAngel, AngelModel> renderer) {

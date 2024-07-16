@@ -26,26 +26,26 @@ public class AngelVariant {
     public static AngelVariant GAS_STONE, GAS_RUSTED, A_DIZZLE, DOCTOR;
 
     public static void init() {
-        STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "normal"), new ItemStack(Blocks.STONE), false);
-        DOCTOR = registerVariant(new ResourceLocation(WeepingAngels.MODID, "doctor"), new ItemStack(Blocks.STONE), false);
-        BASALT = registerVariant(new ResourceLocation(WeepingAngels.MODID, "basalt"), new ItemStack(Blocks.BASALT), false);
-        COPPER = registerVariant(new ResourceLocation(WeepingAngels.MODID, "copper"), new ItemStack(Blocks.COPPER_ORE), true);
-        DIRT = registerVariant(new ResourceLocation(WeepingAngels.MODID, "dirt"), new ItemStack(Blocks.DIRT), false);
-        MOSSY = registerVariant(new ResourceLocation(WeepingAngels.MODID, "mossy"), new ItemStack(Blocks.MOSSY_COBBLESTONE), false);
-        RUSTED = registerVariant(new ResourceLocation(WeepingAngels.MODID, "rusted"), new ItemStack(Blocks.MOSSY_COBBLESTONE), false);
-        RUSTED_NO_ARM = registerVariant(new ResourceLocation(WeepingAngels.MODID, "rusted_no_arm"), new ItemStack(Blocks.GRANITE), false);
-        RUSTED_NO_WING = registerVariant(new ResourceLocation(WeepingAngels.MODID, "rusted_no_wing"), new ItemStack(Blocks.GRANITE), false);
-        RUSTED_NO_HEAD = registerVariant(new ResourceLocation(WeepingAngels.MODID, "rusted_no_head"), new ItemStack(Blocks.GRANITE), false);
-        QUARTZ = registerVariant(new ResourceLocation(WeepingAngels.MODID, "quartz"), new ItemStack(Blocks.QUARTZ_PILLAR), false);
-        LAPIS_LAZULI = registerVariant(new ResourceLocation(WeepingAngels.MODID, "lapis_lazuli"), new ItemStack(Blocks.LAPIS_ORE), true);
-        IRON = registerVariant(new ResourceLocation(WeepingAngels.MODID, "iron"), new ItemStack(Blocks.IRON_ORE), true);
-        GOLD = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gold"), new ItemStack(Blocks.GOLD_ORE), true);
-        EMERALD = registerVariant(new ResourceLocation(WeepingAngels.MODID, "emerald"), new ItemStack(Blocks.EMERALD_ORE), true);
-        DIAMOND = registerVariant(new ResourceLocation(WeepingAngels.MODID, "diamond"), new ItemStack(Blocks.DIAMOND_ORE), true);
+        STONE = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "normal"), new ItemStack(Blocks.STONE), false);
+        DOCTOR = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "doctor"), new ItemStack(Blocks.STONE), false);
+        BASALT = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "basalt"), new ItemStack(Blocks.BASALT), false);
+        COPPER = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "copper"), new ItemStack(Blocks.COPPER_ORE), true);
+        DIRT = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "dirt"), new ItemStack(Blocks.DIRT), false);
+        MOSSY = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "mossy"), new ItemStack(Blocks.MOSSY_COBBLESTONE), false);
+        RUSTED = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "rusted"), new ItemStack(Blocks.MOSSY_COBBLESTONE), false);
+        RUSTED_NO_ARM = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "rusted_no_arm"), new ItemStack(Blocks.GRANITE), false);
+        RUSTED_NO_WING = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "rusted_no_wing"), new ItemStack(Blocks.GRANITE), false);
+        RUSTED_NO_HEAD = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "rusted_no_head"), new ItemStack(Blocks.GRANITE), false);
+        QUARTZ = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "quartz"), new ItemStack(Blocks.QUARTZ_PILLAR), false);
+        LAPIS_LAZULI = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "lapis_lazuli"), new ItemStack(Blocks.LAPIS_ORE), true);
+        IRON = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "iron"), new ItemStack(Blocks.IRON_ORE), true);
+        GOLD = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "gold"), new ItemStack(Blocks.GOLD_ORE), true);
+        EMERALD = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "emerald"), new ItemStack(Blocks.EMERALD_ORE), true);
+        DIAMOND = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "diamond"), new ItemStack(Blocks.DIAMOND_ORE), true);
 
-        GAS_RUSTED = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gas_rusted"), new ItemStack(Blocks.STONE), false);
-        GAS_STONE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "gas_stone"), new ItemStack(Blocks.GRANITE), false);
-        A_DIZZLE = registerVariant(new ResourceLocation(WeepingAngels.MODID, "a_dizzle"), new ItemStack(Blocks.GRANITE), false);
+        GAS_RUSTED = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "gas_rusted"), new ItemStack(Blocks.STONE), false);
+        GAS_STONE = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "gas_stone"), new ItemStack(Blocks.GRANITE), false);
+        A_DIZZLE = registerVariant(ResourceLocation.tryBuild(WeepingAngels.MODID, "a_dizzle"), new ItemStack(Blocks.GRANITE), false);
     }
 
     private final ItemStack drops;

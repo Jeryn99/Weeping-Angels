@@ -28,7 +28,7 @@ import java.util.function.Function;
 
 public class ChiselScreen extends Screen {
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(WeepingAngels.MODID, "textures/ui/menubg.png");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/ui/menubg.png");
     private static final WeepingAngel weepingAngelFake = new WeepingAngel(Minecraft.getInstance().level);
     public static AnimationState POSE_ANIMATION_STATE = new AnimationState();
     private final BlockPos blockPos;

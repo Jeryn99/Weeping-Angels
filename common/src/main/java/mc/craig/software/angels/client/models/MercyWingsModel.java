@@ -142,7 +142,7 @@ public class MercyWingsModel extends HierarchicalModel<LivingEntity> {
     }
 
     public static ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
+        return ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/wings/mercy_wings.png");
     }
 
 }

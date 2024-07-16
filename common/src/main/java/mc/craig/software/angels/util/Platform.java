@@ -11,6 +11,8 @@ public class Platform {
 
     private static final boolean FORGE = ArchitecturyTarget.getCurrentTarget().equals(PlatformOnly.FORGE);
 
+    private static byte ARCHITECTURY_LOADED = 0;
+
 
     @ExpectPlatform
     public static void init() {
@@ -44,5 +46,12 @@ public class Platform {
     @ExpectPlatform
     public static MinecraftServer getServer() {
         throw new AssertionError();
+    }
+
+    public static boolean isArchitecturyLoaded() {
+        if (ARCHITECTURY_LOADED == 0) {
+            ARCHITECTURY_LOADED = (byte) (isModLoaded("architectury") ? 2 : 1);
+        }
+        return ARCHITECTURY_LOADED == 2;
     }
 }

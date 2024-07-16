@@ -34,7 +34,7 @@ public interface Plinth {
     }
 
     default void readNbt(CompoundTag compoundTag) {
-        setSpecificVariant(AngelVariant.getVariant(new ResourceLocation(compoundTag.getString(WAConstants.VARIANT))));
+        setSpecificVariant(AngelVariant.getVariant(ResourceLocation.tryBuild(compoundTag.getString(WAConstants.VARIANT))));
         setAnimation(Mth.clamp(compoundTag.getInt(WAConstants.ANIMATION), 0, 12));
         setEmotion(AngelEmotion.find(compoundTag.getString(WAConstants.EMOTION)));
     }

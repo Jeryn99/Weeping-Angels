@@ -20,9 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GeneratorRenderer implements BlockEntityRenderer<GeneratorBlockEntity>, BlockEntityRendererProvider<GeneratorBlockEntity> {
 
 
-    private static final ResourceLocation GENERATOR_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entity/generator/vortex_generator.png");
-    private static final ResourceLocation GENERATOR_ACTIVATED_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entity/generator/vortex_generator_armed.png");
-    private static final ResourceLocation VORTEX_TEX = new ResourceLocation(WeepingAngels.MODID, "textures/entity/generator/vortex.png");
+    private static final ResourceLocation GENERATOR_TEX = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/generator/vortex_generator.png");
+    private static final ResourceLocation GENERATOR_ACTIVATED_TEX = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/generator/vortex_generator_armed.png");
+    private static final ResourceLocation VORTEX_TEX = ResourceLocation.tryBuild(WeepingAngels.MODID, "textures/entity/generator/vortex.png");
     private final PortalModel vortexModel;
     private final GeneratorModel generatorModel;
 
