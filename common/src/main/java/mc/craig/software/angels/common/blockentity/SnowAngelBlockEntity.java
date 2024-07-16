@@ -4,6 +4,7 @@ import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -97,17 +98,18 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
         this.snowAngelStages = snowAngelStages;
     }
 
+
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putString(WAConstants.SNOW_STAGE, getSnowAngelStages().getId());
-        tag.putBoolean(WAConstants.NEEDS_BOX, isSetup);
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        compoundTag.putString(WAConstants.SNOW_STAGE, getSnowAngelStages().getId());
+        compoundTag.putBoolean(WAConstants.NEEDS_BOX, isSetup);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        setSnowAngelStages(SnowStage.find(tag.getString(WAConstants.SNOW_STAGE)));
-        isSetup = tag.getBoolean(WAConstants.NEEDS_BOX);
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
+        setSnowAngelStages(SnowStage.find(compoundTag.getString(WAConstants.SNOW_STAGE)));
+        isSetup = compoundTag.getBoolean(WAConstants.NEEDS_BOX);
     }
 }

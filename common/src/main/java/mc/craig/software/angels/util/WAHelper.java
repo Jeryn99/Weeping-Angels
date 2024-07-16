@@ -93,7 +93,7 @@ public class WAHelper {
     }
 
     public static SoundEvent getRandomSounds(RandomSource randomSource) {
-        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE.value(), SoundEvents.MUSIC_DISC_11, SoundEvents.SCULK_SHRIEKER_SHRIEK};
+        SoundEvent[] soundEvents = new SoundEvent[]{SoundEvents.AMBIENT_CAVE.value(), SoundEvents.MUSIC_DISC_11.value(), SoundEvents.SCULK_SHRIEKER_SHRIEK};
         return soundEvents[randomSource.nextInt(soundEvents.length)];
     }
 }

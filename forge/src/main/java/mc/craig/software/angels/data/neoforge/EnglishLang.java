@@ -72,8 +72,8 @@ public class EnglishLang extends LanguageProvider {
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
         add(WAItems.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAItems.CHISEL.get(), "Chisel");
-        add(WAItems.DISC_SALLY.get(), "Music Disc");
-        add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
+      /*  add(WAItems.DISC_SALLY.get(), "Music Disc");
+        add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");*/
         add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");
         add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
 

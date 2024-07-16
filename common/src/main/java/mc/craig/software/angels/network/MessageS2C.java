@@ -1,28 +1,13 @@
+
 package mc.craig.software.angels.network;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
+public abstract class MessageC2S extends Message {
 
-import java.util.List;
-
-public abstract class MessageS2C extends Message {
-
-    public void send(ServerPlayer player) {
-        this.getType().getNetworkManager().sendToPlayer(player, this);
-    }
-
-    public void sendToDimension(Level level) {
-        this.getType().getNetworkManager().sendToDimension(level, this);
-    }
-
-    public void sendToAll(ServerLevel level){
-        MinecraftServer server = level.getServer();
-        List<ServerPlayer> player = server.getPlayerList().getPlayers();
-        for (ServerPlayer serverPlayer : player) {
-            send(serverPlayer);
-        }
+    /**
+     * Sends message to every player online
+     */
+    public void send() {
+        this.getType().getNetworkManager().sendToServer(this);
     }
 
 }

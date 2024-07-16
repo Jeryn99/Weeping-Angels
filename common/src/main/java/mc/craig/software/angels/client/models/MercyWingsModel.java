@@ -131,9 +131,9 @@ public class MercyWingsModel extends HierarchicalModel<LivingEntity> {
 
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Lwing.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        RWing.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int k) {
+        Lwing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+        RWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
     }
 
     @Override

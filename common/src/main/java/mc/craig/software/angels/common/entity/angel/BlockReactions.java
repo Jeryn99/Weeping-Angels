@@ -38,7 +38,7 @@ public class BlockReactions {
         if (blockState.hasProperty(POWERED)) {
             // Lever
             if (blockState.getBlock() instanceof LeverBlock leverBlock && level.random.nextBoolean()) {
-                leverBlock.pull(blockState, level, blockPos);
+                leverBlock.pull(blockState, level, blockPos, null);
                 level.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
                 return true;
             }

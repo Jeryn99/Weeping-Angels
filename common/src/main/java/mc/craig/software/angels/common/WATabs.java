@@ -10,7 +10,7 @@ import net.minecraft.world.item.CreativeModeTab;
 public class WATabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(WeepingAngels.MODID, Registries.CREATIVE_MODE_TAB);
 
-    public static final RegistryHolder<CreativeModeTab> MAIN_TAB = TABS.register("main_tab", WATabs::createTab);
+    public static final RegistryHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = TABS.register("main_tab", WATabs::createTab);
 
 
     @ExpectPlatform

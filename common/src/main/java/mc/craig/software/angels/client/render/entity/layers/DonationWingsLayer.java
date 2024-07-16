@@ -72,7 +72,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                     poseStack.pushPose();
                     getParentModel().body.translateAndRotate(poseStack);
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
-                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY);
 
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
                     mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.5F);
@@ -85,7 +85,7 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                 getParentModel().body.translateAndRotate(poseStack);
                 poseStack.translate(0, 0.5, 0);
                 for (ModelPart wing : angelModel.getWings()) {
-                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelVariant.getVariant(ResourceLocation.tryBuild(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    wing.render(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(angelModel.texture(AngelEmotion.IDLE, AngelVariant.getVariant(ResourceLocation.tryParse(data.getVariant()))))), pPackedLight, OverlayTexture.NO_OVERLAY);
                 }
                 poseStack.popPose();
             });

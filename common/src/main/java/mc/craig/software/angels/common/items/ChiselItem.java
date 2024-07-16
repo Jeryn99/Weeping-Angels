@@ -39,11 +39,10 @@ public class ChiselItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(Component.translatable(WAConstants.CHISEL_POSE));
-        tooltip.add(Component.translatable(WAConstants.CHISEL_VARIANT));
-
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
+        list.add(Component.translatable(WAConstants.CHISEL_POSE));
+        list.add(Component.translatable(WAConstants.CHISEL_VARIANT));
     }
 
 }

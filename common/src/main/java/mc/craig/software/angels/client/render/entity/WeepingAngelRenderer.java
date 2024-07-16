@@ -64,10 +64,11 @@ public class WeepingAngelRenderer extends LivingEntityRenderer<WeepingAngel, Ang
         return ModelRegistration.getModelFor(textureVariant);
     }
 
+
     @Override
-    protected void setupRotations(WeepingAngel pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        if (pEntityLiving.deathTime > 0) return;
-        super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+    protected void setupRotations(WeepingAngel livingEntity, PoseStack poseStack, float f, float g, float h, float i) {
+        if (livingEntity.deathTime > 0) return;
+        super.setupRotations(livingEntity, poseStack, f, g, h, i);
     }
 
     @Override

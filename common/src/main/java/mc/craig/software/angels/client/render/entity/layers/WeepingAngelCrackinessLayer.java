@@ -27,7 +27,7 @@ public class WeepingAngelCrackinessLayer extends RenderLayer<WeepingAngel, Angel
 
     protected static <T extends LivingEntity> void renderAngelModel(EntityModel<T> model, ResourceLocation textureLocation, PoseStack matrixStack, MultiBufferSource buffer, int packedLight, float red, float green, float blue) {
         VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(textureLocation));
-        model.renderToBuffer(matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
+        model.renderToBuffer(matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, WeepingAngel pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {

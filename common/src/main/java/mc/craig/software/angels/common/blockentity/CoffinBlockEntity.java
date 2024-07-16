@@ -5,6 +5,7 @@ import mc.craig.software.angels.common.blocks.CoffinBlock;
 import mc.craig.software.angels.common.blocks.StatueBaseBlock;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -33,11 +34,10 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     private int ticks, pulses;
     private float alpha = 1;
 
-
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
+        saveAdditional(tag, provider);
         return tag;
     }
 
@@ -129,21 +129,21 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        setCoffinType(CoffinType.find(pTag.getString(WAConstants.COFFIN_TYPE)));
-        alpha = pTag.getFloat(WAConstants.ALPHA);
-        isDemat = pTag.getBoolean(WAConstants.IS_DEMAT);
-        needsBox = pTag.getBoolean(WAConstants.NEEDS_BOX);
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
+        setCoffinType(CoffinType.find(compoundTag.getString(WAConstants.COFFIN_TYPE)));
+        alpha = compoundTag.getFloat(WAConstants.ALPHA);
+        isDemat = compoundTag.getBoolean(WAConstants.IS_DEMAT);
+        needsBox = compoundTag.getBoolean(WAConstants.NEEDS_BOX);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.putString(WAConstants.COFFIN_TYPE, getCoffinType().getId());
-        pTag.putBoolean(WAConstants.IS_DEMAT, isDemat);
-        pTag.putFloat(WAConstants.ALPHA, alpha);
-        pTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        compoundTag.putString(WAConstants.COFFIN_TYPE, getCoffinType().getId());
+        compoundTag.putBoolean(WAConstants.IS_DEMAT, isDemat);
+        compoundTag.putFloat(WAConstants.ALPHA, alpha);
+        compoundTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
     }
 
     @Override
