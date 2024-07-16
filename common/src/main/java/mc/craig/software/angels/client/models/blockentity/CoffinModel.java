@@ -54,9 +54,9 @@ public class CoffinModel extends HierarchicalModel {
 
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        Door.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int k) {
+        Body.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+        Door.render(poseStack, vertexConsumer, packedLight, packedOverlay);
     }
 
     @Override

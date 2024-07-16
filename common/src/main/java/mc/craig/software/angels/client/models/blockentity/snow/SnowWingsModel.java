@@ -43,7 +43,7 @@ public class SnowWingsModel extends EntityModel<Entity> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int k) {
         leftWing.render(matrixStack, buffer, packedLight, packedOverlay);
         rightWing.render(matrixStack, buffer, packedLight, packedOverlay);
     }

@@ -1,7 +1,10 @@
 package mc.craig.software.angels.common.items;
 
+import com.mojang.serialization.MapDecoder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
@@ -15,6 +18,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -30,11 +34,13 @@ import net.minecraft.world.phys.HitResult;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class SpawnerItem extends Item {
+public class SpawnerItem<T extends Entity> extends Item {
 
-    private final Supplier<EntityType<? extends Mob>> defaultType;
+    private static final MapDecoder<? extends Object> ENTITY_TYPE_FIELD_CODEC = BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("id");
 
-    public SpawnerItem(Supplier<EntityType<? extends Mob>> pDefaultType, Item.Properties pProperties) {
+    private final EntityType<T> defaultType;
+
+    public SpawnerItem(EntityType<T> pDefaultType, Item.Properties pProperties) {
         super(pProperties);
         this.defaultType = pDefaultType;
     }
@@ -52,7 +58,7 @@ public class SpawnerItem extends Item {
             if (blockstate.is(Blocks.SPAWNER)) {
                 BlockEntity blockentity = level.getBlockEntity(blockpos);
                 if (blockentity instanceof SpawnerBlockEntity block) {
-                    EntityType<?> entitytype1 = this.getType(itemstack.getTag());
+                    EntityType<?> entitytype1 = this.getType(itemstack);
                     block.setEntityId(entitytype1, level.getRandom());
                     blockentity.setChanged();
                     level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
@@ -69,7 +75,7 @@ public class SpawnerItem extends Item {
                 blockpos1 = blockpos.relative(direction);
             }
 
-            EntityType<?> entitytype = this.getType(itemstack.getTag());
+            EntityType<?> entitytype = this.getType(itemstack);
             if (entitytype.spawn((ServerLevel) level, itemstack, pContext.getPlayer(), blockpos1, MobSpawnType.SPAWN_EGG, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
                 itemstack.shrink(1);
                 level.gameEvent(pContext.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
@@ -93,7 +99,7 @@ public class SpawnerItem extends Item {
             if (!(pLevel.getBlockState(blockpos).getBlock() instanceof LiquidBlock)) {
                 return InteractionResultHolder.pass(itemstack);
             } else if (pLevel.mayInteract(pPlayer, blockpos) && pPlayer.mayUseItemAt(blockpos, blockhitresult.getDirection(), itemstack)) {
-                EntityType<?> entityType = this.getType(itemstack.getTag());
+                EntityType<?> entityType = this.getType(itemstack);
                 Entity entity = entityType.spawn((ServerLevel) pLevel, itemstack, pPlayer, blockpos, MobSpawnType.SPAWN_EGG, false, false);
                 if (entity == null) {
                     return InteractionResultHolder.pass(itemstack);
@@ -112,15 +118,9 @@ public class SpawnerItem extends Item {
         }
     }
 
-    public EntityType<?> getType(CompoundTag pNbt) {
-        if (pNbt != null && pNbt.contains("EntityTag", 10)) {
-            CompoundTag compoundtag = pNbt.getCompound("EntityTag");
-            if (compoundtag.contains("id", 8)) {
-                return EntityType.byString(compoundtag.getString("id")).orElse(this.defaultType.get());
-            }
-        }
-
-        return this.defaultType.get();
+    public EntityType<?> getType(ItemStack itemStack) {
+        CustomData customData = itemStack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
+        return !customData.isEmpty() ? (EntityType)customData.read(ENTITY_TYPE_FIELD_CODEC).result().orElse(null) : this.defaultType;
     }
 
 }

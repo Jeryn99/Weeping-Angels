@@ -87,15 +87,15 @@ public class TardisModel extends HierarchicalModel {
 
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Posts.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Panels.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        PPCB.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Roof.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        Lamp.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        RDoor.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        LDoor.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        bb_main.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int k) {
+        Posts.render(poseStack, buffer, packedLight, packedOverlay);
+        Panels.render(poseStack, buffer, packedLight, packedOverlay);
+        PPCB.render(poseStack, buffer, packedLight, packedOverlay);
+        Roof.render(poseStack, buffer, packedLight, packedOverlay);
+        Lamp.render(poseStack, buffer, packedLight, packedOverlay);
+        RDoor.render(poseStack, buffer, packedLight, packedOverlay);
+        LDoor.render(poseStack, buffer, packedLight, packedOverlay);
+        bb_main.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
     @Override

@@ -5,6 +5,7 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -54,23 +55,24 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         return animation;
     }
 
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        writeNbt(tag);
-    }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        readNbt(tag);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
+        saveAdditional(tag, provider);
         return tag;
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        readNbt(compoundTag);
+        super.loadAdditional(compoundTag, provider);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        writeNbt(compoundTag);
+        super.saveAdditional(compoundTag, provider);
     }
 
     @Override

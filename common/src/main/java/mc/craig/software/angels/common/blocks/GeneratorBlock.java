@@ -1,5 +1,6 @@
 package mc.craig.software.angels.common.blocks;
 
+import com.mojang.serialization.MapCodec;
 import mc.craig.software.angels.common.blockentity.GeneratorBlockEntity;
 import mc.craig.software.angels.common.items.WAItems;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -44,6 +46,11 @@ public class GeneratorBlock extends BaseEntityBlock {
     public GeneratorBlock(Properties pProperties) {
         super(pProperties.noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(ROTATION, 0));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
     @Override
@@ -118,8 +125,9 @@ public class GeneratorBlock extends BaseEntityBlock {
         return canSupportCenter(level, pos.below(), Direction.UP);
     }
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return new ItemStack(WAItems.CHRONODYNE_GENERATOR.get());
     }
 
@@ -162,19 +170,20 @@ public class GeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) {
-
-            ItemStack handItem = pPlayer.getItemInHand(pHand);
-            if (handItem.is(WAItems.KONTRON_INGOT.get()) && isBreakable(pLevel, pPos)) {
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if (!level.isClientSide()) {
+            ItemStack handItem = player.getItemInHand(interactionHand);
+            if (handItem.is(WAItems.KONTRON_INGOT.get()) && isBreakable(level, blockPos)) {
                 handItem.shrink(1);
-                activateFromPos(pPos, pLevel, true);
-                pPlayer.swing(pHand);
+                activateFromPos(blockPos, level, true);
+                player.swing(interactionHand);
+                return ItemInteractionResult.SUCCESS;
             }
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.FAIL;
         }
-        return InteractionResult.FAIL;
+        return ItemInteractionResult.FAIL;
     }
+
 
     @Nullable
     @Override

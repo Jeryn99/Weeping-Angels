@@ -6,3 +6,6 @@ accessible field net/minecraft/world/item/RecordItem BY_NAME Ljava/util/Map;
 
 # MultiPlayerGameMode
 accessible field net/minecraft/client/multiplayer/MultiPlayerGameMode connection Lnet/minecraft/client/multiplayer/ClientPacketListener;
+
+
+accessible method net/minecraft/world/level/block/state/BlockBehaviour getSoundType (Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/SoundType;

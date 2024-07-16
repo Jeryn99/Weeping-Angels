@@ -14,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -124,14 +125,15 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        getEntityData().define(TIME_VIEWED, 0);
-        getEntityData().define(EMOTION, AngelEmotion.IDLE.getId());
-        getEntityData().define(IS_HOOKED, false);
-        getEntityData().define(VARIANT, AngelVariant.BASALT.location().toString());
-        getEntityData().define(SHOULD_DROP_LOOT, true);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TIME_VIEWED, 0);
+        builder.define(EMOTION, AngelEmotion.IDLE.getId());
+        builder.define(IS_HOOKED, false);
+        builder.define(VARIANT, AngelVariant.BASALT.location().toString());
+        builder.define(SHOULD_DROP_LOOT, true);
     }
+
 
     @Override
     protected boolean shouldDropLoot() {
@@ -139,7 +141,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
     public AngelVariant getVariant() {
-        return AngelVariant.getVariant(ResourceLocation.tryBuild(getEntityData().get(VARIANT)));
+        return AngelVariant.getVariant(ResourceLocation.tryParse(getEntityData().get(VARIANT)));
     }
 
     public void setVariant(AngelVariant angelVariant) {
@@ -176,7 +178,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
         if (compound.contains(WAConstants.IS_HOOKED)) setEmotion(AngelEmotion.find(compound.getString(WAConstants.EMOTION).toUpperCase()));
         if (compound.contains(WAConstants.DROPS_LOOT)) setDrops(compound.getBoolean(WAConstants.DROPS_LOOT));
         if (compound.contains(WAConstants.VARIANT))
-            setVariant(AngelVariant.getVariant(ResourceLocation.tryBuild(compound.getString(WAConstants.VARIANT))));
+            setVariant(AngelVariant.getVariant(ResourceLocation.tryParse(compound.getString(WAConstants.VARIANT))));
     }
 
     public void setDrops(boolean drops) {
@@ -195,7 +197,7 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
 
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
         return WAHelper.spawnPacket(this);
     }
 
@@ -207,11 +209,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
             return block.defaultBlockState().getSoundType().getBreakSound();
         }
         return SoundEvents.STONE_PLACE;
-    }
-
-    @Override
-    public boolean canBreatheUnderwater() {
-        return true;
     }
 
     @Override

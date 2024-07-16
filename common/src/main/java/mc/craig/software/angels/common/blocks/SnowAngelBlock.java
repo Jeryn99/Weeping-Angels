@@ -35,7 +35,7 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 
     public SnowAngelBlock() {
-        super(BlockBehaviour.Properties.copy(Blocks.STONE).randomTicks().noOcclusion());
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).randomTicks().noOcclusion());
         this.registerDefaultState(this.stateDefinition.any().setValue(ROTATION, 1).setValue(CoffinBlock.WATERLOGGED, false));
     }
 

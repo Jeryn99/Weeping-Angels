@@ -21,7 +21,7 @@ public class HurtHelper {
     public static boolean validatePickaxe(Player player, WeepingAngel weepingAngel, Predicate<ItemStack> predicate) {
         ItemStack heldItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
         if (weepingAngel.getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
-            return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(blockItem.getBlock().defaultBlockState());
+            return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(heldItem, blockItem.getBlock().defaultBlockState());
         }
         return heldItem.is(WATags.ATTACK_OVERRIDES);
     }

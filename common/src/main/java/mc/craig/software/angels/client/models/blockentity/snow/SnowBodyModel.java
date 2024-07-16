@@ -73,7 +73,7 @@ public class SnowBodyModel extends EntityModel<Entity> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int k) {
         head.render(matrixStack, buffer, packedLight, packedOverlay);
         body.render(matrixStack, buffer, packedLight, packedOverlay);
         leftArm.render(matrixStack, buffer, packedLight, packedOverlay);

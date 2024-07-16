@@ -29,7 +29,7 @@ public class SantaHat<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int k) {
         head.render(poseStack, buffer, packedLight, packedOverlay);
     }
 }

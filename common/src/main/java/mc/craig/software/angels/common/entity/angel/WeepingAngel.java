@@ -87,9 +87,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
         setVariant(AngelVariant.getVariantForPos(this));
-        return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
 
     @Nullable
@@ -130,7 +130,6 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
         // Hurt
         boolean didHurt = pEntity.hurt(WADamageSources.getSource(serverLevel, WADamageSources.SNAPPED_NECK), attackDamage);
-        this.doEnchantDamageEffects(this, pEntity);
         this.setLastHurtMob(pEntity);
         return didHurt;
     }

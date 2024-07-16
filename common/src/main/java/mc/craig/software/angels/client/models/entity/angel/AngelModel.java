@@ -20,7 +20,7 @@ public abstract class AngelModel extends HierarchicalModel<WeepingAngel> {
     public abstract ModelPart getHead();
 
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return DefaultPlayerSkin.getDefaultSkin();
+        return DefaultPlayerSkin.getDefaultTexture();
     }
 
     public void animateTile(StatueBlockEntity statueBlockEntity) {

@@ -16,7 +16,7 @@ public class WAItems {
        public static final RegistryHolder<Item, Item> DISC_SALLY = ITEMS.register("music_disc_sally", () -> new RecordItem(0, WASounds.DISC_SALLY.get(), (new Item.Properties()).stacksTo(1).rarity(Rarity.RARE), 1300 / 20));
     */   public static final RegistryHolder<Item, Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryHolder<Item, Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", () -> new ThrowableGeneratorItem(new Item.Properties().stacksTo(6)));
-    public static final RegistryHolder<Item, Item> ANGEL_SPAWNER = ITEMS.register("angel_spawner", () -> new SpawnerItem(WAEntities.WEEPING_ANGEL::get, new Item.Properties()));
+    public static final RegistryHolder<Item, Item> ANGEL_SPAWNER = ITEMS.register("angel_spawner", () -> new SpawnerItem(WAEntities.WEEPING_ANGEL.get(), new Item.Properties()));
 
     public static final RegistryHolder<Item, Item> CHISEL = ITEMS.register("chisel", () -> new ChiselItem(new Item.Properties().stacksTo(1)));
 

@@ -40,7 +40,7 @@ public class SeasonalLayer extends RenderLayer<WeepingAngel, AngelModel> {
                 santa.head.y = ((AngelModel) model).getHead().y + 18;
                 santa.head.z = ((AngelModel) model).getHead().z - 10*/;
 
-                santa.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(SANTA)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                santa.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(SANTA)), pPackedLight, OverlayTexture.NO_OVERLAY);
                 pMatrixStack.popPose();
             }
         }

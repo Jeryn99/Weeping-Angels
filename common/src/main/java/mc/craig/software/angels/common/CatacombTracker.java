@@ -1,6 +1,7 @@
 package mc.craig.software.angels.common;
 
 import mc.craig.software.angels.common.level.structures.WAStructures;
+import mc.craig.software.angels.network.NetworkManager;
 import mc.craig.software.angels.network.messages.UpdateCatacombMessage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +37,7 @@ public class CatacombTracker {
      * @param isInCatacomb the boolean value to include in the message
      */
     public static void tellClient(ServerPlayer serverPlayer, boolean isInCatacomb){
-        new UpdateCatacombMessage(isInCatacomb).send(serverPlayer);
+        NetworkManager.get().sendToPlayer(serverPlayer, new UpdateCatacombMessage(isInCatacomb));
     }
 
     /**

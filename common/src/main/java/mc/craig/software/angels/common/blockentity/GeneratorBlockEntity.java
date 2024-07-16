@@ -5,6 +5,7 @@ import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -40,28 +41,30 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
+        saveAdditional(tag, provider);
         return tag;
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt(WAConstants.TICK_COUNT, getTickCount());
-        tag.putBoolean(WAConstants.ACTIVATED, isActivated());
-        tag.putBoolean(WAConstants.SPAWNED, hasSpawned());
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        compoundTag.putInt(WAConstants.TICK_COUNT, getTickCount());
+        compoundTag.putBoolean(WAConstants.ACTIVATED, isActivated());
+        compoundTag.putBoolean(WAConstants.SPAWNED, hasSpawned());
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        setTickCount(tag.getInt(WAConstants.TICK_COUNT));
-        setActivated(tag.getBoolean(WAConstants.ACTIVATED));
-        setHasSpawned(tag.getBoolean(WAConstants.SPAWNED));
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
+        setTickCount(compoundTag.getInt(WAConstants.TICK_COUNT));
+        setActivated(compoundTag.getBoolean(WAConstants.ACTIVATED));
+        setHasSpawned(compoundTag.getBoolean(WAConstants.SPAWNED));
     }
+
 
     public void sendUpdates() {
         if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
