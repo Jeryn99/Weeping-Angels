@@ -9,19 +9,19 @@ import mc.craig.software.angels.util.ClientUtil;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-@Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WeepingAngels.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ClientBus {
 
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent clientTickEvent) {
+    public static void onClientTick(ClientTickEvent.Pre clientTickEvent) {
         DonationChecker.checkForUpdate();
     }
 
@@ -33,7 +33,7 @@ public class ClientBus {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(LivingEvent.LivingTickEvent tickEvent) {
+    public static void onPlayerTick(PlayerTickEvent.Pre tickEvent) {
         // Tick Donations
         if (tickEvent.getEntity() instanceof Player player) {
             for (Donator donator : DonationChecker.getModDonators()) {

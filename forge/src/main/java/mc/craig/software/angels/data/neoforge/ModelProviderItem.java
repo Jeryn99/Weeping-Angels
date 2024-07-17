@@ -25,7 +25,7 @@ public class ModelProviderItem extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (RegistryHolder<Item> entry : WAItems.ITEMS.getEntries()) {
+        for (RegistryHolder<Item, ? extends Item> entry : WAItems.ITEMS.getEntries()) {
             if (entry.get() instanceof DetectorItem || entry.get() == WAItems.CHRONODYNE_GENERATOR.get()) continue;
 
 

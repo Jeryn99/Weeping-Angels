@@ -15,7 +15,8 @@ loom {
         data {
             data()
             programArgs "--all", "--mod", "weeping_angels"
-            programArgs "--output", project(":common").file("src/main/resources/").absolutePath
+            programArgs "--output", project(":forge").file("src/generated/resources").absolutePath
+            programArgs "--existing", project(":common").file("src/main/resources/").absolutePath
         }
     }
 }
@@ -67,8 +68,8 @@ configurations {
 
 dependencies {
     neoForge "net.neoforged:neoforge:${neoforge_version}"
-    modImplementation "curse.maven:mc-vr-api-591092:4648734"
-    modApi "curse.maven:architectury-api-419699:5137938"
+    modCompileOnly "curse.maven:mc-vr-api-591092:4648734"
+    modApi "curse.maven:architectury-api-419699:5521987"
 
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

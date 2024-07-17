@@ -19,7 +19,7 @@ public class CommonBus {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent event) {
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
         WAHelper.onPlayerTick(event.getEntity());
     }
 

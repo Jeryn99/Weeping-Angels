@@ -3,6 +3,9 @@ package mc.craig.software.angels.registry.neoforge;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;
+import mc.craig.software.angels.neoforge.WeepingAngelsForge;
+import mc.craig.software.angels.registry.DeferredRegister;
+import mc.craig.software.angels.registry.RegistryHolder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
@@ -13,6 +16,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -38,7 +43,7 @@ public class DeferredRegisterImpl {
 
         @Override
         public void register() {
-            this.register.register(PalladiumCoreNeoForge.getModEventBus(this.modid).orElseThrow(() -> new IllegalStateException("Mod '" + this.modid + "' did not register event bus to PalladiumCore!")));
+            this.register.register(WeepingAngelsForge.getModEventBus(this.modid).orElseThrow(() -> new IllegalStateException("Mod '" + this.modid + "' did not register event bus to PalladiumCore!")));
         }
 
         @Override

@@ -35,7 +35,7 @@ public class ProviderBiomeModifiers {
         BiomeModifiers.AddFeaturesBiomeModifier oreModiferSmall = new BiomeModifiers.AddFeaturesBiomeModifier(overworldTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.ORE_KONTRON_SMALL)), GenerationStep.Decoration.UNDERGROUND_ORES);
         BiomeModifiers.AddFeaturesBiomeModifier snowAngel = new BiomeModifiers.AddFeaturesBiomeModifier(snowTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.SNOW_ANGEL)), GenerationStep.Decoration.RAW_GENERATION);
 
-        context.register(ADD_ANGELS_SPAWNS, new AddAngelSpawns(spawnTags));
+       //TODO context.register(ADD_ANGELS_SPAWNS, new AddAngelSpawns(spawnTags));
         context.register(KONTRON, oreModifer);
         context.register(KONTRON_SMALL, oreModiferSmall);
         context.register(SNOW_ANGEL, snowAngel);

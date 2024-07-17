@@ -1,4 +1,4 @@
-package mc.craig.software.angels.common.forge;
+package mc.craig.software.angels.common.neoforge;
 
 import mc.craig.software.angels.common.WAConstants;
 import mc.craig.software.angels.common.items.WAItems;

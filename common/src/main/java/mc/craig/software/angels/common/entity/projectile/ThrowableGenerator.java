@@ -92,10 +92,6 @@ public class ThrowableGenerator extends ThrowableItemProjectile {
         return new ItemStack(getDefaultItem());
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
-        return WAHelper.spawnPacket(this);
-    }
 
     @Override
     protected Item getDefaultItem() {

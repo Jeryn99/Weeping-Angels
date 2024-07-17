@@ -38,11 +38,6 @@ public class WAHelper {
         return entity.level().getEntities((Entity) null, entity.getBoundingBox().inflate(radius, radius, radius), ANOMALY_ENTITIES);
     }
 
-    @ExpectPlatform
-    public static Packet<ClientGamePacketListener> spawnPacket(Entity livingEntity) {
-        throw new RuntimeException("This isn't where you get the packet! tut tut!");
-    }
-
     //TODO Clean this up
     public static void onPlayerTick(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {

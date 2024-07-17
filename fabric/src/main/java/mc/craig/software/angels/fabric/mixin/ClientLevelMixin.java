@@ -11,10 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
 
-    @Inject(at = @At("HEAD"), method = "addPlayer(ILnet/minecraft/client/player/AbstractClientPlayer;)V")
+    //TODO
+  /*  @Inject(at = @At("HEAD"), method = "Lnet/minecraft/client/multiplayer/ClientLevel$EntityCallbacks;onTrackingStart(Lnet/minecraft/world/entity/Entity;)V")
     private void addPlayer(int playerId, AbstractClientPlayer playerEntity, CallbackInfo ci) {
         ClientUtil.playDectorSound(playerEntity);
-    }
+    }*/
 
 
 }

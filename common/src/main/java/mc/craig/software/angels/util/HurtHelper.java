@@ -66,10 +66,11 @@ public class HurtHelper {
                 return false;
             }
             ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);
-            stack.hurtAndBreak(weepingAngel.level().random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
+         //TODO
+            /*   stack.hurtAndBreak(weepingAngel.level().random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
                 weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
                 livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
-            });
+            });*/
             return true;
         }
         return false;

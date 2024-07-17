@@ -11,8 +11,11 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.compat.vivecraft.WAVRPluginHandler;
-import mc.craig.software.angels.network.WANetwork;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
 
 public class WeepingAngels {
@@ -23,7 +26,7 @@ public class WeepingAngels {
     public static final WAVRPluginHandler VR_HANDLER = new WAVRPluginHandler();
 
 
-    public static ResourceLocation CRYPT_LOOT = ResourceLocation.tryBuild(WeepingAngels.MODID, "chests/catacombs");
+    public static ResourceKey<LootTable> CRYPT_LOOT = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.tryBuild(WeepingAngels.MODID, "chests/catacombs"));
 
     public static void init() {
         WAItems.ITEMS.register();
@@ -37,7 +40,9 @@ public class WeepingAngels {
         WAFeatures.CONFIGURED_FEATURES.register();*/
         BlockReactions.init();
         AngelVariant.init();
+/*
         WANetwork.init();
+*/
     }
 
 }

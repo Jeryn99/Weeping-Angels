@@ -42,23 +42,17 @@ import java.util.function.Consumer;
 public class WeepingAngelsForge {
 
 
-    public WeepingAngelsForge() {
+    public WeepingAngelsForge(ModContainer modContainer) {
         WeepingAngels.init();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns.toml");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns.toml");
+        modContainer.registerConfig(ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = modContainer.getEventBus();
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
-
-        NeoForge.EVENT_BUS.register(this);
-
-        final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, WeepingAngels.MODID);
-        serializers.register(modEventBus);
-        serializers.register(AddAngelSpawns.WEEPING_ANGEL_SPAWNS.getPath(), AddAngelSpawns::makeCodec);
 
         StartupNotificationManager.addModMessage("Don't Blink!");
 
@@ -94,17 +88,17 @@ public class WeepingAngelsForge {
         var blockTagsProvider = generator.addProvider(e.includeServer(), new BlockTags(packOutput, registries, existingFileHelper));
         generator.addProvider(e.includeServer(), new AngelItemTags(packOutput, registries, blockTagsProvider.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST))));
+        generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST)), lookup));
         generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
-        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput()));
+        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput(), new CompletableFuture<>()));
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         AngelVariant.init();
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+     //TODO   SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
 

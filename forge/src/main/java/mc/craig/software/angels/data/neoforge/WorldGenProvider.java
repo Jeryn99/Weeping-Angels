@@ -27,6 +27,7 @@ public class WorldGenProvider extends DatapackBuiltinEntriesProvider {
                 arg.register(WADamageSources.PUNCH_STONE, new DamageType("punch_stone", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
                 arg.register(WADamageSources.SNAPPED_NECK, new DamageType("snapped_neck", DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 1));
             })
+            .add(Registries.JUKEBOX_SONG, ProviderJukeBox::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ProviderBiomeModifiers::bootstrap);
 
 

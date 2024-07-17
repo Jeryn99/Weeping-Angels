@@ -26,7 +26,7 @@ public class BlockTags extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        for (RegistryHolder<Block> blocksEntry : WABlocks.BLOCKS.getEntries()) {
+        for (RegistryHolder<Block, ? extends Block> blocksEntry : WABlocks.BLOCKS.getEntries()) {
             Block block = blocksEntry.get();
 
             if (block instanceof FireBlock || block instanceof AirBlock) {

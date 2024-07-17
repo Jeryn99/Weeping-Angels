@@ -1,4 +1,4 @@
-package mc.craig.software.angels.common.entity.angel.forge;
+package mc.craig.software.angels.common.entity.angel.neoforge;
 
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.util.WATags;

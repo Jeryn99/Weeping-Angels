@@ -44,7 +44,10 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         if (coffinBlockEntity.getCoffinType().isTardis()) {
             pPoseStack.translate(0, 0.5, 0);
             pPoseStack.scale(0.7F, 0.7F, 0.7F);
+            //TODO
+/*
             tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, coffinBlockEntity.getAlpha());
+*/
         } else {
             coffinModel.animateTile(coffinBlockEntity);
             coffinModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityCutout(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY);

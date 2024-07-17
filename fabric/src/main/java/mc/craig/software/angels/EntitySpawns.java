@@ -9,11 +9,13 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import static net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND;
+
 public class EntitySpawns {
 
     public static void init() {
         BiomeModifications.addSpawn(EntitySpawns::canSpawn, WAConfiguration.SPAWNS.spawnType.get(), WAEntities.WEEPING_ANGEL.get(), WAConfiguration.SPAWNS.spawnWeight.get(), WAConfiguration.SPAWNS.minCount.get(), WAConfiguration.SPAWNS.maxCount.get());
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
     public static boolean canSpawn(BiomeSelectionContext biome) {

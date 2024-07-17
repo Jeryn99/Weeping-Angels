@@ -196,11 +196,6 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
     }
 
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
-        return WAHelper.spawnPacket(this);
-    }
-
     public SoundEvent getSeenSound() {
         AngelVariant angelVariant = getVariant();
         ItemStack itemStack = angelVariant.getDrops();

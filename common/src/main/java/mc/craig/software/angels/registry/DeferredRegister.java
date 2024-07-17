@@ -73,12 +73,12 @@ public abstract class DeferredRegister<T> implements Iterable<RegistryHolder<T, 
      */
     @SuppressWarnings({"rawtypes", "unchecked", "UnnecessaryLocalVariable"})
     public static <T> DeferredRegister<T> create(String modId, ResourceKey<? extends Registry<T>> resourceKey) {
-        if (Platform.isArchitecturyLoaded()) {
+     /*   if (Platform.isArchitecturyLoaded()) {
             ResourceKey key = resourceKey;
             return ArchDeferredRegisterWrapper.get(modId, key);
-        } else {
+        } else {*/
             return createInternal(modId, resourceKey);
-        }
+       /* }*/
     }
 
     @ExpectPlatform

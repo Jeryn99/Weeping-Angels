@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[24,)"
+loaderVersion = "[1,)"
 license = "https://github.com/Jeryn99/Weeping-Angels/blob/architectury/1.19/LICENSE"
 issueTrackerURL = "https://github.com/Jeryn99/Weeping-Angels/issues"
 [[mods]]
@@ -15,9 +15,9 @@ updateJSONURL = "https://mc-api.craig.software/update?mod=weeping_angels" #optio
 description = '''
 Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5'''
 [[dependencies.weeping_angels]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[1,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.weeping_angels]]

@@ -1,0 +1,11 @@
+{
+  "comparator_output": 1,
+  "description": {
+    "translate": "jukebox_song.weeping_angels.time_prevails"
+  },
+  "length_in_seconds": 16.0,
+  "sound_event": {
+    "range": 1.0,
+    "sound_id": "weeping_angels:disc_time_prevails"
+  }
+}

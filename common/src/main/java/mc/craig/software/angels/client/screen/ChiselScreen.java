@@ -9,7 +9,6 @@ import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelEmotion;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
-import mc.craig.software.angels.network.messages.UpdateStatueMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -71,12 +70,13 @@ public class ChiselScreen extends Screen {
             Minecraft.getInstance().setScreen(null);
         }
 
-        Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
+        //TODO
+     /*   Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
             new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
             Minecraft.getInstance().setScreen(null);
         }).build();
 
-        addWidget(quitButton);
+        addWidget(quitButton);*/
     }
 
     @Override
@@ -88,7 +88,10 @@ public class ChiselScreen extends Screen {
             POSE_ANIMATION_STATE.start(12);
         }
 
+        //TODO
+/*
         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
+*/
 
         guiGraphics.drawString(font, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
 
