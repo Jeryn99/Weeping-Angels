@@ -5,5 +5,8 @@ transitive-accessible class net/minecraft/world/level/block/entity/BlockEntityTy
 # MultiPlayerGameMode
 accessible field net/minecraft/client/multiplayer/MultiPlayerGameMode connection Lnet/minecraft/client/multiplayer/ClientPacketListener;
 
-
+# BlockBehaviour
 accessible method net/minecraft/world/level/block/state/BlockBehaviour getSoundType (Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/SoundType;
+
+# WalkNodeEvaluator
+accessible method net/minecraft/world/level/pathfinder/WalkNodeEvaluator getPathTypeFromState (Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/pathfinder/PathType;

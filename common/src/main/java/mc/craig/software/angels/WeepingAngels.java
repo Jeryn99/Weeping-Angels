@@ -11,6 +11,7 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.common.level.structures.WAStructures;
 import mc.craig.software.angels.compat.vivecraft.WAVRPluginHandler;
+import mc.craig.software.angels.network.WANetworkManager;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -38,9 +39,9 @@ public class WeepingAngels {
         WATabs.TABS.register();
         BlockReactions.init();
         AngelVariant.init();
-/*
-        WANetwork.init();
-*/
+
+        WANetworkManager.init();
+
     }
 
 }

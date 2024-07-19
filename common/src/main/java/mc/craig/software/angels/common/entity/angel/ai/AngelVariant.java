@@ -64,8 +64,6 @@ public class AngelVariant {
         return drops;
     }
 
-
-    // TODO Nicer way
     public static AngelVariant getVariantForPos(WeepingAngel weepingAngel) {
         Level level = weepingAngel.level();
         RandomSource randomSource = level.random;

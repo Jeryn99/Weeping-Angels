@@ -38,32 +38,50 @@ public class WAHelper {
         return entity.level().getEntities((Entity) null, entity.getBoundingBox().inflate(radius, radius, radius), ANOMALY_ENTITIES);
     }
 
-    //TODO Clean this up
     public static void onPlayerTick(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
             if (!player.level().isClientSide) {
-                boolean isInCatacomb = CatacombTracker.isInCatacomb(player);
-                RandomSource randomSource = serverPlayer.level().getRandom();
-
-                if (player.tickCount % 40 == 0) {
-                    CatacombTracker.tellClient(serverPlayer, isInCatacomb);
-                }
-
-                if (isInCatacomb && serverPlayer.tickCount % 200 == 0) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WAHelper.getRandomSounds(randomSource)), SoundSource.AMBIENT, player.getX() + randomSource.nextInt(18), player.getY() + randomSource.nextInt(18), player.getZ() + randomSource.nextInt(18), 0.25F, 1F, serverPlayer.level().random.nextLong()));
-                }
-            }
-
-            // Update Donators
-            if (player.level().isClientSide()) {
-                for (Donator donator : DonationChecker.getModDonators()) {
-                    if (player.getStringUUID().equals(donator.getUuid())) {
-                        donator.tick(player);
-                    }
-                }
+                handleServerPlayerTick(serverPlayer);
+            } else {
+                updateDonators(player);
             }
         }
     }
+
+    private static void handleServerPlayerTick(ServerPlayer serverPlayer) {
+        boolean isInCatacomb = CatacombTracker.isInCatacomb(serverPlayer);
+        RandomSource randomSource = serverPlayer.level().getRandom();
+
+        if (serverPlayer.tickCount % 40 == 0) {
+            CatacombTracker.tellClient(serverPlayer, isInCatacomb);
+        }
+
+        if (isInCatacomb && serverPlayer.tickCount % 200 == 0) {
+            playRandomAmbientSound(serverPlayer, randomSource);
+        }
+    }
+
+    private static void playRandomAmbientSound(ServerPlayer serverPlayer, RandomSource randomSource) {
+        serverPlayer.connection.send(new ClientboundSoundPacket(
+                Holder.direct(WAHelper.getRandomSounds(randomSource)),
+                SoundSource.AMBIENT,
+                serverPlayer.getX() + randomSource.nextInt(18),
+                serverPlayer.getY() + randomSource.nextInt(18),
+                serverPlayer.getZ() + randomSource.nextInt(18),
+                0.25F,
+                1F,
+                randomSource.nextLong()
+        ));
+    }
+
+    private static void updateDonators(Player player) {
+        for (Donator donator : DonationChecker.getModDonators()) {
+            if (player.getStringUUID().equals(donator.getUuid())) {
+                donator.tick(player);
+            }
+        }
+    }
+
 
     public static boolean spawnWeepingAngel(ServerLevel serverLevel, BlockPos blockPos, AngelVariant angelVariant, boolean dropsLoot, float rotation) {
         WeepingAngel weepingAngel = WAEntities.WEEPING_ANGEL.get().create(serverLevel);

@@ -7,6 +7,7 @@ import mc.craig.software.angels.client.models.blockentity.CoffinModel;
 import mc.craig.software.angels.client.models.blockentity.TardisModel;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
 import mc.craig.software.angels.common.blocks.CoffinBlock;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -19,6 +20,7 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
 
     private static CoffinModel coffinModel;
     private static TardisModel tardisModel;
+    private float currentAlpha;
 
     public CoffinRenderer(BlockEntityRendererProvider.Context context) {
         coffinModel = new CoffinModel(context.bakeLayer(ModelRegistration.COFFIN));
@@ -44,8 +46,18 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         if (coffinBlockEntity.getCoffinType().isTardis()) {
             pPoseStack.translate(0, 0.5, 0);
             pPoseStack.scale(0.7F, 0.7F, 0.7F);
-            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, rgbaToInt(1, 1, 1, coffinBlockEntity.getAlpha()));
 
+            tardisModel.root().getAllParts().forEach(ModelPart::resetPose);
+
+            if(coffinBlockEntity.isDemat()) {
+                coffinBlockEntity.TARDIS_TAKEOFF.start(coffinBlockEntity.animationTimer);
+            } else {
+                coffinBlockEntity.TARDIS_TAKEOFF.stop();
+            }
+
+            tardisModel.animate(coffinBlockEntity.TARDIS_TAKEOFF, coffinBlockEntity.animationTimer);
+            currentAlpha = (coffinBlockEntity.isDemat()) ? (tardisModel.initAlpha - tardisModel.fadeValue().y) * 0.1f : 1;
+            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, rgbaToInt(1, 1, 1, currentAlpha));
         } else {
             coffinModel.animateTile(coffinBlockEntity);
             coffinModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityCutout(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY);

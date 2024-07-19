@@ -10,10 +10,15 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CatacombStructure extends Structure {
@@ -71,8 +76,6 @@ public class CatacombStructure extends Structure {
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
 
-        return null;
-/*
         return JigsawPlacement.addPieces(
                 context,
                 this.startPool,
@@ -81,7 +84,7 @@ public class CatacombStructure extends Structure {
                 blockPos,
                 false,
                 this.projectStartToHeightmap,
-                this.maxDistanceFromCenter, co);*/
+                this.maxDistanceFromCenter,  PoolAliasLookup.create(List.of(), blockPos, context.seed()),  DimensionPadding.ZERO,  LiquidSettings.IGNORE_WATERLOGGING);
     }
 
     @Override

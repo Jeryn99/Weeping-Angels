@@ -21,10 +21,8 @@ public class AngelItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        System.out.println("I am doing something");
         tag(WATags.STEALABLE_ITEMS).add(Items.CLOCK, Items.TORCH, Items.COMPASS, Items.RECOVERY_COMPASS);
         tag(WATags.STEALABLE_ITEMS).addOptionalTag(ItemTags.PICKAXES.location());
         tag(WATags.ATTACK_OVERRIDES).addOptionalTag(ItemTags.PICKAXES.location());
-        System.out.println("I seemingly finished up doing that something");
     }
 }

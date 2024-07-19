@@ -16,11 +16,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 import java.util.ArrayList;
 
@@ -44,12 +47,17 @@ public class Teleporter {
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
-        BlockState blockState = entity.level().getBlockState(pPos.below());
-        if (blockState.getBlock() instanceof LeavesBlock) {
+        PathType pathType = WalkNodeEvaluator.getPathTypeFromState(level, pPos);
+        if (pathType != PathType.WALKABLE) {
             return false;
         } else {
-            BlockPos blockPos2 = pPos.subtract(entity.blockPosition());
-            return entity.level().noCollision(entity, entity.getBoundingBox().move(blockPos2));
+            BlockState blockState = level.getBlockState(pPos.below());
+            if (blockState.getBlock() instanceof LeavesBlock) {
+                return false;
+            } else {
+                BlockPos blockPos2 = pPos.subtract(entity.blockPosition());
+                return level.noCollision(entity, entity.getBoundingBox().move(blockPos2));
+            }
         }
     }
 

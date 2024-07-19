@@ -2,14 +2,59 @@ package mc.craig.software.angels.client.models.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class TardisModel extends HierarchicalModel {
+
+
+    public static final AnimationDefinition MODEL_TAKEOFF = AnimationDefinition.Builder.withLength(12f)
+            .addAnimation("fade_value",
+                    new AnimationChannel(AnimationChannel.Targets.POSITION,
+                            new Keyframe(0f, KeyframeAnimations.posVec(0f, 9.5f, 0f),
+                                    AnimationChannel.Interpolations.LINEAR),
+                            new Keyframe(1f, KeyframeAnimations.posVec(0f, 9.5f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(2.125f, KeyframeAnimations.posVec(0f, 5f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(3f, KeyframeAnimations.posVec(0f, 10f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(4f, KeyframeAnimations.posVec(0f, 3f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(5f, KeyframeAnimations.posVec(0f, 6f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(5.791677f, KeyframeAnimations.posVec(0f, 3f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(6.916767f, KeyframeAnimations.posVec(0f, 5f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(8f, KeyframeAnimations.posVec(0f, 2f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(9.167666f, KeyframeAnimations.posVec(0f, 4f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM),
+                            new Keyframe(12f, KeyframeAnimations.posVec(0f, 0f, 0f),
+                                    AnimationChannel.Interpolations.CATMULLROM))).build();
+    ModelPart fade_value;
+    public float initAlpha = 0;
+    float ANIMATION_SPEED = 1.1f;
+    private float currentAlpha;
+
+    public ModelPart fadeValue() {
+        return fade_value;
+    }
+
+    public float getCurrentAlpha() {
+        return currentAlpha;
+    }
 
     private final ModelPart Posts;
     private final ModelPart Panels;
@@ -21,8 +66,14 @@ public class TardisModel extends HierarchicalModel {
     private final ModelPart bb_main;
     private final ModelPart root;
 
+    public static void addMaterializationPart(PartDefinition partDefinition) {
+        partDefinition.addOrReplaceChild("fade_value", CubeListBuilder.create().texOffs(128, 128), PartPose.offset(-24.0F, 24.0F, 0.0F));
+    }
+
     public TardisModel(ModelPart root) {
         this.root = root;
+        this.fade_value = root.getChild("fade_value");
+        this.initAlpha = this.fade_value.y;
         this.Posts = root.getChild("Posts");
         this.Panels = root.getChild("Panels");
         this.PPCB = root.getChild("PPCB");
@@ -36,7 +87,7 @@ public class TardisModel extends HierarchicalModel {
     public static LayerDefinition meshLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-
+        addMaterializationPart(partdefinition);
         PartDefinition Posts = partdefinition.addOrReplaceChild("Posts", CubeListBuilder.create().texOffs(28, 102).addBox(-3.0F, -57.0F, -2.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-14.0F, 21.0F, -15.0F));
 
         PartDefinition cube_r1 = Posts.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(28, 102).addBox(-17.0F, -60.0F, -17.0F, 3.0F, 57.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(14.0F, 3.0F, 15.0F, -3.1416F, 0.0F, 3.1416F));
@@ -106,5 +157,9 @@ public class TardisModel extends HierarchicalModel {
     @Override
     public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
+    }
+
+    public void animate(AnimationState animationState, int timer) {
+        this.animate(animationState, MODEL_TAKEOFF, (timer * 2) * ANIMATION_SPEED);
     }
 }

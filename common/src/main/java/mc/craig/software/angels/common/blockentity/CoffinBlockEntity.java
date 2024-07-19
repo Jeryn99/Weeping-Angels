@@ -28,11 +28,10 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     // Animation States
     public AnimationState COFFIN_OPEN = new AnimationState();
     public AnimationState COFFIN_CLOSE = new AnimationState();
+    public AnimationState TARDIS_TAKEOFF = new AnimationState();
 
-    public int animationTimer = 0;
+    public int animationTimer, takeoffTimer = 0;
     private boolean isDemat = false, needsBox = false;
-    private int ticks, pulses;
-    private float alpha = 1;
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
@@ -77,19 +76,9 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
         if (isDemat && coffinType.isTardis()) {
-            if (ticks % 60 < 30) {
-                if (pulses <= 2)
-                    this.alpha -= 0.01;
-                else this.alpha -= 0.02;
-            } else {
-                this.alpha += 0.01;
-            }
 
-            if (ticks % 60 == 0)
-                ++this.pulses;
-
-            ++ticks;
-            if (ticks >= 360) {
+            ++takeoffTimer;
+            if (takeoffTimer >= 12 * 20) {
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
                     activateAngels(40);
@@ -132,7 +121,6 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
         setCoffinType(CoffinType.find(compoundTag.getString(WAConstants.COFFIN_TYPE)));
-        alpha = compoundTag.getFloat(WAConstants.ALPHA);
         isDemat = compoundTag.getBoolean(WAConstants.IS_DEMAT);
         needsBox = compoundTag.getBoolean(WAConstants.NEEDS_BOX);
     }
@@ -142,7 +130,6 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         super.saveAdditional(compoundTag, provider);
         compoundTag.putString(WAConstants.COFFIN_TYPE, getCoffinType().getId());
         compoundTag.putBoolean(WAConstants.IS_DEMAT, isDemat);
-        compoundTag.putFloat(WAConstants.ALPHA, alpha);
         compoundTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
     }
 
@@ -168,11 +155,12 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         this.coffinType = coffinType;
     }
 
-    public float getAlpha() {
-        return alpha;
-    }
-
     public void demat() {
         isDemat = true;
+        TARDIS_TAKEOFF.start(0);
+    }
+
+    public boolean isDemat() {
+        return isDemat;
     }
 }
