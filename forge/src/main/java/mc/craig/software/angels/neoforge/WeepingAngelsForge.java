@@ -1,19 +1,16 @@
 package mc.craig.software.angels.neoforge;
 
-import com.mojang.serialization.Codec;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.neoforge.*;
-import mc.craig.software.angels.data.neoforge.biome.AddAngelSpawns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -21,17 +18,14 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.progress.StartupNotificationManager;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +47,7 @@ public class WeepingAngelsForge {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
+        modEventBus.addListener(this::spawns);
 
         StartupNotificationManager.addModMessage("Don't Blink!");
 
@@ -91,19 +86,23 @@ public class WeepingAngelsForge {
         generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST)), lookup));
         generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
-        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput(), new CompletableFuture<>()));
+        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput(), e.getLookupProvider()));
         generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
 
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         AngelVariant.init();
-     //TODO   SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAEntities.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());
+    }
+
+
+    public void spawns(RegisterSpawnPlacementsEvent registerSpawnPlacementsEvent) {
+        registerSpawnPlacementsEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 
 }

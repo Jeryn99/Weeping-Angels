@@ -44,10 +44,8 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         if (coffinBlockEntity.getCoffinType().isTardis()) {
             pPoseStack.translate(0, 0.5, 0);
             pPoseStack.scale(0.7F, 0.7F, 0.7F);
-            //TODO
-/*
-            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, coffinBlockEntity.getAlpha());
-*/
+            tardisModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityTranslucent(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, rgbaToInt(1, 1, 1, coffinBlockEntity.getAlpha()));
+
         } else {
             coffinModel.animateTile(coffinBlockEntity);
             coffinModel.renderToBuffer(pPoseStack, pBufferSource.getBuffer(RenderType.entityCutout(coffinBlockEntity.getCoffinType().getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY);
@@ -55,6 +53,15 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
 
         pPoseStack.popPose();
 
+    }
+
+    public static int rgbaToInt(float red, float green, float blue, float alpha) {
+        int r = Math.round(red * 255);
+        int g = Math.round(green * 255);
+        int b = Math.round(blue * 255);
+        int a = Math.round(alpha * 255);
+
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
     @Override

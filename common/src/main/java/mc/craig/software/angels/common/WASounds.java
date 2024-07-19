@@ -27,7 +27,7 @@ public class WASounds {
     public static final RegistryHolder<SoundEvent, SoundEvent> TELEPORT = setUpSound("teleport");
 
     private static RegistryHolder<SoundEvent, SoundEvent> setUpSound(String soundName) {
-        SoundEvent sound = SoundEvent.createFixedRangeEvent(ResourceLocation.tryBuild(WeepingAngels.MODID, soundName), 1);
+        SoundEvent sound = SoundEvent.createVariableRangeEvent(ResourceLocation.tryBuild(WeepingAngels.MODID, soundName));
         return SOUNDS.register(soundName, () -> sound);
     }
 

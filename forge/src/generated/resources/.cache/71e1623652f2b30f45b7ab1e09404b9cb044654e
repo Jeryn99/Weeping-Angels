@@ -1,4 +1,3 @@
-// 1.20.1	2024-05-22T13:01:50.9944112	Tags for minecraft:item mod id weeping_angels
-db39c9606eb0030173a9a22705d1c23725c2523b data/minecraft/tags/items/music_discs.json
-b1b1de5dd36c189a00225507c31c1520042f57db data/weeping_angels/tags/items/attack/weeping_angels.json
-c1e64c6010086c8879d3ac83918740042ac141fb data/weeping_angels/tags/items/stealable_items.json
+// 1.21	2024-07-19T11:19:22.9464318	Tags for minecraft:item mod id weeping_angels
+b1b1de5dd36c189a00225507c31c1520042f57db data/weeping_angels/tags/item/attack/weeping_angels.json
+c1e64c6010086c8879d3ac83918740042ac141fb data/weeping_angels/tags/item/stealable_items.json

@@ -70,33 +70,36 @@ public class ChiselScreen extends Screen {
             Minecraft.getInstance().setScreen(null);
         }
 
-        //TODO
-     /*   Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
-            new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
+        Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
+          //TODO  new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
             Minecraft.getInstance().setScreen(null);
         }).build();
 
-        addWidget(quitButton);*/
+        addWidget(quitButton);
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-       // RenderSystem.setShaderTexture(0, BACKGROUND);
         guiGraphics.blit(BACKGROUND, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
 
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(12);
         }
 
-        //TODO
-/*
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
-*/
+
+        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, guiLeft + 25, guiTop + 160, 55, -90, -45, 0.0625F, mouseX, mouseY, weepingAngelFake);
+
 
         guiGraphics.drawString(font, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
 
 
+
         super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f) {
 
     }
 }

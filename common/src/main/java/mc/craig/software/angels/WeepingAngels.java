@@ -36,8 +36,6 @@ public class WeepingAngels {
         WABlockEntities.BLOCK_ENTITY_TYPES.register();
         WAStructures.STRUCTURES.register();
         WATabs.TABS.register();
- /*       WAFeatures.PLACED_FEATURES.register();
-        WAFeatures.CONFIGURED_FEATURES.register();*/
         BlockReactions.init();
         AngelVariant.init();
 /*

@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
@@ -66,12 +67,15 @@ public class HurtHelper {
                 return false;
             }
             ItemStack stack = player.getItemBySlot(EquipmentSlot.MAINHAND);
-         //TODO
-            /*   stack.hurtAndBreak(weepingAngel.level().random.nextInt(4), weepingAngel, (Consumer<LivingEntity>) livingEntity -> {
-                weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
-                livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
-            });*/
-            return true;
+            if(player.level() instanceof ServerLevel serverLevel) {
+                stack.hurtAndBreak(weepingAngel.level().random.nextInt(4), serverLevel, null, new Consumer<Item>() {
+                    @Override
+                    public void accept(Item item) {
+                        weepingAngel.playSound(WASounds.ANGEL_MOCKING.get());
+                    }
+                });
+                return true;
+            }
         }
         return false;
     }

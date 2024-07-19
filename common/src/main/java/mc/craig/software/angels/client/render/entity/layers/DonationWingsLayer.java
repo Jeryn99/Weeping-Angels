@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 
+import static mc.craig.software.angels.client.render.blockentity.CoffinRenderer.rgbaToInt;
+
 public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
     public final MercyWingsModel mercyWings;
     public final AngelModel angelModel;
@@ -75,10 +77,9 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
                     mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.entityCutoutNoCull(mercyWings.texture(AngelEmotion.IDLE, AngelVariant.STONE))), pPackedLight, OverlayTexture.NO_OVERLAY);
 
                     mercyWings.setupAnim(player, 0, 0, player.tickCount, 0, 0);
-//TODO
-                    /*
-                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.5F);
-*/
+
+                    mercyWings.renderToBuffer(poseStack, multiBufferSource.getBuffer(RenderType.eyes(TEXTURE_LIGHTMAP)), 15728640, OverlayTexture.NO_OVERLAY, rgbaToInt(1.0F, 1.0F, 1.0F, 0.5F));
+
                     poseStack.popPose();
                     return;
                 }

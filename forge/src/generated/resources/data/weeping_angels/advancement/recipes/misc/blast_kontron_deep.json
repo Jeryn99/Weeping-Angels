@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_any_kontron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "weeping_angels:kontron_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "weeping_angels:blast_kontron_deep"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_any_kontron"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "weeping_angels:blast_kontron_deep"
+    ]
+  }
+}

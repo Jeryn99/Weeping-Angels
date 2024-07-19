@@ -146,6 +146,8 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         compoundTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
     }
 
+
+
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);

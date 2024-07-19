@@ -88,14 +88,14 @@ public class TardisModel extends HierarchicalModel {
 
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int k) {
-        Posts.render(poseStack, buffer, packedLight, packedOverlay);
-        Panels.render(poseStack, buffer, packedLight, packedOverlay);
-        PPCB.render(poseStack, buffer, packedLight, packedOverlay);
-        Roof.render(poseStack, buffer, packedLight, packedOverlay);
-        Lamp.render(poseStack, buffer, packedLight, packedOverlay);
-        RDoor.render(poseStack, buffer, packedLight, packedOverlay);
-        LDoor.render(poseStack, buffer, packedLight, packedOverlay);
-        bb_main.render(poseStack, buffer, packedLight, packedOverlay);
+        Posts.render(poseStack, buffer, packedLight, packedOverlay, k);
+        Panels.render(poseStack, buffer, packedLight, packedOverlay, k);
+        PPCB.render(poseStack, buffer, packedLight, packedOverlay, k);
+        Roof.render(poseStack, buffer, packedLight, packedOverlay, k);
+        Lamp.render(poseStack, buffer, packedLight, packedOverlay, k);
+        RDoor.render(poseStack, buffer, packedLight, packedOverlay, k);
+        LDoor.render(poseStack, buffer, packedLight, packedOverlay, k);
+        bb_main.render(poseStack, buffer, packedLight, packedOverlay, k);
     }
 
     @Override

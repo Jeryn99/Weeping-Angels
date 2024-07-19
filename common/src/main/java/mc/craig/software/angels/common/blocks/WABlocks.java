@@ -1,6 +1,8 @@
 package mc.craig.software.angels.common.blocks;
 
 import mc.craig.software.angels.WeepingAngels;
+import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
+import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.registry.DeferredRegister;
 import mc.craig.software.angels.registry.DeferredRegister;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
@@ -24,7 +27,12 @@ public class WABlocks {
     public static final RegistryHolder<Block, Block> KONTRON_ORE = register("kontron_ore", () -> new MineableBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
     public static final RegistryHolder<Block, Block> KONTRON_ORE_DEEPSLATE = register("deepslate_kontron_ore", () -> new MineableBlock(BlockBehaviour.Properties.ofFullCopy(WABlocks.KONTRON_ORE.get()).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE)));
     public static final RegistryHolder<Block, Block> CHRONODYNE_GENERATOR = register("chronodyne_generator", () -> new GeneratorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.METAL)), false);
-    public static final RegistryHolder<Block, Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.WOOD)));
+    public static final RegistryHolder<Block, Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOD), new Supplier<BlockEntityType<? extends CoffinBlockEntity>>() {
+        @Override
+        public BlockEntityType<? extends CoffinBlockEntity> get() {
+            return WABlockEntities.COFFIN.get();
+        }
+    }));
     public static final RegistryHolder<Block, Block> STATUE = register("statue", () -> new StatueBaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.STONE)));
     public static final RegistryHolder<Block, Block> PLINTH = register("plinth", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.STONE).noOcclusion()));
     public static final RegistryHolder<Block, Block> SNOW_ANGEL = register("snow_angel", SnowAngelBlock::new);

@@ -9,12 +9,19 @@ import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.items.WAItems;
 import mc.craig.software.angels.util.WADamageSources;
+import mc.craig.software.angels.util.WATags;
+import net.minecraft.Util;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+
+import java.util.function.Supplier;
 
 public class EnglishLang extends LanguageProvider {
 
@@ -72,10 +79,10 @@ public class EnglishLang extends LanguageProvider {
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
         add(WAItems.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAItems.CHISEL.get(), "Chisel");
-      /*  add(WAItems.DISC_SALLY.get(), "Music Disc");
-        add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");*/
-        add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");
-        add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
+        add(WAItems.DISC_SALLY.get(), "Music Disc");
+        add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
+        add(Util.makeDescriptionId("jukebox_song", ResourceLocation.tryBuild(WeepingAngels.MODID, "sally")), "Sally Sparrow");
+        add(Util.makeDescriptionId("jukebox_song",  ResourceLocation.tryBuild(WeepingAngels.MODID, "time_prevails")), "Time Prevails");
 
         // ==== Creative Tab ====
         add(WAConstants.CREATIVE_TAB, "Weeping Angels");
@@ -105,6 +112,13 @@ public class EnglishLang extends LanguageProvider {
         addConfig(WAConfiguration.CONFIG.teleportRange, "Teleport Range");
         addConfig(WAConfiguration.CONFIG.bannedDimensions, "Banned Dimensions");
         addConfig(WAConfiguration.CONFIG.blockBreaking, "Block Griefing?");
+
+        addTag(() -> WATags.ANGEL_SPAWNS, "Weeping Angel Spawns");
+        addTag(() -> WATags.ANOMALYS, "Weeping Angel Anomalies");
+        addTag(() -> WATags.ATTACK_OVERRIDES, "Can Attack Weeping Angel With");
+        addTag(() -> WATags.NO_BREAKING, "Unbreakable by Weeping Angels");
+        addTag(() -> WATags.CATACOMB_STRUCTURE_BIOMES, "Biomes for Catacombs");
+        addTag(() -> WATags.STEALABLE_ITEMS, "Weeping Angel can Steal");
 
     }
 

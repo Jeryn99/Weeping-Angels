@@ -1,8 +1,9 @@
 package mc.craig.software.angels.common.blocks;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.*;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
+import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -34,22 +36,29 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 public class CoffinBlock extends BaseEntityBlock {
 
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    protected final Supplier<BlockEntityType<? extends CoffinBlockEntity>> blockEntityType;
 
 
-    public CoffinBlock(Properties pProperties) {
+    public CoffinBlock(Properties pProperties, Supplier<BlockEntityType<? extends CoffinBlockEntity>> supplier) {
         super(pProperties.noOcclusion());
+        this.blockEntityType = supplier;
         this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, false).setValue(UPRIGHT, false).setValue(WATERLOGGED, false).setValue(ROTATION, 1));
     }
 
+    public static final MapCodec<CoffinBlock> CODEC = simpleCodec((properties) -> new CoffinBlock(properties, WABlockEntities.COFFIN::get));
+
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override
@@ -121,7 +130,7 @@ public class CoffinBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
-        return state.setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER)).setValue(UPRIGHT, !context.getPlayer().isShiftKeyDown());
+        return state.setValue(OPEN, false).setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER)).setValue(UPRIGHT, !context.getPlayer().isShiftKeyDown());
     }
 
     @Override

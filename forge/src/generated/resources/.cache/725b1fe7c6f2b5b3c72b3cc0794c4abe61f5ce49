@@ -1,5 +1,5 @@
-// 1.20.1	2024-05-22T12:06:48.3799436	Tags for minecraft:block mod id weeping_angels
-c4311b5573f0be4d2d1c7280bec1243e66b88604 data/forge/tags/blocks/needs_wood_tool.json
-c4311b5573f0be4d2d1c7280bec1243e66b88604 data/minecraft/tags/blocks/mineable/pickaxe.json
-603a2087be0f03594c44db9a0b79ad858d740592 data/minecraft/tags/blocks/unstable_bottom_center.json
-4a5cc93488ea6c966df7dae72a8af3d6fd13eb35 data/weeping_angels/tags/blocks/no_breaking.json
+// 1.21	2024-07-19T11:19:22.943924	Tags for minecraft:block mod id weeping_angels
+c4311b5573f0be4d2d1c7280bec1243e66b88604 data/minecraft/tags/block/mineable/pickaxe.json
+603a2087be0f03594c44db9a0b79ad858d740592 data/minecraft/tags/block/unstable_bottom_center.json
+c4311b5573f0be4d2d1c7280bec1243e66b88604 data/neoforge/tags/block/needs_wood_tool.json
+c022026e8b112e0720387380c7f12a05d6831664 data/weeping_angels/tags/block/no_breaking.json

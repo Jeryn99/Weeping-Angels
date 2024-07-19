@@ -71,9 +71,9 @@ public class CatacombStructure extends Structure {
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
 
-        //TODO
         return null;
-   /*     return JigsawPlacement.addPieces(
+/*
+        return JigsawPlacement.addPieces(
                 context,
                 this.startPool,
                 this.startJigsawName,
@@ -81,7 +81,7 @@ public class CatacombStructure extends Structure {
                 blockPos,
                 false,
                 this.projectStartToHeightmap,
-                this.maxDistanceFromCenter);*/
+                this.maxDistanceFromCenter, co);*/
     }
 
     @Override
