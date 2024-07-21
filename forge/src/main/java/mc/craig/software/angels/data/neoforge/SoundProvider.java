@@ -10,6 +10,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
+import java.util.Objects;
+
 public class SoundProvider extends SoundDefinitionsProvider {
     /**
      * Creates a new instance of this data provider.
@@ -31,9 +33,10 @@ public class SoundProvider extends SoundDefinitionsProvider {
     public void createDefinitionAndAdd(SoundEvent mainSound, SoundDefinition.SoundType soundType, String subtitle, String... soundEvent) {
         SoundDefinition def = SoundDefinition.definition().subtitle("subtitle." + WeepingAngels.MODID + "." + subtitle);
         for (String event : soundEvent) {
-            def.with(SoundDefinition.Sound.sound(ResourceLocation.tryBuild(WeepingAngels.MODID, event), soundType));
+            def.with(SoundDefinition.Sound.sound(Objects.requireNonNull(ResourceLocation.tryBuild(WeepingAngels.MODID, event)), soundType));
         }
         add(mainSound, def);
+
     }
 
 }
