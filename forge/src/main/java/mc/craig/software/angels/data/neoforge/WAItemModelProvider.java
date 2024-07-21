@@ -17,9 +17,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.Objects;
 
-public class ModelProviderItem extends ItemModelProvider {
+public class WAItemModelProvider extends ItemModelProvider {
 
-    public ModelProviderItem(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public WAItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator.getPackOutput(), WeepingAngels.MODID, existingFileHelper);
     }
 

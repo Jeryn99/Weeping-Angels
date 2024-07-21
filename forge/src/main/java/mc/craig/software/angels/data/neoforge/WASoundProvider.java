@@ -12,14 +12,14 @@ import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
 import java.util.Objects;
 
-public class SoundProvider extends SoundDefinitionsProvider {
+public class WASoundProvider extends SoundDefinitionsProvider {
     /**
      * Creates a new instance of this data provider.
      *
      * @param generator The data generator instance provided by the event you are initializing this provider in.
      * @param helper    The existing file helper provided by the event you are initializing this provider in.
      */
-    public SoundProvider(DataGenerator generator, ExistingFileHelper helper) {
+    public WASoundProvider(DataGenerator generator, ExistingFileHelper helper) {
         super(generator.getPackOutput(), WeepingAngels.MODID, helper);
     }
 

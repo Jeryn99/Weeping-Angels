@@ -67,14 +67,16 @@ public class CatacombStructure extends Structure {
     public @NotNull Optional<Structure.GenerationStub> findGenerationPoint(Structure.@NotNull GenerationContext context) {
 
 
-        if (!CatacombStructure.extraSpawningChecks(context)) {
+        /*if (!CatacombStructure.extraSpawningChecks(context)) {
             return Optional.empty();
-        }
+        }*/
 
         int startY = context.random().nextInt(60) * -1;
 
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
+
+        System.out.println("Generating at :" + blockPos.toShortString());
 
         return JigsawPlacement.addPieces(
                 context,
@@ -84,7 +86,7 @@ public class CatacombStructure extends Structure {
                 blockPos,
                 false,
                 this.projectStartToHeightmap,
-                this.maxDistanceFromCenter,  PoolAliasLookup.create(List.of(), blockPos, context.seed()),  DimensionPadding.ZERO,  LiquidSettings.IGNORE_WATERLOGGING);
+                this.maxDistanceFromCenter,  PoolAliasLookup.EMPTY,  DimensionPadding.ZERO,  LiquidSettings.IGNORE_WATERLOGGING);
     }
 
     @Override

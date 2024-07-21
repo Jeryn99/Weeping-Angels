@@ -39,9 +39,9 @@ import java.util.stream.Stream;
  * This class extends the `LootTableProvider` class from the Minecraft game engine and is responsible for
  * generating loot tables for various blocks and items in the game.
  */
-public class LootProvider extends LootTableProvider {
+public class WALootProvider extends LootTableProvider {
 
-    public LootProvider(PackOutput arg, Set<ResourceKey<LootTable>> set, List<SubProviderEntry> list, CompletableFuture<HolderLookup.Provider> completableFuture) {
+    public WALootProvider(PackOutput arg, Set<ResourceKey<LootTable>> set, List<SubProviderEntry> list, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(arg, set, list, completableFuture);
     }
 
@@ -63,8 +63,6 @@ public class LootProvider extends LootTableProvider {
 
         @Override
         protected void generate() {
-            this.add(WABlocks.KONTRON_ORE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
-            this.add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), (block) -> createOreDrop(block, WAItems.KONTRON_INGOT.get()));
             dropSelf(WABlocks.CHRONODYNE_GENERATOR.get());
             dropSelf(WABlocks.COFFIN.get());
             dropSelf(WABlocks.STATUE.get());

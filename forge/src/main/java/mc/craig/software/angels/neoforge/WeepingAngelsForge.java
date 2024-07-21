@@ -71,23 +71,23 @@ public class WeepingAngelsForge {
         PackOutput packOutput = e.getGenerator().getPackOutput();
 
         /*Resource Pack*/
-        generator.addProvider(e.includeClient(), new EnglishLang(generator));
-        generator.addProvider(e.includeClient(), new ModelProviderItem(generator, existingFileHelper));
-        generator.addProvider(e.includeClient(), new ModelProviderBlock(generator, existingFileHelper));
-        generator.addProvider(e.includeClient(), new SoundProvider(generator, existingFileHelper));
+        generator.addProvider(e.includeClient(), new WAEnglishLangProvider(generator));
+        generator.addProvider(e.includeClient(), new WAItemModelProvider(generator, existingFileHelper));
+        generator.addProvider(e.includeClient(), new WABlockModelProvider(generator, existingFileHelper));
+        generator.addProvider(e.includeClient(), new WASoundProvider(generator, existingFileHelper));
 
         /*Data Pack*/
 
         var registries = e.getLookupProvider();
 
-        var blockTagsProvider = generator.addProvider(e.includeServer(), new BlockTags(packOutput, registries, existingFileHelper));
-        generator.addProvider(e.includeServer(), new AngelItemTags(packOutput, registries, blockTagsProvider.contentsGetter(), existingFileHelper));
+        var blockTagsProvider = generator.addProvider(e.includeServer(), new WABlockTagProvider(packOutput, registries, existingFileHelper));
+        generator.addProvider(e.includeServer(), new WAItemTagsProvider(packOutput, registries, blockTagsProvider.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(e.includeServer(), new LootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(LootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(LootProvider.ModChestLoot::new, LootContextParamSets.CHEST)), lookup));
-        generator.addProvider(e.includeServer(), new BiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(e.includeServer(), new WALootProvider(generator.getPackOutput(), BuiltInLootTables.all(), List.of(new LootTableProvider.SubProviderEntry(WALootProvider.ModBlockLoot::new, LootContextParamSets.BLOCK), new LootTableProvider.SubProviderEntry(WALootProvider.ModChestLoot::new, LootContextParamSets.CHEST)), lookup));
+        generator.addProvider(e.includeServer(), new WABiomeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
         generator.addProvider(e.includeServer(), new WorldGenProvider(generator.getPackOutput(), e.getLookupProvider()));
-        generator.addProvider(e.includeServer(), new RecipeProvider(generator.getPackOutput(), e.getLookupProvider()));
-        generator.addProvider(e.includeServer(), new EntityTypeTags(generator.getPackOutput(), lookup, existingFileHelper));
+        generator.addProvider(e.includeServer(), new WARecipeProvider(generator.getPackOutput(), e.getLookupProvider()));
+        generator.addProvider(e.includeServer(), new WAEntityTypeTagsProvider(generator.getPackOutput(), lookup, existingFileHelper));
 
     }
 

@@ -12,10 +12,10 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class AngelItemTags extends ItemTagsProvider {
+public class WAItemTagsProvider extends ItemTagsProvider {
 
-    public AngelItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries,
-                            CompletableFuture<TagLookup<Block>> blockTagsProvider, ExistingFileHelper existingFileHelper) {
+    public WAItemTagsProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries,
+                              CompletableFuture<TagLookup<Block>> blockTagsProvider, ExistingFileHelper existingFileHelper) {
         super(packOutput, registries, blockTagsProvider, WeepingAngels.MODID, existingFileHelper);
     }
 

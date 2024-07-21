@@ -24,8 +24,6 @@ public class WABlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(WeepingAngels.MODID, Registries.BLOCK);
 
-    public static final RegistryHolder<Block, Block> KONTRON_ORE = register("kontron_ore", () -> new MineableBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
-    public static final RegistryHolder<Block, Block> KONTRON_ORE_DEEPSLATE = register("deepslate_kontron_ore", () -> new MineableBlock(BlockBehaviour.Properties.ofFullCopy(WABlocks.KONTRON_ORE.get()).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE)));
     public static final RegistryHolder<Block, Block> CHRONODYNE_GENERATOR = register("chronodyne_generator", () -> new GeneratorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.METAL)), false);
     public static final RegistryHolder<Block, Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOD), new Supplier<BlockEntityType<? extends CoffinBlockEntity>>() {
         @Override

@@ -15,11 +15,9 @@ import net.minecraft.world.level.levelgen.placement.*;
 import java.util.List;
 
 
-public class ProviderPlacedFeatures {
+public class WAPlacedFeaturesProvider {
 
     public static final ResourceKey<PlacedFeature> SNOW_ANGEL = createKey("snow_angel");
-    public static final ResourceKey<PlacedFeature> ORE_KONTRON = createKey("ore_kontron");
-    public static final ResourceKey<PlacedFeature> ORE_KONTRON_SMALL = createKey("ore_kontron_small");
 
     public static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(WeepingAngels.MODID, name));
@@ -28,9 +26,7 @@ public class ProviderPlacedFeatures {
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
-        register(context, SNOW_ANGEL, configuredFeatures.getOrThrow(ProviderConfiguredFeatures.SNOW_ANGEL_CONFIGURED), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
-        register(context, ORE_KONTRON, configuredFeatures.getOrThrow(ProviderConfiguredFeatures.ORE_KONTRON), List.copyOf(commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56)))));
-        register(context, ORE_KONTRON_SMALL, configuredFeatures.getOrThrow(ProviderConfiguredFeatures.ORE_KONTRON_SMALL), List.copyOf(commonOrePlacement(10, HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(72)))));
+        register(context, SNOW_ANGEL, configuredFeatures.getOrThrow(WAConfiguredFeaturesProvider.SNOW_ANGEL_CONFIGURED), List.of(NoiseThresholdCountPlacement.of(-0.8D, 0, 4), RarityFilter.onAverageOnceEvery(300), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
 
     }
 

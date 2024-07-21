@@ -22,7 +22,6 @@ public class WAItems {
     public static final RegistryHolder<Item, Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", () -> new DetectorItem(new Item.Properties().stacksTo(1)));
     public static final RegistryHolder<Item, Item> DISC_TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(TIME_PREVAILS)));
     public static final RegistryHolder<Item, Item> DISC_SALLY = ITEMS.register("music_disc_sally", () -> new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(SALLY)));
-    public static final RegistryHolder<Item, Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryHolder<Item, Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", () -> new ThrowableGeneratorItem(new Item.Properties().stacksTo(6)));
     public static final RegistryHolder<Item, Item> ANGEL_SPAWNER = ITEMS.register("angel_spawner", () -> new SpawnerItem(WAEntities.WEEPING_ANGEL.get(), new Item.Properties()));
 

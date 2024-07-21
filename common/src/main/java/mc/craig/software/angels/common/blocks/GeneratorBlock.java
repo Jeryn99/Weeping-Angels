@@ -172,9 +172,7 @@ public class GeneratorBlock extends BaseEntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         if (!level.isClientSide()) {
-            ItemStack handItem = player.getItemInHand(interactionHand);
-            if (handItem.is(WAItems.KONTRON_INGOT.get()) && isBreakable(level, blockPos)) {
-                handItem.shrink(1);
+            if (isBreakable(level, blockPos)) {
                 activateFromPos(blockPos, level, true);
                 player.swing(interactionHand);
                 return ItemInteractionResult.SUCCESS;

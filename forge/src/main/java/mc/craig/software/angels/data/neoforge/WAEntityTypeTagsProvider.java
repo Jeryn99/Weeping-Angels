@@ -10,9 +10,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EntityTypeTags extends net.minecraft.data.tags.EntityTypeTagsProvider {
+public class WAEntityTypeTagsProvider extends net.minecraft.data.tags.EntityTypeTagsProvider {
 
-    public EntityTypeTags(PackOutput arg, CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable ExistingFileHelper existingFileHelper) {
+    public WAEntityTypeTagsProvider(PackOutput arg, CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable ExistingFileHelper existingFileHelper) {
         super(arg, completableFuture, WeepingAngels.MODID, existingFileHelper);
     }
 

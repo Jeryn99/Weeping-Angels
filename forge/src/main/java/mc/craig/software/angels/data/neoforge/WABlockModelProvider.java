@@ -6,16 +6,14 @@ import net.minecraft.data.DataGenerator;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class ModelProviderBlock extends BlockStateProvider {
+public class WABlockModelProvider extends BlockStateProvider {
 
-    public ModelProviderBlock(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public WABlockModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator.getPackOutput(), WeepingAngels.MODID, existingFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(WABlocks.KONTRON_ORE.get());
-        simpleBlock(WABlocks.KONTRON_ORE_DEEPSLATE.get());
         simpleBlock(WABlocks.COFFIN.get());
         simpleBlock(WABlocks.STATUE.get());
     }

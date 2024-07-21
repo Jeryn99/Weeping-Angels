@@ -12,20 +12,16 @@ import mc.craig.software.angels.util.WADamageSources;
 import mc.craig.software.angels.util.WATags;
 import net.minecraft.Util;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
-import java.util.function.Supplier;
+public class WAEnglishLangProvider extends LanguageProvider {
 
-public class EnglishLang extends LanguageProvider {
-
-    public EnglishLang(DataGenerator dataGenerator) {
+    public WAEnglishLangProvider(DataGenerator dataGenerator) {
         super(dataGenerator.getPackOutput(), WeepingAngels.MODID, "en_us");
     }
 
@@ -34,8 +30,6 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Messages/UI ====
         add(WAConstants.ANOMALIES_DETECTED, "Anomalies Detected: %s");
-        add(WAConstants.CHISEL_POSE, "* Interact to change pose");
-        add(WAConstants.CHISEL_VARIANT, "* Sneak + Interact to change variant");
         add(WAConstants.ANGEL_EMOTION, "Emotion");
         add(WAConstants.ANGEL_VARIANT, "Variant");
         add(WAConstants.ANGEL_POSES, "Pose");
@@ -65,8 +59,6 @@ public class EnglishLang extends LanguageProvider {
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
 
         // ==== Blocks =====
-        add(WABlocks.KONTRON_ORE.get(), "Kontron Ore");
-        add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), "Kontron Ore (Deepslate)");
         add(WABlocks.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WABlocks.COFFIN.get(), "Coffin");
         add(WABlocks.STATUE.get(), "Statue");
@@ -75,7 +67,6 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Items ====
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
-        add(WAItems.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
         add(WAItems.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAItems.CHISEL.get(), "Chisel");
