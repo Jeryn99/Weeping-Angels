@@ -3,7 +3,7 @@ plugins {
     id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
-version = "fabric-" + version
+archives_base_name = "fabric-" + version
 
 
 architectury {
@@ -19,7 +19,7 @@ unifiedPublishing {
     project {
         displayName = "[Fabric] Weeping Angels - mc$rootProject.minecraft_version-v$project.version"
         releaseType = "release"
-        changelog = new File("${rootProject.projectDir}/changelog.html").text
+        changelog = new File("${rootProject.projectDir}/changelog.md").text
         gameVersions = ["1.21"]
         mainPublication tasks.remapJar
         gameLoaders = ["fabric"]

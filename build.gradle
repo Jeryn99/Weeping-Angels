@@ -52,7 +52,7 @@ githubRelease {
     targetCommitish "1.20"
     releaseName "[$rootProject.minecraft_version] Weeping Angels - v$version"
     generateReleaseNotes true
-    body new File("${rootProject.projectDir}/changelog.html").text
+    body new File("${rootProject.projectDir}/changelog.md").text
     draft false
     prerelease false
     releaseAssets(forgeFiles + fabricFiles + commonFiles)

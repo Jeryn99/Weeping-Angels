@@ -8,7 +8,7 @@ architectury {
     neoForge();
 }
 
-version = "neoforge-" + version
+archives_base_name = "neoforge-" + archives_base_name + version
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
@@ -27,7 +27,7 @@ unifiedPublishing {
     project {
         displayName = "[Forge] Weeping Angels - mc$rootProject.minecraft_version-v$project.version"
         releaseType = "release"
-        changelog = new File("${rootProject.projectDir}/changelog.html").text
+        changelog = new File("${rootProject.projectDir}/changelog.md").text
         gameVersions = ["1.21"]
         mainPublication tasks.remapJar
         gameLoaders = ["neoforge"]
@@ -92,6 +92,10 @@ shadowJar {
 
     configurations = [project.configurations.shadowCommon]
     archiveClassifier = "dev-shadow"
+}
+
+sourceSets.main.resources {
+    srcDir project(":forge").file("src/generated/resources").absolutePath
 }
 
 remapJar {
