@@ -143,7 +143,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public CoffinType getCoffinType() {
 
         if (coffinType == null) {
-            coffinType = CoffinType.randomCoffin(RandomSource.create());
+            coffinType = CoffinType.randomTardis(RandomSource.create());
             sendUpdates();
         }
 
@@ -153,11 +153,13 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     public void setCoffinType(CoffinType coffinType) {
         this.coffinType = coffinType;
+        sendUpdates();
     }
 
     public void demat() {
         isDemat = true;
         TARDIS_TAKEOFF.start(0);
+        sendUpdates();
     }
 
     public boolean isDemat() {

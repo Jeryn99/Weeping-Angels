@@ -18,7 +18,6 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class WABiomeModifiersProvider {
 
-    private static final ResourceKey<BiomeModifier> ADD_ANGELS_SPAWNS = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.tryBuild(WeepingAngels.MODID, "weeping_angel_spawns"));
     private static final ResourceKey<BiomeModifier> SNOW_ANGEL = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.tryBuild(WeepingAngels.MODID, "snow_angel"));
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
