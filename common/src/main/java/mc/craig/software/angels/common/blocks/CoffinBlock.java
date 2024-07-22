@@ -1,8 +1,10 @@
 package mc.craig.software.angels.common.blocks;
 
 import com.mojang.serialization.*;
+import mc.craig.software.angels.common.WACodecs;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.blockentity.CoffinBlockEntity;
+import mc.craig.software.angels.common.blockentity.CoffinType;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -45,20 +47,19 @@ public class CoffinBlock extends BaseEntityBlock {
     public static final BooleanProperty UPRIGHT = BooleanProperty.create("upright");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected final Supplier<BlockEntityType<? extends CoffinBlockEntity>> blockEntityType;
 
 
-    public CoffinBlock(Properties pProperties, Supplier<BlockEntityType<? extends CoffinBlockEntity>> supplier) {
+    public CoffinBlock(Properties pProperties) {
         super(pProperties.noOcclusion());
-        this.blockEntityType = supplier;
         this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, false).setValue(UPRIGHT, false).setValue(WATERLOGGED, false).setValue(ROTATION, 1));
     }
 
-    public static final MapCodec<CoffinBlock> CODEC = simpleCodec((properties) -> new CoffinBlock(properties, WABlockEntities.COFFIN::get));
+
+    public static final MapCodec<CoffinBlock> CODEC = simpleCodec(CoffinBlock::new);
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
+        return WACodecs.COFFIN.get();
     }
 
     @Override
@@ -103,6 +104,18 @@ public class CoffinBlock extends BaseEntityBlock {
         return new CoffinBlockEntity(pPos, pState);
     }
 
+
+    @Override
+    protected void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+        super.onPlace(blockState, level, blockPos, blockState2, bl);
+
+        if(level.getBlockEntity(blockPos) instanceof CoffinBlockEntity coffinBlockEntity){
+            coffinBlockEntity.setCoffinType(CoffinType.randomCoffin(level.getRandom()));
+            coffinBlockEntity.sendUpdates();
+        }
+
+    }
+
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
@@ -119,12 +132,12 @@ public class CoffinBlock extends BaseEntityBlock {
         };
     }
 
-    @Override
+/*    @Override
     public void onRemove(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             super.onRemove(state, worldIn, pos, newState, isMoving);
         }
-    }
+    }*/
 
     @Override
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {

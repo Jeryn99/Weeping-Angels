@@ -1,6 +1,7 @@
 package mc.craig.software.angels.common.blocks;
 
 import com.mojang.serialization.MapCodec;
+import mc.craig.software.angels.common.WACodecs;
 import mc.craig.software.angels.common.blockentity.StatueBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,10 +31,14 @@ public class StatueBaseBlock extends BaseEntityBlock {
         super(properties.noOcclusion());
     }
 
+
+    public static final MapCodec<StatueBaseBlock> CODEC = simpleCodec(StatueBaseBlock::new);
+
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return WACodecs.STATUE.get();
     }
+
 
 
     @Override

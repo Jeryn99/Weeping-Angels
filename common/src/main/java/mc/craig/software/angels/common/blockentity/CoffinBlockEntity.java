@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Iterator;
@@ -33,19 +34,17 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public int animationTimer, takeoffTimer = 0;
     private boolean isDemat = false, needsBox = false;
 
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-        CompoundTag tag = new CompoundTag();
-        saveAdditional(tag, provider);
-        return tag;
-    }
-
     public void sendUpdates() {
         if (level != null && getBlockState() != null && getBlockState().getBlock() != null) {
             level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
             level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         }
         setChanged();
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return saveWithoutMetadata(provider);
     }
 
     public CoffinBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -143,7 +142,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public CoffinType getCoffinType() {
 
         if (coffinType == null) {
-            coffinType = CoffinType.randomTardis(RandomSource.create());
+            coffinType = CoffinType.randomCoffin(RandomSource.create());
             sendUpdates();
         }
 

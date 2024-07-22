@@ -25,12 +25,7 @@ public class WABlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(WeepingAngels.MODID, Registries.BLOCK);
 
     public static final RegistryHolder<Block, Block> CHRONODYNE_GENERATOR = register("chronodyne_generator", () -> new GeneratorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.METAL)), false);
-    public static final RegistryHolder<Block, Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOD), new Supplier<BlockEntityType<? extends CoffinBlockEntity>>() {
-        @Override
-        public BlockEntityType<? extends CoffinBlockEntity> get() {
-            return WABlockEntities.COFFIN.get();
-        }
-    }));
+    public static final RegistryHolder<Block, Block> COFFIN = register("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOD)));
     public static final RegistryHolder<Block, Block> STATUE = register("statue", () -> new StatueBaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.STONE)));
     public static final RegistryHolder<Block, Block> PLINTH = register("plinth", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).sound(SoundType.STONE).noOcclusion()));
     public static final RegistryHolder<Block, Block> SNOW_ANGEL = register("snow_angel", SnowAngelBlock::new);

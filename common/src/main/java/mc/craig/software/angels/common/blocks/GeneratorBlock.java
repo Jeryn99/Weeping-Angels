@@ -141,6 +141,7 @@ public class GeneratorBlock extends BaseEntityBlock {
         super.playerDestroy(level, player, pos, state, blockEntity, tool);
     }
 
+
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
         return direction == Direction.DOWN && !this.canSurvive(state, level, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);

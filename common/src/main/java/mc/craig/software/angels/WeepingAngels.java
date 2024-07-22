@@ -1,6 +1,7 @@
 package mc.craig.software.angels;
 
 import com.mojang.logging.LogUtils;
+import mc.craig.software.angels.common.WACodecs;
 import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.WASounds;
 import mc.craig.software.angels.common.WATabs;
@@ -37,6 +38,7 @@ public class WeepingAngels {
         WABlockEntities.BLOCK_ENTITY_TYPES.register();
         WAStructures.STRUCTURES.register();
         WATabs.TABS.register();
+        WACodecs.BLOCK_TYPE.register();
         BlockReactions.init();
         AngelVariant.init();
 
