@@ -3,6 +3,8 @@ package mc.craig.software.angels.network.messages;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.CatacombTracker;
 import mc.craig.software.angels.network.WANetworkManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -25,8 +27,13 @@ public record CatacombUpdate(
         return TYPE;
     }
 
+    @Environment(EnvType.CLIENT)
+    private static void updateCatacomb(CatacombUpdate catacombUpdate) {
+        CatacombTracker.setIsInCatacomb(catacombUpdate.isInCatacomb());
+    }
+
     @Override
     public void receive(CatacombUpdate catacombUpdate, WANetworkManager.Context context) {
-        CatacombTracker.setIsInCatacomb(catacombUpdate.isInCatacomb());
+        updateCatacomb(catacombUpdate);
     }
 }

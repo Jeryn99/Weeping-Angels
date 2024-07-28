@@ -11,7 +11,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -24,9 +23,10 @@ public abstract class WANetworkManager {
     private static final WANetworkManager INSTANCE = make();
 
     public static void init() {
-        INSTANCE.registerS2C(CatacombUpdate.TYPE, CatacombUpdate.STREAM_CODEC, (value, context) -> value.receive(value, context));
         INSTANCE.registerC2S(StatueUpdate.TYPE, StatueUpdate.STREAM_CODEC, (value, context) -> value.receive(value, context));
+        INSTANCE.registerS2C(CatacombUpdate.TYPE, CatacombUpdate.STREAM_CODEC, (value, context) -> value.receive(value, context));
     }
+
 
     public static WANetworkManager get() {
         return INSTANCE;
@@ -37,7 +37,6 @@ public abstract class WANetworkManager {
         throw new AssertionError();
     }
 
-    @Environment(EnvType.CLIENT)
     public abstract <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver);
 
     public abstract <T extends CustomPacketPayload> void registerC2S(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver);

@@ -13,10 +13,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBundlePacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,9 +23,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+
+import static mc.craig.software.angels.network.fabric.ClientNetworking.makeClientboundPacket;
 
 public class WANetworkManagerImpl extends WANetworkManager {
 
@@ -36,13 +33,30 @@ public class WANetworkManagerImpl extends WANetworkManager {
         return new WANetworkManagerImpl();
     }
 
-    @Environment(EnvType.CLIENT)
-    public <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver) {
-        PayloadTypeRegistry.playS2C().register(type, codec);
-        ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
-            receiver.receive(payload, makeContext(context.player(), context.client(), true));
-        });
+    static Context makeContext(Player player, BlockableEventLoop<?> queue, boolean client) {
+        return new Context() {
+            @Override
+            public Player getPlayer() {
+                return player;
+            }
+
+            @Override
+            public void queue(Runnable runnable) {
+                queue.execute(runnable);
+            }
+
+            @Override
+            public boolean isClient() {
+                return client;
+            }
+
+            @Override
+            public RegistryAccess getRegistryAccess() {
+                return player.registryAccess();
+            }
+        };
     }
+
 
     public <T extends CustomPacketPayload> void registerC2S(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver) {
         PayloadTypeRegistry.playC2S().register(type, codec);
@@ -52,9 +66,9 @@ public class WANetworkManagerImpl extends WANetworkManager {
     }
 
     @Override
-    public <T extends CustomPacketPayload> Packet<?> toC2SPacket(T payload) {
-        return ClientPlayNetworking.createC2SPacket(payload);
-    }
+    public <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver) {
+        if(!Platform.isClient()) return;
+        ClientNetworking.doClientRegister(type, codec, receiver);}
 
     @Override
     public <T extends CustomPacketPayload> Packet<?> toS2CPacket(T payload) {
@@ -63,21 +77,19 @@ public class WANetworkManagerImpl extends WANetworkManager {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void sendToServer(CustomPacketPayload payload, CustomPacketPayload... payloads) {
-        ClientPlayNetworking.send(payload);
-        for (CustomPacketPayload packetPayload : payloads) {
-            ClientPlayNetworking.send(packetPayload);
-        }
+    public <T extends CustomPacketPayload> Packet<?> toC2SPacket(T payload) {
+        return ClientNetworking.createC2SPacket(payload);
     }
 
     @Override
     public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload, CustomPacketPayload... payloads) {
-        player.connection.send(makeClientboundPacket(payload, payloads));
+        ServerPlayNetworking.send(player, payload);
     }
 
     @Override
     public void sendToPlayersInDimension(ServerLevel level, CustomPacketPayload payload, CustomPacketPayload... payloads) {
         level.getServer().getPlayerList().broadcastAll(makeClientboundPacket(payload, payloads), level.dimension());
+
     }
 
     @Override
@@ -117,41 +129,10 @@ public class WANetworkManagerImpl extends WANetworkManager {
         }
     }
 
-    private static Packet<?> makeClientboundPacket(CustomPacketPayload payload, CustomPacketPayload... payloads) {
-        if (payloads.length > 0) {
-            final List<Packet<? super ClientGamePacketListener>> packets = new ArrayList<>();
-            packets.add(new ClientboundCustomPayloadPacket(payload));
-            for (CustomPacketPayload otherPayload : payloads) {
-                packets.add(new ClientboundCustomPayloadPacket(otherPayload));
-            }
-            return new ClientboundBundlePacket(packets);
-        } else {
-            return new ClientboundCustomPayloadPacket(payload);
-        }
-    }
-
-    private static Context makeContext(Player player, BlockableEventLoop<?> queue, boolean client) {
-        return new Context() {
-            @Override
-            public Player getPlayer() {
-                return player;
-            }
-
-            @Override
-            public void queue(Runnable runnable) {
-                queue.execute(runnable);
-            }
-
-            @Override
-            public boolean isClient() {
-                return client;
-            }
-
-            @Override
-            public RegistryAccess getRegistryAccess() {
-                return player.registryAccess();
-            }
-        };
+    @Override
+    @Environment(EnvType.CLIENT)
+    public void sendToServer(CustomPacketPayload payload, CustomPacketPayload... payloads) {
+        ClientNetworking.sendToServer(payload, payloads);
     }
 
 }
