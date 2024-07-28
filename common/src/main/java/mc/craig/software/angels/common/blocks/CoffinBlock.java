@@ -16,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -91,7 +92,7 @@ public class CoffinBlock extends BaseEntityBlock {
             }
         }
 
-        level.setBlock(blockPos, blockState.cycle(OPEN), 3);
+        level.setBlock(blockPos, blockState.cycle(OPEN), Block.UPDATE_ALL);
         level.gameEvent(player, GameEvent.BLOCK_OPEN, blockPos);
         level.playSound(null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, level.getBlockState(blockPos).getValue(OPEN) ? SoundEvents.ENDER_CHEST_OPEN : SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
         return ItemInteractionResult.SUCCESS;
@@ -104,10 +105,9 @@ public class CoffinBlock extends BaseEntityBlock {
         return new CoffinBlockEntity(pPos, pState);
     }
 
-
     @Override
-    protected void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-        super.onPlace(blockState, level, blockPos, blockState2, bl);
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+        super.setPlacedBy(level, blockPos, blockState, livingEntity, itemStack);
 
         if(level.getBlockEntity(blockPos) instanceof CoffinBlockEntity coffinBlockEntity){
             coffinBlockEntity.setCoffinType(CoffinType.randomCoffin(level.getRandom()));
@@ -115,6 +115,7 @@ public class CoffinBlock extends BaseEntityBlock {
         }
 
     }
+
 
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
@@ -132,12 +133,12 @@ public class CoffinBlock extends BaseEntityBlock {
         };
     }
 
-/*    @Override
+    @Override
     public void onRemove(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             super.onRemove(state, worldIn, pos, newState, isMoving);
         }
-    }*/
+    }
 
     @Override
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {

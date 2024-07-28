@@ -22,7 +22,6 @@ public class ClientNetworking {
 
     @Environment(EnvType.CLIENT)
     public static <T extends CustomPacketPayload> void doClientRegister(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver) {
-        PayloadTypeRegistry.playS2C().register(type, codec);
         ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
             receiver.receive(payload, makeContext(context.player(), context.client(), true));
         });

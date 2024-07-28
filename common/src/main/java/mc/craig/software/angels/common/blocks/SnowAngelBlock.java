@@ -58,7 +58,11 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
         FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
-        return state.setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER));
+        BlockState ourState = state.setValue(ROTATION, Mth.floor((double) (context.getRotation() * 16.0F / 360.0F) + 0.5D) & 15).setValue(BlockStateProperties.WATERLOGGED, fluid.is(FluidTags.WATER));
+        if(ourState.is(WABlocks.SNOW_ANGEL.get())){
+            return ourState;
+        }
+        return super.getStateForPlacement(context);
     }
 
     @Override

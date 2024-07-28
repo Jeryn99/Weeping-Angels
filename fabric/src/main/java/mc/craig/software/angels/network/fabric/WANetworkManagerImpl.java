@@ -67,6 +67,7 @@ public class WANetworkManagerImpl extends WANetworkManager {
 
     @Override
     public <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, WANetworkManager.Handler<T> receiver) {
+        PayloadTypeRegistry.playS2C().register(type, codec);
         if(!Platform.isClient()) return;
         ClientNetworking.doClientRegister(type, codec, receiver);}
 

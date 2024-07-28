@@ -24,7 +24,7 @@ import java.util.Iterator;
 public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<CoffinBlockEntity> {
 
 
-    private CoffinType coffinType = null;
+    private CoffinType coffinType = CoffinType.HEAVILY_WEATHERED;
 
     // Animation States
     public AnimationState COFFIN_OPEN = new AnimationState();
@@ -46,6 +46,8 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         return saveWithoutMetadata(provider);
     }
+
+
 
     public CoffinBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(WABlockEntities.COFFIN.get(), pPos, pBlockState);
@@ -70,8 +72,9 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
         if (needsBox) {
-            needsBox = false;
             setCoffinType(CoffinType.randomTardis(level.random));
+            needsBox = false;
+            sendUpdates();
         }
 
         if (isDemat && coffinType.isTardis()) {
@@ -119,7 +122,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
-        setCoffinType(CoffinType.find(compoundTag.getString(WAConstants.COFFIN_TYPE)));
+        coffinType = CoffinType.find(compoundTag.getString(WAConstants.COFFIN_TYPE));
         isDemat = compoundTag.getBoolean(WAConstants.IS_DEMAT);
         needsBox = compoundTag.getBoolean(WAConstants.NEEDS_BOX);
     }
@@ -127,7 +130,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     @Override
     protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.saveAdditional(compoundTag, provider);
-        compoundTag.putString(WAConstants.COFFIN_TYPE, getCoffinType().getId());
+        compoundTag.putString(WAConstants.COFFIN_TYPE, coffinType.getId());
         compoundTag.putBoolean(WAConstants.IS_DEMAT, isDemat);
         compoundTag.putBoolean(WAConstants.NEEDS_BOX, needsBox);
     }
@@ -140,19 +143,11 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     }
 
     public CoffinType getCoffinType() {
-
-        if (coffinType == null) {
-            coffinType = CoffinType.randomCoffin(RandomSource.create());
-            sendUpdates();
-        }
-
         return coffinType;
     }
 
-
     public void setCoffinType(CoffinType coffinType) {
         this.coffinType = coffinType;
-        sendUpdates();
     }
 
     public void demat() {

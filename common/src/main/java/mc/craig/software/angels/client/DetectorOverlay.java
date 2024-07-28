@@ -36,7 +36,7 @@ public class DetectorOverlay {
 
         String warning = Component.translatable(WAConstants.ANOMALIES_DETECTED, String.valueOf(anomalies)).getString();
 
-        renderWidthScaledText(warning, guiGraphics, Minecraft.getInstance().font, 78, 11, Color.WHITE.getRGB(), 100);
+        renderWidthScaledText(warning, guiGraphics, Minecraft.getInstance().font, 30, 11, Color.WHITE.getRGB(), 100);
     }
 
 

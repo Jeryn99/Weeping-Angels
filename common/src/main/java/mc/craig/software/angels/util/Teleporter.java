@@ -47,6 +47,11 @@ public class Teleporter {
     }
 
     private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
+
+        if(level.isInWorldBounds(pPos)){
+            return false;
+        }
+
         PathType pathType = WalkNodeEvaluator.getPathTypeFromState(level, pPos);
         if (pathType != PathType.WALKABLE) {
             return false;
