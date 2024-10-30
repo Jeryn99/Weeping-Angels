@@ -9,10 +9,10 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod",
-    "sources": "https://github.com/Suff99/Weeping-Angels",
-    "issues": "https://github.com/Suff99/Weeping-Angels/issues"
+    "sources": "https://github.com/Jeryn99/Weeping-Angels",
+    "issues": "https://github.com/Jeryn99/Weeping-Angels/issues"
   },
-  "license": "https://github.com/Suff99/Weeping-Angels/blob/architectury/1.19/LICENSE",
+  "license": "https://github.com/Jeryn99/Weeping-Angels/blob/architectury/1.19/LICENSE",
   "icon": "weeping_angels.png",
   "environment": "*",
   "entrypoints": {

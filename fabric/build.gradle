@@ -14,7 +14,7 @@ loom {
 
 unifiedPublishing {
     project {
-        displayName = "[Fabric - Weeping Angels - $rootProject.minecraft_version] - v$project.version"
+        displayName = "[Fabric] Weeping Angels - v$project.version"
         releaseType = "release"
         changelog = new File("${rootProject.projectDir}/changelog.html").text
         gameVersions = ["1.19.2"]
@@ -41,7 +41,7 @@ unifiedPublishing {
             modrinth {
                 token = MODRINTH_TOKEN
                 id = "TEzJJY7H"
-                version = "$project.version+$project.name"
+                version = "fabric-$project.version"
             }
         }
     }
@@ -56,9 +56,24 @@ configurations {
 }
 
 repositories {
-    maven { url "https://minecraft.guntram.de/maven/" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.terraformersmc.com/releases/" }
+
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+
+    maven {
+        url = "https://minecraft.guntram.de/maven/"
+    }
+
+    maven {
+        url = "https://maven.shedaniel.me/"
+    }
+
+    maven {
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+
 }
 
 dependencies {
@@ -68,8 +83,11 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
     // Forge Config API Port
-    modApi "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
-    include "net.minecraftforge:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:4401535"
+    include "curse.maven:forge-config-api-port-fabric-547434:4401535"
+
+    runtimeOnly 'com.electronwill.night-config:toml:3.8.1'
+    implementation 'com.electronwill.night-config:core:3.8.1'
 
     // Roughly Enough Items
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
@@ -100,19 +118,18 @@ shadowJar {
     exclude "weeping_angels.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier =  "dev-shadow"
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
     archiveClassifier = 'fabric'
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier  = "dev"
 }
 
 sourcesJar {

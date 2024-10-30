@@ -65,7 +65,6 @@ public class EnglishLang extends LanguageProvider {
 
         // ==== Items ====
         add(WAItems.TIMEY_WIMEY_DETECTOR.get(), "Timey Wimey Detector");
-        add(WAItems.KONTRON_INGOT.get(), "Kontron Ingot");
         add(WAItems.ANGEL_SPAWNER.get(), "Spawn Weeping Angel");
         add(WAItems.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WAItems.CHISEL.get(), "Chisel");

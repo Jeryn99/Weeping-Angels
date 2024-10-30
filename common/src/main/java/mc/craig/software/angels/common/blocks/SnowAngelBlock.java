@@ -29,7 +29,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 
 public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
 
@@ -119,7 +118,6 @@ public class SnowAngelBlock extends SnowLayerBlock implements EntityBlock {
     }
 
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new SnowAngelBlockEntity(pos, state);

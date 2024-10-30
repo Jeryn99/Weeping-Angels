@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "mc.craig.software.angels.mixin.forge",
+  "package": "mc.craig.software.angels.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
   ],

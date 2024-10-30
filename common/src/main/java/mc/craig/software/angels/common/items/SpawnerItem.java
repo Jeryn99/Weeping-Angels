@@ -1,6 +1,5 @@
 package mc.craig.software.angels.common.items;
 
-import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +28,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -117,7 +115,7 @@ public class SpawnerItem extends Item {
         }
     }
 
-    public EntityType<?> getType(@Nullable CompoundTag pNbt) {
+    public EntityType<?> getType(CompoundTag pNbt) {
         if (pNbt != null && pNbt.contains("EntityTag", 10)) {
             CompoundTag compoundtag = pNbt.getCompound("EntityTag");
             if (compoundtag.contains("id", 8)) {

@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.5+" apply false
 }
 
 architectury {
@@ -34,8 +34,8 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
+    archivesBaseName = "${project.name}-${rootProject.archives_base_name}"
+    version = "${rootProject.minecraft_version}-${rootProject.mod_version}"
     group = rootProject.maven_group
 
     repositories {
@@ -43,6 +43,7 @@ allprojects {
             url = 'https://maven.parchmentmc.net/'
             content {
                 includeGroup 'org.parchmentmc.data'
+                excludeGroup 'net.minecraftforge'
             }
         }
 
@@ -51,9 +52,14 @@ allprojects {
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
         }
 
-        maven { url "https://cursemaven.com" }
-
+        maven {
+            url "https://cursemaven.com"
+            content {
+                excludeGroup 'net.minecraftforge'
+            }
+        }
     }
+
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"

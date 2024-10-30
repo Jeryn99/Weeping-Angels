@@ -21,7 +21,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class ViewUtil {
@@ -127,7 +126,6 @@ public class ViewUtil {
         return living.hasEffect(MobEffects.BLINDNESS);
     }
 
-    @Nullable
     private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 vec31, Vec3 vec32, Predicate<BlockPos> stopOn) {
         if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
             if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {

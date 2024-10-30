@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -58,6 +59,7 @@ public class ClientModBus {
         ModelRegistration.init();
         ModelRegistrationImpl.register(event);
     }
+
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {

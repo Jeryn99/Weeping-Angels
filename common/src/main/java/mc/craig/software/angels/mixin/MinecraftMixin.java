@@ -5,6 +5,7 @@ import mc.craig.software.angels.common.CatacombTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.Music;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -12,7 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    public boolean hasCatacombMusicSetUp = false;
+    @Unique
+    public boolean weepingAngels$hasCatacombMusicSetUp = false;
 
     @Inject(at = @At("HEAD"), method = "getSituationalMusic()Lnet/minecraft/sounds/Music;", cancellable = true)
     private void getSituationalMusic(CallbackInfoReturnable<Music> musicCallbackInfoReturnable) {
@@ -20,7 +22,7 @@ public class MinecraftMixin {
         boolean inAWorld = minecraft.level != null;
         if(inAWorld) {
 
-            if(!hasCatacombMusicSetUp){
+            if(!weepingAngels$hasCatacombMusicSetUp){
                 WAMusic.init();
             }
 

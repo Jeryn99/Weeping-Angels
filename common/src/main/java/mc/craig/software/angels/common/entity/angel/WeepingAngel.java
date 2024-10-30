@@ -42,6 +42,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -197,7 +198,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         Inventory playerInv = player.getInventory();
         for (int i = 0; i < playerInv.items.size(); i++) {
             ItemStack item = playerInv.items.get(i);
-            if (item.is(WATags.STEALABLE_ITEMS)) {
+            if (item.is(WATags.STEALABLE_ITEMS) || item.getItem() instanceof PickaxeItem) {
                 setItemSlotAndDropWhenKilled(EquipmentSlot.MAINHAND, item.copy());
                 playerInv.setItem(i, ItemStack.EMPTY);
                 return;
