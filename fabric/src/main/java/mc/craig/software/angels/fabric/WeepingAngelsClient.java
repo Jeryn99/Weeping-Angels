@@ -1,5 +1,6 @@
 package mc.craig.software.angels.fabric;
 
+import dev.architectury.event.events.client.ClientTickEvent;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.client.DectectorOverlay;
 import mc.craig.software.angels.client.WAMusic;
@@ -14,12 +15,14 @@ import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.util.WAHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.GlobalPos;
@@ -39,11 +42,12 @@ public class WeepingAngelsClient implements ClientModInitializer {
         itemPredicates();
         ModelRegistration.init();
         overlay();
+        DonationChecker.checkForUpdate(true);
     }
 
     private void overlay() {
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> DectectorOverlay.renderOverlay(matrixStack));
-
+        ClientTickEvent.CLIENT_POST.register(instance -> DonationChecker.checkForUpdate(false));
     }
 
     private void beRenders() {

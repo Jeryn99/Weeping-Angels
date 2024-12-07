@@ -14,6 +14,7 @@ import mc.craig.software.angels.common.WAEntities;
 import mc.craig.software.angels.common.blockentity.WABlockEntities;
 import mc.craig.software.angels.common.blocks.WABlocks;
 import mc.craig.software.angels.common.items.WAItems;
+import mc.craig.software.angels.donators.DonationChecker;
 import mc.craig.software.angels.forge.overlays.TimeyWimeyOverlay;
 import mc.craig.software.angels.util.WAHelper;
 import net.minecraft.client.model.EntityModel;
@@ -71,6 +72,8 @@ public class ClientModBus {
 
         ItemBlockRenderTypes.setRenderLayer(WABlocks.COFFIN.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());
+
+        DonationChecker.checkForUpdate(true);
 
 
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {

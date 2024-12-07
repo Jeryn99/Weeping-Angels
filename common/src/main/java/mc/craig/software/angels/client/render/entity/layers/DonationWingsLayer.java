@@ -34,7 +34,6 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
 
     public DonationWingsLayer(RenderLayerParent<T, M> renderLayerParent) {
         super(renderLayerParent);
-        Minecraft.getInstance().submit(DonationChecker.DONATOR_RUNNABLE);
         mercyWings = new MercyWingsModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.MERCY_WINGS));
         angelModel = new AliceAngelModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelRegistration.ALICE_ANGEL));
     }
@@ -48,14 +47,6 @@ public class DonationWingsLayer<T extends LivingEntity, M extends HumanoidModel<
         return Optional.empty();
     }
 
-    public static Optional<Donator> getDonatorData(UUID uuid) {
-        for (Donator person : DonationChecker.getModDonators()) {
-            if (uuid.toString().equals(person.getUuid())) {
-                return Optional.of(person);
-            }
-        }
-        return Optional.empty();
-    }
 
 
     @Override

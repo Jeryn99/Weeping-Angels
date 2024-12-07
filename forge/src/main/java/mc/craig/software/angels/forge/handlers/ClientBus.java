@@ -22,7 +22,9 @@ public class ClientBus {
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent clientTickEvent) {
-        DonationChecker.checkForUpdate();
+        if(clientTickEvent.phase == TickEvent.Phase.END) {
+             DonationChecker.checkForUpdate(false);
+        }
     }
 
     @SubscribeEvent
