@@ -58,8 +58,6 @@ public class EnglishLang extends LanguageProvider {
         add(WAEntities.WEEPING_ANGEL.get(), "Weeping Angel");
 
         // ==== Blocks =====
-        add(WABlocks.KONTRON_ORE.get(), "Kontron Ore");
-        add(WABlocks.KONTRON_ORE_DEEPSLATE.get(), "Kontron Ore (Deepslate)");
         add(WABlocks.CHRONODYNE_GENERATOR.get(), "Chronodyne Generator");
         add(WABlocks.COFFIN.get(), "Coffin");
         add(WABlocks.STATUE.get(), "Statue");

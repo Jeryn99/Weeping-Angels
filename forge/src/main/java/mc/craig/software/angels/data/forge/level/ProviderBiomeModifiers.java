@@ -20,8 +20,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ProviderBiomeModifiers {
 
     private static final ResourceKey<BiomeModifier> ADD_ANGELS_SPAWNS = ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(WeepingAngels.MODID, "weeping_angel_spawns"));
-    private static final ResourceKey<BiomeModifier> KONTRON = ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(WeepingAngels.MODID, "kontron"));
-    private static final ResourceKey<BiomeModifier> KONTRON_SMALL = ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(WeepingAngels.MODID, "kontron_small"));
     private static final ResourceKey<BiomeModifier> SNOW_ANGEL = ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(WeepingAngels.MODID, "snow_angel"));
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var spawnTags = context.lookup(Registries.BIOME).getOrThrow(WATags.ANGEL_SPAWNS);
@@ -30,13 +28,9 @@ public class ProviderBiomeModifiers {
 
         HolderGetter<PlacedFeature> placed = context.lookup(Registries.PLACED_FEATURE);
 
-        ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModifer = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(spawnTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.ORE_KONTRON)), GenerationStep.Decoration.UNDERGROUND_ORES);
-        ForgeBiomeModifiers.AddFeaturesBiomeModifier oreModiferSmall = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(overworldTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.ORE_KONTRON_SMALL)), GenerationStep.Decoration.UNDERGROUND_ORES);
         ForgeBiomeModifiers.AddFeaturesBiomeModifier snowAngel = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(snowTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.SNOW_ANGEL)), GenerationStep.Decoration.RAW_GENERATION);
 
         context.register(ADD_ANGELS_SPAWNS, new AddAngelSpawns(spawnTags));
-        context.register(KONTRON, oreModifer);
-        context.register(KONTRON_SMALL, oreModiferSmall);
         context.register(SNOW_ANGEL, snowAngel);
     }
 }
