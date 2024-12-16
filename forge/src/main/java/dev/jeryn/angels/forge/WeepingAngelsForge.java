@@ -42,7 +42,6 @@ public class WeepingAngelsForge {
     public WeepingAngelsForge() {
         WeepingAngels.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -91,7 +90,6 @@ public class WeepingAngelsForge {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         AngelVariant.init();
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
 

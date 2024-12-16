@@ -1,8 +1,9 @@
-// 1.20.1	2024-12-16T10:49:26.6980254	Registries
+// 1.20.1	2024-12-16T13:18:02.2380514	Registries
 579872be973f071f42bcfad07969012c20241108 data/weeping_angels/damage_type/generator.json
 dd372992f7b12fb48f0bc5f6dd24251173f9ed9a data/weeping_angels/damage_type/punch_stone.json
 86e1d9f68e37b405ed539954f93c146e537918cc data/weeping_angels/damage_type/snapped_neck.json
 ccc66acca3779acb4be6c0e68119849f4ca73292 data/weeping_angels/forge/biome_modifier/snow_angel.json
-cd1305a133638d3561699ef11d719c17436fda10 data/weeping_angels/forge/biome_modifier/weeping_angel_spawns.json
+e8a41983f906048d2e4dc0b896426a71d2cb4066 data/weeping_angels/forge/biome_modifier/weeping_angel_spawns.json
+ac0031dd8019d8fdc7144dd8f7c3029360ce4852 data/weeping_angels/forge/biome_modifier/weeping_angel_spawns_nether.json
 4657c1926d0606e3d8f5ddafbaed64a79f0230e7 data/weeping_angels/worldgen/configured_feature/snow_angel.json
 20a10892ef6f16871e1245f575721a5d3b81d8c0 data/weeping_angels/worldgen/placed_feature/snow_angel.json

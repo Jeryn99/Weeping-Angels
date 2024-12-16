@@ -3,6 +3,7 @@ package dev.jeryn.angels.data.forge.biome;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.jeryn.angels.WAConfiguration;
+import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.common.WAEntities;
 import net.minecraft.core.Holder;
@@ -25,9 +26,10 @@ public record AddAngelSpawns(HolderSet<Biome> biomes) implements BiomeModifier {
     }
 
     @Override
-    public void modify(Holder<Biome> biome, Phase phase, Builder builder) {
-        if (phase == Phase.ADD && this.biomes.contains(biome)) {
-            builder.getMobSpawnSettings().addSpawn(WAConfiguration.SPAWNS.spawnType.get(), new MobSpawnSettings.SpawnerData(WAEntities.WEEPING_ANGEL.get(), WAConfiguration.SPAWNS.spawnWeight.get(), WAConfiguration.SPAWNS.minCount.get(), WAConfiguration.SPAWNS.maxCount.get()));
+    public void modify(Holder<Biome> biomeHolder, Phase phase, Builder builder) {
+        Biome biome = biomeHolder.get();
+        if (phase == Phase.ADD && WAEntitySpawns.canSpawnInThisBiome(biome)) {
+            builder.getMobSpawnSettings().addSpawn(WAEntitySpawns.getSpawnType(biome), new MobSpawnSettings.SpawnerData(WAEntities.WEEPING_ANGEL.get(), WAEntitySpawns.getSpawnWeight(biome), WAEntitySpawns.getSpawnMin(biome), WAEntitySpawns.getSpawnMax(biome)));
         }
     }
 
