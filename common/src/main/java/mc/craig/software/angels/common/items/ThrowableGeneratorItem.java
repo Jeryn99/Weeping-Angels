@@ -14,15 +14,18 @@ public class ThrowableGeneratorItem extends Item {
         super(properties);
     }
 
-    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (usedHand == InteractionHand.OFF_HAND) return InteractionResultHolder.fail(player.getItemInHand(usedHand));
         ItemStack itemStack = player.getItemInHand(usedHand);
+        ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
 
         if (!level.isClientSide) {
             ThrowableGenerator throwableGenerator = new ThrowableGenerator(player, level);
             throwableGenerator.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             throwableGenerator.setActivated(true);
+            if(!player.isCreative()){
+                offHand.shrink(1);
+            }
             level.addFreshEntity(throwableGenerator);
         }
 

@@ -72,6 +72,8 @@ public class EnglishLang extends LanguageProvider {
         add(WAItems.DISC_TIME_PREVAILS.get(), "Music Disc");
         add("item.weeping_angels.music_disc_sally.desc", "Sally Sparrow");
         add("item.weeping_angels.music_disc_time_prevails.desc", "Time Prevails");
+        add("gui.statue.appearance", "Chisel Statue");
+        add("gui.chisel.confirm", "Chisel");
 
         // ==== Creative Tab ====
         add("itemGroup." + WeepingAngels.MODID, "Weeping Angels");
