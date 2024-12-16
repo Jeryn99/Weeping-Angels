@@ -20,7 +20,7 @@ import java.awt.*;
 
 import static net.minecraft.client.gui.GuiComponent.drawCenteredString;
 
-public class DectectorOverlay {
+public class DetectorOverlay {
 
     private static final ResourceLocation BACKGROUND = new ResourceLocation(WeepingAngels.MODID, "textures/ui/detector_backdrop.png");
 

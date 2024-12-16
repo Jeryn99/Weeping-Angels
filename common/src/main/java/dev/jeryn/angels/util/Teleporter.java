@@ -172,7 +172,7 @@ public class Teleporter {
     public static boolean isLegalLandingBlock(ServerLevel level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         // Can land in air or override any block that can be marked as "replaceable" such as snow, tall grass etc.
-        return state.isAir() || (state.canBeReplaced() && state.getFluidState().isEmpty() && !state.isCollisionShapeFullBlock(level, pos));
+        return state.isAir() || state.getFluidState().isEmpty() && !state.isCollisionShapeFullBlock(level, pos);
     }
 
 
@@ -229,7 +229,7 @@ public class Teleporter {
             float f1 = Mth.wrapDegrees(pPitch);
             if (pEntity instanceof ServerPlayer serverPlayer) {
                 if (playSound) {
-                    serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(WASounds.TELEPORT.get()), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level().random.nextLong()));
+                    serverPlayer.connection.send(new ClientboundSoundPacket(WASounds.TELEPORT.get(), SoundSource.MASTER, pX, pY, pZ, 0.25F, 1F, serverPlayer.level.random.nextLong()));
                 }
                 ChunkPos chunkpos = new ChunkPos(new BlockPos(pX, pY, pZ));
                 pLevel.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, pEntity.getId());
@@ -238,7 +238,7 @@ public class Teleporter {
                     serverPlayer.stopSleepInBed(true, true);
                 }
 
-                if (pLevel == pEntity.level()) {
+                if (pLevel == pEntity.level) {
                     serverPlayer.connection.teleport(pX, pY, pZ, f, f1);
                 } else {
                     serverPlayer.teleportTo(pLevel, pX, pY, pZ, f, f1);
@@ -246,7 +246,7 @@ public class Teleporter {
                 pEntity.setYHeadRot(f);
             } else {
                 float f2 = Mth.clamp(f1, -90.0F, 90.0F);
-                if (pLevel == pEntity.level()) {
+                if (pLevel == pEntity.level) {
                     pEntity.moveTo(pX, pY, pZ, f, f2);
                     pEntity.setYHeadRot(f);
                 } else {

@@ -23,6 +23,9 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
+    modImplementation "curse.maven:mc-vr-api-591092:5720544"
+
+
     runtimeOnly 'com.electronwill.night-config:toml:3.8.1'
     implementation 'com.electronwill.night-config:core:3.8.1'
     // Forge Config API Port

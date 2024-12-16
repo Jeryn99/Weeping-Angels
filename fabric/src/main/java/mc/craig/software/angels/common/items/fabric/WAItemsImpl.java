@@ -1,7 +1,7 @@
-package mc.craig.software.angels.common.items.fabric;
+package dev.jeryn.angels.common.items.fabric;
 
-import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.items.WAItems;
+import dev.jeryn.angels.WeepingAngels;
+import dev.jeryn.angels.common.items.WAItems;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;

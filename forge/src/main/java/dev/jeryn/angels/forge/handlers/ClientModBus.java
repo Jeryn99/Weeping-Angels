@@ -11,7 +11,6 @@ import dev.jeryn.angels.client.render.entity.ThrowableGeneratorRenderer;
 import dev.jeryn.angels.client.render.entity.WeepingAngelRenderer;
 import dev.jeryn.angels.client.render.entity.layers.DonationWingsLayer;
 import dev.jeryn.angels.common.WAEntities;
-import dev.jeryn.angels.common.WATabs;
 import dev.jeryn.angels.common.blockentity.WABlockEntities;
 import dev.jeryn.angels.common.blocks.WABlocks;
 import dev.jeryn.angels.common.items.WAItems;
@@ -25,38 +24,23 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBus {
-
-
-    @SubscribeEvent
-    public static void on(BuildCreativeModeTabContentsEvent event) {
-        Stream<Item> values = ForgeRegistries.ITEMS.getValues().stream().filter(item -> ForgeRegistries.ITEMS.getKey(item).getNamespace().matches(WeepingAngels.MODID));
-
-        if (event.getTab() == WATabs.MAIN_TAB.get()) {
-            for (Item item : values.toList()) {
-                event.accept(item);
-            }
-        }
-    }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderOverlay(RegisterGuiOverlaysEvent event) {
@@ -77,11 +61,9 @@ public class ClientModBus {
         ModelRegistrationImpl.register(event);
     }
 
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-
-        DonationChecker.checkForUpdate(true);
-
 
         BlockEntityRenderers.register(WABlockEntities.COFFIN.get(), CoffinRenderer::new);
         BlockEntityRenderers.register(WABlockEntities.STATUE.get(), StatueRenderer::new);
@@ -90,13 +72,14 @@ public class ClientModBus {
 
         ItemBlockRenderTypes.setRenderLayer(WABlocks.COFFIN.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(WABlocks.STATUE.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(WABlocks.PLINTH.get(), RenderType.cutout());
+
+        DonationChecker.checkForUpdate(true);
 
 
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
             List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
             if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level().dimension(), anomaliesAround.get(0).blockPosition());
+            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
         }));
     }
 

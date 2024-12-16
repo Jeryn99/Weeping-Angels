@@ -2,23 +2,11 @@ package dev.jeryn.angels;
 
 import com.google.common.collect.Lists;
 import dev.jeryn.angels.util.HurtHelper;
-import dev.jeryn.angels.util.Platform;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static net.minecraft.world.level.biome.Biomes.PLAINS;
-import static net.minecraft.world.level.biome.Biomes.SUNFLOWER_PLAINS;
 
 public class WAConfiguration {
 

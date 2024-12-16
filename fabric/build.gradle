@@ -96,6 +96,7 @@ dependencies {
 
     // Curse Mavens
     modImplementation "curse.maven:modmenu-308702:3920481"
+    modImplementation "curse.maven:mc-vr-api-591092:5720544"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

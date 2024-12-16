@@ -11,7 +11,7 @@ public class WAMusic {
     public static Music CATACOMB_MUSIC;
 
     public static void init() {
-        CATACOMB_MUSIC = new Music(Holder.direct(SoundEvent.createFixedRangeEvent(new ResourceLocation(WeepingAngels.MODID, "catacomb"), 1)), -1, -1, true);
+        CATACOMB_MUSIC = new Music(new SoundEvent(new ResourceLocation(WeepingAngels.MODID, "catacomb")), 1, -1, true);
     }
 
 }

@@ -62,7 +62,7 @@ public class WeepingAngelsClient implements ClientModInitializer {
         ItemProperties.register(WAItems.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation(WeepingAngels.MODID, "time"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
             List<Entity> anomaliesAround = WAHelper.getAnomaliesAroundEntity(entity, 64);
             if (anomaliesAround.isEmpty()) return null;
-            return GlobalPos.of(entity.level().dimension(), anomaliesAround.get(0).blockPosition());
+            return GlobalPos.of(entity.level.dimension(), anomaliesAround.get(0).blockPosition());
         }));
     }
 

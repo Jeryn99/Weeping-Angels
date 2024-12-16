@@ -1,6 +1,9 @@
 package dev.jeryn.angels.client.screen;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.common.WAConstants;
 import dev.jeryn.angels.common.blockentity.StatueBlockEntity;
@@ -9,7 +12,6 @@ import dev.jeryn.angels.common.entity.angel.ai.AngelEmotion;
 import dev.jeryn.angels.common.entity.angel.ai.AngelVariant;
 import dev.jeryn.angels.network.messages.UpdateStatueMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
@@ -28,11 +30,10 @@ public class ChiselScreen extends Screen {
 
     private static final ResourceLocation BACKGROUND = new ResourceLocation(WeepingAngels.MODID, "textures/ui/menubg.png");
     private static final WeepingAngel weepingAngelFake = new WeepingAngel(Minecraft.getInstance().level);
-    public static final AnimationState POSE_ANIMATION_STATE = new AnimationState();
+    public static AnimationState POSE_ANIMATION_STATE = new AnimationState();
 
     private final BlockPos blockPos;
     private final ResourceKey<Level> level;
-
     private int guiLeft, guiTop, xSize, ySize;
 
     public ChiselScreen(Component component, BlockPos blockPos, ResourceKey<Level> levelResourceKey) {
@@ -82,19 +83,20 @@ public class ChiselScreen extends Screen {
             return;
         }
 
-        // Add the "Chisel" button with right alignment
-        Button chiselButton = Button.builder(Component.translatable("gui.chisel.confirm"), button -> {
+        // Add the "Chisel" button
+        Button chiselButton = new Button(this.guiLeft + this.xSize - 125, this.guiTop + 160, 130, 20, Component.translatable("gui.chisel.confirm"), (buttonx) -> {
             new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
             Minecraft.getInstance().setScreen(null);
-        }).bounds(this.guiLeft + this.xSize - 125, this.guiTop + 160, 130, 20).build();
+        });
 
         this.addRenderableWidget(chiselButton);
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        // Draw the background
-        guiGraphics.blit(BACKGROUND, this.guiLeft - 30, this.guiTop, 0, 0, 256, 256, 256, 256);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+        // Draw background
+        RenderSystem.setShaderTexture(0, BACKGROUND);
+        this.blit(poseStack, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
 
         // Start animation if not already started
         if (!POSE_ANIMATION_STATE.isStarted()) {
@@ -102,11 +104,13 @@ public class ChiselScreen extends Screen {
         }
 
         // Render entity preview
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, this.guiLeft + 25, this.guiTop + 160, 55, -90, -45, weepingAngelFake);
+        poseStack.pushPose();
+        InventoryScreen.renderEntityInInventory(guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
+        poseStack.popPose();
 
         // Draw title
-        guiGraphics.drawString(this.font, Component.translatable("gui.statue.appearance"), width / 2, this.guiTop + 10, Color.WHITE.getRGB());
+        this.font.draw(poseStack, Component.translatable("gui.statue.appearance"), this.guiLeft - 20, this.guiTop + 10, Color.BLACK.getRGB());
 
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(poseStack, mouseX, mouseY, partialTick);
     }
 }

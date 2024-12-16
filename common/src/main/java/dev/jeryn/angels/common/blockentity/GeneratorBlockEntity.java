@@ -2,17 +2,12 @@ package dev.jeryn.angels.common.blockentity;
 
 import dev.jeryn.angels.common.WAConstants;
 import dev.jeryn.angels.common.entity.angel.WeepingAngel;
-import dev.jeryn.angels.util.WADamageSources;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -125,32 +120,25 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
     }
 
 
-
     private void dragEntitiesAround(Level level) {
-        for (Entity entity : level.getEntitiesOfClass(WeepingAngel.class, createBoundingBox(worldPosition).inflate(32))) {
+        for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, createBoundingBox(worldPosition).inflate(32))) {
 
             if (entity instanceof WeepingAngel weepingAngel) {
                 weepingAngel.setNoAi(false);
                 weepingAngel.setHooked(true);
-            }
 
-            if (entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4) {
-                if (entity instanceof WeepingAngel weepingAngel) {
+
+                if (entity.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()) <= 4) {
                     weepingAngel.remove(Entity.RemovalReason.KILLED);
-                } else {
-                    Holder.Reference<DamageType> damageType = level.registryAccess()
-                            .registryOrThrow(Registries.DAMAGE_TYPE)
-                            .getHolderOrThrow(WADamageSources.GENERATOR);
-                    entity.hurt(new DamageSource(damageType), 5F);
                 }
-            }
 
-            BlockPos pos = worldPosition.subtract(entity.blockPosition());
-            Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
-            entity.setDeltaMovement(vec.scale(0.25D));
+                BlockPos pos = worldPosition.subtract(entity.blockPosition());
+                Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                entity.setDeltaMovement(vec.scale(0.25D));
 
-            for (int i = 0; i < 2; ++i) {
-                this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
+                for (int i = 0; i < 2; ++i) {
+                    this.level.addParticle(ParticleTypes.ELECTRIC_SPARK, entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
+                }
             }
         }
     }

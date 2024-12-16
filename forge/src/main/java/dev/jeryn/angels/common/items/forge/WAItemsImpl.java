@@ -1,7 +1,7 @@
-package mc.craig.software.angels.common.items.forge;
+package dev.jeryn.angels.common.items.forge;
 
-import mc.craig.software.angels.WeepingAngels;
-import mc.craig.software.angels.common.items.WAItems;
+import dev.jeryn.angels.WeepingAngels;
+import dev.jeryn.angels.common.items.WAItems;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 

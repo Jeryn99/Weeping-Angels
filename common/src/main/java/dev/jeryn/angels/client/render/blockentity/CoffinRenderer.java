@@ -1,7 +1,7 @@
 package dev.jeryn.angels.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import dev.jeryn.angels.client.models.ModelRegistration;
 import dev.jeryn.angels.client.models.blockentity.CoffinModel;
 import dev.jeryn.angels.client.models.blockentity.TardisModel;
@@ -32,11 +32,11 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity>, B
         pPoseStack.translate(0.5F, 0.5F, 0.5F);
         BlockState blockstate = coffinBlockEntity.getBlockState();
         float rotation = 22.5F * (float) blockstate.getValue(CoffinBlock.ROTATION);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(180F));
-        pPoseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
+        pPoseStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
 
         if (!coffinBlockEntity.getBlockState().getValue(CoffinBlock.UPRIGHT)) {
-            pPoseStack.mulPose(Axis.XP.rotationDegrees(-90F));
+            pPoseStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
         } else {
             pPoseStack.translate(0F, -1F, 0F);
         }

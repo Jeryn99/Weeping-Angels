@@ -3,13 +3,14 @@ package dev.jeryn.angels.common;
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.registry.DeferredRegistry;
 import dev.jeryn.angels.registry.RegistrySupplier;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
+import static net.minecraft.core.Registry.SOUND_EVENT;
+
 public class WASounds {
 
-    public static final DeferredRegistry<SoundEvent> SOUNDS = DeferredRegistry.create(WeepingAngels.MODID, Registries.SOUND_EVENT);
+    public static final DeferredRegistry<SoundEvent> SOUNDS = DeferredRegistry.create(WeepingAngels.MODID, SOUND_EVENT.key());
 
     public static final RegistrySupplier<SoundEvent> DING = setUpSound("ding");
     public static final RegistrySupplier<SoundEvent> BLOW = setUpSound("blow");
@@ -26,7 +27,7 @@ public class WASounds {
     public static final RegistrySupplier<SoundEvent> TELEPORT = setUpSound("teleport");
 
     private static RegistrySupplier<SoundEvent> setUpSound(String soundName) {
-        SoundEvent sound = SoundEvent.createFixedRangeEvent(new ResourceLocation(WeepingAngels.MODID, soundName), 1);
+        SoundEvent sound = new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName), 1);
         return SOUNDS.register(soundName, () -> sound);
     }
 

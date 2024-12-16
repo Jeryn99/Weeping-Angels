@@ -1,5 +1,6 @@
 package dev.jeryn.angels.network.messages;
 
+
 import dev.jeryn.angels.common.blockentity.StatueBlockEntity;
 import dev.jeryn.angels.common.entity.angel.ai.AngelEmotion;
 import dev.jeryn.angels.common.entity.angel.ai.AngelVariant;
@@ -8,7 +9,7 @@ import dev.jeryn.angels.network.MessageType;
 import dev.jeryn.angels.network.WANetwork;
 import dev.jeryn.angels.util.Platform;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -37,7 +38,7 @@ public class UpdateStatueMessage extends MessageC2S {
         this.angelVariant = AngelVariant.getVariant(buf.readResourceLocation());
         this.pose = buf.readInt();
         this.blockPos = buf.readBlockPos();
-        this.level = buf.readResourceKey(Registries.DIMENSION);
+        this.level = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
     }
 
     @NotNull
