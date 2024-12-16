@@ -113,12 +113,13 @@ public class WeepingAngel extends AbstractWeepingAngel {
         if (random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get()) {
             ServerLevel chosenDimension = WAConfiguration.CONFIG.interdimensionalTeleporting.get() ? Teleporter.getRandomDimension(random, serverLevel) : serverLevel;
             int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
-            int xCoord = (int) (getX() + random.nextInt(teleportRange));
-            int zCoord = (int) (getZ() + random.nextInt(teleportRange));
 
             for (int i = 0; i < 10; i++) {
-                int destinationY = chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, xCoord, zCoord);
-                if (Teleporter.performTeleport(pEntity, chosenDimension, xCoord, destinationY, zCoord, pEntity.getYRot(), pEntity.getXRot(), true)) {
+                int xCoord = (int) (getX() + random.nextInt(teleportRange));
+                int zCoord = (int) (getZ() + random.nextInt(teleportRange));
+                BlockPos finalY = Teleporter.findClosestValidPosition(chosenDimension, new BlockPos(xCoord, random.nextInt(161) - 40, zCoord));
+                if(finalY == null) return false;
+                if (Teleporter.performTeleport(pEntity, chosenDimension, xCoord, finalY.getY(), zCoord, pEntity.getYRot(), pEntity.getXRot(), true)) {
                     return true;
                 }
             }
@@ -201,6 +202,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void stealItems(Player player) {
+        if(!WAConfiguration.CONFIG.angelTheft.get()) return;
         if (!getMainHandItem().isEmpty()) return;
         Inventory playerInv = player.getInventory();
         for (int i = 0; i < playerInv.items.size(); i++) {

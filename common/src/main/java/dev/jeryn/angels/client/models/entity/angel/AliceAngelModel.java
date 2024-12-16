@@ -109,12 +109,14 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
         }
 
         int playbackSpeed = Mth.clamp(weepingAngel.level().random.nextInt(7), 2, 7);
-        if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
+        if (isBlockPosBehindPlayer(Minecraft.getInstance().player, weepingAngel.blockPosition()) || weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
         animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
 
     }
+
+
 
     @Override
     public Iterable<ModelPart> getWings() {

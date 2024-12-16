@@ -127,7 +127,7 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
 
 
     private void dragEntitiesAround(Level level) {
-        for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, createBoundingBox(worldPosition).inflate(32))) {
+        for (Entity entity : level.getEntitiesOfClass(WeepingAngel.class, createBoundingBox(worldPosition).inflate(32))) {
 
             if (entity instanceof WeepingAngel weepingAngel) {
                 weepingAngel.setNoAi(false);
