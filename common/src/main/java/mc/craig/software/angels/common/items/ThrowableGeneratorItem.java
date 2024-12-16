@@ -22,8 +22,8 @@ public class ThrowableGeneratorItem extends Item {
         if (!level.isClientSide) {
             ThrowableGenerator throwableGenerator = new ThrowableGenerator(player, level);
             throwableGenerator.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-            throwableGenerator.setActivated(offHand.is(WAItems.KONTRON_INGOT.get()));
-            if(offHand.is(WAItems.KONTRON_INGOT.get()) && !player.isCreative()){
+            throwableGenerator.setActivated(true);
+            if(!player.isCreative()){
                 offHand.shrink(1);
             }
             level.addFreshEntity(throwableGenerator);

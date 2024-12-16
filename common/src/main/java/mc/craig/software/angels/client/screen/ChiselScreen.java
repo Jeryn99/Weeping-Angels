@@ -1,7 +1,6 @@
 package mc.craig.software.angels.client.screen;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAConstants;
@@ -30,16 +29,17 @@ public class ChiselScreen extends Screen {
 
     private static final ResourceLocation BACKGROUND = new ResourceLocation(WeepingAngels.MODID, "textures/ui/menubg.png");
     private static final WeepingAngel weepingAngelFake = new WeepingAngel(Minecraft.getInstance().level);
-    public static AnimationState POSE_ANIMATION_STATE = new AnimationState();
+    public static final AnimationState POSE_ANIMATION_STATE = new AnimationState();
+
     private final BlockPos blockPos;
     private final ResourceKey<Level> level;
-    public int guiLeft, guiTop, xSize, ySize;
 
+    private int guiLeft, guiTop, xSize, ySize;
 
     public ChiselScreen(Component component, BlockPos blockPos, ResourceKey<Level> levelResourceKey) {
         super(component);
-        xSize = 200;
-        ySize = 222;
+        this.xSize = 200;
+        this.ySize = 222;
         this.blockPos = blockPos;
         this.level = levelResourceKey;
     }
@@ -47,17 +47,28 @@ public class ChiselScreen extends Screen {
     @Override
     public void init() {
         super.init();
-        guiLeft = (width - xSize) / 2;
-        guiTop = (height - ySize) / 2;
+        this.guiLeft = (this.width - this.xSize) / 2;
+        this.guiTop = (this.height - this.ySize) / 2;
 
-        CycleButton<AngelEmotion> emotionButton = CycleButton.builder((Function<AngelEmotion, Component>) o -> Component.literal(o.getId())).withValues(AngelEmotion.values()).withInitialValue(AngelEmotion.ANGRY).create(this.width / 2 + 4 - 20, this.height / 4 + 72 + -16, 130, 20, Component.translatable(WAConstants.ANGEL_EMOTION), (cycleButton, angelEmotion) -> weepingAngelFake.setEmotion(angelEmotion));
+        // Create buttons for Angel attributes
+        CycleButton<AngelEmotion> emotionButton = CycleButton.builder((Function<AngelEmotion, Component>) o -> Component.literal(o.getId()))
+                .withValues(AngelEmotion.values())
+                .withInitialValue(AngelEmotion.ANGRY)
+                .create(this.guiLeft + this.xSize - 125, this.guiTop + 50, 130, 20, Component.translatable(WAConstants.ANGEL_EMOTION), (cycleButton, angelEmotion) -> weepingAngelFake.setEmotion(angelEmotion));
 
-        CycleButton<AngelVariant> variantCycleButton = CycleButton.builder((Function<AngelVariant, Component>) o -> Component.translatable("variant." + WeepingAngels.MODID + "." + o.location().getPath())).withValues(AngelVariant.VARIANTS.values()).withInitialValue(AngelVariant.BASALT).create(this.width / 2 + 4 - 20, this.height / 4 + 48 + -16, 130, 20, Component.translatable(WAConstants.ANGEL_VARIANT), (cycleButton, angelVariant) -> weepingAngelFake.setVariant(angelVariant));
-        CycleButton<Integer> poseCycleButton = CycleButton.builder((Function<Integer, Component>) o -> Component.literal(o.toString())).withValues(Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)).withInitialValue(0).create(this.width / 2 + 4 - 20, this.height / 4 + 72 + 25 + -16, 130, 20, Component.translatable(WAConstants.ANGEL_POSES), (cycleButton, angelVariant) -> weepingAngelFake.setFakeAnimation(angelVariant));
+        CycleButton<AngelVariant> variantCycleButton = CycleButton.builder((Function<AngelVariant, Component>) o -> Component.translatable("variant." + WeepingAngels.MODID + "." + o.location().getPath()))
+                .withValues(AngelVariant.VARIANTS.values())
+                .withInitialValue(AngelVariant.BASALT)
+                .create(this.guiLeft + this.xSize - 125, this.guiTop + 80, 130, 20, Component.translatable(WAConstants.ANGEL_VARIANT), (cycleButton, angelVariant) -> weepingAngelFake.setVariant(angelVariant));
 
-        addRenderableWidget(emotionButton);
-        addRenderableWidget(variantCycleButton);
-        addRenderableWidget(poseCycleButton);
+        CycleButton<Integer> poseCycleButton = CycleButton.builder((Function<Integer, Component>) o -> Component.literal(o.toString()))
+                .withValues(Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
+                .withInitialValue(0)
+                .create(this.guiLeft + this.xSize - 125, this.guiTop + 110, 130, 20, Component.translatable(WAConstants.ANGEL_POSES), (cycleButton, pose) -> weepingAngelFake.setFakeAnimation(pose));
+
+        this.addRenderableWidget(emotionButton);
+        this.addRenderableWidget(variantCycleButton);
+        this.addRenderableWidget(poseCycleButton);
 
         if (Minecraft.getInstance().level.getBlockEntity(blockPos) instanceof StatueBlockEntity statueBlockEntity) {
             weepingAngelFake.setVariant(statueBlockEntity.getVariant());
@@ -69,31 +80,34 @@ public class ChiselScreen extends Screen {
             poseCycleButton.setValue(statueBlockEntity.getAnimation());
         } else {
             Minecraft.getInstance().setScreen(null);
+            return;
         }
 
-        Button quitButton = Button.builder(Component.translatable("Chisel"), button -> {
+        // Add the "Chisel" button with right alignment
+        Button chiselButton = Button.builder(Component.translatable("gui.chisel.confirm"), button -> {
             new UpdateStatueMessage(variantCycleButton.getValue(), emotionButton.getValue(), poseCycleButton.getValue(), blockPos, level).send();
             Minecraft.getInstance().setScreen(null);
-        }).build();
+        }).bounds(this.guiLeft + this.xSize - 125, this.guiTop + 160, 130, 20).build();
 
-        addWidget(quitButton);
+        this.addRenderableWidget(chiselButton);
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-       // RenderSystem.setShaderTexture(0, BACKGROUND);
-        guiGraphics.blit(BACKGROUND, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
+        // Draw the background
+        guiGraphics.blit(BACKGROUND, this.guiLeft - 30, this.guiTop, 0, 0, 256, 256, 256, 256);
 
+        // Start animation if not already started
         if (!POSE_ANIMATION_STATE.isStarted()) {
             POSE_ANIMATION_STATE.start(12);
         }
 
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, guiLeft + 25, guiTop + 160, 55, -90, -45, weepingAngelFake);
+        // Render entity preview
+        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, this.guiLeft + 25, this.guiTop + 160, 55, -90, -45, weepingAngelFake);
 
-        guiGraphics.drawString(font, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.BLACK.getRGB());
-
+        // Draw title
+        guiGraphics.drawString(this.font, Component.translatable("gui.statue.appearance"), width / 2, this.guiTop + 10, Color.WHITE.getRGB());
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-
     }
 }
