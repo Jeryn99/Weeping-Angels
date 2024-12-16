@@ -5,22 +5,36 @@
   "name": "Weeping Angels",
   "description": "Mod that adds the terrifying Weeping Angel creatures to Minecraft || Originally made for ModJam 5",
   "authors": [
-    "Jeryn99", "50ap5ud5", "Ed", "Violet", "Rolf", "Nictogen", "Lukas", "ShadowBolt", "teacup", "DocArcane", "Dhi_awesome", "ConnorDawn", "Classic", "The_MidFord", "Hiveius"
+    "Jeryn",
+    "50ap5ud5",
+    "Ed",
+    "Violet",
+    "Rolf",
+    "Nictogen",
+    "Lukas",
+    "ShadowBolt",
+    "teacup",
+    "DocArcane",
+    "Dhi_awesome",
+    "ConnorDawn",
+    "Classic",
+    "The_MidFord",
+    "Hiveius"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/weeping-angels-mod",
     "sources": "https://github.com/Jeryn99/Weeping-Angels",
     "issues": "https://github.com/Jeryn99/Weeping-Angels/issues"
   },
-  "license": "https://github.com/Jeryn99/Weeping-Angels/blob/architectury/1.19/LICENSE",
+  "license": "https://github.com/Jeryn99/Weeping-Angels/blob/mc/1.20.1/LICENSE",
   "icon": "weeping_angels.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mc.craig.software.angels.fabric.WeepingAngelsFabric"
+      "dev.jeryn.angels.fabric.WeepingAngelsFabric"
     ],
     "client": [
-      "mc.craig.software.angels.fabric.WeepingAngelsClient"
+      "dev.jeryn.angels.fabric.WeepingAngelsClient"
     ]
   },
   "mixins": [
