@@ -21,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
+import java.util.Locale;
+
 public class AliceAngelModel extends AngelModel implements ArmedModel {
 
 
@@ -106,13 +108,15 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
             return;
         }
 
-        int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
-        if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
+        int playbackSpeed = Mth.clamp(weepingAngel.level().random.nextInt(7), 2, 7);
+        if (isBlockPosBehindPlayer(Minecraft.getInstance().player, weepingAngel.blockPosition()) || weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
         animate(weepingAngel.POSE_ANIMATION_STATE, ANIMATION_STREAM, weepingAngel.tickCount, playbackSpeed);
 
     }
+
+
 
     @Override
     public Iterable<ModelPart> getWings() {
@@ -126,7 +130,7 @@ public class AliceAngelModel extends AngelModel implements ArmedModel {
 
     @Override
     public ResourceLocation texture(AngelEmotion angelEmotion, AngelVariant angelVariant) {
-        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId() + ".png");
+        return new ResourceLocation(WeepingAngels.MODID, "textures/entity/angel/alice/variants/" + angelVariant.location().getPath() + "/" + angelVariant.location().getPath() + "_angel_" + angelEmotion.getId().toLowerCase(Locale.ENGLISH) + ".png");
     }
 
     @Override

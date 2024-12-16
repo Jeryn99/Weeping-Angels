@@ -8,7 +8,10 @@ import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 import static dev.jeryn.angels.client.models.entity.angel.AliceAngelModel.*;
 
@@ -25,6 +28,21 @@ public abstract class AngelModel extends HierarchicalModel<WeepingAngel> {
 
     public void animateTile(StatueBlockEntity statueBlockEntity) {
 
+    }
+
+    public static boolean isBlockPosBehindPlayer(Player player, BlockPos blockPos) {
+        // Get the player's facing direction as a normalized vector
+        Vec3 playerFacing = player.getLookAngle().normalize();
+
+        // Get the vector from the player to the BlockPos
+        Vec3 playerPos = player.position();
+        Vec3 toBlockPos = new Vec3(blockPos.getX() + 0.5 - playerPos.x, blockPos.getY() + 0.5 - playerPos.y, blockPos.getZ() + 0.5 - playerPos.z).normalize();
+
+        // Calculate the dot product of the two vectors
+        double dotProduct = playerFacing.dot(toBlockPos);
+
+        // If the dot product is less than 0, the BlockPos is behind the player
+        return dotProduct < 0;
     }
 
     public AnimationDefinition poseForId(int index) {

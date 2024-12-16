@@ -13,6 +13,7 @@ import dev.jeryn.angels.util.Teleporter;
 import dev.jeryn.angels.util.WADamageSources;
 import dev.jeryn.angels.util.WATags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -23,10 +24,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
@@ -42,7 +41,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -80,7 +78,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         // Goals
         goalSelector.addGoal(id++, new OpenDoorGoal(this, false));
         goalSelector.addGoal(id++, new MeleeAttackGoal(this, 0.5f, true));
-        goalSelector.addGoal(id++, new ClimbOnTopOfPowderSnowGoal(this, this.level));
+        goalSelector.addGoal(id++, new ClimbOnTopOfPowderSnowGoal(this, this.level()));
 
         // Targeting
         targetSelector.addGoal(id++, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -102,40 +100,48 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean doHurtTarget(Entity pEntity) {
-        if (!(pEntity instanceof Player player)) return false;
+        if (!(pEntity instanceof Player player))
+            return false;
+
         float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        ServerLevel serverLevel = pEntity.level() instanceof ServerLevel ? (ServerLevel) pEntity.level() : null;
+
+        if (serverLevel == null)
+            return false;
 
         // Teleporting
-        boolean shouldTeleport = random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get() && WAConfiguration.CONFIG.teleportEnabled.get();
-        if (shouldTeleport && pEntity.level instanceof ServerLevel serverLevel) {
-            ServerLevel chosenDimension = Teleporter.getRandomDimension(random, serverLevel);
-            double xCoord = getX() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
-            double zCoord = getZ() + random.nextInt(WAConfiguration.CONFIG.teleportRange.get());
+        if (random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get()) {
+            ServerLevel chosenDimension = WAConfiguration.CONFIG.interdimensionalTeleporting.get() ? Teleporter.getRandomDimension(random, serverLevel) : serverLevel;
+            int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
 
             for (int i = 0; i < 10; i++) {
-                boolean successfulTeleport = Teleporter.performTeleport(pEntity, Teleporter.getRandomDimension(random, serverLevel), xCoord, chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, (int) xCoord, (int) zCoord), zCoord, pEntity.getYRot(), pEntity.getXRot(), true);
-                if (successfulTeleport) {
-                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 1200));
+                int xCoord = (int) (getX() + random.nextInt(teleportRange));
+                int zCoord = (int) (getZ() + random.nextInt(teleportRange));
+                BlockPos finalY = Teleporter.findClosestValidPosition(chosenDimension, new BlockPos(xCoord, random.nextInt(161) - 40, zCoord));
+                if(finalY == null) return false;
+                if (Teleporter.performTeleport(pEntity, chosenDimension, xCoord, finalY.getY(), zCoord, pEntity.getYRot(), pEntity.getXRot(), true)) {
                     return true;
                 }
             }
+            return false; // Failed to teleport after multiple attempts
         }
 
         // Theft
-        if(WAConfiguration.CONFIG.stealItems.get()) {
-            stealItems(player);
-        }
+        stealItems(player);
 
         // Hurt
-        boolean didHurt = pEntity.hurt(WADamageSources.SNAPPED_NECK, attackDamage);
+        boolean didHurt = pEntity.hurt(WADamageSources.getSource(serverLevel, WADamageSources.SNAPPED_NECK), attackDamage);
         this.doEnchantDamageEffects(this, pEntity);
         this.setLastHurtMob(pEntity);
         return didHurt;
     }
 
+
+
+
     @Override
-    public boolean wasKilled(ServerLevel serverLevel, LivingEntity livingEntity) {
-        boolean wasKilled = super.wasKilled(serverLevel, livingEntity);
+    public boolean killedEntity(ServerLevel serverLevel, LivingEntity livingEntity) {
+        boolean wasKilled = super.killedEntity(serverLevel, livingEntity);
         if (wasKilled) {
             playSound(WASounds.NECK_SNAP.get());
         }
@@ -144,7 +150,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if (!state.getMaterial().isLiquid()) {
+        if (!state.liquid()) {
             BlockState blockState = Blocks.STONE.defaultBlockState();
             SoundType soundType = blockState.getSoundType();
             this.playSound(soundType.getStepSound(), soundType.getVolume() * 0.15F, soundType.getPitch());
@@ -167,6 +173,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
     public void tick() {
         super.tick();
 
+        Level level = level();
+
         if (!level.isClientSide()) {
             if (CatacombTracker.isInCatacomb(this)) {
                 Warden.applyDarknessAround((ServerLevel) level, this.position(), this, 20);
@@ -178,7 +186,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
         }
 
         // Ensure angels do not lock in the air or walk through water
-        if (isSeen() && (!isOnGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
+        if (isSeen() && (!onGround() || level.containsAnyLiquid(getBoundingBox())) && !isHooked()) {
             setSeenTime(0);
             setNoAi(false);
         }
@@ -194,12 +202,14 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void stealItems(Player player) {
+        if(!WAConfiguration.CONFIG.angelTheft.get()) return;
         if (!getMainHandItem().isEmpty()) return;
         Inventory playerInv = player.getInventory();
         for (int i = 0; i < playerInv.items.size(); i++) {
             ItemStack item = playerInv.items.get(i);
-            if (item.is(WATags.STEALABLE_ITEMS) || item.getItem() instanceof PickaxeItem) {
-                setItemSlotAndDropWhenKilled(EquipmentSlot.MAINHAND, item.copy());
+            if (item.is(WATags.STEALABLE_ITEMS) && getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+                setItemInHand(InteractionHand.MAIN_HAND, item.copy());
+                setGuaranteedDrop(EquipmentSlot.MAINHAND);
                 playerInv.setItem(i, ItemStack.EMPTY);
                 return;
             }
@@ -213,7 +223,8 @@ public class WeepingAngel extends AbstractWeepingAngel {
         navigator.setCanFloat(false);
         navigator.setCanOpenDoors(true);
         navigator.setAvoidSun(false);
-        navigator.setSpeedModifier(1.5D);
+        navigator.setSpeedModifier(1.0D);
+
         return navigator;
     }
 
@@ -236,7 +247,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
             if (player instanceof ServerPlayer serverPlayer && player.distanceTo(this) < 15) {
                 setTimeSincePlayedSound(System.currentTimeMillis());
-                serverPlayer.connection.send(new ClientboundSoundPacket(getSeenSound(), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
+                serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(getSeenSound()), SoundSource.BLOCKS, player.getX(), player.getY(), player.getZ(), 0.25F, 1.0F, this.random.nextLong()));
             }
         }
     }
@@ -254,6 +265,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
+        Level level = level();
         if (!level.isClientSide()) {
             boolean isHurt = HurtHelper.handleAngelHurt(this, pSource, pAmount);
             ServerLevel serverLevel = (ServerLevel) level;
@@ -270,14 +282,10 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     @Override
-    public int getMaxSpawnClusterSize() {
-        return 4;
-    }
-
-    @Override
     protected void tickDeath() {
+        Level level = level();
         ++this.deathTime;
-        if (this.deathTime == 20 && !this.level.isClientSide()) {
+        if (this.deathTime == 20 && !level.isClientSide()) {
             if(shouldDropLoot()) {
                 ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, level);
                 itemEntity.setItem(getVariant().getDrops());
@@ -290,9 +298,10 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void investigateBlocks() {
+        Level level = level();
         if (level.isClientSide() || !level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || !WAConfiguration.CONFIG.blockBreaking.get())
             return;
-        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 15, 3, 15).iterator(); iterator.hasNext(); ) {
+        for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), 25, 3, 25).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             BlockState blockState = level.getBlockState(pos);
             BlockReactions.BlockReaction blockBehaviour = BlockReactions.BLOCK_BEHAVIOUR.get(blockState.getBlock());

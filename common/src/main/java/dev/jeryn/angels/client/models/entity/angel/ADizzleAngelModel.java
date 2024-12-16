@@ -117,8 +117,8 @@ public class ADizzleAngelModel extends AngelModel {
             return;
         }
 
-        int playbackSpeed = Mth.clamp(weepingAngel.level.random.nextInt(7), 2, 7);
-        if (weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
+        int playbackSpeed = Mth.clamp(weepingAngel.level().random.nextInt(7), 2, 7);
+        if (isBlockPosBehindPlayer(Minecraft.getInstance().player, weepingAngel.blockPosition()) ||weepingAngel.isHooked() || weepingAngel.getSeenTime() > 0 || weepingAngel.tickCount < 200) {
             playbackSpeed = 0;
         }
 

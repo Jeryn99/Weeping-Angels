@@ -42,6 +42,7 @@ public class WAConfiguration {
     public final ForgeConfigSpec.IntValue stalkRange;
     public final ForgeConfigSpec.BooleanValue blockBreaking;
     public final ForgeConfigSpec.BooleanValue interdimensionalTeleporting;
+    public final ForgeConfigSpec.BooleanValue angelTheft;
 
     // Damage
     public final ForgeConfigSpec.EnumValue<HurtHelper.HurtType> hurtType;
@@ -90,6 +91,9 @@ public class WAConfiguration {
         interdimensionalTeleporting = builder.translation("config.weeping_angels.interdimensional_teleporting")
                 .comment("Allow teleporting across dimensions?")
                 .define("interdimensional_teleporting", true);
+        angelTheft = builder.translation("config.weeping_angels.angel_theft")
+                .comment("Allow Angel theft?")
+                .define("angel_theft", true);
         teleportChance = builder.translation("config.weeping_angels.teleport_chance")
                 .comment("Chance of teleportation occurring.")
                 .defineInRange("teleport_chance", 50, 1, 100);
