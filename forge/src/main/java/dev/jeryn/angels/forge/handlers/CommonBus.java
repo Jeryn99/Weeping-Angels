@@ -1,10 +1,12 @@
 package dev.jeryn.angels.forge.handlers;
 
+import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.common.blocks.GeneratorBlock;
 import dev.jeryn.angels.util.WAHelper;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -16,6 +18,11 @@ public class CommonBus {
         if (!GeneratorBlock.isBreakable(event.getLevel(), event.getPos())) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerStart(ServerStartedEvent event){
+        WAEntitySpawns.init(event.getServer());
     }
 
     @SubscribeEvent

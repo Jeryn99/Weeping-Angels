@@ -1,6 +1,7 @@
 package dev.jeryn.angels.fabric;
 
-import dev.jeryn.angels.EntitySpawns;
+import dev.jeryn.angels.FabricSpawnHelper;
+import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WAConfiguration;
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.common.WAConstants;
@@ -47,15 +48,16 @@ public class WeepingAngelsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        Platform.init();
         ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.CONFIG_SPEC);
         ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
-        ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.COMMON, WAConfiguration.SPAWNS_SPEC, "weeping-angels-spawns");
         WeepingAngels.init();
-        EntitySpawns.init();
         levelManipulation();
-        Platform.init();
 
         entityAttributes();
+
+
 
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 
@@ -67,7 +69,11 @@ public class WeepingAngelsFabric implements ModInitializer {
             return InteractionResult.PASS;
         });
 
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> AngelVariant.init());
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            AngelVariant.init();
+            WAEntitySpawns.init(server);
+            FabricSpawnHelper.init();
+        });
 
 
     }
