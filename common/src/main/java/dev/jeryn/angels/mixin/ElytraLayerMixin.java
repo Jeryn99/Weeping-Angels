@@ -28,14 +28,4 @@ public class ElytraLayerMixin {
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/Entity;FFFFFF)V", cancellable = true)
-    public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, Entity livingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch, CallbackInfo callbackInfo) {
-        if (livingEntity instanceof Player player) {
-            DonationChecker.getDonatorData(player).ifPresent(donator -> {
-                if (!player.isModelPartShown(PlayerModelPart.CAPE)) {
-                    callbackInfo.cancel();
-                }
-            });
-        }
-    }
 }
