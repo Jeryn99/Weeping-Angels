@@ -38,26 +38,52 @@ public class WAEntitySpawns {
 
     public static boolean canSpawnInThisBiome(Biome biome) {
         Registry<Biome> biomeRegistry = BIOME;
+
+        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
+            return false;
+        }
+
         return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).canSpawnHere;
     }
 
     public static MobCategory getSpawnType(Biome biome) {
         Registry<Biome> biomeRegistry = BIOME;
+
+        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
+            return MobCategory.MONSTER;
+        }
+
         return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).mobCategory;
     }
 
     public static Integer getSpawnMin(Biome biome) {
         Registry<Biome> biomeRegistry = BIOME;
+
+        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
+            return 0;
+        }
+
+
         return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).minCount;
     }
 
     public static Integer getSpawnMax(Biome biome) {
         Registry<Biome> biomeRegistry = BIOME;
+
+        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
+            return 0;
+        }
+
         return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).maxCount;
     }
 
     public static Integer getSpawnWeight(Biome biome) {
         Registry<Biome> biomeRegistry = BIOME;
+
+        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
+            return 0;
+        }
+
         return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).spawnWeight;
     }
 
@@ -119,7 +145,9 @@ public class WAEntitySpawns {
     // Check if the biome is from the Nether
     private static boolean isNetherBiome(ResourceLocation biomeKey) {
         Registry<Biome> biomeRegistry = BIOME;
-        return biomeRegistry.getTag(BiomeTags.IS_NETHER).get().contains(biomeRegistry.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, biomeKey)));
+        return biomeRegistry.getTag(BiomeTags.IS_NETHER)
+                .map(tag -> tag.contains(biomeRegistry.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, biomeKey))))
+                .orElse(false);
     }
 
     private static boolean isWater(ResourceLocation biomeKey) {

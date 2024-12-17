@@ -68,7 +68,6 @@ public class WeepingAngelsForge {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         AngelVariant.init();
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
