@@ -78,7 +78,7 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    modImplementation "curse.maven:mc-vr-api-591092:4648734"
+    modCompileOnlyApi "curse.maven:mc-vr-api-591092:4648734"
     modApi "curse.maven:architectury-api-419699:5137938"
 
 

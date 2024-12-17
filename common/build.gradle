@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modImplementation "curse.maven:mc-vr-api-591092:4648733"
+    modCompileOnlyApi "curse.maven:mc-vr-api-591092:4648733"
 
     // Forge Config API Port
     modCompileOnlyApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"

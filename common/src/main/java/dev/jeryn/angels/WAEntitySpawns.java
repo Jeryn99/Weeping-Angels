@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import dev.jeryn.angels.common.WAEntities;
 import dev.jeryn.angels.util.Platform;
 import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -36,7 +36,8 @@ public class WAEntitySpawns {
 
 
     public static boolean canSpawnInThisBiome(Biome biome) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
 
         if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
             return false;
@@ -46,7 +47,8 @@ public class WAEntitySpawns {
     }
 
     public static MobCategory getSpawnType(Biome biome) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
 
         if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
             return MobCategory.MONSTER;
@@ -56,7 +58,8 @@ public class WAEntitySpawns {
     }
 
     public static Integer getSpawnMin(Biome biome) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
 
         if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
             return 0;
@@ -67,7 +70,8 @@ public class WAEntitySpawns {
     }
 
     public static Integer getSpawnMax(Biome biome) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
 
         if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
             return 0;
@@ -77,7 +81,8 @@ public class WAEntitySpawns {
     }
 
     public static Integer getSpawnWeight(Biome biome) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
 
         if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
             return 0;
@@ -117,7 +122,8 @@ public class WAEntitySpawns {
     }
 
     private static void generateDefaultConfig() {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
         for (Biome biome : biomeRegistry) {
             ResourceLocation biomeKey = biomeRegistry.getKey(biome);
             boolean isNetherBiome = isNetherBiome(biomeKey);
@@ -143,9 +149,10 @@ public class WAEntitySpawns {
 
     // Check if the biome is from the Nether
     private static boolean isNetherBiome(ResourceLocation biomeKey) {
-        Registry<Biome> biomeRegistry = BuiltinRegistries.BIOME;
+        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+
         return biomeRegistry.getTag(BiomeTags.IS_NETHER)
-                .map(tag -> tag.contains(biomeRegistry.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, biomeKey))))
+                .map(tag -> tag.contains(biomeRegistry.getHolderOrThrow(ResourceKey.create(Registries.BIOME, biomeKey))))
                 .orElse(false);
     }
 
