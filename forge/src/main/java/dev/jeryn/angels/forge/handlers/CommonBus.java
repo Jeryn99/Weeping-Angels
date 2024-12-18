@@ -2,9 +2,14 @@ package dev.jeryn.angels.forge.handlers;
 
 import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WeepingAngels;
+import dev.jeryn.angels.common.WAEntities;
 import dev.jeryn.angels.common.blocks.GeneratorBlock;
 import dev.jeryn.angels.util.WAHelper;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

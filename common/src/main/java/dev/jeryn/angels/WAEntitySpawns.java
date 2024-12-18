@@ -31,7 +31,6 @@ public class WAEntitySpawns {
 
     public static void init(MinecraftServer minecraftServer) {
         loadConfig();
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
 

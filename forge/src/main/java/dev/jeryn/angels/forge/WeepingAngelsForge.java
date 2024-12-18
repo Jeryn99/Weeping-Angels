@@ -10,7 +10,6 @@ import dev.jeryn.angels.data.forge.*;
 import dev.jeryn.angels.data.forge.biome.AddAngelSpawns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -22,7 +21,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.StartupMessageManager;
 import net.minecraftforge.fml.common.Mod;
@@ -49,6 +50,7 @@ public class WeepingAngelsForge {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
+        modEventBus.addListener(this::spawns);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -60,6 +62,10 @@ public class WeepingAngelsForge {
 
     }
 
+
+    public void spawns(SpawnPlacementRegisterEvent spawnPlacementRegisterEvent){
+        spawnPlacementRegisterEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+    }
 
     public void onGatherData(GatherDataEvent e) {
         DataGenerator generator = e.getGenerator();
