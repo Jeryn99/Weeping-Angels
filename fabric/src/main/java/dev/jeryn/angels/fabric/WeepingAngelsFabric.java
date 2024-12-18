@@ -4,6 +4,7 @@ import dev.jeryn.angels.FabricSpawnHelper;
 import dev.jeryn.angels.WAConfiguration;
 import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WeepingAngels;
+import dev.jeryn.angels.common.WAEntities;
 import dev.jeryn.angels.common.blockentity.GeneratorBlockEntity;
 import dev.jeryn.angels.common.blocks.GeneratorBlock;
 import dev.jeryn.angels.common.entity.angel.AbstractWeepingAngel;
@@ -19,7 +20,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
@@ -58,7 +62,12 @@ public class WeepingAngelsFabric implements ModInitializer {
             FabricSpawnHelper.init();
         });
 
+        spawns();
+    }
 
+
+    private void spawns() {
+        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
     private void entityAttributes() {

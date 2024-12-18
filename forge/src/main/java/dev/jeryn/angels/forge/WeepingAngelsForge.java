@@ -17,7 +17,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.StartupMessageManager;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +42,7 @@ public class WeepingAngelsForge {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
         modEventBus.addListener(this::onGatherData);
+        modEventBus.addListener(this::spawns);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -48,6 +51,10 @@ public class WeepingAngelsForge {
         serializers.register(AddAngelSpawns.WEEPING_ANGEL_SPAWNS.getPath(), AddAngelSpawns::makeCodec);
 
         StartupMessageManager.addModMessage("Don't Blink!");
+    }
+
+    public void spawns(SpawnPlacementRegisterEvent spawnPlacementRegisterEvent){
+        spawnPlacementRegisterEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
     public void onGatherData(GatherDataEvent e) {
