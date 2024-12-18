@@ -10,6 +10,7 @@ import dev.jeryn.angels.data.forge.*;
 import dev.jeryn.angels.data.forge.biome.AddAngelSpawns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;

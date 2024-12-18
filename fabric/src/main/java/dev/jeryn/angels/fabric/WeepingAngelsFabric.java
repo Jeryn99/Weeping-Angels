@@ -1,28 +1,38 @@
 package dev.jeryn.angels.fabric;
 
 import dev.jeryn.angels.FabricSpawnHelper;
+import dev.jeryn.angels.WAConfiguration;
 import dev.jeryn.angels.WAEntitySpawns;
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.common.WAConstants;
+import dev.jeryn.angels.common.WAEntities;
 import dev.jeryn.angels.common.blockentity.GeneratorBlockEntity;
 import dev.jeryn.angels.common.blocks.GeneratorBlock;
 import dev.jeryn.angels.common.entity.angel.AbstractWeepingAngel;
 import dev.jeryn.angels.common.entity.angel.ai.AngelVariant;
 import dev.jeryn.angels.common.items.WAItems;
 import dev.jeryn.angels.util.Platform;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.function.Predicate;
