@@ -17,10 +17,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mc.craig.software.angels.fabric.WeepingAngelsFabric"
+      "mc.jeryn.dev.statues.fabric.WeepingAngelsFabric"
     ],
     "client": [
-      "mc.craig.software.angels.fabric.WeepingAngelsClient"
+      "mc.jeryn.dev.statues.fabric.WeepingAngelsClient"
     ]
   },
   "mixins": [

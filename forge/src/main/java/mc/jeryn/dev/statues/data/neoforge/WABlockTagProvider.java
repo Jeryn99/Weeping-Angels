@@ -1,0 +1,40 @@
+package mc.jeryn.dev.statues.data.neoforge;
+
+import mc.jeryn.dev.statues.WeepingAngels;
+import mc.jeryn.dev.statues.common.blocks.WABlocks;
+import mc.jeryn.dev.statues.registry.RegistryHolder;
+import mc.jeryn.dev.statues.util.WATags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
+
+public class WABlockTagProvider extends BlockTagsProvider {
+
+
+    public WABlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, WeepingAngels.MODID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags(HolderLookup.Provider arg) {
+        for (RegistryHolder<Block, ? extends Block> blocksEntry : WABlocks.BLOCKS.getEntries()) {
+            Block block = blocksEntry.get();
+
+            if (block instanceof FireBlock || block instanceof AirBlock) {
+                tag(WATags.NO_BREAKING).add(block);
+            }
+        }
+
+        tag(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE).add(WABlocks.PLINTH.get(), WABlocks.STATUE.get());
+        tag(WATags.NO_BREAKING).add(Blocks.GLOWSTONE, Blocks.LAVA, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK);
+        tag(net.minecraft.tags.BlockTags.UNSTABLE_BOTTOM_CENTER).add(WABlocks.CHRONODYNE_GENERATOR.get());
+    }
+}
