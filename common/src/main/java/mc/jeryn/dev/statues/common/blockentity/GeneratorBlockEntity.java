@@ -60,9 +60,10 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
     @Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
-        setTickCount(compoundTag.getInt(WAConstants.TICK_COUNT));
-        setActivated(compoundTag.getBoolean(WAConstants.ACTIVATED));
-        setHasSpawned(compoundTag.getBoolean(WAConstants.SPAWNED));
+
+        compoundTag.getInt(WAConstants.TICK_COUNT).ifPresent(this::setTickCount);
+        compoundTag.getBoolean(WAConstants.ACTIVATED).ifPresent(this::setActivated);
+        compoundTag.getBoolean(WAConstants.SPAWNED).ifPresent(this::setHasSpawned);
     }
 
 
@@ -142,8 +143,8 @@ public class GeneratorBlockEntity extends BlockEntity implements BlockEntityTick
                     weepingAngel.remove(Entity.RemovalReason.KILLED);
                 } else {
                     Holder.Reference<DamageType> damageType = level.registryAccess()
-                            .registryOrThrow(Registries.DAMAGE_TYPE)
-                            .getHolderOrThrow(WADamageSources.GENERATOR);
+                            .getOrThrow(Registries.DAMAGE_TYPE)
+                            .value().getOrThrow(WADamageSources.GENERATOR);
                     entity.hurt(new DamageSource(damageType), 5F);
                 }
             }

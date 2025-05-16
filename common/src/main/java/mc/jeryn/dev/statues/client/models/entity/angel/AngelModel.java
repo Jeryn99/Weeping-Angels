@@ -1,5 +1,6 @@
 package mc.jeryn.dev.statues.client.models.entity.angel;
 
+import mc.jeryn.dev.statues.client.render.entity.AngelRenderState;
 import mc.jeryn.dev.statues.common.blockentity.StatueBlockEntity;
 import mc.jeryn.dev.statues.common.entity.angel.WeepingAngel;
 import mc.jeryn.dev.statues.common.entity.angel.ai.AngelEmotion;
@@ -7,12 +8,24 @@ import mc.jeryn.dev.statues.common.entity.angel.ai.AngelVariant;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.function.Function;
+
 import static mc.jeryn.dev.statues.client.models.entity.angel.AliceAngelModel.*;
 
-public abstract class AngelModel extends EntityModel<WeepingAngel> {
+public abstract class AngelModel extends EntityModel<AngelRenderState> {
+
+    protected AngelModel(ModelPart modelPart) {
+        super(modelPart);
+    }
+
+    protected AngelModel(ModelPart modelPart, Function<ResourceLocation, RenderType> function) {
+        super(modelPart, function);
+    }
+
     public Iterable<ModelPart> getWings() {
         return null;
     }

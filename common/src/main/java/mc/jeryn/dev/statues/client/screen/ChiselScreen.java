@@ -15,6 +15,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -113,7 +114,7 @@ public class ChiselScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBlurredBackground(partialTick);
+        this.renderBlurredBackground();
 
 
         if (!POSE_ANIMATION_STATE.isStarted()) {
@@ -125,7 +126,7 @@ public class ChiselScreen extends Screen {
 
         InventoryScreen.renderEntityInInventory(guiGraphics, (float) (this.guiLeft + 25), (float) (this.guiTop + 160), 50, ARMOR_STAND_TRANSLATION, ARMOR_STAND_ANGLE, null, weepingAngelFake);
 
-        guiGraphics.blit(BACKGROUND, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
+        guiGraphics.blit(RenderType::guiTextured, BACKGROUND, guiLeft - 30, guiTop, 0, 0, 256, 256, 256, 256);
         guiGraphics.drawString(font, Component.translatable("Statue appearance"), guiLeft - 20, guiTop + 8, Color.WHITE.getRGB());
 
 
