@@ -42,7 +42,7 @@ unifiedPublishing {
             modrinth {
                 token = MODRINTH_TOKEN
                 id = "TEzJJY7H"
-                version = "fabric-$project.version"
+                version = "fabric-$project.mod_version"
             }
         }
     }

@@ -33,6 +33,7 @@ unifiedPublishing {
 
         }
 
+        version = project.version
         var CURSE_API_KEY = project.findProperty("curseforge") ?: System.getenv("curseforge") ?: ""
         if (CURSE_API_KEY != "") {
             curseforge {
@@ -47,7 +48,7 @@ unifiedPublishing {
             modrinth {
                 token = MODRINTH_TOKEN
                 id = "TEzJJY7H"
-                version = "neoforge-$project.version"
+                version = "neoforge-$project.mod_version"
             }
         }
     }

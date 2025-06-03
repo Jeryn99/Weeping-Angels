@@ -59,7 +59,7 @@ public class DonationChecker {
         ArrayList<Donator> donators = new ArrayList<>();
         JsonObject result = null;
         try {
-            result = getResponse(new URL("https://mc-api.craig.software/vips"));
+            result = getResponse(new URL("https://api.jeryn.dev/mc/vips"));
         } catch (IOException e) {
             WeepingAngels.LOGGER.info("Issue retrieving Donators! Server may be down or overwhelmed");
             e.printStackTrace();
