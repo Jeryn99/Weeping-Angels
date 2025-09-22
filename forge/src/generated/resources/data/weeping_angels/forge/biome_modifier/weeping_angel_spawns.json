@@ -1,4 +1,4 @@
 {
   "type": "weeping_angels:spawns/weeping_angels",
-  "biomes": "#weeping_angels:spawns/weeping_angels"
+  "biomes": "#minecraft:is_overworld"
 }

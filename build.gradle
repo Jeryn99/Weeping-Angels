@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.2+" apply false
+    id "dev.architectury.loom" version "1.7+" apply false
     id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
@@ -42,10 +42,10 @@ def commonFiles = commonDir.listFiles(filter)
 
 githubRelease {
     token project.findProperty("github") ?: System.getenv("github") ?: ""
-    owner "Suff99"
+    owner "Jeryn99"
     repo "weeping_angels"
     tagName "v$rootProject.minecraft_version-${version}"
-    targetCommitish "1.20"
+    targetCommitish "mc/1.20.1"
     releaseName "[$rootProject.minecraft_version] Weeping Angels - v$version"
     generateReleaseNotes true
     body new File("${rootProject.projectDir}/changelog.html").text

@@ -1,8 +1,6 @@
-// 1.20.1	2024-05-22T12:06:48.3809458	Loot Tables
+// 1.20.1	2024-12-16T10:49:26.6970251	Loot Tables
 e60ebd148b488cd4f5ad2a416edc2845f2cdfaa0 data/weeping_angels/loot_tables/blocks/chronodyne_generator.json
 5ce55d469a7e8d4447e9fd98af9391d714ef84c6 data/weeping_angels/loot_tables/blocks/coffin.json
-eef59234eeed0af8c374c40acaff529ceb796d3f data/weeping_angels/loot_tables/blocks/deepslate_kontron_ore.json
-97c410e386c7d4dd117377788dde70bbd251aede data/weeping_angels/loot_tables/blocks/kontron_ore.json
 da25764409b6530f493914aac191203c9c07ba5e data/weeping_angels/loot_tables/blocks/plinth.json
 6a2e6be1833bae0a711e2ac4dcff3c63bd365250 data/weeping_angels/loot_tables/blocks/snow_angel.json
 b514c4094d49d6aaa9537c0ec79c7be85aa4e6e4 data/weeping_angels/loot_tables/blocks/statue.json
