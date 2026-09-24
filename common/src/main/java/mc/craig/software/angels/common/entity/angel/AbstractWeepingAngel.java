@@ -7,6 +7,7 @@ import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.common.entity.angel.ai.BodyRotationAngel;
 import mc.craig.software.angels.util.ViewUtil;
 import mc.craig.software.angels.util.WAHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -17,8 +18,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -28,10 +31,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +64,31 @@ public abstract class AbstractWeepingAngel extends Monster implements Enemy {
                 add(Attributes.ARMOR, 2.0D);
     }
 
+
+    public static boolean checkAngelSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        if (!Monster.checkMonsterSpawnRules(type, level, spawnType, pos, random)) {
+            return false;
+        }
+
+        if (spawnType != MobSpawnType.NATURAL && spawnType != MobSpawnType.CHUNK_GENERATION) {
+            return true;
+        }
+
+        String dimension = level.getLevel().dimension().location().toString();
+        for (String blacklisted : WAConfiguration.SPAWNS.spawnDimensionBlacklist.get()) {
+            if (dimension.equalsIgnoreCase(blacklisted)) {
+                return false;
+            }
+        }
+
+        int maxNearby = WAConfiguration.SPAWNS.maxNearby.get();
+        if (maxNearby > 0) {
+            int radius = WAConfiguration.SPAWNS.nearbyRadius.get();
+            int nearby = level.getEntitiesOfClass(AbstractWeepingAngel.class, new AABB(pos).inflate(radius)).size();
+            return nearby < maxNearby;
+        }
+        return true;
+    }
 
     @Override
     public void tick() {

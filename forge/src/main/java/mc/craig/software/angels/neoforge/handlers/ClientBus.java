@@ -35,7 +35,7 @@ public class ClientBus {
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Pre tickEvent) {
         // Tick Donations
-        if (tickEvent.getEntity() instanceof Player player) {
+        if (tickEvent.getEntity() instanceof Player player && player.level().isClientSide()) {
             for (Donator donator : DonationChecker.getModDonators()) {
                 if (player.getStringUUID().equals(donator.getUuid())) {
                     donator.tick(player);

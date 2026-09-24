@@ -26,5 +26,11 @@
   "mixins": [
     "weeping_angels.mixins.json",
     "weeping_angels-common.mixins.json"
-  ]
-}
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21",
+    "forgeconfigapiport": ">=21.0.2"
+  }
+}

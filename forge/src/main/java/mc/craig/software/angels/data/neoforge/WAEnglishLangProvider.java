@@ -103,6 +103,12 @@ public class WAEnglishLangProvider extends LanguageProvider {
         addConfig(WAConfiguration.CONFIG.teleportRange, "Teleport Range");
         addConfig(WAConfiguration.CONFIG.bannedDimensions, "Banned Dimensions");
         addConfig(WAConfiguration.CONFIG.blockBreaking, "Block Griefing?");
+        addConfig(WAConfiguration.CONFIG.angelTheft, "Angel Theft?");
+        addConfig(WAConfiguration.CLIENT.donatorLookup, "Donator Lookup?");
+        addConfig(WAConfiguration.SPAWNS.maxNearby, "Max Nearby Angels");
+        addConfig(WAConfiguration.SPAWNS.nearbyRadius, "Nearby Radius");
+        addConfig(WAConfiguration.SPAWNS.spawnDimensionBlacklist, "Spawn Dimension Blacklist");
+        addConfig(WAConfiguration.SPAWNS.snowAngels, "Snow Angels?");
 
         addTag(() -> WATags.ANGEL_SPAWNS, "Weeping Angel Spawns");
         addTag(() -> WATags.ANOMALYS, "Weeping Angel Anomalies");

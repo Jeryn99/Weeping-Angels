@@ -8,7 +8,6 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.common.world.MobSpawnSettingsBuilder;
@@ -38,6 +37,6 @@ public record AddAngelSpawns(HolderSet<Biome> biomes) implements BiomeModifier {
 
     @Override
     public MapCodec<? extends BiomeModifier> codec() {
-        return NeoForgeMod.ADD_SPAWNS_BIOME_MODIFIER_TYPE.get();
+        return WABiomeModifiers.ANGEL_SPAWNS.get();
     }
 }

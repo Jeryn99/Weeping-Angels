@@ -1,6 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "me.shedaniel.unified-publishing" version "0.1.+"
+    id "net.darkhax.curseforgegradle" version "1.1.+"
 }
 
 architectury {
@@ -34,15 +35,6 @@ unifiedPublishing {
         }
 
         version = project.version
-        var CURSE_API_KEY = project.findProperty("curseforge") ?: System.getenv("curseforge") ?: ""
-        if (CURSE_API_KEY != "") {
-            curseforge {
-                token = CURSE_API_KEY
-                id = "291249"
-                gameVersions.addAll "Java 21", "1.21"
-            }
-        }
-
         var MODRINTH_TOKEN = project.findProperty("modrinth") ?: System.getenv("modrinth") ?: ""
         if (MODRINTH_TOKEN != "") {
             modrinth {
@@ -52,6 +44,26 @@ unifiedPublishing {
             }
         }
     }
+}
+
+// CurseForge upload - unifiedPublishing's CurseGradle is archived and can't send the required environment tag.
+var curseToken = project.findProperty("curseforge") ?: System.getenv("curseforge") ?: ""
+
+tasks.register("publishCurseForge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group = "upload"
+    disableVersionDetection()
+    onlyIf { curseToken != "" }
+
+    apiToken = curseToken
+
+    def mainFile = upload("291249", tasks.remapJar)
+    mainFile.changelogType = "markdown"
+    mainFile.changelog = new File("${rootProject.projectDir}/changelog.md")
+    mainFile.releaseType = "release"
+    mainFile.addGameVersion("1.21")
+    mainFile.addJavaVersion("Java 21")
+    mainFile.addModLoader("NeoForge")
+    mainFile.addEnvironment("Client", "Server")
 }
 
 repositories {
@@ -101,6 +113,7 @@ remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier = 'forge'
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }
 
 jar {

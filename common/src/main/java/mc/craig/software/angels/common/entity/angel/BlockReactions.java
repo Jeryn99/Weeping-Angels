@@ -50,7 +50,7 @@ public class BlockReactions {
         if (blockState.getLightBlock(level, blockPos) > 0 && blockState.getBlock().getExplosionResistance() < Blocks.STONE.getExplosionResistance()) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, blockState), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 0, 0, 0, 0, 0);
-                serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getBlock().getSoundType(blockState).getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                serverLevel.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockState.getSoundType().getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 Containers.dropItemStack(weepingAngel.level(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockState.getBlock()));
                 level.removeBlock(blockPos, true);
                 level.gameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);

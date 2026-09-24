@@ -13,7 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class AngelVariant {
@@ -89,9 +90,12 @@ public class AngelVariant {
         }
 
         // Random value after conditions
-        Collection<AngelVariant> variants = VARIANTS.values();
+        List<AngelVariant> variants = new ArrayList<>(VARIANTS.values());
         variants.removeIf(angelTextureVariant -> angelTextureVariant == QUARTZ || angelTextureVariant == MOSSY || angelTextureVariant == BASALT || ORE_VARIANTS.containsKey(angelTextureVariant.regName));
-        return variants.stream().skip((int) (variants.size() * Math.random())).findFirst().get();
+        if (variants.isEmpty()) {
+            return STONE;
+        }
+        return variants.get(randomSource.nextInt(variants.size()));
     }
 
     public static AngelVariant getRandomVariant(Map<ResourceLocation, AngelVariant> variantMap, RandomSource randomSource) {

@@ -38,6 +38,7 @@ public class WAConfiguration {
     public final ModConfigSpec.IntValue stalkRange;
     public final ModConfigSpec.BooleanValue blockBreaking;
     public final ModConfigSpec.BooleanValue interdimensionalTeleporting;
+    public final ModConfigSpec.BooleanValue angelTheft;
 
     // Damage
     public final ModConfigSpec.EnumValue<HurtHelper.HurtType> hurtType;
@@ -52,9 +53,15 @@ public class WAConfiguration {
         // Seasonal
         public final ModConfigSpec.BooleanValue santaHats;
 
+        public final ModConfigSpec.BooleanValue donatorLookup;
+
         Client(ModConfigSpec.Builder builder) {
             builder.push("seasonal");
             santaHats = builder.translation("config.weeping_angels.santa_hats").comment("Show Santa hats on angels at xmas?").define("santa_hats", true);
+            builder.pop();
+
+            builder.push("donators");
+            donatorLookup = builder.translation("config.weeping_angels.donator_lookup").comment("Look up the mod's donator list online (used for donator wings). Disable this if you play offline or the lookup causes problems.").define("donator_lookup", true);
             builder.pop();
         }
     }
@@ -66,12 +73,23 @@ public class WAConfiguration {
         public final ModConfigSpec.IntValue spawnWeight;
         public final ModConfigSpec.IntValue minCount;
         public final ModConfigSpec.EnumValue<MobCategory> spawnType;
+        public final ModConfigSpec.IntValue maxNearby;
+        public final ModConfigSpec.IntValue nearbyRadius;
+        public final ModConfigSpec.ConfigValue<List<? extends String>> spawnDimensionBlacklist;
+        public final ModConfigSpec.BooleanValue snowAngels;
         public Spawns(ModConfigSpec.Builder builder){
             builder.push("spawn");
             minCount = builder.translation("config.weeping_angels.minCount").comment("The minimum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("minCount", 1, 1, 100);
             maxCount = builder.translation("config.weeping_angels.maxCount").comment("The maximum amount of 'Weeping Angels' that spawn at each spawn attempt").defineInRange("maxCount", 4, 1, 100);
             spawnWeight = builder.translation("config.weeping_angels.spawn_weight").comment("The weight of spawn in relation to other mods 'Weeping Angels' will spawn in. Less than 100 = Rarer").defineInRange("spawn_weight", 8, 1, Integer.MAX_VALUE);
             spawnType = builder.translation("config.weeping_angels.spawntype").comment("'Weeping Angel' spawn classification").worldRestart().defineEnum("spawnType", MobCategory.MONSTER);
+            maxNearby = builder.translation("config.weeping_angels.max_nearby").comment("Natural spawning stops once this many 'Weeping Angels' are already within 'nearby_radius' blocks of the spawn position. 0 = no limit").defineInRange("max_nearby", 6, 0, 1000);
+            nearbyRadius = builder.translation("config.weeping_angels.nearby_radius").comment("The radius (in blocks) used by 'max_nearby'").defineInRange("nearby_radius", 48, 1, 256);
+            spawnDimensionBlacklist = builder.translation("config.weeping_angels.spawn_dimension_blacklist").comment("Dimensions 'Weeping Angels' will never spawn in naturally, e.g. [\"ad_astra:moon\"]").defineListAllowEmpty("spawn_dimension_blacklist", List.<String>of(), String.class::isInstance);
+            builder.pop();
+
+            builder.push("snow_angels");
+            snowAngels = builder.translation("config.weeping_angels.snow_angels").comment("Generate 'Snow Angels' (angels buried in snow) in snowy biomes. Only affects newly generated chunks").worldRestart().define("snow_angels", true);
             builder.pop();
         }
     }
@@ -80,6 +98,7 @@ public class WAConfiguration {
         builder.push("behaviour").comment("This section determines the behaviour of the Weeping Angels - if you wish to ban a block from being interacted with by Weeping Angels, you will need to create a datapack and edit weeping_angels:no_breaking");
         stalkRange = builder.translation("config.weeping_angels.stalk_range").comment("Determines the range quantum locked entities will check if the player is looking in").defineInRange("stalk_range", 65, 1, 100);
         blockBreaking = builder.translation("config.weeping_angels.block_breaking").comment("If enabled alongside the mobGriefing gamerule, angels will interact with blocks that emit light").define("block_breaking", true);
+        angelTheft = builder.translation("config.weeping_angels.angel_theft").comment("If enabled, angels can steal items (see the weeping_angels:stealable_items item tag) from players").define("angel_theft", true);
         builder.pop();
 
         builder.push("damage");

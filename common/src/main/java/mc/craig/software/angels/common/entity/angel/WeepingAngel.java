@@ -112,17 +112,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
         // Teleporting
         if (random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get()) {
             ServerLevel chosenDimension = WAConfiguration.CONFIG.interdimensionalTeleporting.get() ? Teleporter.getRandomDimension(random, serverLevel) : serverLevel;
-            int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
-            int xCoord = (int) (getX() + random.nextInt(teleportRange));
-            int zCoord = (int) (getZ() + random.nextInt(teleportRange));
-
-            for (int i = 0; i < 10; i++) {
-                int destinationY = chosenDimension.getHeight(Heightmap.Types.MOTION_BLOCKING, xCoord, zCoord);
-                if (Teleporter.performTeleport(pEntity, chosenDimension, xCoord, destinationY, zCoord, pEntity.getYRot(), pEntity.getXRot(), true)) {
-                    return true;
-                }
+            if (tryTeleport(pEntity, chosenDimension) || (chosenDimension != serverLevel && tryTeleport(pEntity, serverLevel))) {
+                return true;
             }
-            return false; // Failed to teleport after multiple attempts
         }
 
         // Theft
@@ -136,6 +128,21 @@ public class WeepingAngel extends AbstractWeepingAngel {
 
 
 
+
+    private boolean tryTeleport(Entity entity, ServerLevel destination) {
+        int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
+        for (int i = 0; i < 10; i++) {
+            int xCoord = (int) getX() + random.nextInt(teleportRange * 2 + 1) - teleportRange;
+            int zCoord = (int) getZ() + random.nextInt(teleportRange * 2 + 1) - teleportRange;
+
+            destination.getChunk(xCoord >> 4, zCoord >> 4);
+            int destinationY = destination.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, xCoord, zCoord);
+            if (Teleporter.performTeleport(entity, destination, xCoord, destinationY, zCoord, entity.getYRot(), entity.getXRot(), true)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public boolean killedEntity(ServerLevel serverLevel, LivingEntity livingEntity) {
@@ -200,7 +207,7 @@ public class WeepingAngel extends AbstractWeepingAngel {
     }
 
     public void stealItems(Player player) {
-        if (!getMainHandItem().isEmpty()) return;
+        if (!WAConfiguration.CONFIG.angelTheft.get() || !getMainHandItem().isEmpty()) return;
         Inventory playerInv = player.getInventory();
         for (int i = 0; i < playerInv.items.size(); i++) {
             ItemStack item = playerInv.items.get(i);

@@ -77,6 +77,9 @@ public class WeepingAngelsFabric implements ModInitializer {
     }
 
     private void levelManipulation() {
+        if (!WAConfiguration.SPAWNS.snowAngels.get()) {
+            return;
+        }
         BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(WeepingAngels.MODID, "snow_angel")));
     }
 

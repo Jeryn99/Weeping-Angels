@@ -3,15 +3,16 @@ package mc.craig.software.angels.neoforge;
 import mc.craig.software.angels.WAConfiguration;
 import mc.craig.software.angels.WeepingAngels;
 import mc.craig.software.angels.common.WAEntities;
+import mc.craig.software.angels.common.entity.angel.AbstractWeepingAngel;
 import mc.craig.software.angels.common.entity.angel.WeepingAngel;
 import mc.craig.software.angels.common.entity.angel.ai.AngelVariant;
 import mc.craig.software.angels.data.neoforge.*;
+import mc.craig.software.angels.data.neoforge.biome.WABiomeModifiers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -43,6 +44,7 @@ public class WeepingAngelsForge {
         modContainer.registerConfig(ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
 
         IEventBus modEventBus = modContainer.getEventBus();
+        WABiomeModifiers.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onAttributeAssign);
@@ -102,7 +104,7 @@ public class WeepingAngelsForge {
 
 
     public void spawns(RegisterSpawnPlacementsEvent registerSpawnPlacementsEvent) {
-        registerSpawnPlacementsEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        registerSpawnPlacementsEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWeepingAngel::checkAngelSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 
 }
