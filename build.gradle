@@ -24,9 +24,11 @@ subprojects {
     }
 }
 
-task publishMeEverywhere(){
-    dependsOn ':forge:publishUnified'
-    dependsOn ':fabric:publishUnified'
+tasks.register("publishAll") {
+    group = "upload"
+    description = "Publishes both the Forge and Fabric builds to CurseForge and Modrinth."
+    dependsOn ":forge:publishUnified", ":fabric:publishUnified",
+            ":forge:publishCurseForge", ":fabric:publishCurseForge"
 }
 
 

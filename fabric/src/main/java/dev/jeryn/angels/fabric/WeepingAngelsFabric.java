@@ -28,7 +28,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -59,6 +58,7 @@ public class WeepingAngelsFabric implements ModInitializer {
         ForgeConfigRegistry.INSTANCE.register(WeepingAngels.MODID, ModConfig.Type.CLIENT, WAConfiguration.CLIENT_SPEC);
         WeepingAngels.init();
         levelManipulation();
+        FabricSpawnHelper.init();
 
         entityAttributes();
 
@@ -77,15 +77,16 @@ public class WeepingAngelsFabric implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             AngelVariant.init();
             WAEntitySpawns.init(server);
-            FabricSpawnHelper.init();
         });
+
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> WAEntitySpawns.reset());
 
         spawns();
     }
 
 
     private void spawns() {
-        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWeepingAngel::checkAngelSpawnRules);
     }
 
     private void entityAttributes() {
@@ -93,6 +94,9 @@ public class WeepingAngelsFabric implements ModInitializer {
     }
 
     private void levelManipulation() {
+        if (!WAConfiguration.CONFIG.snowAngels.get()) {
+            return;
+        }
         BiomeModifications.addFeature(isSnowy(), GenerationStep.Decoration.RAW_GENERATION, ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(WeepingAngels.MODID, "snow_angel")));
     }
 

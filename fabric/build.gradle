@@ -1,6 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "me.shedaniel.unified-publishing" version "0.1.+"
+    id "net.darkhax.curseforgegradle" version "1.1.+"
 }
 
 architectury {
@@ -22,17 +23,7 @@ unifiedPublishing {
         gameLoaders = ["fabric"]
         relations {
             depends {
-                curseforge = "fabric-api"
                 modrinth = "fabric-api"
-            }
-        }
-
-        var CURSE_API_KEY = project.findProperty("curseforge") ?: System.getenv("curseforge") ?: ""
-        if (CURSE_API_KEY != "") {
-            curseforge {
-                token = CURSE_API_KEY
-                id = "291249"
-                gameVersions.addAll "Java 17", "1.20", "1.20.1"
             }
         }
 
@@ -45,6 +36,27 @@ unifiedPublishing {
             }
         }
     }
+}
+
+// CurseForge upload - unifiedPublishing's CurseGradle is archived and can't send the required environment tag.
+var curseToken = project.findProperty("curseforge") ?: System.getenv("curseforge") ?: ""
+
+tasks.register("publishCurseForge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group = "upload"
+    disableVersionDetection()
+    onlyIf { curseToken != "" }
+
+    apiToken = curseToken
+
+    def mainFile = upload("291249", tasks.remapJar)
+    mainFile.changelogType = "html"
+    mainFile.changelog = new File("${rootProject.projectDir}/changelog.html")
+    mainFile.releaseType = "release"
+    mainFile.addGameVersion("1.20", "1.20.1")
+    mainFile.addJavaVersion("Java 17")
+    mainFile.addModLoader("Fabric")
+    mainFile.addEnvironment("Client", "Server")
+    mainFile.addRequirement("fabric-api")
 }
 
 configurations {

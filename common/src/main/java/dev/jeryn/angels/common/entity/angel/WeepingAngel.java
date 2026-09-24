@@ -98,6 +98,24 @@ public class WeepingAngel extends AbstractWeepingAngel {
         return new ItemStack(WAItems.ANGEL_SPAWNER.get());
     }
 
+    private boolean tryTeleport(Entity entity, ServerLevel destination) {
+        int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
+        for (int i = 0; i < 10; i++) {
+            int xCoord = (int) getX() + random.nextInt(teleportRange * 2 + 1) - teleportRange;
+            int zCoord = (int) getZ() + random.nextInt(teleportRange * 2 + 1) - teleportRange;
+
+            destination.getChunk(xCoord >> 4, zCoord >> 4);
+            int destinationY = destination.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, xCoord, zCoord);
+            if (destination.dimension() == Level.NETHER && destinationY > 125) {
+                continue;
+            }
+            if (Teleporter.performTeleport(entity, destination, xCoord, destinationY, zCoord, entity.getYRot(), entity.getXRot(), true)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean doHurtTarget(Entity pEntity) {
         if (!(pEntity instanceof Player player))
@@ -112,18 +130,9 @@ public class WeepingAngel extends AbstractWeepingAngel {
         // Teleporting
         if (random.nextInt(100) < WAConfiguration.CONFIG.teleportChance.get()) {
             ServerLevel chosenDimension = WAConfiguration.CONFIG.interdimensionalTeleporting.get() ? Teleporter.getRandomDimension(random, serverLevel) : serverLevel;
-            int teleportRange = WAConfiguration.CONFIG.teleportRange.get();
-
-            for (int i = 0; i < 10; i++) {
-                int xCoord = (int) (getX() + random.nextInt(teleportRange));
-                int zCoord = (int) (getZ() + random.nextInt(teleportRange));
-                BlockPos finalY = Teleporter.findClosestValidPosition(chosenDimension, new BlockPos(xCoord, random.nextInt(161) - 40, zCoord));
-                if(finalY == null) return false;
-                if (Teleporter.performTeleport(pEntity, chosenDimension, xCoord, finalY.getY(), zCoord, pEntity.getYRot(), pEntity.getXRot(), true)) {
-                    return true;
-                }
+            if (tryTeleport(pEntity, chosenDimension) || (chosenDimension != serverLevel && tryTeleport(pEntity, serverLevel))) {
+                return true;
             }
-            return false; // Failed to teleport after multiple attempts
         }
 
         // Theft

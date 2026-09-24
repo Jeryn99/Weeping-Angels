@@ -2,6 +2,7 @@ package dev.jeryn.angels.data.forge.level;
 
 import dev.jeryn.angels.WeepingAngels;
 import dev.jeryn.angels.data.forge.biome.AddAngelSpawns;
+import dev.jeryn.angels.data.forge.biome.AddSnowAngels;
 import dev.jeryn.angels.util.WATags;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ProviderBiomeModifiers {
@@ -30,7 +30,7 @@ public class ProviderBiomeModifiers {
 
         HolderGetter<PlacedFeature> placed = context.lookup(Registries.PLACED_FEATURE);
 
-        ForgeBiomeModifiers.AddFeaturesBiomeModifier snowAngel = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(snowTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.SNOW_ANGEL)), GenerationStep.Decoration.RAW_GENERATION);
+        AddSnowAngels snowAngel = new AddSnowAngels(snowTags, HolderSet.direct(placed.getOrThrow(ProviderPlacedFeatures.SNOW_ANGEL)), GenerationStep.Decoration.RAW_GENERATION);
 
         context.register(ADD_ANGELS_SPAWNS_OVERWORLD, new AddAngelSpawns(overworldTags));
         context.register(ADD_ANGELS_SPAWNS_NETHER, new AddAngelSpawns(netherTags));

@@ -4,6 +4,7 @@ import dev.jeryn.angels.WAConfiguration;
 import dev.jeryn.angels.common.WASounds;
 import dev.jeryn.angels.common.entity.angel.WeepingAngel;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -12,6 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -19,10 +22,29 @@ import java.util.function.Predicate;
 public class HurtHelper {
     public static boolean validatePickaxe(Player player, WeepingAngel weepingAngel, Predicate<ItemStack> predicate) {
         ItemStack heldItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
-        if (weepingAngel.getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
-            return predicate.test(heldItem) && heldItem.getItem().isCorrectToolForDrops(blockItem.getBlock().defaultBlockState());
+        if (heldItem.isEmpty() || !predicate.test(heldItem)) {
+            return false;
         }
-        return heldItem.is(WATags.ATTACK_OVERRIDES);
+
+        if (heldItem.is(WATags.ATTACK_OVERRIDES)) {
+            return true;
+        }
+
+        if (!isPickaxe(heldItem)) {
+            return false;
+        }
+
+        if (weepingAngel.getVariant().getDrops().getItem() instanceof BlockItem blockItem) {
+            BlockState angelMaterial = blockItem.getBlock().defaultBlockState();
+            if (angelMaterial.requiresCorrectToolForDrops()) {
+                return heldItem.isCorrectToolForDrops(angelMaterial);
+            }
+        }
+        return true;
+    }
+
+    public static boolean isPickaxe(ItemStack stack) {
+        return stack.is(ItemTags.PICKAXES) || stack.is(WATags.FORGE_PICKAXES) || stack.is(WATags.COMMON_PICKAXES) || stack.isCorrectToolForDrops(Blocks.STONE.defaultBlockState());
     }
 
     public static boolean handleAngelHurt(WeepingAngel weepingAngel, DamageSource pSource, float pAmount) {

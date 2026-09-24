@@ -2,161 +2,116 @@ package dev.jeryn.angels;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import dev.jeryn.angels.common.WAEntities;
-import dev.jeryn.angels.util.Platform;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class WAEntitySpawns {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = new File("config/weeping_angels_spawns.json");
 
-    private static Map<ResourceLocation, BiomeSpawnConfig> biomeSpawnConfigs = new HashMap<>();
+    private static final Map<ResourceLocation, BiomeSpawnConfig> biomeSpawnConfigs = new HashMap<>();
+    private static boolean loaded = false;
+    private static boolean dirty = false;
 
-    public static void init(MinecraftServer minecraftServer) {
-        loadConfig();
-    }
-
-
-    public static boolean canSpawnInThisBiome(Biome biome) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-
-        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
-            return false;
+    public static synchronized void init(MinecraftServer minecraftServer) {
+        ensureLoaded();
+        Registry<Biome> biomeRegistry = minecraftServer.registryAccess().registryOrThrow(Registries.BIOME);
+        for (Map.Entry<net.minecraft.resources.ResourceKey<Biome>, Biome> entry : biomeRegistry.entrySet()) {
+            Holder<Biome> holder = biomeRegistry.getHolderOrThrow(entry.getKey());
+            getConfig(entry.getKey().location(), holder.is(BiomeTags.IS_OVERWORLD), holder.is(BiomeTags.IS_NETHER));
         }
-
-        return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).canSpawnHere;
-    }
-
-    public static MobCategory getSpawnType(Biome biome) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-
-        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
-            return MobCategory.MONSTER;
+        if (dirty) {
+            saveConfig();
         }
-
-        return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).mobCategory;
     }
 
-    public static Integer getSpawnMin(Biome biome) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
+    public static synchronized void reset() {
+        biomeSpawnConfigs.clear();
+        loaded = false;
+        dirty = false;
+    }
 
-
-        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
-            return 0;
+    public static synchronized BiomeSpawnConfig getConfig(ResourceLocation biome, boolean isOverworld, boolean isNether) {
+        ensureLoaded();
+        BiomeSpawnConfig config = biomeSpawnConfigs.get(biome);
+        if (config == null) {
+            config = createDefault(biome, isOverworld, isNether);
+            biomeSpawnConfigs.put(biome, config);
+            dirty = true;
         }
-
-
-        return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).minCount;
+        return config;
     }
 
-    public static Integer getSpawnMax(Biome biome) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-
-        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
-            return 0;
+    private static void ensureLoaded() {
+        if (loaded) {
+            return;
         }
-
-        return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).maxCount;
-    }
-
-    public static Integer getSpawnWeight(Biome biome) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-
-        if(!biomeSpawnConfigs.containsKey(biomeRegistry.getKey(biome))){
-            return 0;
+        loaded = true;
+        if (!CONFIG_FILE.exists()) {
+            return;
         }
-
-        return biomeSpawnConfigs.get(biomeRegistry.getKey(biome)).spawnWeight;
-    }
-
-    public static void loadConfig() {
-        if (CONFIG_FILE.exists()) {
-            try (Reader reader = new FileReader(CONFIG_FILE)) {
-                Type type = new TypeToken<Map<String, BiomeSpawnConfig>>() {
-                }.getType();
-                Map<String, BiomeSpawnConfig> configMap = GSON.fromJson(reader, type);
-                for (Map.Entry<String, BiomeSpawnConfig> entry : configMap.entrySet()) {
-                    biomeSpawnConfigs.put(new ResourceLocation(entry.getKey()), entry.getValue());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (Reader reader = new InputStreamReader(new FileInputStream(CONFIG_FILE), StandardCharsets.UTF_8)) {
+            Type type = new TypeToken<Map<String, BiomeSpawnConfig>>() {
+            }.getType();
+            Map<String, BiomeSpawnConfig> configMap = GSON.fromJson(reader, type);
+            if (configMap == null) {
+                return;
             }
-        } else {
-            generateDefaultConfig();
+            for (Map.Entry<String, BiomeSpawnConfig> entry : configMap.entrySet()) {
+                ResourceLocation biome = ResourceLocation.tryParse(entry.getKey());
+                if (biome != null && entry.getValue() != null) {
+                    biomeSpawnConfigs.put(biome, entry.getValue().validated());
+                }
+            }
+        } catch (IOException | JsonParseException e) {
+            WeepingAngels.LOGGER.error("Could not read {}, using default spawn settings", CONFIG_FILE, e);
         }
     }
 
-    public static void saveConfig() {
-        Map<String, BiomeSpawnConfig> configMap = new HashMap<>();
+    public static synchronized void saveConfig() {
+        Map<String, BiomeSpawnConfig> configMap = new TreeMap<>();
         for (Map.Entry<ResourceLocation, BiomeSpawnConfig> entry : biomeSpawnConfigs.entrySet()) {
             configMap.put(entry.getKey().toString(), entry.getValue());
         }
 
-        try (Writer writer = new FileWriter(CONFIG_FILE)) {
+        File parent = CONFIG_FILE.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(CONFIG_FILE), StandardCharsets.UTF_8)) {
             GSON.toJson(configMap, writer);
+            dirty = false;
         } catch (IOException e) {
-            e.printStackTrace();
+            WeepingAngels.LOGGER.error("Could not write {}", CONFIG_FILE, e);
         }
     }
 
-    private static void generateDefaultConfig() {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-        for (Biome biome : biomeRegistry) {
-            ResourceLocation biomeKey = biomeRegistry.getKey(biome);
-            boolean isNetherBiome = isNetherBiome(biomeKey);
-            boolean isTardis = isTardis(biomeKey);
-            boolean isWater = isWater(biomeKey);
-
-            int minCount = 1;
-            int maxCount = 4;
-            int spawnWeight = 8;
-            boolean canSpawnHere = !isTardis && !isWater;
-
-            if (isNetherBiome) {
-                minCount = 0;
-                maxCount = 1;
-                spawnWeight = 1;
-            }
-
-            BiomeSpawnConfig config = new BiomeSpawnConfig(MobCategory.MONSTER, minCount, maxCount, spawnWeight, canSpawnHere);
-            biomeSpawnConfigs.put(biomeKey, config);
+    private static BiomeSpawnConfig createDefault(ResourceLocation biomeKey, boolean isOverworld, boolean isNether) {
+        boolean canSpawnHere = (isOverworld || isNether) && !isTardis(biomeKey) && !isWater(biomeKey);
+        if (isNether) {
+            return new BiomeSpawnConfig(MobCategory.MONSTER, 0, 1, 1, canSpawnHere);
         }
-        saveConfig();
-    }
-
-    // Check if the biome is from the Nether
-    private static boolean isNetherBiome(ResourceLocation biomeKey) {
-        Registry<Biome> biomeRegistry = Platform.getServer().registryAccess().registry(Registries.BIOME).get();
-
-        return biomeRegistry.getTag(BiomeTags.IS_NETHER)
-                .map(tag -> tag.contains(biomeRegistry.getHolderOrThrow(ResourceKey.create(Registries.BIOME, biomeKey))))
-                .orElse(false);
+        return new BiomeSpawnConfig(MobCategory.MONSTER, 1, 4, 8, canSpawnHere);
     }
 
     private static boolean isWater(ResourceLocation biomeKey) {
-        return biomeKey.getPath().contains("ocean") || (biomeKey.getPath().contains("river"));
+        return biomeKey.getPath().contains("ocean") || biomeKey.getPath().contains("river");
     }
 
     private static boolean isTardis(ResourceLocation biomeKey) {
@@ -164,7 +119,7 @@ public class WAEntitySpawns {
     }
 
     public static class BiomeSpawnConfig {
-        private final MobCategory mobCategory;
+        private MobCategory mobCategory;
         public int minCount;
         public int maxCount;
         public int spawnWeight;
@@ -176,6 +131,24 @@ public class WAEntitySpawns {
             this.spawnWeight = spawnWeight;
             this.canSpawnHere = canSpawnHere;
             this.mobCategory = mobCategory;
+        }
+
+        public MobCategory getMobCategory() {
+            return mobCategory;
+        }
+
+        public boolean shouldSpawn() {
+            return canSpawnHere && spawnWeight > 0 && maxCount > 0;
+        }
+
+        private BiomeSpawnConfig validated() {
+            if (mobCategory == null) {
+                mobCategory = MobCategory.MONSTER;
+            }
+            minCount = Math.max(0, minCount);
+            maxCount = Math.max(minCount, maxCount);
+            spawnWeight = Math.max(0, spawnWeight);
+            return this;
         }
     }
 }

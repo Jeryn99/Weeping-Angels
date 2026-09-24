@@ -8,12 +8,13 @@ import dev.jeryn.angels.common.entity.angel.WeepingAngel;
 import dev.jeryn.angels.common.entity.angel.ai.AngelVariant;
 import dev.jeryn.angels.data.forge.*;
 import dev.jeryn.angels.data.forge.biome.AddAngelSpawns;
+import dev.jeryn.angels.data.forge.biome.AddSnowAngels;
+import dev.jeryn.angels.common.entity.angel.AbstractWeepingAngel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -58,6 +59,7 @@ public class WeepingAngelsForge {
         final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, WeepingAngels.MODID);
         serializers.register(modEventBus);
         serializers.register(AddAngelSpawns.WEEPING_ANGEL_SPAWNS.getPath(), AddAngelSpawns::makeCodec);
+        serializers.register(AddSnowAngels.SNOW_ANGELS.getPath(), AddSnowAngels::makeCodec);
 
         StartupMessageManager.addModMessage("Don't Blink!");
 
@@ -65,7 +67,7 @@ public class WeepingAngelsForge {
 
 
     public void spawns(SpawnPlacementRegisterEvent spawnPlacementRegisterEvent){
-        spawnPlacementRegisterEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+        spawnPlacementRegisterEvent.register(WAEntities.WEEPING_ANGEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWeepingAngel::checkAngelSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
     public void onGatherData(GatherDataEvent e) {

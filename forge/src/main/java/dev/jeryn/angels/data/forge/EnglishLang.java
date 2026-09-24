@@ -104,6 +104,11 @@ public class EnglishLang extends LanguageProvider {
         addConfig(WAConfiguration.CONFIG.teleportRange, "Teleport Range");
         addConfig(WAConfiguration.CONFIG.bannedDimensions, "Banned Dimensions");
         addConfig(WAConfiguration.CONFIG.blockBreaking, "Block Griefing?");
+        addConfig(WAConfiguration.CLIENT.donatorLookup, "Donator Lookup?");
+        addConfig(WAConfiguration.CONFIG.maxNearby, "Max Nearby Angels");
+        addConfig(WAConfiguration.CONFIG.nearbyRadius, "Nearby Radius");
+        addConfig(WAConfiguration.CONFIG.spawnDimensionBlacklist, "Spawn Dimension Blacklist");
+        addConfig(WAConfiguration.CONFIG.snowAngels, "Snow Angels?");
 
     }
 

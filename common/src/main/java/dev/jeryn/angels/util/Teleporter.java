@@ -21,8 +21,9 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class Teleporter {
             }
         }
         allowedDimensions.remove(server.getLevel(Level.NETHER));
+        if (allowedDimensions.isEmpty()) {
+            return serverLevel;
+        }
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }
 
@@ -205,14 +209,23 @@ public class Teleporter {
     }
 
 
-    private static boolean canTeleportTo(BlockPos pPos, Level level, Entity entity) {
-        BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(level, pPos.mutable());
-        if (blockpathtypes != BlockPathTypes.WALKABLE) {
+    private static boolean canTeleportTo(BlockPos pPos, ServerLevel level, Entity entity) {
+        if (!level.isInWorldBounds(pPos) || !level.isInWorldBounds(pPos.above())) {
             return false;
-        } else {
-            BlockPos blockpos = pPos.subtract(entity.blockPosition());
-            return level.noCollision(entity, entity.getBoundingBox().move(blockpos));
         }
+
+        BlockPos groundPos = pPos.below();
+        BlockState ground = level.getBlockState(groundPos);
+        if (ground.getBlock() instanceof LeavesBlock || !ground.isFaceSturdy(level, groundPos, Direction.UP)) {
+            return false;
+        }
+
+        if (!level.getFluidState(pPos).isEmpty() || !level.getFluidState(pPos.above()).isEmpty()) {
+            return false;
+        }
+
+        AABB destinationBox = entity.getDimensions(entity.getPose()).makeBoundingBox(Vec3.atBottomCenterOf(pPos));
+        return level.noCollision(entity, destinationBox);
     }
     public static boolean performTeleport(Entity pEntity, ServerLevel pLevel, int pX, int pY, int pZ, float pYaw, float pPitch, boolean playSound) {
         WeepingAngels.LOGGER.debug("Teleported {} to {} {} {}", pEntity.getDisplayName().getString(), pX, pY, pZ);

@@ -1,4 +1,17 @@
-<b> Version 1.20-46.1.5</b></br>
-<b>Changes:</b><br>
-- Fixed spawns sometimes registering twice, forge please</br>
-
+<b> Version 1.20-46.1.6</b></br>
+<b>Fixes:</b><br>
+- Fixed angels not spawning naturally on dedicated servers, and spawn settings in weeping_angels_spawns.json not applying (#408, #419)</br>
+- Fixed a crash on world load (Platform.getServer() was null in WAEntitySpawns), including with Vivecraft (#413, #428)</br>
+- Fabric: fixed angel spawns being added to every biome many times over, which flooded worlds with angels and broke mod biomes such as Biomes O' Plenty (#414, #431, #415, #387)</br>
+- Fixed a crash (ConcurrentModificationException) when the donator list refreshed while players were rendering (#432)</br>
+- The donator lookup no longer duplicates itself on every refresh and has proper timeouts (#420, #417)</br>
+- Fixed angels almost never managing to teleport players (#421)</br>
+- Pickaxes from mods like Tinkers' Construct, Tetra and Silent Gear can now hurt angels, and dirt angels are no longer unkillable (#427, #429)</br>
+- Fixed quartz, mossy, basalt and ore angels turning into stone angels after the first natural spawn</br>
+- Music discs and angel sounds now get quieter with distance (#411)</br>
+- Fabric: the mod now lists its dependencies, so missing mods show a clear message instead of a crash</br>
+<b>New config options:</b><br>
+- max_nearby / nearby_radius: stops natural spawning once too many angels are close together (default 6 within 48 blocks)</br>
+- spawn_dimension_blacklist: dimensions angels will never spawn in naturally</br>
+- snow_angels: turn off Snow Angel generation (#424)</br>
+- donator_lookup (client): turn off the online donator lookup</br>

@@ -12,6 +12,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,6 +29,11 @@ public class CommonBus {
     @SubscribeEvent
     public static void onServerStart(ServerStartedEvent event){
         WAEntitySpawns.init(event.getServer());
+    }
+
+    @SubscribeEvent
+    public static void onServerStopped(ServerStoppedEvent event){
+        WAEntitySpawns.reset();
     }
 
     @SubscribeEvent
