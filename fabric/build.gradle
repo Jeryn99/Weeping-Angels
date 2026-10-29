@@ -95,6 +95,7 @@ dependencies {
 }
 
 processResources {
+    exclude("data/weeping_angels/forge/**/*") // Don't bundle the Forge data, avoids crashes with Kilt
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
